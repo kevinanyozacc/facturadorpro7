@@ -59,10 +59,8 @@
         </div><!-- End .col-lg-7 -->
 
         <div class="col-lg-5 col-md-6">
-            <div class="product-single-details tony">
+            <div class="product-single-details">
                 <h1 class="product-title">{{$record->description}}</h1>
-
-
 
                 <div class="ratings-container">
                     <div class="product-ratings">

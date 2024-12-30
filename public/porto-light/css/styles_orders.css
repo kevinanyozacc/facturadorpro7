@@ -46,8 +46,8 @@ nav.main-nav.flex-grow-1 .menu {
     justify-content: center;
     padding-top: 68px;
 }
-.main .container{
-    margin-top: 3rem;
+.product-single-container.product-single-default {
+    margin-top: 5rem;
 }
 /* Header */
 .header-bottom.sticky-header.fixed{
