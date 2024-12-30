@@ -1,21 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<!-- Mirrored from portotheme.com/html/porto_ecommerce/demo-6/ by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 07 Sep 2019 03:39:38 GMT -->
-
+<!-- Mirrored from portotheme.com/html/porto_ecommerce/demo-6/cart.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 07 Sep 2019 03:40:04 GMT -->
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <title>Menu</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="keywords" content="ecommerce" />
-    <meta name="description" content="eCommerce">
+
+    <title>eCommerce</title>
+
+    <meta name="keywords" content="HTML5 Template" />
+    <meta name="description" content="Porto - Bootstrap eCommerce Template">
     <meta name="author" content="SW-THEMES">
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="{{ asset('porto-ecommerce/assets/images/icons/favicon.ico') }}">
+     <!-- Favicon -->
+     <link rel="icon" type="image/x-icon" href="{{ asset('porto-ecommerce/assets/images/icons/favicon.ico') }}">
 
     <!-- Plugins CSS File -->
     <link rel="stylesheet" href="{{ asset('porto-ecommerce/assets/css/bootstrap.min.css') }}">
@@ -35,18 +35,25 @@
 
     <link rel="stylesheet" href="{{ asset('porto-light/css/styles_orders.css') }}" />
 </head>
-<style>
-
-
-</style>
 <body>
-
     <div class="page-wrapper">
-
         @include('restaurant::layouts.partials.header')
+        @include('ecommerce::layouts.partials_ecommerce.header_bottom_sticky')
         <main class="main">
+            <nav aria-label="breadcrumb" class="breadcrumb-nav">
+                <div class="container">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{url('ecommerce')}}"><i class="icon-home"></i></a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Shopping Cart</li>
+                    </ol>
+                </div><!-- End .container -->
+            </nav>
 
-            @yield('content')
+            <div class="container">
+                 @yield('content')
+            </div><!-- End .container -->
+
+            <div class="mb-6"></div><!-- margin -->
         </main><!-- End .main -->
 
         <footer class="footer">
@@ -57,48 +64,28 @@
     <div class="mobile-menu-overlay"></div><!-- End .mobil-menu-overlay -->
 
     <div class="mobile-menu-container">
-
-        @include('restaurant::layouts.partials.mobile_menu')
-
+        @include('ecommerce::layouts.partials_ecommerce.mobile_menu')
     </div><!-- End .mobile-menu-container -->
 
-    <div class="newsletter-popup mfp-hide" id="newsletter-popup-form">
-        <!-- style="background-image: url(assets/images/newsletter_popup_bg.jpg)" -->
-        <div class="newsletter-popup-content">
-            <img src="{{ asset('porto-ecommerce/assets/images/logo-black.png') }}" alt="Logo" class="logo-newsletter">
-            <h2>BE THE FIRST TO KNOW</h2>
-            <p>Subscribe to the Porto eCommerce newsletter to receive timely updates from your favorite products.</p>
-            <form action="#">
-                <div class="input-group">
-                    <input type="email" class="form-control" id="newsletter-email" name="newsletter-email"
-                        placeholder="Email address" required>
-                    <input type="submit" class="btn" value="Go!">
-                </div><!-- End .from-group -->
-            </form>
-            <div class="newsletter-subscribe">
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" value="1">
-                        Don't show this popup again
-                    </label>
-                </div>
-            </div>
-        </div><!-- End .newsletter-popup-content -->
-    </div><!-- End .newsletter-popup -->
+
 
     <a id="scroll-top" href="#top" title="Top" role="button"><i class="icon-angle-up"></i></a>
 
-    <!-- Plugins JS File -->
+     <!-- Plugins JS File -->
     <script src="{{ asset('porto-ecommerce/assets/js/jquery.min.js') }}"></script>
     <script src="{{ asset('porto-ecommerce/assets/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('porto-ecommerce/assets/js/plugins.min.js') }}"></script>
+    <script src="{{ asset('porto-ecommerce/assets/js/culqi_v3.js') }}"></script>
+    <script src="{{ asset('porto-ecommerce/assets/js/sweetalert2.all.min.js') }}"></script>
+    <script src="{{ asset('porto-ecommerce/assets/js/moment.min.js') }}"></script>
 
     <!-- Main JS File -->
-    <script src="{{ asset('porto-ecommerce/assets/js/cart.js') }}"></script>
-    <script src="{{ asset('porto-ecommerce/assets/js/main.js') }}"></script>
-    <script src="{{ asset('porto-ecommerce/assets/js/vue.min.js') }}"></script>
+    <script src="{{ asset('porto-ecommerce/assets/js/main.min.js') }}"></script>
+    <script src="{{ asset('porto-ecommerce/assets/js/vue.js') }}"></script>
+    <script src="{{ asset('porto-ecommerce/assets/js/axios.min.js') }}"></script>
 
     @stack('scripts')
 </body>
-</html>
 
+<!-- Mirrored from portotheme.com/html/porto_ecommerce/demo-6/cart.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 07 Sep 2019 03:40:04 GMT -->
+</html>

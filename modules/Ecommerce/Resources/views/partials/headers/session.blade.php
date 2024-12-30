@@ -1,16 +1,9 @@
-<style>
-    .btn-logout {
-        font-size: 25px;
-        margin-left: 6%;
-    }
-
-</style>
-
 <div class="dropdown cart-dropdown" style="margin-left: 9px;">
 
     @guest
-    <div class="header-contact">
-        <a class="login-link" href="{{route('tenant_ecommerce_login')}}"><strong style="font-size: 16px;">LOGIN</strong></a>
+    <div class="header-contact mr-0">
+    <img src="{{ asset('images/circle-user.svg') }}" alt="User" style="width: 18px; height: 18px;">
+        <a class="login-link" href="{{route('tenant_ecommerce_login')}}"><strong style="font-size: 15px;">Log In</strong></a>
     </div>
     @else
     <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"

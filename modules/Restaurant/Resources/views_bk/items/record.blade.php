@@ -59,7 +59,7 @@
         </div><!-- End .col-lg-7 -->
 
         <div class="col-lg-5 col-md-6">
-            <div class="product-single-details tony">
+            <div class="product-single-details">
                 <h1 class="product-title">{{$record->description}}</h1>
 
 
@@ -76,10 +76,9 @@
                     <!-- <span class="old-price">S/ {{ number_format( ($record->sale_unit_price * 1.2 ) , 2 )}}</span> -->
                     <span class="product-price">{{ $record->currency_type_symbol }} {{ number_format($record->sale_unit, 2 )}}</span>
                 </div><!-- End .price-box -->
-                
 
                 <div class="product-desc">
-                    <p>{{ $record->name }}</p>
+                    <p>{{$record->name}}</p>
                 </div><!-- End .product-desc -->
 
                 @foreach($record->attributes as $at)
