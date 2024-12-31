@@ -13,7 +13,7 @@
 
 Route::prefix('restaurant')->group(function() {
     // para configuracion de productos a mostrar
-    Route::get('/list/items', 'RestaurantController@list_items')->name('tenant.restaurant.list_items');
+    Route::get('/list/items', 'RestaurantController@list_items')->name('tenant.restaurant.list_items')->middleware('redirect.module');
     Route::post('items/visible', 'RestaurantController@is_visible');
     Route::get('item_partial/{id}', 'RestaurantController@partialItem')->name('restaurant.item_partial');
     Route::get('item/{id}/{promotion_id?}', 'RestaurantController@item')->name('restaurant.item');
@@ -21,7 +21,7 @@ Route::prefix('restaurant')->group(function() {
     Route::post('payment_cash', 'RestaurantController@paymentCash')->name('restaurant.payment.cash');
 
     // vista de configuracion general
-    Route::get('configuration', 'RestaurantConfigurationController@configuration')->name('tenant.restaurant.configuration');
+    Route::get('configuration', 'RestaurantConfigurationController@configuration')->name('tenant.restaurant.configuration')->middleware('redirect.module');
     Route::get('configuration/record', 'RestaurantConfigurationController@record')->name('tenant.restaurant.configuration.record');
     Route::post('configuration', 'RestaurantConfigurationController@setConfiguration')->name('tenant.restaurant.configuration.set');
     Route::get('get-users', 'RestaurantConfigurationController@getUsers')->name('tenant.restaurant.users.get');
@@ -40,7 +40,7 @@ Route::prefix('restaurant')->group(function() {
     //Promotion
     Route::prefix('promotions')->group(function() {
 
-        Route::get('', 'PromotionController@index')->name('tenant.restaurant.promotion.index');
+        Route::get('', 'PromotionController@index')->name('tenant.restaurant.promotion.index')->middleware('redirect.module');
         Route::get('columns', 'PromotionController@columns');
         Route::get('tables', 'PromotionController@tables');
         Route::get('records', 'PromotionController@records');
@@ -54,7 +54,7 @@ Route::prefix('restaurant')->group(function() {
     //Orders
     Route::prefix('orders')->group(function() {
 
-        Route::get('', 'OrderController@index')->name('tenant.restaurant.order.index');
+        Route::get('', 'OrderController@index')->name('tenant.restaurant.order.index')->middleware('redirect.module');
         Route::get('columns', 'OrderController@columns');
         Route::get('records', 'OrderController@records');
         Route::get('record/{order}', 'OrderController@record');
@@ -70,7 +70,7 @@ Route::prefix('restaurant')->group(function() {
     //Cash
     Route::prefix('cash')->group(function() {
 
-        Route::get('', 'CashController@index')->name('tenant.restaurant.cash.index');
+        Route::get('', 'CashController@index')->name('tenant.restaurant.cash.index')->middleware('redirect.module');
         Route::get('/pos', 'CashController@posFilter')->name('tenant.restaurant.cash.filter-pos');
         Route::get('records', 'CashController@records');
         Route::get('report', 'CashController@report_general');

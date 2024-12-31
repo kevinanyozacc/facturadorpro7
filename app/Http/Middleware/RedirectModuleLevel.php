@@ -94,28 +94,55 @@
                 } else {
                     if ($path[0] == "documents" && $path[1] == "not-sent") {
                         $group = "document_not_sent";
-                    } //customers
-                    else {
-                        if ($path[0] == "persons" && $path[1] == "customers") {
-                            $group = "catalogs";
-                        } else {
-                            if ($path[0] == "quotations" && $path[1] == "create") {
-                                $group = "quotations";
+                    }else {
+                        if ($path[0] == "documents" && $path[1] == "regularize_shipping") {
+                            $group = "regularize_shipping";
+                        }else {
+                            if ($path[0] == "persons" && $path[1] == "customers") {
+                                $group = "catalogs";
                             } else {
-                                if ($path[0] == "quotations" && $path[1] == "edit") {
+                                if ($path[0] == "quotations" && $path[1] == "create") {
                                     $group = "quotations";
                                 } else {
-                                    if ($path[0] == "sale-notes" && $path[1] == "create") {
-                                        $group = "sale_notes";
+                                    if ($path[0] == "quotations" && $path[1] == "edit") {
+                                        $group = "quotations";
                                     } else {
-                                        if ($path[0] == "contracts" && $path[1] == "create") {
-                                            $group = "contracts";
+                                        if ($path[0] == "sale-notes" && $path[1] == "create") {
+                                            $group = "sale_notes";
                                         } else {
-                                            if ($path[0] == "sale-opportunities" && $path[1] == "create") {
-                                                $group = "sale-opportunity";
+                                            if ($path[0] == "contracts" && $path[1] == "create") {
+                                                $group = "contracts";
                                             } else {
-                                                if ($path[0] == "order-notes" && $path[1] == "create") {
-                                                    $group = "order-note";
+                                                if ($path[0] == "sale-opportunities" && $path[1] == "create") {
+                                                    $group = "sale-opportunity";
+                                                } else {
+                                                    if ($path[0] == "order-notes" && $path[1] == "create") {
+                                                        $group = "order-note";
+                                                    } else {
+                                                        if ($path[0] == "sire" && $path[1] == "sale") {
+                                                            $group = "account_summary";
+                                                        } else {
+                                                            if ($path[0] == "sire" && $path[1] == "purchase") {
+                                                                $group = "account_summary";
+                                                            }else{
+                                                                if ($firstLevel == "ecommerce" && $secondLevel == "item-sets") {
+                                                                    $group = "ecommerce_items";
+                                                                }else{
+                                                                    if ($firstLevel == "full_suscription") {
+                                                                        if ($secondLevel == "client") {
+                                                                            $group = "suscription_app_client";
+                                                                        } elseif ($secondLevel == "service") {
+                                                                            $group = "suscription_app_service";
+                                                                        } elseif ($secondLevel == "payment_receipt") {
+                                                                            $group = "suscription_app_payments";
+                                                                        } elseif ($secondLevel == "plans") {
+                                                                            $group = "suscription_app_plans";
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
                                                 }
                                             }
                                         }
@@ -172,6 +199,24 @@
                     $group = "purchases_orders";
                 } elseif ($path[0] == "digemid") {
                     $group = "digemid";
+                } elseif ($path[0] == "cash") {
+                    $group = "cash";
+                } elseif ($path[0] == "dispatchers") {
+                    $group = "dispatchers";
+                } elseif ($path[0] == "drivers") {
+                    $group = "drivers";
+                } elseif ($path[0] == "transports") {
+                    $group = "transports";
+                } elseif ($path[0] == "bank_loan") {
+                    $group = "bank_loan";
+                } elseif ($path[0] == "purchase-settlements") {
+                    $group = "advanced_purchase_settlements";
+                } elseif ($path[0] == "order-forms") {
+                    $group = "advanced_order_forms";
+                } elseif ($path[0] == "accounting_ledger") {
+                    $group = "account_summary";
+                } elseif ($path[0] == "pos") {
+                    $group = "pos";
                 } else {
                     $group = null;
                 }
@@ -257,19 +302,6 @@
             } /** Giro de negocio */
             elseif ($firstLevel == "login-page") {
                 $group = "configuration_visual";
-            } /** Suscripciones */
-            elseif ($firstLevel == "suscription") {
-                if ($secondLevel == 'client') {
-                    $group = "suscription_app_client";
-                } elseif ($secondLevel == 'service') {
-                    $group = "suscription_app_service";
-                } elseif ($secondLevel == 'payments') {
-                    $group = "suscription_app_payments";
-                } elseif ($secondLevel == 'plans') {
-                    $group = "suscription_app_plans";
-                }
-
-
             }
 
         }
@@ -313,23 +345,42 @@
                 case 'incentives':
                     return redirect()->route('tenant.incentives.create');
 
-
                 case 'sale-opportunity':
                     return redirect()->route('tenant.sale_opportunities.index');
 
                 case 'contracts':
-                    return redirect()->route('tenant.contracts.create');
+                    return redirect()->route('tenant.contracts.index');
 
                 case 'order-note':
-                    return redirect()->route('tenant.order_notes.create');
+                    return redirect()->route('tenant.order_notes.index');
 
-                case 'technical-service':
-                    return redirect()->route('tenant.technical_services.create');
+                case 'technical-services':
+                    return redirect()->route('tenant.technical_services.index');
 
                 case 'purchases_orders':
                     return redirect()->route('tenant.purchase-orders.index');
                 case 'digemid':
                     return redirect()->route('tenant.digemid.index');
+                case 'cash':
+                    return redirect()->route('tenant.cash.index');
+                case 'dispatchers':
+                    return redirect()->route('tenant.dispatchers.index');
+                case 'drivers':
+                    return redirect()->route('tenant.drivers.index');
+                case 'transports':
+                    return redirect()->route('tenant.transports.index');
+                case 'bank_loan':
+                    return redirect()->route('tenant.bank_loan.index');
+                case 'regularize_shipping':
+                    return redirect()->route('tenant.documents.regularize_shipping');
+                case 'advanced_purchase_settlements':
+                    return redirect()->route('tenant.purchase-settlements.index');
+                case 'advanced_order_forms':
+                    return redirect()->route('tenant.order_forms.index');
+                case 'account_summary':
+                    return redirect()->route('tenant.accounting_ledger.index');
+                case 'pos':
+                    return redirect()->route('tenant.pos.index');
                 case 'configuration_visual':
                 case 'configuration_advance':
                 case 'configuration_company':
@@ -344,6 +395,9 @@
                     //return redirect()->route('tenant.suscription.service.index');
                     //return redirect()->route('tenant.suscription.payments.index');
                     //return redirect()->route('tenant.suscription.plans.index');
+                case 'ecommerce_items':
+                    return redirect()->route('tenant.ecommerce.item_sets.index');
+                    
                 default;
                     return redirect()->route('tenant.dashboard.index');
 

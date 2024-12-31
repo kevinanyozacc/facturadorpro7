@@ -6,7 +6,7 @@ if($current_hostname)
 {
     Route::domain($current_hostname->fqdn)->group(function () {
 
-        Route::middleware(['auth', 'locked.tenant'])->group(function () {
+        Route::middleware(['auth','redirect.module', 'locked.tenant'])->group(function () {
 
             Route::prefix('live-app')->group(function() {
 

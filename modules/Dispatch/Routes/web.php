@@ -8,7 +8,7 @@ if ($current_hostname) {
     Route::domain($current_hostname->fqdn)->group(function () {
         Route::middleware(['auth', 'locked.tenant'])->group(function () {
             Route::prefix('drivers')->group(function () {
-                Route::get('/', 'DriverController@index')->name('tenant.drivers.index');
+                Route::get('/', 'DriverController@index')->name('tenant.drivers.index')->middleware('redirect.level');
                 Route::get('columns', 'DriverController@columns');
                 Route::get('records', 'DriverController@records');
                 Route::get('record/{id}', 'DriverController@record');
@@ -21,7 +21,7 @@ if ($current_hostname) {
             });
 
             Route::prefix('dispatchers')->group(function () {
-                Route::get('/', 'DispatcherController@index')->name('tenant.dispatchers.index');
+                Route::get('/', 'DispatcherController@index')->name('tenant.dispatchers.index')->middleware('redirect.level');
                 Route::get('columns', 'DispatcherController@columns');
                 Route::get('records', 'DispatcherController@records');
                 Route::get('record/{id}', 'DispatcherController@record');
@@ -34,7 +34,7 @@ if ($current_hostname) {
             });
 
             Route::prefix('transports')->group(function () {
-                Route::get('/', 'TransportController@index')->name('tenant.transports.index');
+                Route::get('/', 'TransportController@index')->name('tenant.transports.index')->middleware('redirect.level');
                 Route::get('columns', 'TransportController@columns');
                 Route::get('records', 'TransportController@records');
                 Route::get('record/{id}', 'TransportController@record');

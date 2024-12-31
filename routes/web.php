@@ -639,7 +639,7 @@ if ($hostname) {
             Route::get('sale-notes/dispatch_note/{id}', 'Tenant\SaleNoteController@recordsDispatchNote');
 
             //POS
-            Route::get('pos', 'Tenant\PosController@index')->name('tenant.pos.index');
+            Route::get('pos', 'Tenant\PosController@index')->name('tenant.pos.index')->middleware('redirect.level');
             Route::get('pos_full', 'Tenant\PosController@index_full')->name('tenant.pos_full.index');
 
             Route::get('pos/search_items', 'Tenant\PosController@search_items');
@@ -652,7 +652,7 @@ if ($hostname) {
             Route::get('pos/items', 'Tenant\PosController@item');
             Route::get('pos/search_items_cat', 'Tenant\PosController@search_items_cat');
 
-            Route::get('cash', 'Tenant\CashController@index')->name('tenant.cash.index');
+            Route::get('cash', 'Tenant\CashController@index')->name('tenant.cash.index')->middleware('redirect.level');
             Route::get('cash/columns', 'Tenant\CashController@columns');
             Route::get('cash/records', 'Tenant\CashController@records');
             Route::get('cash/create', 'Tenant\CashController@create')->name('tenant.cash.create');
@@ -744,11 +744,11 @@ if ($hostname) {
             Route::post('extra_info/items', 'Tenant\ExtraInfoController@getExtraDataForItems');
 
             //liquidacion de compra
-            Route::get('purchase-settlements', 'Tenant\PurchaseSettlementController@index')->name('tenant.purchase-settlements.index');
+            Route::get('purchase-settlements', 'Tenant\PurchaseSettlementController@index')->name('tenant.purchase-settlements.index')->middleware('redirect.level');
             Route::get('purchase-settlements/columns', 'Tenant\PurchaseSettlementController@columns');
             Route::get('purchase-settlements/records', 'Tenant\PurchaseSettlementController@records');
 
-            Route::get('purchase-settlements/create/{order_id?}', 'Tenant\PurchaseSettlementController@create')->name('tenant.purchase-settlements.create');
+            Route::get('purchase-settlements/create/{order_id?}', 'Tenant\PurchaseSettlementController@create')->name('tenant.purchase-settlements.create')->middleware('redirect.level');
 
             Route::post('purchase-settlements', 'Tenant\PurchaseSettlementController@store');
             Route::get('purchase-settlements/tables', 'Tenant\PurchaseSettlementController@tables');

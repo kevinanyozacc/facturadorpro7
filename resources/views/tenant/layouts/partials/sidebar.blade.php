@@ -983,7 +983,7 @@ $inventory_configuration = InventoryConfiguration::getSidebarPermissions();
                 </li>
                 @endif
                 {{-- Suscription --}}
-                @if(in_array('full_suscription_app', $vc_modules) )
+                @if(in_array('suscription_app', $vc_modules) )
                 <li class=" nav-parent {{ ($firstLevel === 'full_suscription') ? 'nav-active nav-expanded' : '' }}">
                     <a class="nav-link"
                         href="#">
@@ -1021,7 +1021,7 @@ $inventory_configuration = InventoryConfiguration::getSidebarPermissions();
                 </li>
                 @endif
                 {{-- Suscription Escolar--}}
-                @if(in_array('suscription_app', $vc_modules) )
+                @if(in_array('full_suscription_app', $vc_modules) )
                 <li class=" nav-parent {{ ($firstLevel === 'suscription') ? 'nav-active nav-expanded' : '' }}">
                     <a class="nav-link"
                         href="#">

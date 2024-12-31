@@ -16,7 +16,7 @@ if($hostname) {
              * account/summary-report/format/download
              */
             Route::prefix('account')->group(function () {
-                Route::get('/', 'AccountController@index')->name('tenant.account.index');
+                Route::get('/', 'AccountController@index')->name('tenant.account.index')->middleware('redirect.level');
                 Route::get('download', 'AccountController@download');
                 Route::get('format', 'FormatController@index')->name('tenant.account_format.index');
                 Route::get('format/download', 'FormatController@download');
@@ -35,7 +35,7 @@ if($hostname) {
             });
 
             Route::prefix('accounting_ledger')->group(function () {
-                Route::get('/', 'LedgerAccountController@index')->name('tenant.accounting_ledger.create');
+                Route::get('/', 'LedgerAccountController@index')->name('tenant.accounting_ledger.create')->middleware('redirect.level');
                 // accounting_ledger?date_end=2021-10-24&date_start=2021-10-24&month_end=2021-10&month_start=2021-10&period=month
                 Route::get('/excel/', 'LedgerAccountController@excel');
                 //->middleware('redirect.level')

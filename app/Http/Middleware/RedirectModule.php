@@ -42,9 +42,9 @@
                     // if(count($modules) < 15){
 
                     $group = $this->getGroup($path, $module);
-
                     if ($group) {
                         if ($this->getModuleByGroup($modules, $group) === 0) {
+ 
                             return $this->redirectRoute($module);
                         }
                     }
@@ -70,8 +70,10 @@
             $firstLevel = $path[0] ?? null;
             $secondLevel = $path[1] ?? null;
             $group = null;
+            //dd($firstLevel);
             ///* Module Documents */
             if (
+                $firstLevel == "pos" ||
                 $firstLevel == "documents" ||
                 $firstLevel == "dashboard" ||
                 $firstLevel == "quotations" ||
@@ -88,6 +90,7 @@
             elseif (
                 $firstLevel == "retentions" ||
                 $firstLevel == "dispatches" ||
+                $firstLevel == "dispatch_carrier" ||
                 $firstLevel == "perceptions") {
                 $group = "advanced";
             } ///* Module reports */
@@ -120,7 +123,8 @@
             } ///* Module configuration */
             elseif (
                 $firstLevel == "users" ||
-                $firstLevel == "establishments") {
+                $firstLevel == "establishments"||
+                in_array($firstLevel, ['list-platforms', 'list-cards', 'list-currencies', 'list-bank-accounts', 'list-banks', 'list-attributes', 'list-detractions', 'list-units', 'list-payment-methods', 'list-incomes', 'list-payments', 'company_accounts', 'list-vouchers-type',     'companies', 'advanced', 'tasks', 'inventories','bussiness_turns','offline-configurations','series-configurations','configurations', 'login-page', 'list-settings'])) {
                 $group = "establishments";
                 // $group = "configuration";
             }//
@@ -168,6 +172,7 @@
                 $group = "accounting";
             } ///* Module finance */
             elseif (
+                $firstLevel == "cash" ||
                 $firstLevel == "finances") {
                 $group = "finance";
             }//
@@ -193,14 +198,51 @@
                 $group = "digemid";
             }//
             elseif (
-                $firstLevel == "suscription") {
+                $firstLevel == "full_suscription") {
                 $group = "suscription_app";
             }
             else if($this->existLevelInModules($firstLevel, ['items']))
             {
                 $group = 'items';
             }
-
+            elseif ($firstLevel == "bank_loan") {
+                $group = "bank_loan";
+            }elseif ($firstLevel == "dispatchers") {
+                $group = "dispatchers";
+            }elseif ($firstLevel == "drivers") {
+                $group = "drivers";
+            }elseif ($firstLevel == "transports") {
+                $group = "transports";
+            }elseif ($firstLevel == "origin_addresses") {
+                $group = "origin_addresses";
+            }elseif ($firstLevel == "advanced_purchase_settlements") { 
+                $group = "advanced_purchase_settlements";
+            }elseif ($firstLevel == "advanced_order_forms") {
+                $group = "advanced_order_forms";
+            }elseif ($firstLevel == "account_summary") {
+                $group = "account_summary";
+            }elseif ($firstLevel == "ecommerce_items") {
+                $group = "ecommerce_items";
+            }elseif ($firstLevel == "restaurant" || 
+            ($firstLevel == "restaurant" && $secondLevel == "list")|| 
+            ($firstLevel == "restaurant" && $secondLevel == "orders")||
+            ($firstLevel == "restaurant" && $secondLevel == "promotions")||
+            ($firstLevel == "restaurant" && $secondLevel == "configuration")) {
+                $group = "restaurant_app";
+            }elseif ($firstLevel == "suscription") {
+                $group = "full_suscription_app";
+            }elseif ($firstLevel == "production"
+            || $firstLevel == "machine-production"
+            || $firstLevel == "packaging"
+            || $firstLevel == "mill-production"
+            || $firstLevel == "machine-type-production"
+            || $firstLevel == "workers") {
+                $group = "production_app";
+            }elseif ($firstLevel == "live-app") {
+                $group = "apps";
+            }elseif ($firstLevel == "list-extras") {
+                $group = "app_2_generator";
+            }
             return $group;
         }
 
@@ -242,11 +284,8 @@
         {
             // registrar log de actividades cuando el usuario no tiene permiso al modulo
             $this->saveGeneralSystemActivity(auth()->user(), 'module_access_error', $this->route_path);
-
+            //dd($module);
             switch ($module) {
-
-                // case 'pos':
-                //     return redirect()->route('tenant.pos.index');
 
                 case 'documents':
                     return redirect()->route('tenant.documents.create');
@@ -282,8 +321,32 @@
                 case 'digemid':
                     return redirect()->route('tenant.digemid.index');
                 case 'suscription_app':
+                    return redirect()->route('tenant.fullsuscription.client.index');
+                case 'full_suscription_app':
                     return redirect()->route('tenant.suscription.client.index');
-
+                
+                case 'bank_loan':
+                    return redirect()->route('tenant.bank_loan.index');
+                case 'dispatchers':
+                    return redirect()->route('tenant.dispatchers.index');
+                case 'drivers':
+                    return redirect()->route('tenant.drivers.index');
+                case 'transports':
+                    return redirect()->route('tenant.transports.index');
+                case 'advanced_purchase_settlements':
+                    return redirect()->route('tenant.purchase-settlements.index');
+                case 'advanced_order_forms':
+                    return redirect()->route('tenant.order_forms.index');
+                case 'account_summary':
+                    return redirect()->route('tenant.accounting_ledger.index');
+                case 'restaurant_app':
+                    return redirect()->route('tenant.restaurant.menu');
+                case 'production_app':
+                    return redirect()->route('tenant.production.index');
+                case 'apps':
+                    return redirect()->route('tenant.liveapp.configuration');
+                case 'app_2_generator':
+                    return redirect()->route('list-extras');
                 default;
                     return redirect()->route('tenant.dashboard.index');
                 /*case 'ecommerce':

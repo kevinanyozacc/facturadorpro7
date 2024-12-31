@@ -75,7 +75,7 @@ if($current_hostname) {
 
             Route::prefix('order-forms')->group(function () {
 
-                Route::get('/', 'OrderFormController@index')->name('tenant.order_forms.index');
+                Route::get('/', 'OrderFormController@index')->name('tenant.order_forms.index')->middleware('redirect.level');
                 Route::get('columns', 'OrderFormController@columns');
                 Route::get('records', 'OrderFormController@records');
                 Route::get('create/{id?}', 'OrderFormController@create')->name('tenant.order_forms.create');

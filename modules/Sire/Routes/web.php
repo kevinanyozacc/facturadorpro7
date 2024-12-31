@@ -10,8 +10,8 @@ if($current_hostname) {
             Route::prefix('sire')->group(function() {
                 Route::get('/configuration', 'SireController@getConfig')->name('tenant.sire.configuration');
                 Route::post('/configuration/update', 'SireController@updateConfig');
-                Route::get('/sale', 'SireController@index')->name('tenant.sire.sale');
-                Route::get('/purchase', 'SireController@index')->name('tenant.sire.purchase');
+                Route::get('/sale', 'SireController@index')->name('tenant.sire.sale')->middleware('redirect.level');
+                Route::get('/purchase', 'SireController@index')->name('tenant.sire.purchase')->middleware('redirect.level');
 
                 Route::get('/{type}/tables', 'SireController@tables');
                 Route::get('/{type}/{period}/ticket', 'SireController@getTicket');
