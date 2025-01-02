@@ -11,7 +11,7 @@
                             <logo url="/"
                                   :path_logo="(company.logo != null) ? `/storage/uploads/logos/${company.logo}` : ''"></logo>
                         </div>
-                        <div class="col-sm-10 text-left mt-3 mb-0">
+                        <div class="col-sm-6 text-left mt-3 mb-0">
                             <address class="ib mr-2">
                                 <span class="font-weight-bold d-block">OPORTUNIDAD DE VENTA</span>
                                 <!-- <span class="font-weight-bold d-block">CASO-XXX</span> -->
@@ -25,12 +25,23 @@
                                 v-if="establishment.telephone != '-'">{{ establishment.telephone }}</span>
                             </address>
                         </div>
+
+                        <div class="col-sm-4 pt-3">
+                            <div class="form-group col-sm-6 ml-auto mr-2" :class="{'has-danger': errors.date_of_issue}">
+                                <!--<label class="control-label">Fecha de emisión</label>-->
+                                <label class="control-label">Fec. Emisión</label>
+                                <el-date-picker v-model="form.date_of_issue" type="date" value-format="yyyy-MM-dd"
+                                                :clearable="false" @change="changeDateOfIssue"></el-date-picker>
+                                <small class="form-control-feedback" v-if="errors.date_of_issue"
+                                       v-text="errors.date_of_issue[0]"></small>
+                            </div>
+                        </div>
                     </div>
                 </header>
                 <form autocomplete="off" @submit.prevent="submit">
                     <div class="form-body m-4">
                         <div class="row mt-1">
-                            <div class="col-lg-6 pb-2">
+                            <div class="col-lg-8 pb-2">
                                 <div class="form-group" :class="{'has-danger': errors.customer_id}">
                                     <label class="control-label font-weight-bold text-info">
                                         Cliente
@@ -50,16 +61,6 @@
                                     </el-select>
                                     <small class="form-control-feedback" v-if="errors.customer_id"
                                            v-text="errors.customer_id[0]"></small>
-                                </div>
-                            </div>
-                            <div class="col-lg-2">
-                                <div class="form-group" :class="{'has-danger': errors.date_of_issue}">
-                                    <!--<label class="control-label">Fecha de emisión</label>-->
-                                    <label class="control-label">Fec. Emisión</label>
-                                    <el-date-picker v-model="form.date_of_issue" type="date" value-format="yyyy-MM-dd"
-                                                    :clearable="false" @change="changeDateOfIssue"></el-date-picker>
-                                    <small class="form-control-feedback" v-if="errors.date_of_issue"
-                                           v-text="errors.date_of_issue[0]"></small>
                                 </div>
                             </div>
 
@@ -111,13 +112,13 @@
 
                             <div class="col-md-4 mt-4">
                                 <el-upload
-                                    class="upload-demo full"
+                                    class="upload-demo upload-demo-default full p-0"
                                     :headers="headers"
                                     :action="`/${this.resource}/uploads`"
                                     :on-remove="handleRemove"
                                     :on-success="onSuccess"
                                     :file-list="form.files">
-                                    <el-button size="small" type="primary" icon="el-icon-upload">Clic para cargar
+                                    <el-button class="btn-archive-upload" size="small" type="primary" icon="el-icon-upload">Clic para cargar
                                         archivos
                                     </el-button>
                                 </el-upload>
