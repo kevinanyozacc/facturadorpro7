@@ -11,7 +11,7 @@
                 <h3 class="my-0">Listado de {{ title }}</h3>
                 
                 <div class="right-wrapper pull-right">
-                    <button type="button" class="btn btn-info btn-sm  mt-2 mr-2" @click.prevent="clickCreate()"><i class="fa fa-plus-circle"></i> Nuevo</button>
+                    <button type="button" class="btn btn-info btn-info-default btn-sm  mt-2 mr-2" @click.prevent="clickCreate()"><i class="fa fa-plus-circle"></i> Nuevo</button>
                 </div>
             </div>
             <div class="card-body">

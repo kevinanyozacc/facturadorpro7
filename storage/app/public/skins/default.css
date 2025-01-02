@@ -44,13 +44,19 @@ html, body {
   transform: translate(1px, 4px);
   border-radius: 0 0 7px 0;
 }
-.el-input-group__append, .el-input-group__prepend {
+.el-input-group__prepend {
   background-color: var(--light-color);
   color: var(--primary-color);
 }
-
+.el-input-group__append{
+    background-color: var(--light-color);
+    border: 1px solid var(--light2-color);
+}
 .row.card-header.no-gutters.align-items-start div {
     align-self: center;
+}
+.el-checkbox__inner:hover {
+    border-color: var(--primary-color);
 }
 .additional-information{
     background-color: #fff !important;
@@ -67,14 +73,90 @@ address {
     margin-right: -5px;
     margin-left: -5px;
 }
+.row-new{
+    margin-top: -20px;
+    margin-right: -25px;
+    margin-left: -25px;
+    background-color: #ffffff;
+    padding: 0px;
+}
+.clearfix-default{
+    margin-left: 0px;
+    margin-right: 0px;
+    width: 100% !important;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom: 1px solid var(--light-color);
+}
+.invoice header {
+    border-bottom: 1px solid var(--light-color);
+}
+.footer-card-default{
+    border-top: 1px solid var(--light-color);
+}
+.second-buton-default{
+    min-width: 180px;
+}
+.payment-container{
+    background-color: #f3f4fc;
+    border-radius: 10px;
+    border: 1px solid #eaeef7;
+}
+.el-input-number__decrease {
+    position: absolute;
+    z-index: 1;
+    top: 10px;
+    width: 40px;
+    height: auto;
+    text-align: center;
+    background: var(--light2-color);
+    color: #606266;
+    cursor: pointer;
+    font-size: 13px;
+}
+.el-input-number__increase {
+    position: absolute;
+    z-index: 1;
+    top: 10px;
+    width: 40px;
+    height: auto;
+    text-align: center;
+    background: var(--light2-color);
+    color: #606266;
+    cursor: pointer;
+    font-size: 13px;
+}
+.bg-white {
+    border-radius: 10px;
+}
+.el-radio-button__orig-radio:checked + .el-radio-button__inner {
+    color: #FFFFFF;
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    -webkit-box-shadow: -1px 0 0 0 var(--primary-color);
+    box-shadow: -1px 0 0 0 var(--primary-color);
+}
+.el-radio-button__inner:hover {
+    color: var(--primary-color);
+    background-color: var(--light2-color);
+}
 .btn{
     border-radius: 8px;
+}
+.btn-submit-default{
+    min-width: 180px;
+}
+.btn-submit-default:hover{
+    background-color: var(--dark-color) !important;
+    border: 1px solid var(--dark-color) !important; 
 }
 ul.nav-main li .nav-children li a {
     padding: 5px 5px 5px 30px;
     margin-bottom: 2px;
 }
-
+ul.nav-main li .nav-children li a:after {
+    background: transparent !important;
+}
 .el-checkbox__input.is-checked+.el-checkbox__label{
     color: var(--primary-color);
 }
@@ -236,15 +318,128 @@ nav#menu {
     padding-top: 10px;
 }
 .el-input--small .el-input__inner, .el-input-group__prepend {
-    background-color: var(--light-color);
+    background-color: var(--light-color) !important;
     border: 1px solid var(--light2-color);
 }
 .el-input--small .el-input__inner:focus, .el-input-group__prepend:focus {
-    background-color: #fff;
+    background-color: #fff !important;
     border: 1px solid var(--light2-color);
 }
 .el-input--small .el-input__inner:hover, .el-input-group__prepend:hover {
     border: 1px solid var(--light2-color);
+}
+.el-tabs__item:hover {
+    color: var(--primary-color);
+}
+.second-buton {
+    background: var(--light-color);
+    border: 1px solid var(--light2-color);
+    color: var(--dark-color);
+}
+.el-dropdown-menu__item:not(.is-disabled):hover, .el-dropdown-menu__item:focus {
+    background-color: var(--light2-color);
+}
+.btn-export-default{
+    background: var(--light-color);
+    border: 1px solid var(--light2-color);
+    color: var(--dark-color);
+}
+.btn-export-default:hover{
+    background: var(--light2-color);
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+}
+.dropdown-item:hover, .dropdown-item:focus {
+    background-color: var(--light2-color);
+}
+.dropdown-item.active, .dropdown-item:active {
+    background-color: var(--primary-color);
+}
+a, a:hover, a:focus {
+    color: var(--inputs-dark);
+}
+.second-buton:hover {
+    background: var(--light2-color);
+    border: 1px solid var(--light-color);
+    color: var(--dark-color);
+}
+.btn-default {
+    color: var(--dark-color);
+    background-color: var(--light-color);
+    border-color: var(--light2-color);
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+}
+.btn-default:hover, .btn-default:active, .btn-default:focus {
+    color: var(--dark-color);
+    background-color: var(--light2-color);
+    border-color: var(--light-color);
+}
+.el-pager li.active {
+    color: #1f9da3;
+    cursor: default;
+}
+.el-tabs--border-card > .el-tabs__header .el-tabs__item.is-active {
+    color: var(--primary-color);
+}
+.el-tabs--border-card > .el-tabs__header .el-tabs__item:not(.is-disabled):hover,
+.el-tabs__item.is-active{
+    color: var(--primary-color);
+}
+.form-control-default{
+    background-color: var(--light-color);
+    border: 1px solid var(--light2-color) !important;
+}
+.el-month-table td.current:not(.disabled) .cell {
+    color: var(--primary-color);
+}
+ul.nav.list-config li:hover {
+    background: var(--light2-color) !important;
+}
+.form-control-default:focus{
+    background-color: #fff;
+    border: 1px solid var(--light2-color) !important;
+}
+.el-dialog__headerbtn:focus .el-dialog__close, .el-dialog__headerbtn:hover .el-dialog__close {
+    color: var(--primary-color);
+}
+.btn-add-address,
+.btn-add-logo,
+.el-button--info{
+    background-color: var(--light-color);
+    border: 1px solid var(--light2-color);
+    color: var(--dark-color);
+}
+.btn-add-address:hover,
+.el-button--info:hover,
+.btn-add-logo:hover{
+    background-color: var(--light2-color);
+    border: 1px solid var(--light-color);
+    color: var(--dark-color);
+}
+.card-extras{
+    border: 1px solid #fff !important;
+}
+.el-date-table td.current:not(.disabled) span {
+    background-color: var(--primary-color);
+}
+.el-date-table td.available:hover {
+    color: var(--primary-color);
+}
+.btn-info-default{
+    background-color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+}
+.btn-info-default:hover,
+.btn-search-default:hover{
+    background-color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+    opacity: 0.8 !important;
+}
+.btn-search-default{
+    background-color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+    color: #fff !important;
 }
 table,
 .table,
@@ -394,7 +589,7 @@ html.sidebar-left-collapsed .sidebar-left .nav-main > li > a {
     border-right: unset;
 }
 .el-tabs__item {
-    color: #657b9d;
+    color: #808a9d;
 }
 .el-button--primary {
     color: #fff;
@@ -463,7 +658,7 @@ html.sidebar-left-collapsed .sidebar-left .nano:hover {
     font-family: 'Roboto';
 }
 .form-control {
-    color: #0e3069;
+    color: var(--dark-color);
     border: 1px solid #eaeef8;
 }
 
@@ -579,11 +774,14 @@ html.dark .sidebar-toggle:hover {
 .header{
     background: var(--light-color);
     border-bottom: 1px solid var(--light-color);
-    border-radius: 20px 20px 0 0 !important;
+    border-radius: 12px 12px 0 0 !important;
 }
-.card-footer {
+.card-footer{
     border-top: 1px solid  var(--light-color);
     border-radius: 0 0 20px 20px;
+}
+.card-body-default{
+    border-radius: 0 0 12px 12px;
 }
 html.sidebar-light:not(.dark) .page-header .breadcrumbs a,
 html.sidebar-light:not(.dark) .page-header .breadcrumbs span {
@@ -610,13 +808,18 @@ ul.nav-main li.nav-parent > a:after {
 }
 .card.card-reports .card-title {
     font-weight: bold;
-    color: #001f83;
-    background: #e8f1ff;
+    color: var(--dark-color);
+    background: var(--light2-color);
     border-radius: 4px;
     padding: 8px 16px;
     margin-bottom: 20px;
 }
-
+.el-select-dropdown__item.hover, .el-select-dropdown__item:hover {
+    background-color: var(--light2-color);
+}
+.el-select-dropdown__item.selected {
+    color: var(--primary-color);
+}
 .row.no-gutters .col div {
     width: 100%;
 }
@@ -713,7 +916,7 @@ a.ws-flotante {
     transform: scale(0.85);
 }
 tbody tr:hover:not(:last-child) {
-    background: var(--light-color);
+    background: transparent;
 }
 .card-header.bg-info {
   background: var(--dark-color) !important;
@@ -744,6 +947,12 @@ body .v-modal {
 .pos .hyo ~ div {
   margin: 0 -13px !important;
   border-radius: 12px;
+}
+.tab-content {
+    border-radius: 0 0 20px 20px;
+}
+.tab-content-default{
+    border-radius: 20px;
 }
 /************************************ tema morado ************************************/
 /* header */
@@ -1104,8 +1313,24 @@ html.sidebar-ligth-blue ul.nav-main li .nav-children li a:after {
 html.sidebar-ligth-blue .card-header.bg-info {
   background: #00cfe8 !important;
 }
-
-
+/* -------------------------- botones -------------------------- */
+/* -------------------------- white -------------------------- */
+html.sidebar-white .el-button--primary {
+    color: #FFFFFF;
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+html.sidebar-white .el-button--primary:hover {
+    background-color: var(--primary-color);
+    opacity: 0.8 !important;
+    border-color: var(--primary-color);
+    color: #FFF;
+    transition: none;
+}
+/* --------------------------- tema light --------------------------- */
+html.sidebar-light .userbox.show .dropdown-menu a:hover {
+    background-color: var(--dark-color);
+}
 /* --------------------------- tema Oscuro --------------------------- */
 /* html.dark .header .logo-container .topbar-links:hover {
     background: #161d31d1;
@@ -1119,25 +1344,6 @@ html.dark ul.nav-main li .nav-children li a:after {
 .fix-m {
     margin-bottom: -4px;
     margin-top: 5px;
-}
-
-/* --------------------------- tema light --------------------------- */
-html.sidebar-light .userbox.show .dropdown-menu a:hover {
-    background-color: var(--dark-color);
-}
-
-/* -------------------------- botones -------------------------- */
-/* -------------------------- white -------------------------- */
-html.sidebar-white .el-button--primary {
-    color: #FFFFFF;
-    background-color: var(--primary-color);
-    border-color: var(--primary-color);
-}
-html.sidebar-white .el-button--primary:hover {
-    background-color: var(--primary-color);
-    border-color: var(--primary-color);
-    color: #FFF;
-    transition: none;
 }
 /* mode dark default */
 html.fixed.sidebar-dark .sidebar-left,
@@ -1266,7 +1472,8 @@ html.dark .form-period label.control-label:has(+div){
     background-color: var(--inputs-dark);
     border: none;
 }
-html.dark .el-input--small .el-input__inner, .el-input-group__prepend {
+html.dark .el-input--small .el-input__inner, 
+html.dark .el-input-group__prepend {
     background-color: var(--inputs-dark);
     border: 1px solid var(--borders-dark);
 }
@@ -1350,8 +1557,9 @@ html.dark .el-dialog {
     background: var(--contents-dark);
 }
 html.sidebar-dark:not(.sidebar-light) .el-button--primary:hover,
-html.sidebar-dark:not(.sidebar-light) .btn-custom:hover {
-    background-color: var(--primary-color);
+html.sidebar-dark:not(.sidebar-light) .btn-custom:hover,
+html.dark .btn-submit-default:hover{
+    background-color: var(--primary-color) !important;
     opacity: 0.8 !important;
     border-color: var(--primary-color);
 }
@@ -1363,6 +1571,9 @@ html.dark .tab-content {
     border-radius: 0 0 12px 12px;
     background-color: var(--contents-dark);
     border: none;
+}
+html.dark .row-new{
+    border-radius: 20px;
 }
 html.sidebar-dark:not(.sidebar-light) .card-header.bg-info {
     background: var(--contents-dark) !important;
@@ -1421,7 +1632,6 @@ html.dark .el-pager li.active {
 html.dark .card-body,
 html.dark .card-footer {
     background: var(--contents-dark) !important;
-    border: none;
 }
 html.dark .bg-white,
 html.dark .bg-light {
@@ -1515,7 +1725,6 @@ html.dark ul.nav-main li.nav-parent > a:after {
 }
 html.dark .el-input-number__increase,
 html.dark .el-input-number__decrease {
-  top: 4px;
   background: var(--button-second);
   color: var(--light-color);
   border: 1px solid var(--borders-dark);
@@ -1543,13 +1752,13 @@ html.dark #select-append #custom-input #select-width{
 html.dark .el-select .el-input.is-disabled .el-input__inner:hover {
     border-color: var(--borders-dark);
 }
-html.dark .ck.ck-reset, .ck.ck-reset_all, .ck.ck-reset_all * ,
+html.dark .ck.ck-reset, html.dark .ck.ck-reset_all, html.dark .ck.ck-reset_all * ,
 html.dark .ck.ck-editor__main>.ck-editor__editable,
 html.dark .ck.ck-toolbar{
     background: var(--contents-dark) !important;
     border: 1px solid var(--borders-dark);
 }
-html.dark .ck.ck-reset_all, .ck.ck-reset_all *,
+html.dark .ck.ck-reset_all, html.dark .ck.ck-reset_all *,
 html.dark p,
 html.dark .el-form-item__label,
 html.dark .el-tabs__item:hover{
@@ -1622,7 +1831,8 @@ html.dark .el-input-number.is-controls-right .el-input-number__increase,
 html.dark .el-input-number.is-controls-right .el-input-number__decrease {
     border: 1px solid var(--borders-dark);
 }
-html.dark .el-input-group__append, .el-input-group__prepend {
+html.dark .el-input-group__append, 
+html.dark .el-input-group__prepend {
     color: var(--light2-color);
 }
 html.dark .el-tabs__item.is-active,
@@ -1871,5 +2081,35 @@ html.dark .payments-div {
     border: 1px solid var(--borders-dark);
     background: var(--background-dark);
     border-radius: 10px;
+}
+html.dark .card-header {
+    border-bottom-color: var(--borders-dark);
+}
+html.dark .card-footer-default{
+    border-top-color: var(--borders-dark) !important;
+}
+html.dark .clearfix-default {
+    border-bottom: 1px solid var(--borders-dark);
+    border-radius: 20px 20px 0 0;
+}
+html.dark .footer-card-default {
+    border-top: 1px solid var(--borders-dark);
+}
+html.dark .el-input--small .el-input__inner, 
+html.dark .el-input-group__prepend {
+    background-color: var(--inputs-dark) !important;
+    border: 1px solid var(--borders-dark);
+}
+html.dark .footer-second-buton,
+html.dark .row-new{
+    background-color: var(--contents-dark);
+    border-radius: 12px;
+}
+html.dark .clearfix-default,
+html.dark .invoice header {
+    border-bottom: 1px solid var(--borders-dark) !important;
+}
+html.dark .card-extras{
+    border: 1px solid var(--borders-dark) !important;
 }
 /* end */

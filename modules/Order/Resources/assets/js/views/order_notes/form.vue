@@ -3,9 +3,9 @@
         <!-- <div class="card-header bg-info">
             <h3 class="my-0">Nuevo Comprobante</h3>
         </div> -->
-        <div class="tab-content" v-if="loading_form">
-            <div class="invoice">
-                <header class="clearfix">
+        <div class="tab-content tab-content-default row-new" v-if="loading_form">
+            <div class="invoice p-0">
+                <header class="clearfix clearfix-default p-2">
                     <div class="d-flex head-notes">
                         <div class="col-sm-2 text-center mt-3 mb-0">
                             <logo url="/"
@@ -14,7 +14,7 @@
                         <div class="text-left mt-3 mb-0">
                             <address class="ib mr-2">
                                 <span class="font-weight-bold d-block">PEDIDO</span>
-                                <span class="font-weight-bold d-block">PD-XXX</span>
+                                <!-- <span class="font-weight-bold d-block">PD-XXX</span> -->
                                 <span class="font-weight-bold">{{ company.name }}</span>
                                 <br>
                                 <div v-if="config.establishment.address != '-'">{{
@@ -64,7 +64,7 @@
                     </div>
                 </header>
                 <form autocomplete="off" @submit.prevent="submit">
-                    <div class="form-body">
+                    <div class="form-body m-4">
                         <div class="row mt-1">
                             <div class="col-lg-6 pb-2">
                                 <div class="form-group" :class="{'has-danger': errors.customer_id}">
@@ -309,7 +309,7 @@
                             </div>
                             
                             <!-- pago -->
-                            <div class="p-2"
+                            <div class="p-2 payment-container"
                                 v-if="showPayments"
                                 style="margin-left: auto; background-color: #f3f4fc;"
                             >
@@ -381,9 +381,9 @@
                     </div>
 
 
-                    <div class="form-actions text-right mt-4">
-                        <el-button @click.prevent="close()">Cancelar</el-button>
-                        <el-button class="submit" type="primary" native-type="submit" :loading="loading_submit"
+                    <div class="form-actions footer-card-default text-right mt-4 pl-4 pr-4 pb-3 pt-3">
+                        <el-button class="second-buton btn btn-default second-buton-default" @click.prevent="close()">Cancelar</el-button>
+                        <el-button class="submit btn btn-primary btn-submit-default" type="primary" native-type="submit" :loading="loading_submit"
                                    v-if="form.items.length > 0">Generar
                         </el-button>
                     </div>

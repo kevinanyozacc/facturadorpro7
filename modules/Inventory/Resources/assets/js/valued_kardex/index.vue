@@ -8,7 +8,7 @@
             <div class="right-wrapper pull-right">
             </div>
         </div>
-        <div class="card mb-0">
+        <div class="card tab-content-default row-new mb-0">
             <div class="card-header bg-info">
                 <h3 class="my-0">{{ title }}</h3>
             </div>

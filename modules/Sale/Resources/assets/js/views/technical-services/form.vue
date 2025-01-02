@@ -63,7 +63,7 @@
                         </div>
                     </div>
                 </div>
-                <el-tabs v-model="activeName">
+                <el-tabs v-model="activeName" class="mt-2">
                     <el-tab-pane class="mb-3"
                                  name="first">
                         <span slot="label"><h3>General</h3></span>
@@ -381,7 +381,7 @@
                 </div>
             </div>
             <div class="form-actions text-right mt-4">
-                <el-button @click.prevent="close()">Cancelar</el-button>
+                <el-button class="second-buton" @click.prevent="close()">Cancelar</el-button>
                 <el-button :loading="loading_submit"
                            native-type="submit"
                            type="primary">Guardar

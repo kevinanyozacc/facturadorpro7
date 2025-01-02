@@ -125,7 +125,7 @@
                 </div>
             </div>
             <div class="form-actions text-right pt-2">
-                <el-button @click.prevent="close()">Cancelar</el-button>
+                <el-button class="second-buton" @click.prevent="close()">Cancelar</el-button>
                 <el-button type="primary" native-type="submit" :loading="loading_submit" v-if="form.documents.length > 0" dusk="save-summary">Guardar</el-button>
             </div>
         </form>

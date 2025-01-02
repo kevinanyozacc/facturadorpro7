@@ -1,5 +1,5 @@
 <template>
-    <div class="card mb-0 pt-2 pt-md-0">
+    <div class="card tab-content-default row-new mb-0 pt-2 pt-md-0">
         <div class="card-header bg-info">
             <h3 class="my-0">Nueva G.R. Transportista</h3>
         </div>
@@ -296,7 +296,7 @@
                                        v-text="errors.transport_id[0]"></small>
                             </div>
                         </div>
-                        <div class="col-12 col-md-7">
+                        <div class="col-12 col-md-7 form-modern">
                             <label class="control-label">
                                 Datos del conductor
                                 <a v-if="can_add_new_product"
@@ -563,8 +563,8 @@
                     </div>
                     <div class="col-lg-12"></div>
                     <div class="form-actions text-right mt-4">
-                        <el-button @click.prevent="clickClose">Cancelar</el-button>
-                        <el-button v-if="(form.items.length > 0)"
+                        <el-button class="second-buton btn btn-default second-buton-default" @click.prevent="clickClose">Cancelar</el-button>
+                        <el-button class="btn btn-primary btn-submit-default" v-if="(form.items.length > 0)"
                                    :loading="loading_submit"
                                    native-type="submit"
                                    type="primary">Generar

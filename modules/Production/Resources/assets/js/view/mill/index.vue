@@ -7,7 +7,7 @@
                     <span>Ingreso de insumo</span>
                 </li>
             </ol>
-            <div class="right-wrapper pull-right pt-2">
+            <div class="right-wrapper pull-right pt-2 mr-2">
                 <!--
                 <el-button class="submit"
                            type="success"
@@ -21,7 +21,7 @@
                 </a>
             </div>
         </div>
-        <div class="card mb-0">
+        <div class="card tab-content-default row-new mb-0">
             <div class="card-body">
 
                 <div class="row">

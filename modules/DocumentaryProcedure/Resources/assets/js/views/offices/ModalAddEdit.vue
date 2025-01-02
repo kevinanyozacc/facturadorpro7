@@ -16,7 +16,7 @@
                         id="name"
                         v-model="form.name"
                         :class="{ 'is-invalid': errors.name }"
-                        class="form-control"
+                        class="form-control form-control-default"
                         type="text"
                     />
                     <div v-if="errors.name" class="invalid-feedback">
@@ -29,7 +29,7 @@
                         id="description"
                         v-model="form.description"
                         :class="{ 'is-invalid': errors.description }"
-                        class="form-control"
+                        class="form-control form-control-default"
                         type="text"
                     />
                     <div v-if="errors.description" class="invalid-feedback">

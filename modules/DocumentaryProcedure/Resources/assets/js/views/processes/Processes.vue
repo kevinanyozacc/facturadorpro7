@@ -19,7 +19,7 @@
                 </div>
             </div>
         </div>
-        <div class="card mb-0">
+        <div class="card tab-content-default row-new mb-0">
             <div class="card-header bg-info">
                 <h3 class="my-0">Listado de tipos de trámites</h3>
             </div>
@@ -31,13 +31,13 @@
                             <div class="input-group mb-3">
                                 <input
                                     v-model="filter.name"
-                                    class="form-control"
+                                    class="form-control form-control-default"
                                     placeholder="Filtrar por nombre"
                                     type="text"
                                 />
                                 <div class="input-group-append">
                                     <button
-                                        class="btn btn-outline-secondary"
+                                        class="btn btn-search-default btn-outline-secondary"
                                         style="border-color: #CED4DA"
                                         type="submit"
                                     >
@@ -67,7 +67,7 @@
                             :key="item.id"
                             :class="{ 'table-danger': !item.active }"
                         >
-                            <td class="text-right">{{ index + 1 }}</td>
+                            <td class="text-left">{{ index + 1 }}</td>
                             <td>
                                 <el-tooltip v-if="item.requirements && item.requirements.length > 0"
                                             placement="right-start">
@@ -113,7 +113,7 @@
 
                             </td>
 
-                            <td class="text-center">
+                            <td class="text-left">
                                 <span v-if="item.active">Si</span>
                                 <span v-else>No</span>
                             </td>

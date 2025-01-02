@@ -84,6 +84,7 @@
                                             placement="bottom">
                                             <el-button
                                                 :disabled="isEditItemNote"
+                                                class="btn-search-default"
                                                 @click.prevent="clickWarehouseDetail()">
                                                 <i class="fa fa-search"></i>
                                             </el-button>
@@ -186,12 +187,12 @@
                                 <el-button slot="prepend"
                                            :disabled="form.quantity < 0.01 || form.item.calculate_quantity"
                                            icon="el-icon-minus"
-                                           style="padding-right: 5px ;padding-left: 12px"
+                                           style="padding-right: -5px; padding-left: 12px;"
                                            @click="clickDecrease"></el-button>
                                 <el-button slot="append"
                                            :disabled="form.item.calculate_quantity"
                                            icon="el-icon-plus"
-                                           style="padding-right: 5px ;padding-left: 12px"
+                                           style="padding-right: 5px ;padding-left: 16px"
                                            @click="clickIncrease"></el-button>
                             </el-input>
                             <small v-if="errors.quantity"

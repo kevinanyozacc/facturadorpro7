@@ -413,6 +413,7 @@
                         <div class="row m-t-10">
                             <div class="col-md-12 text-center">
                                 <el-button icon="el-icon-plus"
+                                        class="btn-add-address"
                                            size="mini"
                                            @click.prevent="clickAddAddress()">
                                     Agregar dirección

@@ -1,5 +1,5 @@
 <template>
-    <div class="card mb-0 pt-2 pt-md-0">
+    <div class="card tab-content-default row-new mb-0 pt-2 pt-md-0">
         <div class="card-header bg-info">
             <h3 class="my-0">{{ title_form }}</h3>
         </div>
@@ -216,8 +216,8 @@
                     </div>
                 </div>
                 <div class="form-actions text-right mt-4">
-                    <el-button class="second-buton" @click.prevent="close()">Cancelar</el-button>
-                    <el-button type="primary" native-type="submit" :loading="loading_submit"
+                    <el-button class="second-buton btn btn-default second-buton-default" @click.prevent="close()">Cancelar</el-button>
+                    <el-button type="primary" native-type="submit" class="btn btn-primary btn-submit-default" :loading="loading_submit"
                                v-if="form.items.length > 0 && !hide_button">Generar
                     </el-button>
                 </div>

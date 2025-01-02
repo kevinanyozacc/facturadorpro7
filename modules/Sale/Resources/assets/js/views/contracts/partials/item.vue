@@ -40,7 +40,7 @@
                                         <el-option v-for="option in items" :key="option.id" :value="option.id" :label="option.full_description"></el-option>
                                     </el-select>
                                     <el-tooltip slot="append" class="item" effect="dark" content="Ver Stock del Producto" placement="bottom" >
-                                        <el-button @click.prevent="clickWarehouseDetail()"><i class="fa fa-search"></i></el-button>
+                                        <el-button class="btn-search-default" @click.prevent="clickWarehouseDetail()"><i class="fa fa-search"></i></el-button>
                                     </el-tooltip>
                                 </el-input>
                             </template>

@@ -1,5 +1,5 @@
 <template>
-    <div class="card mb-0 pt-2 pt-md-0">
+    <div class="card tab-content-default row-new mb-0 pt-2 pt-md-0">
         <div class="card-header bg-info">
             <h3 class="my-0">
                 Nuevo Ingreso de insumo
@@ -216,8 +216,8 @@
                     </div>
                 </div>
                 <div class="form-actions text-right mt-4">
-                    <el-button class="second-buton" @click.prevent="close()">Cancelar</el-button>
-                    <el-button v-if="form.items.length > 0"
+                    <el-button class="second-buton btn btn-default second-buton-default" @click.prevent="close()">Cancelar</el-button>
+                    <el-button class="btn btn-primary btn-submit-default" v-if="form.items.length > 0"
                                :loading="loading_submit"
                                native-type="submit"
                                type="primary">{{ (id) ? 'Actualizar' : 'Generar' }}

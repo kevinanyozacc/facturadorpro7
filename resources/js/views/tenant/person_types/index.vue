@@ -9,7 +9,7 @@
                 <button type="button" class="btn btn-custom btn-sm  mt-2 mr-2" @click.prevent="clickCreate()"><i class="fa fa-plus-circle"></i> Nuevo</button>
             </div>
         </div>
-        <div class="card mb-0">
+        <div class="card tab-content-default row-new mb-0">
             <div class="card-header bg-info">
                 <h3 class="my-0">{{ title }}</h3>
             </div>

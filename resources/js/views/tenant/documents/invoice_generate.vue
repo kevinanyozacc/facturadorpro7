@@ -288,6 +288,8 @@
                                 {{ isVisible ? "Cerrar Información Adicional" : "Abrir Información Adicional" }}
                             </span>
                         <div class="additional-information" :class="{ show: isVisible }">
+
+                        <h3 class="text-center">Información Adicional</h3>
                         <div class="w-100">
                            <div class="pl-5 pr-5 mt-5 w-100">
                                <div class="col-12 px-0">
@@ -1656,7 +1658,7 @@
                     </div>
                     <!-- @todo: Mejorar evitando duplicar codigo -->
                     <!-- Ocultar en cel -->
-                    <div class="card-footer text-right  hidden-sm-down">
+                    <div class="card-footer card-footer-default text-right  hidden-sm-down">
                         <button
                             class="btn btn-success"
                             style="min-width: 180px"

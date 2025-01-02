@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="tab-content-default row-new">
         <div class="page-header pr-0">
             <h2><a href="/dashboard"><i class="fas fa-tachometer-alt"></i></a></h2>
             <ol class="breadcrumbs">
@@ -68,6 +68,7 @@
             </div>
             <div class="form-actions text-right pt-2">
                 <el-button :loading="loading_submit"
+                           class="btn btn-primary btn-submit-default mr-3 mb-3"
                            type="primary"
                            @click.prevent="clickDownload">
                     <template v-if="loading_submit">

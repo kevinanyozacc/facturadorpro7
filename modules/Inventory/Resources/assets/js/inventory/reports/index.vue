@@ -2,7 +2,7 @@
     <div class="row card-table-report">
         <div class="col-md-12">
             <div
-                 class="card card-primary" v-loading="loading">
+                 class="card card-primary tab-content-default row-new" v-loading="loading">
                 <div class="card-header">
                     <h4 class="card-title">Consulta de inventarios</h4>
                     <div class="data-table-visible-columns"

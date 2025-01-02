@@ -19,7 +19,7 @@
         </div>
       </div>
     </div>
-    <div class="card mb-0">
+    <div class="card tab-content-default row-new mb-0">
       <div class="card-header bg-info">
         <h3 class="my-0">Listado de pisos</h3>
       </div>
@@ -30,7 +30,7 @@
               <tr>
                 <th></th>
                 <th>Piso</th>
-                <th>Visible</th>
+                <th class="text-center">Visible</th>
                 <th></th>
               </tr>
             </thead>

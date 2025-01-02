@@ -19,7 +19,7 @@
         </div>
       </div>
     </div>
-    <div class="card mb-0">
+    <div class="card tab-content-default row-new mb-0">
       <div class="card-header bg-info">
         <h3 class="my-0">Listado de habitaciones</h3>
       </div>
@@ -28,7 +28,7 @@
           <div class="col-12 col-md-2 mb-3">
             <div class="form-group">
               <select
-                class="form-control"
+                class="form-control form-control-default"
                 v-model="filter.status"
                 @change="onFilter"
               >
@@ -42,7 +42,7 @@
           <div class="col-12 col-md-2 mb-3">
             <div class="form-group">
               <select
-                class="form-control"
+                class="form-control form-control-default"
                 v-model="filter.hotel_floor_id"
                 @change="onFilter"
               >
@@ -56,7 +56,7 @@
           <div class="col-12 col-md-2 mb-3">
             <div class="form-group">
               <select
-                class="form-control"
+                class="form-control form-control-default"
                 v-model="filter.hotel_category_id"
                 @change="onFilter"
               >
@@ -72,13 +72,13 @@
               <div class="input-group mb-3">
                 <input
                   type="text"
-                  class="form-control"
+                  class="form-control form-control-default"
                   placeholder="Filtrar por nombre"
                   v-model="filter.name"
                 />
                 <div class="input-group-append">
                   <button
-                    class="btn btn-outline-secondary"
+                    class="btn btn-outline-secondary btn-search-default"
                     type="submit"
                     style="border-color: #ced4da"
                   >

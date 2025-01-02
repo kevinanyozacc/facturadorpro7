@@ -463,7 +463,7 @@
 
                         <div class="col-md-3">
                             <div :class="{'has-danger': errors.has_isc}"
-                                 class="form-group">
+                                 class="form-group ml-2">
                                 <el-checkbox v-model="form.has_isc"
                                              @change="changeIsc">Incluye ISC
                                 </el-checkbox>
@@ -512,7 +512,7 @@
 
                         <div class="col-md-3">
                             <div :class="{'has-danger': errors.subject_to_detraction}"
-                                 class="form-group">
+                                 class="form-group ml-1">
                                 <el-checkbox v-model="form.subject_to_detraction">Sujeto a detracción</el-checkbox>
                                 <br>
                                 <small v-if="errors.subject_to_detraction"
