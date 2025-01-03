@@ -94,7 +94,7 @@
             </div>
 
 
-            <el-tabs v-model="activeName">
+            <el-tabs v-model="activeName" class="mt-2">
 
                 <el-tab-pane
                     class

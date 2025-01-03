@@ -19,7 +19,7 @@
 
     <div class="row">
         <div class="col-sm-12 col-md-6 col-lg-3">
-            <section class="card mb-2">
+            <section class="card card-extras mb-2">
                 <header class="card-header bg-{{in_array('hotels', $vc_modules) ? 'primary' : 'dark'}}">
                     <div class="card-header-icon">
                         <i class="fas fa-hotel"></i>
@@ -41,7 +41,7 @@
             </section>
         </div>
         <div class="col-sm-12 col-md-6 col-lg-3">
-            <section class="card mb-2">
+            <section class="card card-extras mb-2">
                 <header class="card-header bg-{{in_array('documentary-procedure', $vc_modules) ? 'primary' : 'dark'}}">
                     <div class="card-header-icon">
                         <i class="fas fa-archive"></i>
@@ -62,7 +62,7 @@
             </section>
         </div>
         <div class="col-sm-12 col-md-6 col-lg-3">
-            <section class="card mb-2">
+            <section class="card card-extras mb-2">
                 <header class="card-header bg-{{in_array('digemid', $vc_modules) ? 'primary' : 'dark'}}">
                     <div class="card-header-icon">
                         <i class="fas fa-book-medical"></i>
@@ -85,7 +85,7 @@
             </section>
         </div>
         <div class="col-sm-12 col-md-6 col-lg-3">
-            <section class="card mb-2">
+            <section class="card card-extras mb-2">
                 <header class="card-header bg-success">
                     <div class="card-header-icon">
                         <i class="fab fa-android"></i>
@@ -104,7 +104,7 @@
             </section>
         </div>
         <div class="col-sm-12 col-md-6 col-lg-3">
-            <section class="card mb-2">
+            <section class="card card-extras mb-2">
                 <header class="card-header bg-secondary">
                     <div class="card-header-icon">
                         <i class="fas fa-calendar-alt"></i>
@@ -129,7 +129,7 @@
             </section>
         </div>
         <div class="col-sm-12 col-md-6 col-lg-3">
-            <section class="card mb-2">
+            <section class="card card-extras mb-2">
                 <header class="card-header bg-secondary">
                     <div class="card-header-icon">
                         <i class="fas fa-calendar-alt"></i>
@@ -147,7 +147,7 @@
             </section>
         </div>
         <div class="col-sm-12 col-md-6 col-lg-3">
-            <section class="card mb-2">
+            <section class="card card-extras mb-2">
                 <header class="card-header bg-secondary">
                     <div class="card-header-icon">
                         <i class="fas fa-calendar-alt"></i>
@@ -164,7 +164,7 @@
             </section>
         </div>
         <div class="col-sm-12 col-md-6 col-lg-3">
-            <section class="card mb-2">
+            <section class="card card-extras mb-2">
                 <header class="card-header bg-secondary">
                     <div class="card-header-icon">
                         <i class="fas fa-utensils"></i>
@@ -186,7 +186,7 @@
             </section>
         </div>
         <div class="col-sm-12 col-md-6 col-lg-3">
-            <section class="card mb-2">
+            <section class="card card-extras mb-2">
                 <header class="card-header bg-secondary">
                     <div class="card-header-icon">
                         <i class="fas fa-bus-alt"></i>
@@ -203,7 +203,7 @@
             </section>
         </div>
         <div class="col-sm-12 col-md-6 col-lg-3">
-            <section class="card mb-2">
+            <section class="card card-extras mb-2">
                 <header class="card-header bg-secondary">
                     <div class="card-header-icon">
                         <svg xmlns="http://www.w3.org/2000/svg"

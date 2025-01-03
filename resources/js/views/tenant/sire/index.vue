@@ -6,7 +6,7 @@
           <li class="active"><span>SIRE</span></li>
       </ol>
     </div>
-    <div class="card mt-3">
+    <div class="card tab-content-default row-new mt-0">
       <div class="card-body border-bottom">
         <el-form :inline="true" :model="form" class="demo-form-inline mb-0">
           <el-form-item label="Año" class="label-mt-0">

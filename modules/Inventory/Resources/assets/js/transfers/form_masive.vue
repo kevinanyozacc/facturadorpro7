@@ -1,5 +1,5 @@
 <template>
-    <div class="card mb-0 pt-md-0">
+    <div class="card tab-content-default row-new mb-0 pt-md-0">
         <div class="card-header bg-info">
             <h3 class="my-0">Nuevo Traslado</h3>
         </div>
@@ -228,9 +228,10 @@
                 </div>
             </div>
             <div class="form-actions text-right mt-4">
-                <el-button class="second-buton" @click.prevent="close()">Cancelar</el-button>
+                <el-button class="second-buton btn btn-default second-buton-default" @click.prevent="close()">Cancelar</el-button>
                 <el-button :loading="loading_submit"
                            @click.prevent="submit"
+                           class="btn btn-primary btn-submit-default"
                            type="primary">Guardar
                 </el-button>
             </div>

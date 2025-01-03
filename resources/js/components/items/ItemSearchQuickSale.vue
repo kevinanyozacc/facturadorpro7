@@ -1,5 +1,5 @@
-<template class="deyvis">
-    <div>
+<template>
+    <div class="m-0 p-0 content-products">
         <el-select
             ref="selectBarcode"
             v-model="item_id"
@@ -48,8 +48,12 @@
                 </div>
             </el-option>
         </el-select>
-        <el-checkbox v-model="searchOnEnter" @change="changeSearchOnEnter" >Buscar solo al presionar Enter</el-checkbox>
-        <el-checkbox ref="searchItemCheckbox" v-model="search_item_by_barcode" @change="focusInputSearch()">Buscar por código de barras</el-checkbox>
+
+        <div class="w-50 pl-0 pt-2">
+            <el-checkbox v-model="searchOnEnter" @change="changeSearchOnEnter" >Buscar solo al presionar Enter</el-checkbox>
+            <el-checkbox ref="searchItemCheckbox" v-model="search_item_by_barcode" @change="focusInputSearch()">Buscar por código de barras</el-checkbox>
+        </div>
+        
 
         <warehouses-stock
             :showDialog.sync="showDialogStock"
@@ -66,6 +70,16 @@
 
     </div>
 </template>
+
+<style>
+.list-result {
+    margin: 0px !important;
+    margin-top: 10px !important;
+    margin-bottom: 10px;
+}
+
+
+</style>
 
 <script>
 
@@ -325,9 +339,6 @@ li.el-select-dropdown__item.item-result {
 
 </style>
 <style>
-    .list-result{
-        width: 40% !important;
-    }
 
     .list-result .el-select-dropdown__wrap {
         max-height: 360px !important;
@@ -336,4 +347,4 @@ li.el-select-dropdown__item.item-result {
     .list-result .el-select-dropdown__list{
         padding: 0;
     }
-    </style>
+</style>

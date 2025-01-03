@@ -11,7 +11,7 @@
                 </form>
             </div>
         </header>
-        <div class="card mb-0">
+        <div class="card tab-content-default row-new mb-0">
             <div class="card-header bg-info">
                 <h3 class="my-0">Listado de anulaciones</h3>
             </div>

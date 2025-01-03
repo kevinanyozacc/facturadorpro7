@@ -131,7 +131,7 @@
                                 <img v-if="preview" :src="preview" alt="Vista previa" class="img-fluid img-thumbnail mb-2">
                                 <input type="file" ref="inputFile" class="hidden" @change="onSelectImage" accept="image/png, image/jpeg, image/jpg">
                                 <span class="text-muted">Se recomienda resoluciones 700x300</span>
-                                <el-button @click="onOpenFileLogo">Cambiar logo del establecimiento</el-button>
+                                <el-button class="btn-add-logo" @click="onOpenFileLogo">Cambiar logo del establecimiento</el-button>
                             </div>
                             <div class="col-12">
                                 <div class="form-comtrol">
@@ -146,7 +146,7 @@
                         <span slot="label">Dirección secundaria</span>
                             <div class="row m-t-10">
                                 <div class="col-md-12 text-center">
-                                    <el-button icon="el-icon-plus"
+                                    <el-button class="btn-add-address" icon="el-icon-plus"
                                             size="mini"
                                             @click.prevent="clickAddAddress()">
                                         Agregar dirección

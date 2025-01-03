@@ -4,17 +4,17 @@
         <!-- <div class="card-header bg-info">
             <h3 class="my-0">Nuevo Comprobante</h3>
         </div> -->
-        <div class="tab-content" v-if="loading_form">
-            <div class="invoice">
-                <header class="clearfix">
+        <div class="tab-content tab-content-default row-new" v-if="loading_form">
+            <div class="invoice p-0">
+                <header class="clearfix clearfix-default p-2">
                     <div class="row">
                         <div class="col-sm-2 text-center mt-3 mb-0">
                             <logo url="/" :path_logo="(company.logo != null) ? `/storage/uploads/logos/${company.logo}` : ''" ></logo>
                         </div>
-                        <div class="col-sm-6 text-left mt-3 mb-0">
+                        <div class="col-sm-5 text-left mt-3 mb-0">
                             <address class="ib mr-2" >
                                 <span class="font-weight-bold d-block">COTIZACIÓN</span>
-                                <span class="font-weight-bold d-block">COT-XXX</span>
+                                <!-- <span class="font-weight-bold d-block">COT-XXX</span> -->
                                 <span class="font-weight-bold">{{company.name}}</span>
                                 <br>
                                 <div v-if="establishment.address != '-'">{{ establishment.address }}, </div> {{ establishment.district.description }}, {{ establishment.province.description }}, {{ establishment.department.description }} - {{ establishment.country.description }}
@@ -22,10 +22,28 @@
                                 {{establishment.email}} - <span v-if="establishment.telephone != '-'">{{establishment.telephone}}</span>
                             </address>
                         </div>
+
+                        <div class="row pr-2 mt-3 col-sm-5">
+                            <div class="col-lg-6">
+                                <div class="form-group" :class="{'has-danger': errors.date_of_issue}">
+                                    <label class="control-label">Fec. Emisión</label>
+                                    <el-date-picker v-model="form.date_of_issue" type="date" value-format="yyyy-MM-dd" :clearable="false" @change="changeDateOfIssue"></el-date-picker>
+                                    <small class="form-control-feedback" v-if="errors.date_of_issue" v-text="errors.date_of_issue[0]"></small>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="form-group" :class="{'has-danger': errors.date_of_due}">
+                                    <label class="control-label">Tiempo de Validez</label>
+                                    <el-input v-model="form.date_of_due"></el-input>
+                                    <small class="form-control-feedback" v-if="errors.date_of_due" v-text="errors.date_of_due[0]"></small>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </header>
                 <form autocomplete="off" @submit.prevent="submit">
-                    <div class="form-body">
+                    <div class="form-body m-4">
                         <div class="row mt-1">
                              <div class="col-lg-6 pb-2">
                                 <div class="form-group" :class="{'has-danger': errors.customer_id}">
@@ -53,36 +71,6 @@
                                     </el-select>
                                 </div>
                             </div>
-                            <div class="col-lg-2">
-                                <div class="form-group" :class="{'has-danger': errors.date_of_issue}">
-                                    <label class="control-label">Fec. Emisión</label>
-                                    <el-date-picker v-model="form.date_of_issue" type="date" value-format="yyyy-MM-dd" :clearable="false" @change="changeDateOfIssue"></el-date-picker>
-                                    <small class="form-control-feedback" v-if="errors.date_of_issue" v-text="errors.date_of_issue[0]"></small>
-                                </div>
-                            </div>
-                            <div class="col-lg-2">
-                                <div class="form-group" :class="{'has-danger': errors.date_of_due}">
-                                    <label class="control-label">Tiempo de Validez</label>
-                                    <el-input v-model="form.date_of_due"></el-input>
-                                    <small class="form-control-feedback" v-if="errors.date_of_due" v-text="errors.date_of_due[0]"></small>
-                                </div>
-                            </div>
-                            <div class="col-lg-2">
-                                <div class="form-group" :class="{'has-danger': errors.delivery_date}">
-                                    <label class="control-label">Tiempo de Entrega</label>
-                                    <el-input v-model="form.delivery_date"></el-input>
-                                    <small class="form-control-feedback" v-if="errors.delivery_date" v-text="errors.delivery_date[0]"></small>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4">
-                                <div class="form-group" >
-                                    <label class="control-label">Dirección de envío
-                                    </label>
-                                    <el-input v-model="form.shipping_address"></el-input>
-                                    <small class="form-control-feedback" v-if="errors.shipping_address" v-text="errors.shipping_address[0]"></small>
-                                </div>
-                            </div>
 
                             <div class="col-lg-2">
                                 <div class="form-group" :class="{'has-danger': errors.payment_method_type_id}">
@@ -95,14 +83,7 @@
                                     <small class="form-control-feedback" v-if="errors.payment_method_type_id" v-text="errors.payment_method_type_id[0]"></small>
                                 </div>
                             </div>
-                            <div class="col-lg-2">
-                                <div class="form-group" >
-                                    <label class="control-label">Número de cuenta
-                                    </label>
-                                    <el-input v-model="form.account_number"></el-input>
-                                    <small class="form-control-feedback" v-if="errors.account_number" v-text="errors.account_number[0]"></small>
-                                </div>
-                            </div>
+                            
                             <div class="col-lg-2">
                                 <div class="form-group" :class="{'has-danger': errors.currency_type_id}">
                                     <label class="control-label">Moneda</label>
@@ -123,16 +104,7 @@
                                     <small class="form-control-feedback" v-if="errors.exchange_rate_sale" v-text="errors.exchange_rate_sale[0]"></small>
                                 </div>
                             </div>
-                            <div class="col-12">
-                                <div class="row">
-                                    <div class="form-group col-6 col-md-2">
-                                        <label>Vendedor</label>
-                                        <el-select v-model="form.seller_id" clearable>
-                                            <el-option v-for="sel in sellers" :key="sel.id" :value="sel.id" :label="sel.name"></el-option>
-                                        </el-select>
-                                    </div>
-                                </div>
-                            </div>
+                            
 
                         </div>
 
@@ -142,6 +114,7 @@
                             <!-- Botón para mostrar/ocultar el componente -->
                             <span
                                 class="toggle-button toggle-button-quotations"
+                                style="display: none !important;"
                                 :class="{ shift: isVisible }"
                                 @click="toggleInformation"
                             >
@@ -149,7 +122,46 @@
                             </span>
 
                             <div class="additional-information" :class="{ show: isVisible }">
-                                <div class="w-100">
+                                <h3 class="text-center">Información Adicional</h3>
+
+                                <div class="">
+                                    <div class="">
+                                        <div class="form-group">
+                                            <label class="control-label">Vendedor</label>
+                                            <el-select v-model="form.seller_id" clearable>
+                                                <el-option v-for="sel in sellers" :key="sel.id" :value="sel.id" :label="sel.name"></el-option>
+                                            </el-select>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="">
+                                    <div class="form-group" >
+                                        <label class="control-label">Dirección de envío
+                                        </label>
+                                        <el-input v-model="form.shipping_address"></el-input>
+                                        <small class="form-control-feedback" v-if="errors.shipping_address" v-text="errors.shipping_address[0]"></small>
+                                    </div>
+                                </div>
+
+                                <div class="">
+                                    <div class="form-group" :class="{'has-danger': errors.delivery_date}">
+                                        <label class="control-label">Tiempo de Entrega</label>
+                                        <el-input v-model="form.delivery_date"></el-input>
+                                        <small class="form-control-feedback" v-if="errors.delivery_date" v-text="errors.delivery_date[0]"></small>
+                                    </div>
+                                </div>
+
+                                <div class="">
+                                    <div class="form-group" >
+                                        <label class="control-label">Número de cuenta
+                                        </label>
+                                        <el-input v-model="form.account_number"></el-input>
+                                        <small class="form-control-feedback" v-if="errors.account_number" v-text="errors.account_number[0]"></small>
+                                    </div>
+                                </div>
+
+                                <div class="">
                                     <div class="form-group" >
                                         <label class="control-label">Contacto
                                         </label>
@@ -158,7 +170,7 @@
                                     </div>
                                 </div>
 
-                                <div class="w-100">
+                                <div class="">
                                     <div class="form-group" >
                                         <label class="control-label">Teléfono
                                         </label>
@@ -167,7 +179,7 @@
                                     </div>
                                 </div>
 
-                                <div class="w-100">
+                                <div class="">
                                     <div class="form-group" :class="{'has-danger': errors.exchange_rate_sale}">
                                         <label class="control-label">Observación
                                         </label>
@@ -178,7 +190,7 @@
                                         <small class="form-control-feedback" v-if="errors.description" v-text="errors.description[0]"></small>
                                     </div>
                                 </div>
-                                <div class="w-100">
+                                <div class="">
                                     <div class="form-group">
                                         <label class="control-label">Información referencial</label>
                                         <el-input v-model="form.referential_information"></el-input>
@@ -205,6 +217,7 @@
                                     v-if="!configuration.enable_list_product"
                                     v-model="selected_option_price"
                                     filterable
+                                    popper-class="price-list"
                                     style="width:100%;">
                                     <el-option
                                         v-for="option in price_options"
@@ -220,7 +233,7 @@
 
                                         <template v-if="showEditableItems">
                                             <thead>
-                                                <tr>
+                                                <tr class="table-titles-default">
                                                     <th width="3%">#</th>
                                                     <th class="font-weight-bold" width="16%">Descripción</th>
                                                     <th width="8%" class="text-center font-weight-bold">Unidad</th>
@@ -509,9 +522,9 @@
                     </div>
 
 
-                    <div class="form-actions text-right mt-4">
-                        <el-button @click.prevent="close()">Cancelar</el-button>
-                        <el-button class="submit" type="primary" native-type="submit" :loading="loading_submit" v-if="form.items.length > 0">Generar</el-button>
+                    <div class="form-actions footer-card-default text-right mt-4 pl-4 pr-4 pb-3 pt-3">
+                        <el-button class="second-buton btn btn-default second-buton-default" @click.prevent="close()">Cancelar</el-button>
+                        <el-button class="submit btn btn-primary btn-submit-default" type="primary" native-type="submit" :loading="loading_submit" v-if="form.items.length > 0">Generar</el-button>
                     </div>
                 </form>
             </div>
@@ -553,7 +566,7 @@
 <style>
 .toggle-button {
   position: fixed;
-  top: 50%;
+  top: 40%;
   right: -100px;
   transform: translateY(-50%) rotate(-90deg);
   transform-origin: center;
@@ -562,7 +575,7 @@
   padding: 5px 10px;
   cursor: pointer;
   border-radius: 5px;
-  z-index: 1023;
+  z-index: 1;
   transition: all 0.3s ease-in-out;
   font-weight: 400;
   font-size: 16px;
@@ -581,13 +594,13 @@
 }
 .toggle-button.shift {
   right: 290px;
+  z-index: 1023;
   background-color: rgba(0, 123, 255, 0.8);
 }
 .additional-information {
   position: fixed;
   display: flex;
   flex-direction: column;
-  align-items: start;
   padding-left: 20px;
   padding-right: 20px;
   top: 0;

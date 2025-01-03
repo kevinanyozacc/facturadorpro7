@@ -9,14 +9,14 @@
                     </span>
                 </li>
             </ol>
-            <div class="right-wrapper pull-right pt-2">
+            <div class="right-wrapper pull-right pt-2 mr-2">
                 <a :href="`/machine-type-production/create`"
                    class="btn btn-custom btn-sm ">
                     <i class="fa fa-plus-circle"></i>
                     Nuevo tipo de maquina
                 </a>
             </div>
-            <div class="right-wrapper pull-right pt-2">
+            <div class="right-wrapper pull-right pt-2 mr-2">
                 <a :href="`/${resource}/create`"
                    class="btn btn-custom btn-sm ">
                     <i class="fa fa-plus-circle"></i>
@@ -24,7 +24,7 @@
                 </a>
             </div>
         </div>
-        <div class="card mb-0">
+        <div class="card tab-content-default row-new mb-0">
             <div class="card-body">
                 <data-table :resource="resource">
                     <tr slot="heading">

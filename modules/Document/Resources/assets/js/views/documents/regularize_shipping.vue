@@ -6,7 +6,7 @@
                 <li class="active"><span>Comprobantes pendientes de rectificación</span> </li>
             </ol>
         </div>
-        <div class="card mb-0" v-loading="loading_submit">
+        <div class="card tab-content-default row-new mb-0" v-loading="loading_submit">
             <div class="card-body ">
                 <data-table :resource="resource">
                     <tr slot="heading">

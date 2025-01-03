@@ -1,5 +1,5 @@
 <template>
-    <div class="card">
+    <div class="card tab-content-default row-new">
         <div class="card-header bg-info">
             <h3 class="my-0">Libro Mayor</h3>
         </div>

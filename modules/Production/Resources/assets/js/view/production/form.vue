@@ -1,5 +1,5 @@
 <template>
-    <div class="card mb-0 pt-2 pt-md-0">
+    <div class="card tab-content-default row-new mb-0 pt-2 pt-md-0">
         <div class="card-header bg-info">
             <h3 class="my-0">
                 Producto Fabricado
@@ -83,7 +83,7 @@
                             >
                                 <label class="control-label">Motivo traslado</label>
                                 <input
-                                    class="form-control"
+                                    class="form-control form-control-default"
                                     readonly
                                     type="text"
                                     value="Ingreso de producción"
@@ -118,7 +118,7 @@
                                 <label class="control-label">Orden de producción</label>
                                 <input
                                     v-model="form.production_order"
-                                    class="form-control"
+                                    class="form-control form-control-default"
                                     placeholder="Orden de producción"
                                     type="text"
                                 />
@@ -158,7 +158,7 @@
                                 </label>
                                 <input
                                     v-model="form.lot_code"
-                                    class="form-control"
+                                    class="form-control form-control-default"
                                     placeholder="Lote"
                                     type="text"
                                 />
@@ -321,7 +321,7 @@
                             >
                                 <label class="control-label">Colaborador de producción</label>
                                 <input
-                                    class="form-control"
+                                    class="form-control form-control-default"
                                     v-model="form.production_collaborator"
                                     type="text"
                                     value="Colaborador de produccion"
@@ -416,7 +416,7 @@
                             >
                                 <label class="control-label">Colaborador de Mezcla</label>
                                 <input
-                                    class="form-control"
+                                    class="form-control form-control-default"
                                     v-model="form.mix_collaborator"
                                     type="text"
                                     value="Colaborador de Mezcla"
@@ -468,6 +468,7 @@
 
                 <div class="form-actions text-right mt-4">
                     <el-button
+                        class="btn btn-primary btn-submit-default"
                         :loading="loading_submit"
                         native-type="submit"
                         type="primary"

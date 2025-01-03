@@ -1,119 +1,123 @@
 <template>
     <div>
         <div class="page-header pr-0">
-            <h2><a href="#"><i class="fas fa-tachometer-alt"></i></a></h2>
-            <ol class="breadcrumbs">
-                <li class="active"><span>{{ title }}</span></li>
-            </ol>
-        </div>
-
-        <div class="card" v-loading="loading">
-            <div class="card-header bg-info">
-                <h3 class="my-0">{{ title }}</h3>
+            <div>
+                <h2><a href="#"><i class="fas fa-tachometer-alt"></i></a></h2>
+                <ol class="breadcrumbs">
+                    <li class="active"><span>{{ title }}</span></li>
+                </ol>
             </div>
-            <div class="card-body">
-                <!--<div class="form-body">-->
-                <!--<div class="row">-->
-                    <!--<div class="col-md-4">-->
-                        <!--<x-form-group label="Establecimiento" :error="errors.establishment_id">-->
-                            <!--<el-select v-model="form.establishment_id">-->
-                                <!--<el-option key="all" value="all" label="Todos"></el-option>-->
-                                <!--<el-option v-for="option in establishments" :key="option.id" :value="option.id" :label="option.description"></el-option>-->
-                            <!--</el-select>-->
-                        <!--</x-form-group>-->
+
+            <div class="tab-content-default row-new w-100 m-0 p-0 mt-4" v-loading="loading">
+                <div class="card-header bg-info">
+                    <h3 class="my-0">{{ title }}</h3>
+                </div>
+                <div class="card-body">
+                    <!--<div class="form-body">-->
+                    <!--<div class="row">-->
+                        <!--<div class="col-md-4">-->
+                            <!--<x-form-group label="Establecimiento" :error="errors.establishment_id">-->
+                                <!--<el-select v-model="form.establishment_id">-->
+                                    <!--<el-option key="all" value="all" label="Todos"></el-option>-->
+                                    <!--<el-option v-for="option in establishments" :key="option.id" :value="option.id" :label="option.description"></el-option>-->
+                                <!--</el-select>-->
+                            <!--</x-form-group>-->
+                        <!--</div>-->
+                        <!--<div class="col-md-4">-->
+                            <!--<x-form-group label="Tipo de documento" :error="errors.document_type_id">-->
+                                <!--<el-select v-model="form.document_type_id" @change="changeDocumentType">-->
+                                    <!--<el-option key="all" value="all" label="Todos"></el-option>-->
+                                    <!--<el-option v-for="option in document_types" :key="option.id" :value="option.id" :label="option.description"></el-option>-->
+                                <!--</el-select>-->
+                            <!--</x-form-group>-->
+                        <!--</div>-->
                     <!--</div>-->
-                    <!--<div class="col-md-4">-->
-                        <!--<x-form-group label="Tipo de documento" :error="errors.document_type_id">-->
-                            <!--<el-select v-model="form.document_type_id" @change="changeDocumentType">-->
-                                <!--<el-option key="all" value="all" label="Todos"></el-option>-->
-                                <!--<el-option v-for="option in document_types" :key="option.id" :value="option.id" :label="option.description"></el-option>-->
-                            <!--</el-select>-->
-                        <!--</x-form-group>-->
+                    <!--<div class="row">-->
+                        <!--<div class="col-md-4">-->
+                            <!--<x-form-group label="Series" :error="errors.series">-->
+                                <!--<el-select v-model="form.series">-->
+                                    <!--<el-option key="all" value="all" label="Todos"></el-option>-->
+                                    <!--<el-option v-for="option in series" :key="option.id" :value="option.number" :label="option.number"></el-option>-->
+                                <!--</el-select>-->
+                            <!--</x-form-group>-->
+                        <!--</div>-->
                     <!--</div>-->
-                <!--</div>-->
-                <!--<div class="row">-->
-                    <!--<div class="col-md-4">-->
-                        <!--<x-form-group label="Series" :error="errors.series">-->
-                            <!--<el-select v-model="form.series">-->
-                                <!--<el-option key="all" value="all" label="Todos"></el-option>-->
-                                <!--<el-option v-for="option in series" :key="option.id" :value="option.number" :label="option.number"></el-option>-->
-                            <!--</el-select>-->
-                        <!--</x-form-group>-->
+                    <div class="row">
+                        <!--<div class="col-md-4">-->
+                            <!--<x-form-group label="Periodo" :error="errors.period">-->
+                                <!--<el-select v-model="form.period">-->
+                                    <!--<el-option key="month" value="month" label="Por mes"></el-option>-->
+                                    <!--<el-option key="between_months" value="between_months" label="Entre meses"></el-option>-->
+                                    <!--<el-option key="date" value="date" label="Por fecha"></el-option>-->
+                                    <!--<el-option key="between_dates" value="between_dates" label="Entre fechas"></el-option>-->
+                                <!--</el-select>-->
+                            <!--</x-form-group>-->
+                        <!--</div>-->
+                        <!--<template v-if="form.period === 'month' || form.period === 'between_months'">-->
+                            <div class="col-md-4 form-modern">
+                                <label class="control-label">Periodo</label>
+                                <el-date-picker v-model="form.month" type="month"
+                                                value-format="yyyy-MM" format="MM/yyyy" :clearable="false"></el-date-picker>
+                            </div>
+                        <!--</template>-->
+                        <!--<template v-if="form.period === 'between_months'">-->
+                            <!--<div class="col-md-4">-->
+                                <!--<x-form-group label="Mes al" :error="errors.month_end">-->
+                                    <!--<el-date-picker v-model="form.month_end" type="month"-->
+                                                    <!--:picker-options="pickerOptionsMonths"-->
+                                                    <!--value-format="yyyy-MM" format="MM/yyyy" :clearable="false"></el-date-picker>-->
+                                <!--</x-form-group>-->
+                            <!--</div>-->
+                        <!--</template>-->
+                        <!--<template v-if="form.period === 'date' || form.period === 'between_dates'">-->
+                            <!--<div class="col-md-4">-->
+                                <!--<x-form-group label="Fecha del" :error="errors.date_start">-->
+                                    <!--<el-date-picker v-model="form.date_start" type="date"-->
+                                                    <!--@change="changeDisabledDates"-->
+                                                    <!--value-format="yyyy-MM-dd" format="dd/MM/yyyy" :clearable="false"></el-date-picker>-->
+                                <!--</x-form-group>-->
+                            <!--</div>-->
+                        <!--</template>-->
+                        <!--<template v-if="form.period === 'between_dates'">-->
+                            <!--<div class="col-md-4">-->
+                                <!--<x-form-group label="Fecha al" :error="errors.date_end">-->
+                                    <!--<el-date-picker v-model="form.date_end" type="date"-->
+                                                    <!--:picker-options="pickerOptionsDates"-->
+                                                    <!--value-format="yyyy-MM-dd" format="dd/MM/yyyy" :clearable="false"></el-date-picker>-->
+                                <!--</x-form-group>-->
+                            <!--</div>-->
+                        <!--</template>-->
                     <!--</div>-->
-                <!--</div>-->
-                <div class="row">
-                    <!--<div class="col-md-4">-->
-                        <!--<x-form-group label="Periodo" :error="errors.period">-->
-                            <!--<el-select v-model="form.period">-->
-                                <!--<el-option key="month" value="month" label="Por mes"></el-option>-->
-                                <!--<el-option key="between_months" value="between_months" label="Entre meses"></el-option>-->
-                                <!--<el-option key="date" value="date" label="Por fecha"></el-option>-->
-                                <!--<el-option key="between_dates" value="between_dates" label="Entre fechas"></el-option>-->
-                            <!--</el-select>-->
-                        <!--</x-form-group>-->
-                    <!--</div>-->
-                    <!--<template v-if="form.period === 'month' || form.period === 'between_months'">-->
-                        <div class="col-md-4 form-modern">
-                            <label class="control-label">Periodo</label>
-                            <el-date-picker v-model="form.month" type="month"
-                                            value-format="yyyy-MM" format="MM/yyyy" :clearable="false"></el-date-picker>
+                    <!--<div class="row">-->
+                        <div class="col-md-3 form-modern">
+                            <label class="control-label">Exportar a</label>
+                            <el-select v-model="form.type">
+                                <el-option key="concar" value="concar" label="CONCAR"></el-option>
+                                <el-option key="siscont" value="siscont" label="SISCONT"></el-option>
+                                <el-option key="siscont" value="siscont_excel" label="SISCONT EXCEL"></el-option>
+                                <el-option key="foxcont" value="foxcont" label="FOXCONT"></el-option>
+                                <el-option key="contasis" value="contasis" label="CONTASIS"></el-option>
+                                <el-option key="adsoft" value="adsoft" label="ADSOFT"></el-option>
+                                <el-option key="sumerius" value="sumerius" label="SUMERIUS"></el-option>
+                            </el-select>
                         </div>
-                    <!--</template>-->
-                    <!--<template v-if="form.period === 'between_months'">-->
-                        <!--<div class="col-md-4">-->
-                            <!--<x-form-group label="Mes al" :error="errors.month_end">-->
-                                <!--<el-date-picker v-model="form.month_end" type="month"-->
-                                                <!--:picker-options="pickerOptionsMonths"-->
-                                                <!--value-format="yyyy-MM" format="MM/yyyy" :clearable="false"></el-date-picker>-->
-                            <!--</x-form-group>-->
-                        <!--</div>-->
-                    <!--</template>-->
-                    <!--<template v-if="form.period === 'date' || form.period === 'between_dates'">-->
-                        <!--<div class="col-md-4">-->
-                            <!--<x-form-group label="Fecha del" :error="errors.date_start">-->
-                                <!--<el-date-picker v-model="form.date_start" type="date"-->
-                                                <!--@change="changeDisabledDates"-->
-                                                <!--value-format="yyyy-MM-dd" format="dd/MM/yyyy" :clearable="false"></el-date-picker>-->
-                            <!--</x-form-group>-->
-                        <!--</div>-->
-                    <!--</template>-->
-                    <!--<template v-if="form.period === 'between_dates'">-->
-                        <!--<div class="col-md-4">-->
-                            <!--<x-form-group label="Fecha al" :error="errors.date_end">-->
-                                <!--<el-date-picker v-model="form.date_end" type="date"-->
-                                                <!--:picker-options="pickerOptionsDates"-->
-                                                <!--value-format="yyyy-MM-dd" format="dd/MM/yyyy" :clearable="false"></el-date-picker>-->
-                            <!--</x-form-group>-->
-                        <!--</div>-->
-                    <!--</template>-->
-                <!--</div>-->
-                <!--<div class="row">-->
-                    <div class="col-md-3 form-modern">
-                        <label class="control-label">Exportar a</label>
-                        <el-select v-model="form.type">
-                            <el-option key="concar" value="concar" label="CONCAR"></el-option>
-                            <el-option key="siscont" value="siscont" label="SISCONT"></el-option>
-                            <el-option key="siscont" value="siscont_excel" label="SISCONT EXCEL"></el-option>
-                            <el-option key="foxcont" value="foxcont" label="FOXCONT"></el-option>
-                            <el-option key="contasis" value="contasis" label="CONTASIS"></el-option>
-                            <el-option key="adsoft" value="adsoft" label="ADSOFT"></el-option>
-                            <el-option key="sumerius" value="sumerius" label="SUMERIUS"></el-option>
-                        </el-select>
                     </div>
                 </div>
+                <div class="form-actions text-right pt-2">
+                    <el-button class="btn btn-primary btn-submit-default mr-3 mb-3" type="primary" :loading="loading_submit" @click.prevent="clickDownload">
+                        <template v-if="loading_submit">
+                            Generando...
+                        </template>
+                        <template v-else>
+                            Generar
+                        </template>
+                    </el-button>
+                </div>
+                <!--</div>-->
             </div>
-            <div class="form-actions text-right pt-2">
-                <el-button type="primary" :loading="loading_submit" @click.prevent="clickDownload">
-                    <template v-if="loading_submit">
-                        Generando...
-                    </template>
-                    <template v-else>
-                        Generar
-                    </template>
-                </el-button>
-            </div>
-            <!--</div>-->
         </div>
+
+        
     </div>
 </template>
 

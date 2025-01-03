@@ -19,7 +19,7 @@
                 </div>
             </div>
         </div>
-        <div class="card mb-0">
+        <div class="card tab-content-default row-new mb-0">
             <div class="card-header bg-info">
                 <h3 class="my-0">Listado de etapas</h3>
             </div>
@@ -31,13 +31,13 @@
                             <div class="input-group mb-3">
                                 <input
                                     v-model="filter.name"
-                                    class="form-control"
+                                    class="form-control form-control-default"
                                     placeholder="Filtrar por nombre"
                                     type="text"
                                 />
                                 <div class="input-group-append">
                                     <button
-                                        class="btn btn-outline-secondary"
+                                        class="btn btn-search-default btn-outline-secondary"
                                         style="border-color: #CED4DA"
                                         type="submit"
                                     >
@@ -69,10 +69,10 @@
                             :key="item.id"
                             :style="'background-color:'+ item.color"
                         >
-                            <td class="text-right">{{ index + 1 }}</td>
+                            <td class="text-left">{{ index + 1 }}</td>
                             <td>{{ item.name }}</td>
                             <td>{{ item.description }}</td>
-                            <td class="text-center">
+                            <td class="text-left">
                                 <span v-if="item.active">Si</span>
                                 <span v-else>No</span>
                             </td>

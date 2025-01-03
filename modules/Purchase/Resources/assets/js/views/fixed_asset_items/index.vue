@@ -11,7 +11,7 @@
                 </template>
             </div>
         </div>
-        <div class="card mb-0">
+        <div class="card tab-content-default row-new mb-0">
             <div class="card-header bg-info">
                 <h3 class="my-0">Listado de Ítems</h3>
             </div>
@@ -25,7 +25,7 @@
                         <th>Descripción</th>
                         <th v-if="typeUser != 'seller'" class="text-right">P.Unitario (Compra)</th>
                         <th class="text-right">Acciones</th>
-                    <tr>
+                    </tr>
                     <tr slot-scope="{ index, row }" >
                         <td>{{ index }}</td>
                         <td>{{ row.internal_id }}</td>

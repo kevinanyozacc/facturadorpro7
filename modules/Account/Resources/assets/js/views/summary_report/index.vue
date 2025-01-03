@@ -7,7 +7,7 @@
             </ol>
         </div>
 
-        <div class="card" >
+        <div class="card tab-content-default row-new" >
             <div class="card-header bg-info">
                 <h3 class="my-0">{{ title }}</h3>
             </div>

@@ -3,18 +3,18 @@
         <!-- <div class="card-header bg-info">
             <h3 class="my-0">Nuevo Comprobante</h3>
         </div> -->
-        <div class="tab-content" v-if="loading_form">
-            <div class="invoice">
-                <header class="clearfix">
+        <div class="tab-content tab-content-default row-new" v-if="loading_form">
+            <div class="invoice p-0">
+                <header class="clearfix clearfix-default p-2">
                     <div class="row">
                         <div class="col-sm-2 text-center mt-3 mb-0">
                             <logo url="/"
                                   :path_logo="(company.logo != null) ? `/storage/uploads/logos/${company.logo}` : ''"></logo>
                         </div>
-                        <div class="col-sm-10 text-left mt-3 mb-0">
+                        <div class="col-sm-6 text-left mt-3 mb-0">
                             <address class="ib mr-2">
                                 <span class="font-weight-bold d-block">OPORTUNIDAD DE VENTA</span>
-                                <span class="font-weight-bold d-block">CASO-XXX</span>
+                                <!-- <span class="font-weight-bold d-block">CASO-XXX</span> -->
                                 <span class="font-weight-bold">{{ company.name }}</span>
                                 <br>
                                 <div v-if="establishment.address != '-'">{{ establishment.address }},</div>
@@ -25,12 +25,23 @@
                                 v-if="establishment.telephone != '-'">{{ establishment.telephone }}</span>
                             </address>
                         </div>
+
+                        <div class="col-sm-4 pt-3">
+                            <div class="form-group col-sm-6 ml-auto mr-2" :class="{'has-danger': errors.date_of_issue}">
+                                <!--<label class="control-label">Fecha de emisión</label>-->
+                                <label class="control-label">Fec. Emisión</label>
+                                <el-date-picker v-model="form.date_of_issue" type="date" value-format="yyyy-MM-dd"
+                                                :clearable="false" @change="changeDateOfIssue"></el-date-picker>
+                                <small class="form-control-feedback" v-if="errors.date_of_issue"
+                                       v-text="errors.date_of_issue[0]"></small>
+                            </div>
+                        </div>
                     </div>
                 </header>
                 <form autocomplete="off" @submit.prevent="submit">
-                    <div class="form-body">
+                    <div class="form-body m-4">
                         <div class="row mt-1">
-                            <div class="col-lg-6 pb-2">
+                            <div class="col-lg-8 pb-2">
                                 <div class="form-group" :class="{'has-danger': errors.customer_id}">
                                     <label class="control-label font-weight-bold text-info">
                                         Cliente
@@ -50,16 +61,6 @@
                                     </el-select>
                                     <small class="form-control-feedback" v-if="errors.customer_id"
                                            v-text="errors.customer_id[0]"></small>
-                                </div>
-                            </div>
-                            <div class="col-lg-2">
-                                <div class="form-group" :class="{'has-danger': errors.date_of_issue}">
-                                    <!--<label class="control-label">Fecha de emisión</label>-->
-                                    <label class="control-label">Fec. Emisión</label>
-                                    <el-date-picker v-model="form.date_of_issue" type="date" value-format="yyyy-MM-dd"
-                                                    :clearable="false" @change="changeDateOfIssue"></el-date-picker>
-                                    <small class="form-control-feedback" v-if="errors.date_of_issue"
-                                           v-text="errors.date_of_issue[0]"></small>
                                 </div>
                             </div>
 
@@ -111,13 +112,13 @@
 
                             <div class="col-md-4 mt-4">
                                 <el-upload
-                                    class="upload-demo full"
+                                    class="upload-demo upload-demo-default full p-0"
                                     :headers="headers"
                                     :action="`/${this.resource}/uploads`"
                                     :on-remove="handleRemove"
                                     :on-success="onSuccess"
                                     :file-list="form.files">
-                                    <el-button size="small" type="primary" icon="el-icon-upload">Clic para cargar
+                                    <el-button class="btn-archive-upload" size="small" type="primary" icon="el-icon-upload">Clic para cargar
                                         archivos
                                     </el-button>
                                 </el-upload>
@@ -130,7 +131,7 @@
                                 <div class="table-responsive">
                                     <table class="table">
                                         <thead>
-                                        <tr>
+                                        <tr class="table-titles-default">
                                             <th>#</th>
                                             <th class="font-weight-bold">Descripción</th>
                                             <th class="text-center font-weight-bold">Unidad</th>
@@ -143,7 +144,7 @@
                                         </tr>
                                         </thead>
                                         <tbody v-if="form.items.length > 0">
-                                        <tr v-for="(row, index) in form.items" :key="index">
+                                        <tr class="table-titles-default" v-for="(row, index) in form.items" :key="index">
                                             <td>{{ index + 1 }}</td>
                                             <td>{{ row.item.description }}
                                                 {{ row.item.presentation.hasOwnProperty('description') ? row.item.presentation.description : '' }}<br/><small>{{ row.affectation_igv_type.description }}</small>
@@ -207,9 +208,9 @@
                     </div>
 
 
-                    <div class="form-actions text-right mt-4">
-                        <el-button @click.prevent="close()">Cancelar</el-button>
-                        <el-button class="submit" type="primary" native-type="submit" :loading="loading_submit"
+                    <div class="form-actions footer-card-default text-right mt-4 pl-4 pr-4 pb-3 pt-3">
+                        <el-button class="second-buton btn btn-default second-buton-default" @click.prevent="close()">Cancelar</el-button>
+                        <el-button class="submit btn btn-primary btn-submit-default" type="primary" native-type="submit" :loading="loading_submit"
                                    v-if="form.items.length > 0">Generar
                         </el-button>
                     </div>

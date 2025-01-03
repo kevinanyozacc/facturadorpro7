@@ -511,7 +511,7 @@
                         type="primary"
                         @click="submit"
                     >Generar comprobante</el-button>
-                    <el-button v-else @click="clickFinalize">Ir al listado</el-button>
+                    <el-button class="second-buton" v-else @click="clickFinalize">Ir al listado</el-button>
                     <el-button type="primary" @click="clickNewQuotation">Nueva cotización</el-button>
                 </template>
             </span>

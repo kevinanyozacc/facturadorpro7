@@ -13,7 +13,7 @@
           <input
             type="text"
             id="description"
-            class="form-control"
+            class="form-control form-control-default"
             v-model="form.description"
             :class="{ 'is-invalid': errors.description }"
           />

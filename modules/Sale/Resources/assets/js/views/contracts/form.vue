@@ -1,11 +1,11 @@
 <template>
-    <div class="card mb-0 pt-2 pt-md-0">
+    <div class="card mb-0 pt-2 pt-md-0" :class="{ 'content-opacity': isVisible }">
         <!-- <div class="card-header bg-info">
             <h3 class="my-0">Nuevo Comprobante</h3>
         </div> -->
-        <div class="tab-content" v-if="loading_form">
-            <div class="invoice">
-                <header class="clearfix">
+        <div class="tab-content tab-content-default row-new" v-if="loading_form">
+            <div class="invoice p-0">
+                <header class="clearfix clearfix-default p-2">
                     <div class="d-flex head-notes">
                         <div class="col-sm-2 text-center mt-3 mb-0"
                         style="margin-right: auto;">
@@ -15,7 +15,7 @@
                         <div class="text-left mt-3 mb-0">
                             <address class="ib mr-2">
                                 <span class="font-weight-bold d-block">CONTRATO</span>
-                                <span class="font-weight-bold d-block">CNT-XXX</span>
+                                <!-- <span class="font-weight-bold d-block">CNT-XXX</span> -->
                                 <span class="font-weight-bold">{{ company.name }}</span>
                                 <br>
                                 <div v-if="establishment.address != '-'">{{ establishment.address }},</div>
@@ -69,7 +69,7 @@
                     </div>
                 </header>
                 <form autocomplete="off" @submit.prevent="submit">
-                    <div class="form-body">
+                    <div class="form-body m-4">
                         <div class="row mt-1">
                             <div class="col-lg-6 pb-2">
                                 <div class="form-group" :class="{'has-danger': errors.customer_id}">
@@ -95,16 +95,6 @@
                                 </div>
                             </div>
 
-                            <div class="col-lg-4">
-                                <div class="form-group">
-                                    <label class="control-label">Dirección de envío
-                                    </label>
-                                    <el-input v-model="form.shipping_address"></el-input>
-                                    <small class="form-control-feedback" v-if="errors.shipping_address"
-                                           v-text="errors.shipping_address[0]"></small>
-                                </div>
-                            </div>
-
                             <div class="col-lg-2">
                                 <div class="form-group" :class="{'has-danger': errors.payment_method_type_id}">
                                     <label class="control-label">
@@ -117,15 +107,6 @@
                                     </el-select>
                                     <small class="form-control-feedback" v-if="errors.payment_method_type_id"
                                            v-text="errors.payment_method_type_id[0]"></small>
-                                </div>
-                            </div>
-                            <div class="col-lg-2">
-                                <div class="form-group">
-                                    <label class="control-label">Número de cuenta
-                                    </label>
-                                    <el-input v-model="form.account_number"></el-input>
-                                    <small class="form-control-feedback" v-if="errors.account_number"
-                                           v-text="errors.account_number[0]"></small>
                                 </div>
                             </div>
                             <div class="col-lg-2">
@@ -153,27 +134,59 @@
                                            v-text="errors.exchange_rate_sale[0]"></small>
                                 </div>
                             </div>
-                            <div class="col-12 pt-3">
-                                <div class="row">
-                                    <div class="form-group col-12 col-md-2">
-                                        <label>Vendedor</label>
-                                        <el-select v-model="form.seller_id" clearable>
-                                            <el-option v-for="sel in sellers" :key="sel.id" :value="sel.id"
-                                                       :label="sel.name">{{ sel.name }}
-                                            </el-option>
-                                        </el-select>
-                                    </div>
-                                    <div class="col-12 col-md-6">
-                                        <div class="form-group" :class="{'has-danger': errors.exchange_rate_sale}">
-                                            <label class="control-label">Descripcion</label>
-                                            <el-input type="textarea" :rows="3" v-model="form.description"></el-input>
-                                            <small class="form-control-feedback" v-if="errors.description"
-                                                   v-text="errors.description[0]"></small>
-                                        </div>
+                        </div>
+
+                        <!-- Información Adicional -->
+                         <div>
+                            <!-- Botón para mostrar/ocultar el componente -->
+                            <span
+                                class="toggle-button toggle-button-contracts"
+                                :class="{ shift: isVisible }"
+                                @click="toggleInformation"
+                            >
+                                {{ isVisible ? "Cerrar Información Adicional" : "Abrir Información Adicional" }}
+                            </span>
+
+                            <div class="additional-information" :class="{ show: isVisible }">
+                                <h3 class="text-center">Información Adicional</h3>
+
+                                <div class="form-group">
+                                    <label class="control-label">Vendedor</label>
+                                    <el-select v-model="form.seller_id" clearable>
+                                        <el-option v-for="sel in sellers" :key="sel.id" :value="sel.id"
+                                                   :label="sel.name">{{ sel.name }}
+                                        </el-option>
+                                    </el-select>
+                                </div>
+
+                                <div class="">
+                                    <div class="form-group" :class="{'has-danger': errors.exchange_rate_sale}">
+                                        <label class="control-label">Descripcion</label>
+                                        <el-input type="textarea" :rows="3" v-model="form.description"></el-input>
+                                        <small class="form-control-feedback" v-if="errors.description"
+                                               v-text="errors.description[0]"></small>
                                     </div>
                                 </div>
+
+                                <div class="form-group">
+                                    <label class="control-label">Número de cuenta
+                                    </label>
+                                    <el-input v-model="form.account_number"></el-input>
+                                    <small class="form-control-feedback" v-if="errors.account_number"
+                                           v-text="errors.account_number[0]"></small>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label">Dirección de envío
+                                    </label>
+                                    <el-input v-model="form.shipping_address"></el-input>
+                                    <small class="form-control-feedback" v-if="errors.shipping_address"
+                                           v-text="errors.shipping_address[0]"></small>
+                                </div>
                             </div>
-                        </div>
+                            
+                         </div>
+                         <!-- Fin informacion adicional -->
 
                         <div class="row mt-3">
                             <div class="col-md-12">
@@ -262,7 +275,7 @@
 
                             <!-- pago -->
                             <div style="margin-left: auto;">
-                                <div class="p-2" v-if="showPayments && !form.quotation_id"
+                                <div class="p-2 payment-container" v-if="showPayments && !form.quotation_id"
                                 style="background-color: #f3f4fc;">
                                     <table>
                                         <thead>
@@ -325,9 +338,9 @@
                     </div>
 
 
-                    <div class="form-actions text-right mt-4">
-                        <el-button @click.prevent="close()">Cancelar</el-button>
-                        <el-button class="submit" type="primary" native-type="submit" :loading="loading_submit"
+                    <div class="form-actions footer-card-default text-right mt-4 pl-4 pr-4 pb-3 pt-3">
+                        <el-button class="second-buton btn btn-default second-buton-default" @click.prevent="close()">Cancelar</el-button>
+                        <el-button class="submit btn btn-primary btn-submit-default" type="primary" native-type="submit" :loading="loading_submit"
                                    v-if="form.items.length > 0">Generar
                         </el-button>
                     </div>
@@ -359,6 +372,71 @@
     </div>
 </template>
 <style>
+.toggle-button {
+    position: fixed;
+    top: 40%;
+    right: -100px;
+    transform: translateY(-50%) rotate(-90deg);
+    transform-origin: center;
+    background-color: rgba(115, 183, 255, 0.6);
+    color: white;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    z-index: 1;
+    transition: all 0.3s ease-in-out;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: auto; 
+    height: auto;
+    border: none;
+    white-space: nowrap;
+}
+.toggle-button:hover {
+    background-color: rgba(0, 123, 255, 0.8); 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+.toggle-button.shift {
+    right: 300px !important;
+    background-color: rgba(0, 123, 255, 0.8);
+    z-index: 1023;
+}
+.additional-information {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    padding-left: 20px;
+    padding-right: 20px;
+    top: 0;
+    right: -100%;
+    height: 100%;
+    width: 400px;
+    background-color: #f9f9f9;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+    transition: right 0.3s ease-in-out;
+    overflow-y: auto;
+    z-index: 1022;
+}
+.additional-information.show {
+    right: 0;
+}
+.content-opacity {
+    position: relative;
+}
+.content-opacity::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1021;
+}
 @media only screen and (max-width: 920px) {
     .head-notes .dates{
         display: flex;
@@ -385,6 +463,14 @@
         width: 100% !important;
     }
 }
+@media only screen and (max-width: 460px) {
+    .additional-information {
+        width: 80%;
+    }
+    .toggle-button.shift {
+        right: 58% !important;
+    }
+}
 </style>
 <script>
 import TermsCondition from './partials/terms_condition.vue'
@@ -401,6 +487,7 @@ export default {
     mixins: [functions, exchangeRate],
     data() {
         return {
+            isVisible: false,
             sellers: [],
             resource: 'contracts',
             input_person: {},
@@ -470,6 +557,9 @@ export default {
         await this.generateFromQuotation()
     },
     methods: {
+        toggleInformation() {
+            this.isVisible = !this.isVisible;
+        },
         setDescriptionOfItem(item) {
             return showNamePdfOfDescription(item, this.configuration.show_pdf_name)
         },

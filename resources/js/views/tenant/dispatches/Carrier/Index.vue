@@ -12,7 +12,7 @@
 <!--                    comprobante desde múltiples guías</a>-->
             </div>
         </div>
-        <div class="card mb-0">
+        <div class="card tab-content-default row-new mb-0">
             <div class="card-body">
                 <data-table :resource="resource">
                     <tr slot="heading">

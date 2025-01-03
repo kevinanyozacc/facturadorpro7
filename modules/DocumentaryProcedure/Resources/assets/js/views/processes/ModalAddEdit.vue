@@ -19,7 +19,7 @@
                                 id="name"
                                 v-model="form.name"
                                 :class="{ 'is-invalid': errors.name }"
-                                class="form-control"
+                                class="form-control form-control-default"
                                 type="text"
                             />
                             <div v-if="errors.name"
@@ -33,7 +33,7 @@
                                 id="description"
                                 v-model="form.description"
                                 :class="{ 'is-invalid': errors.description }"
-                                class="form-control"
+                                class="form-control form-control-default"
                                 type="text"
                             />
                             <div v-if="errors.description"
@@ -44,7 +44,7 @@
                         <div class="col-md-6">
                             <div :class="{'has-danger': errors.total_interest}"
                                  class="form-group">
-                                <label class="control-label">
+                                <label class="">
 
                                     Precio
                                 </label>

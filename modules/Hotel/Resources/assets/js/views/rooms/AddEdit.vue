@@ -13,7 +13,7 @@
           <input
             type="text"
             id="name"
-            class="form-control"
+            class="form-control form-control-default"
             v-model="form.name"
             :class="{ 'is-invalid': errors.name }"
           />
@@ -26,7 +26,7 @@
           <select
             type="text"
             id="category"
-            class="form-control"
+            class="form-control form-control-default"
             v-model="form.hotel_category_id"
             :class="{ 'is-invalid': errors.hotel_category_id }"
           >
@@ -43,7 +43,7 @@
           <select
             type="text"
             id="floor"
-            class="form-control"
+            class="form-control form-control-default"
             v-model="form.hotel_floor_id"
             :class="{ 'is-invalid': errors.hotel_floor_id }"
           >
@@ -61,7 +61,7 @@
             rows="3"
             type="text"
             id="description"
-            class="form-control"
+            class="form-control form-control-default"
             v-model="form.description"
             :class="{ 'is-invalid': errors.description }"
           >

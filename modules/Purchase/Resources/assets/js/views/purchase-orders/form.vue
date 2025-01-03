@@ -3,32 +3,56 @@
         <!-- <div class="card-header bg-info">
             <h3 class="my-0">Nueva Compra</h3>
         </div> -->
-        <div class="tab-content" v-if="loading_form">
-            <div class="invoice">
-                <header class="clearfix">
-                    <div class="row">
-                        <div class="col-sm-2 text-center mt-3 mb-0">
-                            <logo url="/"
-                                  :path_logo="(company.logo != null) ? `/storage/uploads/logos/${company.logo}` : ''"></logo>
+        <div class="tab-content tab-content-default row-new" v-if="loading_form">
+            <div class="p-0">
+                <header class="clearfix-default bg-transparent p-2">
+                    <div class="d-flex head-notes">
+                        <div class="row">
+                            <div class="mt-3 mb-0">
+                                <logo url="/"
+                                      :path_logo="(company.logo != null) ? `/storage/uploads/logos/${company.logo}` : ''"></logo>
+                            </div>
+                            <div class="text-left mt-3 mb-0" style="margin-left: 10%;">
+                                <address class="ib mr-2">
+                                    <span class="font-weight-bold d-block">ORDEN DE COMPRA</span>
+                                    <!-- <span class="font-weight-bold d-block">OC-XXX</span> -->
+                                    <span class="font-weight-bold">{{ company.name }}</span>
+                                    <br>
+                                    <div v-if="establishment.address != '-'">{{ establishment.address }},</div>
+                                    {{ establishment.district.description }}, {{ establishment.province.description }},
+                                    {{ establishment.department.description }} - {{ establishment.country.description }}
+                                    <br>
+                                    {{ establishment.email }} - <span
+                                    v-if="establishment.telephone != '-'">{{ establishment.telephone }}</span>
+                                </address>
+                            </div>
                         </div>
-                        <div class="col-sm-10 text-left mt-3 mb-0">
-                            <address class="ib mr-2">
-                                <span class="font-weight-bold d-block">ORDEN DE COMPRA</span>
-                                <span class="font-weight-bold d-block">OC-XXX</span>
-                                <span class="font-weight-bold">{{ company.name }}</span>
-                                <br>
-                                <div v-if="establishment.address != '-'">{{ establishment.address }},</div>
-                                {{ establishment.district.description }}, {{ establishment.province.description }},
-                                {{ establishment.department.description }} - {{ establishment.country.description }}
-                                <br>
-                                {{ establishment.email }} - <span
-                                v-if="establishment.telephone != '-'">{{ establishment.telephone }}</span>
-                            </address>
+    
+                        <div class="row align-items-center dates justify-content-end pr-2">
+                            <div class="w-40 p-2 issue-date">
+                                <div class="form-group" :class="{'has-danger': errors.date_of_issue}">
+                                    <label class="control-label">Fec Emisión</label>
+                                    <el-date-picker v-model="form.date_of_issue" type="date" value-format="yyyy-MM-dd"
+                                                    :clearable="false" @change="changeDateOfIssue"></el-date-picker>
+                                    <small class="form-control-feedback" v-if="errors.date_of_issue"
+                                           v-text="errors.date_of_issue[0]"></small>
+                                </div>
+                            </div>
+    
+                            <div class="w-40 p-2 expiration-date">
+                                <div class="form-group" :class="{'has-danger': errors.date_of_due}">
+                                    <label class="control-label">Fec. Vencimiento</label>
+                                    <el-date-picker v-model="form.date_of_due" type="date" value-format="yyyy-MM-dd"
+                                                    :clearable="false"></el-date-picker>
+                                    <small class="form-control-feedback" v-if="errors.date_of_due"
+                                           v-text="errors.date_of_due[0]"></small>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </header>
                 <form autocomplete="off" @submit.prevent="submit">
-                    <div class="form-body">
+                    <div class="form-body p-4">
 
                         <div class="row">
                             <!-- <div class="col-lg-4">
@@ -58,7 +82,7 @@
                             </div> -->
 
 
-                            <div class="col-lg-6">
+                            <div class="col-lg-4">
                                 <div class="form-group" :class="{'has-danger': errors.supplier_id}">
                                     <label class="control-label">
                                         Proveedor
@@ -82,22 +106,17 @@
                             </div>
 
                             <div class="col-lg-2">
-                                <div class="form-group" :class="{'has-danger': errors.date_of_issue}">
-                                    <label class="control-label">Fec Emisión</label>
-                                    <el-date-picker v-model="form.date_of_issue" type="date" value-format="yyyy-MM-dd"
-                                                    :clearable="false" @change="changeDateOfIssue"></el-date-picker>
-                                    <small class="form-control-feedback" v-if="errors.date_of_issue"
-                                           v-text="errors.date_of_issue[0]"></small>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-2">
-                                <div class="form-group" :class="{'has-danger': errors.date_of_due}">
-                                    <label class="control-label">Fec. Vencimiento</label>
-                                    <el-date-picker v-model="form.date_of_due" type="date" value-format="yyyy-MM-dd"
-                                                    :clearable="false"></el-date-picker>
-                                    <small class="form-control-feedback" v-if="errors.date_of_due"
-                                           v-text="errors.date_of_due[0]"></small>
+                                <div class="form-group" :class="{'has-danger': errors.payment_method_type_id}">
+                                    <label class="control-label">
+                                        Forma de pago
+                                    </label>
+                                    <el-select v-model="form.payment_method_type_id" filterable
+                                               @change="changePaymentMethodType">
+                                        <el-option v-for="option in payment_method_types" :key="option.id"
+                                                   :value="option.id" :label="option.description"></el-option>
+                                    </el-select>
+                                    <small class="form-control-feedback" v-if="errors.payment_method_type_id"
+                                           v-text="errors.payment_method_type_id[0]"></small>
                                 </div>
                             </div>
 
@@ -112,22 +131,7 @@
                                            v-text="errors.currency_type_id[0]"></small>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-4">
-                                <div class="form-group" :class="{'has-danger': errors.payment_method_type_id}">
-                                    <label class="control-label">
-                                        Forma de pago
-                                    </label>
-                                    <el-select v-model="form.payment_method_type_id" filterable
-                                               @change="changePaymentMethodType">
-                                        <el-option v-for="option in payment_method_types" :key="option.id"
-                                                   :value="option.id" :label="option.description"></el-option>
-                                    </el-select>
-                                    <small class="form-control-feedback" v-if="errors.payment_method_type_id"
-                                           v-text="errors.payment_method_type_id[0]"></small>
-                                </div>
-                            </div>
+
                             <div class="col-lg-2">
                                 <div class="form-group" :class="{'has-danger': errors.exchange_rate_sale}">
                                     <label class="control-label">Tipo de cambio
@@ -143,9 +147,10 @@
                                 </div>
                             </div>
 
-                            <div class="col-lg-3" style="margin-top:29px;">
+                            <div class="col-lg-2" style="margin-top:29px;">
                                 <div class="form-group" :class="{'has-danger': errors.file}">
                                     <el-upload
+                                        class="upload-demo-default"
                                         :data="{'type': 'purchase-order-attached'}"
                                         :headers="headers"
                                         :multiple="false"
@@ -156,14 +161,16 @@
                                         :on-success="onSuccess"
                                         :limit="1"
                                     >
-                                        <el-button slot="trigger" type="primary">Seleccione un archivo (PDF/JPG)
+                                        <el-button class="btn-archive-upload" slot="trigger" type="primary">Seleccione un archivo (PDF/JPG)
                                         </el-button>
                                     </el-upload>
                                     <small class="form-control-feedback" v-if="errors.file"
                                            v-text="errors.file[0]"></small>
                                 </div>
                             </div>
-
+                            
+                        </div>
+                        <div class="row">
                             <div class="col-lg-12 col-md-6 d-flex align-items-end mt-4">
                                 <div class="form-group">
                                     <button type="button" class="btn waves-effect waves-light btn-primary"
@@ -297,9 +304,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-actions text-right mt-4">
-                        <el-button class="second-buton" @click.prevent="close()">Cancelar</el-button>
-                        <el-button type="primary" native-type="submit" :loading="loading_submit"
+                    <div class="form-actions text-right footer-card-default text-right mt-4 pl-4 pr-4 pb-3 pt-3">
+                        <el-button class="second-buton btn btn-default second-buton-default" @click.prevent="close()">Cancelar</el-button>
+                        <el-button type="primary" native-type="submit" class="btn btn-primary btn-submit-default" :loading="loading_submit"
                                    v-if="form.items.length > 0 && !hide_button">Generar
                         </el-button>
                     </div>
@@ -325,7 +332,37 @@
                           :showClose="false"></purchase-options>
     </div>
 </template>
-
+<style>
+header .head-notes{
+    justify-content: space-between;
+}
+header .head-notes > div{
+    flex: 1;
+}
+@media only screen and (max-width: 995px) {
+    .head-notes .dates{
+        display: flex;
+        flex-direction: column;
+    }
+    .head-notes .dates .issue-date,
+    .head-notes .dates .expiration-date{
+        width: 90% !important;
+    }
+}
+@media only screen and (max-width: 576px){
+    header .head-notes{
+        display: flex;
+        flex-direction: column;
+    }
+    .head-notes .dates{
+        margin-left: 0px !important;
+    }
+    .head-notes .dates .issue-date,
+    .head-notes .dates .expiration-date{
+        width: 100% !important;
+    }
+}
+</style>
 <script>
 
 import PurchaseFormItem from './partials/item.vue'

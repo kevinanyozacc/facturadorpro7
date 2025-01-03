@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <div class="row">
+    <div class="row tab-content-default row-new bg-transparent">
 
         <div class="page-header pr-0">
             <h2><a href="/dashboard"><i class="fas fa-tachometer-alt"></i></a></h2>

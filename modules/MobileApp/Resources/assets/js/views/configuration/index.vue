@@ -8,7 +8,7 @@
             </ol>
             <div class="right-wrapper pull-right"></div>
         </div>
-        <div class="row">
+        <div class="row tab-content-default row-new bg-transparent">
             <div class="col-md-7">
 
                 <div class="row">
@@ -18,7 +18,7 @@
                 </div>
 
             </div>
-            <div class="col-md-5">
+            <div class="w-auto ml-4">
                 <video class="iphone-x" autoplay="" loop="" muted="" playsinline="" width="350" style="height:620px">
                     <source src="https://facturaloperu.com/video/FacturaloPeru-APPPremium.mp4" type="video/mp4">
                 </video>

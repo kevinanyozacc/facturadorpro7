@@ -5,12 +5,12 @@
             <ol class="breadcrumbs">
                 <li class="active"><span>Gastos diversos</span></li>
             </ol>
-            <div class="right-wrapper pull-right pt-2">
+            <div class="right-wrapper pull-right pt-2 mr-2">
                 <!--<el-button class="submit" type="success" @click.prevent="clickDownload('excel')"><i class="fa fa-file-excel"></i> Exportar Excel </el-button>-->
                 <a :href="`/${resource}/create`" class="btn btn-custom btn-sm "><i class="fa fa-plus-circle"></i> Nuevo</a>
             </div>
         </div>
-        <div class="card mb-0">
+        <div class="card tab-content-default row-new mb-0">
             <div class="card-body">
                 <data-table :resource="resource">
                     <tr slot="heading">

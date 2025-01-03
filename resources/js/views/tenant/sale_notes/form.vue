@@ -1,6 +1,5 @@
 <template>
-    <div class="card mb-0 pt-2 pt-md-0"
-    >
+    <div :class="{ 'content-opacity': isVisible }" class="">
         <Keypress
             key-event="keyup"
 
@@ -8,9 +7,9 @@
         />
         <Keypress key-event="keyup" :multiple-keys="multiple" @success="checkKeyWithAlt"/>
 
-        <div class="tab-content" v-if="company && establishment">
-            <div class="invoice">
-                <header class="clearfix">
+        <div class="tab-content tab-content-default row-new" v-if="company && establishment">
+            <div class="">
+                <header class="clearfix clearfix-default p-2">
                     <div class="d-flex head-notes">
                         <div class="d-flex">
                             <div class="text-center mt-3 mb-0">
@@ -20,7 +19,7 @@
                             <div class="text-left mt-3 mb-0" style="margin-left: 10%;">
                                 <address class="ib mr-2">
                                     <span class="font-weight-bold d-block">NOTA DE VENTA</span>
-                                    <span class="font-weight-bold d-block">NV-XXX</span>
+                                    <!-- <span class="font-weight-bold d-block">NV-XXX</span> -->
                                     <span class="font-weight-bold">{{ company.name }}</span>
                                     <br>
                                     <div v-if="establishment.address != '-'">{{ establishment.address }},</div>
@@ -65,10 +64,10 @@
                         </div>
                     </div>                    
                 </header>
-                <form autocomplete="off" @submit.prevent="submit">
-                    <div class="form-body">
+                <form autocomplete="off" @submit.prevent="submit" class="">
+                    <div class="form-body m-4">
                         <div class="row mt-1">
-                            <div class="col-lg-6 pb-2">
+                            <div class="col-lg-5 pb-2">
                                 <div class="form-group" :class="{'has-danger': errors.customer_id}">
                                     <label class="control-label font-weight-bold text-info">
                                         Cliente
@@ -94,134 +93,155 @@
                                            v-text="errors.customer_id[0]"></small>
                                 </div>
                             </div>
-                            <div class="col-lg-2">
-                                <div class="form-group" :class="{'has-danger': errors.establishment_id}">
-                                    <label class="control-label">Establecimiento</label>
-                                    <el-select v-model="form.establishment_id" @change="changeEstablishment">
-                                        <el-option v-for="option in establishments" :key="option.id" :value="option.id"
-                                                   :label="option.description"></el-option>
-                                    </el-select>
-                                    <small class="form-control-feedback" v-if="errors.establishment_id"
-                                           v-text="errors.establishment_id[0]"></small>
+
+                            <div class="row col-lg-7 pb-2">
+                                <div class="col-lg-3">
+                                    <div class="form-group" :class="{'has-danger': errors.establishment_id}">
+                                        <label class="control-label">Establecimiento</label>
+                                        <el-select v-model="form.establishment_id" @change="changeEstablishment">
+                                            <el-option v-for="option in establishments" :key="option.id" :value="option.id"
+                                                       :label="option.description"></el-option>
+                                        </el-select>
+                                        <small class="form-control-feedback" v-if="errors.establishment_id"
+                                               v-text="errors.establishment_id[0]"></small>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-lg-2">
-                                <div class="form-group" :class="{'has-danger': errors.series_id}">
-                                    <label class="control-label">Serie</label>
-                                    <el-select v-model="form.series_id" :disabled="disabledSeries()">
-                                        <el-option v-for="option in series" :key="option.id" :value="option.id" :label="option.number"></el-option>
-                                    </el-select>
-                                    <small class="form-control-feedback" v-if="errors.series_id"
-                                           v-text="errors.series_id[0]"></small>
+                                <div class="col-lg-3">
+                                    <div class="form-group" :class="{'has-danger': errors.series_id}">
+                                        <label class="control-label">Serie</label>
+                                        <el-select v-model="form.series_id" :disabled="disabledSeries()">
+                                            <el-option v-for="option in series" :key="option.id" :value="option.id" :label="option.number"></el-option>
+                                        </el-select>
+                                        <small class="form-control-feedback" v-if="errors.series_id"
+                                               v-text="errors.series_id[0]"></small>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-lg-2">
-                                <div class="form-group" :class="{'has-danger': errors.currency_type_id}">
-                                    <label class="control-label">Moneda</label>
-                                    <el-select v-model="form.currency_type_id" @change="changeCurrencyType">
-                                        <el-option v-for="option in currency_types" :key="option.id" :value="option.id"
-                                                   :label="option.description"></el-option>
-                                    </el-select>
-                                    <small class="form-control-feedback" v-if="errors.currency_type_id"
-                                           v-text="errors.currency_type_id[0]"></small>
+                                <div class="col-lg-3">
+                                    <div class="form-group" :class="{'has-danger': errors.currency_type_id}">
+                                        <label class="control-label">Moneda</label>
+                                        <el-select v-model="form.currency_type_id" @change="changeCurrencyType">
+                                            <el-option v-for="option in currency_types" :key="option.id" :value="option.id"
+                                                       :label="option.description"></el-option>
+                                        </el-select>
+                                        <small class="form-control-feedback" v-if="errors.currency_type_id"
+                                               v-text="errors.currency_type_id[0]"></small>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group" :class="{'has-danger': errors.exchange_rate_sale}">
+                                        <label class="control-label">Tipo de cambio
+                                            <el-tooltip class="item" effect="dark"
+                                                        content="Tipo de cambio del día, extraído de SUNAT"
+                                                        placement="top-end">
+                                                <i class="fa fa-info-circle"></i>
+                                            </el-tooltip>
+                                        </label>
+                                        <el-input v-model="form.exchange_rate_sale"></el-input>
+                                        <small class="form-control-feedback" v-if="errors.exchange_rate_sale"
+                                               v-text="errors.exchange_rate_sale[0]"></small>
+                                    </div>
                                 </div>
                             </div>
 
+                            <!-- Informacion Adicional -->
+                             <div>
+                                <!-- Botón para mostrar/ocultar el componente -->
+                                <span
+                                    class="toggle-button toggle-button-invoice"
+                                    :class="{ shift: isVisible }"
+                                    @click="toggleInformation"
+                                >
+                                    {{ isVisible ? "Cerrar Información Adicional" : "Abrir Información Adicional" }}
+                                </span>
+                                <div class="column pt-2 pl-5 pr-5 additional-information" :class="{ show: isVisible }">
+                                    <h3 class="text-center">Información Adicional</h3>
+
+                                    <div class="">
+                                        <div class="form-group form-seller">
+                                            <label class="control-label">Vendedor</label>
+                                            <el-select v-model="form.seller_id" clearable>
+                                                <el-option v-for="sel in sellers" :key="sel.id" :value="sel.id"
+                                                           :label="sel.name">{{ sel.name }}
+                                                </el-option>
+                                            </el-select>
+                                        </div>
+                                    </div>
+
+                                    <div class="">
+                                        <div class="form-group">
+                                            <label class="control-label">
+                                                Tipo periodo
+                                                <el-tooltip
+                                                    class="item"
+                                                    effect="dark"
+                                                    content="Creación recurrente de N. Venta de forma automática, por periodo."
+                                                    placement="top-start">
+                                                    <i class="fa fa-info-circle"></i>
+                                                </el-tooltip>
+                                            </label>
+                                            <el-select v-model="form.type_period" clearable>
+                                                <el-option
+                                                    v-for="option in type_periods"
+                                                    :key="option.id"
+                                                    :value="option.id"
+                                                    :label="option.description"></el-option>
+                                            </el-select>
+                                            <small class="form-control-feedback" v-if="errors.type_period"
+                                                   v-text="errors.type_period[0]"></small>
+                                        </div>
+                                    </div>
+                                    <div class="">
+                                        <div class="form-group">
+                                            <label class="control-label">Cant. Periodos</label>
+                                            <el-input-number
+                                                v-model="form.quantity_period"
+                                                :min="0"></el-input-number>
+                                            <small class="form-control-feedback"
+                                                   v-show="sms_periodo.length > 1 "
+                                                   v-text="sms_periodo"></small>
+                                        </div>
+                                    </div>
+        
+        
+                                    <div v-if="config.active_allowance_charge && form.total > 0" class="col-lg-2 col-md-2">
+                                        <div class="form-group">
+                                            <label class="control-label">Porcentaje otros cargos</label>
+        
+                                            <el-input-number v-model="config.percentage_allowance_charge"
+                                                             :min="0"
+                                                             controls-position="right"
+                                                             size="mini"
+                                                             @change="calculateTotal">
+                                            </el-input-number>
+                                        </div>
+                                    </div>
+        
+                                    <div class="">
+                                        <div class="form-group">
+                                            <label class="control-label">Placa</label>
+                                            <el-input v-model="form.license_plate" :maxlength="200"></el-input>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">Orden de compra</label>
+                                        <el-input v-model="form.purchase_order" :maxlength="50"></el-input>
+                                    </div>
+        
+                                    <div class="">
+                                        <div class="form-group">
+                                            <label class="control-label">Observación
+                                            </label>
+                                            <el-input type="textarea" v-model="form.observation"></el-input>
+                                            <small class="form-control-feedback" v-if="errors.observation"
+                                                   v-text="errors.observation[0]"></small>
+                                        </div>
+                                    </div>
+                                </div>
+                             </div>
+                             <!-- fin de informacion adicional -->
                             
-                            <div class="col-lg-2">
-                                <div class="form-group" :class="{'has-danger': errors.exchange_rate_sale}">
-                                    <label class="control-label">Tipo de cambio
-                                        <el-tooltip class="item" effect="dark"
-                                                    content="Tipo de cambio del día, extraído de SUNAT"
-                                                    placement="top-end">
-                                            <i class="fa fa-info-circle"></i>
-                                        </el-tooltip>
-                                    </label>
-                                    <el-input v-model="form.exchange_rate_sale"></el-input>
-                                    <small class="form-control-feedback" v-if="errors.exchange_rate_sale"
-                                           v-text="errors.exchange_rate_sale[0]"></small>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-2 col-md-2">
-                                <div class="form-group">
-                                    <label class="control-label">
-                                        Tipo periodo
-                                        <el-tooltip
-                                            class="item"
-                                            effect="dark"
-                                            content="Creación recurrente de N. Venta de forma automática, por periodo."
-                                            placement="top-start">
-                                            <i class="fa fa-info-circle"></i>
-                                        </el-tooltip>
-                                    </label>
-                                    <el-select v-model="form.type_period" clearable>
-                                        <el-option
-                                            v-for="option in type_periods"
-                                            :key="option.id"
-                                            :value="option.id"
-                                            :label="option.description"></el-option>
-                                    </el-select>
-                                    <small class="form-control-feedback" v-if="errors.type_period"
-                                           v-text="errors.type_period[0]"></small>
-                                </div>
-                            </div>
-                            <div class="col-lg-2 col-md-2">
-                                <div class="form-group">
-                                    <label class="control-label">Cant. Periodos</label>
-                                    <el-input-number
-                                        v-model="form.quantity_period"
-                                        :min="0"></el-input-number>
-                                    <small class="form-control-feedback"
-                                           v-show="sms_periodo.length > 1 "
-                                           v-text="sms_periodo"></small>
-                                </div>
-                            </div>
-
-
-                            <div v-if="config.active_allowance_charge && form.total > 0" class="col-lg-2 col-md-2">
-                                <div class="form-group">
-                                    <label class="control-label">Porcentaje otros cargos</label>
-
-                                    <el-input-number v-model="config.percentage_allowance_charge"
-                                                     :min="0"
-                                                     controls-position="right"
-                                                     size="mini"
-                                                     @change="calculateTotal">
-                                    </el-input-number>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-2 col-md-2">
-                                <div class="form-group">
-                                    <label class="control-label">Placa</label>
-                                    <el-input v-model="form.license_plate" :maxlength="200"></el-input>
-                                </div>
-                            </div>
-                            <div class="col-lg-2 col-md-2 form-group">
-                                <label class="control-label">Orden de compra</label>
-                                <el-input v-model="form.purchase_order" :maxlength="50"></el-input>
-                            </div>
-
-                            <div class="col-lg-6 col-md-6">
-                                <div class="form-group">
-                                    <label class="control-label">Observación
-                                    </label>
-                                    <el-input type="textarea" v-model="form.observation"></el-input>
-                                    <small class="form-control-feedback" v-if="errors.observation"
-                                           v-text="errors.observation[0]"></small>
-                                </div>
-                            </div>
-                            <div class="col-4">
-                                <div class="form-group form-seller">
-                                    <label class="control-label">Vendedor</label>
-                                    <el-select v-model="form.seller_id" clearable>
-                                        <el-option v-for="sel in sellers" :key="sel.id" :value="sel.id"
-                                                   :label="sel.name">{{ sel.name }}
-                                        </el-option>
-                                    </el-select>
-                                </div>
-                            </div>
+                            
+                            
         
                         </div>
 
@@ -505,10 +525,9 @@
                                         trigger="hover"
                                         content="Presiona F2">
                                         <el-button slot="reference"
-                                                   type="button" class="btn waves-effect waves-light btn-primary"
-                                                   @click.prevent="clickAddItem"
-                                        >
-                                            + Agregar Producto
+                                            type="button" class="btn waves-effect waves-light btn-primary"
+                                           @click.prevent="clickAddItem">
+                                            Agregar Producto <kbd>F2</kbd>
                                         </el-button>
                                     </el-popover>
                                 </div>
@@ -712,8 +731,8 @@
                     </div>
 
 
-                    <div class="form-actions text-right mt-4">
-                        <el-button class="second-buton" @click.prevent="close()">Cancelar</el-button>
+                    <div class="form-actions footer-card-default text-right mt-4 pl-4 pr-4 pb-3 pt-3">
+                        <el-button class="second-buton btn btn-default second-buton-default" @click.prevent="close()">Cancelar</el-button>
 
                         <el-popover
                             placement="top-start"
@@ -721,13 +740,13 @@
                             trigger="hover"
                             content="Presiona ALT + G">
                             <el-button slot="reference"
-                                       class="submit"
+                                       class="submit btn btn-primary btn-submit-default"
                                        type="primary"
                                        native-type="submit"
                                        :loading="loading_submit"
                                        v-if="form.items.length > 0"
                             >
-                                Generar
+                                Generar <kbd>ALT</kbd>+<kbd>G</kbd>
                             </el-button>
                         </el-popover>
                     </div>
@@ -774,6 +793,83 @@ header .head-notes{
 header .head-notes > div{
     flex: 1;
 }
+.toggle-button {
+    position: fixed;
+    top: 35%;
+    right: -105px;
+    transform: translateY(-50%) rotate(-90deg);
+    transform-origin: center; 
+    background-color: rgba(115, 183, 255, 0.6); 
+    color: white;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    z-index: 1;
+    transition: all 0.3s ease-in-out;
+    font-weight: 400;
+    font-size: 16px; 
+    line-height: 1; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: auto;
+    height: auto; 
+    border: none;
+    white-space: nowrap;
+}
+.toggle-button:hover {
+    background-color: rgba(0, 123, 255, 0.8);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+  .toggle-button.shift {
+    right: 388px;
+    background-color: rgba(0, 123, 255, 0.8);
+    z-index: 1023;
+}
+  .toggle-button.shift:hover {
+      box-shadow: none;
+}
+.additional-information {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    height: 100%;
+    width: 500px;
+    background-color: #f9f9f9;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+    transition: right 0.3s ease-in-out;
+    overflow-y: auto;
+    z-index: 1022;
+}
+.additional-information::-webkit-scrollbar {
+    width: 8px;
+} 
+.additional-information::-webkit-scrollbar-thumb {
+    background-color: #d3dbf3;
+    border-radius: 4px;
+} 
+.additional-information::-webkit-scrollbar-thumb:hover {
+    background-color: #cacfe1;
+} 
+.additional-information::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+.additional-information.show {
+  right: 0;
+}
+.content-opacity {
+    position: relative;
+}
+.content-opacity::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1021;
+}
 @media only screen and (max-width: 995px) {
     .head-notes .dates{
         display: flex;
@@ -800,6 +896,22 @@ header .head-notes > div{
     .head-notes .dates .issue-date,
     .head-notes .dates .expiration-date{
         width: 100% !important;
+    }
+}
+@media only screen and (max-width: 550px) {
+    .additional-information {
+        width: 85%;
+    }
+    .toggle-button.shift {
+        right: 64%;
+    }
+}
+@media only screen and (max-width: 420px) {
+    .toggle-button.shift {
+        right: 56%; 
+    }
+    .toggle-button.shift {
+        right: 56%; 
     }
 }
 </style>
@@ -896,6 +1008,7 @@ header .head-notes > div{
                     preventDefault: true,
                 },
             ],
+            isVisible: false,
             focus_on_client: false,
             sellers: [],
             resource: 'sale-notes',
@@ -1003,6 +1116,9 @@ header .head-notes > div{
         this.changeCurrencyType()
     },
     methods: {
+        toggleInformation() {
+            this.isVisible = !this.isVisible;
+        },
         handleEnterKey(event) {
             event.preventDefault();
             event.target.blur();
