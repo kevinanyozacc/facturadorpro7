@@ -186,7 +186,7 @@
                     <div class="card-body border-top no-gutters">
                         <div class="row">
                             <div :class="{'has-danger': errors.customer_id}"
-                                 class="form-group col-sm-6 mb-0">
+                                 class="form-group form-client-default ml-1 w-50 mb-0 p-0">
                                 <label class="control-label font-weight-bold text-info">
                                     Cliente
                                     <a href="#"
@@ -266,7 +266,8 @@
                                         v-if="!configuration.enable_list_product"
                                         v-model="selected_option_price"
                                         filterable
-                                        style="width:100%;">
+                                        style="width:100%;"
+                                        class="input-price-default">
                                         <el-option
                                             v-for="option in price_options"
                                             :key="option.id"
@@ -609,7 +610,7 @@
                         <div class="table-responsive" v-loading="loading_items">
                             <table class="table table-sm">
                                 <thead>
-                                <tr>
+                                <tr class="table-titles-default">
                                     <th width="3%">#</th>
                                     <th class="font-weight-bold"
                                         width="30%">Descripción
@@ -1811,6 +1812,9 @@
 </template>
 
 <style>
+.el-popper{
+    left: 75.5% !important;
+}
 .input-custom {
     width: 50% !important;
 }
@@ -1853,7 +1857,7 @@
   padding: 5px 10px;
   cursor: pointer;
   border-radius: 5px;
-  z-index: 999;
+  z-index: 1;
   transition: all 0.3s ease-in-out;
   font-weight: 400;
   font-size: 16px; 
@@ -1873,7 +1877,7 @@
 .toggle-button.shift {
   right: 388px;
   background-color: rgba(0, 123, 255, 0.8);
-  z-index: 1103;
+  z-index: 1023;
 }
 .toggle-button.shift:hover {
     box-shadow: none;
@@ -1888,7 +1892,7 @@
   box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
   transition: right 0.3s ease-in-out;
   overflow-y: auto;
-  z-index: 1102;
+  z-index: 1022;
 }
 .additional-information::-webkit-scrollbar {
     width: 8px;
@@ -1917,7 +1921,20 @@
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-    z-index: 1100;
+    z-index: 1021;
+}
+@media only screen and (max-width: 991px) {
+    .form-client-default{
+        width: 100% !important;
+    }
+}
+@media only screen and (max-width: 767px) {
+    .el-popper{
+        left: 35px !important;
+    }
+    .input-price-default{
+        margin-bottom: 20px;
+    }
 }
 @media only screen and (max-width: 550px) {
     .additional-information {

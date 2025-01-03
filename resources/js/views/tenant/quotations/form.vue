@@ -231,7 +231,7 @@
 
                                         <template v-if="showEditableItems">
                                             <thead>
-                                                <tr>
+                                                <tr class="table-titles-default">
                                                     <th width="3%">#</th>
                                                     <th class="font-weight-bold" width="16%">Descripción</th>
                                                     <th width="8%" class="text-center font-weight-bold">Unidad</th>
@@ -573,7 +573,7 @@
   padding: 5px 10px;
   cursor: pointer;
   border-radius: 5px;
-  z-index: 1023;
+  z-index: 1;
   transition: all 0.3s ease-in-out;
   font-weight: 400;
   font-size: 16px;
@@ -592,6 +592,7 @@
 }
 .toggle-button.shift {
   right: 290px;
+  z-index: 1023;
   background-color: rgba(0, 123, 255, 0.8);
 }
 .additional-information {

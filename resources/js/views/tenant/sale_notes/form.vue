@@ -804,7 +804,7 @@ header .head-notes > div{
     padding: 5px 10px;
     cursor: pointer;
     border-radius: 5px;
-    z-index: 999;
+    z-index: 1;
     transition: all 0.3s ease-in-out;
     font-weight: 400;
     font-size: 16px; 
@@ -824,7 +824,7 @@ header .head-notes > div{
   .toggle-button.shift {
     right: 388px;
     background-color: rgba(0, 123, 255, 0.8);
-    z-index: 1103;
+    z-index: 1023;
 }
   .toggle-button.shift:hover {
       box-shadow: none;
@@ -839,7 +839,7 @@ header .head-notes > div{
     box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
     transition: right 0.3s ease-in-out;
     overflow-y: auto;
-    z-index: 1102;
+    z-index: 1022;
 }
 .additional-information::-webkit-scrollbar {
     width: 8px;
@@ -868,7 +868,7 @@ header .head-notes > div{
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-    z-index: 1100;
+    z-index: 1021;
 }
 @media only screen and (max-width: 995px) {
     .head-notes .dates{

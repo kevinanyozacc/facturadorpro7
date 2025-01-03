@@ -28,8 +28,8 @@
                             </div>
                         </div>
     
-                        <div class="row align-items-center dates">
-                            <div class="w-50 p-3 issue-date">
+                        <div class="row align-items-center dates justify-content-end pr-2">
+                            <div class="w-40 p-2 issue-date">
                                 <div class="form-group" :class="{'has-danger': errors.date_of_issue}">
                                     <label class="control-label">Fec Emisión</label>
                                     <el-date-picker v-model="form.date_of_issue" type="date" value-format="yyyy-MM-dd"
@@ -39,7 +39,7 @@
                                 </div>
                             </div>
     
-                            <div class="w-50 p-3 expiration-date">
+                            <div class="w-40 p-2 expiration-date">
                                 <div class="form-group" :class="{'has-danger': errors.date_of_due}">
                                     <label class="control-label">Fec. Vencimiento</label>
                                     <el-date-picker v-model="form.date_of_due" type="date" value-format="yyyy-MM-dd"
@@ -82,7 +82,7 @@
                             </div> -->
 
 
-                            <div class="col-lg-6">
+                            <div class="col-lg-4">
                                 <div class="form-group" :class="{'has-danger': errors.supplier_id}">
                                     <label class="control-label">
                                         Proveedor
@@ -105,19 +105,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-lg-3">
-                                <div class="form-group" :class="{'has-danger': errors.currency_type_id}">
-                                    <label class="control-label">Moneda</label>
-                                    <el-select v-model="form.currency_type_id" @change="changeCurrencyType">
-                                        <el-option v-for="option in currency_types" :key="option.id" :value="option.id"
-                                                   :label="option.description"></el-option>
-                                    </el-select>
-                                    <small class="form-control-feedback" v-if="errors.currency_type_id"
-                                           v-text="errors.currency_type_id[0]"></small>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-3">
+                            <div class="col-lg-2">
                                 <div class="form-group" :class="{'has-danger': errors.payment_method_type_id}">
                                     <label class="control-label">
                                         Forma de pago
@@ -131,8 +119,19 @@
                                            v-text="errors.payment_method_type_id[0]"></small>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
+
+                            <div class="col-lg-2">
+                                <div class="form-group" :class="{'has-danger': errors.currency_type_id}">
+                                    <label class="control-label">Moneda</label>
+                                    <el-select v-model="form.currency_type_id" @change="changeCurrencyType">
+                                        <el-option v-for="option in currency_types" :key="option.id" :value="option.id"
+                                                   :label="option.description"></el-option>
+                                    </el-select>
+                                    <small class="form-control-feedback" v-if="errors.currency_type_id"
+                                           v-text="errors.currency_type_id[0]"></small>
+                                </div>
+                            </div>
+
                             <div class="col-lg-2">
                                 <div class="form-group" :class="{'has-danger': errors.exchange_rate_sale}">
                                     <label class="control-label">Tipo de cambio
@@ -148,9 +147,10 @@
                                 </div>
                             </div>
 
-                            <div class="col-lg-3" style="margin-top:29px;">
+                            <div class="col-lg-2" style="margin-top:29px;">
                                 <div class="form-group" :class="{'has-danger': errors.file}">
                                     <el-upload
+                                        class="upload-demo-default"
                                         :data="{'type': 'purchase-order-attached'}"
                                         :headers="headers"
                                         :multiple="false"
@@ -161,14 +161,16 @@
                                         :on-success="onSuccess"
                                         :limit="1"
                                     >
-                                        <el-button slot="trigger" type="primary">Seleccione un archivo (PDF/JPG)
+                                        <el-button class="btn-archive-upload" slot="trigger" type="primary">Seleccione un archivo (PDF/JPG)
                                         </el-button>
                                     </el-upload>
                                     <small class="form-control-feedback" v-if="errors.file"
                                            v-text="errors.file[0]"></small>
                                 </div>
                             </div>
-
+                            
+                        </div>
+                        <div class="row">
                             <div class="col-lg-12 col-md-6 d-flex align-items-end mt-4">
                                 <div class="form-group">
                                     <button type="button" class="btn waves-effect waves-light btn-primary"

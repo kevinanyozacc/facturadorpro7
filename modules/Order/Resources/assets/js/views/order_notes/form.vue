@@ -1,5 +1,5 @@
 <template>
-    <div class="card mb-0 pt-2 pt-md-0">
+    <div class="card mb-0 pt-2 pt-md-0" :class="{ 'content-opacity': isVisible }">
         <!-- <div class="card-header bg-info">
             <h3 class="my-0">Nuevo Comprobante</h3>
         </div> -->
@@ -66,7 +66,7 @@
                 <form autocomplete="off" @submit.prevent="submit">
                     <div class="form-body m-4">
                         <div class="row mt-1">
-                            <div class="col-lg-6 pb-2">
+                            <div class="col-lg-8 pb-2">
                                 <div class="form-group" :class="{'has-danger': errors.customer_id}">
                                     <label class="control-label font-weight-bold text-info">
                                         Cliente
@@ -88,16 +88,6 @@
                                     </el-select>
                                     <small class="form-control-feedback" v-if="errors.customer_id"
                                            v-text="errors.customer_id[0]"></small>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    <label class="control-label">Dirección de envío
-                                    </label>
-                                    <el-input v-model="form.shipping_address"></el-input>
-                                    <small class="form-control-feedback" v-if="errors.shipping_address"
-                                           v-text="errors.shipping_address[0]"></small>
                                 </div>
                             </div>
                             <!-- <div class="col-lg-2">
@@ -140,79 +130,103 @@
                                 </div>
                             </div>
 
-                            <div class="col-lg-6">
-                                <div class="form-group" :class="{'has-danger': errors.observation}">
-                                    <label class="control-label">Observación
-                                    </label>
-                                    <el-input type="textarea" :rows="3" v-model="form.observation"></el-input>
-                                    <small class="form-control-feedback" v-if="errors.observation"
-                                           v-text="errors.observation[0]"></small>
+                            <!-- Información Adicional -->
+                            <div>
+                                <!-- Botón para mostrar/ocultar el componente -->
+                                <span
+                                    class="toggle-button toggle-button-orders"
+                                    :class="{ shift: isVisible }"
+                                    @click="toggleInformation"
+                                >
+                                    {{ isVisible ? "Cerrar Información Adicional" : "Abrir Información Adicional" }}
+                                </span>
+
+                                <div class="additional-information" :class="{ show: isVisible }">
+                                    <h3 class="text-center">Información Adicional</h3>
+
+                                    <div class="">
+                                        <div class="form-group">
+                                            <label class="control-label">Dirección de envío
+                                            </label>
+                                            <el-input v-model="form.shipping_address"></el-input>
+                                            <small class="form-control-feedback" v-if="errors.shipping_address"
+                                                   v-text="errors.shipping_address[0]"></small>
+                                        </div>
+                                    </div>
+
+                                    <div class="">
+                                        <div class="form-group" :class="{'has-danger': errors.observation}">
+                                            <label class="control-label">Observación
+                                            </label>
+                                            <el-input type="textarea" :rows="3" v-model="form.observation"></el-input>
+                                            <small class="form-control-feedback" v-if="errors.observation"
+                                                   v-text="errors.observation[0]"></small>
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-3">
+                                        <div class="form-group">
+                                            <label class="control-label">Datos adicionales</label>
+                                        </div>
+        
+                                        <table class="table table-responsive table-orders-default table-bordered">
+                                            <thead>
+                                                <tr width="100%">
+                                                    <template v-if="form.additional_data.length > 0">
+                                                        <th class="pb-2 bg-transparent" width="40%">Título</th>
+                                                        <th class="pb-2 bg-transparent" width="40%">Descripción</th>
+                                                    </template>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="(row, index) in form.additional_data" :key="index" width="100%">
+                                                    <td class="table-td-orders">
+                                                        <div class="form-group mb-2 mr-2">
+                                                            <!-- <el-input v-model="row.title"></el-input> -->
+                                                            <el-select
+                                                                v-model="row.title"
+                                                                filterable
+                                                                allow-create>
+                                                                <el-option
+                                                                v-for="item in aditional_titles"
+                                                                :key="item.value"
+                                                                :label="item.label"
+                                                                :value="item.value">
+                                                                </el-option>
+                                                            </el-select>
+                                                            <template v-if="errors[`additional_data.${index}.title`]">
+                                                                <div class="form-group" :class="{'has-danger': errors[`additional_data.${index}.title`]}">
+                                                                    <small class="form-control-feedback" v-text="errors[`additional_data.${index}.title`][0]"></small>
+                                                                </div>
+                                                            </template>
+                                                        </div>
+                                                    </td>
+                                                    <td class="table-td-orders">
+                                                        <div class="form-group mb-2 mr-2">
+        
+                                                            <el-input v-model="row.description"></el-input>
+        
+                                                            <template v-if="errors[`additional_data.${index}.description`]">
+                                                                <div class="form-group" :class="{'has-danger': errors[`additional_data.${index}.description`]}">
+                                                                    <small class="form-control-feedback" v-text="errors[`additional_data.${index}.description`][0]"></small>
+                                                                </div>
+                                                            </template>
+                                                        </div>
+                                                    </td>
+                                                    <td class="series-table-actions table-td-orders text-center">
+                                                        <button  type="button" class="btn waves-effect waves-light btn-xs btn-danger" @click.prevent="clickDeleteAdditionalData(index)">
+                                                            <i class="fa fa-trash"></i>
+                                                        </button>
+                                                    </td>
+                                                    <br>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <a href="#" @click.prevent="clickAddAdditionalData" class="text-center font-weight-bold text-info">+ Agregar dato adicional</a>
+                                    </div>
                                 </div>
                             </div>
-
-
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    <label class="control-label">Datos adicionales</label>
-                                </div>
-
-                                <table class="table table-responsive table-bordered">
-                                    <thead>
-                                        <tr width="100%">
-                                            <template v-if="form.additional_data.length > 0">
-                                                <th class="pb-2" width="40%">Título</th>
-                                                <th class="pb-2" width="40%">Descripción</th>
-                                            </template>
-                                            <th :width="form.additional_data.length > 0 ? '20%':'5%'"><a href="#" @click.prevent="clickAddAdditionalData" class="text-center font-weight-bold text-info">[+ Agregar]</a></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr v-for="(row, index) in form.additional_data" :key="index" width="100%">
-                                            <td>
-                                                <div class="form-group mb-2 mr-2">
-                                                    <!-- <el-input v-model="row.title"></el-input> -->
-                                                    <el-select
-                                                        v-model="row.title"
-                                                        filterable
-                                                        allow-create>
-                                                        <el-option
-                                                        v-for="item in aditional_titles"
-                                                        :key="item.value"
-                                                        :label="item.label"
-                                                        :value="item.value">
-                                                        </el-option>
-                                                    </el-select>
-                                                    <template v-if="errors[`additional_data.${index}.title`]">
-                                                        <div class="form-group" :class="{'has-danger': errors[`additional_data.${index}.title`]}">
-                                                            <small class="form-control-feedback" v-text="errors[`additional_data.${index}.title`][0]"></small>
-                                                        </div>
-                                                    </template>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="form-group mb-2 mr-2">
-
-                                                    <el-input v-model="row.description"></el-input>
-
-                                                    <template v-if="errors[`additional_data.${index}.description`]">
-                                                        <div class="form-group" :class="{'has-danger': errors[`additional_data.${index}.description`]}">
-                                                            <small class="form-control-feedback" v-text="errors[`additional_data.${index}.description`][0]"></small>
-                                                        </div>
-                                                    </template>
-                                                </div>
-                                            </td>
-                                            <td class="series-table-actions text-center">
-                                                <button  type="button" class="btn waves-effect waves-light btn-xs btn-danger" @click.prevent="clickDeleteAdditionalData(index)">
-                                                    <i class="fa fa-trash"></i>
-                                                </button>
-                                            </td>
-                                            <br>
-                                        </tr>
-                                    </tbody>
-                                </table>
-
-                            </div>
-
+                            <!-- Fin informacion adicional -->
                         <div class="row mt-3">
                             <div class="col-md-12">
                                 <div class="table-responsive">
@@ -422,6 +436,70 @@
     </div>
 </template>
 <style>
+.toggle-button {
+    position: fixed;
+    top: 40%;
+    right: -100px;
+    transform: translateY(-50%) rotate(-90deg);
+    transform-origin: center;
+    background-color: rgba(115, 183, 255, 0.6);
+    color: white;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    z-index: 1023;
+    transition: all 0.3s ease-in-out;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: auto; 
+    height: auto;
+    border: none;
+    white-space: nowrap;
+}
+.toggle-button:hover {
+    background-color: rgba(0, 123, 255, 0.8); 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+.toggle-button.shift {
+    right: 400px !important;
+    background-color: rgba(0, 123, 255, 0.8);
+}
+.additional-information {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    padding-left: 20px;
+    padding-right: 20px;
+    top: 0;
+    right: -100%;
+    height: 100%;
+    width: 500px;
+    background-color: #f9f9f9;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+    transition: right 0.3s ease-in-out;
+    overflow-y: auto;
+    z-index: 1022;
+}
+.additional-information.show {
+    right: 0;
+}
+.content-opacity {
+      position: relative;
+}
+.content-opacity::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1021;
+}
 @media only screen and (max-width: 920px) {
     .head-notes .dates{
         display: flex;
@@ -448,6 +526,18 @@
         width: 100% !important;
     }
 }
+@media only screen and (max-width: 525px) {
+    .additional-information {
+        width: 95%;
+    }
+    .toggle-button.shift {
+        position: fixed;
+        background-color: #0c7286;
+        z-index: 1024;
+        width: 210px !important;
+        left: -90px;
+    }
+}
 </style>
 <script>
 import OrderNoteFormItem from './partials/item.vue'
@@ -469,6 +559,7 @@ export default {
     mixins: [functions, exchangeRate],
     data() {
         return {
+            isVisible: false,
             resource: 'order-notes',
             showDialogAddItem: false,
             showDialogNewPerson: false,
@@ -594,6 +685,9 @@ export default {
         this.loading_form = true
     },
     methods: {
+        toggleInformation() {
+            this.isVisible = !this.isVisible;
+        },
         clickAddAdditionalData()
         {
             this.form.additional_data.push({

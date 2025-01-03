@@ -549,17 +549,23 @@ html.sidebar-left-collapsed .sidebar-left .nav-main > li > a {
 }
 .toggle-button{
     right: -94px !important;
-    background-color: var(--light2-color) !important; 
+    background-color: var(--light2-color) !important;
     color: #212529 !important;
+    z-index: 1 !important;
 }
 .toggle-button:hover {
     background-color: var(--primary-color) !important;
     color: var(--light-color) !important;
 }
-.toggle-button.shift {
+.toggle-button-invoice.shift {
     right: 400px !important;
     background-color: var(--primary-color) !important;
     color: var(--light-color) !important;
+}
+.toggle-button.shift{
+    background-color: var(--primary-color) !important;
+    color: var(--light-color) !important;
+    z-index: 1023 !important;
 }
 .toggle-button.shift:hover{
     box-shadow: none;
@@ -568,10 +574,24 @@ html.sidebar-left-collapsed .sidebar-left .nav-main > li > a {
     right: 300px !important;
     background-color: var(--primary-color) !important;
 }
+.table-orders-default{
+    border: none !important;
+}
+.table-td-orders{
+    border: none !important;
+}
+
 @media only screen and (min-width: 768px) {
     html.sidebar-left-collapsed .sidebar-left,
     html.fixed .sidebar-left {
         box-shadow: none;
+    }
+}
+@media only screen and (max-width: 768px) {
+    .row-new{
+        margin-top: 0px;
+        margin-right: 5px;
+        margin-left: 5px;
     }
 }
 @media only screen and (max-width: 550px) {
@@ -702,11 +722,13 @@ html.sidebar-light:not(.dark):not(.sidebar-green):not(.sidebar-green) ul.nav-mai
     border-radius: 2px;
     opacity: 1;
 }
-.invoice table.table > thead:first-child > tr > th {
-    background-color: #f0f3f4;
-    border-bottom: 0px solid #dadada;
-    border-top: 0px solid #dadada;
+.table-titles-default th{
+    background-color: var(--light-color) !important;
+    border: none !important;
 }
+/* .table-titles-default td{
+    background-color: #f7ffff !important;
+} */
 .header .separator {
     margin: 0 8px 0;
     opacity: 0;
@@ -2129,5 +2151,16 @@ html.dark .invoice header {
 }
 html.dark .card-extras{
     border: 1px solid var(--borders-dark) !important;
+}
+html.dark .upload-demo-default{
+    border: 2px dashed var(--borders-dark);
+    background-color: var(--inputs-dark);
+}
+html.dark a:not([href]):not([tabindex]),
+html.dark .el-upload-list__item .el-icon-close {
+    color: var(--light-color);
+}
+html.dark .el-upload-list__item:hover {
+    background-color: var(--button-second);
 }
 /* end */

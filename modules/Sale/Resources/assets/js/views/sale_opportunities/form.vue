@@ -131,7 +131,7 @@
                                 <div class="table-responsive">
                                     <table class="table">
                                         <thead>
-                                        <tr>
+                                        <tr class="table-titles-default">
                                             <th>#</th>
                                             <th class="font-weight-bold">Descripción</th>
                                             <th class="text-center font-weight-bold">Unidad</th>
@@ -144,7 +144,7 @@
                                         </tr>
                                         </thead>
                                         <tbody v-if="form.items.length > 0">
-                                        <tr v-for="(row, index) in form.items" :key="index">
+                                        <tr class="table-titles-default" v-for="(row, index) in form.items" :key="index">
                                             <td>{{ index + 1 }}</td>
                                             <td>{{ row.item.description }}
                                                 {{ row.item.presentation.hasOwnProperty('description') ? row.item.presentation.description : '' }}<br/><small>{{ row.affectation_igv_type.description }}</small>
