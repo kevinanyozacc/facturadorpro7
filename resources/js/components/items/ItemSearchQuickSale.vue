@@ -72,14 +72,13 @@
 </template>
 
 <style>
-.list-result{
-    left: 110px !important;
+.list-result {
+    margin: 0px !important;
+    margin-top: 10px !important;
+    margin-bottom: 10px;
 }
-@media only screen and (max-width: 767px) {
-    .list-result{
-        left: 35px !important;
-    }
-}
+
+
 </style>
 
 <script>

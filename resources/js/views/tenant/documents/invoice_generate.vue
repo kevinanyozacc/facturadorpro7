@@ -266,6 +266,7 @@
                                         v-if="!configuration.enable_list_product"
                                         v-model="selected_option_price"
                                         filterable
+                                        popper-class="price-list"
                                         style="width:100%;"
                                         class="input-price-default">
                                         <el-option
@@ -1812,13 +1813,9 @@
 </template>
 
 <style>
-.el-popper{
-    left: 75.5% !important;
-}
 .input-custom {
     width: 50% !important;
 }
-
 .el-textarea__inner {
     height: 65px !important;
     min-height: 65px !important;
@@ -1929,9 +1926,6 @@
     }
 }
 @media only screen and (max-width: 767px) {
-    .el-popper{
-        left: 35px !important;
-    }
     .input-price-default{
         margin-bottom: 20px;
     }

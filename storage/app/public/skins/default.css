@@ -722,6 +722,11 @@ html.sidebar-light:not(.dark):not(.sidebar-green):not(.sidebar-green) ul.nav-mai
     border-radius: 2px;
     opacity: 1;
 }
+.list-result {
+    margin: 0px !important;
+    margin-top: 10px !important;
+    margin-bottom: 10px;
+}
 .table-titles-default th{
     background-color: var(--light-color) !important;
     border: none !important;

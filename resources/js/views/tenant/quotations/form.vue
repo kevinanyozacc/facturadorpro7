@@ -114,6 +114,7 @@
                             <!-- Botón para mostrar/ocultar el componente -->
                             <span
                                 class="toggle-button toggle-button-quotations"
+                                style="display: none !important;"
                                 :class="{ shift: isVisible }"
                                 @click="toggleInformation"
                             >
@@ -216,6 +217,7 @@
                                     v-if="!configuration.enable_list_product"
                                     v-model="selected_option_price"
                                     filterable
+                                    popper-class="price-list"
                                     style="width:100%;">
                                     <el-option
                                         v-for="option in price_options"
