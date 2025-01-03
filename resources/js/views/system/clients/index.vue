@@ -525,6 +525,11 @@
                                             @click.prevent="clickEdit(row.id)">
                                             Editar
                                         </a>
+                                        <a v-if="row.soap_type=='01'" class="dropdown-item"
+                                            href="#"
+                                            @click.prevent="clickDemoConfiguration(row.id)">
+                                            Configurar Demo
+                                        </a>
                                         <div class="dropdown-divider"></div>
                                         <a class="dropdown-item"
                                             href="#"
@@ -587,6 +592,9 @@
 
         <client-delete :record="record"
                         :showDialog.sync="showDialogDelete"></client-delete>
+
+        <demo-configuration :clientId="recordId"
+                        :showDialog.sync="showDemoConfiguration"></demo-configuration>
     </div>
 </template>
 
@@ -597,6 +605,7 @@ import {deletable} from "../../../mixins/deletable";
 import {changeable} from "../../../mixins/changeable";
 import ChartLine from "./charts/Line";
 import ClientPayments from "./partials/payments.vue";
+import DemoConfiguration from "./partials/demo_configuration.vue";
 import AccountStatus from "./partials/account_status.vue";
 import ClientDelete from "./partials/delete.vue";
 import DataLimitNotification from "./partials/DataLimitNotification.vue";
@@ -619,7 +628,8 @@ export default {
         ClientPayments,
         AccountStatus,
         ClientDelete,
-        DataLimitNotification
+        DataLimitNotification,
+        DemoConfiguration
     },
     data() {
         return {
@@ -647,7 +657,8 @@ export default {
                 ]
             },
             showDialogDelete: false,
-            record: {}
+            record: {},
+            showDemoConfiguration:false,
         };
     },
     async mounted() {
@@ -823,7 +834,11 @@ export default {
         clickEdit(recordId) {
             this.recordId = recordId;
             this.showDialog = true;
-        }
+        },
+        clickDemoConfiguration(recordId = null) {
+            this.recordId = recordId;
+            this.showDemoConfiguration = true;
+        },
     }
 };
 </script>

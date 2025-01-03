@@ -889,6 +889,13 @@ if ($hostname) {
             Route::get('backup/last-backup', 'System\BackupController@mostRecent');
             Route::get('backup/download/{filename}', 'System\BackupController@download');
 
+            // demo_environments
+            Route::get('demo_environments/files', 'System\DemoEnvironmentController@getFiles')->name('system.demo.getfiles');
+            Route::post('demo_environments/backup-create', 'System\DemoEnvironmentController@create')->name('system.demo.create');
+            Route::post('demo_environments/backup-restore', 'System\DemoEnvironmentController@restore')->name('system.demo.restore');
+            Route::post('demo_environments/enable-cron', 'System\DemoEnvironmentController@enableCron')->name('system.demo.cron');
+            Route::get('demo_environments/client/{client_id}', 'System\DemoEnvironmentController@client');
+
             /*
             Route::get('ajuste_claves_mysql', function(){
 

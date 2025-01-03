@@ -84,6 +84,9 @@ class Client extends Model
         'locked_create_establishments',
         'restrict_sales_limit',
         'enable_list_product',
+        'restore_dbname_bkdemo',
+        'restore_type_bkdemo',
+        'enabled_cron_restore_bkdemo',
     ];
 
 
