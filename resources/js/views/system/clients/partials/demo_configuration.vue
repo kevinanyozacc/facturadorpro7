@@ -184,6 +184,12 @@
             enabledCronDemo() {
                 this.form.client_id = this.clientId
 
+                if((!this.form.restore_dbname_bkdemo) && this.form.enabled_cron_restore_bkdemo){
+                    this.$message.error('Seleccionar una demo para restaurar');
+                    this.form.enabled_cron_restore_bkdemo = false;
+                    return true;
+                }
+
                 this.$http.post(`/${this.resource}/enable-cron`, this.form)
                     .then(response => {
                         if (response.data.success) {

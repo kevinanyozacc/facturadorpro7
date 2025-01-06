@@ -65,7 +65,7 @@ class DemoRestoreTemporaryBackupDatabase extends Command
             $this->initDbConfig();
 
             $demoClients = $records->filter(function ($row) {
-                return $row->soap_type === '01' && $row->enabled_cron_restore_bkdemo == 1;
+                return $row->soap_type === '01' && $row->enabled_cron_restore_bkdemo == 1 && $row->restore_dbname_bkdemo != null && $row->restore_type_bkdemo!=null;
             });
 
             foreach ($demoClients as $client) {
