@@ -29,7 +29,12 @@
                     <tr slot-scope="{ index, row }" :class="{'text-danger': (row.state_type_id === '11')}">
                         <td>{{ index }}</td>
                         <td class="text-center">{{ row.date_of_issue }}</td>
-                        <td>{{ row.customer_name }} <br/> <small>{{ row.customer_number }}</small></td>
+                        <template v-if="!row.customer_id">
+                            <td><small>{{ row.transfer_reason_type.description }}</small></td>
+                        </template>
+                        <template v-else>
+                            <td>{{ row.customer_name }} <br/> <small>{{ row.customer_number }}</small></td>
+                        </template>
                         <td>{{ row.number }}</td>
                         <td>
                             <span class="badge bg-secondary text-white"

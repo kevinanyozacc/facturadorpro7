@@ -818,6 +818,46 @@ class DispatchController extends Controller
         return $records;
     }
 
+    public function getAddressesOtherEstablishments($id)
+    {
+        $records = [];
+
+        $other_establishments = Establishment::query()
+            ->where('id', '!=', $id)
+            ->get();
+
+        foreach ($other_establishments as $establishment) {
+            $records[] = [
+                'id' => $establishment->id,
+                'location_id' => [
+                    $establishment->department_id,
+                    $establishment->province_id,
+                    $establishment->district_id,
+                ],
+                'address' => $establishment->address,
+            ];
+        }
+        
+        $origin_addresses = OriginAddress::query()
+            ->where('is_active', true)
+            ->where('establishment_id', '!=', $id)
+            ->get();
+
+        foreach ($origin_addresses as $row) {
+            $records[] = [
+                'id' => $row->id,
+                'address' => $row->address,
+                'location_id' => $row->location_id,
+            ];
+        }
+
+        foreach ($records as $index => &$record) {
+            $record['id'] = $index + 1;
+        }
+
+        return $records;
+    }
+
     public function getDeliveryAddresses($id)
     {
         $records = [];

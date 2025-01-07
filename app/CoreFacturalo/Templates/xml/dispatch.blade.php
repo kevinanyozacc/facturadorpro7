@@ -1,3 +1,13 @@
+@php
+    
+    if($document['transfer_reason_type_id']==='04'){
+        $document['customer_identity_document_type_id'] = '6';
+        $document['customer_number'] = $document['company_number'];
+        $document['customer_name'] = $document['company_name'];
+    }
+
+@endphp
+
 {!! '<?xml version="1.0" encoding="utf-8" standalone="no"?>' !!}
 <DespatchAdvice xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                 xmlns:xsd="http://www.w3.org/2001/XMLSchema"

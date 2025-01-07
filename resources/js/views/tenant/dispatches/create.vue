@@ -49,22 +49,24 @@
                             </div>
                         </div>
                         <div class="col-lg-4">
-                            <div :class="{ 'has-danger': errors.customer_id }" class="form-group">
-                                <label class="control-label">
-                                    Cliente<span class="text-danger"> *</span>
-                                    <a href="#" @click.prevent="showDialogNewPerson = true">[+ Nuevo]</a>
-                                </label>
-                                <el-select v-model="form.customer_id" :loading="loading_search"
-                                    :remote-method="searchRemoteCustomers" filterable
-                                    placeholder="Escriba el nombre o número de documento del cliente"
-                                    popper-class="el-select-customers" remote @change="changeCustomer"
-                                    @keyup.enter.native="keyupCustomer">
-                                    <el-option v-for="option in customers" :key="option.id" :label="option.description"
-                                        :value="option.id"></el-option>
-                                </el-select>
-                                <small v-if="errors.customer_id" class="form-control-feedback"
-                                    v-text="errors.customer_id[0]"></small>
-                            </div>
+                            <template v-if="form.transfer_reason_type_id != '04'">
+                                <div :class="{ 'has-danger': errors.customer_id }" class="form-group">
+                                    <label class="control-label">
+                                        Cliente<span class="text-danger"> *</span>
+                                        <a href="#" @click.prevent="showDialogNewPerson = true">[+ Nuevo]</a>
+                                    </label>
+                                    <el-select v-model="form.customer_id" :loading="loading_search"
+                                        :remote-method="searchRemoteCustomers" filterable
+                                        placeholder="Escriba el nombre o número de documento del cliente"
+                                        popper-class="el-select-customers" remote @change="changeCustomer"
+                                        @keyup.enter.native="keyupCustomer">
+                                        <el-option v-for="option in customers" :key="option.id" :label="option.description"
+                                            :value="option.id"></el-option>
+                                    </el-select>
+                                    <small v-if="errors.customer_id" class="form-control-feedback"
+                                        v-text="errors.customer_id[0]"></small>
+                                </div>
+                            </template>
                         </div>
                         <div class="col-lg-2">
                             <div :class="{ 'has-danger': errors.transport_mode_type_id }" class="form-group">
@@ -1036,22 +1038,17 @@ export default {
             this.showWarehousesDetail = true
         },
         changeTransferReasonType() {
-            if (this.form.transfer_reason_type_id === '09') {
-                this.form.related = {
-                    number: null,
-                    document_type_id: 50
-                }
-                this.form.customer_id = null;
-                this.delivery = {
-                    country_id: 'PE',
-                    location_id: [],
-                    address: null,
-                }
-            } else {
-                this.form.related = {};
-                this.delivery.country_id = 'PE';
-            }
-            this.searchRemoteCustomers('');
+            const isReasonType09 = this.form.transfer_reason_type_id === '09';
+            const isReasonType04 = this.form.transfer_reason_type_id === '04';
+
+            this.form.related = isReasonType09 ? { number: null, document_type_id: 50 } : {};
+            this.form.customer_id = isReasonType09 || isReasonType04 ? null : this.form.customer_id;
+
+            this.delivery = isReasonType09 
+                ? { country_id: 'PE', location_id: [], address: null }
+                : { ...this.delivery, country_id: 'PE' };
+
+            isReasonType04 ? this.getAddressesOtherEstablishment(this.form.establishment_id) : this.searchRemoteCustomers('');
         },
         getFormatQuantity(quantity) {
             return _.round(quantity, 4)
@@ -1289,6 +1286,9 @@ export default {
                     'document_type_id': this.form.document_type_id
                 });
                 await this.getOriginAddresses(this.form.establishment_id)
+                if(this.form.transfer_reason_type_id==='04'){
+                    await this.getAddressesOtherEstablishment(this.form.establishment_id)
+                }
             }
         },
         changeSeries() {
@@ -1592,6 +1592,12 @@ export default {
         },
         async getDeliveryAddresses(customer_id) {
             await this.$http.get(`/dispatch_addresses/get_by_person/${customer_id}`)
+                .then(response => {
+                    this.delivery_addresses = response.data;
+                });
+        },
+        async getAddressesOtherEstablishment(establishment_id) {
+            await this.$http.get(`/${this.resource}/get_addresses_other_establishments/${establishment_id}`)
                 .then(response => {
                     this.delivery_addresses = response.data;
                 });

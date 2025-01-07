@@ -46,42 +46,61 @@
         </td>
     </tr>
 </table>
-<table class="full-width border-box mt-10 mb-10">
-    <thead>
-    <tr>
-        <th class="border-bottom text-left">DESTINATARIO</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <td>Razón Social: {{ $customer->name }}</td>
-    </tr>
-    <tr>
-        <td>{{ $customer->identity_document_type->description }}: {{ $customer->number }}
-        </td>
-    </tr>
-    <tr>
-        @if($document->transfer_reason_type_id === '09')
-            <td>Dirección: {{ $customer->address }} - {{ $customer->country->description }}
-            </td>
-        @else
-            <td>Dirección: {{ $customer->address }}
-                {{ ($customer->district_id !== '-')? ', '.$customer->district->description : '' }}
-                {{ ($customer->province_id !== '-')? ', '.$customer->province->description : '' }}
-                {{ ($customer->department_id !== '-')? '- '.$customer->department->description : '' }}
-            </td>
-        @endif
-    </tr>
-    @if ($customer->telephone)
+@if($document->transfer_reason_type_id === '04')
+    <table class="full-width border-box mt-10 mb-10">
+        <thead>
         <tr>
-            <td>Teléfono:{{ $customer->telephone }}</td>
+            <th class="border-bottom text-left">DESTINATARIO</th>
         </tr>
-    @endif
-    <tr>
-        <td>Vendedor: {{ $document->user->name }}</td>
-    </tr>
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Razón Social: {{ $company->name }}</td>
+        </tr>
+        <tr>
+            <td>RUC: {{ $company->number }}
+            </td>
+        </tr>
+        </tbody>
+    </table>
+@else
+    <table class="full-width border-box mt-10 mb-10">
+        <thead>
+        <tr>
+            <th class="border-bottom text-left">DESTINATARIO</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Razón Social: {{ $customer->name }}</td>
+        </tr>
+        <tr>
+            <td>{{ $customer->identity_document_type->description }}: {{ $customer->number }}
+            </td>
+        </tr>
+        <tr>
+            @if($document->transfer_reason_type_id === '09')
+                <td>Dirección: {{ $customer->address }} - {{ $customer->country->description }}
+                </td>
+            @else
+                <td>Dirección: {{ $customer->address }}
+                    {{ ($customer->district_id !== '-')? ', '.$customer->district->description : '' }}
+                    {{ ($customer->province_id !== '-')? ', '.$customer->province->description : '' }}
+                    {{ ($customer->department_id !== '-')? '- '.$customer->department->description : '' }}
+                </td>
+            @endif
+        </tr>
+        @if ($customer->telephone)
+            <tr>
+                <td>Teléfono:{{ $customer->telephone }}</td>
+            </tr>
+        @endif
+        <tr>
+            <td>Vendedor: {{ $document->user->name }}</td>
+        </tr>
+        </tbody>
+    </table>
+@endif
 <table class="full-width border-box mt-10 mb-10">
     <thead>
     <tr>

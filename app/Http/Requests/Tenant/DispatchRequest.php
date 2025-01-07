@@ -63,9 +63,9 @@ class DispatchRequest extends FormRequest
 //            'driver.number'=> [
 //                'required_if:transport_mode_type_id, "02"',
 //            ],
-            'customer_id'=> [
-                'required_if:document_type_id, "09"',
-            ],
+            // 'customer_id'=> [
+            //     'required_if:document_type_id, "09"',
+            // ],
             'transport_mode_type_id'=> [
                 'required_if:document_type_id, "09"',
             ],
