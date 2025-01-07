@@ -10,7 +10,12 @@ class ModuleViewComposer
 {
     public function compose($view)
     {
-        $modules = auth()->user()->modules()->pluck('value')->toArray();
+        $user = auth()->user();
+        if (is_null($user)) {
+            return redirect()->route('login');
+        }
+
+        $modules = $user->modules()->pluck('value')->toArray();
         /*
         $systemConfig = Configuration::select('use_login_global')->first();
         */

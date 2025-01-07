@@ -2,6 +2,7 @@
 
 namespace App\Models\Tenant\Catalogs;
 
+use App\Models\Tenant\Item;
 use Hyn\Tenancy\Traits\UsesTenantConnection;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -28,7 +29,11 @@ class UnitType extends ModelCatalog
     //         $builder->where('active', 1);
     //     });
     // }
-    
+    public function items()
+    {
+        return $this->hasMany(Item::class, 'unit_type_id');
+    }
+
     public function item_unit_types()
     {
         return $this->hasMany(ItemUnitType::class);
