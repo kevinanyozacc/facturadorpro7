@@ -1337,6 +1337,7 @@ export default {
                     this.receivers = response.data;
                 });
             await this.successReceiverAddress(data['address_id'])
+            await this.changeReceiver()
         },
         async successSenderAddress(id) {
             this.form.sender_address_id = id;
