@@ -1,248 +1,256 @@
 <template>
-    <div class="card tab-content-default row-new mb-0 pt-2 pt-md-0">
-        <div class="card-header bg-info">
-            <h3 class="my-0">
-                Nuevo Ingreso de insumo
-            </h3>
+    <div>
+        <div class="page-header pr-0">
+            <h2><a href="/dashboard"><i class="fas fa-tachometer-alt"></i></a></h2>
+            <ol class="breadcrumbs">
+                <li class="active"><span> Nuevo Ingreso de insumo </span></li>
+            </ol>
         </div>
-        <div class="tab-content">
-            <form autocomplete="off"
-                  @submit.prevent="submit">
-                <div class="form-body">
-                    <div class="row">
-
-                        <div class="col-sm-12 col-md-6 col-lg-3 ">
-                            <div :class="{'has-danger': errors.date_start}"
-                                 class="form-group">
-                                <label class="control-label">
-                                    Fecha de inicio
-                                </label>
-                                <el-date-picker v-model="form.date_start"
-                                                :clearable="false"
-                                                format="dd/MM/yyyy"
-                                                type="date"
-                                                value-format="yyyy-MM-dd"></el-date-picker>
-                                <small v-if="errors.date_start"
-                                       class="form-control-feedback"
-                                       v-text="errors.date_start[0]"></small>
+        <div class="card tab-content-default row-new mb-0 pt-2 pt-md-0">
+            <!-- <div class="card-header bg-info">
+                <h3 class="my-0">
+                    Nuevo Ingreso de insumo
+                </h3>
+            </div> -->
+            <div class="tab-content tab-content-default">
+                <form autocomplete="off"
+                      @submit.prevent="submit">
+                    <div class="form-body">
+                        <div class="row">
+    
+                            <div class="col-sm-12 col-md-6 col-lg-3 ">
+                                <div :class="{'has-danger': errors.date_start}"
+                                     class="form-group">
+                                    <label class="control-label">
+                                        Fecha de inicio
+                                    </label>
+                                    <el-date-picker v-model="form.date_start"
+                                                    :clearable="false"
+                                                    format="dd/MM/yyyy"
+                                                    type="date"
+                                                    value-format="yyyy-MM-dd"></el-date-picker>
+                                    <small v-if="errors.date_start"
+                                           class="form-control-feedback"
+                                           v-text="errors.date_start[0]"></small>
+                                </div>
+                            </div>
+    
+                            <div class="col-sm-12 col-md-6 col-lg-3 ">
+                                <div :class="{'has-danger': errors.time_start}"
+                                     class="form-group">
+                                    <label class="control-label">Hora de inicio</label>
+                                    <el-time-picker v-model="form.time_start"
+                                                    dusk="time_start"
+                                                    value-format="HH:mm:ss"
+                                                    placeholder="Seleccionar"></el-time-picker>
+                                    <small v-if="errors.time_start"
+                                           class="form-control-feedback"
+                                           v-text="errors.time_start[0]"></small>
+                                </div>
+                            </div>
+    
+    
+                            <div class="col-sm-12 col-md-6 col-lg-3 ">
+                                <div :class="{'has-danger': errors.date_end}"
+                                     class="form-group">
+                                    <label class="control-label">
+                                        Fecha de Finalizacion
+                                    </label>
+                                    <el-date-picker v-model="form.date_end"
+                                                    :clearable="false"
+                                                    format="dd/MM/yyyy"
+                                                    type="date"
+                                                    value-format="yyyy-MM-dd"></el-date-picker>
+                                    <small v-if="errors.date_end"
+                                           class="form-control-feedback"
+                                           v-text="errors.date_end[0]"></small>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6 col-lg-3 ">
+                                <div :class="{'has-danger': errors.time_end}"
+                                     class="form-group">
+                                    <label class="control-label">Hora de finalizacion</label>
+                                    <el-time-picker v-model="form.time_end"
+                                                    dusk="time_end"
+                                                    value-format="HH:mm:ss"
+                                                    placeholder="Seleccionar"></el-time-picker>
+                                    <small v-if="errors.time_end"
+                                           class="form-control-feedback"
+                                           v-text="errors.time_end[0]"></small>
+                                </div>
+                            </div>
+    
+                            <div class="col-sm-12 col-md-6 col-lg-3 ">
+                                <div :class="{'has-danger': errors.name}"
+                                     class="form-group">
+                                    <label class="control-label">Número de Ficha</label>
+                                    <el-input v-model="form.name"></el-input>
+                                    <small v-if="errors.name"
+                                           class="form-control-feedback"
+                                           v-text="errors.name[0]"></small>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6 col-lg-3 ">
+                                <div :class="{'has-danger': errors.comment}"
+                                     class="form-group">
+                                    <label class="control-label">Comentario</label>
+                                    <el-input v-model="form.comment"></el-input>
+                                    <small v-if="errors.comment"
+                                           class="form-control-feedback"
+                                           v-text="errors.comment[0]"></small>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6 col-lg-3 ">
+                                <div :class="{'has-danger': errors.mill_name}"
+                                     class="form-group">
+                                    <label class="control-label">Molino</label>
+                                    <el-input v-model="form.mill_name"></el-input>
+                                    <small v-if="errors.mill_name"
+                                           class="form-control-feedback"
+                                           v-text="errors.mill_name[0]"></small>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6 col-lg-3 ">
+                                <div :class="{'has-danger': errors.lot_code}"
+                                     class="form-group">
+                                    <label class="control-label">Lote</label>
+                                    <el-input v-model="form.lot_code"></el-input>
+                                    <small v-if="errors.lot_code"
+                                           class="form-control-feedback"
+                                           v-text="errors.lot_code[0]"></small>
+                                </div>
+                            </div>
+                            <!--
+    
+                            <div class="col-sm-12 col-md-3 col-lg-3">
+                                <div :class="{'has-danger': errors.item_extra_data}"
+                                     class="form-group">
+                                    <label class="control-label">
+                                        Color <<< pasarlo a item
+                                    </label>
+                                    <el-select v-model="form.item_extra_data.color"
+                                               :disable="item === undefined || item.colors === undefined ||item.colors.length < 1"
+                                               filterable>
+                                        <el-option
+                                            v-for="option in item.colors"
+    
+                                            :key="option.id"
+                                            :label="option.color_name"
+                                            :value="option.id"
+                                        ></el-option>
+                                    </el-select>
+                                    <small v-if="errors.item_extra_data"
+                                           class="form-control-feedback"
+                                           v-text="errors.item_extra_data[0]"></small>
+                                </div>
+                            </div>
+                            -->
+    
+    
+    
+                            <!--
+                            <div class="col-lg-6">
+                                <div :class="{'has-danger': errors.supplier_id}"
+                                     class="form-group">
+                                    <label class="control-label">
+                                        Proveedor
+                                        <a href="#"
+                                           @click.prevent="showDialogNewPerson = true">[+ Nuevo]</a>
+                                    </label>
+                                    <el-select v-model="form.supplier_id"
+                                               filterable>
+                                        <el-option v-for="option in suppliers"
+                                                   :key="option.id"
+                                                   :label="option.description"
+                                                   :value="option.id"></el-option>
+                                    </el-select>
+                                    <small v-if="errors.supplier_id"
+                                           class="form-control-feedback"
+                                           v-text="errors.supplier_id[0]"></small>
+                                </div>
+                            </div>
+                            -->
+    
+    
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-2 col-md-6 mt-4">
+                                <div class="form-group">
+                                    <button class="btn waves-effect waves-light btn-primary"
+                                            type="button"
+                                            @click.prevent="showAddItemModal">+ Seleccionar Insumo
+                                    </button>
+                                </div>
                             </div>
                         </div>
-
-                        <div class="col-sm-12 col-md-6 col-lg-3 ">
-                            <div :class="{'has-danger': errors.time_start}"
-                                 class="form-group">
-                                <label class="control-label">Hora de inicio</label>
-                                <el-time-picker v-model="form.time_start"
-                                                dusk="time_start"
-                                                value-format="HH:mm:ss"
-                                                placeholder="Seleccionar"></el-time-picker>
-                                <small v-if="errors.time_start"
-                                       class="form-control-feedback"
-                                       v-text="errors.time_start[0]"></small>
+                        <div v-if="form.items.length > 0"
+                             class="row mt-2">
+                            <div class="col-md-12">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th class="font-weight-bold">Descripción</th>
+                                            <th class="font-weight-bold">Unidad</th>
+                                            <th class="text-right font-weight-bold">Entrada</th>
+                                            <th class="text-right font-weight-bold">Salida</th>
+                                            <th></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr v-for="(row, index) in form.items">
+                                            <td>{{ index + 1 }}</td>
+                                            <td>{{ ItemOptionDescriptionView(row) }}</td>
+                                            <td>{{ ItemUnit(row) }}</td>
+                                            <td class="text-right">{{ row.height_to_mill }}</td>
+                                            <td class="text-right">{{ row.total_height }}</td>
+                                            <td class="text-right">
+                                                <button class="btn waves-effect waves-light btn-xs btn-danger"
+                                                        type="button"
+                                                        @click.prevent="clickRemoveItem(index)">x
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <h3 v-if="form.total > 0"
+                                    class="text-right"><b>TOTAL: </b>{{ currency_type.symbol }} {{ form.total }}</h3>
                             </div>
                         </div>
-
-
-                        <div class="col-sm-12 col-md-6 col-lg-3 ">
-                            <div :class="{'has-danger': errors.date_end}"
-                                 class="form-group">
-                                <label class="control-label">
-                                    Fecha de Finalizacion
-                                </label>
-                                <el-date-picker v-model="form.date_end"
-                                                :clearable="false"
-                                                format="dd/MM/yyyy"
-                                                type="date"
-                                                value-format="yyyy-MM-dd"></el-date-picker>
-                                <small v-if="errors.date_end"
-                                       class="form-control-feedback"
-                                       v-text="errors.date_end[0]"></small>
-                            </div>
-                        </div>
-                        <div class="col-sm-12 col-md-6 col-lg-3 ">
-                            <div :class="{'has-danger': errors.time_end}"
-                                 class="form-group">
-                                <label class="control-label">Hora de finalizacion</label>
-                                <el-time-picker v-model="form.time_end"
-                                                dusk="time_end"
-                                                value-format="HH:mm:ss"
-                                                placeholder="Seleccionar"></el-time-picker>
-                                <small v-if="errors.time_end"
-                                       class="form-control-feedback"
-                                       v-text="errors.time_end[0]"></small>
-                            </div>
-                        </div>
-
-                        <div class="col-sm-12 col-md-6 col-lg-3 ">
-                            <div :class="{'has-danger': errors.name}"
-                                 class="form-group">
-                                <label class="control-label">Número de Ficha</label>
-                                <el-input v-model="form.name"></el-input>
-                                <small v-if="errors.name"
-                                       class="form-control-feedback"
-                                       v-text="errors.name[0]"></small>
-                            </div>
-                        </div>
-                        <div class="col-sm-12 col-md-6 col-lg-3 ">
-                            <div :class="{'has-danger': errors.comment}"
-                                 class="form-group">
-                                <label class="control-label">Comentario</label>
-                                <el-input v-model="form.comment"></el-input>
-                                <small v-if="errors.comment"
-                                       class="form-control-feedback"
-                                       v-text="errors.comment[0]"></small>
-                            </div>
-                        </div>
-                        <div class="col-sm-12 col-md-6 col-lg-3 ">
-                            <div :class="{'has-danger': errors.mill_name}"
-                                 class="form-group">
-                                <label class="control-label">Molino</label>
-                                <el-input v-model="form.mill_name"></el-input>
-                                <small v-if="errors.mill_name"
-                                       class="form-control-feedback"
-                                       v-text="errors.mill_name[0]"></small>
-                            </div>
-                        </div>
-                        <div class="col-sm-12 col-md-6 col-lg-3 ">
-                            <div :class="{'has-danger': errors.lot_code}"
-                                 class="form-group">
-                                <label class="control-label">Lote</label>
-                                <el-input v-model="form.lot_code"></el-input>
-                                <small v-if="errors.lot_code"
-                                       class="form-control-feedback"
-                                       v-text="errors.lot_code[0]"></small>
-                            </div>
-                        </div>
-                        <!--
-
-                        <div class="col-sm-12 col-md-3 col-lg-3">
-                            <div :class="{'has-danger': errors.item_extra_data}"
-                                 class="form-group">
-                                <label class="control-label">
-                                    Color <<< pasarlo a item
-                                </label>
-                                <el-select v-model="form.item_extra_data.color"
-                                           :disable="item === undefined || item.colors === undefined ||item.colors.length < 1"
-                                           filterable>
-                                    <el-option
-                                        v-for="option in item.colors"
-
-                                        :key="option.id"
-                                        :label="option.color_name"
-                                        :value="option.id"
-                                    ></el-option>
-                                </el-select>
-                                <small v-if="errors.item_extra_data"
-                                       class="form-control-feedback"
-                                       v-text="errors.item_extra_data[0]"></small>
-                            </div>
-                        </div>
-                        -->
-
-
-
-                        <!--
-                        <div class="col-lg-6">
-                            <div :class="{'has-danger': errors.supplier_id}"
-                                 class="form-group">
-                                <label class="control-label">
-                                    Proveedor
-                                    <a href="#"
-                                       @click.prevent="showDialogNewPerson = true">[+ Nuevo]</a>
-                                </label>
-                                <el-select v-model="form.supplier_id"
-                                           filterable>
-                                    <el-option v-for="option in suppliers"
-                                               :key="option.id"
-                                               :label="option.description"
-                                               :value="option.id"></el-option>
-                                </el-select>
-                                <small v-if="errors.supplier_id"
-                                       class="form-control-feedback"
-                                       v-text="errors.supplier_id[0]"></small>
-                            </div>
-                        </div>
-                        -->
-
-
                     </div>
-                    <div class="row">
-                        <div class="col-lg-2 col-md-6 mt-4">
-                            <div class="form-group">
-                                <button class="btn waves-effect waves-light btn-primary"
-                                        type="button"
-                                        @click.prevent="showAddItemModal">+ Seleccionar Insumo
-                                </button>
-                            </div>
-                        </div>
+                    <div class="form-actions text-right mt-4">
+                        <el-button class="second-buton btn btn-default second-buton-default" @click.prevent="close()">Cancelar</el-button>
+                        <el-button class="btn btn-primary btn-submit-default" v-if="form.items.length > 0"
+                                   :loading="loading_submit"
+                                   native-type="submit"
+                                   type="primary">{{ (id) ? 'Actualizar' : 'Generar' }}
+                        </el-button>
                     </div>
-                    <div v-if="form.items.length > 0"
-                         class="row mt-2">
-                        <div class="col-md-12">
-                            <div class="table-responsive">
-                                <table class="table">
-                                    <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th class="font-weight-bold">Descripción</th>
-                                        <th class="font-weight-bold">Unidad</th>
-                                        <th class="text-right font-weight-bold">Entrada</th>
-                                        <th class="text-right font-weight-bold">Salida</th>
-                                        <th></th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr v-for="(row, index) in form.items">
-                                        <td>{{ index + 1 }}</td>
-                                        <td>{{ ItemOptionDescriptionView(row) }}</td>
-                                        <td>{{ ItemUnit(row) }}</td>
-                                        <td class="text-right">{{ row.height_to_mill }}</td>
-                                        <td class="text-right">{{ row.total_height }}</td>
-                                        <td class="text-right">
-                                            <button class="btn waves-effect waves-light btn-xs btn-danger"
-                                                    type="button"
-                                                    @click.prevent="clickRemoveItem(index)">x
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <h3 v-if="form.total > 0"
-                                class="text-right"><b>TOTAL: </b>{{ currency_type.symbol }} {{ form.total }}</h3>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-actions text-right mt-4">
-                    <el-button class="second-buton btn btn-default second-buton-default" @click.prevent="close()">Cancelar</el-button>
-                    <el-button class="btn btn-primary btn-submit-default" v-if="form.items.length > 0"
-                               :loading="loading_submit"
-                               native-type="submit"
-                               type="primary">{{ (id) ? 'Actualizar' : 'Generar' }}
-                    </el-button>
-                </div>
-            </form>
+                </form>
+            </div>
+            <mill-form-item
+                :currency-type-id-active="form.currency_type_id"
+                :exchange-rate-sale="form.exchange_rate_sale"
+                :showDialog.sync="showDialog"
+                @add="addRow"></mill-form-item>
+            <!--
+    
+    
+    
+            <person-form :showDialog.sync="showDialogNewPerson"
+                         type="suppliers"
+                         :external="true"></person-form>
+    
+            <mill-options :showDialog.sync="showDialogOptions"
+                             :recordId="millNewId"
+                             :isUpdate="id ? true:false"
+                             :showClose="false"></mill-options>
+            -->
         </div>
-        <mill-form-item
-            :currency-type-id-active="form.currency_type_id"
-            :exchange-rate-sale="form.exchange_rate_sale"
-            :showDialog.sync="showDialog"
-            @add="addRow"></mill-form-item>
-        <!--
-
-
-
-        <person-form :showDialog.sync="showDialogNewPerson"
-                     type="suppliers"
-                     :external="true"></person-form>
-
-        <mill-options :showDialog.sync="showDialogOptions"
-                         :recordId="millNewId"
-                         :isUpdate="id ? true:false"
-                         :showClose="false"></mill-options>
-        -->
     </div>
 </template>
 

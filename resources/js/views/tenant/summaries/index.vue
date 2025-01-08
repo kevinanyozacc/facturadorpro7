@@ -10,9 +10,9 @@
             </div>
         </header>
         <div class="card tab-content-default row-new">
-            <div class="card-header bg-info">
+            <!-- <div class="card-header bg-info">
                 <h3 class="my-0">Listado de resúmenes</h3>
-            </div>
+            </div> -->
 
              <div class="card-body">
                 <data-table :resource="resource">

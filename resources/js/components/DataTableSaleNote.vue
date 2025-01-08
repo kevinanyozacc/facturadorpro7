@@ -3,9 +3,15 @@
         <div class="row ">
 
             <div class="col-md-12 col-lg-12 col-xl-12 ">
-                <br>
-                <br>
-                <div class="row" v-if="applyFilter">
+                <el-button
+                    type="primary"
+                    class="btn-show-filter mb-2"
+                    :class="{ shift: isVisible }"
+                    @click="toggleInformation"
+                >
+                    {{ isVisible ? "Ocultar opciones de filtro" : "Mostrar opciones de filtro" }}
+                </el-button>
+                <div class="row" v-if="applyFilter && isVisible">
                     <div class="col-12 pb-3">Filtrar por:</div>
                     <div class="col-lg-2 col-md-4 col-sm-12 pb-2">
                         <div class="d-flex">
@@ -138,6 +144,7 @@
                 records: [],
                 pagination: {},
                 series: [],
+                isVisible: false,
                 search_by_plate:false,
                 recordItem: null
             }
@@ -167,6 +174,9 @@
             await this.getTotals()
         },
         methods: {
+            toggleInformation() {
+                this.isVisible = !this.isVisible;
+            },
             getTotals(){
 
                 this.$http.get(`/${this.resource}/totals?${this.getQueryParameters()}`)

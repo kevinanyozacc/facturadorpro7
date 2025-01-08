@@ -12,9 +12,9 @@
             </div>
         </div>
         <div class="card tab-content-default row-new mb-0">
-            <div class="card-header bg-info">
+            <!-- <div class="card-header bg-info">
                 <h3 class="my-0">Listado de {{ title }}</h3>
-            </div>
+            </div> -->
             <div class="card-body">
                 <data-table :resource="resource">
 
@@ -26,7 +26,7 @@
                         <th class="text-center">Fecha admisión</th>
                         <th >Cargo</th>
                         <th class="text-right">Acciones</th>
-                    <tr>
+                    </tr>
                     <tr slot-scope="{ index, row }">
                         <td>{{ index }}</td>
                         <td>{{ row.name }}</td>

@@ -8,9 +8,9 @@
         </div>
 
         <div v-loading="loading" class="card mb-0 pt-2 pt-md-0">
-            <div class="card-header bg-info">
+            <!-- <div class="card-header bg-info">
                 <h3 class="my-0">{{ title }}</h3>
-            </div>
+            </div> -->
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-4 form-modern">

@@ -3,7 +3,15 @@
         <div class="row ">
 
             <div class="col-md-9 col-lg-9 col-xl-9 ">
-                <div class="row" v-if="applyFilter">
+                <el-button
+                    type="primary"
+                    class="btn-show-filter mb-2"
+                    :class="{ shift: isVisible }"
+                    @click="toggleInformation"
+                >
+                    {{ isVisible ? "Ocultar opciones de filtro" : "Mostrar opciones de filtro" }}
+                </el-button>
+                <div class="row" v-if="applyFilter && isVisible">
                     <div class="col-lg-4 col-md-4 col-sm-12 pb-2">
                         <label for="">Tipo</label>
                         <el-select v-model="search.column"  placeholder="Select" @change="changeClearInput">
@@ -111,6 +119,7 @@
                 columns: [],
                 records: [],
                 pagination: {},
+                isVisible: false,
                 showDialogDocuments: false,
                 loading_submit: false,
                 state_types: [
@@ -149,6 +158,9 @@
             await this.getRecords()
         },
         methods: {
+            toggleInformation() {
+                this.isVisible = !this.isVisible;
+            },
             ...mapActions([
                 'loadConfiguration',
             ]),

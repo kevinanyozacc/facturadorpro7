@@ -66,7 +66,7 @@
                 <el-tabs v-model="activeName" class="mt-2">
                     <el-tab-pane class="mb-3"
                                  name="first">
-                        <span slot="label"><h3>General</h3></span>
+                        <span slot="label"><h3 class="m-0 mt-2">General</h3></span>
                         <div class="row">
                             <div class="col-md-6">
                                 <div :class="{'has-danger': errors.reason}"
@@ -213,7 +213,7 @@
                     </el-tab-pane>
                     <el-tab-pane class="mb-3"
                                  name="second">
-                        <span slot="label"><h3>Notas</h3></span>
+                        <span slot="label"><h3 class="m-0 mt-2">Notas</h3></span>
                         <div class="row">
                             <div class="col-md-12">
 
@@ -250,7 +250,7 @@
 
                     <el-tab-pane class="mb-3"
                                  name="third">
-                        <span slot="label"><h3>Productos</h3></span>
+                        <span slot="label"><h3 class="m-0 mt-2">Productos</h3></span>
                         <div class="row">
                             <div class="col-12 row ">
                                 <!--

@@ -10,7 +10,7 @@
             <ol class="breadcrumbs">
                 <li class="active">
                     <span>
-                        {{ typeText }}
+                        Listado de Clientes
                     </span>
                 </li>
             </ol>
@@ -25,11 +25,11 @@
             </div>
         </div>
         <div class="card tab-content-default row-new mb-0">
-            <div class="card-header bg-info">
+            <!-- <div class="card-header bg-info">
                 <h3 class="my-0">
                     Listado de Clientes
                 </h3>
-            </div>
+            </div> -->
             <div class="card-body">
                 <data-table
                     :extraquery={users:type}>

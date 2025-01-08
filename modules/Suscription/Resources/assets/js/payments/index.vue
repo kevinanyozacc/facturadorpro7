@@ -10,7 +10,7 @@
             <ol class="breadcrumbs">
                 <li class="active">
                     <span>
-                        Suscripciones
+                        Listado de matrículas
                     </span>
                 </li>
             </ol>
@@ -25,11 +25,11 @@
             </div>
         </div>
         <div class="card tab-content-default row-new mb-0">
-            <div class="card-header bg-info">
+            <!-- <div class="card-header bg-info">
                 <h3 class="my-0">
                     Listado de matrículas
                 </h3>
-            </div>
+            </div> -->
             <div class="card-body">
                 <data-table>
                     <tr slot="heading">
@@ -74,18 +74,18 @@
                         <td class="text-center">
                             {{ row.parent_customer.description }}
                         </td>
-                        <td class="text-left">
+                        <td class="text-center">
                             {{ row.children_customer.description }}
                         </td>
-                        <td class="text-left">
+                        <td class="text-center">
                             {{ row.plan.name }}
                         </td>
-                        <td class="text-left"> {{ row.grade }} </td>
-                        <td class="text-left"> {{ row.section }} </td>
-                        <td class="text-left">
+                        <td class="text-center"> {{ row.grade }} </td>
+                        <td class="text-center"> {{ row.section }} </td>
+                        <td class="text-center">
                             {{ row.quantity_period }}
                         </td>
-                        <td class="text-left">
+                        <td class="text-center">
                             {{ row.quantity_period * row.total }}
                         </td>
                         <!--

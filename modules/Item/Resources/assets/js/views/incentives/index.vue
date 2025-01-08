@@ -4,14 +4,15 @@
             <h2><a href="/dashboard"><i class="fas fa-tachometer-alt"></i></a></h2>
             <ol class="breadcrumbs">
                 <li class="active"><span>Comisiones</span></li>
+                <li><span class="text-muted">Comisiones por producto</span></li>
             </ol>
             <div class="right-wrapper pull-right"> 
             </div>
         </div>
-        <div class="card mb-0">
-            <div class="card-header bg-info">
+        <div class="card mb-0 tab-content-default row-new">
+            <!-- <div class="card-header bg-info">
                 <h3 class="my-0">Comisiones por producto</h3>
-            </div>
+            </div> -->
             <div class="card-body">
                 <data-table :resource="resource">
                     <tr slot="heading" width="100%">

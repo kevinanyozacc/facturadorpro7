@@ -15,14 +15,14 @@
                             </el-select>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3 form-modern">
                         <label class="control-label">Fecha del</label>
                         <el-date-picker v-model="form.date_start" :clearable="false"
                                         format="dd/MM/yyyy"
                                         type="date" value-format="yyyy-MM-dd" @change="changeDisabledDates">
                         </el-date-picker>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3 form-modern">
                         <label class="control-label">Fecha al</label>
                         <el-date-picker v-model="form.date_end" :clearable="false"
                                         :picker-options="pickerOptionsDates"

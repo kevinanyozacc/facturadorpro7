@@ -1,35 +1,43 @@
 <template>
-    <div class="card tab-content-default row-new">
-        <div class="card-header bg-info">
-            <h3 class="my-0">Libro Mayor</h3>
+    <div>
+        <div class="page-header pr-0">
+            <h2><a href="/dashboard"><i class="fas fa-tachometer-alt"></i></a></h2>
+            <ol class="breadcrumbs">
+                <li class="active"><span> Libro Mayor </span></li>
+            </ol>
         </div>
-        <div class="card-body">
-            <div class="form-body">
-                <div class="row">
-                    <div class="col-12 col-xs-12 col-md-6 col-lg-4 col-xl-3">
-                        <div :class="{'has-danger': errors.currency_type_id}"
-                             class="form-group">
-                            <label class="control-label">Consultar Registro</label>
-                            <el-select v-model="month_end">
-                                <el-option v-for="option in months"
-                                           :key="option.id"
-                                           :label="option.description"
-                                           :value="option.id"></el-option>
-                            </el-select>
-                            <small v-if="errors.currency_type_id"
-                                   class="form-control-feedback"
-                                   v-text="errors.currency_type_id[0]"></small>
+        <div class="card tab-content-default row-new">
+            <!-- <div class="card-header bg-info">
+                <h3 class="my-0">Libro Mayor</h3>
+            </div> -->
+            <div class="card-body">
+                <div class="form-body">
+                    <div class="row">
+                        <div class="col-12 col-xs-12 col-md-6 col-lg-4 col-xl-3">
+                            <div :class="{'has-danger': errors.currency_type_id}"
+                                 class="form-group">
+                                <label class="control-label">Consultar Registro</label>
+                                <el-select v-model="month_end">
+                                    <el-option v-for="option in months"
+                                               :key="option.id"
+                                               :label="option.description"
+                                               :value="option.id"></el-option>
+                                </el-select>
+                                <small v-if="errors.currency_type_id"
+                                       class="form-control-feedback"
+                                       v-text="errors.currency_type_id[0]"></small>
+                            </div>
                         </div>
+    
                     </div>
-
-                </div>
-                <div class="form-actions  pt-2">
-
-                    <el-button class="submit"
-                               type="success"
-                               @click.prevent="clickDownload('excel')"><i class="fa fa-file-excel"></i> Exporta Excel
-                    </el-button>
-
+                    <div class="form-actions  pt-2">
+    
+                        <el-button class="submit"
+                                   type="success"
+                                   @click.prevent="clickDownload('excel')"><i class="fa fa-file-excel"></i> Exporta Excel
+                        </el-button>
+    
+                    </div>
                 </div>
             </div>
         </div>

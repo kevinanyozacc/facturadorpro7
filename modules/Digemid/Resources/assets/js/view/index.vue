@@ -5,7 +5,7 @@
                 <a href="/dashboard"><i class="fas fa-tachometer-alt"></i></a>
             </h2>
             <ol class="breadcrumbs">
-                <li class="active"><span>{{ titleTopBar }}</span></li>
+                <li class="active"><span>{{ titleTopBar }} DIGEMID</span></li>
             </ol>
             <div class="right-wrapper pull-right">
                 <template v-if="typeUser === 'admin'">
@@ -116,9 +116,9 @@
             </div>
         </div>
         <div class="card mb-0">
-            <div class="card-header bg-info">
+            <!-- <div class="card-header bg-info">
                 <h3 class="my-0">{{ title }}</h3>
-            </div>
+            </div> -->
             <div class="data-table-visible-columns">
                 <el-dropdown :hide-on-click="false">
                     <el-button type="primary">

@@ -1,36 +1,44 @@
 <template>
-    <div class="card mb-0 pt-2 pt-md-0">
-        <div class="card-header bg-info">
-            <h3 class="my-0">Comisiones vendedores - ventas</h3>
+    <div>
+        <div class="page-header pr-0">
+            <h2><a href="/dashboard"><i class="fas fa-tachometer-alt"></i></a></h2>
+            <ol class="breadcrumbs">
+                <li class="active"><span> Comisiones vendedores - ventas </span></li>
+            </ol>
         </div>
-        <div class="card mb-0">
-                <div class="card-body">
-                    <data-table
-                        :applyCustomer="true"
-                        :resource="resource">
-                        <tr slot="heading">
-                            <th>#</th>
-                            <!-- <th class="text-center">Código vendedor</th> -->
-                            <th>Vendedor</th>
-                            <th class="text-center">Cantidad transacciones</th>
-                            <th class="text-center">Ventas acumuladas</th>
-                            <th class="text-center">Total comisiones</th>
-                        </tr>
-                        <tr slot-scope="{ index, row }">
-                            <td>{{ index }}</td>
-                            <!-- <td>{{row.user_name}}</td> -->
-                            <td>{{row.user_name}}</td>
-                            <td class="text-center">{{row.total_transactions}}</td>
-                            <td class="text-center">{{row.acum_sales}}</td>
-                            <td class="text-center">{{row.total_commision}}</td>
-                        </tr>
-
-                    </data-table>
-
-
-                </div>
+        <div class="card mb-0 pt-2 pt-md-0 tab-content-default row-new">
+            <!-- <div class="card-header bg-info">
+                <h3 class="my-0">Comisiones vendedores - ventas</h3>
+            </div> -->
+            <div class="card mb-0">
+                    <div class="card-body">
+                        <data-table
+                            :applyCustomer="true"
+                            :resource="resource">
+                            <tr slot="heading">
+                                <th>#</th>
+                                <!-- <th class="text-center">Código vendedor</th> -->
+                                <th>Vendedor</th>
+                                <th class="text-center">Cantidad transacciones</th>
+                                <th class="text-center">Ventas acumuladas</th>
+                                <th class="text-center">Total comisiones</th>
+                            </tr>
+                            <tr slot-scope="{ index, row }">
+                                <td>{{ index }}</td>
+                                <!-- <td>{{row.user_name}}</td> -->
+                                <td>{{row.user_name}}</td>
+                                <td class="text-center">{{row.total_transactions}}</td>
+                                <td class="text-center">{{row.acum_sales}}</td>
+                                <td class="text-center">{{row.total_commision}}</td>
+                            </tr>
+    
+                        </data-table>
+    
+    
+                    </div>
+            </div>
+    
         </div>
-
     </div>
 </template>
 

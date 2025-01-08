@@ -79,7 +79,7 @@
             <div class="card-body ">
                 <data-table :resource="resource">
 
-                    <el-dropdown :hide-on-click="false" slot="showhide">
+                    <el-dropdown style="margin-left: 200px !important;" :hide-on-click="false" slot="showhide">
                         <el-button type="primary">
                             Mostrar/Ocultar columnas<i class="el-icon-arrow-down el-icon--right"></i>
                         </el-button>

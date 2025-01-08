@@ -9,9 +9,9 @@
             </div>
 
             <div class="tab-content-default row-new w-100 m-0 p-0 mt-4" v-loading="loading">
-                <div class="card-header bg-info">
+                <!-- <div class="card-header bg-info">
                     <h3 class="my-0">{{ title }}</h3>
-                </div>
+                </div> -->
                 <div class="card-body">
                     <!--<div class="form-body">-->
                     <!--<div class="row">-->

@@ -20,15 +20,15 @@
       </div>
     </div>
     <div class="card tab-content-default row-new mb-0">
-      <div class="card-header bg-info">
+      <!-- <div class="card-header bg-info">
         <h3 class="my-0">Listado de pisos</h3>
-      </div>
+      </div> -->
       <div class="card-body">
         <div class="table-responsive">
           <table class="table">
             <thead>
               <tr>
-                <th></th>
+                <th class="text-center">#</th>
                 <th>Piso</th>
                 <th class="text-center">Visible</th>
                 <th></th>
@@ -36,7 +36,7 @@
             </thead>
             <tbody>
               <tr v-for="item in items" :key="item.id">
-                <td class="text-right">{{ item.id }}</td>
+                <td class="text-center">{{ item.id }}</td>
                 <td>{{ item.description }}</td>
                 <td class="text-center">
                   <span v-if="item.active">Si</span>

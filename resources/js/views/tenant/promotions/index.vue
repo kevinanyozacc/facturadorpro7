@@ -26,9 +26,9 @@
       </div>
     </div>
     <div class="card tab-content-default row-new mb-0">
-      <div class="card-header bg-info">
+      <!-- <div class="card-header bg-info">
         <h3 class="my-0">Listado de Promociones</h3>
-      </div>
+      </div> -->
       <div class="card-body">
         <data-table :apply-filter="false" :resource="resource">
           <tr slot="heading" width="100%">
@@ -69,6 +69,11 @@
     </div>
   </div>
 </template>
+<style>
+.btn-show-filter{
+  display: none;
+}
+</style>
 <script>
 import PromotionsForm from "./form.vue";
 // import ItemsImport from './import.vue'

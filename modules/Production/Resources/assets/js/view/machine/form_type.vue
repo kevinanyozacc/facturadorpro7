@@ -1,71 +1,79 @@
 <template>
-    <div class="card tab-content-default row-new mb-0 pt-2 pt-md-0">
-        <div class="card-header bg-info">
-            <h3 class="my-0">
-                {{title}}
-            </h3>
+    <div>
+        <div class="page-header pr-0">
+            <h2><a href="/dashboard"><i class="fas fa-tachometer-alt"></i></a></h2>
+            <ol class="breadcrumbs">
+                <li class="active"><span> {{ title }} </span></li>
+            </ol>
         </div>
-        <div class="tab-content">
-            <form autocomplete="off"
-                  @submit.prevent="submit">
-                <div class="form-body">
-                    <div class="row">
-                        <div class="col-sm-6 col-md-3">
-                            <div :class="{'has-danger': errors.name}"
-                                 class="form-group">
-                                <label class="control-label">
-                                    Nombre
-                                </label>
-                                <el-input v-model="form.name"></el-input>
-                                <small v-if="errors.name"
-                                       class="form-control-feedback"
-                                       v-text="errors.name[0]"></small>
+        <div class="card tab-content-default row-new mb-0 pt-2 pt-md-0">
+            <!-- <div class="card-header bg-info">
+                <h3 class="my-0">
+                    {{title}}
+                </h3>
+            </div> -->
+            <div class="tab-content tab-content-default">
+                <form autocomplete="off"
+                      @submit.prevent="submit">
+                    <div class="form-body">
+                        <div class="row">
+                            <div class="col-sm-6 col-md-3">
+                                <div :class="{'has-danger': errors.name}"
+                                     class="form-group">
+                                    <label class="control-label">
+                                        Nombre
+                                    </label>
+                                    <el-input v-model="form.name"></el-input>
+                                    <small v-if="errors.name"
+                                           class="form-control-feedback"
+                                           v-text="errors.name[0]"></small>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-sm-6 col-md-3">
-                            <div :class="{'has-danger': errors.description}"
-                                 class="form-group">
-                                <label class="control-label">
-                                    Descripcion
-                                </label>
-                                <el-input v-model="form.description"></el-input>
-                                <small v-if="errors.description"
-                                       class="form-control-feedback"
-                                       v-text="errors.description[0]"></small>
+                            <div class="col-sm-6 col-md-3">
+                                <div :class="{'has-danger': errors.description}"
+                                     class="form-group">
+                                    <label class="control-label">
+                                        Descripcion
+                                    </label>
+                                    <el-input v-model="form.description"></el-input>
+                                    <small v-if="errors.description"
+                                           class="form-control-feedback"
+                                           v-text="errors.description[0]"></small>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-sm-6 col-md-3">
-                            <div :class="{'has-danger': errors.active}"
-                                 class="form-group">
-                                <label class="control-label">
-                                    Activo
-                                </label>
-                                <br>
-                                <el-switch v-model="form.active" active-text="Si" inactive-text="No" ></el-switch>
-
-                                <small v-if="errors.active"
-                                       class="form-control-feedback"
-                                       v-text="errors.active[0]"></small>
+                            <div class="col-sm-6 col-md-3">
+                                <div :class="{'has-danger': errors.active}"
+                                     class="form-group">
+                                    <label class="control-label">
+                                        Activo
+                                    </label>
+                                    <br>
+                                    <el-switch v-model="form.active" active-text="Si" inactive-text="No" ></el-switch>
+    
+                                    <small v-if="errors.active"
+                                           class="form-control-feedback"
+                                           v-text="errors.active[0]"></small>
+                                </div>
                             </div>
+    
                         </div>
-
                     </div>
-                </div>
-                <div class="form-actions text-right mt-4">
-                    <el-button
-                        class="second-buton btn btn-default second-buton-default"
-                        @click.prevent="close()">
-                        Cancelar
-                    </el-button>
-                    <el-button
-                        class="btn btn-primary btn-submit-default"
-                        :loading="loading_submit"
-                        native-type="submit"
-                        type="primary">
-                        {{ (id) ? 'Actualizar' : 'Guardar' }}
-                    </el-button>
-                </div>
-            </form>
+                    <div class="form-actions text-right mt-4">
+                        <el-button
+                            class="second-buton btn btn-default second-buton-default"
+                            @click.prevent="close()">
+                            Cancelar
+                        </el-button>
+                        <el-button
+                            class="btn btn-primary btn-submit-default"
+                            :loading="loading_submit"
+                            native-type="submit"
+                            type="primary">
+                            {{ (id) ? 'Actualizar' : 'Guardar' }}
+                        </el-button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </template>

@@ -10,15 +10,23 @@
             </div>
         </div>
         <div class="card tab-content-default row-new mb-0">
-            <div class="card-header bg-info">
+            <!-- <div class="card-header bg-info">
                 <h3 class="my-0">Listado de {{ title }}</h3>
-            </div>
+            </div> -->
             <div class="card-body">
              
                 <div v-loading="loading_submit">
                     <div class="row ">   
                         <div class="col-md-12 col-lg-12 col-xl-12 ">
-                            <div class="row">
+                            <el-button
+                                    type="primary"
+                                    class="btn-show-filter mb-2"
+                                    :class="{ shift: isVisible }"
+                                    @click="toggleInformation"
+                                >
+                                    {{ isVisible ? "Ocultar opciones de filtro" : "Mostrar opciones de filtro" }}
+                                </el-button>
+                            <div class="row" v-if="isVisible">
                                 <div class="col-lg-4 col-md-4 col-sm-12 pb-2">
                                     <div class="d-flex">
                                         <div style="width:100px">
@@ -124,6 +132,7 @@
                 columns: [],
                 records: [],
                 pagination: {},
+                isVisible: false,
                 loading_submit: false
             }
         },
@@ -146,6 +155,9 @@
 
         },
         methods: { 
+            toggleInformation() {
+                this.isVisible = !this.isVisible;
+            },
             customIndex(index) {
                 return (this.pagination.per_page * (this.pagination.current_page - 1)) + index + 1
             },

@@ -14,7 +14,7 @@
                 </button>
             </div>
         </div>
-        <div class="card">
+        <div class="card tab-content-default row-new">
             <div class="card-body pb-5">
                 <div class="row">
                     <div class="col-3">
@@ -85,7 +85,7 @@
             </span>
             <span slot="footer"
                   class="dialog-footer">
-                <el-button @click="modalImage = false">Cerrar</el-button>
+                <el-button class="second-buton" @click="modalImage = false">Cerrar</el-button>
                 <el-button v-if="form.establishment_id"
                            type="primary"
                            @click="changeFormat(template.name)">Activar</el-button>

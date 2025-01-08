@@ -18,12 +18,14 @@
                         <div :class="{'has-danger': errors.send_document_to_pse}"
                             class="form-group">
                             <label class="control-label">Habilitar </label>
-                            <el-switch v-model="form.send_document_to_pse"
-                                active-text="Si"
-                                inactive-text="No"></el-switch>
-                            <small v-if="errors.send_document_to_pse"
-                                class="form-control-feedback"
-                                v-text="errors.send_document_to_pse[0]"></small>
+                            <div class="transfer-data-table pt-3 pl-3 pb-2">
+                                <el-switch v-model="form.send_document_to_pse"
+                                    active-text="Si"
+                                    inactive-text="No"></el-switch>
+                                <small v-if="errors.send_document_to_pse"
+                                    class="form-control-feedback"
+                                    v-text="errors.send_document_to_pse[0]"></small>
+                            </div>
                         </div>
                     </div>
 

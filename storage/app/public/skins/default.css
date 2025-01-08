@@ -98,6 +98,9 @@ address {
     background-color: #ffffff;
     padding: 0px;
 }
+.el-cascader .el-input.is-focus .el-input__inner {
+    border-color: var(--light2-color);
+}
 .clearfix-default{
     margin-left: 0px;
     margin-right: 0px;
@@ -111,6 +114,12 @@ address {
 }
 .footer-card-default{
     border-top: 1px solid var(--light-color);
+}
+.table-striped > tbody > tr:nth-child(2n + 1) > td{
+    background-color: #fff;
+}
+.el-date-table td.start-date span, .el-date-table td.end-date span {
+    background-color: var(--primary-color);
 }
 .second-buton-default{
     min-width: 180px;
@@ -143,6 +152,12 @@ address {
     color: #606266;
     cursor: pointer;
     font-size: 13px;
+}
+.el-input-number__increase:hover:not(.is-disabled) ~ .el-input .el-input__inner:not(.is-disabled), .el-input-number__decrease:hover:not(.is-disabled) ~ .el-input .el-input__inner:not(.is-disabled) {
+    border-color: var(--light2-color);
+}
+.el-input-number__increase:hover, .el-input-number__decrease:hover {
+    color: var(--primary-color);
 }
 .bg-white {
     border-radius: 10px;
@@ -710,7 +725,9 @@ html.sidebar-left-collapsed .sidebar-left .nano:hover {
 html.sidebar-light:not(.dark):not(.sidebar-green):not(.sidebar-green) ul.nav-main > li.nav-active > a {
     color: var(--dark-color);
 }
-
+.invoice table.table > thead:first-child > tr > th {
+    border: none;
+}
 .border.rounded-circle.text-center {
     border-radius: 5px !important;
     border: 1px solid #f0f3f4 !important;
@@ -721,6 +738,9 @@ html.sidebar-light:not(.dark):not(.sidebar-green):not(.sidebar-green) ul.nav-mai
     height: 40px;
     border-radius: 2px;
     opacity: 1;
+}
+.btn-show-filter{
+    outline: none !important;
 }
 .list-result {
     margin: 0px !important;
@@ -757,6 +777,12 @@ html.sidebar-light:not(.dark):not(.sidebar-green):not(.sidebar-green) ul.nav-mai
 .data-table-visible-columns {
     right: 15px;
     top: 15px;
+}
+.el-input-group__search-default{
+    background-color: var(--primary-color);
+}
+.btn-search-border{
+    border-radius: 0 5px 5px 0 !important;
 }
 span.badge.bg-danger.text-white {
     background: rgb(252 78 75 / 20%) !important;
@@ -949,6 +975,10 @@ ul.nav-main li.nav-parent > a:after {
     height: 150px !important;
     object-fit: cover;
 }
+.transfer-data-table{
+    border: 1px solid var(--light2-color);
+    border-radius: 0 0 5px 5px;
+}
 .card h5.font-weight-semibold.text-right.text-white {
     margin: 0;
 }
@@ -997,7 +1027,7 @@ body .v-modal {
     border-radius: 0 0 20px 20px;
 }
 .tab-content-default{
-    border-radius: 20px;
+    border-radius: 20px !important;
 }
 /************************************ tema morado ************************************/
 /* header */
@@ -1987,7 +2017,8 @@ html.dark .el-tabs--border-card {
     background: var(--contents-dark);
     border: 1px solid var(--contents-dark);
 }
-html.dark .el-tabs--border-card > .el-tabs__header .el-tabs__item {
+html.dark .el-tabs--border-card > .el-tabs__header .el-tabs__item,
+html.dark .form-modern label.control-label:has(+div){
     color: var(--light2-color);
 }
 html.dark body,
@@ -2034,7 +2065,7 @@ html.dark .list-config {
     border: 1px solid var(--borders-dark);
 }
 html.dark ul.nav.list-config li:hover {
-    background: var(--button-second);
+    background: var(--button-second) !important;
 }
 html.dark .el-tree {
     background: var(--background-dark);
@@ -2083,7 +2114,8 @@ html.dark .btn-primary.disabled, .btn-primary:disabled {
     border-color: var(--primary-color);
     color: var(--light-color);
 }
-html.dark .card-header-invoice{
+html.dark .card-header-invoice,
+html.dark .table-striped > tbody > tr:nth-child(2n + 1) > td{
     background-color: var(--contents-dark) !important;
 }
 html.dark .table-responsive.payment {
@@ -2167,5 +2199,14 @@ html.dark .el-upload-list__item .el-icon-close {
 }
 html.dark .el-upload-list__item:hover {
     background-color: var(--button-second);
+}
+html.dark .transfer-data-table{
+    border: 1px solid var(--borders-dark);
+}
+html.dark .card.card-reports .card-title {
+    background: var(--background-dark);
+}
+html.dark .table-titles-default th{
+    background-color: #1a2844 !important;
 }
 /* end */

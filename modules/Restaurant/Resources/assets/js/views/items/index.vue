@@ -25,9 +25,9 @@
       </div>
     </div>
     <div class="card tab-content-default row-new mb-0">
-      <div class="card-header bg-info">
+      <!-- <div class="card-header bg-info">
         <h3 class="my-0">Listado de productos Restaurante</h3>
-      </div>
+      </div> -->
       <div class="card-body">
         <data-table 
           :resource="'items'"
@@ -58,7 +58,7 @@
             <td>{{ row.description }}</td>
             <td class="text-right">{{ row.sale_unit_price }}</td>
             <td class="text-right">{{ stock(row.warehouses) }}</td>
-            <td>
+            <td class="text-center">
               {{row.category_description}}
             </td>
             <td class="text-center">

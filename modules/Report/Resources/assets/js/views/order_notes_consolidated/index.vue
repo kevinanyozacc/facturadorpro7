@@ -1,34 +1,42 @@
 <template>
-    <div class="card mb-0 pt-2 pt-md-0">
-        <div class="card-header bg-info">
-            <h3 class="my-0">Consolidado de items por cliente/vendedor</h3>
+    <div>
+        <div class="page-header pr-0">
+            <h2><a href="/dashboard"><i class="fas fa-tachometer-alt"></i></a></h2>
+            <ol class="breadcrumbs">
+                <li class="active"><span> Consolidado de items por cliente/vendedor </span></li>
+            </ol>
         </div>
-        <div class="card mb-0">
-                <div class="card-body">
-                    <data-table :resource="resource">
-                        <tr slot="heading">
-                            <th class="">#</th>
-                            <th  class="text-left">Vendedor</th>
-                            <th  class="text-left">Cliente</th>
-                            <th  class="text-left">Producto</th>
-                            <th  class="text-center">Cantidad</th>
-                            <th  class="text-center">Monto</th>
-                        <tr>
-                        <tr slot-scope="{ index, row }">
-                            <td>{{ index }}</td> 
-                            <td  class="text-left">{{row.user}}</td>
-                            <td  class="text-left">{{row.customer}}</td>
-                            <td  class="text-left">{{row.item_description}}</td>
-                            <td  class="text-center">{{row.item_quantity}}</td>
-                            <td  class="text-center">S/ {{row.total}}</td>
-                        </tr>
+        <div class="card mb-0 pt-2 pt-md-0 tab-content-default row-new">
+            <!-- <div class="card-header bg-info">
+                <h3 class="my-0">Consolidado de items por cliente/vendedor</h3>
+            </div> -->
+            <div class="card mb-0">
+                    <div class="card-body">
+                        <data-table :resource="resource">
+                            <tr slot="heading">
+                                <th class="">#</th>
+                                <th  class="text-left">Vendedor</th>
+                                <th  class="text-left">Cliente</th>
+                                <th  class="text-left">Producto</th>
+                                <th  class="text-center">Cantidad</th>
+                                <th  class="text-center">Monto</th>
+                            <tr>
+                            <tr slot-scope="{ index, row }">
+                                <td>{{ index }}</td> 
+                                <td  class="text-left">{{row.user}}</td>
+                                <td  class="text-left">{{row.customer}}</td>
+                                <td  class="text-left">{{row.item_description}}</td>
+                                <td  class="text-center">{{row.item_quantity}}</td>
+                                <td  class="text-center">S/ {{row.total}}</td>
+                            </tr>
+                            
+                        </data-table>
+                         
                         
-                    </data-table>
-                     
-                    
-                </div> 
+                    </div> 
+            </div>
+     
         </div>
- 
     </div>
 </template>
 

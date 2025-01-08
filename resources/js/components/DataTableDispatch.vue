@@ -7,13 +7,14 @@
                 <div class="row">
                     <div class="col-lg-8 col-md-8 mb-2">
                         <div class="form-group">
-                            <label class="control-label font-custom"><strong>Filtros de busqueda</strong></label>
-                            <template v-if="!see_more">
-                                <a class="control-label font-weight-bold text-info font-custom" href="#" @click="clickSeeMore"><strong> [+ Ver más]</strong></a>
-                            </template>
-                            <template v-else>
-                                <a class="control-label font-weight-bold text-info font-custom" href="#" @click="clickSeeMore"><strong> [- Ver menos]</strong></a>
-                            </template>
+                            <el-button
+                                type="primary"
+                                class="btn-show-filter mb-2"
+                                :class="{ shift: see_more }"
+                                @click="clickSeeMore"
+                            >
+                                {{ see_more ? "Ocultar filtros de busqueda" : "Mostrar filtros de busqueda" }}
+                            </el-button>
                         </div>
                     </div>
                 </div>

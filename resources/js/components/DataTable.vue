@@ -1,8 +1,16 @@
 <template>
     <div v-loading="loading_submit">
         <div class="row ">
-            <div class="col-md-8 col-lg-8 col-xl-8 ">
-                <div class="row" v-if="applyFilter">
+            <div class="col-md-8 col-lg-8 col-xl-8">
+                <el-button
+                    type="primary"
+                    class="btn-show-filter mb-2"
+                    :class="{ shift: isVisible }"
+                    @click="toggleInformation"
+                >
+                    {{ isVisible ? "Ocultar opciones de filtro" : "Mostrar opciones de filtro" }}
+                </el-button>
+                <div class="row filter-content" v-if="applyFilter && isVisible">
                     <div class="col-lg-6 col-md-6 col-sm-12 pb-2">
                         <div class="d-flex">
                             <div style="width:100px">
@@ -26,9 +34,9 @@
                         <template
                             v-if="
                                 search.column === 'date_of_issue' ||
-                                    search.column === 'date_of_due' ||
-                                    search.column === 'date_of_payment' ||
-                                    search.column === 'delivery_date'
+                                search.column === 'date_of_due' ||
+                                search.column === 'date_of_payment' ||
+                                search.column === 'delivery_date'
                             "
                         >
                             <el-date-picker
@@ -53,7 +61,7 @@
                         </template>
                     </div>
                 </div>
-            </div>
+            </div>            
             <div class="col-md-4 col-lg-4 col-xl-4 ">
                 <div class="row" v-if="fromRestaurant||fromEcommerce">
                     <div class="col-lg-12 col-md-12 col-sm-12 pb-2">
@@ -151,6 +159,7 @@ export default {
             columns: [],
             records: [],
             pagination: {},
+            isVisible: false,
             loading_submit: false,
             fromPharmacy: false,
             fromRestaurant: false,
@@ -188,6 +197,9 @@ export default {
         await this.getRecords();
     },
     methods: {
+        toggleInformation() {
+            this.isVisible = !this.isVisible;
+        },
         customIndex(index) {
             return (
                 this.pagination.per_page * (this.pagination.current_page - 1) +

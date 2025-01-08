@@ -5,7 +5,7 @@
                 <a href="/dashboard"><i class="fas fa-tachometer-alt"></i></a>
             </h2>
             <ol class="breadcrumbs">
-                <li class="active"><span>REGISTRO DE ESTADOOS</span></li>
+                <li class="active"><span>REGISTRO DE ESTADOS</span></li>
             </ol>
             <div class="right-wrapper pull-right">
                 <div class="btn-group flex-wrap">
@@ -20,9 +20,9 @@
             </div>
         </div>
         <div class="card tab-content-default row-new mb-0">
-            <div class="card-header bg-info">
+            <!-- <div class="card-header bg-info">
                 <h3 class="my-0">Listado de Estado</h3>
-            </div>
+            </div> -->
             <div class="card-body">
                 <div class="row">
                     <div class="col-12 col-md-4 mb-3">

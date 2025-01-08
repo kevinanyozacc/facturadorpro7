@@ -19,9 +19,9 @@
             </div>
         </div>
         <div class="card tab-content-default row-new">
-            <div class="card-header bg-info">
+            <!-- <div class="card-header bg-info">
                 <h3 class="my-0">Listado de usuarios</h3>
-            </div>
+            </div> -->
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table">

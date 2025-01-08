@@ -14,7 +14,7 @@
                 </button>
             </div>
         </div>
-        <div class="card">
+        <div class="card tab-content-default row-new">
             <div class="card-body pb-5">
                 <div class="row">
                     <div class="col-3">
