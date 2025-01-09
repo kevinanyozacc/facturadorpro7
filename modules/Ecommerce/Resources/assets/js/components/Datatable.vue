@@ -2,13 +2,14 @@
     <div v-loading="loading_submit">
         <div class="row ">
             <div class="col-md-12 col-lg-12 col-xl-12 ">
-                <button
-                    class="btn-primry"
+                <el-button
+                    type="primary"
+                    class="btn-show-filter mb-3"
                     :class="{ shift: isVisible }"
                     @click="toggleInformation"
                 >
                     {{ isVisible ? "Ocultar opciones de filtro" : "Mostrar opciones de filtro" }}
-                </button>
+                </el-button>
                 <div class="row" v-if="applyFilter && isVisible">
                     <div class="col-lg-4 col-md-4 col-sm-12 pb-2">
                         <div class="d-flex">

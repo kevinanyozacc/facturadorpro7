@@ -18,7 +18,7 @@
                 <el-button @click="clickClose">Cerrar</el-button>
             </template>
             <template v-else>
-                <el-button @click="clickFinalize">Ir al listado</el-button>
+                <el-button class="second-buton" @click="clickFinalize">Ir al listado</el-button>
                 <el-button type="primary" @click="clickNewDocument">{{ isUpdate ? 'Continuar' : 'Nuevo gasto'}}</el-button>
             </template>
         </span>

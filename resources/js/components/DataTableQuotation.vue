@@ -12,7 +12,7 @@
                     {{ isVisible ? "Ocultar opciones de filtro" : "Mostrar opciones de filtro" }}
                 </el-button>
                 <div class="row" v-if="applyFilter && isVisible">
-                    <div class="col-lg-4 col-md-4 col-sm-12 pb-2 ml-3">
+                    <div class="col-lg-4 col-md-4 col-sm-12 pb-2 ml-1">
                         <div class="d-flex">
                             <div style="width:100px">
                                 Filtrar por:

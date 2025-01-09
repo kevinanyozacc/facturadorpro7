@@ -45,7 +45,7 @@
 
 
             <span slot="footer" class="dialog-footer">
-                <el-button @click="clickClose">Cerrar</el-button>
+                <el-button class="second-buton" @click="clickClose">Cerrar</el-button>
             </span>
 
         </el-dialog>

@@ -3,13 +3,13 @@
 @section('content')
     <div class="page-header pr-0">
         <h2>
-            <a href="/dashboard">
-                <i class="fas fa-home"></i>
+            <a href="/list-extras">
+            <svg  xmlns="http://www.w3.org/2000/svg" style="margin-top: -5px;" width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-packages"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 16.5l-5 -3l5 -3l5 3v5.5l-5 3z" /><path d="M2 13.5v5.5l5 3" /><path d="M7 16.545l5 -3.03" /><path d="M17 16.5l-5 -3l5 -3l5 3v5.5l-5 3z" /><path d="M12 19l5 3" /><path d="M17 16.5l5 -3" /><path d="M12 13.5v-5.5l-5 -3l5 -3l5 3v5.5" /><path d="M7 5.03v5.455" /><path d="M12 8l5 -3" /></svg>
             </a>
         </h2>
         <ol class="breadcrumbs">
             <li class="active">
-                <span>Dashboard</span>
+                <span>Apps</span>
             </li>
             <li>
                 <span class="text-muted">Extras</span>
@@ -17,10 +17,10 @@
         </ol>
     </div>
 
-    <div class="row">
+    <div class="row tab-content-default row-new bg-transparent">
         <div class="col-sm-12 col-md-6 col-lg-3">
             <section class="card card-extras mb-2">
-                <header class="card-header bg-{{in_array('hotels', $vc_modules) ? 'primary' : 'dark'}}">
+                <header class="card-header card-extras-header bg-{{in_array('hotels', $vc_modules) ? 'primary' : 'dark'}}">
                     <div class="card-header-icon">
                         <i class="fas fa-hotel"></i>
                     </div>
@@ -42,7 +42,7 @@
         </div>
         <div class="col-sm-12 col-md-6 col-lg-3">
             <section class="card card-extras mb-2">
-                <header class="card-header bg-{{in_array('documentary-procedure', $vc_modules) ? 'primary' : 'dark'}}">
+                <header class="card-header card-extras-header bg-{{in_array('documentary-procedure', $vc_modules) ? 'primary' : 'dark'}}">
                     <div class="card-header-icon">
                         <i class="fas fa-archive"></i>
                     </div>
@@ -63,7 +63,7 @@
         </div>
         <div class="col-sm-12 col-md-6 col-lg-3">
             <section class="card card-extras mb-2">
-                <header class="card-header bg-{{in_array('digemid', $vc_modules) ? 'primary' : 'dark'}}">
+                <header class="card-header card-extras-header bg-{{in_array('digemid', $vc_modules) ? 'primary' : 'dark'}}">
                     <div class="card-header-icon">
                         <i class="fas fa-book-medical"></i>
                     </div>
@@ -105,7 +105,7 @@
         </div>
         <div class="col-sm-12 col-md-6 col-lg-3">
             <section class="card card-extras mb-2">
-                <header class="card-header bg-secondary">
+                <header class="card-header card-extras-header bg-secondary">
                     <div class="card-header-icon">
                         <i class="fas fa-calendar-alt"></i>
                     </div>
@@ -130,7 +130,7 @@
         </div>
         <div class="col-sm-12 col-md-6 col-lg-3">
             <section class="card card-extras mb-2">
-                <header class="card-header bg-secondary">
+                <header class="card-header card-extras-header bg-secondary">
                     <div class="card-header-icon">
                         <i class="fas fa-calendar-alt"></i>
                     </div>
@@ -148,7 +148,7 @@
         </div>
         <div class="col-sm-12 col-md-6 col-lg-3">
             <section class="card card-extras mb-2">
-                <header class="card-header bg-secondary">
+                <header class="card-header card-extras-header bg-secondary">
                     <div class="card-header-icon">
                         <i class="fas fa-calendar-alt"></i>
                     </div>
@@ -165,7 +165,7 @@
         </div>
         <div class="col-sm-12 col-md-6 col-lg-3">
             <section class="card card-extras mb-2">
-                <header class="card-header bg-secondary">
+                <header class="card-header card-extras-header bg-secondary">
                     <div class="card-header-icon">
                         <i class="fas fa-utensils"></i>
                     </div>
@@ -187,7 +187,7 @@
         </div>
         <div class="col-sm-12 col-md-6 col-lg-3">
             <section class="card card-extras mb-2">
-                <header class="card-header bg-secondary">
+                <header class="card-header card-extras-header bg-secondary">
                     <div class="card-header-icon">
                         <i class="fas fa-bus-alt"></i>
                     </div>
@@ -204,7 +204,7 @@
         </div>
         <div class="col-sm-12 col-md-6 col-lg-3">
             <section class="card card-extras mb-2">
-                <header class="card-header bg-secondary">
+                <header class="card-header card-extras-header bg-secondary">
                     <div class="card-header-icon">
                         <svg xmlns="http://www.w3.org/2000/svg"
                                     width="70"

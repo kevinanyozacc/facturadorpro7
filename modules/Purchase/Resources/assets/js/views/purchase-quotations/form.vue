@@ -82,7 +82,7 @@
                                 <div class="table-responsive">
                                     <table class="table">
                                         <thead>
-                                            <tr width="100%">
+                                            <tr width="100%" class="table-titles-default">
                                                 <th width="5%">#</th>
                                                 <th width="50%" class="font-weight-bold">Descripción</th>
                                                 <th width="15%" class="text-center font-weight-bold">Unidad</th>

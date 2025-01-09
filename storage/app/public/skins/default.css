@@ -451,7 +451,12 @@ ul.nav.list-config li:hover {
     color: var(--dark-color);
 }
 .card-extras{
-    border: 1px solid #fff !important;
+    border: 1px solid var(--light2-color) !important;
+    border-radius: 12px 12px 4px 4px;
+    height: 98% !important;
+}
+.card-extras-header{
+    background-color: var(--light2-color) !important;
 }
 .el-date-table td.current:not(.disabled) span {
     background-color: var(--primary-color);
@@ -722,7 +727,8 @@ html.sidebar-left-collapsed .sidebar-left .nano:hover {
     height: 15px;
     border-radius: 4px;
 }
-html.sidebar-light:not(.dark):not(.sidebar-green):not(.sidebar-green) ul.nav-main > li.nav-active > a {
+html.sidebar-light:not(.dark):not(.sidebar-green):not(.sidebar-green) ul.nav-main > li.nav-active > a ,
+.el-dropdown-menu__item:not(.is-disabled):hover, .el-dropdown-menu__item:focus {
     color: var(--dark-color);
 }
 .invoice table.table > thead:first-child > tr > th {
@@ -1944,11 +1950,6 @@ html.dark .text-dark {
 html.dark li.el-select-dropdown__item.item-result {
     border-bottom: 1px solid var(--borders-dark);
 }
-html.dark .btn-success {
-    background-color: var(--primary-color);
-    border-color: var(--primary-color);
-    color: var(--light-color);
-}
 html.dark .el-switch__core {
     border: 1px solid var(--borders-dark);
     background: var(--inputs-dark);
@@ -2203,8 +2204,9 @@ html.dark .el-upload-list__item:hover {
 html.dark .transfer-data-table{
     border: 1px solid var(--borders-dark);
 }
-html.dark .card.card-reports .card-title {
-    background: var(--background-dark);
+html.dark .card.card-reports .card-title,
+html.dark .card-extras-header {
+    background: var(--background-dark) !important;
 }
 html.dark .table-titles-default th{
     background-color: #1a2844 !important;

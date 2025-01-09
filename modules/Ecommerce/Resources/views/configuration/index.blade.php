@@ -2,7 +2,9 @@
 
 @section('content')
 <div class="page-header pr-0">
-    <h2><a href="/dashboard"><i class="fas fa-tachometer-alt"></i></a></h2>
+    <h2><a href="/ecommerce/configuration">
+    <i class="fas fa-cogs"></i>
+    </a></h2>
     <ol class="breadcrumbs">
         <li class="active"><span> Configuración </span></li>
     </ol>

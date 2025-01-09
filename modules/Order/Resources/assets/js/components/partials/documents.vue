@@ -63,7 +63,7 @@
             </div>
         </div>
         <div class="form-actions text-right pt-2">
-            <el-button @click.prevent="close()">Cerrar</el-button>
+            <el-button class="second-buton" @click.prevent="close()">Cerrar</el-button>
             <el-button type="primary" @click="submit" v-if="documents.length > 0" :loading="loading_submit">Generar</el-button>
         </div>
     </el-dialog>

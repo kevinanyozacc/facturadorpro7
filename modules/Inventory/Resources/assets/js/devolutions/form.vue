@@ -70,7 +70,7 @@
                                 <div class="table-responsive">
                                     <table class="table">
                                         <thead>
-                                        <tr>
+                                        <tr class="table-titles-default">
                                             <th>#</th>
                                             <th class="font-weight-bold">Descripción</th>
                                             <th class="text-center font-weight-bold">Unidad</th>

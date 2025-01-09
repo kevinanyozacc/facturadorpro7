@@ -15,10 +15,10 @@
         </div>   
         <span slot="footer" class="dialog-footer">
             <template v-if="showClose">
-                <el-button @click="clickClose">Cerrar</el-button>
+                <el-button class="second-buton" @click="clickClose">Cerrar</el-button>
             </template>
             <template v-else>
-                <el-button class="list" @click="clickFinalize">Ir al listado</el-button>
+                <el-button class="list second-buton" @click="clickFinalize">Ir al listado</el-button>
                 <el-button type="primary" @click="clickNewDocument">{{button_text}}</el-button>
             </template>
         </span>

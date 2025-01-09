@@ -8,7 +8,7 @@
         </ol>
       </div>
       <template>
-        <form autocomplete="off">
+        <form class="tab-content-default row-new bg-transparent" autocomplete="off">
           <el-tabs v-model="activeName" type="border-card" class="rounded">
             <el-tab-pane class="mb-3"  name="first">
               <span slot="label">Ambientes</span>
