@@ -2,9 +2,8 @@
     <div>
         <div class="page-header pr-0">
             <h2>
-                <a href="/dashboard">
-                    <i class="fas fa-tachometer-alt">
-                    </i>
+                <a href="/full_suscription/payments">
+                    <svg  xmlns="http://www.w3.org/2000/svg" style="margin-top: -5px;" width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-calendar-month"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z" /><path d="M16 3v4" /><path d="M8 3v4" /><path d="M4 11h16" /><path d="M7 14h.013" /><path d="M10.01 14h.005" /><path d="M13.01 14h.005" /><path d="M16.015 14h.005" /><path d="M13.015 17h.005" /><path d="M7.01 17h.005" /><path d="M10.01 17h.005" /></svg>
                 </a>
             </h2>
             <ol class="breadcrumbs">
@@ -25,11 +24,11 @@
             </div>
         </div>
         <div class="card tab-content-default row-new mb-0">
-            <div class="card-header bg-info">
+            <!-- <div class="card-header bg-info">
                 <h3 class="my-0">
                     Listado de suscriptores
                 </h3>
-            </div>
+            </div> -->
             <div class="card-body">
                 <data-table>
                     <tr slot="heading">
@@ -52,7 +51,7 @@
                         <th class="text-right">
                             Acciones
                         </th>
-                    <tr>
+                    </tr>
                     <tr slot-scope="{ index, row }">
                         <td>
                             {{ index }}
@@ -60,13 +59,13 @@
                         <td class="text-center">
                             {{ row.parent_customer.description }}
                         </td>
-                        <td class="text-left">
+                        <td class="text-center">
                             {{ row.plan.name }}
                         </td>
-                        <td class="text-left">
+                        <td class="text-center">
                             {{ row.quantity_period }}
                         </td>
-                        <td class="text-left">
+                        <td class="text-center">
                             {{ row.quantity_period * row.total }}
                         </td>
                         <td class="text-right">

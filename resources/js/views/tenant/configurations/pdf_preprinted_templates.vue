@@ -7,6 +7,7 @@
             <ol class="breadcrumbs">
                 <li class="active"><span>Configuración</span></li>
                 <li><span class="text-muted">Formatos Pre Impresos</span></li>
+                <li><span class="text-muted">Selección de plantilla de impresión para imprimir</span></li>
             </ol>
             <div class="right-wrapper pull-right">
                 <button
@@ -18,12 +19,12 @@
                 </button>
             </div>
         </div>
-        <div class="card">
-            <div class="card-header bg-info">
+        <div class="card tab-content-default row-new">
+            <!-- <div class="card-header bg-info">
                 <h3 class="my-0">
                     Selección de plantilla de impresión para imprimir
                 </h3>
-            </div>
+            </div> -->
             <div class="card-body pt-0 pb-5">
                 <div class="row">
                     <div v-for="(o, index) in formatos" class="col-md-3 my-2">
@@ -46,7 +47,7 @@
                                 <span class="text-center">{{ o.formats }}</span>
                                 <div class="bottom clearfix text-right">
                                     <!-- <el-button type="submit" class="button" @change="changeFormat(o.formats)">Activo</el-button> -->
-                                    <el-button type="submit" @click="showPdf(o.formats)" class="button">Imprimir</el-button>
+                                    <el-button type="submit" @click="showPdf(o.formats)" class="second-buton button">Imprimir</el-button>
                                     <!-- <el-radio
                                         v-model="form.formats"
                                         :label="o.formats"

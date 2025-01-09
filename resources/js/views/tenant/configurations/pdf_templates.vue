@@ -14,7 +14,7 @@
                 </button>
             </div>
         </div>
-        <div class="card">
+        <div class="card tab-content-default row-new">
             <div class="card-body pb-5">
                 <div class="row">
                     <div class="col-3">
@@ -39,10 +39,11 @@
                         </small>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" v-if="form.establishment_id">
                     <div v-for="template in formatos" class="my-2 col-sm-12 col-md-6 col-lg-4 col-xl-3">
-                        <el-card :id="template.id"
-                                 :body-style="{ padding: '0px' }">
+                        <el-card :class="['pdf-template-border', { 'active-border': form.current_format === template.name }]"
+                            :id="template.id"
+                            :body-style="{ padding: '0px' }">
                             <a @click="viewImage(template)">
                                 <img :src="path.origin+'/'+template.urls.invoice"
                                      class="image"
@@ -85,7 +86,7 @@
             </span>
             <span slot="footer"
                   class="dialog-footer">
-                <el-button @click="modalImage = false">Cerrar</el-button>
+                <el-button class="second-buton" @click="modalImage = false">Cerrar</el-button>
                 <el-button v-if="form.establishment_id"
                            type="primary"
                            @click="changeFormat(template.name)">Activar</el-button>
@@ -98,9 +99,14 @@
 .el-carousel__item:nth-child(2n) {
 background-color: #99a9bf;
 }
-
 .el-carousel__item:nth-child(2n+1) {
 background-color: #d3dce6;
+}
+.pdf-template-border {
+    border: 2px solid transparent;
+}
+.pdf-template-border.active-border {
+    border: 2px solid #409eff;
 }
 </style>
 

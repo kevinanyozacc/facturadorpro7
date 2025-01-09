@@ -2,8 +2,8 @@
   <div class="promotions">
     <div class="page-header pr-0">
       <h2>
-        <a href="/dashboard">
-          <i class="fas fa-tachometer-alt"></i>
+        <a href="/promotions">
+          <svg  xmlns="http://www.w3.org/2000/svg" style="margin-top: -5px;" width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-shopping-cart"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 17h-11v-14h-2" /><path d="M6 5l14 1l-1 7h-13" /></svg>
         </a>
       </h2>
       <ol class="breadcrumbs">
@@ -26,9 +26,9 @@
       </div>
     </div>
     <div class="card tab-content-default row-new mb-0">
-      <div class="card-header bg-info">
+      <!-- <div class="card-header bg-info">
         <h3 class="my-0">Listado de Promociones</h3>
-      </div>
+      </div> -->
       <div class="card-body">
         <data-table :apply-filter="false" :resource="resource">
           <tr slot="heading" width="100%">
@@ -69,6 +69,11 @@
     </div>
   </div>
 </template>
+<style>
+.btn-show-filter{
+  display: none;
+}
+</style>
 <script>
 import PromotionsForm from "./form.vue";
 // import ItemsImport from './import.vue'

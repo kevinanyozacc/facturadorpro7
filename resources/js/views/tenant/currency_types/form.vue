@@ -26,15 +26,17 @@
                     </div>
                     <div class="col-md-4">
                         <div class="form-group" :class="{'has-danger': errors.active}">
-                            <label class="control-label">Activo</label>
-                            <el-switch v-model="form.active" active-text="Si" inactive-text="No"></el-switch>
-                            <small class="form-control-feedback" v-if="errors.active" v-text="errors.active[0]"></small>
+                            <label class="control-label m-0">Activo</label>
+                            <div class="transfer-data-table pt-3 pl-3 pb-2">
+                                <el-switch v-model="form.active" active-text="Si" inactive-text="No"></el-switch>
+                                <small class="form-control-feedback" v-if="errors.active" v-text="errors.active[0]"></small>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="form-actions text-right mt-4">
-                <el-button @click.prevent="close()">Cancelar</el-button>
+                <el-button class="second-buton" @click.prevent="close()">Cancelar</el-button>
                 <el-button type="primary" native-type="submit" :loading="loading_submit">Guardar</el-button>
             </div>
         </form>

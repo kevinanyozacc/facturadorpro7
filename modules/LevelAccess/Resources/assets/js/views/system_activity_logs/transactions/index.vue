@@ -8,10 +8,10 @@
             <div class="right-wrapper pull-right">
             </div>
         </div>
-        <div class="card mb-0">
-            <div class="card-header bg-info">
+        <div class="card mb-0 tab-content-default row-new">
+            <!-- <div class="card-header bg-info">
                 <h3 class="my-0">Transacciones de documentos electrónicos</h3>
-            </div>
+            </div> -->
             <div class="card-body">
                 <data-table :resource="resource">
                     <tr slot="heading">

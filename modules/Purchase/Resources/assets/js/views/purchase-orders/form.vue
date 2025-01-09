@@ -147,7 +147,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-lg-2" style="margin-top:29px;">
+                            <div class="col-lg-2" style="margin-top:24px;">
                                 <div class="form-group" :class="{'has-danger': errors.file}">
                                     <el-upload
                                         class="upload-demo-default"

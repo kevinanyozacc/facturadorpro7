@@ -1,391 +1,412 @@
 <template>
-
-    <div class="card tab-content-default row-new mb-0">
-        <div class="card-header bg-info">
-
-            <h3 class="my-0">
-                {{ title }}
-            </h3>
+    <div>
+        <div class="page-header pr-0">
+            <h2><a href="/documentary-procedure/files_simplify">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                        style="margin-top: -5px;"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="feather feather-folder">
+                        <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                    </svg>
+            </a></h2>
+            <ol class="breadcrumbs">
+                <li class="active"><span> {{ title }} </span></li>
+            </ol>
         </div>
-        <div class="card-body">
-            <!-- <el-dialog
-                :title="title"
-                :visible="visible"
-                @close="onClose"
-                @open="onCreate"
-            >
-            -->
-            <div class="form-body row">
-
-
-                <!-- cliente -->
-                <div :class="{ 'has-danger': errors.person_id }"
-                     class="form-group col-sm-12 col-md-6 col-lg-4 ">
-
-                    <label class="control-label font-weight-bold text-info">
-                        Cliente <span class="text-danger">*</span>
-                        <a href="#"
-                           @click.prevent="showDialogNewPerson = true"
-                        >[+ Nuevo]</a
-                        >
-                    </label>
-                    <el-select
-                        v-model="form.person_id"
-                        :loading="loading"
-                        :remote-method="searchRemoteCustomers"
-                        class="border-left rounded-left border-info"
-                        filterable
-                        placeholder="Escriba el nombre o número de documento del cliente"
-                        popper-class="el-select-customers"
-                        remote
-                        @change="changeCustomer"
-                    >
-                        <el-option
-                            v-for="option in customers"
-                            :key="option.id"
-                            :label="option.description"
-                            :value="option.id"
-                        ></el-option>
-                    </el-select>
-                    <small
-                        v-if="errors.person_id"
-                        class="form-control-feedback"
-                        v-text="errors.person_id[0]"
-                    ></small>
-                </div>
-
-                <!-- Tipo de tramite -->
-                <div
-                    :class="{ 'has-danger': errors.documentary_process_id }"
-                    class="form-group col-sm-12 col-md-6 col-lg-4 ">
-                    <label class="control-label">Tipo de tramite <span class="text-danger">*</span></label>
-                    <el-select
-                        v-model="form.documentary_process_id"
-                        :loading="loading"
-                        filterable
-                        @change="ChangeSelect"
-                    >
-                        <el-option
-                            v-for="item in processes"
-                            :key="item.id"
-                            :disabled="!item.active"
-                            :label="item.name_price"
-                            :value="item.id"
-                            @change="ChangeSelect"
-                        ></el-option>
-                    </el-select>
-                    <div v-if="errors.documentary_process_id"
-                         class="invalid-feedback">
-                        {{ errors.documentary_process_id[0] }}
-                    </div>
-                </div>
-
-                <!-- Folio -->
-                <div
-                    :class="{ 'has-danger': errors.number }"
-                    class="form-group col-sm-12 col-md-6 col-lg-4 ">
-
-                    <label class="control-label">
-                        Código de expediente (interno)
-                        <span class="text-danger">*</span>
-                    </label>
-                    <el-input v-model="form.invoice"
-                              :loading="loading"></el-input>
-                    <small
-                        v-if="errors.invoice"
-                        class="form-control-feedback"
-                        v-text="errors.invoice[0]"
-                    ></small>
-                </div>
-
-                <!-- Fecha de registro -->
-                <div
-                    :class="{ 'has-danger': errors.date_register }"
-                    class="form-group col-sm-12 col-md-3 col-lg-3 ">
-                    <label class="control-label">Fecha de registro </label>
-                    <el-date-picker
-                        v-model="form.date_register"
-                        :loading="loading"
-                        placeholder="Selecciona una fecha"
-                        type="date"
-                    >
-                    </el-date-picker>
-                    <small
-                        v-if="errors.date_register"
-                        class="form-control-feedback"
-                        v-text="errors.date_register[0]"
-                    ></small>
-                </div>
-
-                <!-- >Hora de registro -->
-                <div
-                    :class="{ 'has-danger': errors.time_register }"
-                    class="form-group col-sm-12 col-md-3 col-lg-3 ">
-
-                    <label class="control-label">Hora de registro </label>
-                    <el-input v-model="form.time_register"
-                              :loading="loading"
-                              placeholder="13:30:00">
-                    </el-input>
-                    <small
-                        v-if="errors.time_register"
-                        class="form-control-feedback"
-                        v-text="errors.time_register[0]"
-                    ></small>
-                </div>
-                <!--
-                <div class="col-12 row  ">
-                    <div class="col-1">&nbsp;</div>
-                    <div class="col-10">
-                        {{titleDescription}}
-                    </div>
-
-                </div>
+        <div class="card tab-content-default row-new mb-0">
+            <!-- <div class="card-header bg-info">
+    
+                <h3 class="my-0">
+                    {{ title }}
+                </h3>
+            </div> -->
+            <div class="card-body">
+                <!-- <el-dialog
+                    :title="title"
+                    :visible="visible"
+                    @close="onClose"
+                    @open="onCreate"
+                >
                 -->
-
-
-                <div class="col-12">
-                    <label>
-                        Procesos
-                    </label>
-                    <div class="col-12 table-responsive">
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Num. De Seguimiento</th>
-                                <th>Fecha/Hora De Registro</th>
-                                <th>Etapa</th>
-<!--                                <th>Descripcion</th>-->
-                                <th>Tiempo Que Toma El Tramite/Dias Restantes</th>
-                                <th>Fecha Concluida</th>
-                                <th style="    min-width: 300px;">Estado</th>
-                                <th>Responsable</th>
-                                <th>Observaciones</th>
-                                <th>Acciones</th>
-                                <!--                                        <th>herramientas /opciones</th>-->
-                            </tr>
-                            </thead>
-                            <tbody v-if="form.guides.length > 0">
-                            <tr v-for="(row, index) in form.guides">
-
-                                <template v-if="row.visible !== false">
-                                    <td> {{ index + 1 }}</td>
-                                    <td>
-                                        {{ row.guide }}
-
-                                    </td>
-                                    <td>
-                                        {{ row.created_at }}
-                                    </td>
-                                    <td>
-
-                                        <div
-                                            class="badge"
-                                            :style="'background-color:'+ getColorStage(row.doc_office_id)+
-                                             ';font-size: 12px;'"
-                                        >
-                                            {{ getStage(row.doc_office_id) }}
-                                        </div>
-                                    </td>
-<!--                                    <td>
-                                        {{ getStageDescription(row.doc_office_id) }}
-                                    </td>-->
-                                    <td>
-                                        Días que toma {{ row.total_day }} <br>
-                                        <strong>
-                                            <small>
-                                                {{ getDiffDay(row.date_end) }}
-                                            </small>
-                                        </strong>
-                                    </td>
-                                    <td>
-                                        <span :class="row.class">
-                                        {{ row.date_end }}
-                                            </span>
-                                    </td>
-                                    <td
-
-                                        class="row col-12"
-                                    >
-                                        <div class="col-1"
-                                             v-for="of in statusDocumentary"
-                                             :key="of.id"
-                                             :label="of.name"
-                                             :value="of.id"
-                                             :class="(of.id === row.documentary_guides_number_status_id)?'badge':'d-none'"
-                                             :style="'background-color:'+of.color"
-                                        >
-                                            <div
-                                            :class="(of.id === row.documentary_guides_number_status_id)?'badge':'d-none'"
-                                            v-if="of.id === row.documentary_guides_number_status_id">
-                                                &nbsp;
-                                            </div>
-                                        </div>
-                                        <div class="col-8">
-                                            <el-select
-
-                                                v-model="row.documentary_guides_number_status_id"
-                                                clearable
-                                                filterable
-                                                placeholder="Estado de tramite"
-                                                @change="updateStatus(row)"
-                                            >
-
-                                                <el-option
-                                                    v-for="of in statusDocumentary"
-                                                    :key="of.id"
-                                                    :label="of.name"
-                                                    :value="of.id"
-                                                >
-                                                    <template>
-                                                        <p
-                                                            :style="'background-color:'+ getColorStatus(of.id)"
-                                                        >
-                                                            {{ of.name }}
-                                                        </p>
-                                                    </template>
-
-                                                </el-option>
-                                            </el-select>
-
-                                        </div>
-
-
-
-
-
-                                    </td>
-                                    <td>
-                                        {{ getUser(row.user_id) }}
-                                    </td>
-                                    <td>
-                                        {{ row.observation }}
-                                    </td>
-                                    <td>
-                                        <div class="dropdown">
-                                            <button id="dropdownMenuButton"
-                                                    aria-expanded="false"
-                                                    aria-haspopup="true"
-                                                    class="btn btn-default btn-sm"
-                                                    data-toggle="dropdown"
-                                                    type="button">
-                                                <i class="fas fa-ellipsis-v"></i>
-                                            </button>
-                                            <div aria-labelledby="dropdownMenuButton"
-                                                 class="dropdown-menu">
-                                                <button
-                                                    class="dropdown-item"
-                                                    type="button"
-                                                    @click.prevent="clickEditStep(row,index)">
-                                                    Editar/Ver
-                                                </button>
-                                                <button
-                                                    v-if="!form.is_completed"
-                                                    class="dropdown-item"
-                                                    type="button"
-                                                    @click.prevent="clickRemoveItem(index, row)">
-                                                    Eliminar
-                                                </button>
-                                                <button
-                                                    v-if="row.id > 0"
-                                                    class="dropdown-item"
-                                                    type="button"
-                                                    @click.prevent="row=clickFileUpload(row.id)">
-                                                    Cargar archivo
-                                                </button>
-
-
-                                            </div>
-                                        </div>
-
-
-                                    </td>
-                                </template>
-                            </tr>
-                            </tbody>
-
-                        </table>
-
-                    </div>
-                    <div v-show="data_load"
-                         v-if="!form.is_completed"
-                         class="col-12 text-center">
-                        <label class="control-label">
-                            <a class="btn"
-                               href="#"
-                               @click.prevent="clickAddStep">
-                                <i class="fa fa-plus font-weight-bold text-info"></i>
-                                <span style="color: #777777">Agregar Etapa</span></a>
-
+                <div class="form-body row">
+    
+    
+                    <!-- cliente -->
+                    <div :class="{ 'has-danger': errors.person_id }"
+                         class="form-group col-sm-12 col-md-6 col-lg-4 ">
+    
+                        <label class="control-label font-weight-bold text-info">
+                            Cliente <span class="text-danger">*</span>
+                            <a href="#"
+                               @click.prevent="showDialogNewPerson = true"
+                            >[+ Nuevo]</a
+                            >
                         </label>
-                    </div>
-                </div>
-                <!--
-                <div v-if="haveObservation(file)">
-                    <table-observation></table-observation>
-                </div>
-                -->
-
-
-                <div class="col-6">
-                    &nbsp;
-                </div>
-                <div class="row text-center col-6 p-t-20">
-
-                    <div class="col-6">
-                        <el-button
-                            class="btn-block second-buton"
-                            @click="onClose">
-                            Cancelar
-                        </el-button>
-                    </div>
-                    <div v-if="form.guides.length > 0"
-                         class="col-6">
-                        <el-button
-                            :disabled="canSubmit"
-                            v-if="!form.is_completed"
+                        <el-select
+                            v-model="form.person_id"
                             :loading="loading"
-                            class="btn-block"
-                            native-type="submit"
-                            type="primary"
-                            @click.prevent="onSubmit"
-                        >Guardar
-                        </el-button
+                            :remote-method="searchRemoteCustomers"
+                            class="border-left rounded-left border-info"
+                            filterable
+                            placeholder="Escriba el nombre o número de documento del cliente"
+                            popper-class="el-select-customers"
+                            remote
+                            @change="changeCustomer"
                         >
+                            <el-option
+                                v-for="option in customers"
+                                :key="option.id"
+                                :label="option.description"
+                                :value="option.id"
+                            ></el-option>
+                        </el-select>
+                        <small
+                            v-if="errors.person_id"
+                            class="form-control-feedback"
+                            v-text="errors.person_id[0]"
+                        ></small>
                     </div>
+    
+                    <!-- Tipo de tramite -->
+                    <div
+                        :class="{ 'has-danger': errors.documentary_process_id }"
+                        class="form-group col-sm-12 col-md-6 col-lg-4 ">
+                        <label class="control-label">Tipo de tramite <span class="text-danger">*</span></label>
+                        <el-select
+                            v-model="form.documentary_process_id"
+                            :loading="loading"
+                            filterable
+                            @change="ChangeSelect"
+                        >
+                            <el-option
+                                v-for="item in processes"
+                                :key="item.id"
+                                :disabled="!item.active"
+                                :label="item.name_price"
+                                :value="item.id"
+                                @change="ChangeSelect"
+                            ></el-option>
+                        </el-select>
+                        <div v-if="errors.documentary_process_id"
+                             class="invalid-feedback">
+                            {{ errors.documentary_process_id[0] }}
+                        </div>
+                    </div>
+    
+                    <!-- Folio -->
+                    <div
+                        :class="{ 'has-danger': errors.number }"
+                        class="form-group col-sm-12 col-md-6 col-lg-4 ">
+    
+                        <label class="control-label">
+                            Código de expediente (interno)
+                            <span class="text-danger">*</span>
+                        </label>
+                        <el-input v-model="form.invoice"
+                                  :loading="loading"></el-input>
+                        <small
+                            v-if="errors.invoice"
+                            class="form-control-feedback"
+                            v-text="errors.invoice[0]"
+                        ></small>
+                    </div>
+    
+                    <!-- Fecha de registro -->
+                    <div
+                        :class="{ 'has-danger': errors.date_register }"
+                        class="form-group col-sm-12 col-md-3 col-lg-3 ">
+                        <label class="control-label">Fecha de registro </label>
+                        <el-date-picker
+                            v-model="form.date_register"
+                            :loading="loading"
+                            placeholder="Selecciona una fecha"
+                            type="date"
+                        >
+                        </el-date-picker>
+                        <small
+                            v-if="errors.date_register"
+                            class="form-control-feedback"
+                            v-text="errors.date_register[0]"
+                        ></small>
+                    </div>
+    
+                    <!-- >Hora de registro -->
+                    <div
+                        :class="{ 'has-danger': errors.time_register }"
+                        class="form-group col-sm-12 col-md-3 col-lg-3 ">
+    
+                        <label class="control-label">Hora de registro </label>
+                        <el-input v-model="form.time_register"
+                                  :loading="loading"
+                                  placeholder="13:30:00">
+                        </el-input>
+                        <small
+                            v-if="errors.time_register"
+                            class="form-control-feedback"
+                            v-text="errors.time_register[0]"
+                        ></small>
+                    </div>
+                    <!--
+                    <div class="col-12 row  ">
+                        <div class="col-1">&nbsp;</div>
+                        <div class="col-10">
+                            {{titleDescription}}
+                        </div>
+    
+                    </div>
+                    -->
+    
+    
+                    <div class="col-12">
+                        <label>
+                            Procesos
+                        </label>
+                        <div class="col-12 table-responsive">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Num. De Seguimiento</th>
+                                    <th>Fecha/Hora De Registro</th>
+                                    <th>Etapa</th>
+    <!--                                <th>Descripcion</th>-->
+                                    <th>Tiempo Que Toma El Tramite/Dias Restantes</th>
+                                    <th>Fecha Concluida</th>
+                                    <th style="    min-width: 300px;">Estado</th>
+                                    <th>Responsable</th>
+                                    <th>Observaciones</th>
+                                    <th>Acciones</th>
+                                    <!--                                        <th>herramientas /opciones</th>-->
+                                </tr>
+                                </thead>
+                                <tbody v-if="form.guides.length > 0">
+                                <tr v-for="(row, index) in form.guides">
+    
+                                    <template v-if="row.visible !== false">
+                                        <td> {{ index + 1 }}</td>
+                                        <td>
+                                            {{ row.guide }}
+    
+                                        </td>
+                                        <td>
+                                            {{ row.created_at }}
+                                        </td>
+                                        <td>
+    
+                                            <div
+                                                class="badge"
+                                                :style="'background-color:'+ getColorStage(row.doc_office_id)+
+                                                 ';font-size: 12px;'"
+                                            >
+                                                {{ getStage(row.doc_office_id) }}
+                                            </div>
+                                        </td>
+    <!--                                    <td>
+                                            {{ getStageDescription(row.doc_office_id) }}
+                                        </td>-->
+                                        <td>
+                                            Días que toma {{ row.total_day }} <br>
+                                            <strong>
+                                                <small>
+                                                    {{ getDiffDay(row.date_end) }}
+                                                </small>
+                                            </strong>
+                                        </td>
+                                        <td>
+                                            <span :class="row.class">
+                                            {{ row.date_end }}
+                                                </span>
+                                        </td>
+                                        <td
+    
+                                            class="row col-12"
+                                        >
+                                            <div class="col-1"
+                                                 v-for="of in statusDocumentary"
+                                                 :key="of.id"
+                                                 :label="of.name"
+                                                 :value="of.id"
+                                                 :class="(of.id === row.documentary_guides_number_status_id)?'badge':'d-none'"
+                                                 :style="'background-color:'+of.color"
+                                            >
+                                                <div
+                                                :class="(of.id === row.documentary_guides_number_status_id)?'badge':'d-none'"
+                                                v-if="of.id === row.documentary_guides_number_status_id">
+                                                    &nbsp;
+                                                </div>
+                                            </div>
+                                            <div class="col-8">
+                                                <el-select
+    
+                                                    v-model="row.documentary_guides_number_status_id"
+                                                    clearable
+                                                    filterable
+                                                    placeholder="Estado de tramite"
+                                                    @change="updateStatus(row)"
+                                                >
+    
+                                                    <el-option
+                                                        v-for="of in statusDocumentary"
+                                                        :key="of.id"
+                                                        :label="of.name"
+                                                        :value="of.id"
+                                                    >
+                                                        <template>
+                                                            <p
+                                                                :style="'background-color:'+ getColorStatus(of.id)"
+                                                            >
+                                                                {{ of.name }}
+                                                            </p>
+                                                        </template>
+    
+                                                    </el-option>
+                                                </el-select>
+    
+                                            </div>
+    
+    
+    
+    
+    
+                                        </td>
+                                        <td>
+                                            {{ getUser(row.user_id) }}
+                                        </td>
+                                        <td>
+                                            {{ row.observation }}
+                                        </td>
+                                        <td>
+                                            <div class="dropdown">
+                                                <button id="dropdownMenuButton"
+                                                        aria-expanded="false"
+                                                        aria-haspopup="true"
+                                                        class="btn btn-default btn-sm"
+                                                        data-toggle="dropdown"
+                                                        type="button">
+                                                    <i class="fas fa-ellipsis-v"></i>
+                                                </button>
+                                                <div aria-labelledby="dropdownMenuButton"
+                                                     class="dropdown-menu">
+                                                    <button
+                                                        class="dropdown-item"
+                                                        type="button"
+                                                        @click.prevent="clickEditStep(row,index)">
+                                                        Editar/Ver
+                                                    </button>
+                                                    <button
+                                                        v-if="!form.is_completed"
+                                                        class="dropdown-item"
+                                                        type="button"
+                                                        @click.prevent="clickRemoveItem(index, row)">
+                                                        Eliminar
+                                                    </button>
+                                                    <button
+                                                        v-if="row.id > 0"
+                                                        class="dropdown-item"
+                                                        type="button"
+                                                        @click.prevent="row=clickFileUpload(row.id)">
+                                                        Cargar archivo
+                                                    </button>
+    
+    
+                                                </div>
+                                            </div>
+    
+    
+                                        </td>
+                                    </template>
+                                </tr>
+                                </tbody>
+    
+                            </table>
+    
+                        </div>
+                        <div v-show="data_load"
+                             v-if="!form.is_completed"
+                             class="col-12 text-center">
+                            <label class="control-label">
+                                <a class="btn"
+                                   href="#"
+                                   @click.prevent="clickAddStep">
+                                    <i class="fa fa-plus font-weight-bold text-info"></i>
+                                    <span style="color: #777777">Agregar Etapa</span></a>
+    
+                            </label>
+                        </div>
+                    </div>
+                    <!--
+                    <div v-if="haveObservation(file)">
+                        <table-observation></table-observation>
+                    </div>
+                    -->
+    
+    
+                    <div class="col-6">
+                        &nbsp;
+                    </div>
+                    <div class="row text-center col-6 p-t-20">
+    
+                        <div class="col-6">
+                            <el-button
+                                class="btn-block second-buton"
+                                @click="onClose">
+                                Cancelar
+                            </el-button>
+                        </div>
+                        <div v-if="form.guides.length > 0"
+                             class="col-6">
+                            <el-button
+                                :disabled="canSubmit"
+                                v-if="!form.is_completed"
+                                :loading="loading"
+                                class="btn-block"
+                                native-type="submit"
+                                type="primary"
+                                @click.prevent="onSubmit"
+                            >Guardar
+                            </el-button
+                            >
+                        </div>
+                    </div>
+    
+    
                 </div>
-
-
+    
+                <!-- </el-dialog> -->
+    
+                <add-process-modal
+                    :guides="editGuide"
+                    :visible.sync="showDialogNewProcess"
+                    @addrow="addStep"
+                    @closeElement="clearStep"
+                    :editable="!form.is_completed"
+                >
+    
+                </add-process-modal>
+    
+                <person-form
+                    :document_type_id="form.document_type_id"
+                    :external="true"
+                    :input_person="input_person"
+                    :showDialog.sync="showDialogNewPerson"
+                    type="customers"
+                ></person-form>
+                <modal-file-upload
+                    :stageId="stageId"
+                    :visible.sync="showFileUpload"
+                    @updateStage="updateData"
+                    @closeElement="updateData"
+                ></modal-file-upload>
+    
+    
             </div>
-
-            <!-- </el-dialog> -->
-
-            <add-process-modal
-                :guides="editGuide"
-                :visible.sync="showDialogNewProcess"
-                @addrow="addStep"
-                @closeElement="clearStep"
-                :editable="!form.is_completed"
-            >
-
-            </add-process-modal>
-
-            <person-form
-                :document_type_id="form.document_type_id"
-                :external="true"
-                :input_person="input_person"
-                :showDialog.sync="showDialogNewPerson"
-                type="customers"
-            ></person-form>
-            <modal-file-upload
-                :stageId="stageId"
-                :visible.sync="showFileUpload"
-                @updateStage="updateData"
-                @closeElement="updateData"
-            ></modal-file-upload>
-
-
         </div>
     </div>
 </template>

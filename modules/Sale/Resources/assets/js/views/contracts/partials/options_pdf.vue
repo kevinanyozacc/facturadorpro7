@@ -34,7 +34,7 @@
                     </el-input>
                 </div> -->
                 <!-- <div class="col-md-6">  -->
-                    <el-button @click="clickClose">Cerrar</el-button>  
+                    <el-button class="second-buton" @click="clickClose">Cerrar</el-button>  
                 <!-- </div> -->
 
             </span>

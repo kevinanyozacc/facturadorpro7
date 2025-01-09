@@ -19,7 +19,7 @@
 
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-3 form-modern">
                             <label class="control-label">Periodo</label>
                             <el-select v-model="form.period" @change="changePeriod">
                                 <el-option key="month" value="month" label="Por mes"></el-option>
@@ -29,7 +29,7 @@
                             </el-select>
                         </div>
                         <template v-if="form.period === 'month' || form.period === 'between_months'">
-                            <div class="col-md-3">
+                            <div class="col-md-3 form-modern">
                                 <label class="control-label">Mes de</label>
                                 <el-date-picker v-model="form.month_start" type="month"
                                                 @change="changeDisabledMonths"

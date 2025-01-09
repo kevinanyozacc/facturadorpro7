@@ -1,7 +1,9 @@
 <template>
     <div class="purchases">
         <div class="page-header pr-0">
-            <h2><a href="/dashboard"><i class="fas fa-tachometer-alt"></i></a></h2>
+            <h2><a href="/purchases">
+                <svg  xmlns="http://www.w3.org/2000/svg" style="margin-top: -5px;"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-shopping-bag"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6.331 8h11.339a2 2 0 0 1 1.977 2.304l-1.255 8.152a3 3 0 0 1 -2.966 2.544h-6.852a3 3 0 0 1 -2.965 -2.544l-1.255 -8.152a2 2 0 0 1 1.977 -2.304z" /><path d="M9 11v-5a3 3 0 0 1 6 0v5" /></svg>
+            </a></h2>
             <ol class="breadcrumbs">
                 <li class="active"><span>Compras</span></li>
             </ol>
@@ -51,7 +53,7 @@
                         <th class="text-right">Total</th>
                         <!-- <th class="text-center">Descargas</th> -->
                         <th class="text-right">Acciones</th>
-                    <tr>
+                    </tr>
                     <tr slot-scope="{ index, row }">
                         <td>{{ index }}</td>
                         <td class="text-center">{{ row.date_of_issue }}</td>
@@ -89,7 +91,7 @@
 
                                     <el-table-column width="90" property="quantity" label="Cantidad"></el-table-column>
                                 </el-table>
-                                <el-button slot="reference"> <i class="fa fa-eye"></i></el-button>
+                                <el-button class="second-buton" slot="reference"> <i class="fa fa-eye"></i></el-button>
                             </el-popover>
 
                         </td>

@@ -14,7 +14,7 @@
                 </button>
             </div>
         </div>
-        <div class="card">
+        <div class="card tab-content-default row-new">
             <div class="card-body pb-5">
                 <div class="row">
                     <div class="col-3">
@@ -39,9 +39,10 @@
                         </small>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" v-if="form.establishment_id">
                     <div v-for="(template, index) in formatos" class="my-2 col-sm-12 col-md-4 col-lg-3 col-xl-3" :key="template+index">
                         <el-card :id="template.id"
+                                 :class="['pdf-template-border', {'active-border': form.current_format === template.name}]"
                                  :body-style="{ padding: '0px' }">
                             <a @click="viewImage(template)">
                                 <img :src="path.origin+'/templates/pdf/'+template.name+'/ticket.png'"
@@ -93,9 +94,14 @@
 .el-carousel__item:nth-child(2n) {
 background-color: #99a9bf;
 }
-
 .el-carousel__item:nth-child(2n+1) {
 background-color: #d3dce6;
+}
+.pdf-template-border {
+    border: 2px solid transparent;
+}
+.pdf-template-border.active-border {
+    border: 2px solid #409eff;
 }
 </style>
 

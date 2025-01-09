@@ -377,7 +377,7 @@
 
                                         <template v-else>
                                         <thead>
-                                            <tr>
+                                            <tr class="table-titles-default">
                                                 <th width="5%">#</th>
                                                 <th class="font-weight-bold"
                                                     width="30%">Descripción</th>

@@ -20,7 +20,7 @@
                 </div>
             </div>
             <div class="form-actions text-right pt-2 mt-3">
-                <el-button @click.prevent="close()">Cerrar</el-button>
+                <el-button class="second-buton" @click.prevent="close()">Cerrar</el-button>
                 <el-button type="primary" @click.prevent="clickSubmit" :loading="loading_submit">Guardar</el-button>
             </div>
         </form>

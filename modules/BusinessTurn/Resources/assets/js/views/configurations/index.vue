@@ -5,13 +5,11 @@
             <ol class="breadcrumbs">
                 <li class="active"><span>{{ title }}</span></li>
             </ol>
-            <div class="right-wrapper pull-right">
-            </div>
         </div>
-        <div class="card mb-0">
-            <div class="card-header bg-info">
+        <div class="card tab-content-default row-new mb-0">
+            <!-- <div class="card-header bg-info">
                 <h3 class="my-0"> {{ title }}</h3>
-            </div>
+            </div> -->
             <div class="card-body"> 
                 <div class="row">
                     <div class="col-md-12">

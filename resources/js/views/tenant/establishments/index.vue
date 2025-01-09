@@ -1,7 +1,9 @@
 <template>
     <div>
         <div class="page-header pr-0">
-            <h2><a href="/dashboard"><i class="fas fa-tachometer-alt"></i></a></h2>
+            <h2><a href="/establishments">
+                <svg  xmlns="http://www.w3.org/2000/svg" style="margin-top: -5px;" width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-list-numbers"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M11 6h9" /><path d="M11 12h9" /><path d="M12 18h8" /><path d="M4 16a2 2 0 1 1 4 0c0 .591 -.5 1 -1 1.5l-3 2.5h4" /><path d="M6 10v-6l-2 2" /></svg>
+            </a></h2>
             <ol class="breadcrumbs">
                 <li class="active"><span>Establecimientos</span></li>
             </ol>
@@ -13,9 +15,9 @@
             </div>
         </div>
         <div class="card tab-content-default row-new">
-            <div class="card-header bg-info">
+            <!-- <div class="card-header bg-info">
                 <h3 class="my-0">Listado de establecimientos</h3>
-            </div>
+            </div> -->
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table">
@@ -23,7 +25,7 @@
                         <tr>
                             <th>#</th>
                             <th>Descripción</th>
-                            <th class="text-right">Código</th>
+                            <th class="text-left">Código</th>
                             <th class="text-right">Acciones</th>
                         </tr>
                         </thead>
@@ -31,7 +33,7 @@
                         <tr v-for="(row, index) in records" :key="index">
                             <td>{{ index + 1 }}</td>
                             <td>{{ row.description }}</td>
-                            <td class="text-right">{{ row.code }}</td>
+                            <td class="text-left">{{ row.code }}</td>
                             <td class="text-right">
                                 <button type="button" class="btn waves-effect waves-light btn-xs btn-info" @click.prevent="clickCreate(row.id)">Editar</button>
                                 <button type="button" class="btn waves-effect waves-light btn-xs btn-danger" v-if="typeUser != 'integrator'" @click.prevent="clickDelete(row.id)">Eliminar</button>

@@ -1,71 +1,82 @@
 <template>
-    <div class="card">
-        <div class="card-header bg-info">
-            <h3 class="my-0">Consistencia de documentos</h3>
+    <div>
+        <div class="page-header pr-0">
+            <h2><a href="/list-reports">
+                <svg  xmlns="http://www.w3.org/2000/svg" style="margin-top: -5px;" width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-file-analytics"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 3v4a1 1 0 0 0 1 1h4" /><path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" /><path d="M9 17l0 -5" /><path d="M12 17l0 -1" /><path d="M15 17l0 -3" /></svg>
+            </a></h2>
+            <ol class="breadcrumbs">
+                <li class="active"><span> Consistencia de documentos </span></li>
+            </ol>
         </div>
-        <div class="data-table-visible-columns">
-            <el-dropdown :hide-on-click="false">
-                <el-button type="primary">
-                    Mostrar/Ocultar columnas<i class="el-icon-arrow-down el-icon--right"></i>
-                </el-button>
-                <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item v-for="(column, index) in columns" :key="index">
-                        <el-checkbox v-model="column.visible">{{ column.title }}</el-checkbox>
-                    </el-dropdown-item>
-                </el-dropdown-menu>
-            </el-dropdown>
-        </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label class="control-label">
-                            Rango de fechas
-                        </label>
-                        <el-date-picker
-                            v-model="form.date_start"
-                            :clearable="false"
-                            :picker-options="pickeroptions"
-                            end-placeholder="Fecha de fin"
-                            range-separator="-"
-                            start-placeholder="Fecha de inicio"
-                            type="daterange"
-                            value-format="yyyy-MM-dd">
-                        </el-date-picker>
-                    </div>
-                </div>
-
-                <div class="col-md-12">&nbsp;</div>
-                <div class="col-md-4 d-flex pt-2">
-                    <div class="form-group">
-                        <el-button class="submit"
-                                   type="primary"
-                                   @click.prevent="refresh"
-                                   :loading="loading_submit"
-                                   icon="el-icon-search" >
-                            Buscar
-                        </el-button>
-
-                    </div>
-                </div>
+        <div class="card tab-content-default row-new">
+            <!-- <div class="card-header bg-info">
+                <h3 class="my-0">Consistencia de documentos</h3>
+            </div> -->
+            <div class="data-table-visible-columns">
+                <el-dropdown :hide-on-click="false">
+                    <el-button type="primary">
+                        Mostrar/Ocultar columnas<i class="el-icon-arrow-down el-icon--right"></i>
+                    </el-button>
+                    <el-dropdown-menu slot="dropdown">
+                        <el-dropdown-item v-for="(column, index) in columns" :key="index">
+                            <el-checkbox v-model="column.visible">{{ column.title }}</el-checkbox>
+                        </el-dropdown-item>
+                    </el-dropdown-menu>
+                </el-dropdown>
             </div>
-            <template>
-                <el-table :data="tableData" style="width: 100%">
-                    <el-table-column label="Serie" prop="serie.number"></el-table-column>
-                    <el-table-column label="Número incial" prop="start"></el-table-column>
-                    <el-table-column label="Número final" prop="end"></el-table-column>
-                    <el-table-column label="Faltantes" prop="diff"></el-table-column>
-                    <el-table-column label="Registrados" prop="registered"></el-table-column>
-                    <el-table-column v-if="columns.sent.visible" label="Enviados" prop="sent"></el-table-column>
-                    <el-table-column v-if="columns.accepted.visible" label="Aceptados" prop="accepted"></el-table-column>
-                    <el-table-column v-if="columns.observed.visible" label="Observados" prop="observed"></el-table-column>
-                    <el-table-column v-if="columns.rejected.visible" label="Rechazados" prop="rejected"></el-table-column>
-                    <el-table-column v-if="columns.canceled.visible" label="Anulados" prop="canceled"></el-table-column>
-                    <el-table-column v-if="columns.byVoiding.visible" label="Por anular" prop="byVoiding"></el-table-column>
-                </el-table>
-            </template>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label mb-2">
+                                Rango de fechas
+                            </label>
+                            <el-date-picker
+                                v-model="form.date_start"
+                                :clearable="false"
+                                :picker-options="pickeroptions"
+                                class="w-100"
+                                end-placeholder="Fecha de fin"
+                                range-separator="-"
+                                start-placeholder="Fecha de inicio"
+                                type="daterange"
+                                value-format="yyyy-MM-dd">
+                            </el-date-picker>
+                        </div>
+                    </div>
+    
+                    <div class="col-md-12">&nbsp;</div>
+                    <div class="col-md-4 d-flex pt-2">
+                        <div class="form-group">
+                            <el-button class="submit"
+                                       type="primary"
+                                       @click.prevent="refresh"
+                                       :loading="loading_submit"
+                                       icon="el-icon-search" >
+                                Buscar
+                            </el-button>
+    
+                        </div>
+                    </div>
+                </div>
+                <template>
+                    <el-table :data="tableData" style="width: 100%">
+                        <el-table-column label="Serie" prop="serie.number"></el-table-column>
+                        <el-table-column label="Número incial" prop="start"></el-table-column>
+                        <el-table-column label="Número final" prop="end"></el-table-column>
+                        <el-table-column label="Faltantes" prop="diff"></el-table-column>
+                        <el-table-column label="Registrados" prop="registered"></el-table-column>
+                        <el-table-column v-if="columns.sent.visible" label="Enviados" prop="sent"></el-table-column>
+                        <el-table-column v-if="columns.accepted.visible" label="Aceptados" prop="accepted"></el-table-column>
+                        <el-table-column v-if="columns.observed.visible" label="Observados" prop="observed"></el-table-column>
+                        <el-table-column v-if="columns.rejected.visible" label="Rechazados" prop="rejected"></el-table-column>
+                        <el-table-column v-if="columns.canceled.visible" label="Anulados" prop="canceled"></el-table-column>
+                        <el-table-column v-if="columns.byVoiding.visible" label="Por anular" prop="byVoiding"></el-table-column>
+                    </el-table>
+                </template>
+            </div>
+            <tenant-tasks-form :showDialog.sync="showDialog" :tableData.sync="tableData" @refresh="refresh"></tenant-tasks-form>
         </div>
-        <tenant-tasks-form :showDialog.sync="showDialog" :tableData.sync="tableData" @refresh="refresh"></tenant-tasks-form>
     </div>
 </template>
 

@@ -159,7 +159,7 @@
                                     <label
                                         class="control-label">
                                         Dirección secundaria #{{ index + 1 }}
-                                        <el-button class="btn-default-danger"
+                                        <el-button class="second-buton btn-default-danger"
                                                 icon="el-icon-minus"
                                                 size="mini"
                                                 @click.prevent="clickRemoveAddress(index)">Eliminar dirección

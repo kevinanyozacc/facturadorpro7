@@ -14,7 +14,7 @@
                 </div>
             </div>
             <div class="form-actions text-right pt-2 mt-2">
-                <el-button @click.prevent="close()">Cerrar</el-button>
+                <el-button class="second-buton" @click.prevent="close()">Cerrar</el-button>
                 <el-button type="primary" @click.prevent="clickSubmit">Guardar</el-button>
             </div>
         </form>

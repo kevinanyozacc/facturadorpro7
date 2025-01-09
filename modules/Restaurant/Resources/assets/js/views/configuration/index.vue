@@ -8,7 +8,7 @@
         </ol>
       </div>
       <template>
-        <form autocomplete="off">
+        <form class="tab-content-default row-new bg-transparent" autocomplete="off">
           <el-tabs v-model="activeName" type="border-card" class="rounded">
             <el-tab-pane class="mb-3"  name="first">
               <span slot="label">Ambientes</span>
@@ -23,7 +23,7 @@
                                           content="Editar Nombre de Ambiente"
                                           effect="dark"
                                           placement="top-start">
-                                <el-button class="btn btn-xs float-right" @click="environment_1.enabled_edit=true">
+                                <el-button class="second-buton btn btn-xs float-right" @click="environment_1.enabled_edit=true">
                                           Editar nombre
                                 </el-button>
                               </el-tooltip>
@@ -244,7 +244,7 @@
                   </el-button>
                 </div>
               </div>
-              <div class="row">
+              <div class="row mt-2">
                 <div class="col-sm-12">
                   <div class="table-responsive">
                     <table class="table">

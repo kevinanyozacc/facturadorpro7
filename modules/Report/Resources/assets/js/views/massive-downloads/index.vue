@@ -1,207 +1,217 @@
 <template>
-    <div class="card mb-0 pt-2 pt-md-0">
-        <div class="card-header bg-info">
-            <h3 class="my-0">Descarga masiva de documentos</h3>
+    <div>
+        <div class="page-header pr-0">
+            <h2><a href="/list-reports">
+                <svg  xmlns="http://www.w3.org/2000/svg" style="margin-top: -5px;" width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-file-analytics"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 3v4a1 1 0 0 0 1 1h4" /><path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" /><path d="M9 17l0 -5" /><path d="M12 17l0 -1" /><path d="M15 17l0 -3" /></svg>
+            </a></h2>
+            <ol class="breadcrumbs">
+                <li class="active"><span> Descarga masiva de documentos </span></li>
+            </ol>
         </div>
-        <div class="card mb-0">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-12 col-lg-12 col-xl-12 ">
-
-                        <div class="row mt-2">
-
-                            <div class="col-md-3">
-                                <label class="control-label">Fecha inicio</label>
-                                <el-date-picker v-model="form.date_start"
-                                                format="dd/MM/yyyy"
-                                                type="date"
-                                                value-format="yyyy-MM-dd"
-                                                @change="changeDisabledDates"></el-date-picker>
-                            </div>
-                            <div class="col-md-3">
-                                <label class="control-label">Fecha término</label>
-                                <el-date-picker v-model="form.date_end"
-                                                :picker-options="pickerOptionsDates"
-                                                format="dd/MM/yyyy"
-                                                type="date"
-                                                value-format="yyyy-MM-dd"></el-date-picker>
-                            </div>
-
-                            <div class="col-lg-6 col-md-6">
-                                <div class="form-group">
-                                    <label class="control-label">
-                                        Clientes
-                                    </label>
-
-                                    <el-select v-model="form.person_id"
-                                               :loading="loading_search"
-                                               :remote-method="searchRemotePersons"
-                                               clearable
-                                               filterable
-                                               placeholder="Nombre o número de documento"
-                                               popper-class="el-select-customers"
-                                               remote>
-                                        <el-option v-for="option in persons"
-                                                   :key="option.id"
-                                                   :label="option.description"
-                                                   :value="option.id"></el-option>
-                                    </el-select>
-
+        <div class="card mb-0 pt-2 pt-md-0 tab-content-default row-new">
+            <!-- <div class="card-header bg-info">
+                <h3 class="my-0">Descarga masiva de documentos</h3>
+            </div> -->
+            <div class="card mb-0">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12 col-lg-12 col-xl-12 ">
+    
+                            <div class="row mt-2">
+    
+                                <div class="col-md-3 form-modern">
+                                    <label class="control-label">Fecha inicio</label>
+                                    <el-date-picker v-model="form.date_start"
+                                                    format="dd/MM/yyyy"
+                                                    type="date"
+                                                    value-format="yyyy-MM-dd"
+                                                    @change="changeDisabledDates"></el-date-picker>
                                 </div>
-                            </div>
-
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label class="control-label">Tipo de documento</label>
-                                    <el-select v-model="form.document_types"
-                                               collapse-tags
-                                               multiple
-                                    >
-                                        <el-option v-for="option in document_types"
-                                                   :key="option.id"
-                                                   :label="option.description"
-                                                   :value="option.id"></el-option>
-                                    </el-select>
+                                <div class="col-md-3 form-modern">
+                                    <label class="control-label">Fecha término</label>
+                                    <el-date-picker v-model="form.date_end"
+                                                    :picker-options="pickerOptionsDates"
+                                                    format="dd/MM/yyyy"
+                                                    type="date"
+                                                    value-format="yyyy-MM-dd"></el-date-picker>
                                 </div>
-                            </div>
-
-                            <!-- Serie -->
-                            <div class="col-lg-3 col-md-3">
-                                <div class="form-group">
-                                    <label class="control-label">Serie</label>
-                                    <el-select v-model="form.series"
-                                               clearable
-                                               filterable>
-                                        <el-option v-for="option in series"
-                                                   :key="option.number"
-                                                   :label="option.number"
-                                                   :value="option.number"></el-option>
-                                    </el-select>
-
+    
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label">
+                                            Clientes
+                                        </label>
+    
+                                        <el-select v-model="form.person_id"
+                                                   :loading="loading_search"
+                                                   :remote-method="searchRemotePersons"
+                                                   clearable
+                                                   filterable
+                                                   placeholder="Nombre o número de documento"
+                                                   popper-class="el-select-customers"
+                                                   remote>
+                                            <el-option v-for="option in persons"
+                                                       :key="option.id"
+                                                       :label="option.description"
+                                                       :value="option.id"></el-option>
+                                        </el-select>
+    
+                                    </div>
                                 </div>
-                            </div>
-
-
-                            <!-- Vendedor -->
-                            <div class="col-lg-4 col-md-4">
-                                <div class="form-group">
-                                    <label class="control-label">Vendedor
-                                    </label>
-
-                                    <!-- <el-select v-model="form.seller_id" filterable  popper-class="el-select-customers"  clearable
-                                        placeholder="Nombre"
-                                        @change="changeSellers">
-                                        <el-option v-for="option in sellers" :key="option.id" :value="option.id" :label="option.name"></el-option>
-                                    </el-select> -->
-
-                                    <el-select v-model="form.sellers"
-                                               clearable
-                                               filterable
-                                               multiple
-                                               placeholder="Nombre"
-                                               popper-class="el-select-customers"
-                                               @change="changeSellers">
-                                        <el-option v-for="option in sellers"
-                                                   :key="option.id"
-                                                   :label="option.name"
-                                                   :value="option.id"></el-option>
-                                    </el-select>
+    
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Tipo de documento</label>
+                                        <el-select v-model="form.document_types"
+                                                   collapse-tags
+                                                   multiple
+                                        >
+                                            <el-option v-for="option in document_types"
+                                                       :key="option.id"
+                                                       :label="option.description"
+                                                       :value="option.id"></el-option>
+                                        </el-select>
+                                    </div>
                                 </div>
-                            </div>
-
-                            <!-- Exportado -->
-                            <div class="col-lg-2 col-md-2">
-                                <div class="form-group">
-                                    <label class="control-label">Tipo Exportado
-                                    </label>
-                                    <el-select v-model="type"
-                                               filterable>
-                                        <el-option :id="'a4'"
-                                                   :label="'PDF A4'"
-                                                   :value="'a4'"></el-option>
-                                        <el-option :id="'ticket'"
-                                                   :label="'Ticket PDF'"
-                                                   :value="'ticket'"></el-option>
-                                        <el-option :id="'a5'"
-                                                   :label="'PDF A5'"
-                                                   :value="'a5'"></el-option>
-                                    </el-select>
-
+    
+                                <!-- Serie -->
+                                <div class="col-lg-3 col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Serie</label>
+                                        <el-select v-model="form.series"
+                                                   clearable
+                                                   filterable>
+                                            <el-option v-for="option in series"
+                                                       :key="option.number"
+                                                       :label="option.number"
+                                                       :value="option.number"></el-option>
+                                        </el-select>
+    
+                                    </div>
                                 </div>
-                            </div>
-
-                            <div class="col-lg-2 col-md-2">
-                                <div class="form-group">
-                                    <label class="control-label">
-                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    </label>
-                                    <el-checkbox
-                                        v-model="filter_range"
-                                    >
-                                        Filtra por Rango de comprobantes
-                                    </el-checkbox>
+    
+    
+                                <!-- Vendedor -->
+                                <div class="col-lg-4 col-md-4">
+                                    <div class="form-group">
+                                        <label class="control-label">Vendedor
+                                        </label>
+    
+                                        <!-- <el-select v-model="form.seller_id" filterable  popper-class="el-select-customers"  clearable
+                                            placeholder="Nombre"
+                                            @change="changeSellers">
+                                            <el-option v-for="option in sellers" :key="option.id" :value="option.id" :label="option.name"></el-option>
+                                        </el-select> -->
+    
+                                        <el-select v-model="form.sellers"
+                                                   clearable
+                                                   filterable
+                                                   multiple
+                                                   placeholder="Nombre"
+                                                   popper-class="el-select-customers"
+                                                   @change="changeSellers">
+                                            <el-option v-for="option in sellers"
+                                                       :key="option.id"
+                                                       :label="option.name"
+                                                       :value="option.id"></el-option>
+                                        </el-select>
+                                    </div>
                                 </div>
-                            </div>
-
-                            <!-- Minimo -->
-                            <div class="col-lg-2 col-md-2" v-if="filter_range">
-                                <div class="form-group">
-                                    <label class="control-label">Desde Comprobante
-                                    </label>
-                                    <el-input-number v-model="form.min"
-                                                     :min="0"
-                                                     :precision="0"
-                                                     :step="1"></el-input-number>
+    
+                                <!-- Exportado -->
+                                <div class="col-lg-2 col-md-2">
+                                    <div class="form-group">
+                                        <label class="control-label">Tipo Exportado
+                                        </label>
+                                        <el-select v-model="type"
+                                                   filterable>
+                                            <el-option :id="'a4'"
+                                                       :label="'PDF A4'"
+                                                       :value="'a4'"></el-option>
+                                            <el-option :id="'ticket'"
+                                                       :label="'Ticket PDF'"
+                                                       :value="'ticket'"></el-option>
+                                            <el-option :id="'a5'"
+                                                       :label="'PDF A5'"
+                                                       :value="'a5'"></el-option>
+                                        </el-select>
+    
+                                    </div>
                                 </div>
-                            </div>
-                            <!-- Minimo -->
-                            <div class="col-lg-2 col-md-2" v-if="filter_range">
-                                <div class="form-group">
-                                    <label class="control-label">Hasta el Comprobante
-                                    </label>
-                                    <el-input-number v-model="form.max"
-                                                     :min="0"
-                                                     :precision="0"
-                                                     :step="1"></el-input-number>
+    
+                                <div class="col-lg-2 col-md-2">
+                                    <div class="form-group">
+                                        <label class="control-label">
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        </label>
+                                        <el-checkbox
+                                            v-model="filter_range"
+                                        >
+                                            Filtra por Rango de comprobantes
+                                        </el-checkbox>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-12">
-                                &nbsp;
-                            </div>
-                            <div class="col-md-6"
-                                 style="margin-top:29px">
-                                <el-button :loading="loading_submit"
-                                           class="submit"
-                                           icon="el-icon-search"
-                                           type="primary"
-                                           @click.prevent="getRecords()">Buscar
-                                </el-button>
-                                <template v-if="total > 0">
-                                    <el-button class="submit"
-                                               icon="el-icon-tickets"
-                                               type="danger"
-                                               @click.prevent="clickDownload('pdf')">Exportar PDF
+    
+                                <!-- Minimo -->
+                                <div class="col-lg-2 col-md-2" v-if="filter_range">
+                                    <div class="form-group">
+                                        <label class="control-label">Desde Comprobante
+                                        </label>
+                                        <el-input-number v-model="form.min"
+                                                         :min="0"
+                                                         :precision="0"
+                                                         :step="1"></el-input-number>
+                                    </div>
+                                </div>
+                                <!-- Minimo -->
+                                <div class="col-lg-2 col-md-2" v-if="filter_range">
+                                    <div class="form-group">
+                                        <label class="control-label">Hasta el Comprobante
+                                        </label>
+                                        <el-input-number v-model="form.max"
+                                                         :min="0"
+                                                         :precision="0"
+                                                         :step="1"></el-input-number>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    &nbsp;
+                                </div>
+                                <div class="col-md-6"
+                                     style="margin-top:29px">
+                                    <el-button :loading="loading_submit"
+                                               class="submit"
+                                               icon="el-icon-search"
+                                               type="primary"
+                                               @click.prevent="getRecords()">Buscar
                                     </el-button>
-                                </template>
-                            </div>
-
-                            <div class="col-md-12 mt-3">
-                                <div v-if="init_search"
-                                     class="form-group">
-                                    <label class="control-label">
-                                        <strong>Se encontraron {{ total }} documento(s)</strong>
-                                    </label>
+                                    <template v-if="total > 0">
+                                        <el-button class="submit"
+                                                   icon="el-icon-tickets"
+                                                   type="danger"
+                                                   @click.prevent="clickDownload('pdf')">Exportar PDF
+                                        </el-button>
+                                    </template>
+                                </div>
+    
+                                <div class="col-md-12 mt-3">
+                                    <div v-if="init_search"
+                                         class="form-group">
+                                        <label class="control-label">
+                                            <strong>Se encontraron {{ total }} documento(s)</strong>
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row mt-1 mb-4">
-
+                            <div class="row mt-1 mb-4">
+    
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+    
         </div>
-
     </div>
 </template>
 

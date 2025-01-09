@@ -91,7 +91,7 @@
                             </el-option>
                         </el-select>
                         <small class="form-control-feedback" v-if="errors.compact_sidebar" v-text="errors.compact_sidebar[0]"></small>
-                        <el-button type="button" @click="dialogSkins()" color="primary">Subir tema</el-button>
+                        <el-button class="second-buton" type="button" @click="dialogSkins()" color="primary">Subir tema</el-button>
                     </div>
                 </div>
 

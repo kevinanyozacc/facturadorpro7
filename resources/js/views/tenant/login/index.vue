@@ -6,13 +6,14 @@
       </h2>
       <ol class="breadcrumbs">
         <li class="active"><span>Configuración del login</span></li>
+        <li><span class="text-muted">Configuración de la página de inicio de sesión</span></li>
       </ol>
     </div>
     <template v-if="user.type === 'admin'">
-      <div class="card mb-0">
-        <div class="card-header bg-info">
+      <div class="card mb-0 tab-content-default row-new">
+        <!-- <div class="card-header bg-info">
           <h3 class="my-0">Configuración de la página de inicio de sesión</h3>
-        </div>
+        </div> -->
         <div class="card-body">
           <div class="row">
             <div class="col-12 col-md-4 form-group">
@@ -20,7 +21,7 @@
             </div>
             <div class="col-12 col-md-4">
               <div class="form-group">
-                <label>Posición del formulario</label>
+                <label class="control-label">Posición del formulario</label>
                 <el-select v-model="form.position_form">
                   <el-option
                     key="left"
@@ -40,7 +41,7 @@
                 <el-switch v-model="form.show_logo_in_form"></el-switch>
               </div>
               <div class="form-group">
-                <label>Posición del logo de la empresa</label>
+                <label class="control-label">Posición del logo de la empresa</label>
                 <el-select v-model="form.position_logo">
                   <el-option
                     key="top-left"
@@ -72,19 +73,19 @@
                 <el-switch v-model="form.show_socials"></el-switch>
               </div>
               <div class="form-group">
-                <label>Facebook</label>
+                <label class="control-label">Facebook</label>
                 <el-input v-model="form.facebook"></el-input>
               </div>
               <div class="form-group">
-                <label>Twitter</label>
+                <label class="control-label">Twitter</label>
                 <el-input v-model="form.twitter"></el-input>
               </div>
               <div class="form-group">
-                <label>Instagram</label>
+                <label class="control-label">Instagram</label>
                 <el-input v-model="form.instagram"></el-input>
               </div>
               <div class="form-group">
-                <label>Linkedin</label>
+                <label class="control-label">Linkedin</label>
                 <el-input v-model="form.linkedin"></el-input>
               </div>
               <el-button

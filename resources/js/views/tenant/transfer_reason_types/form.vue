@@ -6,8 +6,10 @@
                     <div class="col-md-2">
                         <div class="form-group" :class="{'has-danger': errors.discount_stock}">
                             <label class="control-label">Descuenta stock</label>
-                            <el-switch v-model="form.discount_stock" active-text="Si" inactive-text="No"></el-switch>
-                            <small class="form-control-feedback" v-if="errors.discount_stock" v-text="errors.discount_stock[0]"></small>
+                            <div class="transfer-data-table pl-3 pt-3 pb-2">
+                                <el-switch v-model="form.discount_stock" active-text="Si" inactive-text="No"></el-switch>
+                                <small class="form-control-feedback" v-if="errors.discount_stock" v-text="errors.discount_stock[0]"></small>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-2">
@@ -34,7 +36,7 @@
                 </div>
             </div>
             <div class="form-actions text-right mt-4">
-                <el-button @click.prevent="close()">Cancelar</el-button>
+                <el-button class="second-buton" @click.prevent="close()">Cancelar</el-button>
                 <el-button type="primary" native-type="submit" :loading="loading_submit">Guardar</el-button>
             </div>
         </form>

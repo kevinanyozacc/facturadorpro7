@@ -3,8 +3,16 @@
         <div class="row ">
 
             <div class="col-md-12 col-lg-12 col-xl-12 ">
-                <div class="row" v-if="applyFilter">
-                    <div class="col-lg-4 col-md-4 col-sm-12 pb-2 ml-3">
+                <el-button
+                    type="primary"
+                    class="btn-show-filter mb-2"
+                    :class="{ shift: isVisible }"
+                    @click="toggleInformation"
+                >
+                    {{ isVisible ? "Ocultar opciones de filtro" : "Mostrar opciones de filtro" }}
+                </el-button>
+                <div class="row" v-if="applyFilter && isVisible">
+                    <div class="col-lg-4 col-md-4 col-sm-12 pb-2 ml-1">
                         <div class="d-flex">
                             <div style="width:100px">
                                 Filtrar por:
@@ -151,6 +159,7 @@
                 records: [],
                 form: {},
                 pagination: {},
+                isVisible: false,
                 pickerOptionsDates: {
                     disabledDate: (time) => {
                         time = moment(time).format('YYYY-MM-DD')
@@ -185,6 +194,9 @@
 
         },
         methods: {
+            toggleInformation(){
+                this.isVisible = !this.isVisible;
+            },
             changeStateType()
             {
                 this.getRecords()

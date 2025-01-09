@@ -7,15 +7,15 @@
                 <li><span class="text-muted">Avanzado</span></li>
             </ol>
         </div>
-        <div class="card card-dashboard border">
+        <div class="card card-dashboard border tab-content-default row-new">
             <div class="card-body">
                 <template>
                     <div  v-if="canEdit">
                         <el-tabs v-model="activeName">
                             <el-tab-pane class="mb-3" name="first">
-                                <span slot="label"><h3>Servidor De Destino</h3></span>
+                                <span slot="label"><h3 class="m-0 mt-2">Servidor De Destino</h3></span>
                                 <div class="row">
-                                    <div class="col-md-4 mt-4">
+                                    <div class="col-md-4 mt-4 form-modern">
                                         <label class="control-label">Url del servidor</label>
                                         <div class="form-group" :class="{'has-danger': errors.url}">
                                             <el-input v-model="form.url"></el-input>
@@ -24,7 +24,7 @@
                                                    v-text="errors.url[0]"></small>
                                         </div>
                                     </div>
-                                    <div class="col-md-4 mt-4">
+                                    <div class="col-md-4 mt-4 form-modern">
                                         <label class="control-label">Api del servidor</label>
                                         <div class="form-group" :class="{'has-danger': errors.apiKey}">
                                             <el-input v-model="form.apiKey"></el-input>
@@ -33,11 +33,11 @@
                                                    v-text="errors.apiKey[0]"></small>
                                         </div>
                                     </div>
-                                    <div class="col-md-4 mt-4">
+                                    <div class="col-md-4 mt-4 form-modern">
                                         <label class="control-label">
                                             Envio desde Nota de venta
                                         </label>
-                                        <div class="form-group" :class="{'has-danger': errors.send_data_to_other_server}">
+                                        <div class="form-group transfer-data-table pt-3 pl-3 pb-2" :class="{'has-danger': errors.send_data_to_other_server}">
                                             <el-switch v-model="form.send_data_to_other_server"
                                                        active-text="Si"
                                                        inactive-text="No"
@@ -53,7 +53,7 @@
                                     <div class="col-md-12 mt-4">
                                         <el-button
                                                    @click ="submit"
-                                                   class="pull-right">Guardar</el-button>
+                                                   class="pull-right btn-primary">Guardar</el-button>
 
                                     </div>
                                 </div>

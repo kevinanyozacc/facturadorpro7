@@ -5,6 +5,7 @@ namespace Modules\Dispatch\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Tenant\Catalogs\IdentityDocumentType;
 use App\Models\Tenant\Person;
+use App\Models\Tenant\PersonAddress;
 use Illuminate\Http\Request;
 use Modules\Dispatch\Http\Requests\DispatchPersonRequest;
 use Modules\Dispatch\Models\DispatchAddress;
@@ -34,16 +35,44 @@ class DispatchPersonController extends Controller
     public function store(DispatchPersonRequest $request)
     {
         $data = $request->all();
+        
+        if(is_array($data['location_id']) && count($data['location_id']) === 3) {
+            $data['department_id'] = $data['location_id'][0];
+            $data['province_id'] = $data['location_id'][1];
+            $data['district_id'] = $data['location_id'][2];
+        }
+
         $record = Person::query()->create($data);
 
-        $data['person_id'] = $record->id;
-        $address = DispatchAddress::query()->create($data);
+        $person_address_data = [
+            'person_id' => $record->id,
+            'country_id' => 'PE',
+            'department_id' => $data['department_id'],
+            'province_id' => $data['province_id'],
+            'district_id' => $data['district_id'],
+            'address' => $data['address'],
+            'phone' => $data['phone'] ?? null,
+            'email' => $data['email'] ?? null,
+            'main' => true,
+            'establishment_code' => '0000'
+        ];
+
+        $person_address = PersonAddress::create($person_address_data);
+
+        $dispatch_address_data = array_merge($data, [
+            'person_id' => $record->id,
+            'department_id' => $data['department_id'],
+            'province_id' => $data['province_id'],
+            'district_id' => $data['district_id'],
+        ]);
+
+        $dispatch_address = DispatchAddress::query()->create($dispatch_address_data);
 
         return [
             'success' => true,
             'data' => [
                 'person_id' => $record->id,
-                'address_id' => $address->id
+                'address_id' => $dispatch_address->id
             ]
         ];
 

@@ -48,7 +48,7 @@
 
                             <div class="col-md-6  mt-3">
                                 <div class="form-group" :class="{'has-danger': errors.qrcode_yape}">
-                                    <label class="control-label">Adjuntar código QR (Imágen) <span class="text-danger">*</span></label>
+                                    <label style="width: 210px;" class="control-label">Adjuntar código QR (Imágen) <span class="text-danger">*</span></label>
                                     
                                     <el-upload class="uploader"
                                             :headers="headers"

@@ -9,14 +9,14 @@
         </ol>
         <div class="right-wrapper pull-right">
             <button class="btn btn-custom btn-sm mt-2 mr-2" type="button" @click.prevent="clickCreate()">
-                <i class="fa fa-plus-circle"></i>Nuevo
+                <i class="fa fa-plus-circle"></i> Nuevo
             </button>
         </div>
     </div>
-    <div class="card mb-0">
-        <div class="card-header bg-info">
+    <div class="card tab-content-default row-new mb-0">
+        <!-- <div class="card-header bg-info">
             <h3 class="my-0">Generador de links de pago</h3>
-        </div>
+        </div> -->
         <div class="card-body">
             <data-table :resource="resource">
 

@@ -34,7 +34,7 @@
                             <!-- auto_send_dispatchs_to_sunat -->
                             <div class="col-md-6 mt-4">
                                 <div class="form-group">
-                                    <label class="control-label">
+                                    <label class="control-labe">
                                         Envío de guía de remisión automático
                                     </label>
                                     <div :class="{ 'has-danger': errors.auto_send_dispatchs_to_sunat }"
@@ -1092,7 +1092,7 @@
                         <div class="row">
                             <div class="col-md-4 mt-4">
                                 <div class="form-group">
-                                    <label class="control-label">Mostrar cuentas bancarias
+                                    <label class="">Mostrar cuentas bancarias
                                         <el-tooltip class="item" effect="dark" placement="top-start">
                                             <div slot="content">Visualizar cuentas bancarias en pdf
                                             </div>
@@ -1109,7 +1109,7 @@
                             </div>
                             <div class="col-md-4 mt-4">
                                 <div class="form-group">
-                                    <label class="control-label">Visualizar vendedor
+                                    <label class="">Visualizar vendedor
                                         <el-tooltip class="item" effect="dark" placement="top-start">
                                             <div slot="content">Visualizar vendedor que genero un comprobante en el pdf
                                             </div>
@@ -1126,7 +1126,7 @@
                             </div>
                             <div class="col-md-4 mt-4">
                                 <div class="form-group">
-                                    <label class="control-label">Mostrar ticket 80mm
+                                    <label class="">Mostrar ticket 80mm
                                         <el-tooltip class="item" effect="dark" placement="top-start">
                                             <div slot="content">Disponible para Ventas (Facturas/Boletas/Notas de
                                                 Crédito-Débito)
@@ -1144,7 +1144,7 @@
                             </div>
                             <div class="col-md-4 mt-4">
                                 <div class="form-group">
-                                    <label class="control-label">Mostrar ticket 58mm
+                                    <label class="">Mostrar ticket 58mm
                                         <el-tooltip class="item" effect="dark" placement="top-start">
                                             <div slot="content">Disponible para Ventas (Facturas/Boletas/Notas de
                                                 Crédito-Débito)
@@ -1162,7 +1162,7 @@
                             </div>
                             <div class="col-md-4 mt-4">
                                 <div class="form-group">
-                                    <label class="control-label">Mostrar ticket 50mm
+                                    <label class="">Mostrar ticket 50mm
                                         <el-tooltip class="item" effect="dark" placement="top-start">
                                             <div slot="content">Disponible para Ventas (Facturas/Boletas/Notas de
                                                 Crédito-Débito)
@@ -1285,7 +1285,7 @@
                             <!-- update_document_on_dispaches -->
                             <div class="col-md-6 mt-4">
                                 <div class="form-group">
-                                    <label class="control-label">
+                                    <label class="">
                                         Actualizar documento al generar guía.
                                         <el-tooltip class="item" effect="dark" placement="top-start">
                                             <div slot="content">Al generar una guia basado en el documento, se
@@ -1306,7 +1306,7 @@
                             <!-- item_name_pdf_description -->
                             <div class="col-md-6 mt-4">
                                 <div class="form-group">
-                                    <label class="control-label">
+                                    <label class="">
                                         Usar la descripcion como nombre del producto PDF
                                         <el-tooltip class="item" effect="dark" placement="top-start">
                                             <div slot="content">
@@ -1326,7 +1326,7 @@
                             </div>
                             <div class="col-md-6 mt-4">
                                 <div class="form-group">
-                                    <label class="control-label">
+                                    <label class="">
                                         Mostrar Logo por sucursal
                                         <el-tooltip class="item" effect="dark" placement="top-start">
                                             <div slot="content">
@@ -1346,7 +1346,7 @@
                             </div>
                             <div class="col-md-6 mt-4">
                                 <div class="form-group">
-                                    <label class="control-label">
+                                    <label class="">
                                         Permite imprimir linea en el campo de observación
                                         <el-tooltip class="item" effect="dark" placement="top-start">
                                             <div slot="content">
@@ -1447,7 +1447,7 @@
                         <span slot="label">Finanzas</span>
                         <div class="row">
                             <div class="col-12 mt-4">
-                                <div class="form-group">
+                                <div class="form-group" style="display: flex; flex-direction: column;">
                                     <label>Aplicar penalidad a los pagos vencidos</label>
                                     <el-switch v-model="form.finances.apply_arrears" active-text="Si" inactive-text="No"
                                         @change="submit"></el-switch>
@@ -1621,7 +1621,7 @@
                             <!-- impresion automatica en pos -->
                             <div class="col-md-6 mt-4">
                                 <div class="form-group">
-                                    <label class="control-label">
+                                    <label class="">
                                         Impresión de PDF automática
                                         <el-tooltip class="item" effect="dark" placement="top-start">
                                             <div slot="content">
@@ -1647,7 +1647,7 @@
 
                             <div class="col-md-6 mt-4">
                                 <div class="form-group">
-                                    <label class="control-label">
+                                    <label class="">
                                         Ocultar vista previa de PDF
                                         <el-tooltip class="item" effect="dark" placement="top-start">
                                             <div slot="content">
@@ -2005,7 +2005,7 @@
                             </div>
                             <div class="col-md-6 mt-4">
                                 <div class="form-group">
-                                    <label class="control-label">Clientes
+                                    <label class="">Clientes
                                         <el-tooltip class="item" effect="dark" placement="top-start">
                                             <div slot="content">Leyenda: Top de clientes
                                             </div>

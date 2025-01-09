@@ -1,161 +1,171 @@
 <template>
-    <div class="card tab-content-default row-new mb-0 pt-2 pt-md-0">
-        <div class="card-header bg-info">
-            <h3 class="my-0">Nueva Percepción</h3>
+    <div>
+        <div class="page-header pr-0">
+            <h2><a href="/perceptions">
+                <svg  xmlns="http://www.w3.org/2000/svg" style="margin-top: -5px;" width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-clipboard-text"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 5h-2a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-12a2 2 0 0 0 -2 -2h-2" /><path d="M9 3m0 2a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v0a2 2 0 0 1 -2 2h-2a2 2 0 0 1 -2 -2z" /><path d="M9 12h6" /><path d="M9 16h6" /></svg>
+            </a></h2>
+            <ol class="breadcrumbs">
+                <li class="active"><span> Nueva Percepción </span></li>
+            </ol>
         </div>
-        <div class="card-body">
-            <form autocomplete="off" @submit.prevent="submit">
-                <div class="form-body">
-                    <div class="row">
-                        <!-- <div class="col-lg-2">
-                            <div class="form-group" :class="{'has-danger': errors.document_type_id}">
-                                <label class="control-label">Tipo de comprobante</label>
-                                <el-select v-model="form.document_type_id" @change="changeDocumentType">
-                                    <el-option v-for="option in document_types" :key="option.id" :value="option.id" :label="option.description"></el-option>
-                                </el-select>
-                                <small class="form-control-feedback" v-if="errors.document_type_id" v-text="errors.document_type_id[0]"></small>
+        <div class="card tab-content-default row-new mb-0 pt-2 pt-md-0">
+            <!-- <div class="card-header bg-info">
+                <h3 class="my-0">Nueva Percepción</h3>
+            </div> -->
+            <div class="card-body">
+                <form autocomplete="off" @submit.prevent="submit">
+                    <div class="form-body">
+                        <div class="row">
+                            <!-- <div class="col-lg-2">
+                                <div class="form-group" :class="{'has-danger': errors.document_type_id}">
+                                    <label class="control-label">Tipo de comprobante</label>
+                                    <el-select v-model="form.document_type_id" @change="changeDocumentType">
+                                        <el-option v-for="option in document_types" :key="option.id" :value="option.id" :label="option.description"></el-option>
+                                    </el-select>
+                                    <small class="form-control-feedback" v-if="errors.document_type_id" v-text="errors.document_type_id[0]"></small>
+                                </div>
+                            </div> -->
+                            <div class="col-lg-2">
+                                <div class="form-group" :class="{'has-danger': errors.establishment_id}">
+                                    <label class="control-label">Establecimiento</label>
+                                    <el-select v-model="form.establishment_id" @change="changeEstablishment">
+                                        <el-option v-for="option in establishments" :key="option.id" :value="option.id" :label="option.description"></el-option>
+                                    </el-select>
+                                    <small class="form-control-feedback" v-if="errors.establishment_id" v-text="errors.establishment_id[0]"></small>
+                                </div>
                             </div>
-                        </div> -->
-                        <div class="col-lg-2">
-                            <div class="form-group" :class="{'has-danger': errors.establishment_id}">
-                                <label class="control-label">Establecimiento</label>
-                                <el-select v-model="form.establishment_id" @change="changeEstablishment">
-                                    <el-option v-for="option in establishments" :key="option.id" :value="option.id" :label="option.description"></el-option>
-                                </el-select>
-                                <small class="form-control-feedback" v-if="errors.establishment_id" v-text="errors.establishment_id[0]"></small>
+                            <div class="col-lg-2">
+                                <div class="form-group" :class="{'has-danger': errors.series_id}">
+                                    <label class="control-label">Serie</label>
+                                    <el-select v-model="form.series_id">
+                                        <el-option v-for="option in series" :key="option.id" :value="option.id" :label="option.number"></el-option>
+                                    </el-select>
+                                    <small class="form-control-feedback" v-if="errors.series" v-text="errors.series[0]"></small>
+                                </div>
+                            </div>
+                            <div class="col-lg-2">
+                                <div class="form-group" :class="{'has-danger': errors.date_of_issue}">
+                                    <label class="control-label">Fecha de emisión</label>
+                                    <el-date-picker v-model="form.date_of_issue" type="date" value-format="yyyy-MM-dd" :clearable="false"></el-date-picker>
+                                    <small class="form-control-feedback" v-if="errors.date_of_issue" v-text="errors.date_of_issue[0]"></small>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group" :class="{'has-danger': errors.perception_type_id}">
+                                    <label class="control-label">Tipo de percepción</label>
+                                    <el-select v-model="form.perception_type_id" @change="changePerceptionType">
+                                        <el-option v-for="option in perception_types" :key="option.id" :value="option.id" :label="option.description"></el-option>
+                                    </el-select>
+                                    <small class="form-control-feedback" v-if="errors.perception_type_id" v-text="errors.perception_type_id[0]"></small>
+                                </div>
+                            </div>
+                            <div class="col-lg-2">
+                                <div class="form-group" :class="{'has-danger': errors.currency_type_id}">
+                                    <label class="control-label">Moneda</label>
+                                    <el-select v-model="form.currency_type_id" @change="changeCurrencyType">
+                                        <el-option v-for="option in currency_types" :key="option.id" :value="option.id" :label="option.description"></el-option>
+                                    </el-select>
+                                    <small class="form-control-feedback" v-if="errors.currency_type_id" v-text="errors.currency_type_id[0]"></small>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6">
+                                <div class="form-group" :class="{'has-danger': errors.customer_id}">
+                                    <label class="control-label">
+                                        Cliente
+                                        <a href="#" @click.prevent="showDialogNewCustomer = true">[+ Nuevo]</a>
+                                    </label>
+                                    <el-select v-model="form.customer_id" filterable>
+                                        <el-option v-for="option in customers" :key="option.id" :value="option.id" :label="option.description"></el-option>
+                                    </el-select>
+                                    <small class="form-control-feedback" v-if="errors.customer_id" v-text="errors.customer_id[0]"></small>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6">
+                                <div class="form-group" :class="{'has-danger': errors.observations}">
+                                    <label class="control-label">Observaciones</label>
+                                    <el-input v-model="form.observations" type="textarea" autosize></el-input>
+                                    <small class="form-control-feedback" v-if="errors.observations" v-text="errors.observations[0]"></small>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-lg-2">
-                            <div class="form-group" :class="{'has-danger': errors.series_id}">
-                                <label class="control-label">Serie</label>
-                                <el-select v-model="form.series_id">
-                                    <el-option v-for="option in series" :key="option.id" :value="option.id" :label="option.number"></el-option>
-                                </el-select>
-                                <small class="form-control-feedback" v-if="errors.series" v-text="errors.series[0]"></small>
+                        <div class="row mt-2">
+                            <div class="col-lg-2 col-md-6 d-flex align-items-end pt-2">
+                                <div class="form-group">
+                                    <button type="button" class="btn waves-effect waves-light btn-primary" @click.prevent="showDialogAddDocument = true">+ Agregar Documento</button>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-lg-2">
-                            <div class="form-group" :class="{'has-danger': errors.date_of_issue}">
-                                <label class="control-label">Fecha de emisión</label>
-                                <el-date-picker v-model="form.date_of_issue" type="date" value-format="yyyy-MM-dd" :clearable="false"></el-date-picker>
-                                <small class="form-control-feedback" v-if="errors.date_of_issue" v-text="errors.date_of_issue[0]"></small>
+                        <div class="row mt-2" v-if="form.documents.length > 0">
+                            <div class="col-md-12">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                        <tr> 
+                                            <th>#</th>
+                                            <th>Tipo de comprobante</th>
+                                            <th>Comprobante</th>
+                                            <th>Fec. Emisión</th>
+                                            <th>Fec. Percepción</th>
+                                            <th>Moneda</th>
+                                            <th class="text-right">T. Percepción</th>
+                                            <th class="text-right">T. Comprobante</th>
+                                            <th class="text-right">T. A pagar</th>
+                                            <th class="text-right">T. Pagado</th>
+                                            <th></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr v-for="(row, index) in form.documents" :key="index">
+                                            <td>{{ index+1 }}</td>
+                                            <td><span v-text="row.document_type_description"></span></td>
+                                            <td><span>{{row.series}}-{{row.number}}</span></td>
+                                            <!-- <td><span v-text="row.document_type_id"></span></td> -->
+                                            <td><span v-text="row.date_of_issue"></span></td>
+                                            <td><span v-text="row.date_of_perception"></span></td>
+                                            <td><span v-text="row.currency_type_id"></span></td>
+                                            <td class="text-right">
+                                                <span v-text="row.total_perception"></span>
+                                            </td>
+                                            <td class="text-right">
+                                                <span v-text="row.total_document"></span>
+                                            </td>
+                                            <td class="text-right">
+                                                <span v-text="row.total_to_pay"></span>
+                                            </td>
+                                            <td class="text-right">
+                                                <span v-text="row.total_payment"></span>
+                                            </td>
+                                            <td class="text-right">
+                                                <button type="button" class="btn waves-effect waves-light btn-xs btn-danger" @click.prevent="clickRemoveDocument(index)">x</button>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="form-group" :class="{'has-danger': errors.perception_type_id}">
-                                <label class="control-label">Tipo de percepción</label>
-                                <el-select v-model="form.perception_type_id" @change="changePerceptionType">
-                                    <el-option v-for="option in perception_types" :key="option.id" :value="option.id" :label="option.description"></el-option>
-                                </el-select>
-                                <small class="form-control-feedback" v-if="errors.perception_type_id" v-text="errors.perception_type_id[0]"></small>
-                            </div>
-                        </div>
-                        <div class="col-lg-2">
-                            <div class="form-group" :class="{'has-danger': errors.currency_type_id}">
-                                <label class="control-label">Moneda</label>
-                                <el-select v-model="form.currency_type_id" @change="changeCurrencyType">
-                                    <el-option v-for="option in currency_types" :key="option.id" :value="option.id" :label="option.description"></el-option>
-                                </el-select>
-                                <small class="form-control-feedback" v-if="errors.currency_type_id" v-text="errors.currency_type_id[0]"></small>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-6">
-                            <div class="form-group" :class="{'has-danger': errors.customer_id}">
-                                <label class="control-label">
-                                    Cliente
-                                    <a href="#" @click.prevent="showDialogNewCustomer = true">[+ Nuevo]</a>
-                                </label>
-                                <el-select v-model="form.customer_id" filterable>
-                                    <el-option v-for="option in customers" :key="option.id" :value="option.id" :label="option.description"></el-option>
-                                </el-select>
-                                <small class="form-control-feedback" v-if="errors.customer_id" v-text="errors.customer_id[0]"></small>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6">
-                            <div class="form-group" :class="{'has-danger': errors.observations}">
-                                <label class="control-label">Observaciones</label>
-                                <el-input v-model="form.observations" type="textarea" autosize></el-input>
-                                <small class="form-control-feedback" v-if="errors.observations" v-text="errors.observations[0]"></small>
+                            <div class="col-md-12">
+                                <p class="text-right" v-if="form.total_perception > 0">Total Percepción : {{ currency_symbol }} {{ form.total_perception }}</p>
+                                <template v-if="form.total > 0">
+                                    <h3 class="text-right"><b>Total : </b>{{ currency_symbol }} {{ form.total }}</h3>
+                                </template>
                             </div>
                         </div>
                     </div>
-                    <div class="row mt-2">
-                        <div class="col-lg-2 col-md-6 d-flex align-items-end pt-2">
-                            <div class="form-group">
-                                <button type="button" class="btn waves-effect waves-light btn-primary" @click.prevent="showDialogAddDocument = true">+ Agregar Documento</button>
-                            </div>
-                        </div>
+                    <div class="form-actions text-right mt-4">
+                        <el-button class="second-buton btn btn-default second-buton-default" @click.prevent="close()">Cancelar</el-button>
+                        <el-button class="btn btn-primary btn-submit-default" type="primary" native-type="submit" :loading="loading_submit" v-if="form.documents.length > 0 && form.total > 0">Generar</el-button>
                     </div>
-                    <div class="row mt-2" v-if="form.documents.length > 0">
-                        <div class="col-md-12">
-                            <div class="table-responsive">
-                                <table class="table">
-                                    <thead>
-                                    <tr> 
-                                        <th>#</th>
-                                        <th>Tipo de comprobante</th>
-                                        <th>Comprobante</th>
-                                        <th>Fec. Emisión</th>
-                                        <th>Fec. Percepción</th>
-                                        <th>Moneda</th>
-                                        <th class="text-right">T. Percepción</th>
-                                        <th class="text-right">T. Comprobante</th>
-                                        <th class="text-right">T. A pagar</th>
-                                        <th class="text-right">T. Pagado</th>
-                                        <th></th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr v-for="(row, index) in form.documents" :key="index">
-                                        <td>{{ index+1 }}</td>
-                                        <td><span v-text="row.document_type_description"></span></td>
-                                        <td><span>{{row.series}}-{{row.number}}</span></td>
-                                        <!-- <td><span v-text="row.document_type_id"></span></td> -->
-                                        <td><span v-text="row.date_of_issue"></span></td>
-                                        <td><span v-text="row.date_of_perception"></span></td>
-                                        <td><span v-text="row.currency_type_id"></span></td>
-                                        <td class="text-right">
-                                            <span v-text="row.total_perception"></span>
-                                        </td>
-                                        <td class="text-right">
-                                            <span v-text="row.total_document"></span>
-                                        </td>
-                                        <td class="text-right">
-                                            <span v-text="row.total_to_pay"></span>
-                                        </td>
-                                        <td class="text-right">
-                                            <span v-text="row.total_payment"></span>
-                                        </td>
-                                        <td class="text-right">
-                                            <button type="button" class="btn waves-effect waves-light btn-xs btn-danger" @click.prevent="clickRemoveDocument(index)">x</button>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <p class="text-right" v-if="form.total_perception > 0">Total Percepción : {{ currency_symbol }} {{ form.total_perception }}</p>
-                            <template v-if="form.total > 0">
-                                <h3 class="text-right"><b>Total : </b>{{ currency_symbol }} {{ form.total }}</h3>
-                            </template>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-actions text-right mt-4">
-                    <el-button class="second-buton btn btn-default second-buton-default" @click.prevent="close()">Cancelar</el-button>
-                    <el-button class="btn btn-primary btn-submit-default" type="primary" native-type="submit" :loading="loading_submit" v-if="form.documents.length > 0 && form.total > 0">Generar</el-button>
-                </div>
-            </form>
+                </form>
+            </div>
+    
+            <perception-form-document :showDialog.sync="showDialogAddDocument"
+                               :active-perception-type="activePerceptionType"
+                               @add="addDocument"></perception-form-document>
+    
+            <customer-form :showDialog.sync="showDialogNewCustomer"
+                            type="customers"
+                           :external="true"></customer-form>
         </div>
-
-        <perception-form-document :showDialog.sync="showDialogAddDocument"
-                           :active-perception-type="activePerceptionType"
-                           @add="addDocument"></perception-form-document>
-
-        <customer-form :showDialog.sync="showDialogNewCustomer"
-                        type="customers"
-                       :external="true"></customer-form>
     </div>
 </template>
 

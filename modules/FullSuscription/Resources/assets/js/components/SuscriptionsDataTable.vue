@@ -2,7 +2,15 @@
     <div v-loading="loading_submit">
         <div class="row ">
             <div class="col-md-12 col-lg-12 col-xl-12 ">
-                <div v-if="applyFilter"
+                <el-button
+                    type="primary"
+                    class="btn-show-filter mb-2"
+                    :class="{ shift: isVisible }"
+                    @click="toggleInformation"
+                >
+                    {{ isVisible ? "Ocultar opciones de filtro" : "Mostrar opciones de filtro" }}
+                </el-button>
+                <div v-if="applyFilter && isVisible"
                      class="row">
                     <div class="col-lg-4 col-md-4 col-sm-12 pb-2">
                         <div class="d-flex">
@@ -119,6 +127,7 @@ export default {
             columns: [],
             records: [],
             pagination: {},
+            isVisible: false,
             loading_submit: false,
             fromPharmacy: false,
         };
@@ -146,6 +155,9 @@ export default {
         await this.getRecords();
     },
     methods: {
+        toggleInformation() {
+            this.isVisible = !this.isVisible;
+        },
         ...mapActions([
             'loadConfiguration',
         ]),

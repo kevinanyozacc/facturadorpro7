@@ -478,17 +478,17 @@
                                                     <el-input v-model="row.description"></el-input>
                                                 </td>
                                                 <td>
-                                                    <el-checkbox v-model="row.is_amount"
-                                                                 @change="changeIsDiscountAmount(index)">Ingresar monto
-                                                        fijo
-                                                    </el-checkbox>
-                                                    <br>
                                                     <template v-if="row.is_amount">
                                                         <el-input v-model="row.amount"></el-input>
                                                     </template>
                                                     <template v-else>
                                                         <el-input v-model="row.percentage"></el-input>
                                                     </template>
+                                                    <br>
+                                                    <el-checkbox class="ml-1" v-model="row.is_amount"
+                                                                 @change="changeIsDiscountAmount(index)">Ingresar monto
+                                                        fijo
+                                                    </el-checkbox>
                                                 </td>
                                                 <td>
                                                     <button class="btn btn-danger"
@@ -575,7 +575,7 @@
                                                     <el-input v-model="row.value"
                                                               @input="inputAttribute(index)"></el-input>
                                                 </td>
-                                                <td>
+                                                <td class="text-left" style="width: 5.7% !important;">
                                                     <button class="btn btn-danger"
                                                             type="button"
                                                             @click.prevent="clickRemoveAttribute(index)">x
