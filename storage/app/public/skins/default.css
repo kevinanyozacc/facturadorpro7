@@ -455,6 +455,16 @@ ul.nav.list-config li:hover {
     border-radius: 12px 12px 4px 4px;
     height: 98% !important;
 }
+.pdf-template-border.active-border {
+    border: 2px solid var(--light3-color) !important; /* Active state with blue border */
+}
+.el-radio__input.is-checked .el-radio__inner {
+    border-color: var(--light3-color);
+    background: var(--light3-color);
+}
+.el-radio__input.is-checked + .el-radio__label {
+    color: var(--light3-color);
+}
 .card-extras-header{
     background-color: var(--light2-color) !important;
 }
