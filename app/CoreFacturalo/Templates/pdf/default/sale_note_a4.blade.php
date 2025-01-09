@@ -95,8 +95,8 @@
     </tr>
     @if ($document->plate_number !== null)
     <tr>
-        <td width="15%">N° Placa:</td>
-        <td width="85%">{{ $document->plate_number }}</td>
+        <td >N° Placa:</td>
+        <td >{{ $document->plate_number }}</td>
     </tr>
     @endif
     @if ($document->total_canceled)

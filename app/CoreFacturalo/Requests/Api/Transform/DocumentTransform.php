@@ -28,6 +28,7 @@ class DocumentTransform
             'currency_type_id' => Functions::valueKeyInArray($inputs, 'codigo_tipo_moneda'),
             'exchange_rate_sale' => Functions::valueKeyInArray($inputs, 'factor_tipo_de_cambio', 1),
             'purchase_order' => Functions::valueKeyInArray($inputs, 'numero_orden_de_compra'),
+            'plate_number' => Functions::valueKeyInArray($inputs, 'numero_de_placa'),
             'folio' => Functions::valueKeyInArray($inputs, 'folio'),
 //            'establishment' => EstablishmentTransform::transform($inputs['datos_del_emisor']),
             'customer' => PersonTransform::transform($inputs['datos_del_cliente_o_receptor']),

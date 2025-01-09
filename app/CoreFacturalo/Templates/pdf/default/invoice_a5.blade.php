@@ -163,6 +163,12 @@
             <td></td>
         </tr>
     @endif
+    @if ($document->plate_number !== null)
+        <tr>
+            <td >N° Placa:</td>
+            <td >{{ $document->plate_number }}</td>
+        </tr>
+    @endif
 </table>
 
 @if ($document->guides)

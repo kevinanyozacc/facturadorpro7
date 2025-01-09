@@ -39,6 +39,7 @@ use App\Http\Controllers\Tenant\ItemController as ItemWebController;
 use Modules\Dispatch\Models\DispatchAddress;
 use App\Models\Tenant\PersonAddress;
 use Modules\QrApi\Http\Controllers\QrApiController;
+use Modules\BusinessTurn\Models\BusinessTurn;
 
 class MobileController extends Controller
 {
@@ -56,6 +57,7 @@ class MobileController extends Controller
 
         $company = Company::active();
         $configuration = Configuration::first();
+        $business_turn_tap = BusinessTurn::where('value','tap')->first();
 
         $user = $request->user();
         return [
@@ -79,7 +81,8 @@ class MobileController extends Controller
                 'qr_api_url_ws' => $configuration->qr_api_url,
                 'qr_api_key_ws' => $configuration->qr_api_apiKey,
                 'url_logo' => ($company->logo)?asset('storage/uploads/logos/'.$company->logo):'',
-                'logo_base64' => $company->logo ? 'data:image/png;base64,' . base64_encode(file_get_contents(public_path('storage/uploads/logos/' . $company->logo))) : ''
+                'logo_base64' => $company->logo ? 'data:image/png;base64,' . base64_encode(file_get_contents(public_path('storage/uploads/logos/' . $company->logo))) : '',
+                'is_business_turn_tap' => ($business_turn_tap)?$business_turn_tap->active:0,
             ],
             'app_configuration' => $this->getAppConfiguration(),
             'sellerId' => $user->id,

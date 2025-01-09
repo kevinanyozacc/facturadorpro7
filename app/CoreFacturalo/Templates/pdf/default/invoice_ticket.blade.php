@@ -307,6 +307,12 @@
             <td><p class="desc">{{ $document->quotation->sale_opportunity->number_full}}</p></td>
         </tr>
     @endisset
+    @if ($document->plate_number !== null)
+    <tr>
+        <td ><p class="desc">N° Placa:</p></td>
+        <td ><p class="desc">{{ $document->plate_number }}</p></td>
+    </tr>
+    @endif
 </table>
 
 @if ($document->guides)

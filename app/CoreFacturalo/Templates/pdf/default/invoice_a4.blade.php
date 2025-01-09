@@ -177,6 +177,7 @@
         </tr>
     @endif
 
+
     @if ($document->reference_data)
         <tr>
             <td width="120px">D. REFERENCIA</td>
@@ -237,6 +238,13 @@
             <td width="8px">:</td>
             <td>{{ $document->detraction->trip_detail }}</td>
         </tr>
+    @endif
+    @if ($document->plate_number !== null)
+    <tr>
+        <td >N° Placa</td>
+        <td >:</td>
+        <td >{{ $document->plate_number }}</td>
+    </tr>
     @endif
 
 </table>
