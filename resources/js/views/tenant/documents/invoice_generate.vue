@@ -1146,7 +1146,7 @@
                                                         </div>
                                                         <!-- Contado -->
                                                         <div v-if="!is_receivable && form.payment_condition_id === '01'"
-                                                             class="table-responsive payment">
+                                                             class="table-responsive payment mt-4">
                                                             <table class="text-left table">
                                                                 <thead>
                                                                 <tr>
@@ -1919,6 +1919,9 @@
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 1021;
+}
+.table-responsive.payment th{
+    border-bottom: none !important;
 }
 @media only screen and (max-width: 991px) {
     .form-client-default{

@@ -32,7 +32,7 @@
                     </div>
                     <div class="card-body">
                         <div class="row m-b-10">
-                            <div class="col-md-4 mb-3">
+                            <div class="col-md-4 mb-3 form-modern">
                                 <label class="control-label">Almacen</label>
                                 <el-select v-model="form.warehouse_id"
                                            placeholder="Seleccionar almacén"
@@ -48,7 +48,7 @@
                                 </el-select>
                             </div>
                             <div v-if="filters.categories.visible"
-                                 class="col-md-3">
+                                 class="col-md-3 form-modern">
                                 <label class="control-label">Categoría</label>
                                 <el-select
                                     v-model="form.category_id"
@@ -63,7 +63,7 @@
                                 </el-select>
                             </div>
                             <div v-if="filters.brand.visible"
-                                 class="col-md-3">
+                                 class="col-md-3 form-modern">
                                 <label class="control-label">Marca</label>
                                 <el-select
                                     v-model="form.brand_id"
@@ -78,7 +78,7 @@
                                 </el-select>
     
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3 form-modern">
                                 <label class="control-label">Por stock</label>
     
                                 <el-select v-model="form.filter"
@@ -103,7 +103,7 @@
                             </div>
     
                             <div v-if="filters.active.visible"
-                                 class="col-md-3">
+                                 class="col-md-3 form-modern">
                                 <label class="control-label">Estado del item</label>
                                 <el-select v-model="form.active"
                                            :clearable="true"
@@ -119,7 +119,7 @@
                             </div>
     
                             <div v-if="filters.range.visible"
-                                 class="col-md-3">
+                                 class="col-md-3 form-modern">
                                 <label class="control-label">Fecha de vencimiento - inicio</label>
                                 <el-date-picker v-model="form.date_start"
                                                 :clearable="true"
@@ -129,7 +129,7 @@
                                                 @change="changeDisabledDates"></el-date-picker>
                             </div>
                             <div v-if="filters.range.visible"
-                                 class="col-md-3">
+                                 class="col-md-3 form-modern">
                                 <label class="control-label">Fecha de vencimiento - Fecha término</label>
                                 <el-date-picker v-model="form.date_end"
                                                 :clearable="true"

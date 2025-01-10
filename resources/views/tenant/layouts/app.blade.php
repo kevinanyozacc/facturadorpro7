@@ -137,7 +137,10 @@
     </section>
     @if($show_ws)
         @if(strlen($phone_whatsapp) > 0)
-        <a class='ws-flotante' href='https://wa.me/{{$phone_whatsapp}}' target="BLANK" style="background-image: url('{{asset('logo/ws.png')}}'); background-size: 70px; background-repeat: no-repeat;" ></a>
+        <a class='ws-flotante d-flex align-items-center justify-content-center' href='https://wa.me/{{$phone_whatsapp}}' target="BLANK" 
+            style="font-size: 45px; color: #fff; background-color: #0074ff; text-decoration: none; border-radius: 30% !important;">
+            <i class="fab fa-whatsapp"></i>
+        </a>
         @endif
     @endif
 

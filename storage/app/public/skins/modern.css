@@ -106,6 +106,9 @@ html .card-primary .card-header,
 .notifications .notification-menu:before, .notifications .notification-icon:before {
     border-bottom-color: #2446e8;
 }
+.el-radio__input {
+    display: none !important;
+}
 label {
     margin-bottom: 0;
 }

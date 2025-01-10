@@ -108,7 +108,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-3 form-modern">
                             <label class="control-label">Fecha registro</label>
                             <el-date-picker v-model="form.created_at" type="datetime"
                                             value-format="yyyy-MM-dd HH:mm:ss" format="dd/MM/yyyy HH:mm:ss" :clearable="true"></el-date-picker>

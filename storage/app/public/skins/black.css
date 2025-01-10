@@ -55,7 +55,9 @@ ul.nav-main>li a:hover {
     color: #fc4f4b;
     font-weight: bold;
 }
-
+.el-radio__input {
+    display: none !important;
+}
 .el-badge__content--primary {
     background: rgb(24 24 27 / 20%) !important;
     color: #18181b !important;
