@@ -312,6 +312,10 @@
                     });
             }
 
+            if ($filter === '06') {
+                $query->where('stock', '>', 0);
+            }    
+
 
             if ($warehouse_id != 0) {
                 $query->where('item_warehouse.warehouse_id', $warehouse_id);

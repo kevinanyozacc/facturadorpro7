@@ -93,6 +93,9 @@
                                     <el-option key="03"
                                                label="Stock = 0"
                                                value="03"></el-option>
+                                    <el-option key="06"
+                                           label="Stock > 0"
+                                           value="06"></el-option>
                                     <el-option key="04"
                                                label="0 < Stock <= Stock mínimo"
                                                value="04"></el-option>
