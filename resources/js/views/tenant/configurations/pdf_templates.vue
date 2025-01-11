@@ -16,8 +16,9 @@
         </div>
         <div class="card tab-content-default row-new">
             <div class="card-body pb-5">
+                <h5> <i class="fa fa-info-circle"></i>  Seleccione un establecimiento para ver su plantilla</h5>
                 <div class="row">
-                    <div class="col-3">
+                    <div class="col-3 form-modern">
                         <label class="control-label">Establecimiento</label>
                         <el-select v-model="form.establishment_id"
                                    @change="changeEstablishment()">
@@ -27,39 +28,44 @@
                                        :value="option.id"></el-option>
                         </el-select>
                     </div>
-                    <div class="col-3">
+                    <div class="col-3 form-modern">
                         <label class="control-label">Plantilla actual</label>
                         <el-input v-model="form.current_format"
                                   readonly></el-input>
                         <small v-if="form.current_format"
                                style="cursor:pointer">
-                            <a @click="viewModalImage(form.current_format)">
+                            <!-- <a @click="viewModalImage(form.current_format)">
                                 Ver plantilla
-                            </a>
+                            </a> -->
                         </small>
                     </div>
                 </div>
-                <div class="row" v-if="form.establishment_id">
-                    <div v-for="template in formatos" class="my-2 col-sm-12 col-md-6 col-lg-4 col-xl-3">
-                        <el-card :class="['pdf-template-border', { 'active-border': form.current_format === template.name }]"
+                <div class="row justify-content-center" v-if="form.establishment_id">
+                    <div v-for="template in formatos" class="pdf-template-content my-2 m-2 mt-4 col-sm-12 col-md-6 col-lg-4 col-xl-3">
+                        <el-card class="el-card-template" style="height: 99% !important;" :class="['pdf-template-border', { 'active-border': form.current_format === template.name }]"
                             :id="template.id"
                             :body-style="{ padding: '0px' }">
-                            <a @click="viewImage(template)">
+                            <a class="image-direccion" @click="viewImage(template)">
                                 <img :src="path.origin+'/'+template.urls.invoice"
-                                     class="image"
-                                     style="width: 100%"></a>
-                            <div style="padding: 14px;">
+                                     class="image img-template"
+                                     style="width: 100%;"></a>
+                            <div style="padding: 14px; border-top: 2px solid #f7f8fa">
+                                <span class="text-bold">Plantilla: </span>
                                 <span class="text-center">{{ template.name }}</span>
                                 <div v-if="form.establishment_id"
                                      class="bottom clearfix text-right">
-                                    <el-radio v-model="form.current_format"
-                                              :label="template.name"
-                                              @change="changeFormat(template.name)">
-                                        <span v-if="form.current_format == template.name">Activo</span>
-                                        <span v-else>Activar</span>
-                                    </el-radio>
+                                     <el-radio
+                                        v-model="form.current_format"
+                                        :label="template.name"
+                                        @change="changeFormat(template.name)"
+                                        :class="['radio-button', { 'active-button': form.current_format === template.name }]"
+                                     >
+                                        <span v-if="form.current_format == template.name">Plantilla activa</span>
+                                        <span v-else>Activar plantilla</span>
+                                    </el-radio>                                   
                                 </div>
                             </div>
+                            <i class="fas fa-search-plus icon-overlay" @click="viewImage(template)"></i>
                         </el-card>
                     </div>
                 </div>
@@ -68,19 +74,19 @@
         <el-dialog
             :visible.sync="modalImage"
             width="100">
+            <div class="d-flex align-items-center justify-content-start" style="margin-top: -30px !important;">
+                <h4 class="text-bold">Plantilla:</h4>
+                <span style="font-size: 16px;" class="text-center ml-2">{{ template.name }}</span>
+            </div>
             <span>
                 <div class="block">
                     <el-carousel arrow="always" :interval="10000" height="550px">
-                        <el-carousel-item>
-                            <img  :src="path.origin+'/'+template.urls.invoice"
-                                class="image"
-                                style="width: 100%; height:100%;">
-                        </el-carousel-item>
-                        <el-carousel-item v-if="template.urls.guide != ''">
-                            <img  :src="path.origin+'/'+template.urls.guide"
-                                class="image"
-                                style="width: 100%; height:100%;">
-                        </el-carousel-item>
+                        <div style="overflow: auto;" class="bg-light img-scroll text-center">
+                                <img  
+                                    :src="path.origin+'/'+template.urls.invoice"
+                                    class="image zoomable-image w-90 h-auto"
+                                >
+                        </div>
                     </el-carousel>
                 </div>
             </span>
@@ -103,10 +109,110 @@ background-color: #99a9bf;
 background-color: #d3dce6;
 }
 .pdf-template-border {
-    border: 2px solid transparent;
+    border: 2px solid #bad6f1;
 }
 .pdf-template-border.active-border {
     border: 2px solid #409eff;
+}
+.radio-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 20px;
+    border: 1px solid #DCDFE6;
+    border-radius: 4px;
+    background-color: #fff;
+    color: #606266;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+.radio-button:hover {
+    border-color: #c6e2ff;
+    background-color: #ecf5ff;
+    color: #409EFF;
+} 
+.radio-button.el-radio--checked {
+    background-color: #409eff;
+    color: #fff;
+} 
+.radio-button span {
+    font-weight: normal;
+}
+.radio-button.el-radio--disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+.radio-button.active-button {
+    background-color: #0074ff;
+    border-color: #0074ff;
+} 
+.el-radio__input.is-checked + .el-radio__label {
+    color: #fff !important;
+}
+.pdf-template-content {
+    transition: transform 0.2s, opacity 0.2s;
+}
+.el-card-template {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out;
+}
+.el-card-template::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(12, 114, 134, 0);
+    transition: background-color 0.3s ease-in-out;
+    pointer-events: none;
+}
+.pdf-template-content:hover > .el-card-template::before {
+    background-color: rgba(0, 115, 255, 0.385);
+}
+.pdf-template-content:hover > .el-card-template {
+    transform: scale(1.02);
+}
+.icon-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    z-index: 10;
+    cursor: pointer;
+    font-size: 30px;
+}
+.pdf-template-content:hover .icon-overlay {
+    opacity: 1;
+}
+.img-scroll{
+    overlay: auto;
+    height: 550px;
+}
+.img-scroll::-webkit-scrollbar {
+    width: 8px;
+}
+.img-scroll::-webkit-scrollbar-track {
+    background: #f0f9ff;
+    border-radius: 8px;
+}
+.img-scroll::-webkit-scrollbar-thumb {
+    background: #5fa7fe;
+    border-radius: 8px;
+}
+.img-scroll::-webkit-scrollbar-thumb:hover {
+    background: #0074ff;
+}
+.pdf-template-content:hover {
+    transform: scale(1.02);
+}
+.image-direccion{
+    cursor: pointer;
 }
 </style>
 
@@ -121,6 +227,8 @@ export default {
 
     data() {
         return {
+            zoomed: false,
+            zoomPosition: { x: 50, y: 50 },
             loading_submit: false,
             resource: 'configurations',
             errors: {},

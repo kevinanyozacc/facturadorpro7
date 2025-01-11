@@ -780,20 +780,19 @@
                                          class="form-group">
                                         <label class="control-label">
                                             Categoría
+                                            <a v-if="form_category.add == false"
+                                                class="control-label font-weight-bold text-info"
+                                                href="#"
+                                                @click="form_category.add = true"> [ + Nuevo]</a>
+                                            <a v-if="form_category.add == true"
+                                                class="control-label font-weight-bold text-info"
+                                                href="#"
+                                                @click="saveCategory()"> [ + Guardar]</a>
+                                            <a v-if="form_category.add == true"
+                                                class="control-label font-weight-bold text-danger"
+                                                href="#"
+                                                @click="form_category.add = false"> [ Cancelar]</a>
                                         </label>
-
-                                        <a v-if="form_category.add == false"
-                                           class="control-label font-weight-bold text-info"
-                                           href="#"
-                                           @click="form_category.add = true"> [ + Nuevo]</a>
-                                        <a v-if="form_category.add == true"
-                                           class="control-label font-weight-bold text-info"
-                                           href="#"
-                                           @click="saveCategory()"> [ + Guardar]</a>
-                                        <a v-if="form_category.add == true"
-                                           class="control-label font-weight-bold text-danger"
-                                           href="#"
-                                           @click="form_category.add = false"> [ Cancelar]</a>
                                         <el-input v-if="form_category.add == true"
                                                   v-model="form_category.name"
                                                   dusk="item_code"
@@ -818,20 +817,19 @@
                                          class="form-group">
                                         <label class="control-label">
                                             Marca
+                                            <a v-if="form_brand.add == false"
+                                                class="control-label font-weight-bold text-info"
+                                                href="#"
+                                                @click="form_brand.add = true"> [ + Nuevo]</a>
+                                            <a v-if="form_brand.add == true"
+                                                class="control-label font-weight-bold text-info"
+                                                href="#"
+                                                @click="saveBrand()"> [ + Guardar]</a>
+                                            <a v-if="form_brand.add == true"
+                                                class="control-label font-weight-bold text-danger"
+                                                href="#"
+                                                @click="form_brand.add = false"> [ Cancelar]</a>
                                         </label>
-
-                                        <a v-if="form_brand.add == false"
-                                           class="control-label font-weight-bold text-info"
-                                           href="#"
-                                           @click="form_brand.add = true"> [ + Nuevo]</a>
-                                        <a v-if="form_brand.add == true"
-                                           class="control-label font-weight-bold text-info"
-                                           href="#"
-                                           @click="saveBrand()"> [ + Guardar]</a>
-                                        <a v-if="form_brand.add == true"
-                                           class="control-label font-weight-bold text-danger"
-                                           href="#"
-                                           @click="form_brand.add = false"> [ Cancelar]</a>
                                         <el-input v-if="form_brand.add == true"
                                                   v-model="form_brand.name"
                                                   dusk="item_code"

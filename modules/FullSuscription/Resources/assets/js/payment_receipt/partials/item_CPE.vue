@@ -333,10 +333,10 @@
                                                     <el-input v-model="row.description"></el-input>
                                                 </td>
                                                 <td>
+                                                    <el-input v-model="row.percentage"></el-input>
+                                                    <br>
                                                     <el-checkbox v-model="row.is_amount">Ingresar monto fijo
                                                     </el-checkbox>
-                                                    <br>
-                                                    <el-input v-model="row.percentage"></el-input>
                                                 </td>
                                                 <td>
                                                     <button class="btn btn-danger"

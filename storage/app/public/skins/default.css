@@ -71,6 +71,9 @@ address {
     width: 100%;
     margin-top: -14px;
 }
+.el-carousel__indicators--horizontal{
+    display: none;
+}
 .upload-demo-default{
     border: 2px dashed var(--light2-color);
     background-color: var(--light-color);
@@ -124,10 +127,11 @@ address {
 .second-buton-default{
     min-width: 180px;
 }
-.payment-container{
-    background-color: #f3f4fc;
+.payment-container,
+.payments-div{
+    border: 1px solid var(--light2-color) !important;
+    background: var(--light2-color) !important;
     border-radius: 10px;
-    border: 1px solid #eaeef7;
 }
 .el-input-number__decrease {
     position: absolute;
@@ -172,6 +176,9 @@ address {
 .el-radio-button__inner:hover {
     color: var(--primary-color);
     background-color: var(--light2-color);
+}
+.pdf-template-content:hover > .el-card-template::before {
+    background-color: rgba(213, 232, 232, 0.64) !important;
 }
 .btn{
     border-radius: 8px;
@@ -328,6 +335,9 @@ label.control-label {
     border-radius: 8px 8px 0 0;
     padding-left: 14px;
 }
+.ws-flotante{
+    background-color: var(--primary-color) !important;
+}
 .form-group label.control-label--buys:has(+div){
     margin-top: 8px;
 }
@@ -456,15 +466,33 @@ ul.nav.list-config li:hover {
     height: 98% !important;
 }
 .pdf-template-border.active-border {
-    border: 2px solid var(--light3-color) !important; /* Active state with blue border */
+    border: 2px solid #0e8ba4 !important; /* Active state with blue border */
+}
+.pdf-template-border {
+    border: 2px solid var(--light2-color) !important;
+}
+.el-radio__input {
+    display: none !important;
 }
 .el-radio__input.is-checked .el-radio__inner {
-    border-color: var(--light3-color);
-    background: var(--light3-color);
+    border-color: #0e8ba4;
+    background: #0e8ba4;
 }
 .el-radio__input.is-checked + .el-radio__label {
-    color: var(--light3-color);
+    color: var(--light-color);
 }
+.radio-button {
+    border: 1px solid var(--light2-color) !important;
+    background-color: var(--light-color) !important;
+    color: var(--dark-color) !important;
+}
+.radio-button:hover{
+    background-color: var(--light2-color) !important;
+}
+.radio-button.active-button {
+    background-color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+} 
 .card-extras-header{
     background-color: var(--light2-color) !important;
 }
@@ -674,6 +702,9 @@ html.sidebar-left-collapsed .sidebar-left .nav-main > li > a {
     background: rgb(252 78 75 / 20%);
     color: #fc4f4b;
     font-weight: bold;
+}
+.el-carousel__arrow {
+    display: none;
 }
 .disable_color {
     color: #fc4f4b;
@@ -1013,10 +1044,20 @@ tbody tr:hover:not(:last-child) {
   background: var(--dark-color) !important;
 }
 .table-responsive.payment {
-    border: 1px solid #eaeef7;
-    padding: 5px 0;
-    background: #f3f4fc;
+    border: 1px solid var(--light2-color);
+    padding: 10px;
+    background: var(--light2-color);
     border-radius: 6px;
+}
+.img-scroll::-webkit-scrollbar-track {
+    background: #f0f9ff !important;
+}
+.img-scroll::-webkit-scrollbar-thumb {
+    background: #47abb696 !important;
+    border-radius: 8px;
+}
+.img-scroll::-webkit-scrollbar-thumb:hover {
+    background: #00a1b3 !important;
 }
 kbd {
     opacity: 0.35;

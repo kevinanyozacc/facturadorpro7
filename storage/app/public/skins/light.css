@@ -99,8 +99,14 @@ label.control-label {
     background-color: #0074ff;
     border-color: #0074ff;
 }
+.el-radio__input.is-checked + .el-radio__label {
+    color: #fff !important;
+} 
 .sidebar-left .sidebar-header{
     margin-bottom: 0;
+}
+.el-radio__input {
+    display: none !important;
 }
 nav#menu {
     padding-top: 10px;
