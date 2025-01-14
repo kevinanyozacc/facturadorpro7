@@ -1304,6 +1304,10 @@ export default {
             const validate_restrict_seller_discount = this.validateRestrictSellerDiscount()
             if(!validate_restrict_seller_discount.success) return
 
+            if (this.form.payments == 0){
+                this.form.payment_condition_id = "02";
+            }
+
             // validacion sistema por puntos
             if(this.enabledPointSystem)
             {
