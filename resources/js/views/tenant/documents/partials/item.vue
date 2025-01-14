@@ -805,6 +805,7 @@ export default {
     },
     created() {
         this.loadConfiguration()
+        
         this.$store.commit('setConfiguration', this.configuration)
         this.initForm()
         if (this.displayDiscount !== undefined) {
@@ -815,6 +816,8 @@ export default {
 
             }
         }
+        console.log(this.configuration);
+        
     },
     mounted() {
         this.getTables()
@@ -1364,6 +1367,7 @@ export default {
                 factor: 0,
                 amount: 0,
                 base: 0,
+                amount_exact: 0,
                 is_amount: false,
                 use_input_amount: true,
             })
@@ -1622,6 +1626,13 @@ export default {
 
             let IdLoteSelected = this.form.IdLoteSelected
             let document_item_id = this.form.document_item_id
+
+            this.form.discounts.forEach(discount => {
+                    if ((this.configuration.global_discount_type_id === "02" && this.configuration.exact_discount) && discount.discount_type.id == "00" ) {
+                        discount.amount_exact = _.round(discount.amount / ( 1 + this.percentageIgv), 2)
+                    } 
+            })
+
             this.row = calculateRowItem(this.form, this.currencyTypeIdActive, this.exchangeRateSale, this.percentageIgv);
 
             this.row.item.name_product_pdf = this.row.name_product_pdf || '';

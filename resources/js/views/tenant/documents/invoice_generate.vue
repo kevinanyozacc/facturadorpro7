@@ -3920,8 +3920,6 @@ export default {
 
             this.form.items.forEach((row) => {
 
-                // console.log(row)
-
                 total_discount += parseFloat(row.total_discount)
                 total_charge += parseFloat(row.total_charge)
 

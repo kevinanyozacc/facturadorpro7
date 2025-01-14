@@ -132,8 +132,7 @@ function calculateRowItem(row_old, currency_type_id_new, exchange_rate_sale, pig
                     discount.factor = _.round(discount.percentage / 100, 5)
                     // discount.factor = _.round(discount.percentage / 100, 2)
 
-                    discount_base += discount.amount
-
+                    discount_base += discount.amount_exact !== 0 ? discount.amount_exact : discount.amount
                 } else {
 
                     let aux_total_line = row.unit_price * row.quantity
@@ -193,7 +192,6 @@ function calculateRowItem(row_old, currency_type_id_new, exchange_rate_sale, pig
     }
     // console.log('total base discount:'+discount_base)
     // console.log('total no base discount:'+discount_no_base)
-
 
     /* Charges */
     let charge_base = 0
@@ -318,10 +316,11 @@ function calculateRowItem(row_old, currency_type_id_new, exchange_rate_sale, pig
 
         let sum_discount_no_base = 0
         let sum_discount_base = 0
-
+        
         row.discounts.forEach(discount => {
-            sum_discount_no_base += (discount.discount_type_id == '01') ? discount.amount : 0
-            sum_discount_base += (discount.discount_type_id == '00') ? discount.amount : 0
+            let amount = discount.amount_exact !== 0 ? discount.amount_exact : discount.amount
+            sum_discount_no_base += (discount.discount_type_id == '01') ? amount : 0
+            sum_discount_base += (discount.discount_type_id == '00') ? amount : 0
         })
 
         //obs 4287

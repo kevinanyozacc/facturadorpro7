@@ -924,6 +924,25 @@
                                     </el-select>
                                     <small v-if="errors.global_discount_type_id" class="form-control-feedback"
                                         v-text="errors.global_discount_type_id[0]"></small>
+                                        
+                                        <div class="col-md-12 mt-2">
+                                            <div :class="{ 'has-danger': errors.exact_discoutn }"
+                                            class="form-group" v-if="validateDiscountAffectBase">
+                                            <label class="control-label"> Ajustar descuento automaticamente
+                                                <el-tooltip class="item"
+                                                content="Recalcula el monto del descuento para que el comprobante refleje el descuento de forma adecuada. Si indicas S/5.00 como descuento, el sistema lo ajustará a S/4.24 en la base imponible."
+                                                effect="dark" placement="top-start">
+                                                <i class="fa fa-info-circle"></i>
+                                            </el-tooltip>
+                                        </label>
+                                        <div>
+                                            <el-switch v-model="form.exact_discount" active-text="Si"
+                                            inactive-text="No" @change="submit"></el-switch>
+                                            <small v-if="errors.exact_discount" class="form-control-feedback"
+                                            v-text="errors.exact_discount[0]"></small>
+                                        </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -2218,6 +2237,9 @@ export default {
         ...mapState([
             'config',
         ]),
+        validateDiscountAffectBase() {
+            return this.form.global_discount_type_id === '02';
+        }
     },
     data() {
         return {

@@ -1853,7 +1853,6 @@ export default {
                 this.form_item.percentage_isc = this.form_item.item.percentage_isc
                 this.form_item.system_isc_type_id = this.form_item.item.system_isc_type_id
 
-                // console.log(this.form_item)
                 this.row = calculateRowItem(
                     this.form_item,
                     this.form.currency_type_id,
