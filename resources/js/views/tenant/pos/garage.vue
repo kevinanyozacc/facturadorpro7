@@ -1539,6 +1539,17 @@ export default {
             this.setFormPosLocalStorage();
         },
         async clickAddItem(item, index, input = false) {
+
+            //Validar precio mínimo
+
+            if (parseFloat(item.sale_unit_price) < 0.1){
+
+                this.$message.error("El precio del producto debe ser mayor a 0.1");
+                this.loading = false;
+                return;
+
+            }
+
             this.loading = true;
             let exchangeRateSale = this.form.exchange_rate_sale;
 
