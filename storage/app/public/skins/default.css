@@ -1,5 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=PT+Mono&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
 
+body {
+    font-family: var(--font-family, sans-serif) !important;
+}
 :root{
   --primary-color: #0c7286;
   --dark-color: #001524;
@@ -324,7 +327,7 @@ label.control-label {
 .form-seller label.control-label:has(+div),
 .form-modern label.control-label:has(+div){
     font-size: 11px;
-    color: #808a9d;
+    color: var(--dark-color);
     background: var(--light-color);
     display: block;
     position: relative;
@@ -334,6 +337,10 @@ label.control-label {
     border-bottom: none;
     border-radius: 8px 8px 0 0;
     padding-left: 14px;
+}
+
+html.fixed.sidebar-nuevo-tema .sidebar-left, html.fixed.sidebar-nuevo-tema .sidebar-header, html.fixed.sidebar-nuevo-tema .sidebar-left .nano {
+    background-color: orange !important;
 }
 .ws-flotante{
     background-color: var(--primary-color) !important;
@@ -1300,13 +1307,11 @@ html.fixed.sidebar-red.dark .sidebar-left a:focus {
   background-color: #dc3545 !important;
 }
 /* panel derecho */
-html.sidebar-red:not(.dark) .style-switcher,
-html.sidebar-red:not(.dark) .style-switcher .style-switcher-open {
-  background-color: #f6f6f6;
+.style-switcher,
+.style-switcher .style-switcher-open {
+  background-color: #f6f6f6 !important;
   color: #777;
-  border-left: 3px solid #e2e3e6;
-  border-top: 3px solid #e2e3e6;
-  border-bottom: 3px solid #e2e3e6;
+  border: none;
 }
 html.sidebar-red:not(.dark) .style-switcher h4 {
   background-color: #f6f6f6;
@@ -1676,8 +1681,10 @@ html.header-dark .userbox.show .dropdown-menu a {
     color: var(--light2-color);
 }
 html.dark .style-switcher {
-    background: var(--contents-dark);
+    background: var(--contents-dark) !important;
     border-left: 1px solid var(--borders-dark);
+    border-top: 3px solid var(--contents-dark);
+    border-bottom: 3px solid var(--contents-dark);
 }
 html.dark .el-button {
     background: var(--primary-color);

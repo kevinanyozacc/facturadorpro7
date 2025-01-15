@@ -463,19 +463,20 @@
                                 <div class="short-div col-md-4">
                                     <div :class="{'has-danger': errors.category_id}"
                                          class="form-group">
-                                        <label class="control-label">Categoría</label>
-                                        <a v-if="form_category.add == false"
-                                           class="control-label font-weight-bold text-info"
-                                           href="#"
-                                           @click="form_category.add = true"> [ + Nuevo]</a>
-                                        <a v-if="form_category.add == true"
-                                           class="control-label font-weight-bold text-info"
-                                           href="#"
-                                           @click="saveCategory()"> [ + Guardar]</a>
-                                        <a v-if="form_category.add == true"
-                                           class="control-label font-weight-bold text-danger"
-                                           href="#"
-                                           @click="form_category.add = false"> [ Cancelar]</a>
+                                        <label class="control-label">Categoría
+                                            <a v-if="form_category.add == false"
+                                                class="control-label font-weight-bold text-info"
+                                                href="#"
+                                                @click="form_category.add = true"> [ + Nuevo]</a>
+                                            <a v-if="form_category.add == true"
+                                                class="control-label font-weight-bold text-info"
+                                                href="#"
+                                                @click="saveCategory()"> [ + Guardar]</a>
+                                            <a v-if="form_category.add == true"
+                                                class="control-label font-weight-bold text-danger"
+                                                href="#"
+                                                @click="form_category.add = false"> [ Cancelar]</a>
+                                        </label>
                                         <el-input v-if="form_category.add == true"
                                                   v-model="form_category.name"
                                                   dusk="item_code"

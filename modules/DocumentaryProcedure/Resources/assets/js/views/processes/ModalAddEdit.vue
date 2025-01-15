@@ -14,12 +14,11 @@
                     <span slot="label">Datos del tramite</span>
                     <div class="form-body row">
                         <div class="col-md-12 form-group">
-                            <label for="name">Nombre del trámite</label>
-                            <input
+                            <label class="control-label" for="name">Nombre del trámite</label>
+                            <el-input
                                 id="name"
                                 v-model="form.name"
                                 :class="{ 'is-invalid': errors.name }"
-                                class="form-control form-control-default"
                                 type="text"
                             />
                             <div v-if="errors.name"
@@ -28,12 +27,11 @@
                             </div>
                         </div>
                         <div class="col-md-6 form-group">
-                            <label for="description">Descripción del trámite</label>
-                            <input
+                            <label class="control-label" for="description">Descripción del trámite</label>
+                            <el-input
                                 id="description"
                                 v-model="form.description"
                                 :class="{ 'is-invalid': errors.description }"
-                                class="form-control form-control-default"
                                 type="text"
                             />
                             <div v-if="errors.description"
@@ -44,7 +42,7 @@
                         <div class="col-md-6">
                             <div :class="{'has-danger': errors.total_interest}"
                                  class="form-group">
-                                <label class="">
+                                <label class="control-label">
 
                                     Precio
                                 </label>
@@ -78,7 +76,7 @@
                         <div
                             :class="{ 'has-danger': errors.created_at }"
                             class="form-group col-sm-12 col-md-12 ">
-                            <label>
+                            <label class="control-label">
                                 Requisitos
                             </label>
 

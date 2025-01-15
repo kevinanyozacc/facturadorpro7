@@ -9,11 +9,10 @@
     <form autocomplete="off" @submit.prevent="onSubmit">
       <div class="form-body">
         <div class="form-group">
-          <label for="name">Nombre de la habitación</label>
-          <input
+          <label class="control-label" for="name">Nombre de la habitación</label>
+          <el-input
             type="text"
             id="name"
-            class="form-control form-control-default"
             v-model="form.name"
             :class="{ 'is-invalid': errors.name }"
           />
@@ -22,50 +21,47 @@
           </div>
         </div>
         <div class="form-group">
-          <label for="category">Categoría</label>
-          <select
+          <label class="control-label" for="category">Categoría</label>
+          <el-select
             type="text"
             id="category"
-            class="form-control form-control-default"
             v-model="form.hotel_category_id"
             :class="{ 'is-invalid': errors.hotel_category_id }"
           >
-            <option v-for="cat in categories" :key="cat.id" :value="cat.id">
+            <el-option v-for="cat in categories" :key="cat.id" :value="cat.id">
               {{ cat.description }}
-            </option>
-          </select>
+            </el-option>
+          </el-select>
           <div v-if="errors.hotel_category_id" class="invalid-feedback">
             {{ errors.hotel_category_id[0] }}
           </div>
         </div>
         <div class="form-group">
-          <label for="floor">Piso</label>
-          <select
+          <label class="control-label" for="floor">Piso</label>
+          <el-select
             type="text"
             id="floor"
-            class="form-control form-control-default"
             v-model="form.hotel_floor_id"
             :class="{ 'is-invalid': errors.hotel_floor_id }"
           >
-            <option v-for="flo in floors" :key="flo.id" :value="flo.id">
+            <el-option v-for="flo in floors" :key="flo.id" :value="flo.id">
               {{ flo.description }}
-            </option>
-          </select>
+            </el-option>
+          </el-select>
           <div v-if="errors.hotel_floor_id" class="invalid-feedback">
             {{ errors.hotel_floor_id[0] }}
           </div>
         </div>
         <div class="form-group">
-          <label for="description">Detalles</label>
-          <textarea
+          <label class="control-label" for="description">Detalles</label>
+          <el-input
             rows="3"
-            type="text"
+            type="textarea"
             id="description"
-            class="form-control form-control-default"
             v-model="form.description"
             :class="{ 'is-invalid': errors.description }"
           >
-          </textarea>
+          </el-input>
           <div v-if="errors.description" class="invalid-feedback">
             {{ errors.description[0] }}
           </div>

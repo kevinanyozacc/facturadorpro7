@@ -34,7 +34,7 @@
                         <i class="fas fa-sun"></i> Modo Claro
                     </a>
                 </div>
-                <div class="pt-3">
+                <div class="pt-3 d-none">
                     <h5>Color de fondo del sidebar</h5>
                     <div class="form-group el-custom-control">
                         <button :class="{ 'active': visuals.sidebar_theme === 'white' }" type="button" @click="onChangeBgSidebar('white')" class="btn flex-fill" style="background-color: #ffffff;"></button>
@@ -45,6 +45,16 @@
                         <!-- <button :class="{ 'active': visuals.sidebar_theme === 'warning' }" type="button" @click="onChangeBgSidebar('warning')" class="btn" style="background-color: #ff9f43;"></button> -->
                         <!-- <button :class="{ 'active': visuals.sidebar_theme === 'ligth-blue' }" type="button" @click="onChangeBgSidebar('ligth-blue')" class="btn" style="background-color: #00cfe8;"></button> -->
                         <button :class="{ 'active': visuals.sidebar_theme === 'dark' }" type="button" @click="onChangeBgSidebar('dark')" class="btn flex-fill" style="background-color: #283046;"></button>
+                    </div>
+                </div>
+
+                <div class="mt-3">
+                    <h5>Selecciona un color de tema:</h5>
+                    <div class="color-selector">
+                      <button v-for="(colors, theme) in themes" :key="theme" 
+                              :style="{ backgroundColor: colors['--color-visual'] }" 
+                              @click="applyTheme(theme)">
+                      </button>
                     </div>
                 </div>
 
@@ -62,8 +72,20 @@
                     </div>
                 </div>
 
-                <div class="pt-3">
-                    <h5>Cantidad de columnas en POS</h5>
+                <div class="mt-3">
+                    <h5>Mostrar panel de bienvenida en el dashboard</h5>
+                    <div>
+                        <el-switch
+                            v-model="showWelcome"
+                            active-text="Si"
+                            inactive-text="No"
+                            @change="updateConfig">
+                        </el-switch>
+                    </div>
+                </div>
+
+                <div class="pt-3 form-modern">
+                    <label class="control-label">Cantidad de columnas en POS</label>
                     <div :class="{'has-danger': errors.amount_plastic_bag_taxes}">
                         <el-select v-model="form.colums_grid_item" @change="submitForm">
                             <el-option label="3" value="3"></el-option>
@@ -75,8 +97,8 @@
                     </div>
                 </div>
 
-                <div class="pt-3">
-                    <h5>Cambiar tema</h5>
+                <div class="pt-3 form-modern">
+                    <label class="control-label">Cambiar tema</label>
                     <div :class="{'has-danger': errors.compact_sidebar}">
                         <el-select
                             v-model="form.skin_id"
@@ -110,6 +132,49 @@
         },
         data() {
             return {
+                themes: {
+                    white: {
+                        "--color-visual": "#0c7286",
+                        "--primary-color": "#0c7286",
+                        "--dark-color": "#001524",
+                        "--light-color": "#eef5f5",
+                        "--light2-color": "#d5e8e8",
+                        "--light3-color": "#75e4e4"
+                    },
+                    blue: {
+                        "--color-visual": "#7367f0",
+                        "--primary-color": "#7367f0",
+                        "--dark-color": "#1a1b4b",
+                        "--light-color": "#e3e3ff",
+                        "--light2-color": "#c0c0ff",
+                        "--light3-color": "#9090ff"
+                    },
+                    green: {
+                        "--color-visual": "#28c76f",
+                        "--primary-color": "#28c76f",
+                        "--dark-color": "#0a3d27",
+                        "--light-color": "#d9f5e3",
+                        "--light2-color": "#a8e6cb",
+                        "--light3-color": "#75c2a2"
+                    },
+                    red: {
+                        "--color-visual": "#ea5455",
+                        "--primary-color": "#ea5455",
+                        "--dark-color": "#520000",
+                        "--light-color": "#fddddd",
+                        "--light2-color": "#f8a6a6",
+                        "--light3-color": "#f37171"
+                    },
+                    retro: {
+                        "--color-visual": "#ece3ca",
+                        "--primary-color": "#2e282a",
+                        "--dark-color": "#282425",
+                        "--light-color": "#ece3ca",
+                        "--light2-color": "#e4d8b4",
+                        "--light3-color": "#e0c881"
+                    }
+                },
+                showWelcome: localStorage.getItem('show_welcome_panel') === 'true', 
                 loading_submit: false,
                 resource: 'configurations',
                 errors: {},
@@ -122,8 +187,40 @@
         async created() {
             await this.initForm()
             await this.getRecords()
+
+            await this.initForm();
+            const savedTheme = localStorage.getItem('selectedTheme');
+            if (savedTheme && this.themes[savedTheme]) {
+                this.applyTheme(savedTheme);
+            }
         },
         methods: {
+            updateConfig() {
+                localStorage.setItem('show_welcome_panel', this.showWelcome);
+                this.toggleWelcomeComponent();
+            },
+            toggleWelcomeComponent() {
+                const welcomeComponent = document.querySelector('.welcome-component');
+                if (this.showWelcome) {
+                    welcomeComponent.style.display = 'block';
+                } else {
+                    welcomeComponent.style.display = 'none';
+                }
+            },
+            applyTheme(theme) {
+                const colors = this.themes[theme];
+                Object.keys(colors).forEach(variable => {
+                    document.documentElement.style.setProperty(variable, colors[variable]);
+                });
+
+                if (theme === "retro") {
+                    document.documentElement.style.setProperty("--font-family", "'PT Mono', sans-serif");
+                } else {
+                    document.documentElement.style.setProperty("--font-family", "initial");
+                }
+
+                localStorage.setItem('selectedTheme', theme);
+            },
             onChangeBgSidebar(theme) {
                 this.visuals.sidebar_theme = theme;
                 this.submit();
@@ -192,6 +289,9 @@
             dialogSkins() {
                 this.dialogSkinsVisible = true
             },
+        },
+        mounted() {
+            this.toggleWelcomeComponent();
         }
     }
 </script>
@@ -210,5 +310,17 @@
             box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, .5);
         }
     }
+}
+.color-selector {
+    display: flex;
+    gap: 10px;
+}
+.color-selector button {
+    width: 40px;
+    height: 20px;
+    border: none;
+    border-radius: 10%;
+    cursor: pointer;
+    outline: none;
 }
 </style>

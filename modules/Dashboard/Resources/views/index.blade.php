@@ -4,7 +4,7 @@
 @php
 $a = $vc_modules;
 @endphp
-    <div class="card">
+    <div class="card welcome-component" style="display: none;">
         <div class="card-body">
             <div class="row">
                 <div class="col-md-3">
@@ -240,6 +240,23 @@ $a = $vc_modules;
             </div>
         </div>
     </div>
+<script>
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                // Obtén el valor desde localStorage
+                showWelcome: localStorage.getItem('show_welcome_panel') === 'true'
+            };
+        },
+        watch: {
+            // Reaccionamos a cambios en `showWelcome` y actualizamos `localStorage`
+            showWelcome(newValue) {
+                localStorage.setItem('show_welcome_panel', newValue);
+            }
+        }
+    });
+</script>
 
     <tenant-dashboard-index
     	:type-user="{{ json_encode(auth()->user()->type) }}"

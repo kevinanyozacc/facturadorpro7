@@ -47,7 +47,7 @@
             <div class="col-md-12 col-lg-12 col-xl-12 ">
 
                 <div class="row mt-2">
-                        <div class="col-md-3">
+                        <div class="col-md-3 form-modern">
                             <label class="control-label">Periodo</label>
                             <el-select v-model="form.period" @change="changePeriod">
                                 <el-option key="month" value="month" label="Por mes"></el-option>
@@ -57,13 +57,13 @@
                         </div>
                         
                         <template v-if="form.period === 'week'">
-                            <div class="col-md-3">
+                            <div class="col-md-3 form-modern">
                                 <label class="control-label">Semana</label>
                                 <el-date-picker v-model="form.week" type="week" format="Week WW" @change="changeDisabledDates" :clearable="true"></el-date-picker>
                             </div>
                         </template>
                         <template v-if="form.period === 'month' ">
-                            <div class="col-md-3">
+                            <div class="col-md-3 form-modern">
                                 <label class="control-label">Mes</label>
                                 <el-date-picker v-model="form.month" type="month"
                                                 @change="changeDisabledDates"
@@ -71,7 +71,7 @@
                             </div>
                         </template>
                         <template v-if="form.period === 'date' || form.period === 'between_dates'">
-                            <div class="col-md-3">
+                            <div class="col-md-3 form-modern">
                                 <label class="control-label">Fecha del</label>
                                 <el-date-picker v-model="form.d_start" type="date"
                                                 @change="changeDisabledDates"
@@ -79,7 +79,7 @@
                             </div>
                         </template>
                         <template v-if="form.period === 'between_dates'">
-                            <div class="col-md-3">
+                            <div class="col-md-3 form-modern">
                                 <label class="control-label">Fecha al</label>
                                 <el-date-picker v-model="form.d_end" type="date"
                                                 @change="changeDisabledDates"
@@ -88,7 +88,7 @@
                             </div>
                         </template>
                         
-                        <div class="col-md-3">
+                        <div class="col-md-3 form-modern">
                             <label class="control-label">Estado</label>
                             
                             <el-select v-model="form.state_type_id"  placeholder="Seleccionar" @change="changeStateType" clearable>

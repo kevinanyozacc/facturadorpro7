@@ -88,11 +88,10 @@
                             <div class="col-sm-12 col-md-3 col-lg-3">
                                 <div
                                     :class="{'has-danger': errors.inventory_transaction_id}"
-                                    class="form-group form-modern"
+                                    class="form-group"
                                 >
                                     <label class="control-label">Motivo traslado</label>
-                                    <input
-                                        class="form-control form-control-default"
+                                    <el-input
                                         readonly
                                         type="text"
                                         value="Ingreso de producción"
@@ -165,9 +164,8 @@
                                     <label class="control-label">
                                         Lote
                                     </label>
-                                    <input
+                                    <el-input
                                         v-model="form.lot_code"
-                                        class="form-control form-control-default"
                                         placeholder="Lote"
                                         type="text"
                                     />
@@ -329,8 +327,7 @@
                                     class="form-group"
                                 >
                                     <label class="control-label">Colaborador de producción</label>
-                                    <input
-                                        class="form-control form-control-default"
+                                    <el-input
                                         v-model="form.production_collaborator"
                                         type="text"
                                         value="Colaborador de produccion"
@@ -424,8 +421,7 @@
                                     class="form-group"
                                 >
                                     <label class="control-label">Colaborador de Mezcla</label>
-                                    <input
-                                        class="form-control form-control-default"
+                                    <el-input
                                         v-model="form.mix_collaborator"
                                         type="text"
                                         value="Colaborador de Mezcla"

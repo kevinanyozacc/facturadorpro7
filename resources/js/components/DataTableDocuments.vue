@@ -109,7 +109,7 @@
                             </el-select>
                         </div>
                     </div>
-                    <div class="col-lg-2 col-md-2 col-sm-12 pb-2">
+                    <div class="col-lg-2 col-md-2 col-sm-12 pb-2 form-modern">
                         <label class="control-label">Fecha de emisión</label>
                         <el-date-picker
                             v-model="search.date_of_issue"

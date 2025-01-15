@@ -10,10 +10,9 @@
       <div class="form-body">
         <div class="form-group form-modern">
           <label class="control-label" for="description">Descripción</label>
-          <input
+          <el-input
             type="text"
             id="description"
-            class="form-control form-control-default"
             v-model="form.description"
             :class="{ 'is-invalid': errors.description }"
           />

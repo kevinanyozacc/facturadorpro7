@@ -9,11 +9,10 @@
     <form autocomplete="off" @submit.prevent="onSubmit">
       <div class="form-body">
         <div class="form-group">
-          <label for="description">Nombre del piso</label>
-          <input
+          <label class="control-label" for="description">Nombre del piso</label>
+          <el-input
             type="text"
             id="description"
-            class="form-control form-control-default"
             v-model="form.description"
             :class="{ 'is-invalid': errors.description }"
           />
