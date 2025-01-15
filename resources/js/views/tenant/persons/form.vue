@@ -659,7 +659,7 @@
                             </div>
 
                             <div class="col-md-4">
-                                <div :class="{'has-danger': errors.zone_id}"
+                                <!-- <div :class="{'has-danger': errors.zone_id}"
                                      class="form-group">
                                     <label class="control-label">
                                         Zona
@@ -693,7 +693,7 @@
                                     <small v-if="errors.zone_id"
                                            class="form-control-feedback"
                                            v-text="errors.zone_id[0]"></small>
-                                </div>
+                                </div> -->
                             </div>
 
 
