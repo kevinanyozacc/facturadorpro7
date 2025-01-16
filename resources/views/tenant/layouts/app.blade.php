@@ -113,6 +113,61 @@
     <script defer src="{{ mix('js/app.js') }}"></script>
 
 <script async src="https://social.buho.la/pixel/y9nonmie9j8dkwha20ct2ua7nwsywi2m"></script>
+<script>
+    (function() {
+        const savedTheme = localStorage.getItem('selectedTheme');
+        if (savedTheme) {
+            const themes = {
+                white: { 
+                    "--color-visual": "#0c7286",
+                    "--primary-color": "#0c7286",
+                    "--dark-color": "#001524",
+                    "--light-color": "#eef5f5",
+                    "--light2-color": "#d5e8e8",
+                    "--light3-color": "#75e4e4"
+                },
+                blue: {
+                    "--color-visual": "#7367f0",
+                    "--primary-color": "#7367f0",
+                    "--dark-color": "#1a1b4b",
+                    "--light-color": "#e3e3ff",
+                    "--light2-color": "#c0c0ff",
+                    "--light3-color": "#9090ff"
+                },
+                green: {
+                    "--color-visual": "#28c76f",
+                    "--primary-color": "#28c76f",
+                    "--dark-color": "#0a3d27",
+                    "--light-color": "#d9f5e3",
+                    "--light2-color": "#a8e6cb",
+                    "--light3-color": "#75c2a2"
+                },
+                red: {
+                    "--color-visual": "#ea5455",
+                    "--primary-color": "#ea5455",
+                    "--dark-color": "#520000",
+                    "--light-color": "#fddddd",
+                    "--light2-color": "#f8a6a6",
+                    "--light3-color": "#f37171"
+                },
+                retro: {
+                    "--color-visual": "#ece3ca",
+                    "--primary-color": "#2e282a",
+                    "--dark-color": "#282425",
+                    "--light-color": "#ece3ca",
+                    "--light2-color": "#e4d8b4",
+                    "--light3-color": "#e0c881"
+                }
+            };
+
+            if (themes[savedTheme]) {
+                Object.keys(themes[savedTheme]).forEach(variable => {
+                    document.documentElement.style.setProperty(variable, themes[savedTheme][variable]);
+                });
+            }
+        }
+    })();
+</script>
 </head>
 <body class="pr-0">
     <section class="body">
@@ -137,7 +192,10 @@
     </section>
     @if($show_ws)
         @if(strlen($phone_whatsapp) > 0)
-        <a class='ws-flotante' href='https://wa.me/{{$phone_whatsapp}}' target="BLANK" style="background-image: url('{{asset('logo/ws.png')}}'); background-size: 70px; background-repeat: no-repeat;" ></a>
+        <a class='ws-flotante d-flex align-items-center justify-content-center' href='https://wa.me/{{$phone_whatsapp}}' target="BLANK" 
+            style="font-size: 45px; color: #fff; background-color: #0074ff; text-decoration: none; border-radius: 30% !important;">
+            <i class="fab fa-whatsapp"></i>
+        </a>
         @endif
     @endif
 

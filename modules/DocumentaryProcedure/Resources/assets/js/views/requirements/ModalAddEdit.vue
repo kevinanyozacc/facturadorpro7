@@ -9,12 +9,11 @@
         <form autocomplete="off" @submit.prevent="onSubmit">
             <div class="form-body">
                 <div class="form-group">
-                    <label for="name">Nombre del requerimiento</label>
-                    <input
+                    <label class="control-label" for="name">Nombre del requerimiento</label>
+                    <el-input
                         id="name"
                         v-model="form.name"
                         :class="{ 'is-invalid': errors.name }"
-                        class="form-control form-control-default"
                         type="text"
                     />
                     <div v-if="errors.name" class="invalid-feedback">

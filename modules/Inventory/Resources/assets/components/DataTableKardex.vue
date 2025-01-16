@@ -25,7 +25,7 @@
                     </div>
                 </template>
                 <template v-else>
-                    <div class="col-md-6">
+                    <div class="col-md-6 form-modern">
                         <label class="control-label">Almacén</label>
                         <el-select v-model="form.warehouse_id"
                                    @change="changeWarehouse">
@@ -33,7 +33,7 @@
                                        :label="option.name"></el-option>
                         </el-select>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6 form-modern">
                         <label class="control-label">Producto</label>
                         <el-select v-model="form.item_id"
                                    filterable clearable>
@@ -43,14 +43,14 @@
                     </div>
                 </template>
 
-                <div class="col-md-3">
+                <div class="col-md-3 form-modern">
                     <label class="control-label">Fecha inicio</label>
                     <el-date-picker v-model="form.date_start" type="date"
                                     @change="changeDisabledDates"
                                     value-format="yyyy-MM-dd" format="dd/MM/yyyy"
                                     :clearable="true"></el-date-picker>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3 form-modern">
                     <label class="control-label">Fecha término</label>
                     <el-date-picker v-model="form.date_end" type="date"
                                     :picker-options="pickerOptionsDates"

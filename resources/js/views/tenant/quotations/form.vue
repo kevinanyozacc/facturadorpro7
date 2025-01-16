@@ -465,7 +465,7 @@
                             <div class="p-2 payments-div"
                             style="margin-left: auto;" 
                             v-if="showPayments">
-                                <label>Pagos</label>
+                                <h4>Pagos:</h4>
                                 <table>
                                     <thead>
                                         <tr width="100%">

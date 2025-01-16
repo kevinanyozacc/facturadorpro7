@@ -123,9 +123,8 @@
                                     <label class="control-label">
                                         Lote
                                     </label>
-                                    <input
+                                    <el-input
                                         v-model="form.lot_code"
-                                        class="form-control form-control-default"
                                         placeholder="Lote"
                                         type="text"
                                     />
@@ -190,8 +189,7 @@
                                     class="form-group"
                                 >
                                     <label class="control-label">Colaborador</label>
-                                    <input
-                                        class="form-control form-control-default"
+                                    <el-input
                                         v-model="form.packaging_collaborator"
                                         type="text"
                                         value="Colaborador"

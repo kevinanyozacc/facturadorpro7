@@ -9,14 +9,13 @@
         <form autocomplete="off" @submit.prevent="onSubmit">
             <div class="form-body row">
                 <div class="form-group col-md-12">
-                    <label for="name">
+                    <label class="control-label" for="name">
                         Nombre de la etapa
                     </label>
-                    <input
+                    <el-input
                         id="name"
                         v-model="form.name"
                         :class="{ 'is-invalid': errors.name }"
-                        class="form-control form-control-default"
                         type="text"
                     />
                     <div v-if="errors.name" class="invalid-feedback">
@@ -24,12 +23,11 @@
                     </div>
                 </div>
                 <div class="form-group col-md-12">
-                <label for="description">Descripción</label>
-                    <input
+                <label class="control-label" for="description">Descripción</label>
+                    <el-input
                         id="description"
                         v-model="form.description"
                         :class="{ 'is-invalid': errors.description }"
-                        class="form-control form-control-default"
                         type="text"
                     />
                     <div v-if="errors.description" class="invalid-feedback">

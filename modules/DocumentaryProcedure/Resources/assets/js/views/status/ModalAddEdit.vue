@@ -10,14 +10,13 @@
               @submit.prevent="onSubmit">
             <div class="form-body row">
                 <div class="form-group col-md-12">
-                    <label for="name">
+                    <label class="control-label" for="name">
                         Nombre del estado
                     </label>
-                    <input
+                    <el-input
                         id="name"
                         v-model="form.name"
                         :class="{ 'is-invalid': errors.name }"
-                        class="form-control form-control-default"
                         type="text"
                     />
                     <div v-if="errors.name"

@@ -615,7 +615,7 @@
                                     PAGAR: </b>{{ currency_type.symbol }} {{ form.total }}</h3>
                             </div>
                             <!-- Pagos -->
-                            <div class="p-2 payment-container" v-if="showPayments" 
+                            <div class="p-2 table-responsive-default payment-container" v-if="showPayments" 
                                 style="background-color: #f3f4fc; width: 70%; margin-left: auto;">
                                 <table>
                                     <thead>

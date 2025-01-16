@@ -60,7 +60,7 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-7 col-md-7 col-md-7 col-sm-12" style="margin-top:29px">
+                    <div class="col-lg-7 col-md-7 col-md-7 col-sm-12 form-modern" style="margin-top:29px">
                     
                         <label class="control-label">Buscar Producto</label>
                         <el-input 

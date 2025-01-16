@@ -38,11 +38,10 @@
             <th>#</th>
             <th>Cód. Interno</th>
             <th>Unidad</th>
+            <th class="text-center">Imagen</th>
             <th>Nombre</th>
-            <th>Descripción</th>
             <th class="text-center">P.Unitario (Venta)</th>
             <th class="text-center">Stock General</th>
-            <th class="text-center">Imagen</th>
             <th class="text-center">Tags</th>
 
             <th class="text-center">Visible en Tienda</th>
@@ -53,17 +52,15 @@
             <td>{{ index }}</td>
             <td>{{ row.internal_id }}</td>
             <td>{{ row.unit_type_id }}</td>
-            <td>{{ row.description }}</td>
+            <td class="text-center">
+              <a @click="viewImages(row)" href="#">
+                <img :src="row.image_url_small" alt width="48px" height="48px" />
+              </a>
+              <!--<img :src="row.image_url_medium"  width="40" height="40" class="img-thumbail img-custom" /> -->
+            </td>
             <td>{{ row.name }}</td>
             <td class="text-center">{{ row.sale_unit_price }}</td>
             <td class="text-center">{{ stock(row.warehouses) }}</td>
-            <td class="text-center">
-              <a @click="viewImages(row)" href="#">
-                <img :src="row.image_url_small" alt width="150" height="150" />
-              </a>
-
-              <!--<img :src="row.image_url_medium"  width="40" height="40" class="img-thumbail img-custom" /> -->
-            </td>
             <td>
               <el-tag style="margin:1px" v-for="tag in row.tags" :key="tag.id">{{tag.tag.name}}</el-tag>
             </td>

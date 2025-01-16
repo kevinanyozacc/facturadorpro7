@@ -815,9 +815,9 @@ export default {
                 return this.$message.warning('Debe agregar productos');
             }
 
-            let error_quantity = this.form.items.some(item => item.quantity === '0');
+            let error_quantity = this.form.items.some(item => item.quantity < 1);
             if(error_quantity) {
-                return this.$message.error('Los productos deben tener cantidades mayor a 0.1');
+                return this.$message.error('Los productos deben tener cantidades mayor a 0');
             }
 
             if (!moment(moment().format("YYYY-MM-DD")).isSame(this.form.date_of_issue)) {

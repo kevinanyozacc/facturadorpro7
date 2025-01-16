@@ -659,24 +659,23 @@
                             </div>
 
                             <div class="col-md-4">
-                                <div :class="{'has-danger': errors.zone_id}"
+                                <!-- <div :class="{'has-danger': errors.zone_id}"
                                      class="form-group">
                                     <label class="control-label">
                                         Zona
-                                    </label>
-
-                                    <a v-if="form_zone.add == false"
-                                       class="control-label font-weight-bold text-info"
-                                       href="#"
-                                       @click="form_zone.add = true"> [ + Nuevo]</a>
-                                    <a v-if="form_zone.add == true"
-                                       class="control-label font-weight-bold text-info"
-                                       href="#"
-                                       @click="saveZone()"> [ + Guardar]</a>
-                                    <a v-if="form_zone.add == true"
-                                       class="control-label font-weight-bold text-danger"
-                                       href="#"
+                                        <a v-if="form_zone.add == false"
+                                            class="control-label font-weight-bold text-info"
+                                            href="#"
+                                            @click="form_zone.add = true"> [ + Nuevo]</a>
+                                        <a v-if="form_zone.add == true"
+                                            class="control-label font-weight-bold text-info"
+                                            href="#"
+                                            @click="saveZone()"> [ + Guardar]</a>
+                                        <a v-if="form_zone.add == true"
+                                            class="control-label font-weight-bold text-danger"
+                                            href="#"
                                        @click="form_zone.add = false"> [ Cancelar]</a>
+                                    </label>
                                     <el-input v-if="form_zone.add == true"
                                               v-model="form_zone.name"
                                               dusk="item_code"
@@ -694,7 +693,7 @@
                                     <small v-if="errors.zone_id"
                                            class="form-control-feedback"
                                            v-text="errors.zone_id[0]"></small>
-                                </div>
+                                </div> -->
                             </div>
 
 

@@ -190,7 +190,7 @@
                                 </div>
                             </div>
                             <!--                            Fecha de inicio-->
-                            <div class="col-md-3">
+                            <div class="col-md-3 form-modern">
                                 <label class="control-label">
                                     Fecha de primer pago
                                 </label>
@@ -204,7 +204,7 @@
                             </div>
 
                             <!--                            Fecha de fin-->
-                            <div class="col-md-3">
+                            <div class="col-md-3 form-modern">
                                 <label class="control-label">
                                     Fecha de último pago
                                 </label>

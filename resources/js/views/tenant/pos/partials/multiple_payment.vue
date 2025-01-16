@@ -165,7 +165,7 @@
 
                 let payment_method_type = _.find(this.payment_method_types, {'id':this.payments[index].payment_method_type_id})
 
-                if(payment_method_type.id == '09'){
+                if(payment_method_type.id == '09' || payment_method_type.is_credit){
 
             
                     this.enabled_payments = false
