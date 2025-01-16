@@ -69,6 +69,9 @@
                     <li>
                         <a href="{{route('tenant.payment.generate.index')}}">Generador de link de pago</a>
                     </li>
+                    <li>
+                        <a href="{{route('tenant_ecommerce_configuration')}}">Tienda Virtual/Restaurante</a>
+                    </li>
                     
                 </ul>
             </div>

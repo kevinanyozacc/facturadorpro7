@@ -801,12 +801,12 @@ $inventory_configuration = InventoryConfiguration::getSidebarPermissions();
                                 href="{{route('tenant.promotion.index')}}">Promociones(Banners)</a>
                         </li>
                         @endif
-                        @if(in_array('ecommerce_settings', $vc_module_levels))
+                        {{-- @if(in_array('ecommerce_settings', $vc_module_levels))
                         <li class="{{ ($secondLevel === 'configuration')?'nav-active':'' }}">
                             <a class="nav-link"
                                 href="{{route('tenant_ecommerce_configuration')}}">Configuración</a>
                         </li>
-                        @endif
+                        @endif --}}
                     </ul>
                 </li>
                 @endif
@@ -868,7 +868,7 @@ $inventory_configuration = InventoryConfiguration::getSidebarPermissions();
                             <a class="nav-link"
                                 href="{{ route('tenant.restaurant.menu') }}"
                                 target="blank">
-                                Ver menú digital
+                                Ver pedidos en linea
                             </a>
                         </li>
                         <li class="{{ ( $secondLevel != null && $secondLevel == 'orders')?'nav-active':'' }}">

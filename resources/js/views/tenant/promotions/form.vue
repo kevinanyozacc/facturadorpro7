@@ -55,7 +55,7 @@
                   v-for="option in items"
                   :key="option.id"
                   :value="option.id"
-                  :label="option.name"
+                  :label="option.description"
                 ></el-option>
               </el-select>
               <small
@@ -114,11 +114,12 @@ export default {
         description: null,
         image: null,
         image_url: null,
-        temp_path: null
+        temp_path: null,
+        type: "banners"
       };
     },
     create() {
-      this.titleDialog = this.recordId ? "Editar Promocion" : "Nueva Promocion";
+      this.titleDialog = this.recordId ? "Editar Banner" : "Nuevo Banner";
       if (this.recordId) {
         this.$http
           .get(`/${this.resource}/record/${this.recordId}`)

@@ -9,6 +9,9 @@ use Modules\Item\Models\Category;
 use Modules\Item\Http\Resources\CategoryCollection;
 use Modules\Item\Http\Resources\CategoryResource;
 use Modules\Item\Http\Requests\CategoryRequest;
+use Modules\Finance\Helpers\UploadFileHelper;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {
@@ -78,7 +81,27 @@ class CategoryController extends Controller
         if(empty($error)){
             $category = Category::firstOrNew(['id' => $id]);
             $category->fill($request->all());
+
+            $temp_path = $request->input('temp_path');
+            if($temp_path) {
+
+                UploadFileHelper::checkIfValidFile($request->input('image'), $temp_path, true);
+
+                $directory = 'public'.DIRECTORY_SEPARATOR.'uploads'.DIRECTORY_SEPARATOR.'categories'.DIRECTORY_SEPARATOR;
+                $file_name_old = $request->input('image');
+                $file_name_old_array = explode('.', $file_name_old);
+                $file_content = file_get_contents($temp_path);
+                $datenow = date('YmdHis');
+                $file_name = Str::slug($category->name).'-'.$datenow.'.'.$file_name_old_array[1];
+                Storage::put($directory.$file_name, $file_content);
+                $category->image = $file_name;
+
+            }else if(!$request->input('image') && !$request->input('temp_path') && !$request->input('image_url')){
+                $category->image = 'imagen-no-disponible.jpg';
+            }
+
             $category->save();
+
             $data = [
                 'success' => true,
                 'message' => ($id)?'Categoría editada con éxito':'Categoría registrada con éxito',
@@ -132,6 +155,50 @@ class CategoryController extends Controller
         }
 
         return $records->get();
+    }
+
+    public function upload(Request $request)
+    {
+        
+        $validate_upload = UploadFileHelper::validateUploadFile($request, 'file', 'jpg,jpeg,png,gif,svg');
+        
+        if(!$validate_upload['success']){
+            return $validate_upload;
+        }
+
+        if ($request->hasFile('file')) {
+            $new_request = [
+                'file' => $request->file('file'),
+                'type' => $request->input('type'),
+            ];
+
+            return $this->upload_image($new_request);
+        }
+        return [
+            'success' => false,
+            'message' =>  __('app.actions.upload.error'),
+        ];
+    }
+
+    function upload_image($request)
+    {
+        $file = $request['file'];
+        $type = $request['type'];
+
+        $temp = tempnam(sys_get_temp_dir(), $type);
+        file_put_contents($temp, file_get_contents($file));
+
+        $mime = mime_content_type($temp);
+        $data = file_get_contents($temp);
+
+        return [
+            'success' => true,
+            'data' => [
+                'filename' => $file->getClientOriginalName(),
+                'temp_path' => $temp,
+                'temp_image' => 'data:' . $mime . ';base64,' . base64_encode($data)
+            ]
+        ];
     }
 
 }

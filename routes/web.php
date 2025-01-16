@@ -700,6 +700,10 @@ if ($hostname) {
             Route::delete('promotions/{promotion}', 'Tenant\PromotionController@destroy');
             Route::post('promotions/upload', 'Tenant\PromotionController@upload');
 
+            //Promotions-list
+            Route::post('promotions-list', 'Tenant\PromotionController@storePromotionList');
+            Route::get('promotions-list/records', 'Tenant\PromotionController@recordsPromotionList');
+
             Route::get('item-sets', 'Tenant\ItemSetController@index')->name('tenant.item_sets.index')->middleware('redirect.level');
             Route::get('item-sets/columns', 'Tenant\ItemSetController@columns');
             Route::get('item-sets/records', 'Tenant\ItemSetController@records');

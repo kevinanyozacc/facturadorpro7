@@ -40,7 +40,19 @@ class PromotionController extends Controller
 
     public function records(Request $request)
     {
-        $records = Promotion::where('apply_restaurant', 0)->orderBy('description');
+        $records = Promotion::where('apply_restaurant', 0)
+            ->where(function ($query) {
+                $query->where('type','<>', 'promotions')
+                ->orWhereNull('type');
+            })
+            ->orderBy('description');
+        
+        return new PromotionCollection($records->paginate(config('tenant.items_per_page')));
+    }
+
+    public function recordsPromotionList(Request $request)
+    {
+        $records = Promotion::where('apply_restaurant', 0)->where('type','promotions')->orderBy('description');
         
         return new PromotionCollection($records->paginate(config('tenant.items_per_page')));
     }
@@ -64,7 +76,59 @@ class PromotionController extends Controller
 
         if(!$id)
         {
-            $count = Promotion::where('apply_restaurant', 0)->count();
+            $count = Promotion::where('apply_restaurant', 0)
+                ->where(function ($query) {
+                    $query->where('type','<>', 'promotions')
+                    ->orWhereNull('type');
+                })
+                ->count();
+            if($count > 2)
+            {
+                return [
+                    'success' => false,
+                    'message' => 'Solo esta permitido 3 Banners',
+                ];
+            }
+        }
+
+        $item = Promotion::firstOrNew(['id' => $id]);
+        $item->fill($request->all());
+
+        $temp_path = $request->input('temp_path');
+        if($temp_path) {
+
+            UploadFileHelper::checkIfValidFile($request->input('image'), $temp_path, true);
+
+            $directory = 'public'.DIRECTORY_SEPARATOR.'uploads'.DIRECTORY_SEPARATOR.'promotions'.DIRECTORY_SEPARATOR;
+            $file_name_old = $request->input('image');
+            $file_name_old_array = explode('.', $file_name_old);
+            $file_content = file_get_contents($temp_path);
+            $datenow = date('YmdHis');
+            $file_name = Str::slug($item->description).'-'.$datenow.'.'.$file_name_old_array[1];
+            Storage::put($directory.$file_name, $file_content);
+            $item->image = $file_name;
+
+        }else if(!$request->input('image') && !$request->input('temp_path') && !$request->input('image_url')){
+            $item->image = 'imagen-no-disponible.jpg';
+        }
+
+        $item->save();
+
+        return [
+            'success' => true,
+            'message' => ($id)?'Banner editado con éxito':'Banner registrado con éxito',
+            'id' => $item->id
+        ];
+    }
+
+    public function storePromotionList(PromotionRequest $request) {
+
+
+        $id = $request->input('id');
+
+        if(!$id)
+        {
+            $count = Promotion::where('apply_restaurant', 0)->where('type','promotions')->count();
             if($count > 2)
             {
                 return [

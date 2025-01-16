@@ -32,13 +32,24 @@
                 </div>
               </div>
               <div class="col-md-12">
-                <div class="form-group" :class="{'has-danger': errors.link_twitter}">
-                  <label class="control-label">Link Twitter</label>
-                  <el-input v-model="form.link_twitter"></el-input>
+                <div class="form-group" :class="{'has-danger': errors.link_tiktok}">
+                  <label class="control-label">Link TikTok</label>
+                  <el-input v-model="form.link_tiktok"></el-input>
                   <small
                     class="form-control-feedback"
-                    v-if="errors.link_twitter"
-                    v-text="errors.link_twitter[0]"
+                    v-if="errors.link_tiktok"
+                    v-text="errors.link_tiktok[0]"
+                  ></small>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group" :class="{'has-danger': errors.link_instagram}">
+                  <label class="control-label">Link Instagram</label>
+                  <el-input v-model="form.link_instagram"></el-input>
+                  <small
+                    class="form-control-feedback"
+                    v-if="errors.link_instagram"
+                    v-text="errors.link_instagram[0]"
                   ></small>
                 </div>
               </div>
@@ -79,6 +90,8 @@ export default {
         this.form.link_youtube = data.link_youtube;
         this.form.link_facebook = data.link_facebook;
         this.form.link_twitter = data.link_twitter;
+        this.form.link_tiktok = data.link_tiktok;
+        this.form.link_instagram = data.link_instagram;
       }
     });
   },
@@ -89,7 +102,9 @@ export default {
         id: null,
         link_twitter: "",
         link_youtube: "",
-        link_facebook: ""
+        link_facebook: "",
+        link_tiktok: "",
+        link_instagram: ""
       };
     },
     submit() {

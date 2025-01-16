@@ -17,6 +17,7 @@
     <tenant-ecommerce-configuration-logo></tenant-ecommerce-configuration-logo>
     <tenant-ecommerce-configuration-social></tenant-ecommerce-configuration-social>
     <tenant-ecommerce-configuration-tag></tenant-ecommerce-configuration-tag>
+    <tenant-ecommerce-configuration-links></tenant-ecommerce-configuration-links>
 
 </div>
 @endsection

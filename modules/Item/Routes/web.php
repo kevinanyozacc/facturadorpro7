@@ -14,6 +14,7 @@ if($hostname) {
             Route::get('categories/record/{category}', 'CategoryController@record');
             Route::post('categories', 'CategoryController@store');
             Route::delete('categories/{category}', 'CategoryController@destroy');
+            Route::post('categories/upload', 'CategoryController@upload');
 
             Route::get('brands', 'BrandController@index')->name('tenant.brands.index')->middleware('redirect.level');
             Route::get('brands/records', 'BrandController@records');

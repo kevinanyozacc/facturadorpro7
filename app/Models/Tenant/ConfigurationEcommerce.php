@@ -17,10 +17,18 @@ class ConfigurationEcommerce extends ModelTenant
         'link_youtube',
         'link_twitter',
         'link_facebook',
+        'link_tiktok',
+        'link_instagram',
         'tag_shipping',
         'tag_dollar',
         'tag_support',
-        'phone_whatsapp'
+        'phone_whatsapp',
+        'title_one_customised_link',
+        'title_two_customised_link',
+        'title_three_customised_link',
+        'customised_link_one',
+        'customised_link_two',
+        'customised_link_three',
     ];
 
 }

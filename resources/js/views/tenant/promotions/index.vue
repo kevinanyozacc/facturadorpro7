@@ -11,10 +11,8 @@
           <span>Promociones</span>
         </li>
       </ol>
-      <div class="right-wrapper pull-right">
+      <!-- <div class="right-wrapper pull-right">
         <template>
-          <!-- v-if="typeUser === 'admin'" -->
-          <!-- <button type="button" class="btn btn-custom btn-sm  mt-2 mr-2" @click.prevent="clickImport()"><i class="fa fa-upload"></i> Importar</button>-->
           <button
             type="button"
             class="btn btn-custom btn-sm mt-2 mr-2"
@@ -23,14 +21,28 @@
             <i class="fa fa-plus-circle"></i> Nuevo
           </button>
         </template>
+      </div> -->
+    </div>
+
+    <div class="row">
+      <div class=" col-12 card-header">
+        <h3 class="">Banners principales</h3>
+        <div class="right-wrapper pull-right">
+          <template>
+            <button
+              type="button"
+              class="btn btn-custom btn-sm mt-2 mr-2"
+              @click.prevent="clickCreate()"
+            >
+              <i class="fa fa-plus-circle"></i> Nuevo
+            </button>
+          </template>
+        </div>
       </div>
     </div>
     <div class="card tab-content-default row-new mb-0">
-      <!-- <div class="card-header bg-info">
-        <h3 class="my-0">Listado de Promociones</h3>
-      </div> -->
       <div class="card-body">
-        <data-table :apply-filter="false" :resource="resource">
+        <data-table :apply-filter="false" :promotionType="'banners'" :resource="resource">
           <tr slot="heading" width="100%">
             <th>#</th>
             <th>Nombre</th>
@@ -67,6 +79,64 @@
 
       <promotions-form :showDialog.sync="showDialog" :recordId="recordId"></promotions-form>
     </div>
+
+    <div class="row">
+      <div class=" col-12 card-header">
+        <h3 class="">Listado de Promociones</h3>
+        <div class="right-wrapper pull-right">
+          <template>
+            <button
+              type="button"
+              class="btn btn-custom btn-sm mt-2 mr-2"
+              @click.prevent="clickCreatePromotionList()"
+            >
+              <i class="fa fa-plus-circle"></i> Nuevo
+            </button>
+          </template>
+        </div>
+      </div>
+    </div>
+
+    <div class="card tab-content-default row-new mb-0">
+      <div class="card-body">
+        <data-table :apply-filter="false" :promotionType="'promotions'" :resource="resource">
+          <tr slot="heading" width="100%">
+            <th>#</th>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th class="text-center">Imagen</th>
+            <th class="text-right">Acciones</th>
+          </tr>
+          <tr></tr>
+          <tr slot-scope="{ index, row }">
+            <td>{{ index }}</td>
+            <td>{{ row.name }}</td>
+            <td>{{ row.description }}</td>
+            <td class="text-center">
+              <img :src="row.image_url" alt width="170" height="130" />
+            </td>
+            <td class="text-right">
+              <template>
+                <!-- v-if="typeUser === 'admin'" -->
+                <button
+                  type="button"
+                  class="btn waves-effect waves-light btn-xs btn-info"
+                  @click.prevent="clickCreatePromotionList(row.id)"
+                >Editar</button>
+                <button
+                  type="button"
+                  class="btn waves-effect waves-light btn-xs btn-danger"
+                  @click.prevent="clickDeletePromotionList(row.id)"
+                >Eliminar</button>
+              </template>
+            </td>
+          </tr>
+        </data-table>
+      </div>
+
+      <promotions-list-form :showDialog.sync="showDialogPromotionList" :recordId="recordIdPromotion"></promotions-list-form>
+    </div>
+
   </div>
 </template>
 <style>
@@ -76,22 +146,24 @@
 </style>
 <script>
 import PromotionsForm from "./form.vue";
+import PromotionsListForm from "./promotionListForm.vue";
 // import ItemsImport from './import.vue'
-import DataTable from "../../../components/DataTable.vue";
+import DataTable from "../../../components/DataTablePromotionsEcommerce.vue";
 import { deletable } from "../../../mixins/deletable";
 
 export default {
   props: [], //'typeUser'
   mixins: [deletable],
-  components: { PromotionsForm, DataTable }, //ItemsImport
+  components: { PromotionsForm, DataTable,PromotionsListForm }, //ItemsImport
   data() {
     return {
       showDialog: false,
+      showDialogPromotionList: false,
       showImportDialog: false,
-
       showImageDetail: false,
       resource: "promotions",
-      recordId: null
+      recordId: null,
+      recordIdPromotion: null
     };
   },
   created() {},
@@ -107,7 +179,16 @@ export default {
       this.destroy(`/${this.resource}/${id}`).then(() =>
         this.$eventHub.$emit("reloadData")
       );
-    }
+    },
+    clickCreatePromotionList(recordId = null) {
+      this.recordIdPromotion = recordId;
+      this.showDialogPromotionList = true;
+    },
+    clickDeletePromotionList(id) {
+      this.destroy(`/${this.resource}/${id}`).then(() =>
+        this.$eventHub.$emit("reloadData")
+      );
+    },
   }
 };
 </script>

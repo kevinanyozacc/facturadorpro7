@@ -216,6 +216,7 @@ Vue.component('tenant-ecommerce-configuration-logo', require('../../modules/Ecom
 Vue.component('tenant-ecommerce-configuration-social', require('../../modules/Ecommerce/Resources/assets/js/views/configuration_social/index.vue'));
 Vue.component('tenant-ecommerce-configuration-tag', require('../../modules/Ecommerce/Resources/assets/js/views/configuration_tags/index.vue'));
 Vue.component('tenant-ecommerce-item-sets-index', require('../../modules/Ecommerce/Resources/assets/js/views/item_sets/index.vue'));
+Vue.component('tenant-ecommerce-configuration-links', require('../../modules/Ecommerce/Resources/assets/js/views/configuration_links/index.vue'));
 
 Vue.component('tenant-purchase-quotations-index', require('../../modules/Purchase/Resources/assets/js/views/purchase-quotations/index.vue'));
 Vue.component('tenant-purchase-quotations-form', require('../../modules/Purchase/Resources/assets/js/views/purchase-quotations/form.vue'));

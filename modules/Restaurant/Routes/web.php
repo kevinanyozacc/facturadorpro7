@@ -113,7 +113,7 @@ Route::prefix('restaurant')->group(function() {
 // ruta publica
 Route::middleware(['locked.tenant'])->group(function() {
     // restaurant
-    Route::get('/menu/{name?}', 'RestaurantController@menu')->name('tenant.restaurant.menu');
+    Route::get('/pedidos/{name?}', 'RestaurantController@menu')->name('tenant.restaurant.menu');
 
 
 });

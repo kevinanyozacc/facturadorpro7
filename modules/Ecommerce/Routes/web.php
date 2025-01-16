@@ -45,7 +45,7 @@ Route::middleware(['check.permission', 'locked.tenant'])->prefix('ecommerce')->g
     Route::post('configuration_social', 'ConfigurationController@store_configuration_social');
     Route::post('configuration_tags', 'ConfigurationController@store_configuration_tag');
     Route::post('saveDataUser', 'EcommerceController@saveDataUser')->name('tenant_ecommerce_user_data');
-
+    Route::post('configuration_links', 'ConfigurationController@store_configuration_links');
 
 
     Route::get('record', 'ConfigurationController@record');

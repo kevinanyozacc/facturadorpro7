@@ -77,14 +77,18 @@
                             <a href="{{$information->link_facebook}}" class="social-icon" target="_blank"><i class="icon-facebook"></i></a>
                         @endif
 
-                        @if($information->link_twitter)
-                            <a href="{{$information->link_twitter}}" class="social-icon" target="_blank"><i class="icon-twitter"></i></a>
-                        @endif
-
                         @if($information->link_youtube)
                             <a href="{{$information->link_youtube}}" class="social-icon" target="_blank"><i class="fab fa-youtube"></i></a>
                         @endif
 
+                        @if($information->link_tiktok)
+                        <a href="{{$information->link_tiktok}}" class="social-icon" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" height="14" width="12.25" viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path fill="#f9fafb" d="M448 209.9a210.1 210.1 0 0 1 -122.8-39.3V349.4A162.6 162.6 0 1 1 185 188.3V278.2a74.6 74.6 0 1 0 52.2 71.2V0l88 0a121.2 121.2 0 0 0 1.9 22.2h0A122.2 122.2 0 0 0 381 102.4a121.4 121.4 0 0 0 67 20.1z"/></svg></a>
+                        @endif
+
+                        @if($information->link_instagram)
+                            <a href="{{$information->link_instagram}}" class="social-icon" target="_blank"><i class="fab fa-instagram"></i></a>
+                        @endif
+                        
                     </div>
                 </div>
             </div>

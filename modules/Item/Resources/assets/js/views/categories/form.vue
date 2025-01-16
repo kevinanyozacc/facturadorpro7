@@ -11,6 +11,31 @@
                         </div>
                     </div> 
                 </div> 
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="form-group" :class="{'has-danger': errors.image}">
+                        <label class="control-label">
+                            Imágen
+                            <span class="text-danger"></span>
+                            <div class="sub-title text-danger">
+                            <small>Se recomienda resoluciones 1024x1024</small>
+                            </div>
+                        </label>
+                        <el-upload
+                            class="avatar-uploader"
+                            :data="{'type': 'categories'}"
+                            :headers="headers"
+                            :action="`/${resource}/upload`"
+                            :show-file-list="false"
+                            :on-success="onSuccess"
+                        >
+                            <img v-if="form.image_url" :src="form.image_url" class="avatar" />
+                            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                        </el-upload>
+                        <small class="form-control-feedback" v-if="errors.image" v-text="errors.image[0]"></small>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="form-actions text-right pt-2">
                 <el-button class="second-buton" @click.prevent="close()">Cancelar</el-button>
@@ -32,6 +57,7 @@
                 resource: 'categories', 
                 errors: {}, 
                 form: {}, 
+                headers: headers_token,
             }
         },
         created() {
@@ -44,6 +70,9 @@
                 this.form = {
                     id: null,
                     name: null, 
+                    image: null,
+                    image_url: null,
+                    temp_path: null,
                 }
             },
             create() {
@@ -81,6 +110,15 @@
                     })
                     
             },  
+            onSuccess(response, file, fileList) {
+                if (response.success) {
+                    this.form.image = response.data.filename;
+                    this.form.image_url = response.data.temp_image;
+                    this.form.temp_path = response.data.temp_path;
+                } else {
+                    this.$message.error(response.message);
+                }
+            },
             close() {
                 this.$emit('update:showDialog', false)
                 this.initForm()
@@ -88,3 +126,25 @@
         }
     }
 </script>
+<style>
+.avatar-uploader {
+    width: 178px;
+    height: 178px;
+}
+.avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c8c8c;
+    line-height: 178px;
+    text-align: center;
+    max-width: 178px;
+}
+.el-icon-plus {
+    width: 178px;
+    height: 178px;
+}
+</style>
