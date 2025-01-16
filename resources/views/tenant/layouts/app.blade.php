@@ -118,16 +118,14 @@
         const savedTheme = localStorage.getItem('selectedTheme');
         if (savedTheme) {
             const themes = {
-                white: { 
-                    "--color-visual": "#0c7286",
+                white: {
                     "--primary-color": "#0c7286",
                     "--dark-color": "#001524",
                     "--light-color": "#eef5f5",
                     "--light2-color": "#d5e8e8",
-                    "--light3-color": "#75e4e4"
+                    "--light3-color": "#77a0a0"
                 },
                 blue: {
-                    "--color-visual": "#7367f0",
                     "--primary-color": "#7367f0",
                     "--dark-color": "#1a1b4b",
                     "--light-color": "#e3e3ff",
@@ -135,7 +133,6 @@
                     "--light3-color": "#9090ff"
                 },
                 green: {
-                    "--color-visual": "#28c76f",
                     "--primary-color": "#28c76f",
                     "--dark-color": "#0a3d27",
                     "--light-color": "#d9f5e3",
@@ -143,7 +140,6 @@
                     "--light3-color": "#75c2a2"
                 },
                 red: {
-                    "--color-visual": "#ea5455",
                     "--primary-color": "#ea5455",
                     "--dark-color": "#520000",
                     "--light-color": "#fddddd",
@@ -151,19 +147,29 @@
                     "--light3-color": "#f37171"
                 },
                 retro: {
-                    "--color-visual": "#ece3ca",
-                    "--primary-color": "#2e282a",
+                    "--primary-color": "1d1718",
                     "--dark-color": "#282425",
                     "--light-color": "#ece3ca",
                     "--light2-color": "#e4d8b4",
-                    "--light3-color": "#e0c881"
+                    "--light3-color": "#e0c881",
+                    "--background-dark": "#262122",
+                    "--contents-dark": "#2e282a",
+                    "--inputs-dark": "#474243",
+                    "--borders-dark": "#474243",
+                    "--button-second": "#352f31"
                 }
             };
 
             if (themes[savedTheme]) {
+                const styleElement = document.createElement('style');
+                let cssVariables = '';
+
                 Object.keys(themes[savedTheme]).forEach(variable => {
-                    document.documentElement.style.setProperty(variable, themes[savedTheme][variable]);
+                    cssVariables += `${variable}: ${themes[savedTheme][variable]};\n`;
                 });
+
+                styleElement.innerHTML = `:root { ${cssVariables} }`;
+                document.head.appendChild(styleElement);
             }
         }
     })();

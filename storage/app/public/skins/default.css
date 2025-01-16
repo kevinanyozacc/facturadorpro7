@@ -1093,6 +1093,9 @@ body .v-modal {
 .tab-content-default{
     border-radius: 20px !important;
 }
+html.sidebar-light:not(.dark) .style-switcher {
+    background: #ffffff;
+}
 /************************************ tema morado ************************************/
 /* header */
 html.sidebar-blue .userbox.show .dropdown-menu a:hover {
@@ -1250,66 +1253,14 @@ html.sidebar-green .userbox.show .dropdown-menu a:hover {
 html.sidebar-green .header .logo-container .topbar-links:hover {
       background-color: #1ca55a;
       color: #fff;
-}
-/* panel izquierdo */
-html.sidebar-green ul.nav-main li .nav-children li a:after {
-    background: transparent;
-}
-html.sidebar-green ul.nav-main li.nav-active:not(.nav-parent) > a {
-    background: #1ca55a;
-    box-shadow: none;
-}
-html.fixed.sidebar-green ul.nav-main li.nav-expanded > a {
-    background-color: #1ca55a !important;
-    color: #fff !important;
-}
-html.fixed.sidebar-green .sidebar-left a:hover,
-html.fixed.sidebar-green .sidebar-left a:active,
-html.fixed.sidebar-green .sidebar-left a:focus,
-html.fixed.sidebar-green.dark .sidebar-left a:hover,
-html.fixed.sidebar-green.dark .sidebar-left a:active,
-html.fixed.sidebar-green.dark .sidebar-left a:focus {
-  color: #fff;
-  background-color: #1ca55a !important;
-}
-/* cajas de contenido */
-html.sidebar-green .card-header.bg-info {
-  background: #1ca55a !important;
-}
+} cajas de contenido */
 
 /************************************ tema rojo ************************************/
 /* header */
-html.sidebar-red .userbox.show .dropdown-menu a:hover {
-    background-color: #dc3545;
-}
-html.sidebar-red .header .logo-container .topbar-links:hover {
-    background-color: #dc3545;
-}
-/* panel izquierdo */
-html.sidebar-red ul.nav-main li.nav-active:not(.nav-parent) > a {
-    background: #dc3545;
-    box-shadow: none;
-}
-html.sidebar-red ul.nav-main li .nav-children li a:after {
-    background: transparent;
-}
-html.fixed.sidebar-red ul.nav-main li.nav-expanded > a {
-    background-color: #dc3545 !important;
-    color: #fff !important;
-}
-html.fixed.sidebar-red .sidebar-left a:hover,
-html.fixed.sidebar-red .sidebar-left a:active,
-html.fixed.sidebar-red .sidebar-left a:focus,
-html.fixed.sidebar-red.dark .sidebar-left a:hover,
-html.fixed.sidebar-red.dark .sidebar-left a:active,
-html.fixed.sidebar-red.dark .sidebar-left a:focus {
-  color: #fff;
-  background-color: #dc3545 !important;
-}
 /* panel derecho */
-.style-switcher,
-.style-switcher .style-switcher-open {
-  background-color: #f6f6f6 !important;
+html.dark .style-switcher,
+html.dark .style-switcher .style-switcher-open {
+  background-color: var(--contents-dark) !important;
   color: #777;
   border: none;
 }
@@ -2267,6 +2218,20 @@ html.dark .card-extras-header {
     background: var(--background-dark) !important;
 }
 html.dark .table-titles-default th{
-    background-color: #1a2844 !important;
+    background-color: var(--inputs-dark) !important;
+}
+html.dark ul.nav-main li.nav-expanded > a, html.dark ul.nav-main li .nav-children li a:hover {
+    color: var(--light-color) !important;
+}
+html.dark ul.nav-main li .nav-children li a:hover {
+    background-color: var(--background-dark) !important;
+}
+html.sidebar-dark .el-button--primary, html.sidebar-dark .btn-custom {
+    color: var(--light-color);
+    background-color: var(--button-second);
+    border-color: var(--borders-dark);
+}
+html.sidebar-dark .userbox.show .dropdown-menu a:hover {
+    background-color: var(--inputs-dark);
 }
 /* end */

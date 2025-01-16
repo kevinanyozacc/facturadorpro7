@@ -58,7 +58,7 @@
               </a>
               <!--<img :src="row.image_url_medium"  width="40" height="40" class="img-thumbail img-custom" /> -->
             </td>
-            <td>{{ row.name }}</td>
+            <td>{{ row.description }}</td>
             <td class="text-center">{{ row.sale_unit_price }}</td>
             <td class="text-center">{{ stock(row.warehouses) }}</td>
             <td>

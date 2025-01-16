@@ -34,7 +34,7 @@
                         <i class="fas fa-sun"></i> Modo Claro
                     </a>
                 </div>
-                <div class="pt-3 d-none">
+                <div class="pt-3">
                     <h5>Color de fondo del sidebar</h5>
                     <div class="form-group el-custom-control">
                         <button :class="{ 'active': visuals.sidebar_theme === 'white' }" type="button" @click="onChangeBgSidebar('white')" class="btn flex-fill" style="background-color: #ffffff;"></button>
@@ -52,7 +52,7 @@
                     <h5>Selecciona un color de tema:</h5>
                     <div class="color-selector">
                       <button v-for="(colors, theme) in themes" :key="theme" 
-                              :style="{ backgroundColor: colors['--color-visual'] }" 
+                              :style="{ backgroundColor: colors['--light2-color'] }" 
                               @click="applyTheme(theme)">
                       </button>
                     </div>
@@ -134,7 +134,6 @@
             return {
                 themes: {
                     white: {
-                        "--color-visual": "#0c7286",
                         "--primary-color": "#0c7286",
                         "--dark-color": "#001524",
                         "--light-color": "#eef5f5",
@@ -142,7 +141,6 @@
                         "--light3-color": "#75e4e4"
                     },
                     blue: {
-                        "--color-visual": "#7367f0",
                         "--primary-color": "#7367f0",
                         "--dark-color": "#1a1b4b",
                         "--light-color": "#e3e3ff",
@@ -150,7 +148,6 @@
                         "--light3-color": "#9090ff"
                     },
                     green: {
-                        "--color-visual": "#28c76f",
                         "--primary-color": "#28c76f",
                         "--dark-color": "#0a3d27",
                         "--light-color": "#d9f5e3",
@@ -158,7 +155,6 @@
                         "--light3-color": "#75c2a2"
                     },
                     red: {
-                        "--color-visual": "#ea5455",
                         "--primary-color": "#ea5455",
                         "--dark-color": "#520000",
                         "--light-color": "#fddddd",
@@ -166,12 +162,16 @@
                         "--light3-color": "#f37171"
                     },
                     retro: {
-                        "--color-visual": "#ece3ca",
-                        "--primary-color": "#2e282a",
+                        "--primary-color": "#1d1718",
                         "--dark-color": "#282425",
                         "--light-color": "#ece3ca",
                         "--light2-color": "#e4d8b4",
-                        "--light3-color": "#e0c881"
+                        "--light3-color": "#e0c881",
+                        "--background-dark": "#262122",
+                        "--contents-dark": "#2e282a",
+                        "--inputs-dark": "#474243",
+                        "--borders-dark": "#474243",
+                        "--button-second": "#352f31"
                     }
                 },
                 showWelcome: localStorage.getItem('show_welcome_panel') === 'true', 
@@ -209,16 +209,33 @@
             },
             applyTheme(theme) {
                 const colors = this.themes[theme];
-                Object.keys(colors).forEach(variable => {
-                    document.documentElement.style.setProperty(variable, colors[variable]);
-                });
-
-                if (theme === "retro") {
-                    document.documentElement.style.setProperty("--font-family", "'PT Mono', sans-serif");
-                } else {
-                    document.documentElement.style.setProperty("--font-family", "initial");
+                let styleTag = document.getElementById('theme-styles');
+        
+                // If the style tag does not exist, create it
+                if (!styleTag) {
+                    styleTag = document.createElement('style');
+                    styleTag.id = 'theme-styles';
+                    document.head.appendChild(styleTag);
                 }
-
+        
+                // Construct the CSS string
+                let cssString = ':root {';
+                Object.keys(colors).forEach(variable => {
+                    cssString += `${variable}: ${colors[variable]}; `;
+                });
+        
+                // Additional font family settings
+                if (theme === "retro") {
+                    cssString += "--font-family: 'PT Mono', sans-serif;";
+                } else {
+                    cssString += "--font-family: initial;";
+                }
+                cssString += '}';
+        
+                // Set the CSS string to the style tag
+                styleTag.innerHTML = cssString;
+        
+                // Save the theme in localStorage
                 localStorage.setItem('selectedTheme', theme);
             },
             onChangeBgSidebar(theme) {
@@ -316,10 +333,10 @@
     gap: 10px;
 }
 .color-selector button {
-    width: 40px;
-    height: 20px;
-    border: none;
-    border-radius: 10%;
+    width: 45px;
+    height: 22px;
+    border: 1px solid #262223;
+    border-radius: 6px;
     cursor: pointer;
     outline: none;
 }

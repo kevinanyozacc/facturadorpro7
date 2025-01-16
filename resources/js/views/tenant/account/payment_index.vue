@@ -11,10 +11,10 @@
           </template>
       </div>
     </div>
-    <div class="card">
-      <div class="card-header bg-info">
+    <div class="card tab-content-default row-new">
+      <!-- <div class="card-header bg-info">
         <h3 class="my-0">Listado de Pagos</h3>
-      </div>
+      </div> -->
       <div class="card-body">
         <div class="row">
           <div class="col"></div>
