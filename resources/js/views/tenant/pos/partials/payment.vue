@@ -778,7 +778,7 @@ export default {
                 } else {
 
                     // this.discount_amount = 0
-                    this.deleteDiscountGlobal()
+                    // this.deleteDiscountGlobal()
                     this.reCalculateTotal()
 
                 }
@@ -827,6 +827,7 @@ export default {
             // let factor = _.round(amount / base, 5)
 
             let discount = _.find(this.form.discounts, {'discount_type_id': this.globalDiscountTypeId})
+            let total = this.form.total
 
             if (input_global_discount > 0 && !discount)
             {
@@ -837,13 +838,13 @@ export default {
 
                 if (this.is_discount_amount)
                 {
-                    amount = input_global_discount
+                    amount = _.round(input_global_discount,2)
                     factor = _.round(amount / base, 5)
                 }
                 else
                 {
                     factor = _.round(input_global_discount / 100, 5)
-                    amount = factor * base
+                    amount = _.round(factor * base,2)
                 }
 
                 this.form.total_discount = _.round(amount, 2)
@@ -857,7 +858,7 @@ export default {
 
                     //impuestos (isc + igv + icbper)
                     this.form.total_taxes = _.round(this.form.total_igv + this.form.total_isc + this.form.total_plastic_bag_taxes, 2);
-                    this.form.total = _.round(this.form.total_taxed + this.form.total_taxes, 2)
+                    this.form.total = _.round(this.form.total_taxed + this.form.total_taxes, 1)
                     this.form.subtotal = this.form.total
 
                     if (this.form.total <= 0) this.$message.error("El total debe ser mayor a 0, verifique el tipo de descuento asignado (Configuración/Avanzado/Contable)")
@@ -871,6 +872,13 @@ export default {
                 }
 
                 this.setGlobalDiscount(factor, amount, base)
+                this.enter_amount = _.round(total - this.discount_amount,2)
+
+            } else {
+                
+                //Se restablece el valor
+                this.enter_amount = total  
+                this.deleteDiscountGlobal()
             }
 
 
@@ -986,8 +994,27 @@ export default {
 
             this.discountGlobal()
 
+            this.calculatePayments()
             this.setTotalPointsBySale(this.configuration)
 
+
+        },
+        calculatePayments() {
+            let payment_count = this.form.payments.length;
+            // let total = this.form.total;
+            let total = this.form.total
+
+            let payment = 0;
+            let amount = _.round(total / payment_count, 2);
+            // console.log(amount);
+            _.forEach(this.form.payments, row => {
+                payment += amount;
+                if (total - payment < 0) {
+                    amount = _.round(total - payment + amount, 2);
+                }
+                row.payment = amount;
+                // console.error(row.payment)
+            })
         },
         deleteDiscountGlobal() {
 
