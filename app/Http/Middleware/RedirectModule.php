@@ -83,6 +83,7 @@
                 $group = "documents";
             } ///* Module purchases  */
             elseif (
+                $firstLevel == "bank_loan" ||
                 $firstLevel == "purchases" ||
                 $firstLevel == "expenses") {
                 $group = "purchases";
@@ -204,9 +205,6 @@
             else if($this->existLevelInModules($firstLevel, ['items']))
             {
                 $group = 'items';
-            }
-            elseif ($firstLevel == "bank_loan") {
-                $group = "bank_loan";
             }elseif ($firstLevel == "dispatchers") {
                 $group = "dispatchers";
             }elseif ($firstLevel == "drivers") {
@@ -324,9 +322,6 @@
                     return redirect()->route('tenant.fullsuscription.client.index');
                 case 'full_suscription_app':
                     return redirect()->route('tenant.suscription.client.index');
-                
-                case 'bank_loan':
-                    return redirect()->route('tenant.bank_loan.index');
                 case 'dispatchers':
                     return redirect()->route('tenant.dispatchers.index');
                 case 'drivers':
