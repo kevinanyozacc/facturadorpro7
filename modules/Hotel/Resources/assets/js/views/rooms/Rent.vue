@@ -8,10 +8,10 @@
                 <li class="active"><span>RENTAR HABITACIÓN</span></li>
             </ol>
         </div>
-        <div class="card mb-0">
-            <div class="card-header bg-info">
+        <div class="card mb-0 tab-content-default row-new">
+            <!-- <div class="card-header bg-info">
                 <h3 class="my-0">RENTAR HABITACIÓN</h3>
-            </div>
+            </div> -->
             <div class="card-body">
                 <div class="card">
                     <div class="card-header">Datos de la habitación</div>
@@ -104,7 +104,7 @@
                                 class="form-group col-12 col-md-6"
                                 :class="{ 'has-danger': errors['customer.name'] }"
                             >
-                                <label>Nombres</label>
+                                <label class="control-label">Nombres</label>
                                 <el-input v-model="form.customer.name"></el-input>
                                 <small
                                     class="form-control-feedback"
@@ -116,7 +116,7 @@
                                 class="form-group col-12 col-md-6"
                                 :class="{ 'has-danger': errors['customer.address'] }"
                             >
-                                <label>Dirección</label>
+                                <label class="control-label">Dirección</label>
                                 <el-input v-model="form.customer.address"></el-input>
                                 <small
                                     class="form-control-feedback"
@@ -128,7 +128,7 @@
                                 class="form-group col-12 col-md-10"
                                 :class="{ 'has-danger': errors.notes }"
                             >
-                                <label for="notes">Notas</label>
+                                <label class="control-label" for="notes">Notas</label>
                                 <el-input v-model="form.notes"></el-input>
                                 <small
                                     class="form-control-feedback"
@@ -140,7 +140,7 @@
                                 class="form-group col-12 col-md-2"
                                 :class="{ 'has-danger': errors.towels }"
                             >
-                                <label for="notes">Toallas</label>
+                                <label class="control-label" for="notes">Toallas</label>
                                 <el-input v-model="form.towels" type="number"></el-input>
                                 <small
                                     class="form-control-feedback"
@@ -160,7 +160,7 @@
                                 class="col-12 col-md-3 form-group"
                                 :class="{ 'has-danger': errors.hotel_rate_id }"
                             >
-                                <label for="rate">Tarifa</label>
+                                <label class="control-label" for="rate">Tarifa</label>
                                 <el-select
                                     v-model="form.hotel_rate_id"
                                     @change="onSelectedRate"
@@ -184,7 +184,7 @@
                                 class="col-12 col-md-3 form-group"
                                 :class="{ 'has-danger': errors.affectation_igv_type_id }"
                             >
-                                <label for="rate">Tipo de afectación</label>
+                                <label class="control-label" for="rate">Tipo de afectación</label>
 
                                 <el-select
                                     v-model="form.affectation_igv_type_id"
@@ -210,7 +210,7 @@
                                 :class="{ 'has-danger': errors.rate_price }"
                                 v-if="rate"
                             >
-                                <label for="rate">Precio</label>
+                                <label class="control-label" for="rate">Precio</label>
                                 <el-input-number
                                     v-model="form.rate_price"
                                     controls-position="right"
@@ -230,7 +230,7 @@
                                 :class="{ 'has-danger': errors.duration }"
                                 v-if="rate"
                             >
-                                <label for="rate">Cant. noches</label>
+                                <label class="control-label" for="rate">Cant. noches</label>
                                 <el-input-number
                                     v-model="form.duration"
                                     controls-position="right"
@@ -254,7 +254,7 @@
                                 class="col-6 col-md-3 form-group"
                                 :class="{ 'has-danger': errors.quantity_persons }"
                             >
-                                <label>Cant. de personas</label>
+                                <label class="control-label">Cant. de personas</label>
                                 <el-select v-model="form.quantity_persons">
                                     <el-option value="1" label="1"></el-option>
                                     <el-option value="2" label="2"></el-option>
@@ -273,7 +273,7 @@
                                 class="col-6 col-md-3 form-group"
                                 :class="{ 'has-danger': errors.payment_status }"
                             >
-                                <label>Estado de pago</label>
+                                <label class="control-label">Estado de pago</label>
                                 <el-select
                                     v-model="form.payment_status"
                                     @change="onChangeStatusPayment"
@@ -291,7 +291,7 @@
                                 class="col-6 col-md-3 form-group"
                                 :class="{ 'has-danger': errors.output_date }"
                             >
-                                <label>Fecha de salida</label>
+                                <label class="control-label">Fecha de salida</label>
                                 <el-date-picker
                                     v-model="form.output_date"
                                     type="date"
@@ -308,7 +308,7 @@
                                 class="col-6 col-md-3 form-group"
                                 :class="{ 'has-danger': errors.output_time }"
                             >
-                                <label>Hora de salida</label>
+                                <label class="control-label">Hora de salida</label>
                                 <el-input v-model="form.output_time" placeholder="HH:MM">
                                 </el-input>
                                 <small
@@ -325,7 +325,7 @@
                                     class="col-12 col-md-4 form-group"
                                     :class="{ 'has-danger': errors['rent_payment.payment_method_type_id'] }"
                                 >
-                                    <label for="rate">Método de pago</label>
+                                    <label class="control-label" for="rate">Método de pago</label>
 
                                     <el-select
                                         v-model="form.rent_payment.payment_method_type_id"
@@ -350,7 +350,7 @@
                                     class="col-12 col-md-4 form-group"
                                     :class="{ 'has-danger': errors['rent_payment.payment_destination_id'] }"
                                 >
-                                    <label for="rate">Destino</label>
+                                    <label class="control-label" for="rate">Destino</label>
 
                                     <el-select
                                         v-model="form.rent_payment.payment_destination_id"
@@ -374,7 +374,7 @@
                                 <div
                                     class="col-12 col-md-4 form-group"
                                 >
-                                    <label for="rate">Referencia</label>
+                                    <label class="control-label" for="rate">Referencia</label>
 
                                     <el-input
                                         v-model="form.rent_payment.reference"
@@ -392,7 +392,7 @@
                             >Guardar
                             </el-button
                             >
-                            <el-button @click="onToBackPage">Cancelar</el-button>
+                            <el-button class="second-buton" @click="onToBackPage">Cancelar</el-button>
                         </div>
                     </div>
                 </div>

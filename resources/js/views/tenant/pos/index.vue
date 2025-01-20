@@ -1688,6 +1688,11 @@ export default {
                 return;
             }
 
+            let error_quantity = this.form.items.some(item => item.quantity < 1);
+                if(error_quantity) {
+                    return this.$message.error('Los productos deben tener cantidades mayor a 0');
+                }
+
             this.loading = true;
             let exchangeRateSale = this.form.exchange_rate_sale;
             let presentation = item.presentation

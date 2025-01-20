@@ -34,7 +34,7 @@
                         <i class="fas fa-sun"></i> Modo Claro
                     </a>
                 </div>
-                <div class="pt-3 d-none">
+                <div class="pt-3">
                     <h5>Color de fondo del sidebar</h5>
                     <div class="form-group el-custom-control">
                         <button :class="{ 'active': visuals.sidebar_theme === 'white' }" type="button" @click="onChangeBgSidebar('white')" class="btn flex-fill" style="background-color: #ffffff;"></button>
@@ -51,10 +51,31 @@
                 <div class="mt-3">
                     <h5>Selecciona un color de tema:</h5>
                     <div class="color-selector">
-                      <button v-for="(colors, theme) in themes" :key="theme" 
-                              :style="{ backgroundColor: colors['--color-visual'] }" 
-                              @click="applyTheme(theme)">
-                      </button>
+                        <button type="button" 
+                                class="btn-theme-white"
+                                @click="applyTheme('white')"
+                                style="background-color: #26a2ba;">
+                        </button>
+                        <button type="button" 
+                                class="btn-theme-acid"
+                                @click="applyTheme('acid')"
+                                style="background-color: #3e1baf;">
+                        </button>
+                        <button type="button" 
+                                class="btn-theme-cupcake"
+                                @click="applyTheme('cupcake')"
+                                style="background-color: #1e0b29;">
+                        </button>
+                        <button type="button" 
+                                class="btn-theme-retro"
+                                @click="applyTheme('retro')"
+                                style="background-color: #c8ae78;">
+                        </button>
+                        <button type="button" 
+                                class="btn-theme-lemonade"
+                                @click="applyTheme('lemonade')"
+                                style="background-color: #527852;">
+                        </button>
                     </div>
                 </div>
 
@@ -134,44 +155,65 @@
             return {
                 themes: {
                     white: {
-                        "--color-visual": "#0c7286",
                         "--primary-color": "#0c7286",
                         "--dark-color": "#001524",
                         "--light-color": "#eef5f5",
-                        "--light2-color": "#d5e8e8",
-                        "--light3-color": "#75e4e4"
+                        "--accent-color": "#d5e8e8",
+                        "--highlight-color": "#75e4e4",
+                        "--background-dark": "#12192d",
+                        "--contents-dark": "#16223a",
+                        "--inputs-dark": "#383f53",
+                        "--borders-dark": "#2d394c",
+                        "--button-second": "#283046"
+                        
                     },
-                    blue: {
-                        "--color-visual": "#7367f0",
-                        "--primary-color": "#7367f0",
-                        "--dark-color": "#1a1b4b",
-                        "--light-color": "#e3e3ff",
-                        "--light2-color": "#c0c0ff",
-                        "--light3-color": "#9090ff"
+                    acid: {
+                        "--primary-color": "#2a117a",
+                        "--dark-color": "#0d0721",
+                        "--light-color": "#fafafa",
+                        "--accent-color": "#f0ebf9",
+                        "--highlight-color": "#6e648e",
+                        "--background-dark": "#1a103d",
+                        "--contents-dark": "#221551",
+                        "--inputs-dark": "#432f89",
+                        "--borders-dark": "#352766",
+                        "--button-second": "#5740a9"
                     },
-                    green: {
-                        "--color-visual": "#28c76f",
-                        "--primary-color": "#28c76f",
-                        "--dark-color": "#0a3d27",
-                        "--light-color": "#d9f5e3",
-                        "--light2-color": "#a8e6cb",
-                        "--light3-color": "#75c2a2"
-                    },
-                    red: {
-                        "--color-visual": "#ea5455",
-                        "--primary-color": "#ea5455",
-                        "--dark-color": "#520000",
-                        "--light-color": "#fddddd",
-                        "--light2-color": "#f8a6a6",
-                        "--light3-color": "#f37171"
+                    cupcake: {
+                        "--primary-color": "#051712",
+                        "--dark-color": "#180c1f",
+                        "--light-color": "#faf7f5",
+                        "--accent-color": "#e8e1ec",
+                        "--highlight-color": "#7b9e8b",
+                        "--background-dark": "#121c22",
+                        "--contents-dark": "#1b262c",
+                        "--inputs-dark": "#1a2c37",
+                        "--borders-dark": "#2c3842",
+                        "--button-second": "#1b262c"
                     },
                     retro: {
-                        "--color-visual": "#ece3ca",
-                        "--primary-color": "#2e282a",
+                        "--primary-color": "#1b1517",
                         "--dark-color": "#282425",
-                        "--light-color": "#ece3ca",
-                        "--light2-color": "#e4d8b4",
-                        "--light3-color": "#e0c881"
+                        "--light-color": "#fffaed",
+                        "--accent-color": "#fff2cd",
+                        "--highlight-color": "#e0c881",
+                        "--background-dark": "#20161f",
+                        "--contents-dark": "#2a2129",
+                        "--inputs-dark": "#302930",
+                        "--borders-dark": "#251e24",
+                        "--button-second": "#332931"
+                    },
+                    lemonade: {
+                        "--primary-color": "#343300",
+                        "--dark-color": "#1d1c01",
+                        "--light-color": "#f8fdef",
+                        "--accent-color": "#d1dcbd",
+                        "--highlight-color": "#899a6b",
+                        "--background-dark": "#171212",
+                        "--contents-dark": "#231e1e",
+                        "--inputs-dark": "#272323",
+                        "--borders-dark": "#322d2d",
+                        "--button-second": "#140f0f"
                     }
                 },
                 showWelcome: localStorage.getItem('show_welcome_panel') === 'true', 
@@ -209,15 +251,27 @@
             },
             applyTheme(theme) {
                 const colors = this.themes[theme];
+                let styleTag = document.getElementById('theme-styles');
+
+                if (!styleTag) {
+                    styleTag = document.createElement('style');
+                    styleTag.id = 'theme-styles';
+                    document.head.appendChild(styleTag);
+                }
+
+                let cssString = ':root {';
                 Object.keys(colors).forEach(variable => {
-                    document.documentElement.style.setProperty(variable, colors[variable]);
+                    cssString += `${variable}: ${colors[variable]}; `;
                 });
 
                 if (theme === "retro") {
-                    document.documentElement.style.setProperty("--font-family", "'PT Mono', sans-serif");
+                    cssString += "--font-family: 'PT Mono', sans-serif;";
                 } else {
-                    document.documentElement.style.setProperty("--font-family", "initial");
+                    cssString += "--font-family: initial;";
                 }
+                cssString += '}';
+
+                styleTag.innerHTML = cssString;
 
                 localStorage.setItem('selectedTheme', theme);
             },
@@ -316,10 +370,10 @@
     gap: 10px;
 }
 .color-selector button {
-    width: 40px;
-    height: 20px;
+    width: 48px;
+    height: 25px;
     border: none;
-    border-radius: 10%;
+    border-radius: 6px;
     cursor: pointer;
     outline: none;
 }

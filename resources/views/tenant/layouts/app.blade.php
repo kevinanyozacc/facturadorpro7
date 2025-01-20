@@ -118,52 +118,78 @@
         const savedTheme = localStorage.getItem('selectedTheme');
         if (savedTheme) {
             const themes = {
-                white: { 
-                    "--color-visual": "#0c7286",
+                white: {
                     "--primary-color": "#0c7286",
                     "--dark-color": "#001524",
                     "--light-color": "#eef5f5",
-                    "--light2-color": "#d5e8e8",
-                    "--light3-color": "#75e4e4"
+                    "--accent-color": "#d5e8e8",
+                    "--highlight-color": "#77a0a0",
+                    "--background-dark": "#12192d",
+                    "--contents-dark": "#16223a",
+                    "--inputs-dark": "#383f53",
+                    "--borders-dark": "#2d394c",
+                    "--button-second": "#283046"
                 },
-                blue: {
-                    "--color-visual": "#7367f0",
-                    "--primary-color": "#7367f0",
-                    "--dark-color": "#1a1b4b",
-                    "--light-color": "#e3e3ff",
-                    "--light2-color": "#c0c0ff",
-                    "--light3-color": "#9090ff"
+                acid: {
+                    "--primary-color": "#2a117a",
+                    "--dark-color": "#0d0721",
+                    "--light-color": "#fafafa",
+                    "--accent-color": "#ded2f0",
+                    "--highlight-color": "#6e648e",
+                    "--background-dark": "#1a103d",
+                    "--contents-dark": "#221551",
+                    "--inputs-dark": "#432f89",
+                    "--borders-dark": "#352766",
+                    "--button-second": "5740a9"
                 },
-                green: {
-                    "--color-visual": "#28c76f",
-                    "--primary-color": "#28c76f",
-                    "--dark-color": "#0a3d27",
-                    "--light-color": "#d9f5e3",
-                    "--light2-color": "#a8e6cb",
-                    "--light3-color": "#75c2a2"
-                },
-                red: {
-                    "--color-visual": "#ea5455",
-                    "--primary-color": "#ea5455",
-                    "--dark-color": "#520000",
-                    "--light-color": "#fddddd",
-                    "--light2-color": "#f8a6a6",
-                    "--light3-color": "#f37171"
+                cupcake: {
+                    "--primary-color": "#051712",
+                    "--dark-color": "#180c1f",
+                    "--light-color": "#faf7f5",
+                    "--accent-color": "#e8e1ec",
+                    "--highlight-color": "#7b9e8b",
+                    "--background-dark": "#121c22",
+                    "--contents-dark": "#1b262c",
+                    "--inputs-dark": "#1a2c37",
+                    "--borders-dark": "#2c3842",
+                    "--button-second": "#1b262c"
                 },
                 retro: {
-                    "--color-visual": "#ece3ca",
-                    "--primary-color": "#2e282a",
+                    "--primary-color": "#1b1517",
                     "--dark-color": "#282425",
-                    "--light-color": "#ece3ca",
-                    "--light2-color": "#e4d8b4",
-                    "--light3-color": "#e0c881"
+                    "--light-color": "#fffaed",
+                    "--accent-color": "#fff2cd",
+                    "--highlight-color": "#e0c881",
+                    "--background-dark": "#20161f",
+                    "--contents-dark": "#2a2129",
+                    "--inputs-dark": "#302930",
+                    "--borders-dark": "#251e24",
+                    "--button-second": "#332931"
+                },
+                lemonade: {
+                    "--primary-color": "#343300",
+                    "--dark-color": "#1d1c01",
+                    "--light-color": "#f8fdef",
+                    "--accent-color": "#d1dcbd",
+                    "--highlight-color": "#899a6b",
+                    "--background-dark": "#171212",
+                    "--contents-dark": "#231e1e",
+                    "--inputs-dark": "#272323",
+                    "--borders-dark": "#322d2d",
+                    "--button-second": "#140f0f"
                 }
             };
 
             if (themes[savedTheme]) {
+                const styleElement = document.createElement('style');
+                let cssVariables = '';
+
                 Object.keys(themes[savedTheme]).forEach(variable => {
-                    document.documentElement.style.setProperty(variable, themes[savedTheme][variable]);
+                    cssVariables += `${variable}: ${themes[savedTheme][variable]};\n`;
                 });
+
+                styleElement.innerHTML = `:root { ${cssVariables} }`;
+                document.head.appendChild(styleElement);
             }
         }
     })();
