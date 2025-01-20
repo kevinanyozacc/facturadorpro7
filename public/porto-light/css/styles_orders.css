@@ -137,6 +137,7 @@ ul.menu.sf-arrows.sf-js-enabled li a {
 input#email::placeholder,
 input#pwd::placeholder,
 input#name_reg::placeholder,
+input#ruc_reg::placeholder,
 input#email_reg::placeholder,
 input#pwd_reg::placeholder,
 input#pwd_repeat_reg::placeholder,

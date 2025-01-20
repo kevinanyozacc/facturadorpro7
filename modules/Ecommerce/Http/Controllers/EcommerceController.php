@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Validator;
 use Modules\Inventory\Models\InventoryConfiguration;
 use App\Http\Resources\Tenant\OrderCollection;
 use App\Models\Tenant\Promotion;
+use Modules\ApiPeruDev\Data\ServiceData;
 
 
 class EcommerceController extends Controller
@@ -120,8 +121,8 @@ class EcommerceController extends Controller
         $configuration = ConfigurationEcommerce::first();
 
         $history_records = [];
-        if (auth()->user()) {
-            $email_user = auth()->user()->email;
+        if (auth('ecommerce')->user()) {
+            $email_user = auth('ecommerce')->user()->email;
             $history_records = Order::where('customer', 'LIKE', '%'.$email_user.'%')
                     ->get()
                     ->transform(function($row) {
@@ -145,7 +146,8 @@ class EcommerceController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
-        if (Auth::attempt($credentials)) {
+
+        if (Auth::guard('ecommerce')->attempt($credentials)) {
            return[
                'success' => true,
                'message' => 'Login Success'
@@ -162,7 +164,7 @@ class EcommerceController extends Controller
 
     public function logout()
     {
-        Auth::logout();
+        Auth::guard('ecommerce')->logout();
         return[
             'success' => true,
             'message' => 'Logout Success'
@@ -173,7 +175,21 @@ class EcommerceController extends Controller
     {
         try{
 
-            $verify = User::where('email', $request->email)->first();
+            $validator = Validator::make($request->all(), [
+                'email' => 'required|email',
+                'ruc' => 'required|string|min:8|max:11',
+                'name' => 'nullable|string|max:255',
+                'pswd' => 'required|string|min:6',
+            ]);
+
+            if ($validator->fails()) {
+                return [
+                    'success' => false,
+                    'message' => $validator->errors()->first()
+                ];
+            }
+
+            $verify = Person::where('email', $request->email)->first();
             if($verify)
             {
                 return [
@@ -182,22 +198,55 @@ class EcommerceController extends Controller
                 ];
             }
 
-            $user = new User();
-            $user->name = $request->name;
-            $user->email = $request->email;
-            $user->establishment_id = 1;
-            $user->type = 'client';
-            $user->api_token = str_random(50);
-            $user->password = bcrypt($request->pswd);
-            $user->save();
-            $user->modules()->sync([10]);
+            $type = (strlen($request->ruc)==8) ? 'dni' : 'ruc';
+            $name = $request->name;
+            $identity_document_type_id = (strlen($request->ruc)==8) ? 1 : 6;
+            $address = null;
+            $department_id = null;
+            $province_id = null;
+            $district_id = null;
 
-            $credentials = [ 'email' => $user->email, 'password' => $request->pswd ];
-            Auth::attempt($credentials);
+            $dataDocument = $this->searchDocument($type,$request->ruc);
+
+
+            if($dataDocument["success"]){
+                $name = $dataDocument["data"]["name"];
+                if($type==='ruc'){
+                    $address = $dataDocument['data']['address'];
+                    $departmentId = $dataDocument['data']['location_id'][0] ?? null;
+                    $provinceId = $dataDocument['data']['location_id'][1] ?? null;
+                    $districtId = $dataDocument['data']['location_id'][2] ?? null;
+                }
+            }
+            
+            if(!($dataDocument["success"]) && $type==='dni'){
+                $identity_document_type_id = 0;
+            }
+            
+            $person = new Person();
+            $person->type = 'customers';
+            $person->identity_document_type_id = $identity_document_type_id;
+            $person->number = $request->ruc;
+            $person->name = $name;
+            $person->country_id = 'PE';
+            $person->nationality_id = 'PE';
+            $person->department_id = $department_id;
+            $person->province_id = $province_id;
+            $person->district_id = $district_id;
+            $person->address = $address;
+            $person->establishment_code = '0000';
+            $person->email = $request->email;
+            $person->password = bcrypt($request->pswd);
+            
+            $person->save();
+
+            $credentials = [ 'email' => $person->email, 'password' => $request->pswd ];
+            Auth::guard('ecommerce')->attempt($credentials);
             return [
                 'success' => true,
                 'message' => 'Usuario registrado'
             ];
+
         }catch(Exception $e)
         {
             return [
@@ -211,14 +260,12 @@ class EcommerceController extends Controller
     public function transactionFinally(Request $request)
     {
         try{
-            $user = auth()->user();
-            //1. confirmar dato de compriante en order
+            //1. confirmar dato de comprobante en order
             $order_generated = Order::find($request->orderId);
             $order_generated->document_external_id = $request->document_external_id;
             $order_generated->number_document = $request->number_document;
             $order_generated->save();
 
-            $user->update(['identity_document_type_id' => $request->identity_document_type_id, 'number'=>$request->number]);
             return [
                 'success' => true,
                 'message' => 'Order Actualizada',
@@ -237,6 +284,7 @@ class EcommerceController extends Controller
 
     public function paymentCash(Request $request)
     {
+        
         $validator = Validator::make($request->customer, [
             'telefono' => 'required|numeric',
             'direccion' => 'required',
@@ -249,7 +297,27 @@ class EcommerceController extends Controller
             return response()->json($validator->errors(), 422);
         } else {
             try {
-                $user = auth()->user();
+                $type = ($request->purchase["datos_del_cliente_o_receptor"]["codigo_tipo_documento_identidad"]=='6')?'ruc':'dni';
+                $document_number = $request->purchase["datos_del_cliente_o_receptor"]["numero_documento"];
+                
+                $dataDocument = $this->searchDocument($type,$document_number);
+                if ($dataDocument["success"]) {
+                    $clientData = [ "apellidos_y_nombres_o_razon_social" => $dataDocument["data"]["name"] ];
+                    if ($type === 'ruc') {
+                        $clientData["direccion"] = $dataDocument['data']['address'];
+                        $clientData["ubigeo"] = $dataDocument['data']['location_id'][2] ?? null;
+                    }
+                    $request->merge([
+                        'purchase' => array_merge($request->purchase, [
+                            "datos_del_cliente_o_receptor" => array_merge(
+                                $request->purchase["datos_del_cliente_o_receptor"],
+                                $clientData
+                            )
+                        ])
+                    ]);
+                }
+
+                $user = auth('ecommerce')->user();
                 $order = Order::create([
                 'external_id' => Str::uuid()->toString(),
                 'customer' =>  $request->customer,
@@ -315,9 +383,9 @@ class EcommerceController extends Controller
 
     public function ratingItem(Request $request)
     {
-        if(auth()->user())
+        if(auth('ecommerce')->user())
         {
-            $user_id = auth()->id();
+            $user_id = auth('ecommerce')->id();
             $row = ItemsRating::firstOrNew( ['user_id' => $user_id, 'item_id' => $request->item_id ] );
             $row->value = $request->value;
             $row->save();
@@ -335,9 +403,9 @@ class EcommerceController extends Controller
 
     public function getRating($id)
     {
-        if(auth()->user())
+        if(auth('ecommerce')->user())
         {
-            $user_id = auth()->id();
+            $user_id = auth('ecommerce')->id();
             $row = ItemsRating::where('user_id', $user_id)->where('item_id', $id)->first();
             return[
                 'success' => true,
@@ -364,7 +432,7 @@ class EcommerceController extends Controller
 
     public function saveDataUser(Request $request)
     {
-        $user = auth()->user();
+        $user = auth('ecommerce')->user();
         if ($request->address) {
             $user->address = $request->address;
         }
@@ -376,6 +444,11 @@ class EcommerceController extends Controller
 
         return ['success' => true];
 
+    }
+
+    public function searchDocument($type, $number)
+    {
+        return (new ServiceData)->service($type, $number);
     }
 
 

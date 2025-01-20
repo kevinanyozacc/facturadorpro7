@@ -657,60 +657,44 @@
                                     </el-select>
                                 </div>
                             </div>
-
-                            <div class="col-md-4">
-                                <!-- <div :class="{'has-danger': errors.zone_id}"
-                                     class="form-group">
-                                    <label class="control-label">
-                                        Zona
-                                        <a v-if="form_zone.add == false"
-                                            class="control-label font-weight-bold text-info"
-                                            href="#"
-                                            @click="form_zone.add = true"> [ + Nuevo]</a>
-                                        <a v-if="form_zone.add == true"
-                                            class="control-label font-weight-bold text-info"
-                                            href="#"
-                                            @click="saveZone()"> [ + Guardar]</a>
-                                        <a v-if="form_zone.add == true"
-                                            class="control-label font-weight-bold text-danger"
-                                            href="#"
-                                       @click="form_zone.add = false"> [ Cancelar]</a>
+                            <div v-if="type === 'customers'" class="col-md-4">
+                                <div :class="{ 'has-danger': errors.password }" class="form-group">
+                                    <label class="control-label">Contraseña
+                                        <el-tooltip class="item" effect="dark" placement="top-start" v-if="config_regex_password_user">
+                                            <i class="fa fa-info-circle"></i>
+                                            <div slot="content">
+                                                <strong>FORMATO DE CONTRASEÑA</strong><br/><br/>
+                                                La contraseña debe contener al menos una letra minúscula.<br/>
+                                                La contraseña debe contener al menos una letra mayúscula.<br/>
+                                                La contraseña debe contener al menos un dígito.<br/>
+                                                La contraseña debe contener al menos un carácter especial [@.$!%*#?&-].<br/>
+                                            </div>
+                                        </el-tooltip>
                                     </label>
-                                    <el-input v-if="form_zone.add == true"
-                                              v-model="form_zone.name"
-                                              dusk="item_code"
-                                              style="margin-bottom:1.5%;"></el-input>
-
-                                    <el-select v-if="form_zone.add == false"
-                                               v-model="form.zone_id"
-                                               clearable
-                                               filterable>
-                                        <el-option v-for="option in zones"
-                                                   :key="option.id"
-                                                   :label="option.name"
-                                                   :value="option.id"></el-option>
-                                    </el-select>
-                                    <small v-if="errors.zone_id"
-                                           class="form-control-feedback"
-                                           v-text="errors.zone_id[0]"></small>
-                                </div> -->
-                            </div>
-
-
-                            <!--Zona -->
-                            <!--
-                            <div class="col-md-6">
-                                <div :class="{'has-danger': errors.zone }"
-                                     class="form-group">
-                                    <label class="control-label">Zona</label>
-                                    <el-input v-model="form.zone"></el-input>
-                                    <small v-if="errors.zone"
-                                           class="form-control-feedback"
-                                           v-text="errors.zone[0]"></small>
+                                    <el-input v-model="form.password" show-password></el-input>
+                                    <small
+                                        v-if="errors.password"
+                                        class="form-control-feedback"
+                                        v-text="errors.password[0]"
+                                    ></small>
                                 </div>
                             </div>
-                            -->
+                            <div v-if="type === 'customers'" class="col-md-4">
+                                <div
+                                    :class="{ 'has-danger': errors.password_confirmation }"
+                                    class="form-group"
+                                >
+                                    <label class="control-label">Confirmar Contraseña</label>
+                                    <el-input v-model="form.password_confirmation" show-password></el-input>
+                                    <small
+                                        v-if="errors.password_confirmation"
+                                        class="form-control-feedback"
+                                        v-text="errors.password_confirmation[0]"
+                                    ></small>
+                                </div>
+                            </div>
                         </div>
+                        
                     </el-tab-pane>
                 </el-tabs>
             </div>
@@ -770,7 +754,8 @@ export default {
             person_types: [],
             identity_document_types: [],
             discount_types: [],
-            activeName: 'first'
+            activeName: 'first',
+            config_regex_password_user: false,
         }
     },
     async created() {
@@ -834,9 +819,8 @@ export default {
                 country_id: 'PE',
                 nationality_id: 'PE',
                 location_id: [],
-                // department_id: null,
-                // province_id: null,
-                // district_id: null,
+                password: null,
+                password_confirmation: null,
                 address: null,
                 telephone: null,
                 condition: null,

@@ -23,6 +23,8 @@
     use App\Models\Tenant\Configuration;
     use Modules\FullSuscription\Models\Tenant\FullSuscriptionServerDatum;
     use Modules\FullSuscription\Models\Tenant\FullSuscriptionUserDatum;
+    use Illuminate\Foundation\Auth\User as Authenticatable;
+    use Illuminate\Notifications\Notifiable;
 
     /**
      * App\Models\Tenant\Person
@@ -97,9 +99,11 @@
      * @mixin ModelTenant
      * @mixin Eloquent
      */
-    class Person extends ModelTenant
+    class Person extends Authenticatable
     {
-        use UsesTenantConnection;
+        use Notifiable, UsesTenantConnection;
+
+        protected $guard = 'ecommerce';
 
         protected $table = 'persons';
 
@@ -128,6 +132,7 @@
             'condition',
             'state',
             'email',
+            'password',
             'telephone',
             'perception_agent',
             'person_type_id',

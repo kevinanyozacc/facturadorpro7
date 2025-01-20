@@ -116,6 +116,10 @@ class PersonController extends Controller
             $person->department_id = $location_id[0];
         }
 
+        if($request->password && $request->email ){
+            $person->password = bcrypt($request->password);
+        }
+
         $person->save();
 
         $person->addresses()->delete();
