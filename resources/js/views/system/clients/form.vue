@@ -412,7 +412,7 @@
                             <div class="col-md-3">
                                 <div :class="{'has-danger': errors.certificate}"
                                      class="form-group">
-                                    <label class="control-label">
+                                    <label>
                                         Certificado pfx
                                     </label>
                                     <el-upload
@@ -583,6 +583,7 @@
             </div>
             <div class="form-actions text-right pt-2">
                 <el-button
+                    class="second-buton"
                     @click.prevent="close()">
                     Cancelar
                 </el-button>

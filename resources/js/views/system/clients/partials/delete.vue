@@ -24,7 +24,7 @@
             </div> 
             
             <div class="form-actions text-right mt-3">
-                <el-button @click.prevent="close()">Cancelar</el-button>
+                <el-button class="second-buton" @click.prevent="close()">Cancelar</el-button>
 
                 <template v-if="is_available_delete">
                     <el-button :loading="loading_submit"

@@ -28,7 +28,7 @@
                         </div>
 
                         <div class="row px-4 mt-2 pb-3">
-                            <div class="col-2 font-weight-bold text-primary">{{ year }}</div>
+                            <div class="col-2 font-weight-bold text-primary-new">{{ year }}</div>
                             <div class="col-10 font-weight-semibold text-right">Comprobantes generados por mes</div>
                         </div>
                     </div>
@@ -219,7 +219,7 @@
                 <div class="row">
                     <div class="col">
                         <button
-                            class="btn btn-custom btn-sm mt-2 mr-2 mb-3"
+                            class="btn btn-custom btn-sm mt-2 mr-2 mb-3 primary-buton"
                             type="button"
                             @click.prevent="clickCreate()"
                         >
@@ -597,7 +597,9 @@
                         :showDialog.sync="showDemoConfiguration"></demo-configuration>
     </div>
 </template>
+<style>
 
+</style>
 <script>
 import CompaniesForm from "./form.vue";
 //   import CompaniesFormEdit from './form_edit.vue'

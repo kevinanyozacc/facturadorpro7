@@ -54,7 +54,7 @@
                 
             </div>
             <div class="form-actions text-right mt-4">
-                <el-button @click.prevent="close()">Cancelar</el-button>
+                <el-button class="second-buton" @click.prevent="close()">Cancelar</el-button>
                 <el-button :loading="loading_submit"
                            native-type="submit"
                            type="primary">Agregar
