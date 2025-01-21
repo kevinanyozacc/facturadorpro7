@@ -184,6 +184,11 @@
                                         placeholder="Enter name" name="name">
                                 </div>
                                 <div class="form-group">
+                                    <label for="ruc">RUC/DNI:</label>
+                                    <input type="text" required autocomplete="off" maxlength="11" class="form-control" id="ruc_reg"
+                                        placeholder="Ingrese ruc/dni" name="ruc">
+                                </div>
+                                <div class="form-group">
                                     <label for="email">Correo Electronico:</label>
                                     <input type="email" required autocomplete="off" class="form-control" id="email_reg"
                                         placeholder="Enter email" name="email">
@@ -242,7 +247,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </script>
 @push('scripts')
-<!-- <script type="text/javascript" src="{{ asset('porto-ecommerce/assets/js/cart.js') }}"></script> -->
+<script type="text/javascript" src="{{ asset('porto-ecommerce/assets/js/cart.js') }}"></script>
 <script type="text/javascript">
     
 

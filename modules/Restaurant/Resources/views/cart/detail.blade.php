@@ -44,7 +44,7 @@
                     <tr>
                         <td colspan="4" class="clearfix">
                             <div class="float-left">
-                                <a href="/ecommerce" class="btn btn-outline-secondary">Continuar Comprando</a>
+                                <a href="/pedidos" class="btn btn-outline-secondary">Continuar Comprando</a>
                             </div><!-- End .float-left -->
 
                             <div class="float-right">
@@ -173,7 +173,7 @@
 
             <div class="checkout-methods text-center">
 
-                @guest
+                @guest('ecommerce')
                 <a href="{{route('tenant_ecommerce_login')}}" class="btn btn-block btn-sm btn-primary login-link culqi">Pagar
                     con VISA</a>
                 <a href="{{route('tenant_ecommerce_login')}}" class="btn btn-block btn-sm btn-primary login-link">Pagar
@@ -183,7 +183,7 @@
                     <img src="{{ asset('porto-ecommerce/assets/images/btn_buynowCC_LG.gif') }}" alt="">
                 </a>
 
-                @else
+                @elseauth('ecommerce')
                 <button class="btn btn-block btn-sm btn-primary culqi" onclick="execCulqi()"> Pagar con VISA </button>
 
                 <button @click="payment_cash.clicked = !payment_cash.clicked" class="btn btn-block btn-sm btn-primary">
@@ -208,7 +208,7 @@
                 @endif
 
 
-                @endguest
+                @endauth
 
             </div><!-- End .checkout-methods -->
         </div><!-- End .cart-summary -->
@@ -587,7 +587,7 @@
             },
             initForm() {
               this.errors = {}
-                this.user = JSON.parse('{!! json_encode( Auth::user() ) !!}')
+                this.user = JSON.parse('{!! json_encode( Auth::guard("ecommerce")->user() ) !!}')
                 if(!this.user){
                     return false
                 }
@@ -834,7 +834,7 @@
     };
 
     function getCustomer() {
-        let user = JSON.parse('{!! json_encode( Auth::user() ) !!}')
+        let user = JSON.parse('{!! json_encode( Auth::guard("ecommerce")->user() ) !!}')
         return {
             "codigo_tipo_documento_identidad": "0",
             "numero_documento": "0",

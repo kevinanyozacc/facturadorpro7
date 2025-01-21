@@ -98,6 +98,7 @@ function calculateTotalCart()
 
 function logout()
 {
+	console.log("register logout")
 	$.ajax({
 		url: "/ecommerce/logout",
 		method: 'get',

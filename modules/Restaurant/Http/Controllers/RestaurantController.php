@@ -21,6 +21,8 @@ use App\Http\Controllers\Tenant\EmailController;
 use App\Mail\Tenant\CulqiEmail;
 use Modules\Restaurant\Models\RestaurantConfiguration;
 use Modules\Restaurant\Models\RestaurantNote;
+use Modules\ApiPeruDev\Data\ServiceData;
+use App\Models\Tenant\Person;
 
 
 
@@ -159,8 +161,8 @@ class RestaurantController extends Controller
         $configuration = ConfigurationEcommerce::first();
 
         $history_records = [];
-        if (auth()->user()) {
-            $email_user = auth()->user()->email;
+        if (auth('ecommerce')->user()) {
+            $email_user = auth('ecommerce')->user()->email;
             $history_records = Order::where('apply_restaurant', 1)->where('customer', 'LIKE', '%'.$email_user.'%')
                     ->get()
                     ->transform(function($row) {
@@ -185,33 +187,54 @@ class RestaurantController extends Controller
             return response()->json($validator->errors(), 422);
         } else {
             try {
-                $user = auth()->user();
+
+                $type = ($request->purchase["datos_del_cliente_o_receptor"]["codigo_tipo_documento_identidad"]=='6')?'ruc':'dni';
+                $document_number = $request->purchase["datos_del_cliente_o_receptor"]["numero_documento"];
+                
+                $dataDocument = $this->searchDocument($type,$document_number);
+                if ($dataDocument["success"]) {
+                    $clientData = [ "apellidos_y_nombres_o_razon_social" => $dataDocument["data"]["name"] ];
+                    if ($type === 'ruc') {
+                        $clientData["direccion"] = $dataDocument['data']['address'];
+                        $clientData["ubigeo"] = $dataDocument['data']['location_id'][2] ?? null;
+                    }
+                    $request->merge([
+                        'purchase' => array_merge($request->purchase, [
+                            "datos_del_cliente_o_receptor" => array_merge(
+                                $request->purchase["datos_del_cliente_o_receptor"],
+                                $clientData
+                            )
+                        ])
+                    ]);
+                }
+
+                $user = auth('ecommerce')->user();
                 $order = Order::create([
-                'external_id' => Str::uuid()->toString(),
-                'customer' =>  $request->customer,
-                'shipping_address' => 'direccion 1',
-                'items' =>  $request->items,
-                'total' => $request->precio_culqi,
-                'reference_payment' => 'efectivo',
-                'status_order_id' => 1,
-                'purchase' => $request->purchase,
-                'apply_restaurant' => 1
-              ]);
+                    'external_id' => Str::uuid()->toString(),
+                    'customer' =>  $request->customer,
+                    'shipping_address' => 'direccion 1',
+                    'items' =>  $request->items,
+                    'total' => $request->precio_culqi,
+                    'reference_payment' => 'efectivo',
+                    'status_order_id' => 1,
+                    'purchase' => $request->purchase,
+                    'apply_restaurant' => 1
+                ]);
 
-            $customer_email = $user->email;
-            $document = new stdClass;
-            $document->client = $user->name;
-            $document->product = $request->producto;
-            $document->total = $request->precio_culqi;
-            $document->items = $request->items;
+                $customer_email = $user->email;
+                $document = new stdClass;
+                $document->client = $user->name;
+                $document->product = $request->producto;
+                $document->total = $request->precio_culqi;
+                $document->items = $request->items;
 
-            $this->paymentCashEmail($customer_email, $document);
+                $this->paymentCashEmail($customer_email, $document);
 
-            //Mail::to($customer_email)->send(new CulqiEmail($document));
-            return [
-                'success' => true,
-                'order' => $order
-            ];
+                //Mail::to($customer_email)->send(new CulqiEmail($document));
+                return [
+                    'success' => true,
+                    'order' => $order
+                ];
 
         }catch(Exception $e)
         {
@@ -246,5 +269,10 @@ class RestaurantController extends Controller
             'success' => true,
             'message' => 'Precio editado correctamente.'
         ];
+    }
+
+    public function searchDocument($type, $number)
+    {
+        return (new ServiceData)->service($type, $number);
     }
 }
