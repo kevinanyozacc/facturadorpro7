@@ -76,7 +76,6 @@
                 $firstLevel == "pos" ||
                 $firstLevel == "documents" ||
                 $firstLevel == "dashboard" ||
-                $firstLevel == "quotations" ||
                 // $firstLevel == "items" ||
                 $firstLevel == "summaries" ||
                 $firstLevel == "voided") {
@@ -240,6 +239,8 @@
                 $group = "apps";
             }elseif ($firstLevel == "list-extras") {
                 $group = "app_2_generator";
+            }elseif ($firstLevel == "quotations") {
+                $group = "preventa";
             }
             return $group;
         }
