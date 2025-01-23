@@ -193,6 +193,10 @@ class Company extends ModelTenant
         return $query->select('digital_certificate_qztray', 'private_certificate_qztray')->withOut(['identity_document_type']);
     }
 
+    public function scopeGetTypeSoap($query)
+    {
+        return $query->select('soap_type_id')->first();
+    }
     /**
      *
      * Descripción  del tipo de transaccion asociado al modelo

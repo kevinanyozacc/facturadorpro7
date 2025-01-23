@@ -2,8 +2,8 @@
 
     namespace App\CoreFacturalo\Helpers\Template;
 
-
-    use App\Models\Tenant\Configuration;
+use App\Models\Tenant\Company;
+use App\Models\Tenant\Configuration;
     use App\Models\Tenant\SaleNote;
     use App\Models\Tenant\Dispatch;
     use App\Models\Tenant\Document;
@@ -285,5 +285,8 @@
             return Configuration::getConfigurationInPdf();
         }
 
-
+        public static function getTypeSoap()
+        {
+            return Company::getTypeSoap();
+        }
     }

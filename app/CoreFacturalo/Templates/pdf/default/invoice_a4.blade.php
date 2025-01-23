@@ -34,6 +34,7 @@
 
     $configuration_decimal_quantity= App\CoreFacturalo\Helpers\Template\TemplateHelper::getConfigurationDecimalQuantity();
     $configurationInPdf= App\CoreFacturalo\Helpers\Template\TemplateHelper::getConfigurationInPdf();
+    $type = App\CoreFacturalo\Helpers\Template\TemplateHelper::getTypeSoap();
 
 @endphp
 <html>
@@ -42,6 +43,15 @@
     {{--<link href="{{ $path_style }}" rel="stylesheet" />--}}
 </head>
 <body>
+@if ($type->soap_type_id === '01')
+    <table class="full-width">
+        <tr>
+            <td style="width: 100%;text-align: center">
+                <span style="color: red; font-weight: bold; font-size: 1.6rem;">Esta factura es solo de prueba</span>
+            </td>
+        </tr>
+    </table>
+@endif
 @if($document->state_type->id == '11')
     <div class="company_logo_box" style="position: absolute; text-align: center; top:30%;">
         <img
@@ -52,7 +62,7 @@
 <table class="full-width">
     <tr>
         @if($company->logo)
-            <td width="20%">
+        <td width="20%">
                 <div class="company_logo_box">
                     <img
                         src="data:{{mime_content_type(public_path("{$logo}"))}};base64, {{base64_encode(file_get_contents(public_path("{$logo}")))}}"
