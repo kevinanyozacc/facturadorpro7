@@ -28,6 +28,7 @@ class SellnowController extends Controller
             ->whereHas('warehouses', function ($query) use ($warehouse_id) {
                 $query->where('warehouse_id', $warehouse_id);
             })
+            ->orderBy('favorite','desc')
             ->get();
 
         $records = new ItemCollection($items);
@@ -43,6 +44,18 @@ class SellnowController extends Controller
         return [
             'success' => true,
             'data' => $records
+        ];
+    }
+
+    public function setFavoriteItem(Request $request) {
+        $item = Item::findOrFail($request->id);
+
+        $item->favorite = 1;
+        $item->save();
+
+        return [
+            'success' => true,
+            'message' => "Producto agregado a favoritos"
         ];
     }
 

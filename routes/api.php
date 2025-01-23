@@ -85,6 +85,7 @@ if ($hostname) {
             Route::prefix('sellnow')->group(function () {
                 Route::get('/items', 'Tenant\Api\SellnowController@items');
                 Route::get('/categories', 'Tenant\Api\SellnowController@categories');
+                Route::post('/favoriteitem', 'Tenant\Api\SellnowController@setFavoriteItem');
             });
 
         });
