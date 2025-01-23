@@ -71,6 +71,7 @@
         $logo = "{$establishment->logo}";
     }
     $configurationInPdf= App\CoreFacturalo\Helpers\Template\TemplateHelper::getConfigurationInPdf();
+    $type = App\CoreFacturalo\Helpers\Template\TemplateHelper::getTypeSoap();
 @endphp
 <html>
 <head>
@@ -87,6 +88,15 @@
 <div class="item_watermark" style="position: absolute; text-align: center; top:42%;">
     <img style="width: 100%" height="200px" src="data:{{mime_content_type(public_path("{$logo}"))}};base64, {{base64_encode(file_get_contents(public_path("{$logo}")))}}" alt="{{$company->name}}" alt="anulado" class="" style="opacity: 0.1;width: 95%">
 </div>
+@endif
+@if ($type->soap_type_id === '01')
+    <table class="full-width">
+        <tr>
+            <td style="width: 100%;text-align: center">
+                <span style="color: red; font-weight: bold; font-size: 1.6rem;">Esta factura es solo de prueba</span>
+            </td>
+        </tr>
+    </table>
 @endif
 <table class="full-width">
 
