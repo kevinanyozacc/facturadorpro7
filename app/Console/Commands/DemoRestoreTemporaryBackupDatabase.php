@@ -10,6 +10,8 @@ use Hyn\Tenancy\Environment;
 use Hyn\Tenancy\Models\Hostname;
 use Hyn\Tenancy\Models\Website;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class DemoRestoreTemporaryBackupDatabase extends Command
 {
@@ -101,6 +103,8 @@ class DemoRestoreTemporaryBackupDatabase extends Command
                     return;
                 }
 
+                $this->restoreImagesZip($restore_type , $restore_dbname);
+
                 Log::info("Base de datos {$database} restaurada correctamente.");
                 $this->info("Base de datos {$database} restaurada correctamente.");
 
@@ -134,6 +138,67 @@ class DemoRestoreTemporaryBackupDatabase extends Command
             Log::error("Error al eliminar o recrear la base de datos {$database}: " . $e->getMessage());
             throw $e;
         }
+    }
+
+    private function restoreImagesZip($restore_type , $restore_dbname) {
+
+        $backupPath = ($restore_type=='demo')?storage_path("app/demo_backups/demo/{$restore_dbname}.zip"):storage_path("app/demo_backups/system/{$restore_dbname}.zip");
+
+        if (!file_exists($backupPath)) {
+            Log::error("El archivo de backup no existe: {$backupPath}");
+            return;
+        }
+        
+        $foldersMap = [
+            'items' => storage_path('app/public/uploads/items'),
+            'categories' => storage_path('app/public/uploads/categories'),
+            'promotions' => storage_path('app/public/uploads/promotions'),
+            'logos' => storage_path('app/public/uploads/logos'),
+        ];
+
+        foreach ($foldersMap as $folder) {
+            if (!File::exists($folder)) {
+                File::makeDirectory($folder, 0755, true);
+            }
+        }
+    
+        $zip = new \ZipArchive();
+        if ($zip->open($backupPath) === true) {
+            for ($i = 0; $i < $zip->numFiles; $i++) {
+                $filename = $zip->getNameIndex($i);
+                $stream = $zip->getStream($filename);
+
+                if (!$stream) {
+                    Log::warning("No se pudo leer el archivo dentro del ZIP: {$filename}");
+                    continue;
+                }
+    
+                $normalizedFilename = str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $filename);
+                $parts = explode(DIRECTORY_SEPARATOR, $normalizedFilename);
+                $baseFolder = $parts[0];
+                
+    
+                if (isset($foldersMap[$baseFolder])) {
+                    $destinationFolder = $foldersMap[$baseFolder];
+                    $destinationPath = $destinationFolder . '/' . implode('/', array_slice($parts, 1));
+                    
+                    $subfolder = dirname($destinationPath);
+                    if (!File::exists($subfolder)) {
+                        File::makeDirectory($subfolder, 0755, true);
+                    }
+
+                    file_put_contents($destinationPath, stream_get_contents($stream));
+                    fclose($stream);
+                }
+            }
+            $zip->close();
+
+            Log::info('Restore Backup ' . $restore_dbname . ' with images successfully.');
+
+        } else {
+            Log::error("No se pudo abrir el archivo ZIP: {$backupPath}");
+        }
+
     }
     
 }

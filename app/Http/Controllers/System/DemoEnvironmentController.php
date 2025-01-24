@@ -41,6 +41,7 @@ class DemoEnvironmentController extends Controller
         $status = Artisan::call('demobk:dbcreate', [
             'database' => $database,
             'new_database' => $request->name,
+            'client_id' => $client->id,
         ], $output);
 
         $message = $output->fetch();
