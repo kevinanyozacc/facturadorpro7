@@ -50,12 +50,12 @@ class SellnowController extends Controller
     public function setFavoriteItem(Request $request) {
         $item = Item::findOrFail($request->id);
 
-        $item->favorite = 1;
+        $item->favorite = ($item->favorite == 1) ? 0 : 1;
         $item->save();
 
         return [
             'success' => true,
-            'message' => "Producto agregado a favoritos"
+            'message' => ($item->favorite == 1)? "Producto agregado a favoritos": "Producto quitado de favoritos"
         ];
     }
 
