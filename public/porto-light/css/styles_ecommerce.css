@@ -4,10 +4,10 @@
     --title-color: #001524;
     --subtitle-color: #60769a;
     --price-color: #001524;
-    --background-color: rgb(12, 114, 134);
-    --background-input: #EEF5F5;
-    --border-color: #D5E8E8;
-    --background-color-pastel: #D5E8E8;
+    --background-color: rgb(255, 125, 0);
+    --background-input: rgb(255, 241, 226);
+    --border-color: rgb(255, 225, 195);
+    --background-color-pastel: rgb(255, 225, 195);
     --bg-opacity: 0.5;
 }
 h1,
@@ -137,7 +137,6 @@ ul.menu.sf-arrows.sf-js-enabled li a {
 input#email::placeholder,
 input#pwd::placeholder,
 input#name_reg::placeholder,
-input#ruc_reg::placeholder,
 input#email_reg::placeholder,
 input#pwd_reg::placeholder,
 input#pwd_repeat_reg::placeholder,
@@ -242,14 +241,7 @@ figure.product-image-container:hover {
     min-width: 50px;
     border-radius: 5px;
 }
-.btn-quickview {
-    font: 400 1.3rem/1 "Poppins",sans-serif;
-    background-color: rgb(0 18 46 / 74%);
-    border-radius: 5px;
-    margin: 0 20px;
-    padding: 12px;
-    transform: translateY(50%); 
-}
+
 .product-title a {
     color: #00132f;
     font-size: 15px;
@@ -555,26 +547,7 @@ div#login_register_modal{
 .modal a:focus {
     color: #24da94;
 }
-input#email,
-input#pwd,
-input#name_reg,
-input#email_reg,
-input#pwd_reg,
-input#pwd_repeat_reg {
-    background: #f4f6fa;
-    border-color: #f4f6fa;
-    border-radius: 6px;
-    color: #60769a;
-}
-input#email:focus,
-input#pwd:focus,
-input#name_reg:focus,
-input#email_reg:focus,
-input#pwd_reg:focus,
-input#pwd_repeat_reg:focus {
-    background: #fff;
-    border-color: #60769a;
-}
+
 
 label{
     color: #60769a;
@@ -1034,11 +1007,17 @@ figure.product-image-container:hover {
 }
 .btn-quickview {
     font: 400 1.3rem/1 "Poppins", sans-serif;
-    background-color: rgb(12 114 134 / 73%);
+    background-color: var(--background-input);
+    color: var(--background-color);
     border-radius: 5px;
     margin: 0 20px;
     padding: 12px;
     transform: translateY(50%);
+}
+.btn-quickview:hover, .btn-quickview:focus, .product:hover .btn-quickview:hover, .product:hover .btn-quickview:focus {
+    color: var(--background-color);
+    opacity: .9;
+    text-decoration: none;
 }
 
 .internal_id {
@@ -1329,7 +1308,7 @@ input#pwd,
 input#name_reg,
 input#email_reg,
 input#pwd_reg,
-input#pwd_repeat_reg {
+input#pwd_repeat_reg,input#ruc_reg {
     background: var(--background-input);
     border-color: var(--border-color);
     border-radius: 6px;
@@ -1340,7 +1319,8 @@ input#pwd:focus,
 input#name_reg:focus,
 input#email_reg:focus,
 input#pwd_reg:focus,
-input#pwd_repeat_reg:focus {
+input#pwd_repeat_reg:focus,
+input#ruc_reg:focus {
     background: #fff;
     border-color: var(--title-color);
 }
@@ -1736,44 +1716,44 @@ nav.main-nav.flex-grow-1 .menu.restaurante li a {
     max-height: 260px;
 }
 /* Produc details */
-.product-details-restaurant .product-information {
+.product-details-ecommerce .product-information {
     text-align: left;
 }
-.product-details-restaurant .product-information .product-title-restaurant {
+.product-details-ecommerce .product-information .product-title-ecommerce {
     margin: 10px 10px 10px 0;
     overflow: hidden;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
 }
-.product-title-restaurant a {
+.product-title-ecommerce a {
     color: var(--title-color);
     text-decoration: none;
     font: 600 1.5rem/1.25 "Open Sans", sans-serif;
 }
-.product.product-style:hover .product-title-restaurant a {
+.product.product-style:hover .product-title-ecommerce a {
     color: var(--background-color);
 }
-.product-details-restaurant .product-information h3.product-stock {
+.product-details-ecommerce .product-information h3.product-stock {
     color: var(--subtitle-color);
     font: 600 1.2rem/1.25 "Open Sans", sans-serif;
 }
-.product-details-restaurant .product-information .product-stock span {
+.product-details-ecommerce .product-information .product-stock span {
     font: 500 1.4rem/1.25 "Open Sans", sans-serif;
 }
-.product-details-restaurant {
+.product-details-ecommerce {
     padding: 7px 14px;
 }
-.product-details-restaurant .product-price-restaurante {
+.product-details-ecommerce .product-price-ecommerce {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
 }
-.product-details-restaurant .product-price-restaurante .price-box-restaurant {
+.product-details-ecommerce .product-price-ecommerce .price-box-ecommerce {
     margin-bottom: 0;
 }
-.price-box-restaurant {
+.price-box-ecommerce {
     font: 600 1.6rem "Nunito", sans-serif;
     color: var(--price-color);
     width: 50%;

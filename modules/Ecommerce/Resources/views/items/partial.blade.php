@@ -54,7 +54,7 @@
 
         <div class="col-lg-6 col-md-6">
             <div class="product-single-details">
-                <h1 class="product-title">{{$record->description}}</h1>
+                <h1 class="product-title tony">{{$record->description}}</h1>
 
                 <div class="ratings-container">
                     <div class="product-ratings">
@@ -70,6 +70,21 @@
                 </div><!-- End .price-box -->
 
                 <div class="product-desc">
+                    <p class="product-category">Categoría: <span> {{$record->category->name}} </span></p>
+                <p class="product-stock">Disponible: <span>{{number_format(($record->stock), 0)}} </span>
+                <?php
+                if($record->stock > 0){?>
+                    <span 
+                    class="alert-stock" role="alert">En stock</span>
+                <?php
+                }else{?>
+                    <span 
+                    class="alert-sin-stock" 
+                    role="alert">Sin stock</span> 
+                <?php
+                }
+                ?>
+                </p>
                     <p>{{ $record->name }}</p>
                 </div><!-- End .product-desc -->
 

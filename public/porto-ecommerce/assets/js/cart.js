@@ -19,12 +19,13 @@
             calculateTotalCart();
 
             $('#product_added').html(`
-                            <h1 class="product-title">${item.description}</h1>
+							<h1>tony</h1>
+                            <h1 class="product-title">Tonyy${item.description}</h1>
                             <div class="price-box">
                                 <span class="product-price">S/ ${ Number(item.sale_unit_price).toFixed(2) }</span>
                             </div>
                             <div class="product-desc">
-                                <p>${item.name}</p>
+                                <p>tonyy${item.name}</p>
                             </div>	`);
 
             $('#product_added_image').html(`<img src="/storage/uploads/items/${item.image_medium}" class="img" alt="product">`)

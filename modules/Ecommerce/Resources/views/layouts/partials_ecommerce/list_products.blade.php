@@ -1,5 +1,5 @@
 @foreach ($dataPaginate as $item)
-    <div class="col-6 {{ \Route::currentRouteName() == 'tenant.restaurant.menu' ? 'col-md-3' : 'col-md-4' }}">
+    <div class="col-6 {{ \Route::currentRouteName() == 'tenant.ecommerce.index' ? 'col-md-3' : 'col-md-4' }}">
         <div class="product product-style {{ stock($item, $configuration) ? 'productdisabled' : '' }}">
             <figure class="product-image-container">
                 <a href="/ecommerce/item/{{ $item->id }}" class="product-image product-image-list">
@@ -8,30 +8,36 @@
                 <a href="{{route('item_partial', ['id' => $item->id])}}" class="btn-quickview">Vista Rápida</a>
                 {{-- <span class="product-label label-sale">-20%</span> --}}
                 @if(json_encode($item->is_new) == 1)
-                    <span class="product-label label-hot">New</span>
+                    <span class="product-label label-hot">Nuevo</span>
                 @endif
                 @if(stock($item, $configuration))
                     <span class="product-label product-danger">AGOTADO</span>
                 @endif
             </figure>
-            <div class="product-details">
+            <div class="product-details-ecommerce">
                 <div class="ratings-container">
                     <div class="product-ratings">
                         <span class="ratings" style="width:0%"></span>
                     </div>
                 </div>
-                {{ $item->internal_id }}
-                <h2 class="product-title">
-                    <a href="/ecommerce/item/{{ $item->id }}">{{ $item->description }}</a>
-                </h2>
-                <div class="price-box">
-                    <!-- <span class="old-price">S/ {{ number_format( ($item->sale_unit_price * 1.2 ) , 2 )}}</span> -->
-                    <span class="product-price">{{ $item->currency_type['symbol'] }} {{ number_format($item->sale_unit_price, 2) }}</span>
+                <div class="product-information">
+                    <h2 class="product-title-ecommerce">
+                        <a href="/ecommerce/item/{{ $item->id }}">{{ $item->description }}</a>
+                    </h2>
+                    <h3 class="product-stock">Disponible: 
+                        <span>{{ number_format($item ->stock, 0) }}</span>
+                    </h3>
                 </div>
-                <div class="product-action">
-                    <a href="#" class="paction add-cart" data-product="{{ json_encode( $item ) }}" title="Add to Cart">
-                        <span>Agregar a Carrito</span>
-                    </a>
+                <div class="product-price-ecommerce">
+                    <div class="price-box-ecommerce">
+                        <!-- <span class="old-price">S/ {{ number_format( ($item->sale_unit_price * 1.2 ) , 2 )}}</span> -->
+                        <span class="product-price-ecommerce">{{ $item->currency_type['symbol'] }} {{ number_format($item->sale_unit_price, 2) }}</span>
+                    </div>
+                    <div class="product-action">
+                        <a href="#" class="paction add-cart" data-product="{{ json_encode( $item ) }}" title="Add to Cart">
+                            <span>Agregar a Carrito</span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>

@@ -89,6 +89,60 @@
     </div><!-- End .col-lg-8 -->
 
     <div class="col-lg-4">
+    <div class="cart-summary">
+            <h3>Datos de contacto y envío</h3>
+
+            <form autocomplete="off" action="#">
+                <div class="form-group" :class="{'text-danger': errors.telefono}">
+                    <label for="email">Teléfono:</label>
+                    <input v-model="form_contact.telephone" type="text" autocomplete="off" class="form-control" placeholder="Ingrese número de teléfono" name="teléfono">
+                    <small class="form-control-feedback" v-if="errors.telefono" v-text="errors.telefono[0]"></small>
+                </div>
+                <div class="form-group" :class="{'text-danger': errors.address}">
+                    <label for="email">Dirección:</label>
+                    <textarea v-model="form_contact.address" class="form-control" placeholder="Ingrese dirección de envío" rows="2" cols="10"></textarea>
+                    <small class="form-control-feedback" v-if="errors.address" v-text="errors.address[0]"></small>
+                </div>
+            </form>
+        </div>
+
+        <div class="cart-summary">
+            <h3>Tipo de comprobante</h3>
+
+            <div class="form-group" :class="{'text-danger': errors.codigo_tipo_documento}">
+                <label>Comprobante:</label>
+                {{-- <select v-model="formIdentity.identity_document_type_id" class="form-control" @change="optionDocument">
+                    <option value="" disabled>Tipo de comprobante</option>
+                    <option value="1">Boleta</option>
+                    <option value="6">Factura</option>
+                    <option value="80">Nota de venta</option>
+                </select> --}}
+                
+                <select v-model="form_document.codigo_tipo_documento" class="form-control" @change="optionDocument">
+                    <option value="" disabled>Tipo de comprobante</option>
+                    <option value="01">Factura</option>
+                    <option value="03">Boleta</option>
+                    <option value="80">Nota de venta</option>
+                </select>
+
+                <small class="form-control-feedback" v-if="errors.codigo_tipo_documento">El campo Comprobante es obligatorio.</small>
+            </div>
+            <div class="form-group" :class="{'text-danger': errors.codigo_tipo_documento_identidad}">
+                <label>Tipo de documento:</label>
+                <select v-model="typeDocuments" class="form-control">
+                    <option value="" disabled>Tipo de documento</option>
+                    <option v-for="item in typeDocumentList" :value="item.id" :label="item.name">@{{ item.name }}</option>
+                </select>
+                <small class="form-control-feedback" v-if="errors.codigo_tipo_documento_identidad" v-text="errors.codigo_tipo_documento_identidad[0]"></small>
+            </div>
+            <div class="form-group" :class="{'text-danger': errors.numero_documento}">
+                <label>Número de documento:</label>
+                <input v-model="numberDocument" :maxlength="maxLength" type="text" class="form-control">
+                <small class="form-control-feedback" v-if="errors.numero_documento" v-text="errors.numero_documento[0]"></small>
+            </div>
+
+        </div><!-- End .col-lg-4 -->
+
         <div class="cart-summary">
             <h3>Resumen</h3>
             <table class="table table-totals">
@@ -156,60 +210,6 @@
 
             </div><!-- End .checkout-methods -->
         </div><!-- End .cart-summary -->
-
-        <div class="cart-summary">
-            <h3>Tipo de comprobante</h3>
-
-            <div class="form-group" :class="{'text-danger': errors.codigo_tipo_documento}">
-                <label>Comprobante:</label>
-                {{-- <select v-model="formIdentity.identity_document_type_id" class="form-control" @change="optionDocument">
-                    <option value="" disabled>Tipo de comprobante</option>
-                    <option value="1">Boleta</option>
-                    <option value="6">Factura</option>
-                    <option value="80">Nota de venta</option>
-                </select> --}}
-                
-                <select v-model="form_document.codigo_tipo_documento" class="form-control" @change="optionDocument">
-                    <option value="" disabled>Tipo de comprobante</option>
-                    <option value="01">Factura</option>
-                    <option value="03">Boleta</option>
-                    <option value="80">Nota de venta</option>
-                </select>
-
-                <small class="form-control-feedback" v-if="errors.codigo_tipo_documento">El campo Comprobante es obligatorio.</small>
-            </div>
-            <div class="form-group" :class="{'text-danger': errors.codigo_tipo_documento_identidad}">
-                <label>Tipo de documento:</label>
-                <select v-model="typeDocuments" class="form-control">
-                    <option value="" disabled>Tipo de documento</option>
-                    <option v-for="item in typeDocumentList" :value="item.id" :label="item.name">@{{ item.name }}</option>
-                </select>
-                <small class="form-control-feedback" v-if="errors.codigo_tipo_documento_identidad" v-text="errors.codigo_tipo_documento_identidad[0]"></small>
-            </div>
-            <div class="form-group" :class="{'text-danger': errors.numero_documento}">
-                <label>Número de documento:</label>
-                <input v-model="numberDocument" :maxlength="maxLength" type="text" class="form-control">
-                <small class="form-control-feedback" v-if="errors.numero_documento" v-text="errors.numero_documento[0]"></small>
-            </div>
-
-        </div><!-- End .col-lg-4 -->
-
-        <div class="cart-summary">
-            <h3>Datos de contacto y envío</h3>
-
-            <form autocomplete="off" action="#">
-                <div class="form-group" :class="{'text-danger': errors.telefono}">
-                    <label for="email">Teléfono:</label>
-                    <input v-model="form_contact.telephone" type="text" autocomplete="off" class="form-control" placeholder="Ingrese número de teléfono" name="teléfono">
-                    <small class="form-control-feedback" v-if="errors.telefono" v-text="errors.telefono[0]"></small>
-                </div>
-                <div class="form-group" :class="{'text-danger': errors.address}">
-                    <label for="email">Dirección:</label>
-                    <textarea v-model="form_contact.address" class="form-control" placeholder="Ingrese dirección de envío" rows="2" cols="10"></textarea>
-                    <small class="form-control-feedback" v-if="errors.address" v-text="errors.address[0]"></small>
-                </div>
-            </form>
-        </div>
     </div><!-- End .col-lg-4 -->
 </div><!-- End .row -->
 

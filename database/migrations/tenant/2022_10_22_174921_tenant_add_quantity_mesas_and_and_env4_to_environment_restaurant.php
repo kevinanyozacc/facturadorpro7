@@ -13,11 +13,14 @@ class TenantAddQuantityMesasAndAndEnv4ToEnvironmentRestaurant extends Migration
      */
     public function up()
     {
+        if(Schema::hasColumn('restaurant_configurations',"tables_quantity_environment_2")) 
+        {return false;};
         Schema::table('restaurant_configurations', function (Blueprint $table) {
             $table->integer('tables_quantity_environment_2')->default(5)->after('enabled_environment_2');
             $table->integer('tables_quantity_environment_3')->default(5)->after('enabled_environment_3');
             $table->boolean('enabled_environment_4')->default(false);
             $table->integer('tables_quantity_environment_4')->default(5);
+            
         });
     }
 

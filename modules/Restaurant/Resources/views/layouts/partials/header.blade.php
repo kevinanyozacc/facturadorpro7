@@ -1,3 +1,4 @@
+
 <style>
 #header_bar .header-menu {
     max-height: 300px !important;
@@ -145,14 +146,15 @@ div.cart-dropdown {
          <div   class="container">
              <div class="header-left">
                  <a href="{{ route("tenant.restaurant.menu") }}" class="logo" style="max-width: 180px">
-                    @if($information->logo)
+                    @if(isset($information->logo))
                         <img src="{{ asset('storage/uploads/logos/'.$information->logo) }}" alt="Logo" />
                     @else
                         <img src="{{asset('logo/tulogo.png')}}" alt="Logo" />
                     @endif
                  </a>
              </div><!-- End .header-left -->
-
+             
+             
              <div id="header_bar" class="header-center header-dropdowns">
 
                  <div class="header-dropdown header-dropdown-inside" style="min-width:400px;">

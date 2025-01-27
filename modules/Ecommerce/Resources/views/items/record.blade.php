@@ -60,7 +60,7 @@
 
         <div class="col-lg-5 col-md-6">
             <div class="product-single-details">
-                <h1 class="product-title">{{$record->description}}</h1>
+                <h1 class="product-title tonys">{{$record->description}}</h1>
 
 
 
@@ -73,9 +73,28 @@
                 </div><!-- End .product-container -->
 
                 <div class="price-box">
-                    <!-- <span class="old-price">S/ {{ number_format( ($record->sale_unit_price * 1.2 ) , 2 )}}</span> -->
-                    <span class="product-price">{{ $record->currency_type_symbol }} {{ number_format($record->sale_unit, 2 )}}</span>
+                    <span class="old-price">{{ $record->currency_type['symbol'] }} {{ number_format( ($record->sale_unit_price * 1.2 ) , 2 ) }}</span>
+                    <span class="product-price">{{ $record->currency_type['symbol'] }} {{ number_format($record->sale_unit_price, 2) }}</span>
                 </div><!-- End .price-box -->
+
+                <div class="product-desc">
+                    <p class="product-category">Categoría: <span> {{$record->category->name}} </span></p>
+                <p class="product-stock">Disponible: <span>{{number_format(($record->stock), 0)}} </span>
+                <?php
+                if($record->stock > 0){?>
+                    <span 
+                    class="alert-stock" role="alert">En stock</span>
+                <?php
+                }else{?>
+                    <span 
+                    class="alert-sin-stock" 
+                    role="alert">Sin stock</span> 
+                <?php
+                }
+                ?>
+                </p>
+                    <p>{{ $record->name }}</p>
+                </div><!-- End .product-desc -->
 
                 <div>
                 @foreach($record->attributes as $at)

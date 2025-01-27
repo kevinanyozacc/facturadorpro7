@@ -8,10 +8,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Menu</title>
+    <title>Pedidos</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="keywords" content="ecommerce" />
-    <meta name="description" content="eCommerce">
+    <meta name="keywords" content="Pedidos, Menu, Restaurante" />
+    <meta name="description" content="Sistema de pedidos de menu de restaurante">
     <meta name="author" content="SW-THEMES">
 
     <!-- Favicon -->
@@ -29,23 +29,15 @@
     <!-- Fontawesome -->
     <link rel="stylesheet" href="{{ asset('porto-ecommerce/assets/font-awesome/css/fontawesome-all.min.css') }}">
 
-    @if (file_exists(public_path('theme/custom_styles_ecommerce.css')))
-        <link rel="stylesheet" href="{{ asset('theme/custom_styles_ecommerce.css') }}" />
-    @endif
-
     <link rel="stylesheet" href="{{ asset('porto-light/css/styles_orders.css') }}" />
 </head>
-<style>
 
-
-</style>
 <body>
 
     <div class="page-wrapper">
 
         @include('restaurant::layouts.partials.header')
         <main class="main">
-
             @yield('content')
         </main><!-- End .main -->
 
@@ -94,7 +86,7 @@
     <script src="{{ asset('porto-ecommerce/assets/js/plugins.min.js') }}"></script>
 
     <!-- Main JS File -->
-    <script src="{{ asset('porto-ecommerce/assets/js/cart.js') }}"></script>
+    <!-- <script src="{{ asset('porto-ecommerce/assets/js/cart.js') }}"></script> -->
     <script src="{{ asset('porto-ecommerce/assets/js/main.js') }}"></script>
     <script src="{{ asset('porto-ecommerce/assets/js/vue.min.js') }}"></script>
 

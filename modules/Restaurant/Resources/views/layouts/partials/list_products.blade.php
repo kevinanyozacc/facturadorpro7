@@ -8,7 +8,7 @@
                 <a href="{{route('restaurant.item_partial', ['id' => $item->id])}}" class="btn-quickview">Vista Rápida</a>
                 {{-- <span class="product-label label-sale">-20%</span> --}}
                 @if(json_encode($item->is_new) == 1)
-                    <span class="product-label label-hot">New</span>
+                    <span class="product-label label-hot">Nuevo</span>
                 @endif
                 @if(stock($item, $configuration))
                     <span class="product-label product-danger">AGOTADO</span>
@@ -27,15 +27,15 @@
                 <h3 class="product-stock">Disponible: <span>{{ number_format($item ->stock, 0) }}</span></h3>
                 </div>
                 <div class="product-price-restaurante">
-                <div class="price-box-restaurant">
-                    <!-- <span class="old-price">S/ {{ number_format( ($item->sale_unit_price * 1.2 ) , 2 )}}</span> -->
-                    <span class="product-price-restaurant">{{ $item->currency_type['symbol'] }} {{ number_format($item->sale_unit_price, 2) }}</span>
-                </div>
-                <div class="product-action">
-                    <a href="#" class="paction add-cart" data-product="{{ json_encode( $item ) }}" title="Agregar al carrito">
-                        <span>Agregar a Carrito</span>
-                    </a>
-                </div>
+                    <div class="price-box-restaurant">
+                        <!-- <span class="old-price">S/ {{ number_format( ($item->sale_unit_price * 1.2 ) , 2 )}}</span> -->
+                        <span class="product-price-restaurant">{{ $item->currency_type['symbol'] }} {{ number_format($item->sale_unit_price, 2) }}</span>
+                    </div>
+                    <div class="product-action">
+                        <a href="#" class="paction add-cart" data-product="{{ json_encode( $item ) }}" title="Agregar al carrito">
+                            <span>Agregar a Carrito</span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>

@@ -3,7 +3,7 @@
     - var items definida en Modules\Ecommerce\Http\ViewComposers\PromotionsViewComposer
 --}}
 
-<div class="home-slider owl-carousel owl-carousel-lazy owl-theme owl-theme-light">
+<div class="home-slider owl-carousel owl-carousel-lazy owl-theme owl-theme-light mt-8">
 
     @foreach ($items as $item)
 

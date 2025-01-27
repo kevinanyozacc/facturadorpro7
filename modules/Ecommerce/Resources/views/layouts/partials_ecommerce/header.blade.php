@@ -1,25 +1,25 @@
- <style>
+
+<style>
 #header_bar .header-menu {
     max-height: 300px !important;
     overflow:auto;
     overflow-y: auto;
 }
-#header_bar .header-menu::-webkit-scrollbar-track
-{
-	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.1);
-	background-color: #fdfdfd;
+
+#header_bar .header-menu::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.1);
+    background-color: #fdfdfd;
 }
 
-#header_bar .header-menu::-webkit-scrollbar
-{
-	width: 6px;
-	background-color: #fdfdfd;
+#header_bar .header-menu::-webkit-scrollbar {
+    width: 6px;
+    background-color: #fdfdfd;
 }
 
-#header_bar .header-menu::-webkit-scrollbar-thumb
-{
-	background-color: #0187cc;
+#header_bar .header-menu::-webkit-scrollbar-thumb {
+    background-color: #0187cc;
 }
+
 .header-dropdown a img {
     border-radius: 8px;
     padding: 4px;
@@ -31,7 +31,6 @@
     }
 }
 
-
 .header-menu ul a {
     padding: 3px 6px;
 }
@@ -40,10 +39,9 @@
     box-shadow: 0 0 2px rgba(0,0,0,0.1);
     padding: 0 !important;
     border: none;
-    /*border-radius:10px;*/
- }
+}
 
- .header-menu a:hover, .header-menu a:focus {
+.header-menu a:hover, .header-menu a:focus {
     color: #0187cc;
     background-color: #f4f4f4;
 }
@@ -57,27 +55,88 @@
     border-radius: 20px !important;
 }
 
-.search_title{
-
-}
-.search_price{
-
-}
-.search_btn{
-
-}
-
 .search_input:focus {
     background-color: #fff;
     border-color: #fff;
     box-shadow: none;
-
 }
 
 .header-contact span {
     font-weight: normal;
 }
 
+div.cart-dropdown {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+}
+
+.header .dropdown-toggle {
+    color: red;
+    font-size: 10px;
+    background-color: #1f1f39;
+    width: 90px;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+}
+
+.dropdown-toggle .cart-count {
+    background-color: transparent !important;
+    color: white !important;
+    margin-top: 12px;
+    margin-right: 27px;
+}
+
+.search_input:focus {
+    border: 1px solid var(--background-color) !important;
+    background-color: transparent !important;
+}
+
+.search_input {
+    width: 100%;
+    height: 38px !important;
+    border-radius: 20px !important;
+    background-color: #eff0f6 !important;
+}
+
+.header-dropdown-inside {
+    position: relative; 
+}
+
+.header-dropdown-inside .search-icon {
+    position: absolute;
+    left: 10px; 
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+.header-dropdown-inside .search_input {
+    padding-left: 40px; 
+    padding-right: 40px; 
+    width: 100%;
+}
+
+.header-dropdown-inside .clear-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    display: none;
+}
+.header-dropdown-inside input:focus + .clear-icon,
+.header-dropdown-inside input:not(:placeholder-shown) + .clear-icon {
+    display: inline-block; /* Muestra el ícono */
+}
 
  </style>
 
@@ -87,19 +146,21 @@
          <div   class="container">
              <div class="header-left">
                  <a href="{{ route("tenant.ecommerce.index") }}" class="logo" style="max-width: 180px">
-                    @if($information->logo)
+                    @if(isset($information->logo))
                         <img src="{{ asset('storage/uploads/logos/'.$information->logo) }}" alt="Logo" />
                     @else
                         <img src="{{asset('logo/tulogo.png')}}" alt="Logo" />
                     @endif
                  </a>
              </div><!-- End .header-left -->
-
+             
+             
              <div id="header_bar" class="header-center header-dropdowns">
 
-                 <div class="header-dropdown" style="min-width:400px;">
-
-                    <input placeholder="Buscar..." type="text" class="search_input form-control form-control-lg" v-model="value" v-on:keyup="autoComplete" />
+                 <div class="header-dropdown header-dropdown-inside" style="min-width:400px;">
+                    <img src="{{ asset('images/search.svg') }}" alt="search" class="search-icon" style="width: 18px; height: 18px;">
+                    <input placeholder="Buscar..." type="text" class="search_input form-control form-control-lg" v-model="value" v-on:keyup="autoComplete" @focus="isFocused = true" @blur="isFocused = false"/>
+                    <img src="{{ asset('images/circle-xmark.svg') }}" alt="Clear" class="clear-icon" @click="clearInput">
                      <div class="header-menu">
                          <ul v-if="results.length > 0">
                             <li v-for="result in results">
@@ -128,7 +189,6 @@
                  </div><!-- End .header-contact -->
 
                 @include('ecommerce::layouts.partials_ecommerce.cart_dropdown')
-
                 @include('ecommerce::partials.headers.session')
 
              </div><!-- End .header-right -->
@@ -145,51 +205,58 @@
  </header><!-- End .header -->
 
  @push('scripts')
-
  <script type="text/javascript">
-     var app = new Vue({
-         el: '#header_bar',
-         data: {
-             value: '',
-             suggestions: [],
-             resource: 'ecommerce',
-             results: [],
-         },
-         created() {
-             this.getItems()
-         },
-         methods: {
-             autoComplete() {
-                 if (this.value) {
-                    let val = this.value.toUpperCase()
+    var app = new Vue({
+        el: '#header_bar',
+        data: {
+            value: '', 
+            isFocused: false, 
+            suggestions: [],
+            resource: 'ecommerce',
+            results: [],
+        },
+        created() {
+            this.getItems();
+        },
+        methods: {
+            // Método para limpiar el campo de texto
+            clearInput() {
+                this.value = ''; 
+                this.results = []; 
+            },
+
+            // Método para manejar la autocompletación
+            autoComplete() {
+                if (this.value) {
+                    let val = this.value.toUpperCase();
                     this.results = this.suggestions.filter((obj) => {
-                         let desc = obj.description.toUpperCase()
-                         let internal_id = obj.internal_id ? obj.internal_id.toUpperCase() : ''
-                         return desc.includes(val) ||  internal_id.includes(val)
+                        let desc = obj.description.toUpperCase();
+                        let internal_id = obj.internal_id ? obj.internal_id.toUpperCase() : '';
+                        return desc.includes(val) || internal_id.includes(val);
+                    });
+                } else {
+                    this.results = [];
+                }
+            },
+
+            // Método para obtener las sugerencias desde el backend
+            getItems() {
+                let contex = this;
+                fetch(`/${this.resource}/items_bar`)
+                    .then(function (response) {
+                        return response.json();
                     })
+                    .then(function (myJson) {
+                        contex.suggestions = myJson.data;
+                    });
+            },
 
-                 } else {
-                     this.results = []
-                 }
-             },
-             getItems() {
-                 let contex = this
-                 fetch(`/${this.resource}/items_bar`)
-                     .then(function (response) {
-                         return response.json();
-                     })
-                     .then(function (myJson) {
-                        contex.suggestions = myJson.data
-                     });
-             },
-             suggestionClick(item) {
-                 this.results = []
-                 this.value = item.description
-             }
-
-         }
-     })
-
- </script>
-
+            // Método para manejar el clic en una sugerencia
+            suggestionClick(item) {
+                this.results = [];
+                this.value = item.description;
+            }
+        }
+    });
+</script>
  @endpush

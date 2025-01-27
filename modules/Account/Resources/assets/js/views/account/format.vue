@@ -89,7 +89,7 @@
 <script>
     import queryString from 'query-string'
 import {mapActions, mapState} from "vuex";
-
+ 
     export default {
 
     props: [

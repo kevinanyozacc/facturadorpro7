@@ -70,7 +70,7 @@
     <script src="{{ asset('porto-ecommerce/assets/js/plugins.min.js') }}"></script>
 
     <!-- Main JS File -->
-    <script src="{{ asset('porto-ecommerce/assets/js/cart.js') }}"></script>
+    <!-- <script src="{{ asset('porto-ecommerce/assets/js/cart.js') }}"></script> -->
     <script src="{{ asset('porto-ecommerce/assets/js/main.js') }}"></script>
     <script src="{{ asset('porto-ecommerce/assets/js/vue.min.js') }}"></script>
 

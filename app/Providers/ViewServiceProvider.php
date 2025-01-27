@@ -92,7 +92,7 @@ class ViewServiceProvider extends ServiceProvider
             'Modules\Ecommerce\Http\ViewComposers\FeaturedProductsViewComposer'
         );
         view()->composer(
-            ['ecommerce::layouts.partials_ecommerce.list_products', 'restaurant::layouts.partials.list_products'],
+            ['ecommerce::layouts.partials_ecommerce.list_products', 'restaurant::layouts.partials.list_products', 'ecommerce::layouts.partials_ecommerce.categories','ecommerce::layouts.partials_ecommerce.offers'],
             'Modules\Ecommerce\Http\ViewComposers\FeaturedProductsViewComposer'
         );
         view()->composer(
@@ -112,7 +112,7 @@ class ViewServiceProvider extends ServiceProvider
             'Modules\Restaurant\Http\ViewComposers\PromotionsViewComposer'
         );
         view()->composer(
-            ['restaurant::layouts.partials.mobile_menu','restaurant::layouts.partials.header', 'restaurant::layouts.partials.footer','ecommerce::layouts.partials_ecommerce.footer', 'ecommerce::layouts.partials_ecommerce.header', 'ecommerce::cart.detail', 'ecommerce::layouts.partials_ecommerce.sidebar_product_right', 'ecommerce::layouts.partials_ecommerce.mobile_menu', 'restaurant::cart.detail'],
+            ['restaurant::layouts.partials.mobile_menu','restaurant::layouts.partials.header', 'restaurant::layouts.partials.footer','ecommerce::layouts.partials_ecommerce.footer', 'ecommerce::layouts.partials_ecommerce.header', 'ecommerce::cart.detail', 'ecommerce::layouts.partials_ecommerce.sidebar_product_right', 'ecommerce::layouts.partials_ecommerce.mobile_menu', 'restaurant::cart.detail', 'restaurant::lista', 'restaurant::layouts.list.lista_master',  'restaurant::layouts.lista'],
             'Modules\Ecommerce\Http\ViewComposers\InformationContactViewComposer'
         );
         view()->composer(

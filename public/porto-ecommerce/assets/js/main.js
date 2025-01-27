@@ -498,12 +498,11 @@ function(e) {
 			count = array.length;
 				
 			array.forEach(element => {
-				
 				jQuery(".dropdown-cart-products").append( `
 						<div class="product">
 							<div class="product-details">
 							<h4 class="product-title">
-								<a href="$">${element.name}</a>
+								<a href="$">${element.description}</a>
 							</h4>
 							<span class="cart-product-info">
 								<span class="cart-product-qty">1</span> x ${element.sale_unit_price}
@@ -543,14 +542,15 @@ function(e) {
 					contex.calculateTotalCart();
 
 					$('#product_added').html(`
-						<h1 class="product-title">${item.name}</h1>
+						<div class="product-single-details-restaurant">
+						<h1 class="product-title">${item.description}</h1>
 						<div class="price-box">
 							<span class="product-price">S/ ${ Number(item.sale_unit_price).toFixed(2) }</span>
 						</div>
-						<div class="product-desc">
-							<p> ${item.description}  </p>
-						</div>	`);
-
+						<div class="product-desce">
+							<p>${item.name}  </p>
+						</div>	</div>`);
+						
 					$('#product_added_image').html( `<img src="/storage/uploads/items/${item.image_medium}" class="img" alt="product">`)
 				}
 				else{

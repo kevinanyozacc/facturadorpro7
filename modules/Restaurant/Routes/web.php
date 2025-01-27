@@ -117,3 +117,8 @@ Route::middleware(['locked.tenant'])->group(function() {
 
 
 });
+
+Route::middleware(['locked.tenant'])->group(function() {
+    // ruta publica de lista
+Route::get('/lista', 'ListaController@index')->name('restaurant.lista');
+});

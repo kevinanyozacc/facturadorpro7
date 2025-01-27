@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="product-single-container product-single-default">
+<div class="product-single-container product-single-default  tony">
     <div class="row">
         <div class="col-lg-7 col-md-6 product-single-gallery">
             <div class="product-slider-container product-item">
@@ -59,9 +59,8 @@
         </div><!-- End .col-lg-7 -->
 
         <div class="col-lg-5 col-md-6">
-            <div class="product-single-details">
+            <div class="product-single-details single-product">
                 <h1 class="product-title">{{$record->description}}</h1>
-
                 <div class="ratings-container">
                     <div class="product-ratings">
                         <span class="ratings" style="width:60%"></span><!-- End .ratings -->
@@ -71,12 +70,26 @@
                 </div><!-- End .product-container -->
 
                 <div class="price-box">
-                    <!-- <span class="old-price">S/ {{ number_format( ($record->sale_unit_price * 1.2 ) , 2 )}}</span> -->
-                    <span class="product-price">{{ $record->currency_type_symbol }} {{ number_format($record->sale_unit, 2 )}}</span>
+                    <span class="old-price">{{ $record->currency_type['symbol'] }} {{ number_format( ($record->sale_unit_price * 1.2 ) , 2 ) }}</span>
+                    <span class="product-price">{{ $record->currency_type['symbol'] }} {{ number_format($record->sale_unit_price, 2) }}</span>
                 </div><!-- End .price-box -->
-                
 
                 <div class="product-desc">
+                    <p class="product-category">Categoría: <span> {{$record->category->name}} </span></p>
+                <p class="product-stock">Disponible: <span>{{number_format(($record->stock), 0)}} </span>
+                <?php
+                if($record->stock > 0){?>
+                    <span 
+                    class="alert-stock" role="alert">En stock</span>
+                <?php
+                }else{?>
+                    <span 
+                    class="alert-sin-stock" 
+                    role="alert">Sin stock</span> 
+                <?php
+                }
+                ?>
+                </p>
                     <p>{{ $record->name }}</p>
                 </div><!-- End .product-desc -->
 

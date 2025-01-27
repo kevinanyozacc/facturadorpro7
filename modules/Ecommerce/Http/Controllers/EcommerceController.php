@@ -25,6 +25,7 @@ use Modules\Inventory\Models\InventoryConfiguration;
 use App\Http\Resources\Tenant\OrderCollection;
 use App\Models\Tenant\Promotion;
 use Modules\ApiPeruDev\Data\ServiceData;
+use Modules\Item\Models\Category;
 
 
 class EcommerceController extends Controller
@@ -37,22 +38,41 @@ class EcommerceController extends Controller
         return view()->share('records', Item::where('apply_store', 1)->orderBy('id', 'DESC')->take(2)->get());
     }
 
-    public function index()
+    // public function index()
+    // {
+    //   $dataPaginate = Item::where([['apply_store', 1], ['internal_id','!=', null]])->paginate(15);
+    //   $configuration = InventoryConfiguration::first();
+    //   return view('ecommerce::index', ['dataPaginate' => $dataPaginate, 'configuration' => $configuration->stock_control]);
+    // }
+    public function index($name = null)
     {
-      $dataPaginate = Item::where([['apply_store', 1], ['internal_id','!=', null]])->paginate(15);
-      $configuration = InventoryConfiguration::first();
-      return view('ecommerce::index', ['dataPaginate' => $dataPaginate, 'configuration' => $configuration->stock_control]);
-    }
+        if ($name) {
+            $name = str_replace('-', ' ', $name);
+        }
 
-    public function category(Request $request)
-    {
-      $dataPaginate = Item::select('i.*')
-        ->where([['i.apply_store', 1], ['i.internal_id','!=', null], ['it.tag_id', $request->category]])
-        ->from('items as i')
-        ->join('item_tags as it', 'it.item_id','i.id')->paginate(15);
+        $category = Category::where('name', $name)->first();
+        
+        $dataPaginate = Item::where([['apply_store', 1], ['internal_id', '!=', null]])
+            ->category($category ? $category->id : null)
+            ->paginate(8);
         $configuration = InventoryConfiguration::first();
-      return view('ecommerce::index', ['dataPaginate' => $dataPaginate, 'configuration' => $configuration->stock_control]);
+        $categories = Category::get();
+
+        return view('ecommerce::index', [
+            'dataPaginate' => $dataPaginate,
+            'configuration' => $configuration->stock_control,
+        ])->with('categories', $categories);
     }
+    
+    // public function category(Request $request)
+    // {
+    //   $dataPaginate = Item::select('i.*')
+    //     ->where([['i.apply_store', 1], ['i.internal_id','!=', null], ['it.tag_id', $request->category]])
+    //     ->from('items as i')
+    //     ->join('item_tags as it', 'it.item_id','i.id')->paginate(15);
+    //     $configuration = InventoryConfiguration::first();
+    //   return view('ecommerce::index', ['dataPaginate' => $dataPaginate, 'configuration' => $configuration->stock_control]);
+    // }
 
     public function getDescriptionWithPromotion($item, $promotion_id)
     {
@@ -74,12 +94,14 @@ class EcommerceController extends Controller
             'internal_id' => $row->internal_id,
             'unit_type_id' => $row->unit_type_id,
             'description' => $description,
+            'category' => $row->category,
+            'stock' => $row->stock,
             // 'description' => $row->description,
             'technical_specifications' => $row->technical_specifications,
             'name' => $row->name,
             'second_name' => $row->second_name,
             'sale_unit_price' => ($row->currency_type_id === 'PEN') ? $sale_unit_price : ($sale_unit_price * $exchange_rate_sale),
-            'currency_type_id' => $row->currency_type_id,
+            'currency_type' => $row->currency_type,
             'has_igv' => (bool) $row->has_igv,
             'sale_unit' => $row->sale_unit_price,
             'sale_affectation_igv_type_id' => $row->sale_affectation_igv_type_id,

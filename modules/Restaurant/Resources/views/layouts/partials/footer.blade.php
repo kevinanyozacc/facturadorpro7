@@ -48,7 +48,7 @@
                         <div class="col-sm-6 col-md-5">
                             <ul class="links">
                                 <li><a href="{{ route("tenant.restaurant.menu") }}">Inicio</a></li>
-                                <li><a href="{{ route('tenant_detail_cart') }}">Ver Carrito</a></li>
+                                <li><a href="{{ route('restaurant.detail.cart') }}">Ver Carrito</a></li>
                                 @guest
                                 <li><a href="{{route('tenant_ecommerce_login')}}" class="login-link">Login</a></li>
                                 @else
@@ -247,7 +247,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </script>
 @push('scripts')
-<script type="text/javascript" src="{{ asset('porto-ecommerce/assets/js/cart.js') }}"></script>
+<!-- <script type="text/javascript" src="{{ asset('porto-ecommerce/assets/js/cart.js') }}"></script> -->
 <script type="text/javascript">
     
 

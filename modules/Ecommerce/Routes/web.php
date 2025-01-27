@@ -73,3 +73,9 @@ Route::middleware(['check.permission', 'locked.tenant'])->prefix('ecommerce')->g
 
 
 });
+
+
+Route::middleware(['locked.tenant'])->group(function() {
+    // restaurant
+    Route::get('/ecommerce/{name?}', 'EcommerceController@index')->name('tenant.ecommerce.index');
+});

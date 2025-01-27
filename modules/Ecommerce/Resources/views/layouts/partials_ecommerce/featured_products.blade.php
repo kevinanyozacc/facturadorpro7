@@ -19,7 +19,7 @@
                       <span class="ratings" style="width:80%"></span><!-- End .ratings -->
                   </div><!-- End .product-ratings -->
               </div><!-- End .product-container -->
-              <h2 class="product-title">
+              <h2 class="product-title  tony">
                   <a href="#">{{$item->name}}</a>
               </h2>
               <div class="price-box">

@@ -27,9 +27,9 @@
     <!-- Fontawesome -->
     <link rel="stylesheet" href="{{ asset('porto-ecommerce/assets/font-awesome/css/fontawesome-all.min.css') }}">
 
-    @if (file_exists(public_path('theme/custom_styles_ecommerce.css')))
-        <link rel="stylesheet" href="{{ asset('theme/custom_styles_ecommerce.css') }}" />
-    @endif
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" href="{{ asset('porto-light/css/styles_ecommerce.css') }}" />
+    
 </head>
 <body>
     <div class="page-wrapper">
@@ -76,7 +76,7 @@
     <script src="{{ asset('porto-ecommerce/assets/js/moment.min.js') }}"></script>
 
     <!-- Main JS File -->
-    <script src="{{ asset('porto-ecommerce/assets/js/main.min.js') }}"></script>
+    <script src="{{ asset('porto-ecommerce/assets/js/main.js') }}"></script>
     <script src="{{ asset('porto-ecommerce/assets/js/vue.js') }}"></script>
     <script src="{{ asset('porto-ecommerce/assets/js/axios.min.js') }}"></script>
 

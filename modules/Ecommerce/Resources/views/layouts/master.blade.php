@@ -28,156 +28,16 @@
 
     <!-- Fontawesome -->
     <link rel="stylesheet" href="{{ asset('porto-ecommerce/assets/font-awesome/css/fontawesome-all.min.css') }}">
-
-
-    @if (file_exists(public_path('theme/custom_styles_ecommerce.css')))
-        <link rel="stylesheet" href="{{ asset('theme/custom_styles_ecommerce.css') }}" />
-    @endif
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" href="{{ asset('porto-light/css/styles_ecommerce.css') }}" />
 </head>
-<style>
 
-
-</style>
 <body>
     <div class="page-wrapper">
 
         @include('ecommerce::layouts.partials_ecommerce.header')
         <main class="main">
-            <br> <!-- layout-  info_boxez-->
-
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-9">
-
-                    @php
-                        $tagid = Request::segment(3);
-                    @endphp
-
-                        @if(!$tagid)
-                            @include('ecommerce::layouts.partials_ecommerce.home_slider')
-                        @endif
-
-                        <div class="row">
-
-                            {{--<div class="col-md-4">
-                                <div class="banner banner-image">
-                                    <a href="#">
-                                        <img src="{{ asset('porto-ecommerce/assets/images/banners/banner-1.jpg' ) }}"
-                                            alt="banner">
-                                    </a>
-                                </div><!-- End .banner -->
-                            </div><!-- End .col-md-4 -->
-
-                            <div class="col-md-4">
-                                <div class="banner banner-image">
-                                    <a href="#">
-                                        <img src="{{ asset('porto-ecommerce/assets/images/banners/banner-2.jpg' ) }}"
-                                            alt="banner">
-                                    </a>
-                                </div><!-- End .banner -->
-                            </div><!-- End .col-md-4 -->
-
-                            <div class="col-md-4">
-                                <div class="banner banner-image">
-                                    <a href="#">
-                                        <img src="{{ asset('porto-ecommerce/assets/images/banners/banner-3.jpg' ) }}"
-                                            alt="banner">
-                                    </a>
-                                </div><!-- End .banner -->
-                            </div><!-- End .col-md-4 --> --}}
-                        </div><!-- End .row -->
-
-                        <div class="mb-3"></div><!-- margin -->
-
-                        {{-- @include('ecommerce::layouts.partials_ecommerce.featured_products') --}}
-                        <div class="row row-sm">
-                            @include('ecommerce::layouts.partials_ecommerce.list_products')
-                        </div>
-
-                        <div class="row float-right">
-                          <div class="col-md-12 col-lg-12">
-                            {{ $dataPaginate->links() }}
-                          </div>
-                        </div>
-
-                        <div class="mb-6"></div><!-- margin -->
-
-                        <div class="row">
-                            <!-- layout-  products_main-->
-
-                        </div><!-- End .row -->
-
-                        <div class="mb-3"></div><!-- margin -->
-
-                        <div class="row">
-                            <!-- layout-  features_box -->
-
-
-                        </div><!-- End .row -->
-                    </div><!-- End .col-lg-9 -->
-
-                    <aside class="sidebar-home col-lg-3 order-lg-first">
-                        <div class="side-menu-container">
-                            <h2>CATEGORIAS</h2>
-                            @include('ecommerce::layouts.partials_ecommerce.sidemenu')
-                        </div><!-- End .side-menu-container -->
-
-                        <!-- SlidShow Side Bar, Carousel a Editar -->
-
-                <div class="box-carousel">
-                   <div class="widget-banners-slider owl-carousel owl-theme">
-                     @forelse($records as $data)
-                            @if($data->apply_store === 1)
-                                <figure class="product-image-container boxing">
-                                    <a href="/ecommerce/item/{{ $data->id }}" class="product-image">
-                                        <img src="{{ asset('storage/uploads/items/'.$data->image) }}" alt="product" class="image">
-                                    </a>
-                                    <a href="{{route('item_partial', ['id' => $data->id])}}" class="btn-quickview">Vista Rápida</a>
-                                    <span class="product-label label-hot">New Sales Recent</span>
-                                    <span class="product-label">{{$data->description}}</span>
-                                </figure>
-                            @endif
-                        @empty
-                            <div class="widget widget-banner">
-                                <div class="banner banner-image">
-                                    <a href="#">
-                                        <img src="{{ asset('porto-ecommerce/assets/images/banners/banner-sidebar.jpg') }}"
-                                            alt="Banner Desc">
-                                    </a>
-                            </div>
-                        </div>
-                    @endforelse
-                 </div>
-                </div>
-
-
-
-                        <!-- <div class="widget widget-newsletters">
-                           <h3 class="widget-title">Newsletter</h3>
-                            <p>Get all the latest information on Events, Sales and Offers. </p>
-                            <form action="#">
-                                <div class="form-group">
-                                    <input type="email" class="form-control" id="wemail">
-                                    <label for="wemail"><i class="icon-envolope"></i>Email Address</label>
-                                </div>
-                                <input type="submit" class="btn btn-block" value="Subscribe Now">
-                            </form>
-                        </div>-->
-
-                        {{-- <div class="widget widget-testimonials">
-                            @include('ecommerce::layouts.partials_ecommerce.testimonials')
-                        </div> --}}
-                        <!-- End .widget -->
-
-                        <div class="widget">
-                            <!-- layout-  news -->
-
-                        </div><!-- End .widget -->
-                    </aside><!-- End .col-lg-3 -->
-                </div><!-- End .row -->
-            </div><!-- End .container -->
-
-            <div class="mb-4"></div><!-- margin -->
+        @yield('content')
         </main><!-- End .main -->
 
         <footer class="footer">
@@ -225,8 +85,8 @@
     <script src="{{ asset('porto-ecommerce/assets/js/plugins.min.js') }}"></script>
 
     <!-- Main JS File -->
-    <script src="{{ asset('porto-ecommerce/assets/js/main.min.js') }}"></script>
-
+    <!-- <script src="{{ asset('porto-ecommerce/assets/js/cart.js') }}"></script> -->
+    <script src="{{ asset('porto-ecommerce/assets/js/main.js') }}"></script>
     <script src="{{ asset('porto-ecommerce/assets/js/vue.min.js') }}"></script>
 
 
