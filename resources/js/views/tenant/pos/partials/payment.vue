@@ -280,7 +280,7 @@
                                     <div class="form-group">
                                         <h2>
                                             <el-switch v-model="enabled_discount"
-                                                       active-text="Aplicar descuento"
+                                                       active-text="Aplicar descuento xd"
                                                        class="control-label font-weight-semibold m-0 text-center m-b-0"
                                                        @change="changeEnabledDiscount"></el-switch>
                                         </h2>
@@ -812,7 +812,7 @@ export default {
                 base: base
             })
         },
-        async discountGlobal() {
+        async discountGlobal(ctx) {
 
             // let percentage_igv = 18
             // let amount = parseFloat(this.discount_amount)
@@ -832,33 +832,37 @@ export default {
             if (input_global_discount > 0 && !discount)
             {
                 const percentage_igv = this.percentageIgv * 100
-                let base = (this.isGlobalDiscountBase) ? parseFloat(this.form.total_taxed) : parseFloat(this.form.total)
+                let base = (this.isGlobalDiscountBase) ? parseFloat(ctx.total_taxed) : parseFloat(ctx.total)
                 let amount = 0
                 let factor = 0
 
                 if (this.is_discount_amount)
                 {
-                    amount = _.round(input_global_discount,2)
+                    amount = input_global_discount
                     factor = _.round(amount / base, 5)
                 }
                 else
                 {
                     factor = _.round(input_global_discount / 100, 5)
-                    amount = _.round(factor * base,2)
+                    amount = factor * base
                 }
 
-                this.form.total_discount = _.round(amount, 2)
-
+                
                 // descuentos que afectan la bi
                 if(this.isGlobalDiscountBase)
                 {
-                    this.form.total_taxed = _.round(base - this.form.total_discount, 2)
+                    let total_taxed = base - amount;
+                    let total_igv = total_taxed * (percentage_igv / 100);
+                    let total_taxes = total_igv + ctx.total_isc + ctx.total_plastic_bag_taxes;
+                    let total = total_taxed + total_taxes;
+
+                    this.form.total_taxed = _.round(parseFloat(total_taxed.toFixed(3)), 2)
                     this.form.total_value = this.form.total_taxed
-                    this.form.total_igv = _.round(this.form.total_taxed * (percentage_igv / 100), 2)
+                    this.form.total_igv = _.round(total_taxed * (percentage_igv / 100), 2)
 
                     //impuestos (isc + igv + icbper)
-                    this.form.total_taxes = _.round(this.form.total_igv + this.form.total_isc + this.form.total_plastic_bag_taxes, 2);
-                    this.form.total = _.round(this.form.total_taxed + this.form.total_taxes, 1)
+                    this.form.total_taxes = _.round(parseFloat(total_taxes.toFixed(3)), 2);
+                    this.form.total = _.round(total, 2)
                     this.form.subtotal = this.form.total
 
                     if (this.form.total <= 0) this.$message.error("El total debe ser mayor a 0, verifique el tipo de descuento asignado (Configuración/Avanzado/Contable)")
@@ -870,8 +874,9 @@ export default {
                     // this.form.total_discount = _.round(amount, 2)
                     this.form.total = _.round(this.form.total - amount, 2)
                 }
-
-                this.setGlobalDiscount(factor, amount, base)
+                
+                this.form.total_discount = _.round(amount, 2)
+                this.setGlobalDiscount(factor, _.round(amount,2), _.round(base,2))
                 this.enter_amount = _.round(total - this.discount_amount,2)
 
             } else {
@@ -964,6 +969,27 @@ export default {
                 total_base_isc += parseFloat(row.total_base_isc)
 
             });
+            let total_taxes = total_igv + total_isc + total_plastic_bag_taxes;
+            let total_all = total - this.total_discount_no_base
+
+            let totals_without_rounding = {
+                total_discount,
+                total_charge,
+                total_exportation,
+                total_taxed,
+                total_exonerated,
+                total_unaffected,
+                total_free,
+                total_igv,
+                total_value,
+                 total: total_all,
+                total_plastic_bag_taxes,
+                 total_igv_free,
+                 total_base_isc,
+                 total_isc,
+                 total_taxes
+            } 
+            
 
             // isc
             this.form.total_base_isc = _.round(total_base_isc, 2)
@@ -992,7 +1018,7 @@ export default {
             // this.form.total = _.round(total + this.form.total_plastic_bag_taxes, 2)
             // this.form.subtotal = _.round(total + this.form.total_plastic_bag_taxes, 2)
 
-            this.discountGlobal()
+            this.discountGlobal(totals_without_rounding)
 
             this.calculatePayments()
             this.setTotalPointsBySale(this.configuration)

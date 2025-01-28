@@ -816,7 +816,6 @@ export default {
 
             }
         }
-        console.log(this.configuration);
         
     },
     mounted() {
