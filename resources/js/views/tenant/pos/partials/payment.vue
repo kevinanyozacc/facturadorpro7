@@ -280,7 +280,7 @@
                                     <div class="form-group">
                                         <h2>
                                             <el-switch v-model="enabled_discount"
-                                                       active-text="Aplicar descuento xd"
+                                                       active-text="Aplicar descuento"
                                                        class="control-label font-weight-semibold m-0 text-center m-b-0"
                                                        @change="changeEnabledDiscount"></el-switch>
                                         </h2>

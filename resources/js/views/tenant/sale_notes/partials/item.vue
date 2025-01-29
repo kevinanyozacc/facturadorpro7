@@ -1146,6 +1146,7 @@ export default {
                 description: null,
                 percentage: 0,
                 factor: 0,
+                amount_exact: 0,
                 amount: 0,
                 base: 0,
                 is_amount: false
