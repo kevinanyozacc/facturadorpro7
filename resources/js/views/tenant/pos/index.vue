@@ -42,7 +42,7 @@
             </div>
             <div class="col-md-4 text-right pr-3">
             <div class="row">
-                <div class="col-6 pt-2">
+                <div class="col-6" style="padding-top: 2.5px;">
                     <el-select
                         v-if="!configuration.enable_list_product"
                         v-model="selected_option_price"

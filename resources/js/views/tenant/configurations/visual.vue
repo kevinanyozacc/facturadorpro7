@@ -54,27 +54,27 @@
                         <button type="button" 
                                 class="btn-theme-white"
                                 @click="applyTheme('white')"
-                                style="background-color: #26a2ba;">
+                                style="background-color: #90dad9;">
                         </button>
                         <button type="button" 
                                 class="btn-theme-acid"
                                 @click="applyTheme('acid')"
-                                style="background-color: #3e1baf;">
+                                style="background-color: #c1b1f1;">
                         </button>
                         <button type="button" 
                                 class="btn-theme-cupcake"
                                 @click="applyTheme('cupcake')"
-                                style="background-color: #1e0b29;">
+                                style="background-color: #e7dad0;">
                         </button>
                         <button type="button" 
                                 class="btn-theme-retro"
                                 @click="applyTheme('retro')"
-                                style="background-color: #c8ae78;">
+                                style="background-color: #ebddb7;">
                         </button>
                         <button type="button" 
                                 class="btn-theme-lemonade"
                                 @click="applyTheme('lemonade')"
-                                style="background-color: #527852;">
+                                style="background-color: #cddfae;">
                         </button>
                     </div>
                 </div>
@@ -164,56 +164,60 @@
                         "--contents-dark": "#16223a",
                         "--inputs-dark": "#383f53",
                         "--borders-dark": "#2d394c",
-                        "--button-second": "#283046"
-                        
+                        "--button-second": "#283046",
+                        "--font-family": "'Roboto', sans-serif;"
                     },
                     acid: {
                         "--primary-color": "#2a117a",
-                        "--dark-color": "#0d0721",
-                        "--light-color": "#fafafa",
-                        "--accent-color": "#f0ebf9",
+                        "--dark-color": "#120736",
+                        "--light-color": "#edeff5",
+                        "--accent-color": "#d8dde9",
                         "--highlight-color": "#6e648e",
                         "--background-dark": "#1a103d",
                         "--contents-dark": "#221551",
                         "--inputs-dark": "#432f89",
                         "--borders-dark": "#352766",
-                        "--button-second": "#5740a9"
+                        "--button-second": "#5740a9",
+                        "--font-family": "'Host Grotesk', sans-serif;"
                     },
                     cupcake: {
-                        "--primary-color": "#051712",
-                        "--dark-color": "#180c1f",
-                        "--light-color": "#faf7f5",
-                        "--accent-color": "#e8e1ec",
-                        "--highlight-color": "#7b9e8b",
+                        "--primary-color": "#291334",
+                        "--dark-color": "#291334",
+                        "--light-color": "#f5f2f2",
+                        "--accent-color": "#eee7e7",
+                        "--highlight-color": "#decfcf",
                         "--background-dark": "#121c22",
                         "--contents-dark": "#1b262c",
                         "--inputs-dark": "#1a2c37",
                         "--borders-dark": "#2c3842",
-                        "--button-second": "#1b262c"
+                        "--button-second": "#1b262c",
+                        "--font-family": "'Sora', sans-serif;"
                     },
                     retro: {
-                        "--primary-color": "#1b1517",
+                        "--primary-color": "#2f0404",
                         "--dark-color": "#282425",
-                        "--light-color": "#fffaed",
-                        "--accent-color": "#fff2cd",
-                        "--highlight-color": "#e0c881",
+                        "--light-color": "#f6f0e0",
+                        "--accent-color": "#ece3ca",
+                        "--highlight-color": "#e4d8b4",
                         "--background-dark": "#20161f",
                         "--contents-dark": "#2a2129",
                         "--inputs-dark": "#302930",
                         "--borders-dark": "#251e24",
-                        "--button-second": "#332931"
+                        "--button-second": "#332931",
+                        "--font-family": "'IBM Plex Mono', sans-serif;"
                     },
                     lemonade: {
                         "--primary-color": "#343300",
-                        "--dark-color": "#1d1c01",
-                        "--light-color": "#f8fdef",
-                        "--accent-color": "#d1dcbd",
-                        "--highlight-color": "#899a6b",
+                        "--dark-color": "#434440",
+                        "--light-color": "#eef4e4",
+                        "--accent-color": "#d5e3bc",
+                        "--highlight-color": "#c4d4a4",
                         "--background-dark": "#171212",
                         "--contents-dark": "#231e1e",
                         "--inputs-dark": "#272323",
                         "--borders-dark": "#322d2d",
-                        "--button-second": "#140f0f"
+                        "--button-second": "#140f0f",
+                        "--font-family": "'Questrial', sans-serif;"
                     }
                 },
                 showWelcome: localStorage.getItem('show_welcome_panel') === 'true', 
@@ -264,11 +268,6 @@
                     cssString += `${variable}: ${colors[variable]}; `;
                 });
 
-                if (theme === "retro") {
-                    cssString += "--font-family: 'PT Mono', sans-serif;";
-                } else {
-                    cssString += "--font-family: initial;";
-                }
                 cssString += '}';
 
                 styleTag.innerHTML = cssString;
