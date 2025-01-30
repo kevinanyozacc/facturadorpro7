@@ -34,46 +34,46 @@
                         <i class="fas fa-sun"></i> Modo Claro
                     </a>
                 </div>
-                <div class="pt-3">
+                <!-- <div class="pt-3">
                     <h5>Color de fondo del sidebar</h5>
                     <div class="form-group el-custom-control">
                         <button :class="{ 'active': visuals.sidebar_theme === 'white' }" type="button" @click="onChangeBgSidebar('white')" class="btn flex-fill" style="background-color: #ffffff;"></button>
                         <button :class="{ 'active': visuals.sidebar_theme === 'blue' }" type="button" @click="onChangeBgSidebar('blue')" class="btn flex-fill" style="background-color: #7367f0;"></button>
-                        <!-- <button :class="{ 'active': visuals.sidebar_theme === 'gray' }" type="button" @click="onChangeBgSidebar('gray')" class="btn" style="background-color: #82868b;"></button> -->
+                        <button :class="{ 'active': visuals.sidebar_theme === 'gray' }" type="button" @click="onChangeBgSidebar('gray')" class="btn" style="background-color: #82868b;"></button>
                         <button :class="{ 'active': visuals.sidebar_theme === 'green' }" type="button" @click="onChangeBgSidebar('green')" class="btn flex-fill" style="background-color: #28c76f;"></button>
                         <button :class="{ 'active': visuals.sidebar_theme === 'red' }" type="button" @click="onChangeBgSidebar('red')" class="btn flex-fill" style="background-color: #ea5455;"></button>
-                        <!-- <button :class="{ 'active': visuals.sidebar_theme === 'warning' }" type="button" @click="onChangeBgSidebar('warning')" class="btn" style="background-color: #ff9f43;"></button> -->
-                        <!-- <button :class="{ 'active': visuals.sidebar_theme === 'ligth-blue' }" type="button" @click="onChangeBgSidebar('ligth-blue')" class="btn" style="background-color: #00cfe8;"></button> -->
+                        <button :class="{ 'active': visuals.sidebar_theme === 'warning' }" type="button" @click="onChangeBgSidebar('warning')" class="btn" style="background-color: #ff9f43;"></button>
+                        <button :class="{ 'active': visuals.sidebar_theme === 'ligth-blue' }" type="button" @click="onChangeBgSidebar('ligth-blue')" class="btn" style="background-color: #00cfe8;"></button>
                         <button :class="{ 'active': visuals.sidebar_theme === 'dark' }" type="button" @click="onChangeBgSidebar('dark')" class="btn flex-fill" style="background-color: #283046;"></button>
                     </div>
-                </div>
+                </div> -->
 
                 <div class="mt-3">
                     <h5>Selecciona un color de tema:</h5>
                     <div class="color-selector">
                         <button type="button" 
                                 class="btn-theme-white"
-                                @click="applyTheme('white')"
+                                @click="onChangeTheme('white')"
                                 style="background-color: #90dad9;">
                         </button>
                         <button type="button" 
                                 class="btn-theme-acid"
-                                @click="applyTheme('acid')"
+                                @click="onChangeTheme('acid')"
                                 style="background-color: #c1b1f1;">
                         </button>
                         <button type="button" 
                                 class="btn-theme-cupcake"
-                                @click="applyTheme('cupcake')"
+                                @click="onChangeTheme('cupcake')"
                                 style="background-color: #e7dad0;">
                         </button>
                         <button type="button" 
                                 class="btn-theme-retro"
-                                @click="applyTheme('retro')"
+                                @click="onChangeTheme('retro')"
                                 style="background-color: #ebddb7;">
                         </button>
                         <button type="button" 
                                 class="btn-theme-lemonade"
-                                @click="applyTheme('lemonade')"
+                                @click="onChangeTheme('lemonade')"
                                 style="background-color: #cddfae;">
                         </button>
                     </div>
@@ -233,12 +233,6 @@
         async created() {
             await this.initForm()
             await this.getRecords()
-
-            await this.initForm();
-            const savedTheme = localStorage.getItem('selectedTheme');
-            if (savedTheme && this.themes[savedTheme]) {
-                this.applyTheme(savedTheme);
-            }
         },
         methods: {
             updateConfig() {
@@ -256,7 +250,6 @@
             applyTheme(theme) {
                 const colors = this.themes[theme];
                 let styleTag = document.getElementById('theme-styles');
-
                 if (!styleTag) {
                     styleTag = document.createElement('style');
                     styleTag.id = 'theme-styles';
@@ -271,8 +264,11 @@
                 cssString += '}';
 
                 styleTag.innerHTML = cssString;
-
-                localStorage.setItem('selectedTheme', theme);
+            },
+            onChangeTheme(theme) {
+                this.visuals.sidebar_theme = theme;
+                this.submit();
+                this.applyTheme(theme);
             },
             onChangeBgSidebar(theme) {
                 this.visuals.sidebar_theme = theme;
@@ -289,12 +285,15 @@
                     skins: 1,
                 }
             },
-            getRecords() {
+            async getRecords() {
                 this.$http.get(`/${this.resource}/record`) .then(response => {
                     if (response.data !== ''){
                         this.visuals = response.data.data.visual;
                         this.form = response.data.data;
                         this.skins = response.data.data.skins;
+                        if(this.visual.sidebar_theme){
+                            this.applyTheme(this.visual.sidebar_theme)
+                        }
                     }
                 });
             },
@@ -315,7 +314,7 @@
                         console.log(error);
                     }
                 }).then(() => {
-                    location.reload();
+                    // location.reload();
                 });
             },
             submitForm() {

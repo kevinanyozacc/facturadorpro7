@@ -9,12 +9,7 @@
 <html
     lang="{{ str_replace('_', '-', app()->getLocale()) }}"
     class="fixed no-mobile-device custom-scroll
-        sidebar-{{$visual->sidebar_theme ?? ''}}
-        {{ ($visual->sidebar_theme == 'white'
-        || $visual->sidebar_theme == 'gray'
-        || $visual->sidebar_theme == 'green'
-        || $visual->sidebar_theme == 'warning'
-        || $visual->sidebar_theme == 'ligth-blue') ? 'sidebar-light' : '' }}
+        sidebar-white sidebar-light
         {{$vc_compact_sidebar->compact_sidebar == true
         || $path[0] === 'pos'
         || $path[0] === 'pos' && $path[1] === 'fast'
@@ -115,7 +110,7 @@
 <script async src="https://social.buho.la/pixel/y9nonmie9j8dkwha20ct2ua7nwsywi2m"></script>
 <script>
     (function() {
-        const savedTheme = localStorage.getItem('selectedTheme');
+        const savedTheme = @json($visual->sidebar_theme);
         if (savedTheme) {
             const themes = {
                 white: {
