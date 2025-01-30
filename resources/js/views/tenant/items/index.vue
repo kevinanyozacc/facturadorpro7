@@ -154,6 +154,7 @@
                         <th>ID</th>
                         <th>Cód. Interno</th>
                         <th>Unidad</th>
+                        <th>Imagen</th>
                         <th>Nombre</th>
                         <th v-if="columns.description.visible">Descripción</th>
                         <th v-if="columns.model.visible">Modelo</th>
@@ -190,9 +191,11 @@
                         :class="{ disable_color: !row.active }"
                     >
                         <td>{{ index }}</td>
-                        <td>{{ row.id }}</td>
+                        <td>{{ row.id }}</td> 
                         <td>{{ row.internal_id }}</td>
                         <td>{{ row.unit_type_id }}</td>
+                        <td><img :src="row.image_url_small" style="object-fit: contain;" alt width="32px" height="32px" />
+                        </td>
                         <td>{{ row.description }}</td>
                         <td v-if="columns.model.visible">{{ row.model }}</td>
                         <td v-if="columns.brand.visible">{{ row.brand }}</td>

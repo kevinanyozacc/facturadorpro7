@@ -881,7 +881,7 @@ span.badge.text-white.bg-success {
     content: "\f0c9";
 }
 .sidebar-toggle:hover {
-    background-color: #f0f3f4;
+    background-color: var(--accent-color);
 }
 html.dark .sidebar-toggle:hover {
     background-color: #161d31;

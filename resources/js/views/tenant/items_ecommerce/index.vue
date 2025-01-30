@@ -54,7 +54,7 @@
             <td>{{ row.unit_type_id }}</td>
             <td class="text-center">
               <a @click="viewImages(row)" href="#">
-                <img :src="row.image_url_small" alt width="48px" height="48px" />
+                <img :src="row.image_url_small" tyle="object-fit: contain;"  alt width="32px" height="32px" />
               </a>
               <!--<img :src="row.image_url_medium"  width="40" height="40" class="img-thumbail img-custom" /> -->
             </td>
