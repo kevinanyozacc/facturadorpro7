@@ -199,6 +199,8 @@ class QuotationController extends Controller
         $payment_method_types = PaymentMethodType::orderBy('id', 'desc')->get();
         $payment_destinations = $this->getPaymentDestinations();
         $configuration = Configuration::select('destination_sale')->first();
+        $enabled_discount_global = config('tenant.enabled_discount_global');
+        $global_discount_types = ChargeDiscountType::whereIn('id', ['02', '03'])->whereActive()->get();
         /*
         carlomagno83/facturadorpro4#233
 
@@ -209,7 +211,7 @@ class QuotationController extends Controller
         */
         $sellers = User::GetSellers(false)->get();
 
-        return compact('customers', 'establishments', 'currency_types', 'discount_types', 'charge_types', 'configuration',
+        return compact('customers','enabled_discount_global' ,'establishments','global_discount_types',  'currency_types', 'discount_types', 'charge_types', 'configuration',
             'company', 'document_type_03_filter', 'payment_method_types', 'payment_destinations', 'sellers');
 
     }
