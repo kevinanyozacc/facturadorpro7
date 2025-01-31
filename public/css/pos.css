@@ -44,7 +44,7 @@ html.sidebar-light:not(.dark) .page-header h2 {
 }
 
 .el-dialog__header {
-    padding: 0px !important;
+    padding: 0px;
     padding-bottom: 0px !important;
 }
 
@@ -263,7 +263,7 @@ html.dark button.btn-primary-pos {
 html.dark .card-body,
 html.dark .card-footer {
     background: #283046;
-    border-color: #314267 !important;
+    border-color: #314267;
 }
 
 html.dark .bg-white,

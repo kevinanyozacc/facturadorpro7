@@ -57,6 +57,16 @@ p {
     background-color: var(--light-color);
     border: 1px solid var(--accent-color);
 }
+.el-tabs--card > .el-tabs__header .el-tabs__item.is-active {
+    border-bottom-color: transparent;
+}
+.el-tabs--card > .el-tabs__header .el-tabs__nav {
+    border: 1px solid transparent;
+}
+.el-tabs--card > .el-tabs__header .el-tabs__item {
+    border-bottom: 1px solid transparent;
+    border-left: 1px solid transparent;
+}
 .row.card-header.no-gutters.align-items-start div {
     align-self: center;
 }
@@ -708,6 +718,11 @@ html.fixed.sidebar-white:not(.dark) .sidebar-left a {
     border-color: #fc4e4b;
     box-shadow: unset;
 }
+.el-dialog__header {
+    padding-bottom: 0px !important;
+    margin: 20px;
+    padding-top: 20px !important;
+}
 .notifications > li .notification-icon .badge,
 .badge-danger {
     background: rgb(252 78 75 / 20%);
@@ -1029,7 +1044,10 @@ ul.nav-main li.nav-parent > a:after {
 .row.top .col .card-body {
     color: var(--dark-color);
 }
-
+.el-switch__core {
+    border: 1px solid var(--accent-color);
+    background: var(--light-color);
+}
 .card-body.pointer.px-2.pt-2 p {
     display: -webkit-box;
     -webkit-line-clamp: 1;
@@ -1996,6 +2014,7 @@ html.dark .form-modern label.control-label:has(+div){
     border-top: 1px solid var(--borders-dark);
     border-left: 1px solid var(--borders-dark);
     border-right: 1px solid var(--borders-dark);
+    color: var(--accent-color);
 }
 html.dark .el-table tr,
 html.dark .el-table th,
@@ -2273,5 +2292,26 @@ html.dark .el-message--success {
 }
 html.dark .el-message .el-icon-success {
     color: var(--accent-color);
+}
+html.dark button.btn-primary-pos {
+    background: var(--button-second) !important;
+    border-color: var(--borders-dark) !important;
+    &:hover{
+        background: var(--primary-color) !important;
+        border-color: var(--primary-color) !important;
+    }
+}
+html.dark .pos .product-item .card-product-pos,
+html.dark .card-footer{
+    border-color: var(--contents-dark) !important;
+}
+html.dark .card-footer{
+    border-color: var(--contents-dark) !important;
+}
+html.dark .btn-primary-pos {
+    color: var(--accent-color);
+}
+html.dark .el-tabs--card > .el-tabs__header {
+    border-bottom: 1px solid var(--background-dark);
 }
 /* end */
