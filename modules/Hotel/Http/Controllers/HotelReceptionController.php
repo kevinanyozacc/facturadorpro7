@@ -21,6 +21,7 @@ class HotelReceptionController extends Controller
 			], 200);
 		}
 		$floors = HotelFloor::where('active', true)
+                ->where('establishment_id',auth()->user()->establishment_id)
 				->orderBy('description')
 				->get();
 
@@ -38,7 +39,8 @@ class HotelReceptionController extends Controller
      */
     public function  searchRooms(Request $request ){
 
-        $rooms = HotelRoom::with('category', 'floor', 'rates');
+        $rooms = HotelRoom::with('category', 'floor', 'rates')
+            ->where('establishment_id',auth()->user()->establishment_id);
 
         if ($request->has('hotel_floor_id') && !empty($request->hotel_floor_id)) {
             $rooms->where('hotel_floor_id', $request->hotel_floor_id);
@@ -74,7 +76,8 @@ class HotelReceptionController extends Controller
      */
     private function getRooms()
     {
-        $rooms = HotelRoom::with('category', 'floor', 'rates');
+        $rooms = HotelRoom::with('category', 'floor', 'rates')
+            ->where('establishment_id',auth()->user()->establishment_id);
 
         if (request('hotel_floor_id')) {
             $rooms->where('hotel_floor_id', request('hotel_floor_id'));

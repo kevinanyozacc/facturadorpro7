@@ -20,6 +20,23 @@
             {{ errors.name[0] }}
           </div>
         </div>
+        <div v-if="userType==='admin'" class="form-group">
+          <label class="control-label" for="establishment">Establecimiento</label>
+          <el-select
+            type="text"
+            id="establishment"
+            v-model="form.establishment_id"
+            :class="{ 'is-invalid': errors.establishment_id }"
+            @change="onChangeEstablishment(form.establishment_id)"
+          >
+            <el-option v-for="item in establishments" :key="item.id" :value="item.id" :label="item.description">
+              {{ item.description }}
+            </el-option>
+          </el-select>
+          <div v-if="errors.establishment_id" class="invalid-feedback">
+            {{ errors.establishment_id[0] }}
+          </div>
+        </div>
         <div class="form-group">
           <label class="control-label" for="category">Categoría</label>
           <el-select
@@ -28,7 +45,7 @@
             v-model="form.hotel_category_id"
             :class="{ 'is-invalid': errors.hotel_category_id }"
           >
-            <el-option v-for="cat in categories" :key="cat.id" :value="cat.id">
+            <el-option v-for="cat in categories" :key="cat.id" :value="cat.id" :label="cat.description">
               {{ cat.description }}
             </el-option>
           </el-select>
@@ -44,7 +61,7 @@
             v-model="form.hotel_floor_id"
             :class="{ 'is-invalid': errors.hotel_floor_id }"
           >
-            <el-option v-for="flo in floors" :key="flo.id" :value="flo.id">
+            <el-option v-for="flo in floors" :key="flo.id" :value="flo.id" :label="flo.description">
               {{ flo.description }}
             </el-option>
           </el-select>
@@ -103,17 +120,23 @@ export default {
       required: false,
       default: {},
     },
-    categories: {
+    establishments: {
       type: Array,
       required: true,
     },
-    floors: {
-      type: Array,
+    userType: {
+      type: String,
+      required: true,
+    },
+    establishmentId: {
+      type: Number,
       required: true,
     },
   },
   data() {
     return {
+      categories: [],
+      floors: [],
       form: {},
       title: "",
       errors: {},
@@ -218,14 +241,28 @@ export default {
     onCreate() {
       if (this.room) {
         this.form = this.room;
-        this.title = "Editar piso";
+        this.title = "Editar habitación";
       } else {
-        this.title = "Crear piso";
+        this.title = "Crear habitación";
         this.form = {
           active: true,
+          establishment_id: this.establishmentId,
         };
       }
+      this.getTables(this.establishmentId)
     },
+    getTables(establishment_id) {
+      this.$http.get(`/hotels/rooms/tables/${establishment_id}`).then((response) => {
+        this.floors = response.data.floors;
+        this.categories = response.data.categories;
+      });
+    },
+    onChangeEstablishment(id){
+      this.getTables(id)
+      this.form.hotel_floor_id = '';
+      this.form.hotel_category_id = '';
+    }
+
   },
 };
 </script>

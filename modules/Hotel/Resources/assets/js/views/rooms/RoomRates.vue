@@ -188,12 +188,10 @@ export default {
     onCreate() {
       this.title = `TARIFAS DE LA HABITACIÓN ${this.room.name}`;
       this.onFetchData();
-      if (this.rates.length === 0) {
-        this.onFetchRates();
-      }
+      this.onFetchRates();
     },
     onFetchRates() {
-      this.$http.get("/hotels/rooms/tables").then((response) => {
+      this.$http.get(`/hotels/rooms/tables/${this.room.establishment.id}`).then((response) => {
         this.rates = response.data.rates;
       });
     },

@@ -20,6 +20,22 @@
             {{ errors.description[0] }}
           </div>
         </div>
+        <div v-if="userType==='admin'" class="form-group">
+          <label class="control-label" for="establishment">Establecimiento</label>
+          <el-select
+            type="text"
+            id="establishment"
+            v-model="form.establishment_id"
+            :class="{ 'is-invalid': errors.establishment_id }"
+          >
+            <el-option v-for="item in establishments" :key="item.id" :value="item.id" :label="item.description">
+              {{ item.description }}
+            </el-option>
+          </el-select>
+          <div v-if="errors.establishment_id" class="invalid-feedback">
+            {{ errors.establishment_id[0] }}
+          </div>
+        </div>
         <div class="form-group">
           <label>Mostrar categoría</label>
           <el-switch v-model="form.active"></el-switch>
@@ -56,6 +72,18 @@ export default {
       type: Object,
       required: false,
       default: {},
+    },
+    establishments: {
+      type: Array,
+      required: true,
+    },
+    userType: {
+      type: String,
+      required: true,
+    },
+    establishmentId: {
+      type: Number,
+      required: true,
     },
   },
   data() {
@@ -117,6 +145,7 @@ export default {
         this.title = "Crear categoría";
         this.form = {
           active: true,
+          establishment_id: this.establishmentId,
         };
       }
     },

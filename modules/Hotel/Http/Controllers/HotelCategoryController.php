@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Modules\Hotel\Models\HotelCategory;
 use Modules\Hotel\Http\Requests\HotelCategoryRequest;
+use App\Models\Tenant\Establishment;
 
 class HotelCategoryController extends Controller
 {
@@ -16,10 +17,59 @@ class HotelCategoryController extends Controller
 	 */
 	public function index()
 	{
-		$categories = HotelCategory::orderBy('id', 'DESC')
-			->get();
+		$user = auth()->user();
 
-		return view('hotel::categories.index', compact('categories'));
+		$query = HotelCategory::with('establishment')->orderBy('id', 'DESC');
+
+		if (request()->ajax()) {
+			if (request('establishment_id') && $user->type === 'admin') {
+				$query->where('establishment_id', request('establishment_id'));
+			}
+
+			if ($user->type != 'admin') {
+				$query->where('establishment_id', $user->establishment_id);
+			}
+
+			$categories = $query->paginate(25);
+
+			$categories->getCollection()->transform(function ($category) {
+				return [
+					'id' => $category->id,
+					'description' => $category->description,
+					'image' => $category->image,
+					'active' => $category->active,
+					'establishment_id' => $category->establishment_id,
+					'establishment_name' => $category->establishment->description ?? '',
+				];
+			});
+
+			return response()->json([
+				'success' => true,
+				'categories' => $categories,
+			], 200);
+		}
+
+        $query->where('establishment_id', $user->establishment_id);
+
+		$categories = $query->paginate(25);
+		
+		$categories->getCollection()->transform(function ($category) {
+			return [
+				'id' => $category->id,
+				'description' => $category->description,
+				'image' => $category->image,
+				'active' => $category->active,
+				'establishment_id' => $category->establishment_id,
+				'establishment_name' => $category->establishment->description ?? '',
+			];
+		});
+
+		$establishments = Establishment::select('id','description')->get();
+		$userType = auth()->user()->type;
+		$establishmentId = auth()->user()->establishment_id;
+
+		return view('hotel::categories.index', compact('categories','establishments','userType','establishmentId'));
+
 	}
 
 	/**
@@ -29,11 +79,11 @@ class HotelCategoryController extends Controller
 	 */
 	public function store(HotelCategoryRequest $request)
 	{
-		$rate = HotelCategory::create($request->only('description', 'active'));
+		$category = HotelCategory::create($request->validated());
 
 		return response()->json([
 			'success' => true,
-			'data'    => $rate
+			'data'    => $category
 		], 200);
 	}
 
@@ -45,13 +95,13 @@ class HotelCategoryController extends Controller
 	 */
 	public function update(HotelCategoryRequest $request, $id)
 	{
-		$rate = HotelCategory::findOrFail($id);
-		$rate->fill($request->only('description', 'active'));
-		$rate->save();
+		$category = HotelCategory::findOrFail($id);
+		$category->fill($request->only('description', 'active','establishment_id'));
+		$category->save();
 
 		return response()->json([
 			'success' => true,
-			'data'    => $rate
+			'data'    => $category
 		], 200);
 	}
 

@@ -83,7 +83,7 @@
                                         :disabled="loading"
                                         :loading="loading"
                                         style="margin-left: auto"
-                                        title="Ir al checkout"
+                                        title="Finalizar limpieza"
                                         type="primary"
                                         @click="onFinalizeClean(ro)"
                                     >

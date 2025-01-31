@@ -14,9 +14,32 @@ class HotelFloorRequest extends FormRequest
 
 	public function rules()
 	{
-		return [
-			'description' => ['required', 'max:50', Rule::unique('tenant.hotel_floors', 'description')->ignore($this->id)],
-			'active'      => 'required|boolean',
-		];
+		$rules = [
+            'description' => [
+                'required', 
+                'max:50', 
+                Rule::unique('tenant.hotel_floors', 'description')
+                    ->where(function ($query){
+                        $query->where('establishment_id', $this->establishment_id);
+                    })
+                    ->ignore($this->id),
+            ],
+            'active' => 'required|boolean',
+            'establishment_id' => 'required|exists:tenant.establishments,id'
+        ];
+
+        return $rules;
 	}
+
+	protected function prepareForValidation()
+    {
+        $user = auth()->user();
+
+        if ($user->type !== 'admin') {
+            $this->merge([
+                'establishment_id' => $user->establishment_id,
+            ]);
+        }
+    }
+
 }

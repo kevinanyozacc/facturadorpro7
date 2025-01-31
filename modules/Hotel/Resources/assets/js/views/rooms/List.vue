@@ -27,7 +27,21 @@
       </div> -->
       <div class="card-body">
         <div class="row">
-          <div class="col-12 col-md-2 mb-3">
+          <div v-if="userType==='admin'" class="col-12 col-md-3 mb-3">
+            <div class="form-group">
+              <select
+                class="form-control form-control-default"
+                v-model="filter.establishment_id"
+                @change="onFilter"
+              >
+                <option value="">Todos</option>
+                <option v-for="item in establishments" :key="item.id" :value="item.id">
+                  {{ item.description }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="col-12 col-md-3 mb-3">
             <div class="form-group">
               <select
                 class="form-control form-control-default"
@@ -41,7 +55,7 @@
               </select>
             </div>
           </div>
-          <div class="col-12 col-md-2 mb-3">
+          <div class="col-12 col-md-3 mb-3">
             <div class="form-group">
               <select
                 class="form-control form-control-default"
@@ -55,7 +69,7 @@
               </select>
             </div>
           </div>
-          <div class="col-12 col-md-2 mb-3">
+          <div class="col-12 col-md-3 mb-3">
             <div class="form-group">
               <select
                 class="form-control form-control-default"
@@ -69,7 +83,7 @@
               </select>
             </div>
           </div>
-          <div class="col-12 col-md-2 mb-3">
+          <div class="col-12 col-md-3 mb-3">
             <form class="form-group" @submit.prevent="onFilter">
               <div class="input-group mb-3">
                 <input
@@ -99,6 +113,7 @@
                 <th>Habitación</th>
                 <th>Categoría</th>
                 <th>Piso</th>
+                <th>Establecimiento</th>
                 <th>Tarifas</th>
                 <th>Estado</th>
                 <th></th>
@@ -116,6 +131,7 @@
                 <td>{{ item.name }}</td>
                 <td>{{ item.category.description }}</td>
                 <td>{{ item.floor.description }}</td>
+                <td>{{ (item.establishment) ? item.establishment.description: '' }}</td>
                 <td>
                   <el-button class="second-buton" @click="onShowMyRates(item)">
                     <i class="fa fa-money-bill-alt"></i>
@@ -184,8 +200,9 @@
       @onAddItem="onAddItem"
       @onUpdateItem="onUpdateItem"
       :room="room"
-      :categories="categories"
-      :floors="floors"
+      :establishments="establishments"
+      :user-type="userType"
+      :establishment-id="establishmentId"
     ></ModalAddEdit>
     <ModalRoomRates
       :room="room"
@@ -208,12 +225,16 @@ export default {
       type: Object,
       required: true,
     },
-    categories: {
+    establishments: {
       type: Array,
       required: true,
     },
-    floors: {
-      type: Array,
+    userType: {
+      type: String,
+      required: true,
+    },
+    establishmentId: {
+      type: Number,
       required: true,
     },
   },
@@ -224,7 +245,10 @@ export default {
   data() {
     return {
       items: [],
+      categories: [],
+      floors: [],
       room: null,
+      establishmentIdSelected: null,
       openModalAddEdit: false,
       loading: false,
       openModalRoomRates: false,
@@ -232,6 +256,7 @@ export default {
         name: "",
         hotel_category_id: "",
         hotel_floor_id: "",
+        establishment_id: "",
         status: "",
         page: 1,
       },
@@ -247,6 +272,8 @@ export default {
     this.paginator.size = this.rooms.last_page;
     this.paginator.total = this.rooms.total;
     this.paginator.per_page = this.rooms.per_page;
+    this.filter.establishment_id = this.establishmentId;
+    this.getTables()
   },
   methods: {
     onFilter() {
@@ -259,6 +286,7 @@ export default {
           this.paginator.size = response.data.rooms.last_page;
           this.paginator.total = response.data.rooms.total;
           this.paginator.per_page = response.data.rooms.per_page;
+          this.getTables()
         })
         .finally(() => {
           this.loading = false;
@@ -285,6 +313,14 @@ export default {
         });
     },
     onShowMyRates(item) {
+
+      if(!item.establishment){
+        this.$message({
+            message: 'Primero debe asignar habitación a un establecimiento ',
+            type: "warning",
+          });
+        return ;
+      }
       this.room = { ...item };
       this.openModalRoomRates = true;
     },
@@ -319,19 +355,21 @@ export default {
       this.openModalAddEdit = true;
     },
     onUpdateItem(data) {
-      this.items = this.items.map((i) => {
-        if (i.id === data.id) {
-          return data;
-        }
-        return i;
-      });
+      this.onFilter()
     },
     onAddItem(data) {
-      this.items.unshift(data);
+      this.onFilter()
     },
     onCreate() {
       this.room = null;
       this.openModalAddEdit = true;
+    },
+    getTables() {
+      let establishment_id = this.filter.establishment_id ? this.filter.establishment_id : 0;
+      this.$http.get(`/hotels/rooms/tables/${establishment_id}`).then((response) => {
+        this.floors = response.data.floors;
+        this.categories = response.data.categories;
+      });
     },
   },
 };

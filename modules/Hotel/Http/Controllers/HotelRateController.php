@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Modules\Hotel\Models\HotelRate;
 use Modules\Hotel\Http\Requests\HotelRateRequest;
+use App\Models\Tenant\Establishment;
 
 class HotelRateController extends Controller
 {
@@ -16,10 +17,57 @@ class HotelRateController extends Controller
 	 */
 	public function index()
 	{
-		$rates = HotelRate::orderBy('id', 'DESC')
-			->get();
 
-		return view('hotel::rates.index', compact('rates'));
+		$user = auth()->user();
+
+		$query = HotelRate::with('establishment')->orderBy('id', 'DESC');
+
+		if (request()->ajax()) {
+			if (request('establishment_id') && $user->type === 'admin') {
+				$query->where('establishment_id', request('establishment_id'));
+			}
+
+			if ($user->type != 'admin') {
+				$query->where('establishment_id', $user->establishment_id);
+			}
+
+			$rates = $query->paginate(25);
+
+			$rates->getCollection()->transform(function ($rate) {
+				return [
+					'id' => $rate->id,
+					'description' => $rate->description,
+					'active' => $rate->active,
+					'establishment_id' => $rate->establishment_id,
+					'establishment_name' => $rate->establishment->description ?? '',
+				];
+			});
+
+			return response()->json([
+				'success' => true,
+				'rates' => $rates,
+			], 200);
+		}
+
+        $query->where('establishment_id', $user->establishment_id);
+
+		$rates = $query->paginate(25);
+		
+		$rates->getCollection()->transform(function ($rate) {
+			return [
+				'id' => $rate->id,
+				'description' => $rate->description,
+				'active' => $rate->active,
+				'establishment_id' => $rate->establishment_id,
+				'establishment_name' => $rate->establishment->description ?? '',
+			];
+		});
+
+		$establishments = Establishment::select('id','description')->get();
+		$userType = auth()->user()->type;
+		$establishmentId = auth()->user()->establishment_id;
+
+		return view('hotel::rates.index', compact('rates','establishments','userType','establishmentId'));
 	}
 
 	/**
@@ -29,7 +77,7 @@ class HotelRateController extends Controller
 	 */
 	public function store(HotelRateRequest $request)
 	{
-		$rate = HotelRate::create($request->only('description', 'active'));
+		$rate = HotelRate::create($request->validated());
 
 		return response()->json([
 			'success' => true,
@@ -46,7 +94,7 @@ class HotelRateController extends Controller
 	public function update(HotelRateRequest $request, $id)
 	{
 		$rate = HotelRate::findOrFail($id);
-		$rate->fill($request->only('description', 'active'));
+		$rate->fill($request->only('description', 'active','establishment_id'));
 		$rate->save();
 
 		return response()->json([

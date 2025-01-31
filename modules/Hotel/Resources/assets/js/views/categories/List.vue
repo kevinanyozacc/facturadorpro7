@@ -26,6 +26,22 @@
         <h3 class="my-0">Listado de categorías</h3>
       </div> -->
       <div class="card-body">
+        <div class="row">
+          <div v-if="userType==='admin'" class="col-12 col-md-3 mb-3">
+            <div class="form-group">
+              <select
+                class="form-control form-control-default"
+                v-model="filter.establishment_id"
+                @change="onFilter"
+              >
+                <option value="">Todos</option>
+                <option v-for="item in establishments" :key="item.id" :value="item.id">
+                  {{ item.description }}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
         <div class="table-responsive">
           <table class="table">
             <thead>
@@ -33,6 +49,7 @@
                 <th class="text-center">#</th>
                 <th>Nombre</th>
                 <th class="text-center">Visible</th>
+                <th>Establecimiento</th>
                 <th></th>
               </tr>
             </thead>
@@ -44,6 +61,7 @@
                   <span v-if="item.active">Si</span>
                   <span v-else>No</span>
                 </td>
+                <td>{{ item.establishment_name }}</td>
                 <td class="text-center">
                   <el-button type="success" @click="onEdit(item)">
                     <i class="fa fa-edit"></i>
@@ -56,6 +74,17 @@
             </tbody>
           </table>
         </div>
+        <div class="text-center">
+          <el-pagination
+            :page-size="paginator.per_page"
+            :page-count="paginator.size"
+            layout="prev, pager, next"
+            :total="paginator.total"
+            :current-page.sync="filter.page"
+            @current-change="onFilter"
+          >
+          </el-pagination>
+        </div>
       </div>
     </div>
     <ModalAddEdit
@@ -63,6 +92,9 @@
       @onAddItem="onAddItem"
       @onUpdateItem="onUpdateItem"
       :rate="rate"
+      :establishments="establishments"
+      :user-type="userType"
+      :establishment-id="establishmentId"
     ></ModalAddEdit>
   </div>
 </template>
@@ -73,7 +105,19 @@ import ModalAddEdit from "./AddEdit";
 export default {
   props: {
     categories: {
+      type: Object,
+      required: true,
+    },
+    establishments: {
       type: Array,
+      required: true,
+    },
+    userType: {
+      type: String,
+      required: true,
+    },
+    establishmentId: {
+      type: Number,
       required: true,
     },
   },
@@ -86,10 +130,23 @@ export default {
       rate: null,
       openModalAddEdit: false,
       loading: false,
+      filter: {
+        establishment_id: '',
+        page: 1,
+      },
+      paginator: {
+        size: 1,
+        total: 1,
+        per_page: 1
+      },
     };
   },
   mounted() {
-    this.items = this.categories;
+    this.items = this.categories.data;
+    this.paginator.size = this.categories.last_page;
+    this.paginator.total = this.categories.total;
+    this.paginator.per_page = this.categories.per_page;
+    this.filter.establishment_id = this.establishmentId;
   },
   methods: {
     onDelete(item) {
@@ -114,20 +171,31 @@ export default {
       this.openModalAddEdit = true;
     },
     onUpdateItem(data) {
-      this.items = this.items.map((i) => {
-        if (i.id === data.id) {
-          return data;
-        }
-        return i;
-      });
+      this.onFilter()
     },
     onAddItem(data) {
-      this.items.unshift(data);
+      this.onFilter()
     },
     onCreateRate() {
       this.rate = null;
       this.openModalAddEdit = true;
     },
+    onFilter() {
+      this.loading = true;
+      const params = this.filter;
+      this.$http
+        .get("/hotels/categories", { params })
+        .then((response) => {
+          this.items = response.data.categories.data;
+          this.paginator.size = response.data.categories.last_page;
+          this.paginator.total = response.data.categories.total;
+          this.paginator.per_page = response.data.categories.per_page;
+        })
+        .finally(() => {
+          this.loading = false;
+        });
+    },
+
   },
 };
 </script>
