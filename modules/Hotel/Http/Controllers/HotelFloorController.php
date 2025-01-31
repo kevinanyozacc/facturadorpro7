@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Modules\Hotel\Models\HotelFloor;
 use Modules\Hotel\Http\Requests\HotelFloorRequest;
+use App\Models\Tenant\Establishment;
 
 class HotelFloorController extends Controller
 {
@@ -16,10 +17,57 @@ class HotelFloorController extends Controller
 	 */
 	public function index()
 	{
-		$floors = HotelFloor::orderBy('id', 'DESC')
-			->get();
+		$user = auth()->user();
 
-		return view('hotel::floors.index', compact('floors'));
+		$query = HotelFloor::with('establishment')->orderBy('id', 'DESC');
+
+		if (request()->ajax()) {
+
+			if (request('establishment_id') && $user->type === 'admin') {
+				$query->where('establishment_id', request('establishment_id'));
+			}
+
+			if ($user->type != 'admin') {
+				$query->where('establishment_id', $user->establishment_id);
+			}
+
+			$floors = $query->paginate(25);
+
+			$floors->getCollection()->transform(function ($floor) {
+				return [
+					'id' => $floor->id,
+					'description' => $floor->description,
+					'active' => $floor->active,
+					'establishment_id' => $floor->establishment_id,
+					'establishment_name' => $floor->establishment->description ?? '',
+				];
+			});
+
+			return response()->json([
+				'success' => true,
+				'floors' => $floors,
+			], 200);
+		}
+
+        $query->where('establishment_id', $user->establishment_id);
+
+		$floors = $query->paginate(25);
+		
+		$floors->getCollection()->transform(function ($floor) {
+			return [
+				'id' => $floor->id,
+				'description' => $floor->description,
+				'active' => $floor->active,
+				'establishment_id' => $floor->establishment_id,
+				'establishment_name' => $floor->establishment->description ?? '',
+			];
+		});
+
+		$establishments = Establishment::select('id','description')->get();
+		$userType = auth()->user()->type;
+		$establishmentId = auth()->user()->establishment_id;
+
+		return view('hotel::floors.index', compact('floors','establishments','userType','establishmentId'));
 	}
 
 	/**
@@ -29,11 +77,11 @@ class HotelFloorController extends Controller
 	 */
 	public function store(HotelFloorRequest $request)
 	{
-		$rate = HotelFloor::create($request->only('description', 'active'));
+		$floor = HotelFloor::create($request->validated());
 
 		return response()->json([
 			'success' => true,
-			'data'    => $rate
+			'data'    => $floor
 		], 200);
 	}
 
@@ -45,13 +93,13 @@ class HotelFloorController extends Controller
 	 */
 	public function update(HotelFloorRequest $request, $id)
 	{
-		$rate = HotelFloor::findOrFail($id);
-		$rate->fill($request->only('description', 'active'));
-		$rate->save();
+		$floor = HotelFloor::findOrFail($id);
+		$floor->fill($request->only('description', 'active','establishment_id'));
+		$floor->save();
 
 		return response()->json([
 			'success' => true,
-			'data'    => $rate
+			'data'    => $floor
 		], 200);
 	}
 

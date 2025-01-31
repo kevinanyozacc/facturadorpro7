@@ -13,6 +13,7 @@ use Modules\Hotel\Http\Requests\HotelRoomRequest;
 use Modules\Hotel\Http\Requests\HotelFloorRequest;
 use Modules\Hotel\Models\HotelRate;
 use Modules\Hotel\Models\HotelRoomRate;
+use App\Models\Tenant\Establishment;
 
 class HotelRoomController extends Controller
 {
@@ -22,42 +23,64 @@ class HotelRoomController extends Controller
 	 */
 	public function index()
 	{
-		$rooms = HotelRoom::with('category', 'floor')
-			->orderBy('id', 'DESC');
+		$user = auth()->user();
+
+		$query = HotelRoom::with('establishment','category', 'floor')->orderBy('id', 'DESC');
 
 		if (request()->ajax()) {
-			if (request('hotel_floor_id')) {
-				$rooms = $rooms->where('hotel_floor_id', request('hotel_floor_id'));
-			}
-			if (request('hotel_category_id')) {
-				$rooms = $rooms->where('hotel_category_id', request('hotel_category_id'));
-			}
-			if (request('status')) {
-				$rooms = $rooms->where('status', request('status'));
-			}
-			if (request('name')) {
-				$rooms = $rooms->where('name', 'like', '%' . request('name') . '%');
+
+			if (request('establishment_id') && $user->type === 'admin') {
+				$query->where('establishment_id', request('establishment_id'));
 			}
 
+			if ($user->type != 'admin') {
+				$query->where('establishment_id', $user->establishment_id);
+			}
+
+			if (request('hotel_floor_id')) {
+				$query->where('hotel_floor_id', request('hotel_floor_id'));
+			}
+			if (request('hotel_category_id')) {
+				$query->where('hotel_category_id', request('hotel_category_id'));
+			}
+			if (request('status')) {
+				$query->where('status', request('status'));
+			}
+			if (request('name')) {
+				$query->where('name', 'like', '%' . request('name') . '%');
+			}
+
+			$rooms = $query->paginate(25);
 			return response()->json([
 				'success' => true,
-				'rooms'   => $rooms->paginate(25),
+				'rooms' => $rooms
 			], 200);
 		}
 
-		$rooms = $rooms->paginate(25);
+		$query->where('establishment_id', $user->establishment_id);
+
+		$rooms = $query->paginate(25);
+
+		$establishments = Establishment::select('id','description')->get();
+		$userType = auth()->user()->type;
+		$establishmentId = auth()->user()->establishment_id;
 
 		$categories = HotelCategory::where('active', true)
+			->where('establishment_id', $user->establishment_id)
 			->orderBy('description')
 			->get();
 
 		$floors = HotelFloor::where('active', true)
+			->where('establishment_id', $user->establishment_id)
 			->orderBy('description')
 			->get();
 
 		$roomStatus = HotelRoom::$status;
 
-		return view('hotel::rooms.index', compact('rooms', 'floors', 'categories', 'roomStatus'));
+
+
+		return view('hotel::rooms.index', compact('rooms', 'floors', 'categories', 'roomStatus','establishments','userType','establishmentId'));
+
 	}
 
 	/**
@@ -67,9 +90,9 @@ class HotelRoomController extends Controller
 	 */
 	public function store(HotelRoomRequest $request)
 	{
-		$room = HotelRoom::create($request->only('description', 'active', 'name', 'hotel_category_id', 'hotel_floor_id', 'item_id'));
+		$room = HotelRoom::create($request->validated());
 		$room->status = 'DISPONIBLE';
-		$room->load('category', 'floor');
+		$room->save();
 
 		return response()->json([
 			'success' => true,
@@ -86,10 +109,8 @@ class HotelRoomController extends Controller
 	public function update(HotelFloorRequest $request, $id)
 	{
 		$room = HotelRoom::findOrFail($id);
-		$room = $room->fill($request->only('description', 'active', 'name', 'hotel_category_id', 'hotel_floor_id'));
+		$room = $room->fill($request->only('description', 'active', 'name', 'hotel_category_id', 'hotel_floor_id','establishment_id'));
 		$room->save();
-
-		$room->load('category', 'floor');
 
 		return response()->json([
 			'success' => true,
@@ -133,16 +154,30 @@ class HotelRoomController extends Controller
 		], 200);
 	}
 
-	public function tables()
+	public function tables($id)
 	{
-		$rates = HotelRate::where('active', true)
-			->orderBy('description')
-			->get();
+		$user = auth()->user();
+
+		$categories = $this->getTablesQuery(HotelCategory::class, $id, $user);
+		$floors = $this->getTablesQuery(HotelFloor::class, $id, $user);
+		$rates = $this->getTablesQuery(HotelRate::class, $id, $user);
 
 		return response()->json([
-			'success' => true,
-			'rates'   => $rates,
+			'success'    => true,
+			'rates'      => $rates,
+			'floors'     => $floors,
+			'categories' => $categories
 		], 200);
+	}
+
+	private function getTablesQuery($model, $id, $user)
+	{
+		return $model::where('active', true)
+			->when($id > 0 || $user->type !== 'admin', function ($query) use ($id, $user) {
+				$query->where('establishment_id', $id > 0 ? $id : $user->establishment_id);
+			})
+			->orderBy('description')
+			->get();
 	}
 
 	public function myRates($roomId)

@@ -4,6 +4,7 @@
 
     use App\Models\Tenant\ModelTenant;
     use Illuminate\Database\Eloquent\Builder;
+    use App\Models\Tenant\Establishment;
 
     /**
      * \Modules\Hotel\Models\HotelRoom
@@ -29,7 +30,8 @@
             'hotel_floor_id',
             'active',
             'description',
-            'item_id'
+            'item_id',
+            'establishment_id',
         ];
 
         /**
@@ -60,4 +62,10 @@
         {
             return $value ? true : false;
         }
+
+        public function establishment()
+        {
+            return $this->belongsTo(Establishment::class)->select('id', 'description');;
+        }
+
     }

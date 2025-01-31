@@ -31,7 +31,7 @@ if ($hostname) {
         Route::delete('rooms/{id}/delete', 'HotelRoomController@destroy');
         Route::post('rooms/{id}/change-status', 'HotelRoomController@changeRoomStatus');
 
-        Route::get('rooms/tables', 'HotelRoomController@tables');
+        Route::get('rooms/tables/{id}', 'HotelRoomController@tables');
 
         Route::get('rooms/{id}/rates', 'HotelRoomController@myRates');
         Route::post('rooms/{id}/rates/store', 'HotelRoomController@addRateToRoom');
