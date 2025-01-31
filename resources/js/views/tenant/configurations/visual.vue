@@ -153,73 +153,7 @@
         },
         data() {
             return {
-                themes: {
-                    white: {
-                        "--primary-color": "#0c7286",
-                        "--dark-color": "#001524",
-                        "--light-color": "#eef5f5",
-                        "--accent-color": "#d5e8e8",
-                        "--highlight-color": "#75e4e4",
-                        "--background-dark": "#12192d",
-                        "--contents-dark": "#16223a",
-                        "--inputs-dark": "#383f53",
-                        "--borders-dark": "#2d394c",
-                        "--button-second": "#283046",
-                        "--font-family": "'Roboto', sans-serif;"
-                    },
-                    acid: {
-                        "--primary-color": "#2a117a",
-                        "--dark-color": "#120736",
-                        "--light-color": "#edeff5",
-                        "--accent-color": "#d8dde9",
-                        "--highlight-color": "#6e648e",
-                        "--background-dark": "#1a103d",
-                        "--contents-dark": "#221551",
-                        "--inputs-dark": "#432f89",
-                        "--borders-dark": "#352766",
-                        "--button-second": "#5740a9",
-                        "--font-family": "'Host Grotesk', sans-serif;"
-                    },
-                    cupcake: {
-                        "--primary-color": "#291334",
-                        "--dark-color": "#291334",
-                        "--light-color": "#f5f2f2",
-                        "--accent-color": "#eee7e7",
-                        "--highlight-color": "#decfcf",
-                        "--background-dark": "#121c22",
-                        "--contents-dark": "#1b262c",
-                        "--inputs-dark": "#1a2c37",
-                        "--borders-dark": "#2c3842",
-                        "--button-second": "#1b262c",
-                        "--font-family": "'Sora', sans-serif;"
-                    },
-                    retro: {
-                        "--primary-color": "#2f0404",
-                        "--dark-color": "#282425",
-                        "--light-color": "#f6f0e0",
-                        "--accent-color": "#ece3ca",
-                        "--highlight-color": "#e4d8b4",
-                        "--background-dark": "#20161f",
-                        "--contents-dark": "#2a2129",
-                        "--inputs-dark": "#302930",
-                        "--borders-dark": "#251e24",
-                        "--button-second": "#332931",
-                        "--font-family": "'IBM Plex Mono', sans-serif;"
-                    },
-                    lemonade: {
-                        "--primary-color": "#343300",
-                        "--dark-color": "#434440",
-                        "--light-color": "#eef4e4",
-                        "--accent-color": "#d5e3bc",
-                        "--highlight-color": "#c4d4a4",
-                        "--background-dark": "#171212",
-                        "--contents-dark": "#231e1e",
-                        "--inputs-dark": "#272323",
-                        "--borders-dark": "#322d2d",
-                        "--button-second": "#140f0f",
-                        "--font-family": "'Questrial', sans-serif;"
-                    }
-                },
+                themes: {},
                 showWelcome: localStorage.getItem('show_welcome_panel') === 'true', 
                 loading_submit: false,
                 resource: 'configurations',
@@ -231,10 +165,19 @@
             }
         },
         async created() {
+            await this.loadThemes();
             await this.initForm()
             await this.getRecords()
         },
         methods: {
+            async loadThemes() {
+                try {
+                    const response = await fetch('/json/themes/themes.json');
+                    this.themes = await response.json();
+                } catch (error) {
+                    console.error('Error loading themes:', error);
+                }
+            },
             updateConfig() {
                 localStorage.setItem('show_welcome_panel', this.showWelcome);
                 this.toggleWelcomeComponent();
@@ -249,6 +192,11 @@
             },
             applyTheme(theme) {
                 const colors = this.themes[theme];
+                if (!colors) {
+                    console.error(`Theme "${theme}" not found.`);
+                    return;
+                }
+
                 let styleTag = document.getElementById('theme-styles');
                 if (!styleTag) {
                     styleTag = document.createElement('style');
@@ -286,12 +234,12 @@
                 }
             },
             async getRecords() {
-                this.$http.get(`/${this.resource}/record`) .then(response => {
-                    if (response.data !== ''){
+                this.$http.get(`/${this.resource}/record`).then(response => {
+                    if (response.data !== '') {
                         this.visuals = response.data.data.visual;
                         this.form = response.data.data;
                         this.skins = response.data.data.skins;
-                        if(this.visual.sidebar_theme){
+                        if (this.visual.sidebar_theme) {
                             this.applyTheme(this.visual.sidebar_theme)
                         }
                     }

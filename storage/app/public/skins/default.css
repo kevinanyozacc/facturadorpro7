@@ -475,7 +475,7 @@ ul.nav.list-config li:hover {
     height: 98% !important;
 }
 .pdf-template-border.active-border {
-    border: 2px solid #0e8ba4 !important; /* Active state with blue border */
+    border: 4px solid var(--primary-color) !important;
 }
 .pdf-template-border {
     border: 2px solid var(--accent-color) !important;
@@ -533,11 +533,6 @@ table,
 ul.nav-main li.nav-parent > a:after {
     color: var(--dark-color);
 }
-html.fixed.sidebar-white .sidebar-left a:not(.nav-children a) {
-    color: var(--dark-color);
-    font-size: 15px;
-    /* opacity: 0.5; */
-}
 ul.nav-main > li a,
 ul.nav-main > li.nav-active > a {
     transition: all 0.05s ease;
@@ -575,9 +570,9 @@ ul.nav-main li.nav-expanded > a {
     background-color: #81b5b5 !important;
 }
 /* end scroll style */
-html.fixed.sidebar-white .sidebar-left a:hover,
-html.fixed.sidebar-white .sidebar-left a:active,
-html.fixed.sidebar-white .sidebar-left a:focus {
+html.fixed.sidebar-white:not(.dark) .sidebar-left a:hover,
+html.fixed.sidebar-white:not(.dark) .sidebar-left a:active,
+html.fixed.sidebar-white:not(.dark) .sidebar-left a:focus {
     color: var(--dark-color);
 }
 .el-dialog {
@@ -648,8 +643,12 @@ html.sidebar-left-collapsed .sidebar-left .nav-main > li > a {
 .table-td-orders{
     border: none !important;
 }
-html.fixed.sidebar-white .sidebar-left a {
+.el-month-table td.today .cell {
+    color: var(--primary-color);
+}
+html.fixed.sidebar-white:not(.dark) .sidebar-left a {
     color: var(--dark-color);
+    font-size: 15px;
 }
 @media only screen and (min-width: 768px) {
     html.sidebar-left-collapsed .sidebar-left,
@@ -924,8 +923,16 @@ html.sidebar-light ul.nav-main > li a:has( + .nav-children) {
     /* font-size: 15px;
     border-radius: 12px; */
 }
-html.fixed.sidebar-white .sidebar-left, html.fixed.sidebar-white .sidebar-header, html.fixed.sidebar-white .sidebar-left .nano {
+html.fixed.sidebar-white:not(.dark) .sidebar-left, html.fixed.sidebar-white:not(.dark) .sidebar-header, html.fixed.sidebar-white:not(.dark) .sidebar-left .nano {
     background-color: var(--light-color) !important;
+}
+html.sidebar-blue:not(.dark) .style-switcher,
+html.sidebar-blue:not(.dark) .style-switcher .style-switcher-open {
+    background-color: #f6f6f6;
+    color: #777;
+    border-left: 3px solid #e2e3e6;
+    border-top: 3px solid #e2e3e6;
+    border-bottom: 3px solid #e2e3e6;
 }
 ul.nav-main li.nav-parent > a:after {
     padding: 15px 25px;
@@ -2241,5 +2248,30 @@ html.sidebar-dark .el-button--primary, html.sidebar-dark .btn-custom {
 }
 html.sidebar-dark .userbox.show .dropdown-menu a:hover {
     background-color: var(--inputs-dark);
+}
+html.fixed.sidebar-white .sidebar-left, html.fixed.sidebar-white .sidebar-header, html.fixed.sidebar-white .sidebar-left .nano {
+    background-color: var(--background-dark) !important;
+}
+html.dark ul.nav-main li .nav-children li a:before {
+    border: 1px solid var(--accent-color);
+}
+html.fixed.sidebar-white .sidebar-left a {
+    color: var(--accent-color);
+}
+html.fixed.sidebar-white .sidebar-left a {
+    color: var(--accent-color);
+    font-size: 15px;
+}
+html.fixed.sidebar-white .sidebar-left a:hover,
+html.fixed.sidebar-white .sidebar-left a:active,
+html.fixed.sidebar-white .sidebar-left a:focus {
+    color: var(--light-color);
+}
+html.dark .el-message--success {
+    background-color: #67C23A;
+    border-color: #67C23A;
+}
+html.dark .el-message .el-icon-success {
+    color: var(--accent-color);
 }
 /* end */
