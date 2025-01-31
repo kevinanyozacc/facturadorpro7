@@ -1138,7 +1138,7 @@
                     contact:null,
                     phone:null,
                 }
-
+                this.total_global_discount = 0
                 this.total_discount_no_base = 0
                 this.initInputPerson()
                 // no se agrega pago por defecto para controlar flujo caja pos
@@ -1295,7 +1295,7 @@
                 this.setTotalDefaultPayment()
                 // Activar tabla de pagos si hay productos
                 this.showPayments = this.form.items.length > 0;
-                if (this.enabled_discount_global)
+                if (this.enabled_discount_global && this.total_global_discount > 0  )
                     this.discountGlobal(totals_without_rounding)
                 
 
