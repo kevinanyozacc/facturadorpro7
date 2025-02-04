@@ -2798,6 +2798,11 @@ export default {
 
             this.form.additional_information = this.onPrepareAdditionalInformation(data.additional_information);
 
+            if (this.enabled_discount_global) {
+                let discount_global = this.configuration.global_discount_type_id === "02" && this.configuration.exact_discount ? _.round(parseFloat((data.total_discount * 1.18).toFixed(3)),2) : data.total_discount;
+                this.total_global_discount = discount_global
+            }
+
             // this.form.additional_information = data.additional_information;
             // this.form.fee = [];
             this.prepareDataDetraction()
