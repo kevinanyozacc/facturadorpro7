@@ -44,7 +44,7 @@ html.sidebar-light:not(.dark) .page-header h2 {
 }
 
 .el-dialog__header {
-    padding: 0px !important;
+    padding: 0px;
     padding-bottom: 0px !important;
 }
 
@@ -86,14 +86,14 @@ html.sidebar-light:not(.dark) .page-header h2 {
 
 
 .btn-primary-pos {
-	background-color: #fff;
-    border-color: #e0e6f8;
-    color: #60769a;
+	background-color: var(--accent-color);
+    border-color: var(--light-color);
+    color: var(--primary-color);
 }
 
 .btn-primary-pos:hover, .btn-primary-pos.hover {
-	background-color: #2447e8;
-	border-color: #2447e8;
+	background-color: var(--primary-color);
+	border-color: var(--primary-color);
 	color: #FFF;
 }
 
@@ -144,6 +144,7 @@ html.sidebar-light:not(.dark) .page-header h2 {
     padding: 0;
     border-radius: 8px 8px 0 0 !important;
     border-bottom: none !important;
+    border: 1px solid var(--accent-color) !important;
 }
 .pos .card.product-item {
     margin-bottom: 12px;
@@ -155,7 +156,7 @@ small.measuring-unit{
 
 .pos .card-footer {
     position: relative;
-    border: 1px solid #e0e6f7;
+    border: 1px solid var(--accent-color);
     border-radius: 0 0 8px 8px !important;
     border-top: none;
 }
@@ -170,21 +171,21 @@ button.edit-price {
 }
 
 .card-footer h5 {
-    color: #2447e8;
+    color: var(--primary-color);
 }
 
 .card-footer.configuration-options{
     width:100% !important; 
     padding:6px 0 2px 0 !important; 
-    background: #f8f8fa;
+    background: var(--light-color);
 }
 
 .card:hover .card-footer.configuration-options{
-    background: #d9e3ff;
+    background: var(--highlight-color);
 }
 
 .card.product-item:hover {
-    box-shadow: 0 0 2px #2447e87d;
+    box-shadow: 0 0 2px var(--accent-color);
     border-radius: 8px;
 }
 
@@ -262,7 +263,7 @@ html.dark button.btn-primary-pos {
 html.dark .card-body,
 html.dark .card-footer {
     background: #283046;
-    border-color: #314267 !important;
+    border-color: #314267;
 }
 
 html.dark .bg-white,

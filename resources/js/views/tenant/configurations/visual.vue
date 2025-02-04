@@ -34,47 +34,47 @@
                         <i class="fas fa-sun"></i> Modo Claro
                     </a>
                 </div>
-                <div class="pt-3">
+                <!-- <div class="pt-3">
                     <h5>Color de fondo del sidebar</h5>
                     <div class="form-group el-custom-control">
                         <button :class="{ 'active': visuals.sidebar_theme === 'white' }" type="button" @click="onChangeBgSidebar('white')" class="btn flex-fill" style="background-color: #ffffff;"></button>
                         <button :class="{ 'active': visuals.sidebar_theme === 'blue' }" type="button" @click="onChangeBgSidebar('blue')" class="btn flex-fill" style="background-color: #7367f0;"></button>
-                        <!-- <button :class="{ 'active': visuals.sidebar_theme === 'gray' }" type="button" @click="onChangeBgSidebar('gray')" class="btn" style="background-color: #82868b;"></button> -->
+                        <button :class="{ 'active': visuals.sidebar_theme === 'gray' }" type="button" @click="onChangeBgSidebar('gray')" class="btn" style="background-color: #82868b;"></button>
                         <button :class="{ 'active': visuals.sidebar_theme === 'green' }" type="button" @click="onChangeBgSidebar('green')" class="btn flex-fill" style="background-color: #28c76f;"></button>
                         <button :class="{ 'active': visuals.sidebar_theme === 'red' }" type="button" @click="onChangeBgSidebar('red')" class="btn flex-fill" style="background-color: #ea5455;"></button>
-                        <!-- <button :class="{ 'active': visuals.sidebar_theme === 'warning' }" type="button" @click="onChangeBgSidebar('warning')" class="btn" style="background-color: #ff9f43;"></button> -->
-                        <!-- <button :class="{ 'active': visuals.sidebar_theme === 'ligth-blue' }" type="button" @click="onChangeBgSidebar('ligth-blue')" class="btn" style="background-color: #00cfe8;"></button> -->
+                        <button :class="{ 'active': visuals.sidebar_theme === 'warning' }" type="button" @click="onChangeBgSidebar('warning')" class="btn" style="background-color: #ff9f43;"></button>
+                        <button :class="{ 'active': visuals.sidebar_theme === 'ligth-blue' }" type="button" @click="onChangeBgSidebar('ligth-blue')" class="btn" style="background-color: #00cfe8;"></button>
                         <button :class="{ 'active': visuals.sidebar_theme === 'dark' }" type="button" @click="onChangeBgSidebar('dark')" class="btn flex-fill" style="background-color: #283046;"></button>
                     </div>
-                </div>
+                </div> -->
 
                 <div class="mt-3">
                     <h5>Selecciona un color de tema:</h5>
                     <div class="color-selector">
                         <button type="button" 
                                 class="btn-theme-white"
-                                @click="applyTheme('white')"
-                                style="background-color: #26a2ba;">
+                                @click="onChangeTheme('white')"
+                                style="background-color: #90dad9;">
                         </button>
                         <button type="button" 
                                 class="btn-theme-acid"
-                                @click="applyTheme('acid')"
-                                style="background-color: #3e1baf;">
+                                @click="onChangeTheme('acid')"
+                                style="background-color: #c1b1f1;">
                         </button>
                         <button type="button" 
                                 class="btn-theme-cupcake"
-                                @click="applyTheme('cupcake')"
-                                style="background-color: #1e0b29;">
+                                @click="onChangeTheme('cupcake')"
+                                style="background-color: #e7dad0;">
                         </button>
                         <button type="button" 
                                 class="btn-theme-retro"
-                                @click="applyTheme('retro')"
-                                style="background-color: #c8ae78;">
+                                @click="onChangeTheme('retro')"
+                                style="background-color: #ebddb7;">
                         </button>
                         <button type="button" 
                                 class="btn-theme-lemonade"
-                                @click="applyTheme('lemonade')"
-                                style="background-color: #527852;">
+                                @click="onChangeTheme('lemonade')"
+                                style="background-color: #cddfae;">
                         </button>
                     </div>
                 </div>
@@ -153,69 +153,7 @@
         },
         data() {
             return {
-                themes: {
-                    white: {
-                        "--primary-color": "#0c7286",
-                        "--dark-color": "#001524",
-                        "--light-color": "#eef5f5",
-                        "--accent-color": "#d5e8e8",
-                        "--highlight-color": "#75e4e4",
-                        "--background-dark": "#12192d",
-                        "--contents-dark": "#16223a",
-                        "--inputs-dark": "#383f53",
-                        "--borders-dark": "#2d394c",
-                        "--button-second": "#283046"
-                        
-                    },
-                    acid: {
-                        "--primary-color": "#2a117a",
-                        "--dark-color": "#0d0721",
-                        "--light-color": "#fafafa",
-                        "--accent-color": "#f0ebf9",
-                        "--highlight-color": "#6e648e",
-                        "--background-dark": "#1a103d",
-                        "--contents-dark": "#221551",
-                        "--inputs-dark": "#432f89",
-                        "--borders-dark": "#352766",
-                        "--button-second": "#5740a9"
-                    },
-                    cupcake: {
-                        "--primary-color": "#051712",
-                        "--dark-color": "#180c1f",
-                        "--light-color": "#faf7f5",
-                        "--accent-color": "#e8e1ec",
-                        "--highlight-color": "#7b9e8b",
-                        "--background-dark": "#121c22",
-                        "--contents-dark": "#1b262c",
-                        "--inputs-dark": "#1a2c37",
-                        "--borders-dark": "#2c3842",
-                        "--button-second": "#1b262c"
-                    },
-                    retro: {
-                        "--primary-color": "#1b1517",
-                        "--dark-color": "#282425",
-                        "--light-color": "#fffaed",
-                        "--accent-color": "#fff2cd",
-                        "--highlight-color": "#e0c881",
-                        "--background-dark": "#20161f",
-                        "--contents-dark": "#2a2129",
-                        "--inputs-dark": "#302930",
-                        "--borders-dark": "#251e24",
-                        "--button-second": "#332931"
-                    },
-                    lemonade: {
-                        "--primary-color": "#343300",
-                        "--dark-color": "#1d1c01",
-                        "--light-color": "#f8fdef",
-                        "--accent-color": "#d1dcbd",
-                        "--highlight-color": "#899a6b",
-                        "--background-dark": "#171212",
-                        "--contents-dark": "#231e1e",
-                        "--inputs-dark": "#272323",
-                        "--borders-dark": "#322d2d",
-                        "--button-second": "#140f0f"
-                    }
-                },
+                themes: {},
                 showWelcome: localStorage.getItem('show_welcome_panel') === 'true', 
                 loading_submit: false,
                 resource: 'configurations',
@@ -227,16 +165,19 @@
             }
         },
         async created() {
+            await this.loadThemes();
             await this.initForm()
             await this.getRecords()
-
-            await this.initForm();
-            const savedTheme = localStorage.getItem('selectedTheme');
-            if (savedTheme && this.themes[savedTheme]) {
-                this.applyTheme(savedTheme);
-            }
         },
         methods: {
+            async loadThemes() {
+                try {
+                    const response = await fetch('/json/themes/themes.json');
+                    this.themes = await response.json();
+                } catch (error) {
+                    console.error('Error loading themes:', error);
+                }
+            },
             updateConfig() {
                 localStorage.setItem('show_welcome_panel', this.showWelcome);
                 this.toggleWelcomeComponent();
@@ -251,8 +192,12 @@
             },
             applyTheme(theme) {
                 const colors = this.themes[theme];
-                let styleTag = document.getElementById('theme-styles');
+                if (!colors) {
+                    console.error(`Theme "${theme}" not found.`);
+                    return;
+                }
 
+                let styleTag = document.getElementById('theme-styles');
                 if (!styleTag) {
                     styleTag = document.createElement('style');
                     styleTag.id = 'theme-styles';
@@ -264,16 +209,14 @@
                     cssString += `${variable}: ${colors[variable]}; `;
                 });
 
-                if (theme === "retro") {
-                    cssString += "--font-family: 'PT Mono', sans-serif;";
-                } else {
-                    cssString += "--font-family: initial;";
-                }
                 cssString += '}';
 
                 styleTag.innerHTML = cssString;
-
-                localStorage.setItem('selectedTheme', theme);
+            },
+            onChangeTheme(theme) {
+                this.visuals.sidebar_theme = theme;
+                this.submit();
+                this.applyTheme(theme);
             },
             onChangeBgSidebar(theme) {
                 this.visuals.sidebar_theme = theme;
@@ -290,12 +233,15 @@
                     skins: 1,
                 }
             },
-            getRecords() {
-                this.$http.get(`/${this.resource}/record`) .then(response => {
-                    if (response.data !== ''){
+            async getRecords() {
+                this.$http.get(`/${this.resource}/record`).then(response => {
+                    if (response.data !== '') {
                         this.visuals = response.data.data.visual;
                         this.form = response.data.data;
                         this.skins = response.data.data.skins;
+                        if (this.visual.sidebar_theme) {
+                            this.applyTheme(this.visual.sidebar_theme)
+                        }
                     }
                 });
             },
@@ -316,7 +262,7 @@
                         console.log(error);
                     }
                 }).then(() => {
-                    location.reload();
+                    // location.reload();
                 });
             },
             submitForm() {

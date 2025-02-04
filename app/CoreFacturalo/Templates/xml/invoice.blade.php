@@ -302,7 +302,7 @@
         @if($document->total_unaffected > 0)
         <cac:TaxSubtotal>
             <cbc:TaxableAmount currencyID="{{ $document->currency_type_id }}">{{ $document->total_unaffected }}</cbc:TaxableAmount>
-            <cbc:TaxAmount currencyID="{{ $document->currency_type_id }}">0</cbc:TaxAmount>
+            <cbc:TaxAmount currencyID="{{ $document->currency_type_id }}">0.00</cbc:TaxAmount>
             <cac:TaxCategory>
                 <cac:TaxScheme>
                     <cbc:ID>9998</cbc:ID>
@@ -314,7 +314,7 @@
         @elseif(collect($document->prepayments)->count() > 0 && collect($document->discounts)->where('discount_type_id', '06')->count() === 1 && $document->total_unaffected >= 0)
         <cac:TaxSubtotal>
             <cbc:TaxableAmount currencyID="{{ $document->currency_type_id }}">{{ $document->total_unaffected }}</cbc:TaxableAmount>
-            <cbc:TaxAmount currencyID="{{ $document->currency_type_id }}">0</cbc:TaxAmount>
+            <cbc:TaxAmount currencyID="{{ $document->currency_type_id }}">0.00</cbc:TaxAmount>
             <cac:TaxCategory>
                 <cac:TaxScheme>
                     <cbc:ID>9998</cbc:ID>
@@ -327,7 +327,7 @@
         @if($document->total_exonerated > 0)
         <cac:TaxSubtotal>
             <cbc:TaxableAmount currencyID="{{ $document->currency_type_id }}">{{ $document->total_exonerated }}</cbc:TaxableAmount>
-            <cbc:TaxAmount currencyID="{{ $document->currency_type_id }}">0</cbc:TaxAmount>
+            <cbc:TaxAmount currencyID="{{ $document->currency_type_id }}">0.00</cbc:TaxAmount>
             <cac:TaxCategory>
                 <cac:TaxScheme>
                     <cbc:ID>9997</cbc:ID>
@@ -339,7 +339,7 @@
         @elseif(collect($document->prepayments)->count() > 0 && collect($document->discounts)->where('discount_type_id', '05')->count() === 1 && $document->total_exonerated >= 0)
         <cac:TaxSubtotal>
             <cbc:TaxableAmount currencyID="{{ $document->currency_type_id }}">{{ $document->total_exonerated }}</cbc:TaxableAmount>
-            <cbc:TaxAmount currencyID="{{ $document->currency_type_id }}">0</cbc:TaxAmount>
+            <cbc:TaxAmount currencyID="{{ $document->currency_type_id }}">0.00</cbc:TaxAmount>
             <cac:TaxCategory>
                 <cac:TaxScheme>
                     <cbc:ID>9997</cbc:ID>
@@ -370,7 +370,7 @@
         @if($document->total_exportation > 0)
         <cac:TaxSubtotal>
             <cbc:TaxableAmount currencyID="{{ $document->currency_type_id }}">{{ $document->total_exportation }}</cbc:TaxableAmount>
-            <cbc:TaxAmount currencyID="{{ $document->currency_type_id }}">0</cbc:TaxAmount>
+            <cbc:TaxAmount currencyID="{{ $document->currency_type_id }}">0.00</cbc:TaxAmount>
             <cac:TaxCategory>
                 <cac:TaxScheme>
                     <cbc:ID>9995</cbc:ID>

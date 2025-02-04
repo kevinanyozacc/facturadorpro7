@@ -52,7 +52,7 @@
             <td>{{ row.unit_type_id }}</td>
             <td class="text-center">
               <a @click="viewImages(row)" href="#">
-                <img :src="row.image_url_small" style="object-fit: cover;" alt width="48px" height="48px" />
+                <img :src="row.image_url_small" style="object-fit: contain;" alt width="32px" height="32px" />
               </a>
             </td>
             <td>{{ row.description }}</td>

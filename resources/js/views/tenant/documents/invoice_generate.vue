@@ -2119,6 +2119,8 @@ export default {
                 }
             ],
             showDialogPreview: false,
+            value_taxed_without_rounded : 0,
+            total_without_rounded : 0,
         }
     },
     computed: {
@@ -4032,6 +4034,27 @@ export default {
                 total_base_isc += parseFloat(row.total_base_isc)
             });
 
+
+            let total_taxes = total_igv + total_isc + total_plastic_bag_taxes;
+            let total_all = total - this.total_discount_no_base
+
+            let totals_without_rounding = {
+                total_discount,
+                total_charge,
+                total_exportation,
+                total_taxed,
+                total_exonerated,
+                total_unaffected,
+                total_free,
+                total_igv,
+                total_value,
+                 total: total_all,
+                total_plastic_bag_taxes,
+                 total_igv_free,
+                 total_base_isc,
+                 total_isc,
+                 total_taxes
+            } 
             // isc
             this.form.total_base_isc = _.round(total_base_isc, 2)
             this.form.total_isc = _.round(total_isc, 2)
@@ -4049,18 +4072,18 @@ export default {
             // this.form.total_taxes = _.round(total_igv, 2)
 
             //impuestos (isc + igv + icbper)
-            this.form.total_taxes = _.round(total_igv + total_isc + total_plastic_bag_taxes, 2);
+            this.form.total_taxes = _.round(total_taxes, 2);
 
             this.form.total_plastic_bag_taxes = _.round(total_plastic_bag_taxes, 2)
 
             this.form.subtotal = _.round(total, 2)
-            this.form.total = _.round(total - this.total_discount_no_base, 2)
+            this.form.total = _.round(total_all, 2)
 
             // this.form.subtotal = _.round(total + this.form.total_plastic_bag_taxes, 2)
             // this.form.total = _.round(total + this.form.total_plastic_bag_taxes - this.total_discount_no_base, 2)
 
             if (this.enabled_discount_global)
-                this.discountGlobal()
+                this.discountGlobal(totals_without_rounding)
 
             if (this.prepayment_deduction)
                 this.discountGlobalPrepayment()
@@ -4202,7 +4225,8 @@ export default {
                 is_amount: this.is_amount
             })
         },
-        discountGlobal() {
+        //Parametro ctx, mantiene los valores sin redondeo
+        discountGlobal(ctx) {
 
             this.deleteDiscountGlobal()
 
@@ -4212,7 +4236,8 @@ export default {
             if (input_global_discount > 0)
             {
                 const percentage_igv = 18
-                let base = (this.isGlobalDiscountBase) ? parseFloat(this.form.total_taxed) : parseFloat(this.form.total)
+                let base = (this.isGlobalDiscountBase) ? parseFloat(ctx.total_taxed) : parseFloat(ctx.total)
+                
                 let amount = 0
                 let factor = 0
 
@@ -4227,18 +4252,26 @@ export default {
                     amount = factor * base
                 }
 
-                this.form.total_discount = _.round(amount, 2)
+                
 
                 // descuentos que afectan la bi
                 if(this.isGlobalDiscountBase)
                 {
-                    this.form.total_taxed = _.round(base - this.form.total_discount, 2)
-                    this.form.total_value = this.form.total_taxed
-                    this.form.total_igv = _.round(this.form.total_taxed * (percentage_igv / 100), 2)
+                    
+                    let total_taxed = base - amount;
+                    let total_igv = total_taxed * (percentage_igv / 100);
+                    let total_taxes = total_igv + ctx.total_isc + ctx.total_plastic_bag_taxes;
+                    let total = total_taxed + total_taxes;
+                    
+                    this.form.total_taxed = _.round(parseFloat(total_taxed.toFixed(3)), 2)
 
+                    this.form.total_value = this.form.total_taxed
+                    
+                    this.form.total_igv = _.round(total_taxed * (percentage_igv / 100), 2)
+                    
                     //impuestos (isc + igv + icbper)
-                    this.form.total_taxes = _.round(this.form.total_igv + this.form.total_isc + this.form.total_plastic_bag_taxes, 2);
-                    this.form.total = _.round(this.form.total_taxed + this.form.total_taxes, 2)
+                    this.form.total_taxes = _.round( parseFloat(total_taxes.toFixed(3)), 2);
+                    this.form.total = _.round(total, 2)
                     this.form.subtotal = this.form.total
 
                     if (this.form.total <= 0) this.$message.error("El total debe ser mayor a 0, verifique el tipo de descuento asignado (Configuración/Avanzado/Contable)")
@@ -4250,7 +4283,8 @@ export default {
                     this.form.total = _.round(this.form.total - amount, 2)
                 }
 
-                this.setGlobalDiscount(factor, _.round(amount, 2), base)
+                this.form.total_discount = _.round(amount, 2)
+                this.setGlobalDiscount(factor, _.round(amount, 2), _.round(base, 2))
 
             }
 

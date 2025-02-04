@@ -42,7 +42,7 @@
             </div>
             <div class="col-md-4 text-right pr-3">
             <div class="row">
-                <div class="col-6 pt-2">
+                <div class="col-6" style="padding-top: 2.5px;">
                     <el-select
                         v-if="!configuration.enable_list_product"
                         v-model="selected_option_price"
@@ -167,6 +167,8 @@
                     >
                         <template v-if="validteCreateProduct">
                             <el-button
+                                type="primary"
+                                style="margin-top: -20px; position: absolute;"
                                 slot="append"
                                 icon="el-icon-plus"
                                 @click.prevent="showDialogNewItem = true"
@@ -195,6 +197,7 @@
                     >
                         <template v-if="validteCreateProduct">
                             <el-button
+                                type="primary"
                                 slot="append"
                                 icon="el-icon-plus"
                                 @click.prevent="showDialogNewItem = true"
@@ -239,7 +242,7 @@
                         <div v-bind:style="classObjectCol" :key="index">
                             <section class="card product-item">
                                 <div
-                                    class="card-body pointer px-2 pt-2"
+                                    class="card-body card-product-pos pointer px-2 pt-2"
                                     @click="clickAddItem(item, index)"
                                 >
                                     <!-- <p
@@ -261,15 +264,10 @@
                                         :src="item.image_url"
                                         class="img-thumbail img-custom"
                                     />
-                                    <p class="text-muted mb-0">
+                                    <p class="text-muted mb-0" style="display: flex; justify-content: space-between;">
                                         <small>{{ item.internal_id }}</small>
-                                        <template v-if="item.sets.length > 0">
-                                            <br/>
-                                            <small>
-                                                {{ item.sets.join("-") }}
-                                            </small>
-                                        </template>
                                         <small class="measuring-unit">{{ item.unit_type_id }}</small>
+                                                                              
 
                                         <!-- <el-popover v-if="item.warehouses" placement="right" width="280"  trigger="hover">
                       <el-table  :data="item.warehouses">
@@ -281,13 +279,36 @@
                                     </p>
                                     <p v-if="configuration.show_complete_name_pos" class="font-weight-semibold mb-0 text-center">
                                         {{ item.description }}
+                                        <el-tooltip
+                                            class="item"
+                                            effect="dark"
+                                            :content="item.sets.flat().join(',\n')"
+                                            placement="bottom"
+                                        >
+                                            <i v-if="item.sets.length > 0" 
+                                               class="fas fa-box-open ms-2" 
+                                               style="cursor: pointer;">
+                                            </i>
+                                        </el-tooltip>
                                     </p>
-                                    <p v-else class="font-weight-semibold mb-0 text-center">
+                                    <p v-else class="font-weight-semibold mb-0 text-center" 
+                                       style="display: flex; justify-content: center; align-items: center;">
                                         {{ item.description.substring(0, 50) }}
-                                    </p>
+                                        <el-tooltip
+                                            class="item"
+                                            effect="dark"
+                                            :content="item.sets.flat().join(',\n')"
+                                            placement="bottom"
+                                        >
+                                            <i v-if="item.sets.length > 0" 
+                                               class="fas fa-box-open ms-2 ml-2" 
+                                               style="cursor: pointer;">
+                                            </i>
+                                        </el-tooltip>                           
+                                    </p>                                    
 
                                 </div>
-                                <div class="card-footer pointer text-center bg-white">
+                                <div class="card-footer card-footer-pos pointer text-center bg-white">
                                     <!-- <button type="button" class="btn waves-effect waves-light btn-xs btn-danger m-1__2" @click="clickHistorySales(item.item_id)"><i class="fa fa-list"></i></button>
                   <button type="button" class="btn waves-effect waves-light btn-xs btn-success m-1__2" @click="clickHistoryPurchases(item.item_id)"><i class="fas fa-cart-plus"></i></button> -->
                                     <template v-if="!item.edit_unit_price">
@@ -582,9 +603,22 @@
                             <table class="table table-sm table-borderless mb-0 pos-list-items">
                                 <tr v-for="(item, index) in form.items.slice().reverse()"  :key="index">
                                     <td class="">
-                                        <p class="item-description">{{ item.item.description }}</p>
+                                        <p class="item-description">
+                                            {{ item.item.description }}
+                                            <!-- Icono de ver más con el-tooltip -->
+                                            <el-tooltip
+                                                class="item"
+                                                effect="dark"
+                                                :content="nameSets(item.item_id)"
+                                                placement="bottom-end"
+                                            >
+                                                <i v-if="nameSets(item.item_id).length > 0" 
+                                                   class="fas fa-box-open ms-2" 
+                                                   style="cursor: pointer;">
+                                                </i> <!-- Icono de ver más -->
+                                            </el-tooltip>
+                                        </p>
                                         <small>{{ item.unit_type_id }}</small><br>
-                                        <small>{{ nameSets(item.item_id) }}</small>
                                     </td>
                                     <td style="width: 80px; vertical-align: top">
                                         <el-input v-model="item.item.aux_quantity"
@@ -909,7 +943,40 @@
 .el-input-group__append {
     padding: 0 10px !important;
 }
+.custom-tooltip {
+    position: relative;
+    z-index: 1999 !important;
+}
 
+.custom-tooltip::after {
+    content: attr(data-title);
+    position: absolute;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    white-space: pre-line; /* Para respetar los saltos de línea */
+    display: none;
+    left: 50%;
+    top: 100%;
+    transform: translateX(-50%);
+    z-index: 1999 !important;
+    width: max-content;
+    max-width: 200px;
+}
+
+.custom-tooltip:hover::after {
+    display: block;
+    z-index: 1999 !important;
+}
+.el-tooltip__popper {
+    white-space: pre-line;  /* Asegura que los saltos de línea se respeten */
+}
+.el-input-group__append {
+    background-color: transparent;
+    border: 1px solid transparent;
+}
 @media only screen and (max-width: 767px)
 {
     #main-wrapper {
@@ -2370,7 +2437,7 @@ export default {
             let row = this.items.find(x => x.item_id == id);
             if (row) {
                 if (row.sets.length > 0) {
-                    return row.sets.join("-");
+                    return row.sets.join(',\n');
                 } else {
                     return "";
                 }
