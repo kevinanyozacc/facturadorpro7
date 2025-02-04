@@ -210,7 +210,7 @@
         @if($document->total_unaffected > 0)
         <cac:TaxSubtotal>
             <cbc:TaxableAmount currencyID="{{ $document->currency_type_id }}">{{ $document->total_unaffected }}</cbc:TaxableAmount>
-            <cbc:TaxAmount currencyID="{{ $document->currency_type_id }}">0</cbc:TaxAmount>
+            <cbc:TaxAmount currencyID="{{ $document->currency_type_id }}">0.00</cbc:TaxAmount>
             <cac:TaxCategory>
                 <cac:TaxScheme>
                     <cbc:ID>9998</cbc:ID>
@@ -223,7 +223,7 @@
         @if($document->total_exonerated > 0)
         <cac:TaxSubtotal>
             <cbc:TaxableAmount currencyID="{{ $document->currency_type_id }}">{{ $document->total_exonerated }}</cbc:TaxableAmount>
-            <cbc:TaxAmount currencyID="{{ $document->currency_type_id }}">0</cbc:TaxAmount>
+            <cbc:TaxAmount currencyID="{{ $document->currency_type_id }}">0.00</cbc:TaxAmount>
             <cac:TaxCategory>
                 <cac:TaxScheme>
                     <cbc:ID>9997</cbc:ID>
@@ -249,7 +249,7 @@
         @if($document->total_exportation > 0)
         <cac:TaxSubtotal>
             <cbc:TaxableAmount currencyID="{{ $document->currency_type_id }}">{{ $document->total_exportation }}</cbc:TaxableAmount>
-            <cbc:TaxAmount currencyID="{{ $document->currency_type_id }}">0</cbc:TaxAmount>
+            <cbc:TaxAmount currencyID="{{ $document->currency_type_id }}">0.00</cbc:TaxAmount>
             <cac:TaxCategory>
                 <cac:TaxScheme>
                     <cbc:ID>9995</cbc:ID>
@@ -286,12 +286,12 @@
         @endif
     </cac:TaxTotal>
     <cac:LegalMonetaryTotal>
-        <cbc:LineExtensionAmount currencyID="{{ $document->currency_type_id }}">{{ $note->note_credit_type_id === '13' ? '0' : $document->total_value }}</cbc:LineExtensionAmount>
-        <cbc:TaxInclusiveAmount currencyID="{{ $document->currency_type_id }}">{{ $note->note_credit_type_id === '13' ? '0' : $document->total }}</cbc:TaxInclusiveAmount>
+        <cbc:LineExtensionAmount currencyID="{{ $document->currency_type_id }}">{{ $note->note_credit_type_id === '13' ? '0.00' : $document->total_value }}</cbc:LineExtensionAmount>
+        <cbc:TaxInclusiveAmount currencyID="{{ $document->currency_type_id }}">{{ $note->note_credit_type_id === '13' ? '0.00' : $document->total }}</cbc:TaxInclusiveAmount>
         @if($document->total_charge > 0)
         <cbc:ChargeTotalAmount currencyID="{{ $document->currency_type_id }}">{{ $document->total_charge }}</cbc:ChargeTotalAmount>
         @endif
-        <cbc:PayableAmount currencyID="{{ $document->currency_type_id }}">{{ $note->note_credit_type_id === '13' ? '0' : $document->total }}</cbc:PayableAmount>
+        <cbc:PayableAmount currencyID="{{ $document->currency_type_id }}">{{ $note->note_credit_type_id === '13' ? '0.00' : $document->total }}</cbc:PayableAmount>
     </cac:LegalMonetaryTotal>
     @foreach($document->items as $row)
     <cac:CreditNoteLine>
