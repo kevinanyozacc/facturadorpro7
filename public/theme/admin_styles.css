@@ -585,7 +585,7 @@ p{
 .bg-info,
 html .card-primary .card-header, 
 .card-header.bg-info{
-    background: var(--accent-color) !important;
+    background: var(--primary-color) !important;
 }
 .primary-buton{
     background-color: var(--primary-color);

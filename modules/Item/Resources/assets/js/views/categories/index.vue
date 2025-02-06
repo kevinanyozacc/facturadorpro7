@@ -21,19 +21,19 @@
                     <tr slot="heading">
                         <th>#</th>
                         <th>ID</th>
+                        <th class="text-center">Imagen</th>
                         <th>Nombre</th>
                         <th>Fecha creación</th>
-                        <th class="text-center">Imagen</th>
                         <th class="text-right">Acciones</th>
-                    <tr>
+                    </tr>
                     <tr slot-scope="{ index, row }">
                         <td>{{ index }}</td>
                         <td>{{ row.id }}</td>
+                        <td class="text-center">
+                            <img v-if="row.image" :src="row.image_url" alt width="32" height="32" style="object-fit: contain;" />
+                        </td>
                         <td>{{ row.name }}</td>
                         <td>{{ row.created_at }}</td>
-                        <td class="text-center">
-                            <img v-if="row.image" :src="row.image_url" alt width="110" height="100" />
-                        </td>
                         <td class="text-right">
                             <button type="button" class="btn waves-effect waves-light btn-xs btn-info" @click.prevent="clickCreate(row.id)">Editar</button>
                             <button type="button" class="btn waves-effect waves-light btn-xs btn-danger" @click.prevent="clickDelete(row.id)">Eliminar</button>
