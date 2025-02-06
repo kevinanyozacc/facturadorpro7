@@ -76,7 +76,7 @@ class HotelReceptionController extends Controller
      */
     private function getRooms()
     {
-        $rooms = HotelRoom::with('category', 'floor', 'rates')
+        $rooms = HotelRoom::with('category', 'floor', 'rates', 'establishment')
             ->where('establishment_id',auth()->user()->establishment_id);
 
         if (request('hotel_floor_id')) {

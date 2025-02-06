@@ -25,7 +25,7 @@
 .auth h5,
 .auth h6 {
   color: #042a42;
-  font-family: "Poppins", serif;
+  font-family: "Roboto", sans-serif;
   font-weight: 400;
 }
 
@@ -151,7 +151,7 @@
 
 .btn-signin {
   background-color: #042a42;
-  font-family: "Poppins", serif;
+  font-family: "Roboto", sans-serif;
   color: #fff;
   padding: 1rem;
   margin-top: 25px;

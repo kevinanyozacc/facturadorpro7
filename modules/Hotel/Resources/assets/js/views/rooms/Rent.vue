@@ -254,20 +254,26 @@
                                 class="col-6 col-md-3 form-group"
                                 :class="{ 'has-danger': errors.quantity_persons }"
                             >
-                                <label class="control-label">Cant. de personas</label>
-                                <el-select v-model="form.quantity_persons">
-                                    <el-option value="1" label="1"></el-option>
-                                    <el-option value="2" label="2"></el-option>
-                                    <el-option value="3" label="3"></el-option>
-                                    <el-option value="4" label="4"></el-option>
-                                    <el-option value="5" label="5"></el-option>
-                                    <el-option value="6" label="6"></el-option>
-                                </el-select>
+                                <label class="control-label">Cant. de personas ({{ form.quantity_persons }})</label>
+                                <el-button icon="el-icon-edit-outline"
+                                    size="small"
+                                    type="success"
+                                    @click.prevent="clickAddPerson">Personas
+                                </el-button>
                                 <small
                                     class="form-control-feedback"
                                     v-if="errors.quantity_persons"
                                     v-text="errors.quantity_persons[0]"
                                 ></small>
+                            </div>
+                            <div>
+                                <div :class="{'has-danger': errors.lot_code}"
+                                        class="form-group">
+                                    
+                                    <small v-if="errors.lot_code"
+                                            class="form-control-feedback"
+                                            v-text="errors.lot_code[0]"></small>
+                                </div>
                             </div>
                             <div
                                 class="col-6 col-md-3 form-group"
@@ -405,6 +411,13 @@
             :input_person="input_person"
             :document_type_id="form.document_type_id"
         ></person-form>
+
+        <quantity-persons
+            :persons="form.data_persons"
+            :showDialog.sync="showDialogPersons"
+            :quantity="form.quantity_persons"
+            @addRowPerson="addRowPerson">
+        </quantity-persons>
     </div>
 </template>
 
@@ -415,10 +428,12 @@ import moment from "moment";
 import {calculateRowItem} from "../../../../../../../resources/js/helpers/functions";
 import {functions} from "../../../../../../../resources/js/mixins/functions";
 import {mapState} from "vuex/dist/vuex.mjs";
+import QuantityPersons from './partials/QuantityPersons.vue';
 
 export default {
     components: {
         PersonForm,
+        QuantityPersons,
     },
     mixins: [
         functions
@@ -449,7 +464,8 @@ export default {
                 output_time: "12:00",
                 output_date: null,
                 payment_status: 'PAID',
-                quantity_persons: 2,
+                quantity_persons: 1,
+                data_persons:[],
                 affectation_igv_type_id: null,
                 date_of_issue: moment().format("YYYY-MM-DD"),
                 establishment_id: null,
@@ -463,6 +479,7 @@ export default {
             rate: null,
             loading: false,
             showDialogNewPerson: false,
+            showDialogPersons: false,
             search_item_by_barcode: false,
             input_person: {},
             configuration: {},
@@ -681,6 +698,11 @@ export default {
                 .reduce((c) => c);
 
             this.form.customer = {...this.customer};
+            this.form.data_persons = [];
+            this.form.data_persons.push({
+                number: this.form.customer.number,
+                name: this.form.customer.name
+            });
         },
         onGetStatus(status) {
             if (status === "DISPONIBLE") {
@@ -696,6 +718,14 @@ export default {
                 return "badge-info";
             }
         },
+        clickAddPerson() {
+            this.showDialogPersons = true
+        },
+        addRowPerson(persons) {
+            this.form.quantity_persons = persons.length
+            this.form.data_persons = persons
+        },
+
     },
 };
 </script>

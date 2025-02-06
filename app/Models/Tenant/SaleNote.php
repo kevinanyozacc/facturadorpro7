@@ -226,6 +226,9 @@
             'created_from_pos',
             'agent_id',
             'dispatch_ticket_pdf',
+            'hotel_data_persons',
+            'source_module',
+            'hotel_rent_id',
 
         ];
 
@@ -454,6 +457,16 @@
         public function getIdentifierAttribute()
         {
             return $this->prefix . '-' . $this->id;
+        }
+
+        public function getHotelDataPersonsAttribute($value)
+        {
+            return (is_null($value)) ? null : (object)json_decode($value);
+        }
+
+        public function setHotelDataPersonsAttribute($value)
+        {
+            $this->attributes['hotel_data_persons'] = (is_null($value)) ? null : json_encode($value);
         }
 
         /**

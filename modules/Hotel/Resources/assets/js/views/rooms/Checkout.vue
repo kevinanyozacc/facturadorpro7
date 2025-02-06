@@ -531,8 +531,19 @@ export default {
         await this.onCalculateTotals();
         // console.log(this.document);
         await this.onCalculatePaidAndDebts();
-        
-        if(this.hasDebt) await this.clickAddPayment();
+
+        if(this.totalPaid > 0){
+            let cash = _.find(this.paymentDestinations, {id: 'cash'})
+            this.document.payments.push({
+                id: null,
+                document_id: null,
+                date_of_payment: moment().format("YYYY-MM-DD"),
+                payment_method_type_id: "01",
+                payment_destination_id: (cash)? cash.id : null,
+                reference: null,
+                payment: this.totalPaid,
+            });
+        }
         
         this.validateIdentityDocumentType();
         const date = moment().format("YYYY-MM-DD");
@@ -635,7 +646,7 @@ export default {
         {
             const total_payments = _.sumBy(this.document.payments, 'payment')
 
-            if(total_payments > this.totalDebt) return this.getResponseValidations(false, 'El total de los pagos agregados es superior al monto pendiente de pago "Debe".')
+            if(total_payments > (this.totalPaid + this.totalDebt)) return this.getResponseValidations(false, 'El total de los pagos agregados es superior al monto.')
             
             return this.getResponseValidations()
         },
@@ -817,6 +828,7 @@ export default {
                 total_taxes: 0,
                 total_value: 0,
                 total: 0,
+                subtotal: 0,
                 operation_type_id: "0101",
                 date_of_due: moment().format("YYYY-MM-DD"),
                 delivery_date: moment().format("YYYY-MM-DD"),
@@ -834,6 +846,9 @@ export default {
                 is_receivable: false,
                 payments: [],
                 hotel: {},
+                hotel_data_persons: this.currentRent.data_persons,
+                source_module: 'HOTEL',
+                hotel_rent_id: this.currentRent.id
             };
         },
         onGotoBack() {
@@ -843,8 +858,6 @@ export default {
             this.document.payments.splice(index, 1);
         },
         onCalculateTotals() {
-            console.log('onCalculateTotals');
-            console.log(this.percentage_igv);
             let total_exportation = 0;
             let total_taxed = 0;
             let total_exonerated = 0;
@@ -907,6 +920,10 @@ export default {
             );
             this.document.total = _.round(
                 total + this.document.total_plastic_bag_taxes,
+                2
+            );
+            this.document.subtotal = _.round(
+                this.document.total,
                 2
             );
         },
