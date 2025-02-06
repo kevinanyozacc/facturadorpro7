@@ -57,6 +57,7 @@
             'hotel_rate_id',
             'duration',
             'quantity_persons',
+            'data_persons',
             'payment_status',
             'output_date',
             'output_time',
@@ -83,6 +84,16 @@
         public function setCustomerAttribute($value)
         {
             $this->attributes['customer'] = (is_null($value)) ? null : json_encode($value);
+        }
+
+        public function getDataPersonsAttribute($value)
+        {
+            return (is_null($value)) ? null : (object)json_decode($value);
+        }
+
+        public function setDataPersonsAttribute($value)
+        {
+            $this->attributes['data_persons'] = (is_null($value)) ? null : json_encode($value);
         }
 
         /**

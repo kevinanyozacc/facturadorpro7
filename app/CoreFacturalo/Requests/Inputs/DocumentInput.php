@@ -161,6 +161,9 @@ class DocumentInput
             'point_system_data' => $point_system_data['point_system_data'],
             'agent_id' => Functions::valueKeyInArray($inputs, 'agent_id'),
             'dispatch_ticket_pdf' => Functions::valueKeyInArray($inputs, 'dispatch_ticket_pdf', false),
+            'hotel_data_persons' => Functions::valueKeyInArray($inputs, 'hotel_data_persons'),
+            'source_module' => Functions::valueKeyInArray($inputs, 'source_module'),
+            'hotel_rent_id' => Functions::valueKeyInArray($inputs, 'hotel_rent_id'),
         ];
     }
 

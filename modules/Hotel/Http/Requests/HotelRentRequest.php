@@ -26,12 +26,12 @@ class HotelRentRequest extends FormRequest
 			'output_date'              => 'required|date_format:Y-m-d',
 			'output_time'              => 'required|date_format:H:i',
 			'product'                  => 'required',
-			'hotel_rate_id'              => 'required|numeric',
-			'affectation_igv_type_id' => 'required',
-
+			'hotel_rate_id'            => 'required|numeric',
+			'affectation_igv_type_id'  => 'required',
             'rent_payment.payment_method_type_id' => 'required_if:payment_status,"PAID"',
             'rent_payment.payment_destination_id' => 'required_if:payment_status,"PAID"',
-            'rent_payment.payment' => 'required_if:payment_status,"PAID"',
+            'rent_payment.payment' 	   => 'required_if:payment_status,"PAID"',
+			'data_persons'         	   => 'required',
 		];
 	}
 

@@ -9,6 +9,39 @@
             <ol class="breadcrumbs">
                 <li class="active"><span>VISTA GENERAL RECEPCIÓN</span></li>
             </ol>
+            <div class="right-wrapper pull-right">
+                <div class="btn-group flex-wrap">
+                    <button
+                        aria-expanded="false"
+                        class="btn btn-custom btn-sm mt-2 mr-2 dropdown-toggle"
+                        data-toggle="dropdown"
+                        type="button"
+                    >
+                        <i class="fa fa-download"></i> Exportar
+                        <span class="caret"></span>
+                    </button>
+                    <div
+                        class="dropdown-menu"
+                        role="menu"
+                        style="
+                            position: absolute;
+                            will-change: transform;
+                            top: 0px;
+                            left: 0px;
+                            transform: translate3d(0px, 42px, 0px);
+                        "
+                        x-placement="bottom-start"
+                    >
+                        <a
+                            class="dropdown-item text-1"
+                            href="#"
+                            @click.prevent="clickExport()"
+                        >Reporte general recepción</a>
+
+                    </div>
+                </div>
+            </div>
+            
         </div>
         <div class="card tab-content-default row-new mb-0">
             <!-- <div class="card-header bg-info">
@@ -156,17 +189,22 @@
             :visible.sync="openDialogExtendTimeRoom"
             @onRefresh="onRefresh">
         </ExtendTimeRoom>
+        <!-- <reception-export 
+            :showDialog.sync="showExportDialog">
+        </reception-export> -->
     </div>
 </template>
 
 <script>
 import ExtendTimeRoom from './partials/ExtendTimeRoom.vue';
 import ModalRoomRates from "./RoomRates";
+import ReceptionExport from './partials/ReceptionExport.vue';
 
 export default {
     components: {
         ModalRoomRates,
         ExtendTimeRoom,
+        ReceptionExport,
     },
     props: {
         roomStatus: {
@@ -193,6 +231,7 @@ export default {
             openModalRoomRates: false,
             roomToExtend: {},
             openDialogExtendTimeRoom: false,
+            showExportDialog: false,
         };
     },
     mounted() {
@@ -319,7 +358,11 @@ export default {
         },
         onRefresh() {
             this.searchRooms()
-        }
+        },
+        clickExport() {
+            this.showExportDialog = true;
+        },
+
     },
 };
 </script>
