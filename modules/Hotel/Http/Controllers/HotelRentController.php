@@ -18,6 +18,7 @@ use App\Models\Tenant\Catalogs\DocumentType;
 use Modules\Hotel\Http\Requests\HotelRentRequest;
 use App\Models\Tenant\Catalogs\AffectationIgvType;
 use Modules\Hotel\Http\Requests\HotelRentItemRequest;
+use Modules\Hotel\Models\HotelRentItemPayment;
 
 class HotelRentController extends Controller
 {
@@ -46,10 +47,11 @@ class HotelRentController extends Controller
 			}
 
 			$request->merge(['hotel_room_id' => $roomId]);
+			$request->merge(['establishment_id' => $room->establishment_id]);
 			$now = now();
 			$request->merge(['input_date' => $now->format('Y-m-d')]);
 			$request->merge(['input_time' => $now->format('H:i:s')]);
-			$rent = HotelRent::create($request->only('customer_id', 'customer', 'notes', 'towels', 'hotel_room_id', 'hotel_rate_id', 'duration', 'quantity_persons', 'payment_status', 'output_date', 'output_time', 'input_date', 'input_time','data_persons'));
+			$rent = HotelRent::create($request->only('customer_id', 'customer', 'notes', 'towels', 'hotel_room_id', 'hotel_rate_id', 'duration', 'quantity_persons', 'payment_status', 'output_date', 'output_time', 'input_date', 'input_time','data_persons','establishment_id'));
 
 			$room->status = 'OCUPADO';
 			$room->save();
@@ -225,12 +227,16 @@ class HotelRentController extends Controller
     $customer = Person::withOut('department', 'province', 'district')
       ->findOrFail($rent->customer_id);
 
-        // $payment_method_types = PaymentMethodType::all();
         $payment_method_types = PaymentMethodType::getPaymentMethodTypes();
         $payment_destinations = $this->getPaymentDestinations();
         $series = Series::where('establishment_id',  auth()->user()->establishment_id)->get();
         $document_types_invoice = DocumentType::whereIn('id', ['01', '03', '80'])->get();
-    $affectation_igv_types = AffectationIgvType::whereActive()->get();
+    	$affectation_igv_types = AffectationIgvType::whereActive()->get();
+		$payments = HotelRentItemPayment::whereHas('associated_record_payment', function ($query) use($rentId) {
+			$query->whereHas('hotel_rent', function ($query) use ($rentId) {
+				$query->where('id', $rentId);
+			});
+		})->get();
 
     return view('hotel::rooms.checkout', compact(
             'rent', 'room',
@@ -239,7 +245,8 @@ class HotelRentController extends Controller
             'payment_destinations',
             'series',
             'document_types_invoice',
-      'affectation_igv_types'
+      		'affectation_igv_types',
+			'payments'
         ));
   }
 

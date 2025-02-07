@@ -448,6 +448,10 @@ export default {
             type: Array,
             required: true,
         },
+        payments: {
+            type: Array,
+            required: true,
+        },
     },
     computed: {
         ...mapState([
@@ -527,22 +531,20 @@ export default {
             return calculateRowItem(i.item, "PEN", 3, this.percentage_igv)
         });
 
-        // console.log(this.document.items);
         await this.onCalculateTotals();
-        // console.log(this.document);
         await this.onCalculatePaidAndDebts();
 
         if(this.totalPaid > 0){
             let cash = _.find(this.paymentDestinations, {id: 'cash'})
-            this.document.payments.push({
+            this.document.payments = this.payments.map(row => ({
                 id: null,
                 document_id: null,
-                date_of_payment: moment().format("YYYY-MM-DD"),
-                payment_method_type_id: "01",
-                payment_destination_id: (cash)? cash.id : null,
-                reference: null,
-                payment: this.totalPaid,
-            });
+                date_of_payment: row.date_of_payment,
+                payment_method_type_id: row.payment_method_type_id,
+                payment_destination_id: cash ? cash.id : null,
+                reference: row.reference,
+                payment: row.payment
+            }));
         }
         
         this.validateIdentityDocumentType();

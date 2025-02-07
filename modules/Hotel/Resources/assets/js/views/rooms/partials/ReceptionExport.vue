@@ -1,5 +1,5 @@
 <template>
-    <el-dialog :title="title" :visible="showDialog" @close="clickClose">
+    <el-dialog :title="title" :visible="showDialog" @close="clickClose" @open="created">
         <div class="">
             <div class="row mt-2">
                 <div class="col-lg-4 col-md-4 pb-4">
@@ -31,12 +31,18 @@
                         </el-date-picker>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-4 pb-4">
+                <div v-if="userType==='admin'" class="col-lg-4 col-md-4 pb-4">
                     <div class="form-group">
-                        <label class="control-label">Tipo</label>
-                        <el-select v-model="search.type">
-                            <el-option value="pdf" label="PDF"></el-option>
-                            <el-option value="excel" label="EXCEL"></el-option>
+                        <label class="control-label" for="establishment">Establecimiento</label>
+                        <el-select
+                            type="text"
+                            id="establishment"
+                            v-model="search.establishment_id"
+                            :class="{ 'is-invalid': errors.establishment_id }"
+                        >
+                            <el-option v-for="item in establishments" :key="item.id" :value="item.id" :label="item.description">
+                            {{ item.description }}
+                            </el-option>
                         </el-select>
                     </div>
                 </div>
@@ -49,7 +55,7 @@
         </div>
         <span slot="footer" class="dialog-footer">
             <el-button type="warning" @click="clickClose">Cancelar</el-button>
-            <el-button type="primary" @click="downloadReport">Descargar</el-button>
+            <el-button type="primary" :disabled="true" @click="downloadReport">Descargar</el-button>
         </span>
     </el-dialog>
 </template>
@@ -61,16 +67,21 @@ export default {
         return {
             title: "Reporte de Pagos",
             resource: "document_payments",
-            search: {},
+            search: {
+                d_start: moment().startOf('month').format('YYYY-MM-DD'),
+                d_end: moment().endOf('month').format('YYYY-MM-DD')
+            },
+            userType: 'admin',
+            establishments: {},
             pickerOptionsDates: {
                 disabledDate: time => {
                     time = moment(time).format("YYYY-MM-DD");
                     return this.search.d_start > time;
                 }
-            }
+            },
+            errors: {},
         };
     },
-    async created() {},
     methods: {
         clickClose() {
             this.$emit("update:showDialog", false);
@@ -83,7 +94,12 @@ export default {
             } else {
                 this.$message.error('Debe completar el formulario para generar un reporte');
             }
-        }
+        },
+        created() {
+            this.$http.get('/establishments/records').then((response) => {
+                this.establishments = response.data.data;
+            });
+        },
     }
 };
 </script>

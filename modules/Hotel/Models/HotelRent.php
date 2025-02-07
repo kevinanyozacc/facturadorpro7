@@ -10,6 +10,7 @@
     use Illuminate\Database\Eloquent\Collection;
     use App\Models\Tenant\Person;
     use Modules\Hotel\Models\HotelRoomRate;
+    use App\Models\Tenant\Establishment;
 
     /**
      * Class \Modules\Hotel\Models\HotelRent
@@ -64,7 +65,8 @@
             'input_date',
             'input_time',
             'arrears',
-            'status'
+            'status',
+            'establishment_id',
         ];
 
         protected $casts = [
@@ -125,6 +127,10 @@
             return $this->hasMany(HotelRentItem::class, 'hotel_rent_id')->where('type','PRO');
         }
 
+        public function establishment()
+        {
+            return $this->belongsTo(Establishment::class)->select('id', 'description');
+        }
 
         /**
          * @param Builder $query
