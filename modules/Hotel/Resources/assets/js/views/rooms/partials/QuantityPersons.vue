@@ -12,6 +12,8 @@
             <div class="row" >
                 <div class="col-lg-12 col-md-12">
                     <table width="100%">
+                        <el-button v-if="loading_search" type="primary" slot="append" :loading="loading_search" icon="el-icon-search">
+                        </el-button>
                         <thead>
                             <tr width="100%">
                                 <th>DNI/RUC</th>
@@ -23,7 +25,7 @@
                             <tr v-for="(row, index) in persons" :key="index" width="100%" >
                                 <td>
                                     <div class="form-group mb-2 mr-2"  >
-                                        <el-input @blur="duplicateDocument(row.number, index)" v-model="row.number"></el-input>
+                                        <el-input @change="searchPerson(row,index)" @blur="duplicateDocument(row.number, index)" v-model="row.number"></el-input>
                                     </div>
                                 </td>
                                 <td>
@@ -63,6 +65,7 @@
                 loading: false,
                 errors: {},
                 form: {},
+                loading_search: false,
             }
         },
         async created() {
@@ -127,6 +130,25 @@
             },
             close() {
                 this.$emit('update:showDialog', false)
+            },
+            searchPerson(row,index) {
+                if(row.number!='' && row.number.length >=8 && row.number.length <=11){
+                    let type = row.number.length==8 ?'dni':'ruc';
+                    this.searchServiceNumberByType(type,row)
+                }
+                
+            },
+            async searchServiceNumberByType(type,row) {
+                this.loading_search = true
+                let response = await this.$http.get(`/service/${type}/${row.number}`)
+                if(response.data.success) {
+                    let data = response.data.data
+                    row.name = data.name
+
+                } else {
+                    this.$message.error(response.data.message)
+                }
+                this.loading_search = false
             },
         }
     }

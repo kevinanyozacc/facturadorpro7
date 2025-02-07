@@ -189,9 +189,9 @@
             :visible.sync="openDialogExtendTimeRoom"
             @onRefresh="onRefresh">
         </ExtendTimeRoom>
-        <!-- <reception-export 
+        <reception-export 
             :showDialog.sync="showExportDialog">
-        </reception-export> -->
+        </reception-export>
     </div>
 </template>
 
