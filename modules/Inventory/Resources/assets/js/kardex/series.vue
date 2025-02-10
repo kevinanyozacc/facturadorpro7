@@ -1,7 +1,7 @@
 <template>
     <data-table :resource="resource">
         <tr slot="heading">
-            <th width="5%">#</th>
+            <!-- <th width="5%">#</th> -->
             <th>Codigo</th>
             <th class="text-center">Serie</th>
             <th>Nombre</th>
@@ -12,7 +12,7 @@
         </tr>
 
         <tr slot-scope="{ index, row }">
-            <td>{{ index + 1 }}</td>
+            <!-- <td>{{ index + 1 }}</td> -->
             <td>{{ row.code_item }}</td>
             <td class="text-center">{{ row.series }}</td>
 

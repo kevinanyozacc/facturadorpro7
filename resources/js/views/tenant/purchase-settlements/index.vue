@@ -16,8 +16,8 @@
             <div class="card-body">
                 <data-table :resource="resource">
                     <tr slot="heading">
-                        <th>#</th>
-                        <th class="text-center">Fecha Emisión</th>
+                        <!-- <th>#</th> -->
+                        <th class="text-left">Fecha Emisión</th>
                         <th>Vendedor</th>
                         <th>Número</th>
                         <th>Estado</th>
@@ -29,8 +29,8 @@
                         <th class="text-center">Descargas</th>
                     <tr>
                     <tr slot-scope="{ index, row }" :class="{'text-danger': (row.state_type_id === '11')}">
-                        <td>{{ index }}</td>
-                        <td class="text-center">{{ row.date_of_issue }}</td>
+                        <!-- <td>{{ index }}</td> -->
+                        <td class="text-left">{{ row.date_of_issue }}</td>
                         <td>{{ row.supplier_name }} <br/> {{ row.supplier_number }}</td>
                         <td>{{ row.number_full }}<br/>
                         </td>

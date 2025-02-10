@@ -8,7 +8,7 @@
                     <table class="table">
                         <thead>
                         <tr>
-                            <th>#</th>
+                            <!-- <th>#</th> -->
                             <th>Email</th>
                             <th>Nombre</th>
                             <th>Perfil</th>
@@ -17,7 +17,7 @@
                         </thead>
                         <tbody>
                         <tr v-for="(row, index) in records" :key="index">
-                            <td>{{ index + 1 }}</td>
+                            <!-- <td>{{ index + 1 }}</td> -->
                             <td>{{ row.email }}</td>
                             <td>{{ row.name }}</td>
                             <td>{{ row.type }}</td>

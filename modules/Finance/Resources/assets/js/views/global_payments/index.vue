@@ -16,7 +16,7 @@
                     <div class="card-body">
                         <data-table :resource="resource" :isAsynchronous="true">
                             <tr slot="heading">
-                                <th class="">#</th>
+                                <!-- <th class="">#</th> -->
                                 <th class="">Adquiriente</th>
                                 <th class="">Documento/Transacción</th>
                                 <th class="">Moneda</th>
@@ -31,7 +31,7 @@
     
                             </tr>
                             <tr slot-scope="{ index, row }">
-                                <td>{{ index }}</td>
+                                <!-- <td>{{ index }}</td> -->
                                 <td>{{ row.person_name }}<br/><small v-text="row.person_number"></small></td>
                                 <td>
                                     {{row.number_full}}<br/>

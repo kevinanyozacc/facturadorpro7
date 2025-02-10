@@ -1,7 +1,7 @@
 <template>
     <data-table :resource="resource">
         <tr slot="heading">
-            <th>#</th>
+            <!-- <th>#</th> -->
             <th v-if="!item_id">Producto</th>
             <th>Fecha y hora transacción</th>
             <th>Tipo transacción</th>
@@ -21,7 +21,7 @@
         -->
         </tr>
         <tr slot-scope="{ index, row }">
-            <td>{{ index }}</td>
+            <!-- <td>{{ index }}</td> -->
             <td v-if="!item_id">{{ row.item_name }}</td>
             <td>{{ row.date_time }}</td>
             <td>{{ row.type_transaction }}</td>

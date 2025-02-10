@@ -21,7 +21,7 @@
                 <data-table :resource="resource">
 
                     <tr slot="heading">
-                        <th>#</th>
+                        <!-- <th>#</th> -->
                         <th>Nombre</th>
                         <th class="text-center">Tipo de documento</th>
                         <th class="text-center">Número</th>
@@ -30,7 +30,7 @@
                         <th class="text-right">Acciones</th>
                     </tr>
                     <tr slot-scope="{ index, row }">
-                        <td>{{ index }}</td>
+                        <!-- <td>{{ index }}</td> -->
                         <td>{{ row.name }}</td>
                         <td class="text-center">{{ row.document_type }}</td>
                         <td class="text-center">{{ row.number }}</td> 

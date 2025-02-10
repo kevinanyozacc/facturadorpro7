@@ -23,19 +23,19 @@
             <div class="card-body">
                 <data-table :resource="resource">
                     <tr slot="heading">
-                        <th>#</th>
+                        <!-- <th>#</th> -->
                         <th>Nombre</th>
                         <th>Descripcion</th>
                         <th>Activo</th>
                         <th></th>
                     <tr>
                     <tr slot-scope="{ index, row }">
-                        <td>{{ index }}</td>
+                        <!-- <td>{{ index }}</td> -->
                         <td>{{ row.name }}</td>
                         <td>{{ row.description }}</td>
                         <td>{{ (row.active== 1)?'Si':'No' }}</td>
 
-                        <td>
+                        <td class="text-right">
                             <button
                                 class="btn waves-effect waves-light btn-xs btn-info"
                                 type="button"

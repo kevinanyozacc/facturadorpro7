@@ -233,7 +233,7 @@
                                     <table class="table">
                                         <thead>
                                         <tr class="table-titles-default">
-                                            <th width="5%">#</th>
+                                            <th width="0.5%"><!--#--></th>
                                             <th class="font-weight-bold"
                                                 width="30%">Descripción</th>
                                             <th width="8%" class="text-center font-weight-bold">Unidad</th>
@@ -252,7 +252,7 @@
                                         </thead>
                                         <tbody v-if="form.items.length > 0">
                                         <tr v-for="(row, index) in form.items" :key="index">
-                                            <td>{{ index + 1 }}</td>
+                                            <td><!--{{ index + 1 }}--></td>
                                             <td>{{ setDescriptionOfItem (row.item) }}
                                                 {{ row.item.presentation.hasOwnProperty('description') ? row.item.presentation.description : '' }}<br/><small>{{ row.affectation_igv_type.description }}</small>
                                             </td>

@@ -20,7 +20,7 @@
             <div class="card-body">
                 <data-table :resource="resource">
                     <tr slot="heading">
-                        <th>#</th>
+                        <!-- <th>#</th> -->
                         <th class="text-left">Nro. de Placa</th>
                         <th class="text-left">Modelo</th>
                         <th class="text-left">Marca</th>
@@ -30,7 +30,7 @@
                         <th class="text-right">Acciones</th>
                     </tr>
                     <tr slot-scope="{ index, row }">
-                        <td>{{ index }}</td>
+                        <!-- <td>{{ index }}</td> -->
                         <td class="text-left">{{ row.plate_number }}</td>
                         <td class="text-left">{{ row.model }}</td>
                         <td class="text-left">{{ row.brand }}</td>

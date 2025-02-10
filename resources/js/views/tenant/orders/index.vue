@@ -22,7 +22,7 @@
       <div class="card-body">
         <data-table :resource="resource">
           <tr slot="heading" width="100%">
-            <th>#</th>
+            <!-- <th>#</th> -->
             <th>Codigo de Pedido</th>
             <th>Cliente</th>
             <th class="text-center">Detalle Productos</th>
@@ -35,7 +35,7 @@
           </tr>
           <tr></tr>
           <tr slot-scope="{ index, row }">
-            <td>{{ index }}</td>
+            <!-- <td>{{ index }}</td> -->
             <td>{{ row.order_id }}</td>
             <td>{{ row.customer }}</td>
             <td class="text-center">

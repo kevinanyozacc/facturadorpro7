@@ -144,7 +144,7 @@
                     :pharmacy="pharmacy"
                 >
                     <tr slot="heading" width="100%">
-                        <th>#</th>
+                        <!-- <th>#</th> -->
                         <th>Cód. Interno</th>
                         <th>Unidad</th>
                         <th>Nombre</th>
@@ -173,7 +173,7 @@
                         slot-scope="{ index, row }"
                         :class="{ disable_color: !row.active }"
                     >
-                        <td>{{ index }}</td>
+                        <!-- <td>{{ index }}</td> -->
                         <td>{{ row.internal_id }}</td>
                         <td>{{ row.unit_type_id }}</td>
                         <td>{{ row.description }}</td>

@@ -67,7 +67,7 @@
                                 <table class="table">
                                     <thead>
                                         <tr>
-                                            <th>#</th>
+                                            <!-- <th>#</th> -->
                                             <th>Serie</th>
                                             <th>Producto</th>
                                             <th>Fecha</th>
@@ -78,7 +78,7 @@
                                     </thead>
                                     <tbody>
                                         <tr v-for="(row, index) in records" :key="index">
-                                            <td>{{ customIndex(index) }}</td>
+                                            <!-- <td>{{ customIndex(index) }}</td> -->
                                             <td>{{ row.series }}</td>
                                             <td>{{ row.item_description }}</td>
                                             <td>{{ row.date }}</td>

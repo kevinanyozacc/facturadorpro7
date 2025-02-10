@@ -20,7 +20,7 @@
             <div class="card-body">
                 <data-table :resource="resource">
                     <tr slot="heading">
-                        <th>#</th>
+                        <!-- <th>#</th> -->
                         <th>Nombre</th>
                         <th class="text-left">Tipo de documento</th>
                         <th class="text-left">Número</th>
@@ -30,7 +30,7 @@
                         <th class="text-right">Acciones</th>
                     </tr>
                     <tr slot-scope="{ index, row }">
-                        <td>{{ index }}</td>
+                        <!-- <td>{{ index }}</td> -->
                         <td>{{ row.name }}</td>
                         <td class="text-left">{{ row.document_type }}</td>
                         <td class="text-left">{{ row.number }}</td>

@@ -18,7 +18,7 @@
             <div class="card-body">
                 <data-table :resource="resource">
                     <tr slot="heading">
-                        <th>#</th>
+                        <!-- <th>#</th> -->
                         <th>Cliente</th>
                         <th>Celular</th>
                         <th>Número</th>
@@ -35,7 +35,7 @@
                         <th class="text-right">Acciones</th>
                     <tr>
                     <tr slot-scope="{ index, row }">
-                        <td>{{ index }}</td>
+                        <!-- <td>{{ index }}</td> -->
                         <td>{{ row.customer_name }}<br/><small v-text="row.customer_number"></small></td>
                         <td class="text-center">{{ row.cellphone }}</td>
                         <td class="text-center">{{ row.id }}</td>

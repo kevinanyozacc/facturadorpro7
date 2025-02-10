@@ -220,7 +220,7 @@
                     <table class="table">
                         <thead>
                         <tr>
-                            <th>#</th>
+                            <!-- <th>#</th> -->
                             <th>Numero de expediente</th>
                             <th>Trámite</th>
                             <th>Cliente</th>
@@ -236,7 +236,7 @@
                         <tbody>
                         <tr v-for="(item,index) in items"
                             :key="item.id">
-                            <td class="text-right">{{ index + 1 }}</td>
+                            <!-- <td class="text-right">{{ index + 1 }}</td> -->
                             <td>{{ item.invoice }}
                                 <template v-if="item.is_archive && item.observation ">
                                     <br>

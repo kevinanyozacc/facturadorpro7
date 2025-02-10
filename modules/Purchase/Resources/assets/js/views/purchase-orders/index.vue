@@ -21,8 +21,8 @@
       <div class="card-body">
         <data-table :resource="resource">
           <tr slot="heading">
-            <th>#</th>
-            <th class="text-center">F. Emisión</th>
+            <!-- <th>#</th> -->
+            <th class="text-left">F. Emisión</th>
             <th class="text-center">F. Vencimiento</th>
             <th>Proveedor</th>
             <!-- <th>Estado</th> -->
@@ -43,8 +43,8 @@
           </tr>
           <tr></tr>
           <tr slot-scope="{ index, row }">
-            <td>{{ index }}</td>
-            <td class="text-center">{{ row.date_of_issue }}</td>
+            <!-- <td>{{ index }}</td> -->
+            <td class="text-left">{{ row.date_of_issue }}</td>
             <td class="text-center">{{ row.date_of_due }}</td>
             <td>
               {{ row.supplier_name }}

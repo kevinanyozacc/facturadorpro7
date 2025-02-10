@@ -66,7 +66,7 @@
                     <table class="table">
                         <thead>
                         <tr>
-                            <th>#</th>
+                            <!-- <th>#</th> -->
                             <th>Trámite</th>
                             <th>Descripción</th>
                             <th>Terminos y condiciones</th>
@@ -81,7 +81,7 @@
                             :key="item.id"
                             :class="{ 'table-danger': !item.active }"
                         >
-                            <td class="text-left">{{ index + 1 }}</td>
+                            <!-- <td class="text-left">{{ index + 1 }}</td> -->
                             <td>
                                 <el-tooltip v-if="item.requirements && item.requirements.length > 0"
                                             placement="right-start">

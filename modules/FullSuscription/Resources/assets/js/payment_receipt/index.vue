@@ -50,8 +50,8 @@
                     :extraquery="{onlyFullSuscription:1}"
                 >
                     <tr slot="heading">
-                        <th>#</th>
-                        <th class="text-center">Fecha Emisión</th>
+                        <!-- <th>#</th> -->
+                        <th class="text-left">Fecha Emisión</th>
                         <th>Cliente</th>
                         <th>Recibo de pago</th>
                         <th>Estado</th>
@@ -119,9 +119,9 @@
                     <tr>
                     <tr slot-scope="{ index, row }">
                         <!-- # -->
-                        <td>{{ index }}</td>
+                        <!-- <td>{{ index }}</td> -->
                         <!-- Fecha Emisión -->
-                        <td class="text-center">{{ row.date_of_issue }}</td>
+                        <td class="text-left">{{ row.date_of_issue }}</td>
                         <!-- Cliente -->
                         <td>{{ row.customer_name }}<br/>
                             <small v-text="row.customer_number">

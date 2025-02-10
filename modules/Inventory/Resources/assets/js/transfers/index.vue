@@ -26,7 +26,7 @@
             <div class="card-body">
                 <data-table :resource="resource">
                     <tr slot="heading">
-                        <th>#</th>
+                        <!-- <th>#</th> -->
                         <th>Fecha</th>
                         <th>Almacen Inicial</th>
 
@@ -38,7 +38,7 @@
                     </tr>
                     <tr></tr>
                     <tr slot-scope="{ index, row }">
-                        <td>{{ index }}</td>
+                        <!-- <td>{{ index }}</td> -->
                         <td>{{ row.created_at }}</td>
 
                         <td>{{ row.warehouse }}</td>

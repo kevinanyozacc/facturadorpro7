@@ -35,7 +35,7 @@
           :ecommerce="ecommerce"
           >
           <tr slot="heading" width="100%">
-            <th>#</th>
+            <!-- <th>#</th> -->
             <th>Cód. Interno</th>
             <th>Unidad</th>
             <th class="text-center">Imagen</th>
@@ -49,7 +49,7 @@
           </tr>
           <tr></tr>
           <tr slot-scope="{ index, row }">
-            <td>{{ index }}</td>
+            <!-- <td>{{ index }}</td> -->
             <td>{{ row.internal_id }}</td>
             <td>{{ row.unit_type_id }}</td>
             <td class="text-center">

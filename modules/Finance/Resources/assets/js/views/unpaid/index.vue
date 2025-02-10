@@ -243,7 +243,7 @@
                                         <table class="table">
                                             <thead>
                                             <tr>
-                                                <th>#</th>
+                                                <!-- <th>#</th> -->
                                                 <th>F.Emisión</th>
                                                 <th>F.Vencimiento</th>
                                                 <th>F.Límite de Pago</th>
@@ -268,7 +268,7 @@
                                             <tbody>
                                                 <template v-for="(row, index) in records">
                                                     <tr v-if="row.total_to_pay > 0" :key="index">
-                                                        <td>{{ customIndex(index) }}</td>
+                                                        <!-- <td>{{ customIndex(index) }}</td> -->
                                                         <td>{{ row.date_of_issue }}</td>
                                                         <td>{{ row.date_of_due ? row.date_of_due : 'No tiene fecha de vencimiento.'}}</td>
                                                         <td>{{ row.date_of_due ? row.date_of_due : 'No tiene fecha límite.'}}</td>

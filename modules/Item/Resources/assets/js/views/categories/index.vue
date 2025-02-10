@@ -19,7 +19,7 @@
             <div class="card-body">
                 <data-table :resource="resource">
                     <tr slot="heading">
-                        <th>#</th>
+                        <!-- <th>#</th> -->
                         <th>ID</th>
                         <th class="text-center">Imagen</th>
                         <th>Nombre</th>
@@ -27,7 +27,7 @@
                         <th class="text-right">Acciones</th>
                     </tr>
                     <tr slot-scope="{ index, row }">
-                        <td>{{ index }}</td>
+                        <!-- <td>{{ index }}</td> -->
                         <td>{{ row.id }}</td>
                         <td class="text-center">
                             <img v-if="row.image" :src="row.image_url" alt width="32" height="32" style="object-fit: contain;" />

@@ -18,7 +18,7 @@
 
                 <data-table :resource="resource">
                     <tr slot="heading">
-                        <th>#</th>
+                        <!-- <th>#</th> -->
                         <th>Producto</th>
                         <th>Categoría</th>
                         <th>Marca</th>
@@ -32,7 +32,7 @@
                         <th class="text-center">Exportar</th>
                     <tr>
                     <tr slot-scope="{ index, row }">
-                        <td>{{ index }}</td>
+                        <!-- <td>{{ index }}</td> -->
                         <td>{{ row.item_description }}</td>
                         <td>{{ row.category_description }}</td>
                         <td>{{ row.brand_description }}</td>

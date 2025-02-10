@@ -12,7 +12,7 @@
             <div class="card-body ">
                 <data-table :resource="resource">
                     <tr slot="heading">
-                        <th>#</th>
+                        <!-- <th>#</th> -->
                         <th>Entorno</th>
                         <th class="text-center">Usuario</th> 
                         <th class="text-center">F. Emisión</th>
@@ -22,7 +22,7 @@
                         <th class="text-center">Enviar</th>  
                     <tr>
                     <tr slot-scope="{ index, row }">
-                        <td>{{ index }}</td>
+                        <!-- <td>{{ index }}</td> -->
                         <td>{{ row.soap_type_description }}</td>
                         <td class="text-center">{{ row.user_name }}</td>                         
                         <td class="text-center">{{ row.date_of_issue }}</td>

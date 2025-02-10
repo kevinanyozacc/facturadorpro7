@@ -32,10 +32,10 @@
             <div class="card-body">
                 <data-table>
                     <tr slot="heading">
-                        <th>
+                        <!-- <th>
                             #
-                        </th>
-                        <th class="text-center">
+                        </th> -->
+                        <th class="text-left">
                             Periodo
                         </th>
                         <th class="text-center">
@@ -58,10 +58,10 @@
                         </th>
                     <tr>
                     <tr slot-scope="{ index, row }">
-                        <td>
+                        <!-- <td>
                             {{ index }}
-                        </td>
-                        <td class="text-center">
+                        </td> -->
+                        <td class="text-left">
                             {{ row.period }}
                         </td>
                         <td class="text-center">

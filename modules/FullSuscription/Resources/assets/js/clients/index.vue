@@ -33,9 +33,9 @@
                 <data-table
                     :extraquery={users:type}>
                     <tr slot="heading">
-                        <th>
+                        <!-- <th>
                             #
-                        </th>
+                        </th> -->
                         <th class="text-left"
 
                         >
@@ -61,9 +61,9 @@
                         </th>
                     <tr>
                     <tr slot-scope="{ index, row }">
-                        <td>
+                        <!-- <td>
                             {{ index }}
-                        </td>
+                        </td> -->
                         <td class="text-left"
 
                         >

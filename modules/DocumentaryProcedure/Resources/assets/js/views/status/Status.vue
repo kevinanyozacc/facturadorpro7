@@ -66,7 +66,7 @@
                     <table class="table">
                         <thead>
                         <tr>
-                            <th>#</th>
+                            <!-- <th>#</th> -->
                             <th>Estado</th>
                             <th></th>
                         </tr>
@@ -77,7 +77,7 @@
                             :key="item.id"
                             :style="'background-color:'+ item.color"
                         >
-                            <td class="text-left">{{ index + 1 }}</td>
+                            <!-- <td class="text-left">{{ index + 1 }}</td> -->
                             <td>{{ item.name }}</td>
                             <td class="text-center">
                                 <el-button

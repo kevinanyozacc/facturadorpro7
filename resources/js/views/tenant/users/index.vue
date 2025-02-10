@@ -29,7 +29,7 @@
                     <table class="table">
                         <thead>
                         <tr>
-                            <th>#</th>
+                            <!-- <th>#</th> -->
                             <th>Email</th>
                             <th>Nombre</th>
                             <th>Perfil</th>
@@ -39,7 +39,7 @@
                         </thead>
                         <tbody>
                         <tr v-for="(row, index) in records" :key="index" :class="!row.active ? 'text-danger' : ''">
-                            <td>{{ index + 1 }}</td>
+                            <!-- <td>{{ index + 1 }}</td> -->
                             <td>
                                 {{ row.email }}
                                 <sup v-if="row.is_multi_user" style="padding: 0px 3px;border-radius: 4px;" class="bg-info text-white">Multi Usuario</sup>

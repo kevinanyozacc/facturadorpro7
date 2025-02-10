@@ -114,8 +114,8 @@
                     <thead>
                         <tr>
 
-                            <th>#</th>
-                            <th class="text-center">Número de Ficha</th>
+                            <!-- <th>#</th> -->
+                            <th class="text-left">Número de Ficha</th>
                             <th>Fecha de inicio</th>
                             <th>Hora de inicio</th>
                             <th>Fecha de fin</th>
@@ -129,7 +129,7 @@
                         </thead>
                         <tbody>
                         <tr v-for="(row, index) in records">
-                            <td>{{ index + 1}}</td>
+                            <!-- <td>{{ index + 1}}</td> -->
 
                             <td>{{ row.name }}</td>
                             <td>{{ row.date_start }}</td>

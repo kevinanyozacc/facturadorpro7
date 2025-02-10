@@ -46,7 +46,7 @@
           <table class="table">
             <thead>
               <tr>
-                <th class="text-center">#</th>
+                <!-- <th class="text-center">#</th> -->
                 <th>Piso</th>
                 <th class="text-center">Visible</th>
                 <th>Establecimiento</th>
@@ -55,7 +55,7 @@
             </thead>
             <tbody>
               <tr v-for="item in items" :key="item.id">
-                <td class="text-center">{{ item.id }}</td>
+                <!-- <td class="text-center">{{ item.id }}</td> -->
                 <td>{{ item.description }}</td>
                 <td class="text-center">
                   <span v-if="item.active">Si</span>

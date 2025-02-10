@@ -377,7 +377,7 @@
                                         <template v-else>
                                         <thead>
                                             <tr class="table-titles-default">
-                                                <th width="5%">#</th>
+                                                <th width="0.5%"><!--#--></th>
                                                 <th class="font-weight-bold"
                                                     width="30%">Descripción</th>
                                                 <th width="8%" class="text-center font-weight-bold">Unidad</th>
@@ -392,7 +392,7 @@
                                         </thead>
                                         <tbody v-if="form.items.length > 0">
                                             <tr v-for="(row, index) in form.items" :key="index">
-                                                <td>{{index + 1}}</td>
+                                                <td><!--{{index + 1}}--></td>
                                                 <td>
                                                     <template v-if="canAddDescriptionToDocumentItem">
                                                         <template v-if="row.name_product_pdf && row.name_product_pdf != ''">

@@ -44,7 +44,7 @@
                         <table class="table">
                             <thead>
                             <tr>
-                                <th>#</th>
+                                <!-- <th>#</th> -->
                                 <th>Número de registro</th>
                                 <th>Número de ficha</th>
                                 <th>Producto</th>
@@ -62,7 +62,7 @@
                             </thead>
                             <tbody>
                             <tr v-for="(row, index) in records">
-                                <td>{{ index + 1 }}</td>
+                                <!-- <td>{{ index + 1 }}</td> -->
                                 <td>000{{ row.id}}</td>
                                 <td>{{ row.name}}</td>
                                 <td>{{ row.item.name}}</td>

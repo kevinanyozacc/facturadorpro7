@@ -703,6 +703,9 @@ html.fixed.sidebar-white:not(.dark) .sidebar-left a {
     background-color: #3350bb;
     border-color: #3350bb;
 }
+.avatar-uploader .el-upload:hover {
+    border-color: var(--accent-color);
+}
 .btn-danger {
     background-color: #fc4e4b;
     border-color: #fc4e4b;

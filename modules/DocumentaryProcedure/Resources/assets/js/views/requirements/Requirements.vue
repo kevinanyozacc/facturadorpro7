@@ -65,7 +65,7 @@
                     <table class="table">
                         <thead>
                         <tr>
-                            <th>#</th>
+                            <!-- <th>#</th> -->
                             <th>Requerimiento</th>
                             <!--<th>Requiere la carga de archivo</th>-->
                             <th></th>
@@ -76,7 +76,7 @@
                             v-for="(item,index) in items"
                             :key="item.id"
                         >
-                            <td class="text-left">{{ index + 1 }}</td>
+                            <!-- <td class="text-left">{{ index + 1 }}</td> -->
                             <td>{{ item.name }}</td>
                             <!--
                             <td class="text-center">
@@ -84,7 +84,7 @@
                                 <span v-else>No</span>
                             </td>
                             -->
-                            <td class="text-center">
+                            <td class="text-right">
                                 <el-button
                                     :disabled="loading"
                                     type="success"

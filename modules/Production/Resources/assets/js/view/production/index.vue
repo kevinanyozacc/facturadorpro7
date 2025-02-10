@@ -125,7 +125,7 @@
                         <table class="table">
                             <thead>
                             <tr>
-                                <th>#</th>
+                                <!-- <th>#</th> -->
                                 <th>Número de Ficha</th>
                                 <th>Cód. Interno</th>
                                 <th>Tipo de proceso</th>
@@ -148,7 +148,7 @@
                             </thead>
                             <tbody>
                             <tr v-for="(row, index) in records">
-                                <td>{{ index + 1 }}</td>
+                                <!-- <td>{{ index + 1 }}</td> -->
                                 <td>{{ row.name }}</td>
                                 <td>000{{ row.id }}</td>
                                 <td>{{ row.proccess_type }}</td>

@@ -19,14 +19,14 @@
             <div class="card-body">
                 <data-table :resource="resource">
                     <tr slot="heading">
-                        <th>#</th>
+                        <!-- <th>#</th> -->
                         <th>ID</th>
                         <th>Nombre</th>
                         <th>Fecha creación</th>
                         <th class="text-right">Acciones</th>
                     <tr>
                     <tr slot-scope="{ index, row }">
-                        <td>{{ index }}</td>
+                        <!-- <td>{{ index }}</td> -->
                         <td>{{ row.id }}</td>
                         <td>{{ row.name }}</td>
                         <td>{{ row.created_at }}</td>

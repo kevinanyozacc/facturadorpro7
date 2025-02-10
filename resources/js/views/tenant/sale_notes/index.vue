@@ -44,7 +44,7 @@
             <div class="card-body">
                 <data-table :resource="resource">
                     <tr slot="heading">
-                        <th>#</th>
+                        <!-- <th>#</th> -->
                         <th class="text-right"  v-if="columns.seller_name.visible" >Vendedor</th>
 
                         <th class="text-center">Fecha Emisión</th>
@@ -96,8 +96,8 @@
                         <th class="text-right">Acciones</th>
                     </tr>
                     <tr slot-scope="{ index, row }">
-                        <td>{{ index }}</td>
-                    <td class="text-right"  v-if="columns.seller_name.visible" >{{ row.seller_name }}</td>
+                        <!-- <td>{{ index }}</td> -->
+                        <td class="text-right"  v-if="columns.seller_name.visible" >{{ row.seller_name }}</td>
 
                         <td class="text-center">{{ row.date_of_issue }}</td>
                         <td class="text-center" v-if="columns.date_payment.visible" >{{ row.date_of_payment }}</td>

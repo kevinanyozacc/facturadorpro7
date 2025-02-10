@@ -56,7 +56,7 @@
             <div class="card-body">
                 <data-table :resource="resource+`/${this.type}`">
                     <tr slot="heading">
-                        <th>#</th>
+                        <!-- <th>#</th> -->
                         <th>Nombre</th>
                         <th>Cód interno</th>
                         <th class="text-right">Tipo de documento</th>
@@ -78,7 +78,7 @@
                         <th class="text-right">Acciones</th>
                     <tr>
                     <tr slot-scope="{ index, row }" :class="{ disable_color : !row.enabled}">
-                        <td>{{ index }}</td>
+                        <!-- <td>{{ index }}</td> -->
                         <td>{{ row.name }}</td>
                         <td>{{ row.internal_code }}</td>
                         <td class="text-right">{{ row.document_type }}</td>

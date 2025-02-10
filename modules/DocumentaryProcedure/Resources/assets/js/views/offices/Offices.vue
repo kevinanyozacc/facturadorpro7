@@ -66,7 +66,7 @@
                     <table class="table">
                         <thead>
                         <tr>
-                            <th>#</th>
+                            <!-- <th>#</th> -->
                             <th>Etapa</th>
                             <th>Descripción</th>
                             <th>Activo</th>
@@ -83,7 +83,7 @@
                             :key="item.id"
                             :style="'background-color:'+ item.color"
                         >
-                            <td class="text-left">{{ index + 1 }}</td>
+                            <!-- <td class="text-left">{{ index + 1 }}</td> -->
                             <td>{{ item.name }}</td>
                             <td>{{ item.description }}</td>
                             <td class="text-left">
