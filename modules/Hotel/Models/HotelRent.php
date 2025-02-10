@@ -131,7 +131,7 @@
         {
             return $this->belongsTo(Establishment::class)->select('id', 'description');
         }
-
+        
         /**
          * @param Builder $query
          * @param null    $date_start

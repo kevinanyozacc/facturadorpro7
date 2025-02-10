@@ -36,7 +36,7 @@
                             class="dropdown-item text-1"
                             href="#"
                             @click.prevent="clickExport()"
-                        >Reporte general recepción</a>
+                        >Reporte recepción</a>
 
                     </div>
                 </div>
@@ -190,7 +190,10 @@
             @onRefresh="onRefresh">
         </ExtendTimeRoom>
         <reception-export 
-            :showDialog.sync="showExportDialog">
+            :showDialog.sync="showExportDialog"
+            :user-type="userType"
+            :establishment-id="establishmentId"
+        >
         </reception-export>
     </div>
 </template>
@@ -219,6 +222,14 @@ export default {
             type: Array,
             required: true,
             default: [],
+        },
+        userType: {
+            type: String,
+            required: true,
+        },
+            establishmentId: {
+            type: Number,
+            required: true,
         },
     },
     data() {

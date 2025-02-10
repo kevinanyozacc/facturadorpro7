@@ -27,7 +27,10 @@ class HotelReceptionController extends Controller
 
 		$roomStatus = HotelRoom::$status;
 
-		return view('hotel::rooms.reception', compact('rooms', 'floors', 'roomStatus'));
+        $userType = auth()->user()->type;
+		$establishmentId = auth()->user()->establishment_id;
+
+		return view('hotel::rooms.reception', compact('rooms', 'floors', 'roomStatus','userType','establishmentId'));
 	}
 
     /**

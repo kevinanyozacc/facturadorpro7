@@ -31,7 +31,7 @@
                         </el-date-picker>
                     </div>
                 </div>
-                <div v-if="userType==='admin'" class="col-lg-4 col-md-4 pb-4">
+                <div v-if="user==='admin'" class="col-lg-4 col-md-4 pb-4">
                     <div class="form-group">
                         <label class="control-label" for="establishment">Establecimiento</label>
                         <el-select
@@ -55,23 +55,27 @@
         </div>
         <span slot="footer" class="dialog-footer">
             <el-button type="warning" @click="clickClose">Cancelar</el-button>
-            <el-button type="primary" :disabled="true" @click="downloadReport">Descargar</el-button>
+            <el-button type="primary" @click="downloadReport">Descargar</el-button>
         </span>
     </el-dialog>
 </template>
 
 <script>
 export default {
-    props: ["showDialog", "documentId"],
+    props: [
+        "showDialog",
+        "userType",
+        "establishmentId"
+    ],
     data() {
         return {
-            title: "Reporte de Pagos",
-            resource: "document_payments",
+            title: "Reporte recepción",
+            resource: "hotels",
             search: {
                 d_start: moment().startOf('month').format('YYYY-MM-DD'),
                 d_end: moment().endOf('month').format('YYYY-MM-DD')
             },
-            userType: 'admin',
+            user: 'seller',
             establishments: {},
             pickerOptionsDates: {
                 disabledDate: time => {
@@ -88,17 +92,19 @@ export default {
         },
         downloadReport()
         {
-            if(this.search.d_end && this.search.d_start && this.search.type){
+            if(this.search.d_end && this.search.d_start && this.search.establishment_id){
 
-                 window.open(`/${this.resource}/report/${this.search.d_start}/${this.search.d_end}/${this.search.type}`, '_blank');
+                 window.open(`/${this.resource}/reception/report/${this.search.d_start}/${this.search.d_end}/${this.search.establishment_id}`, '_blank');
             } else {
                 this.$message.error('Debe completar el formulario para generar un reporte');
             }
         },
         created() {
+            this.user = this.userType;
             this.$http.get('/establishments/records').then((response) => {
                 this.establishments = response.data.data;
             });
+            this.search.establishment_id = this.establishmentId;
         },
     }
 };

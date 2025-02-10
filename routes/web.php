@@ -304,6 +304,7 @@ if ($hostname) {
             Route::delete('document_payments/{document_payment}', 'Tenant\DocumentPaymentController@destroy');
             Route::get('document_payments/initialize_balance', 'Tenant\DocumentPaymentController@initialize_balance');
             Route::get('document_payments/report/{start}/{end}/{report}', 'Tenant\DocumentPaymentController@report');
+            
 
             Route::get('documents/send_server/{document}/{query?}', 'Tenant\DocumentController@sendServer');
             Route::get('documents/check_server/{document}', 'Tenant\DocumentController@checkServer');

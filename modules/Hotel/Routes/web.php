@@ -64,10 +64,10 @@ if ($hostname) {
             Route::post('/{id}/rent/finalized', 'HotelRentController@finalizeRent');
             Route::post('/{id}/rent/extend-time', 'HotelRentController@extendTime');
             Route::get('/{id}/rent/get-item', 'HotelReceptionController@getItem');
-
             Route::get('checkout-tables', 'HotelRentController@checkoutTables');
-
             Route::get('rent-products-tables', 'HotelRentController@rentProductsTables');
+            Route::get('report/{start}/{end}/{establishment_id}', 'HotelRentController@report');
+            
 
         });
     });
