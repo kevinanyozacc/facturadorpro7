@@ -261,14 +261,20 @@
                                         :src="item.image_url"
                                         class="img-thumbail img-custom"
                                     />
-                                    <p class="text-muted mb-0">
+                                    <p class="text-muted mb-0" style="display: flex; justify-content: space-between; align-items: center;">
                                         <small>{{ item.internal_id }}</small>
-                                        <template v-if="item.sets.length > 0">
-                                            <br/>
-                                            <small>
-                                                {{ item.sets.join("-") }}
-                                            </small>
-                                        </template>
+                                        <el-tooltip
+                                            class="item"
+                                            effect="dark"
+                                            :content="item.sets.flat().join(',\n')"
+                                            placement="bottom"
+                                        >
+                                            <i v-if="item.sets.length > 0" 
+                                               class="fas fa-box-open ms-2" 
+                                               style="cursor: pointer;">
+                                            </i>
+                                        </el-tooltip>
+
                                         <small class="measuring-unit">{{ item.unit_type_id }}</small>
 
                                         <!-- <el-popover v-if="item.warehouses" placement="right" width="280"  trigger="hover">
@@ -584,7 +590,12 @@
                                     <td class="">
                                         <p class="item-description">{{ item.item.description }}</p>
                                         <small>{{ item.unit_type_id }}</small><br>
-                                        <small>{{ nameSets(item.item_id) }}</small>
+                                        <div class="custom-tooltip">
+                                            <i class="tooltip-icon fas fa-box-open"></i>
+                                            <div class="tooltip-content">
+                                                {{ nameSets(item.item_id) }}
+                                            </div>
+                                        </div>
                                     </td>
                                     <td style="width: 80px; vertical-align: top">
                                         <el-input v-model="item.item.aux_quantity"
@@ -909,7 +920,54 @@
 .el-input-group__append {
     padding: 0 10px !important;
 }
+.el-tooltip__popper {
+    white-space: pre-line;
+}
+.custom-tooltip {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
 
+.tooltip-icon {
+    font-size: 18px;
+    color: #333;
+}
+
+.tooltip-content {
+    visibility: hidden;
+    min-width: 180px;
+    max-width: 300px;
+    background-color: #333;
+    color: #fff;
+    text-align: start;
+    border-radius: 4px;
+    padding: 8px;
+    position: absolute;
+    z-index: 9999;
+    top: -35px;
+    left: 32px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.tooltip-content::after {
+    content: "";
+    position: absolute;
+    top: 41px;
+    left: -2%;
+    margin-left: -6px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent #333 transparent transparent;
+    z-index: 9999;
+}
+
+.custom-tooltip:hover .tooltip-content {
+    visibility: visible;
+    opacity: 1;
+    z-index: 9999;
+}
 @media only screen and (max-width: 767px)
 {
     #main-wrapper {
@@ -2370,7 +2428,7 @@ export default {
             let row = this.items.find(x => x.item_id == id);
             if (row) {
                 if (row.sets.length > 0) {
-                    return row.sets.join("-");
+                    return row.sets.join(",\n");
                 } else {
                     return "";
                 }
