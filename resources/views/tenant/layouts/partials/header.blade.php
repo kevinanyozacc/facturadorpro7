@@ -266,6 +266,22 @@
                             </svg>
                             Estilos y temas</a>
                     </li>
+                    {{-- <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" @click.stop>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-download mr-2">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                <path d="M4 14v4a1 1 0 0 0 1 1h14a1 1 0 0 0 1 -1v-4" />
+                                <path d="M7 10l5 5l5 -5" />
+                                <path d="M12 4l0 11" />
+                            </svg>
+                            Establecimientos <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>
+                                <a class="text-1" href="#" @click.prevent="clickExport()">Reporte recepción</a>
+                            </li>
+                        </ul>
+                    </li> --}}
                     <li class="divider"></li>
                     <li>
                         {{--<a role="menuitem" href="#"><i class="fas fa-user"></i> Perfil</a>--}}

@@ -67,7 +67,7 @@ if ($hostname) {
             Route::get('checkout-tables', 'HotelRentController@checkoutTables');
             Route::get('rent-products-tables', 'HotelRentController@rentProductsTables');
             Route::get('report/{start}/{end}/{establishment_id}', 'HotelRentController@report');
-            
+            Route::post('change-user-establishment', 'HotelReceptionController@changeUserEstablishment');
 
         });
     });

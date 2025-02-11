@@ -19,4 +19,3 @@ $(function() {
         }, 300).addClass("active")
     });
 });
-
