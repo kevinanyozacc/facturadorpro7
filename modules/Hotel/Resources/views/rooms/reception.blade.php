@@ -7,5 +7,6 @@
         :rooms='@json($rooms)'
         :user-type="'{{ $userType }}'"
         :establishment-id="{{$establishmentId}}"
+        :establishments='@json($establishments)'
     ></tenant-hotel-reception>
 @endsection

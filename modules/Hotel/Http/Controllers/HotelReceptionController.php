@@ -7,6 +7,8 @@ use Modules\Hotel\Models\HotelRoom;
 use Modules\Hotel\Models\HotelFloor;
 use Modules\Hotel\Models\HotelRent;
 use Illuminate\Http\Request;
+use App\Models\Tenant\Establishment;
+use App\Models\Tenant\User;
 
 class HotelReceptionController extends Controller
 {
@@ -29,8 +31,9 @@ class HotelReceptionController extends Controller
 
         $userType = auth()->user()->type;
 		$establishmentId = auth()->user()->establishment_id;
+        $establishments = Establishment::select('id','description')->get();
 
-		return view('hotel::rooms.reception', compact('rooms', 'floors', 'roomStatus','userType','establishmentId'));
+		return view('hotel::rooms.reception', compact('rooms', 'floors', 'roomStatus','userType','establishmentId','establishments'));
 	}
 
     /**
@@ -110,5 +113,17 @@ class HotelReceptionController extends Controller
 
         $item = $rent->items->where('type', 'HAB')->first();
         return $item;
+    }
+
+    public function changeUserEstablishment(Request $request)
+    {
+        $user = User::findOrFail(auth()->user()->id);
+        $user->establishment_id = $request->establishment_id;
+        $user->save();
+
+        return response()->json([
+            'success' => true,
+            'message'   => "Establecimiento actualizado con éxito",
+        ], 200);
     }
 }
