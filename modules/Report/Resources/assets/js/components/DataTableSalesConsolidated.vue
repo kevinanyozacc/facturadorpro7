@@ -159,7 +159,7 @@
                     <!-- Establecimiento -->
                     <div class="col-lg-3 col-md-3" >
                         <div class="form-group">
-                            <label class="control-label">Establecimiento
+                            <label class="control-label">Sucursal
                             </label>
                             <el-select v-model="form.establishment_id" filterable clearable>
                                 <el-option v-for="option in establishment_id" :key="option.id" :value="option.id" :label="option.description"></el-option>

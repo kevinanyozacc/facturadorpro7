@@ -306,7 +306,7 @@ export default {
         },
         clickAddDefaultDocumentType()
         {
-            if(!this.form.establishment_id) return this.$message.warning('Seleccione un establecimiento para buscar las series disponibles.')
+            if(!this.form.establishment_id) return this.$message.warning('Seleccione un sucursal para buscar las series disponibles.')
 
             this.form.default_document_types.push({
                 document_type_id: null,

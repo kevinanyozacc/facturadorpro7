@@ -33,7 +33,7 @@
                 </div>
                 <div v-if="user==='admin'" class="col-lg-4 col-md-4 pb-4">
                     <div class="form-group">
-                        <label class="control-label" for="establishment">Establecimiento</label>
+                        <label class="control-label" for="establishment">Sucursal</label>
                         <el-select
                             type="text"
                             id="establishment"

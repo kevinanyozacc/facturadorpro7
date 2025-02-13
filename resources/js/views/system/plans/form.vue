@@ -47,7 +47,7 @@
 
                     <div class="col-md-6">
                         <div class="form-group" :class="{'has-danger': errors.establishments_limit}">
-                            <label class="control-label">Límite de establecimientos</label>
+                            <label class="control-label">Límite de sucursales</label>
 
                             <template v-if="form.establishments_unlimited">
                                 <el-input value="∞" disabled></el-input>
@@ -186,7 +186,7 @@
             {
                 if(!this.form.establishments_unlimited)
                 {
-                    if(isNaN(this.form.establishments_limit)) return this.getResponseValidations(false, 'Límite de establecimientos no es un número válido.')
+                    if(isNaN(this.form.establishments_limit)) return this.getResponseValidations(false, 'Límite de sucursales no es un número válido.')
                 } 
 
                 if(!this.form.sales_unlimited)

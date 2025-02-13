@@ -244,7 +244,7 @@
                             <th class="text-center">Comprobantes Ciclo Facturacion</th>
                             <th class="text-center">Usuarios</th>
 
-                            <th class="text-center">Establecimientos</th>
+                            <th class="text-center">Sucursales</th>
 
                             <th class="text-center">Ventas (Mes)</th>
 
@@ -262,7 +262,7 @@
                             <th class="text-right">Limitar Doc.</th>
                             <th class="text-center">Limitar Usuarios</th>
 
-                            <th class="text-center">Limitar Establecimientos</th>
+                            <th class="text-center">Limitar Sucursales</th>
 
                             <th class="text-center">
                                 <el-tooltip class="item"
@@ -409,7 +409,7 @@
                             <td class="text-center">
 
                                 <data-limit-notification
-                                    entity_description="establecimientos"
+                                    entity_description="sucursales"
                                     :unlimited="row.establishments_unlimited"
                                     :quantity="row.quantity_establishments"
                                     :max_quantity="row.max_quantity_establishments"

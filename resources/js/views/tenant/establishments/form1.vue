@@ -4,7 +4,7 @@
             <div class="form-body">
                 <el-tabs v-model="activeName">
                     <el-tab-pane class name="first">
-                        <span slot="label">Datos de establecimiento</span>
+                        <span slot="label">Datos de sucursal</span>
                         <div class="row">
                             <div class="col-md-8">
                                 <div class="form-group" :class="{'has-danger': errors.description}">
@@ -131,7 +131,7 @@
                                 <img v-if="preview" :src="preview" alt="Vista previa" class="img-fluid img-thumbnail mb-2">
                                 <input type="file" ref="inputFile" class="hidden" @change="onSelectImage" accept="image/png, image/jpeg, image/jpg">
                                 <span class="text-muted">Se recomienda resoluciones 700x300</span>
-                                <el-button class="btn-add-logo" @click="onOpenFileLogo">Cambiar logo del establecimiento</el-button>
+                                <el-button class="btn-add-logo" @click="onOpenFileLogo">Cambiar logo del sucursal</el-button>
                             </div>
                             <div class="col-12">
                                 <div class="form-comtrol">
@@ -208,7 +208,7 @@
                                 <div class="col-md-6">
                                     <div :class="{'has-danger': errors.establishment_code}"
                                         class="form-group">
-                                        <label class="control-label">Código de establecimiento</label>
+                                        <label class="control-label">Código de sucursal</label>
                                         <el-input v-model="row.establishment_code"></el-input>
                                         <small v-if="errors.establishment_code"
                                             class="form-control-feedback"
@@ -332,7 +332,7 @@
                 this.preview = null;
             },
             async create() {
-                this.titleDialog = (this.recordId)? 'Editar Establecimiento':'Nuevo Establecimiento'
+                this.titleDialog = (this.recordId)? 'Editar Sucursal':'Nuevo Sucursal'
                 if (this.recordId) {
                     await this.$http.get(`/${this.resource}/record/${this.recordId}`)
                         .then(response => {

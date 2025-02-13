@@ -590,12 +590,16 @@
                                     <td class="">
                                         <p class="item-description">{{ item.item.description }}</p>
                                         <small>{{ item.unit_type_id }}</small><br>
-                                        <div class="custom-tooltip">
-                                            <i class="tooltip-icon fas fa-box-open"></i>
-                                            <div class="tooltip-content">
-                                                {{ nameSets(item.item_id) }}
-                                            </div>
-                                        </div>
+                                        <el-tooltip
+                                            class="item"
+                                            effect="dark"
+                                            :content="nameSets(item.item_id) || 'N.A'"
+                                            placement="bottom-end"
+                                        >
+                                            <i class="fas fa-box-open ms-2" 
+                                               style="cursor: pointer;">
+                                            </i>
+                                        </el-tooltip>
                                     </td>
                                     <td style="width: 80px; vertical-align: top">
                                         <el-input v-model="item.item.aux_quantity"
@@ -922,51 +926,6 @@
 }
 .el-tooltip__popper {
     white-space: pre-line;
-}
-.custom-tooltip {
-    position: relative;
-    display: inline-block;
-    cursor: pointer;
-}
-
-.tooltip-icon {
-    font-size: 18px;
-    color: #333;
-}
-
-.tooltip-content {
-    visibility: hidden;
-    min-width: 180px;
-    max-width: 300px;
-    background-color: #333;
-    color: #fff;
-    text-align: start;
-    border-radius: 4px;
-    padding: 8px;
-    position: absolute;
-    z-index: 9999;
-    top: -35px;
-    left: 32px;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.tooltip-content::after {
-    content: "";
-    position: absolute;
-    top: 41px;
-    left: -2%;
-    margin-left: -6px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: transparent #333 transparent transparent;
-    z-index: 9999;
-}
-
-.custom-tooltip:hover .tooltip-content {
-    visibility: visible;
-    opacity: 1;
-    z-index: 9999;
 }
 @media only screen and (max-width: 767px)
 {

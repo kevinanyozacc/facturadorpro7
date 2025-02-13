@@ -113,7 +113,7 @@
                 <th>Habitación</th>
                 <th>Categoría</th>
                 <th>Piso</th>
-                <th>Establecimiento</th>
+                <th>Sucursal</th>
                 <th>Tarifas</th>
                 <th>Estado</th>
                 <th></th>
@@ -316,7 +316,7 @@ export default {
 
       if(!item.establishment){
         this.$message({
-            message: 'Primero debe asignar habitación a un establecimiento ',
+            message: 'Primero debe asignar habitación a un sucursal ',
             type: "warning",
           });
         return ;

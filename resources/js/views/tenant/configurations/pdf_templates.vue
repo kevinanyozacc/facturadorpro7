@@ -16,10 +16,10 @@
         </div>
         <div class="card tab-content-default row-new">
             <div class="card-body pb-5">
-                <h5> <i class="fa fa-info-circle"></i>  Seleccione un establecimiento para ver su plantilla</h5>
+                <h5> <i class="fa fa-info-circle"></i>  Seleccione un sucursal para ver su plantilla</h5>
                 <div class="row">
                     <div class="col-3 form-modern">
-                        <label class="control-label">Establecimiento</label>
+                        <label class="control-label">Sucursal</label>
                         <el-select v-model="form.establishment_id"
                                    @change="changeEstablishment()">
                             <el-option v-for="option in establishments"

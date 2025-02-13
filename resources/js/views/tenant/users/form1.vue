@@ -56,7 +56,7 @@
                             :class="{ 'has-danger': errors.establishment_id }"
                             class="form-group"
                         >
-                            <label class="control-label">Establecimiento</label>
+                            <label class="control-label">Sucursal</label>
                             <el-select v-model="form.establishment_id" filterable @change="changeEstablishment">
                                 <el-option
                                     v-for="option in establishments"
@@ -486,7 +486,7 @@
                                                     <th class="pb-2" width="42%">Tipo de documento</th>
                                                     <th class="pb-2" width="42%">Serie
                                                         <el-tooltip class="item"
-                                                                    content="Si modifica el establecimiento, se filtrarán nuevamente las series"
+                                                                    content="Si modifica el sucursal, se filtrarán nuevamente las series"
                                                                     effect="dark"
                                                                     placement="top">
                                                             <i class="fa fa-info-circle"></i>
@@ -824,7 +824,7 @@ export default {
         },
         clickAddDefaultDocumentType()
         {
-            if(!this.form.establishment_id) return this.$message.warning('Seleccione un establecimiento para buscar las series disponibles.')
+            if(!this.form.establishment_id) return this.$message.warning('Seleccione un sucursal para buscar las series disponibles.')
 
             this.form.default_document_types.push({
                 document_type_id: null,

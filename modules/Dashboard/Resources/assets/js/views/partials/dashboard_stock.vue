@@ -7,7 +7,7 @@
         </div>
         <div class="card-body pb-0" v-show="!loader">
             <label>Productos por agotarse
-                <el-tooltip class="item" effect="dark" content="Aplica filtro por establecimiento" placement="top-start">
+                <el-tooltip class="item" effect="dark" content="Aplica filtro por sucursal" placement="top-start">
                     <i class="fa fa-info-circle"></i>
                 </el-tooltip>
             </label>

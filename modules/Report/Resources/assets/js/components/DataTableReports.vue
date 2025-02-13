@@ -71,7 +71,7 @@
 
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label class="control-label">Establecimiento</label>
+                            <label class="control-label">Sucursal</label>
                             <el-select v-model="form.establishment_id"
                                        clearable>
                                 <el-option v-for="option in establishments"

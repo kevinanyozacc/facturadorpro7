@@ -292,7 +292,7 @@
                             <div class="col-md-6 mt-4">
                                 <label class="control-label">Asignar dirección de partida - guía
                                     <el-tooltip class="item"
-                                        content="Se asigna la dirección de partida mediante la informacion registrada en establecimiento - Disponible en guías"
+                                        content="Se asigna la dirección de partida mediante la informacion registrada en sucursal - Disponible en guías"
                                         effect="dark" placement="top-start">
                                         <i class="fa fa-info-circle"></i>
                                     </el-tooltip>
@@ -546,7 +546,7 @@
                                 <label class="control-label">
                                     Listar productos por almacén
                                     <el-tooltip class="item"
-                                        content="Filtra los productos disponibles en el almacén relacionado al establecimiento asignado al usuario - Disponible en listado de productos"
+                                        content="Filtra los productos disponibles en el almacén relacionado al sucursal asignado al usuario - Disponible en listado de productos"
                                         effect="dark" placement="top-start">
                                         <i class="fa fa-info-circle"></i>
                                     </el-tooltip>
@@ -1072,7 +1072,7 @@
                             </div>
 
                             <div class="col-md-6 mt-4">
-                                <label class="control-label">Asociar establecimiento a cuenta bancaria
+                                <label class="control-label">Asociar sucursal a cuenta bancaria
                                     <el-tooltip class="item"
                                         content="Disponible en Configuración/Listado de cuentas bancarias" effect="dark"
                                         placement="top-start">
@@ -1492,7 +1492,7 @@
                                     Omitir validación para correo electrónico
                                     <el-tooltip class="item" effect="dark" placement="top-start">
                                         <div slot="content">
-                                            No se validará el campo "correo de contacto" en establecimientos, podrá
+                                            No se validará el campo "correo de contacto" en sucursales, podrá
                                             ingresar un texto libre.
                                         </div>
                                         <i class="fa fa-info-circle"></i>

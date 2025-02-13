@@ -35,7 +35,7 @@
                     <div class="col-md-6">
                         <div :class="{'has-danger': errors.establishment_code}"
                              class="form-group">
-                            <label class="control-label">Código de establecimiento</label>
+                            <label class="control-label">Código de sucursal</label>
                             <el-input v-model="form.establishment_code"></el-input>
                             <small v-if="errors.establishment_code"
                                    class="invalid-feedback"

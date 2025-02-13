@@ -171,7 +171,7 @@
                                         <label class="control-label">
                                             Almacén
                                             <el-tooltip class="item"
-                                                        content="Si no selecciona almacén, se asignará por defecto el relacionado al establecimiento"
+                                                        content="Si no selecciona almacén, se asignará por defecto el relacionado al sucursal"
                                                         effect="dark"
                                                         placement="top">
                                                 <i class="fa fa-info-circle"></i>
