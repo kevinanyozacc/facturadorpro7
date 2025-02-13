@@ -656,6 +656,33 @@ html.fixed.sidebar-white:not(.dark) .sidebar-left a {
         box-shadow: none;
     }
 }
+@media only screen and (max-width: 767px){
+    .header-right {
+        background-color: var(--light-color);
+    }
+      
+    .header-right.active {
+        background-color: var(--light-color);
+    }
+    .dropdown-menu-mobile {
+        & .pendingWork-container {
+            & .li-title-mobile {
+                margin: 10px 0;
+                border-bottom: 1px solid var(--accent-color);
+            }
+        }
+    }
+    .dropdown-menu-mobile {
+        & .log-out-container {
+            & li {
+                background-color: var(--primary-color);
+            }
+        }
+    }
+    .nav-main-mobile li a{
+        color: #282425 !important;
+    }
+}
 @media only screen and (max-width: 768px) {
     .row-new{
         margin-top: 0px;

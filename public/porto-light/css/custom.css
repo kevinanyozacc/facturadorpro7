@@ -988,8 +988,23 @@ iframe, embed{
 .header .logo-container-mobile{
   display: none;
   background-color: transparent;
-  position: absolute;
-  left: 40%;
+  position: fixed;
+  top: 29px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 170px;
+  height: 54px;
+  & a{
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+  }
+  & a img{
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    max-height: 100%;
+  }
 }
 .options-user-mobile{
   display: none !important;
@@ -1007,13 +1022,23 @@ iframe, embed{
 .close-container-user{
   display: none;
 }
+.sidebar-header-mobile{
+  display: none !important;
+}
 @media only screen and (max-width: 767px){
   .header .logo-container-mobile{
-    display: block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   .header .options-user-mobile{
-    display: block !important;
+    display: flex !important;
     cursor: pointer;
+    align-items: center;
+    justify-content: center;
+  }
+  .header-right > *:not(.dropdown-menu-mobile) {
+    display: none !important;
   }
   .header-right {
     position: fixed;
@@ -1021,40 +1046,21 @@ iframe, embed{
     right: -100%;
     width: 100% !important;
     height: 100vh !important;
-    background-color: #fff;
+    background-color: #f7f8fa;
     transition: right 0.3s ease-in-out;
     z-index: 1000;
     box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: column;
     align-items: end !important;
     justify-content: start !important;
-    & .userbox{
-      width: 100%;
-      display: flex;
-      align-items: start;
-      height: 50px;
-      & a {
-        width: 100%;
-        display: flex;
-        justify-content: end;
-        align-items: start;
-        padding-top: 10px;
-        height: 50px;
-        & .profile-info{
-          width: 100%;
-          display: flex;
-          flex-direction: column;
-          justify-content: end;
-          align-items: end;
-        }
-      }
-    }
+    padding: 1rem !important;
+    overflow-y: auto;
   }
-  
   .header-right.active {
     right: 0;
-    background-color: #fff;
+    background-color: #f7f8fa;
+    overflow-y: auto;
   }
   .userbox .name, .userbox .role {
     max-width: 120px;
@@ -1070,29 +1076,163 @@ iframe, embed{
     font-size: 20px;
     width: 30px;
     height: 30px;
-    margin-top: 10px;
+    margin-top: 2px;
   }
   .dropdown-menu-mobile{
-    position: absolute;
-    bottom: 0;
     display: flex !important;
-    justify-content: space-between;
-    align-items:center ;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
     width: 100%;
-    height: 50px;
+    height: 100%;
     background-color: transparent;
-    margin-right: -16px;
     list-style: none;
     padding: 0px;
-    border-top: 1px solid #b1b1b1;
-    margin-bottom: 0px;
-    & > li{
-      flex: 1;
-      border-right: 1px solid #b1b1b1;
-      height: 100%;
+    & .user-content{
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      width: 100%;
+    }
+    & .log-out-container{
+      width: 100%;
+      padding: 0;
+      margin-top: auto;
+      margin-bottom: 10px;
+      & li{
+        list-style: none;
+        background-color: #0074ff;
+        height: 50px;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        padding: 0 10px;
+        & a{
+          color: #ffff;
+          font-size: 16px;
+          &:hover{
+            text-decoration: none;
+          }
+        }
+      }
+    }
+    & .pendingWork-container{
+      background-color: #ffff;
+      width: 100%;
+      border-radius: 14px;
+      margin-top: 30px;
+      padding: 1px 10px;
+      & li{
+        list-style: none;
+        margin: 20px 0;
+        & .navigation-options{
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          &:hover{
+            text-decoration: none;
+          }
+        }
+        & .options-sunat{
+          display: flex;
+          align-items: center;
+        }
+      }
+      & .li-title-mobile{
+        margin: 10px 0;
+        border-bottom: 1px solid #dee4ef;
+        & h4{
+          margin: 0px;
+          font-weight: 600;
+        }
+      }
+    }
+  }
+  .userbox .profile-picture {
+    display: block;
+    margin-right: 0px;
+  }
+  .user-profile-content{
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    & .profile-info{
+      display: flex;
+      flex-direction: column;
+      & .role{
+        color: #acacac;
+      }
+      & .name{
+        color: #4b4b4b;
+        font-weight: 600;
+      }
+    }
+    & .profile-picture{
       display: flex;
       align-items: center;
-      justify-content: center;
+      margin: auto !important;
+      margin-right: 15px !important;
     }
+  }
+  .sidebar-header-mobile {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #ffff;
+    border-bottom: 1px solid #e9e9e6;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    z-index: 9999;
+    & .logo-container-sidebar{
+      padding: 0px !important;
+      display: flex;
+      align-items: center;
+      width: 150px;
+      height: 40px;
+      & img{
+        width: auto;
+        max-width: 100% !important;
+        height: auto !important;
+        max-height: 100%;
+      }
+    }
+    & .toggle-sidebar-left{
+      font-size: 20px;
+    }
+  }
+  .nav-main-mobile li a{
+    color: #282425 !important;
+  }
+  .more-config-mobile{
+    height: 50px;
+    box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1);
+    display: flex !important;
+    align-items: center;
+  }
+  .more-config .nano-content-config ul{
+    display: flex;
+    align-items: center;
+    & li{
+      margin-bottom: 0px;
+    }
+  }
+  .more-config .nano-content-config ul li a{
+    padding: 0px 15px !important;
+    color: #282425;
+  }
+  .sidebar-left{
+    padding-bottom: 0px;
+  }
+  .nano-content-mobile{
+    margin-top: 35px;
+  }
+  .sidebar-header-desktop{
+    display: none !important;
+    visibility: hidden;
+  }
+}
+@media only screen and (max-width: 390px){
+  .header .logo-container-mobile{
+    width: 100px;
+    height: 54px;
   }
 }

@@ -7,7 +7,22 @@
         </div>
         <div class="d-md-none toggle-sidebar-left" data-toggle-class="sidebar-left-opened" data-target="html"
             data-fire-event="sidebar-left-opened">
-            <i class="fas fa-th" aria-label="Toggle sidebar"></i>
+            <div style="width: 24px; height: 24px; display: flex; align-items: center;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="icon icon-tabler icons-tabler-outline icon-tabler-grid-dots">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M5 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+                    <path d="M12 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+                    <path d="M19 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+                    <path d="M5 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+                    <path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+                    <path d="M19 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+                    <path d="M5 19m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+                    <path d="M12 19m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+                    <path d="M19 19m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+                </svg>
+            </div>
             <h2>Modulos</h2>
         </div>
         <tenant-dialog-header-menu></tenant-dialog-header-menu>
@@ -37,56 +52,257 @@
         </div>
     </div>
     <div class="header-right">
-        <ul class="dropdown-menu-mobile" style="display: none;">
-            @if(in_array('cuenta', $vc_modules))
-                @if(in_array('account_users_list', $vc_module_levels))
+        <div class="dropdown-menu-mobile" style="display: none;">
+            <div class="user-content">
+                <div class="close-container-user">
+                    <i class="fas fa-times"></i>
+                </div>
+                <div>
+
+                </div>
+                <a href="#" data-toggle="dropdown" class="user-profile-content">
+                    <div class="profile-info" data-lock-name="{{ $vc_user->email }}"
+                        data-lock-email="{{ $vc_user->email }}">
+                        <span class="name">{{ $vc_user->name }}</span>
+                        <span class="role">{{ $vc_user->email }}</span>
+                    </div>
+                    <figure class="profile-picture">
+                        {{-- <img src="{{asset('img/%21logged-user.jpg')}}" alt="Profile" class="rounded-circle"
+                            data-lock-picture="img/%21logged-user.jpg" /> --}}
+                        <div class="border rounded-circle text-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="icon icon-tabler icons-tabler-outline icon-tabler-user-square-rounded">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M12 13a3 3 0 1 0 0 -6a3 3 0 0 0 0 6z" />
+                                <path d="M12 3c7.2 0 9 1.8 9 9s-1.8 9 -9 9s-9 -1.8 -9 -9s1.8 -9 9 -9z" />
+                                <path d="M6 20.05v-.05a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v.05" />
+                            </svg>
+                        </div>
+                    </figure>
+                    {{-- <i class="fa custom-caret"></i> --}}
+                </a>
+            </div>
+            <ul class="pendingWork-container">
+                <li class="li-title-mobile">
+                    <h4>Pendientes</h4>
+                </li>
+                @if($vc_document > 0)
                     <li>
-                        <a role="menuitem" href="{{route('tenant.payment.index')}}">
+                        <a href="{{route('tenant.documents.not_sent')}}"
+                            class="notification-icon text-secondary navigation-options" data-toggle="tooltip"
+                            data-placement="bottom" title="Comprobantes no enviados/por enviar">
+                            <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-bell">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                    <path
+                                        d="M10 5a2 2 0 1 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6" />
+                                    <path d="M9 17v1a3 3 0 0 0 6 0v-1" />
+                                </svg>
+                                <span class="ml-2">Comprobantes no enviados</span>
+                                <span
+                                    class="badge badge-pill badge-danger badge-up cart-item-count">{{ $vc_document }}</span>
+                            </span>
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                class="icon icon-tabler icons-tabler-outline icon-tabler-receipt-dollar mr-2">
+                                class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-right">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                <path d="M5 21v-16a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v16l-3 -2l-2 2l-2 -2l-2 2l-2 -2l-3 2" />
-                                <path d="M14.8 8a2 2 0 0 0 -1.8 -1h-2a2 2 0 1 0 0 4h2a2 2 0 1 1 0 4h-2a2 2 0 0 1 -1.8 -1" />
-                                <path d="M12 6v10" />
+                                <path d="M9 6l6 6l-6 6" />
                             </svg>
-                            <span>Mis Pagos</span>
                         </a>
                     </li>
                 @endif
-            @endif
-            <li>
-                <a class="style-switcher-open" href="#">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                        class="icon icon-tabler icons-tabler-outline icon-tabler-paint mr-2">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M5 3m0 2a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v2a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2z" />
-                        <path d="M19 6h1a2 2 0 0 1 2 2a5 5 0 0 1 -5 5l-5 0v2" />
-                        <path d="M10 15m0 1a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1z" />
-                    </svg>
-                    Estilos y temas</a>
-            </li>
-            <li>
-                {{--<a role="menuitem" href="#"><i class="fas fa-user"></i> Perfil</a>--}}
-                <a role="menuitem" href="{{ route('logout') }}"
+                <li>
+                    <a href="{{ route('tenant_orders_index') }}"
+                        class="notification-icon text-secondary navigation-options" data-toggle="tooltip"
+                        data-placement="bottom" title="Pedidos pendientes">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="icon icon-tabler icons-tabler-outline icon-tabler-shopping-cart">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                                <path d="M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                                <path d="M17 17h-11v-14h-2" />
+                                <path d="M6 5l14 1l-1 7h-13" />
+                            </svg>
+                            <span class="ml-2">Pedidos pendientes</span>
+                            <span class="badge badge-pill badge-info badge-up cart-item-count">{{ $vc_orders }}</span>
+                        </span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-right">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M9 6l6 6l-6 6" />
+                        </svg>
+                    </a>
+                </li>
+                @if(in_array('cuenta', $vc_modules))
+                    @if(in_array('account_users_list', $vc_module_levels))
+                        <li>
+                            <a role="menuitem" href="{{route('tenant.payment.index')}}"
+                                class="notification-icon text-secondary navigation-options">
+                                <span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        class="icon icon-tabler icons-tabler-outline icon-tabler-receipt-dollar mr-2">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <path
+                                            d="M5 21v-16a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v16l-3 -2l-2 2l-2 -2l-2 2l-2 -2l-3 2" />
+                                        <path
+                                            d="M14.8 8a2 2 0 0 0 -1.8 -1h-2a2 2 0 1 0 0 4h2a2 2 0 1 1 0 4h-2a2 2 0 0 1 -1.8 -1" />
+                                        <path d="M12 6v10" />
+                                    </svg>
+                                    <span>Mis Pagos</span>
+                                </span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                    class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-right">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                    <path d="M9 6l6 6l-6 6" />
+                                </svg>
+                            </a>
+                        </li>
+                    @endif
+                @endif
+            </ul>
+
+            <ul class="pendingWork-container">
+                <li class="li-title-mobile">
+                    <h4>Sistema</h4>
+                </li>
+                @php
+                    $is_pse = $vc_company->send_document_to_pse;
+                    $environment = 'SUNAT';
+                    $is_ose = ($vc_company->soap_send_id === '02') ? true : false;
+                    if ($is_pse) {
+                        $environment = 'PSE';
+                    }
+                    if ($is_ose) {
+                        $environment = 'OSE';
+                    }
+                    if ($is_ose && $is_pse) {
+                        $environment = 'OSE-PSE';
+                    }
+                @endphp
+                @if($vc_company->soap_type_id == "01")
+                    <li>
+                        <a href="@if(in_array('configuration', $vc_modules)){{route('tenant.companies.create')}}@else # @endif"
+                            class="notification-icon text-secondary navigation-options" data-toggle="tooltip"
+                            data-placement="bottom"
+                            title="{{$environment}}: ENTORNO DE DEMOSTRACIÓN, pulse para ir a configuración"
+                            style="background-color: transparent !important;">
+                            <span class="options-sunat">
+                                <i class="fas fa-2x fa-toggle-off mr-2" style="font-size: 20px;"></i>
+                                <span class="ml-2" style="display: flex; flex-direction: column;">
+                                    <span>DEMO</span>
+                                    <span>SUNAT Entorno de Demostración</span>
+                                </span>
+                            </span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-right">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M9 6l6 6l-6 6" />
+                            </svg>
+                        </a>
+                    </li>
+                @elseif($vc_company->soap_type_id == "02")
+                    <li>
+                        <a href="@if(in_array('configuration', $vc_modules)){{route('tenant.companies.create')}}@else # @endif"
+                            class="notification-icon text-secondary navigation-options" data-toggle="tooltip"
+                            data-placement="bottom"
+                            title="{{$environment}}: ENTORNO DE PRODUCCIÓN, pulse para ir a configuración">
+                            <span class="options-sunat">
+                                <i class="text-success fas fa-2x fa-toggle-on mr-2"
+                                    style="font-size: 20px; color: #28a745 !important"></i>
+                                <span class="ml-2" style="display: flex; flex-direction: column;">
+                                    <span>PROD</span>
+                                    <span>SUNAT Entorno de Demostración</span>
+                                </span>
+                            </span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-right">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M9 6l6 6l-6 6" />
+                            </svg>
+                        </a>
+                    </li>
+                @else
+                    <li>
+                        <a href="@if(in_array('configuration', $vc_modules)){{route('tenant.companies.create')}}@else # @endif"
+                            class="notification-icon text-secondary navigation-options" data-toggle="tooltip"
+                            data-placement="bottom" title="INTERNO: ENTORNO DE PRODUCCIÓN, pulse para ir a configuración">
+                            <span class="options-sunat">
+                                <i class="text-info fas fa-2x fa-toggle-on mr-2"
+                                    style="font-size: 20px; color: #398bf7!important;"></i>
+                                <span class="ml-2" style="display: flex; flex-direction: column;">
+                                    <span>INT</span>
+                                    <span>SUNAT Entorno de Demostración</span>
+                                </span>
+                            </span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-right">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M9 6l6 6l-6 6" />
+                            </svg>
+                        </a>
+                    </li>
+                @endif
+                <li>
+                    <a class="style-switcher-open notification-icon text-secondary navigation-options" href="#">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="icon icon-tabler icons-tabler-outline icon-tabler-paint mr-2">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path
+                                    d="M5 3m0 2a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v2a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2z" />
+                                <path d="M19 6h1a2 2 0 0 1 2 2a5 5 0 0 1 -5 5l-5 0v2" />
+                                <path
+                                    d="M10 15m0 1a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1z" />
+                            </svg>
+                            Estilos y temas
+                        </span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-right">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M9 6l6 6l-6 6" />
+                        </svg>
+                    </a>
+                </li>
+            </ul>
+
+            <ul class="log-out-container">
+                <li role="menuitem" href="{{ route('logout') }}"
                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                        class="icon icon-tabler icons-tabler-outline icon-tabler-door-exit mr-2">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M13 12v.01" />
-                        <path d="M3 21h18" />
-                        <path d="M5 21v-16a2 2 0 0 1 2 -2h7.5m2.5 10.5v7.5" />
-                        <path d="M14 7h7m-3 -3l3 3l-3 3" />
-                    </svg>
-                    @lang('app.buttons.logout')
-                </a>
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                    @csrf
-                </form>
-            </li>
-        </ul>
+                    {{--<a role="menuitem" href="#"><i class="fas fa-user"></i> Perfil</a>--}}
+                    <a>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none"
+                            stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="icon icon-tabler icons-tabler-outline icon-tabler-logout mr-2">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" />
+                            <path d="M9 12h12l-3 -3" />
+                            <path d="M18 15l3 -3" />
+                        </svg>
+                        Cerrar Sesión
+                    </a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                </li>
+            </ul>
+        </div>
         <ul class="notifications mx-2">
             @php
                 $is_pse = $vc_company->send_document_to_pse;
@@ -204,10 +420,7 @@
         @endif
         <span class="separator"></span>
         <div id="userbox" class="userbox">
-            <div class="close-container-user">
-                <i class="fas fa-times"></i>
-            </div>
-            <a href="#" data-toggle="dropdown">
+            <a href="#" data-toggle="dropdown" class="user-profile-content">
                 <div class="profile-info" data-lock-name="{{ $vc_user->email }}"
                     data-lock-email="{{ $vc_user->email }}">
                     <span class="name">{{ $vc_user->name }}</span>
@@ -267,9 +480,13 @@
                             Estilos y temas</a>
                     </li>
                     {{-- <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" @click.stop>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-download mr-2">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"
+                            @click.stop>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="icon icon-tabler icons-tabler-outline icon-tabler-download mr-2">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                 <path d="M4 14v4a1 1 0 0 0 1 1h14a1 1 0 0 0 1 -1v-4" />
                                 <path d="M7 10l5 5l5 -5" />
                                 <path d="M12 4l0 11" />
@@ -313,21 +530,25 @@
         const optionsUserMobile = document.querySelector('.options-user-mobile');
         const headerRight = document.querySelector('.header-right');
         const closeContainerUser = document.querySelector('.close-container-user');
+        const body = document.body;
 
         // Mostrar/ocultar header-right al hacer clic en options-user-mobile
         optionsUserMobile.addEventListener('click', function () {
             headerRight.classList.toggle('active');
+            body.classList.toggle('no-scroll'); // Deshabilita el scroll de la página principal
         });
 
         // Ocultar header-right al hacer clic en close-container-user
         closeContainerUser.addEventListener('click', function () {
             headerRight.classList.remove('active');
+            body.classList.remove('no-scroll'); // Habilita el scroll de la página principal
         });
 
         // Ocultar header-right al hacer clic fuera de él
         document.addEventListener('click', function (event) {
             if (!headerRight.contains(event.target) && !optionsUserMobile.contains(event.target)) {
                 headerRight.classList.remove('active');
+                body.classList.remove('no-scroll'); // Habilita el scroll de la página principal
             }
         });
     });
