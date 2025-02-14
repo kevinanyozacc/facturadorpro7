@@ -1025,6 +1025,22 @@ iframe, embed{
 .sidebar-header-mobile{
   display: none !important;
 }
+ul.notifications li .btn-sunat{
+  height: auto !important;
+  max-height: 50px;
+  width: auto !important;
+  padding: 5px 15px !important;
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  margin-top: -4px;
+  &:hover{
+    border: none;
+  }
+}
 @media only screen and (max-width: 767px){
   .header .logo-container-mobile{
     display: flex;

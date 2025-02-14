@@ -317,35 +317,34 @@
                 if ($is_ose && $is_pse) {
                     $environment = 'OSE-PSE';
                 }
+
+                $productionClass = ($vc_company->soap_type_id == "02" && $is_ose) ? 'btn-success' : 'btn-primary';
             @endphp
-            @if($vc_company->soap_type_id == "01")
+            @if($vc_company->soap_type_id == "1")
                 <li>
                     <a href="@if(in_array('configuration', $vc_modules)){{route('tenant.companies.create')}}@else # @endif"
-                        class="notification-icon text-secondary" data-toggle="tooltip" data-placement="bottom"
-                        title="{{$environment}}: ENTORNO DE DEMOSTRACIÓN, pulse para ir a configuración"
-                        style="background-color: transparent !important;">
-                        <i class="fas fa-2x fa-toggle-off mr-2" style="font-size: 20px;"></i>
-                        <span>DEMO</span>
+                        class="btn-sunat btn-danger" data-toggle="tooltip" data-placement="bottom"
+                        title="Clic para ver o cambiar la configuración del entorno y el tipo de conexión">
+                        <span style="font-weight: 600;">DEMO</span>
+                        <span style="font-size: 12px;">Conectado a {{ $environment }}</span>
                     </a>
                 </li>
             @elseif($vc_company->soap_type_id == "02")
                 <li>
                     <a href="@if(in_array('configuration', $vc_modules)){{route('tenant.companies.create')}}@else # @endif"
-                        class="notification-icon text-secondary" data-toggle="tooltip" data-placement="bottom"
-                        title="{{$environment}}: ENTORNO DE PRODUCCIÓN, pulse para ir a configuración">
-                        <i class="text-success fas fa-2x fa-toggle-on mr-2"
-                            style="font-size: 20px; color: #28a745 !important"></i>
-                        <span>PROD</span>
+                        class="btn-sunat {{ $productionClass }}" data-toggle="tooltip" data-placement="bottom"
+                        title="Clic para ver o cambiar la configuración del entorno y el tipo de conexión">
+                        <span style="font-weight: 600;">PRODUCCIÓN</span>
+                        <span style="font-size: 12px;">Conectado a {{ $environment }}</span>
                     </a>
                 </li>
             @else
                 <li>
                     <a href="@if(in_array('configuration', $vc_modules)){{route('tenant.companies.create')}}@else # @endif"
-                        class="notification-icon text-secondary" data-toggle="tooltip" data-placement="bottom"
-                        title="INTERNO: ENTORNO DE PRODUCCIÓN, pulse para ir a configuración">
-                        <i class="text-info fas fa-2x fa-toggle-on mr-2"
-                            style="font-size: 20px; color: #398bf7!important;"></i>
-                        <span>INT</span>
+                        class="btn-sunat btn-info" data-toggle="tooltip" data-placement="bottom"
+                        title="Clic para ver o cambiar la configuración del entorno y el tipo de conexión">
+                        <span style="font-weight: 600;">INTERNO</span>
+                        <span style="font-size: 12px;">Conectado a SERVIDOR</span>
                     </a>
                 </li>
             @endif

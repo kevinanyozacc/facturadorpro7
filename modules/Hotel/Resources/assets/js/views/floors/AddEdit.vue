@@ -9,7 +9,7 @@
     <form autocomplete="off" @submit.prevent="onSubmit">
       <div class="form-body">
         <div class="form-group">
-          <label class="control-label" for="description">Nombre del piso</label>
+          <label class="control-label" for="description">Nombre de la Ubicación</label>
           <el-input
             type="text"
             id="description"
@@ -37,7 +37,7 @@
           </div>
         </div>
         <div class="form-group">
-          <label>Mostrar piso</label>
+          <label>Mostrar ubicación</label>
           <el-switch v-model="form.active"></el-switch>
         </div>
         <div class="row text-center">
@@ -140,9 +140,9 @@ export default {
     onCreate() {
       if (this.floor) {
         this.form = this.floor;
-        this.title = "Editar piso";
+        this.title = "Editar ubicación";
       } else {
-        this.title = "Crear piso";
+        this.title = "Crear ubicación";
         this.form = {
           active: true,
           establishment_id: this.establishmentId,

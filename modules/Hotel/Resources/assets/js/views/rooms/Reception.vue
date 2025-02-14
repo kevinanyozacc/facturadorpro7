@@ -85,7 +85,7 @@
                             v-model="hotel_floor_id"
                             :disabled="loading"
                             clearable
-                            placeholder="Piso"
+                            placeholder="Ubicación"
                             @change="searchRooms"
                         >
                             <el-option
