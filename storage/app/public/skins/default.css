@@ -105,6 +105,12 @@ address {
     margin-left: -25px;
     background-color: #ffffff;
     padding: 0px;
+    width: auto !important;
+    min-width: 0px !important;
+}
+.row-new .card-body{
+    width: auto !important;
+    min-width: 0px !important;
 }
 .el-cascader .el-input.is-focus .el-input__inner {
     border-color: var(--accent-color);
@@ -655,6 +661,9 @@ html.fixed.sidebar-white:not(.dark) .sidebar-left a {
     html.fixed .sidebar-left {
         box-shadow: none;
     }
+    .page-header {
+        margin: 0 10px !important;
+    }
 }
 @media only screen and (max-width: 767px){
     .header-right {
@@ -681,6 +690,9 @@ html.fixed.sidebar-white:not(.dark) .sidebar-left a {
     }
     .nav-main-mobile li a{
         color: var(--dark-color) !important;
+    }
+    .page-header {
+        margin: 0 -15px 20px !important;
     }
 }
 @media only screen and (max-width: 768px) {
@@ -903,7 +915,6 @@ span.badge.text-white.bg-success {
     background: var(--accent-color) !important;
     box-shadow: none !important;
     border-radius: 12px;
-    margin: 0 10px !important;
 }
 
 .logo-container .fa-bullseye:before {

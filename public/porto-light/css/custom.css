@@ -1041,6 +1041,15 @@ ul.notifications li .btn-sunat{
     border: none;
   }
 }
+.card-body {
+  padding: 0.92rem;
+}
+.table-responsive-new{
+  display: block !important;
+  width: 100% !important;
+  overflow-x: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+}
 @media only screen and (max-width: 767px){
   .header .logo-container-mobile{
     display: flex;
@@ -1244,6 +1253,16 @@ ul.notifications li .btn-sunat{
   .sidebar-header-desktop{
     display: none !important;
     visibility: hidden;
+  }
+}
+@media only screen and (max-width: 485px){
+  .filter-container{
+    margin-top: 40px;
+    & .btn-filter-content, .btn-container-mobile{
+      display: flex;
+      align-items: center;
+      justify-content: end;
+    }
   }
 }
 @media only screen and (max-width: 390px){
