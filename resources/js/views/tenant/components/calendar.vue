@@ -15,7 +15,7 @@
             </div>
             <div class="el-form-item  col-xs-12">
                 <div class="el-form-item__content">
-                    <el-select v-model="establishment2" name="establishment" clearable placeholder="Establecimiento">
+                    <el-select v-model="establishment2" name="establishment" clearable placeholder="Sucursal">
                         <el-option v-for="establishment in establishments" :key="establishment.id" :label="establishment.description.toUpperCase()" :value="establishment.id"></el-option>
                     </el-select>
                 </div>

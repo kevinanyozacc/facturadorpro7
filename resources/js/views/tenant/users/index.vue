@@ -34,7 +34,7 @@
                             <th>Nombre</th>
                             <th>Perfil</th>
                             <th>Api Token</th>
-                            <th>Establecimiento</th>
+                            <th>Sucursal</th>
                         </tr>
                         </thead>
                         <tbody>

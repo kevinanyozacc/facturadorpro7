@@ -689,7 +689,7 @@ export default {
             this.form.series_id = (this.series.length > 0) ? this.series[0].id : null
 
             if (!this.form.series_id) {
-                return this.$message.warning('El establecimiento no tiene series disponibles para el comprobante');
+                return this.$message.warning('El sucursal no tiene series disponibles para el comprobante');
             }
         },
         async clickCancel() {
@@ -769,7 +769,7 @@ export default {
             }
 
             if (!this.form.series_id) {
-                return this.$message.warning('El establecimiento no tiene series disponibles para el comprobante');
+                return this.$message.warning('El sucursal no tiene series disponibles para el comprobante');
             }
 
             if (this.form.document_type_id === "80") {

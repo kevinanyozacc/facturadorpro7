@@ -44,8 +44,8 @@ html.sidebar-light:not(.dark) .page-header h2 {
 }
 
 .el-dialog__header {
-    padding: 0px !important;
-    padding-bottom: 0px !important;
+    padding: 20px;
+    padding-bottom: 10px;
 }
 
 .el-dialog__body_custom{

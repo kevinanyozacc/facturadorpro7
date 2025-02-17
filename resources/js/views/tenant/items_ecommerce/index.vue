@@ -128,6 +128,18 @@
     </div>
   </div>
 </template>
+<style>
+@media only screen and (max-width: 485px){
+  .filter-container{
+    margin-top: 0px;
+    & .btn-filter-content, .btn-container-mobile{
+      display: flex;
+      align-items: center;
+      justify-content: start;
+    }
+  }
+}
+</style>
 <script>
 import ItemsForm from "./form.vue";
 import WarehousesDetail from "./partials/warehouses.vue";

@@ -9,7 +9,7 @@
                     :class="{ shift: isVisible }"
                     @click="toggleInformation"
                 >
-                    {{ isVisible ? "Ocultar opciones de filtro" : "Mostrar opciones de filtro" }}
+                    {{ isVisible ? "Ocultar filtros" : "Mostrar filtro" }}
                 </el-button>
                 <div v-if="applyFilter && isVisible"
                      class="row">

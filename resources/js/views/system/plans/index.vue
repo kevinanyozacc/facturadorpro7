@@ -26,8 +26,8 @@
                                     <li v-if="row.limit_documents === 0"><strong>Comprobantes</strong> ilimitados</li>                                
                                     <li v-else><strong>{{row.limit_documents}}</strong> comprobantes</li>
                                 
-                                    <li v-if="row.establishments_unlimited"><strong>Establecimientos</strong> ilimitados</li>                                
-                                    <li v-else><strong>{{row.establishments_limit}}</strong> establecimientos</li>
+                                    <li v-if="row.establishments_unlimited"><strong>Sucursales</strong> ilimitados</li>                                
+                                    <li v-else><strong>{{row.establishments_limit}}</strong> sucursales</li>
 
                                     <li v-if="row.sales_unlimited"><strong>Ventas </strong> ilimitadas</li>                                
                                     <li v-else>Total ventas mensuales <strong> S/{{row.sales_limit}}</strong></li>

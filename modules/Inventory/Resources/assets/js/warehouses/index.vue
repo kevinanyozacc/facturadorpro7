@@ -18,7 +18,7 @@
                     <tr slot="heading">
                         <th>#</th>
                         <th>Descripción</th>
-                        <th>Establecimiento</th>
+                        <th>Sucursal</th>
                         <th class="text-right">Acciones</th>
                     <tr>
                     <tr slot-scope="{ index, row }">

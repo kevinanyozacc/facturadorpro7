@@ -76,7 +76,7 @@
                     </div>
                     <div class="col-12">
                         <p v-if="  mi_tienda_pe.establishment_id==null">
-                            Debes ajustar el establecimiento predefinido
+                            Debes ajustar el sucursal predefinido
                         </p>
                         <p v-if="  mi_tienda_pe.series_document_ft_id==null">
                             Debes ajustar la serie por defecto para factura

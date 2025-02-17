@@ -58,7 +58,7 @@
 
                     <div class="col-md-4" v-if="select_establishment_bank_account">
                         <div class="form-group" :class="{'has-danger': errors.establishment_id}">
-                            <label class="control-label">Establecimiento</label>
+                            <label class="control-label">Sucursal</label>
                             <el-select v-model="form.establishment_id">
                                 <el-option v-for="option in establishments" :key="option.id" :value="option.id" :label="option.description"></el-option>
                             </el-select>

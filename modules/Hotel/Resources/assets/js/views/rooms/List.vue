@@ -62,7 +62,7 @@
                 v-model="filter.hotel_floor_id"
                 @change="onFilter"
               >
-                <option value="">Filtrar por piso</option>
+                <option value="">Filtrar por ubicación</option>
                 <option v-for="fl in floors" :key="fl.id" :value="fl.id">
                   {{ fl.description }}
                 </option>
@@ -112,8 +112,8 @@
                 <th></th>
                 <th>Habitación</th>
                 <th>Categoría</th>
-                <th>Piso</th>
-                <th>Establecimiento</th>
+                <th>Ubicación</th>
+                <th>Sucursal</th>
                 <th>Tarifas</th>
                 <th>Estado</th>
                 <th></th>
@@ -316,7 +316,7 @@ export default {
 
       if(!item.establishment){
         this.$message({
-            message: 'Primero debe asignar habitación a un establecimiento ',
+            message: 'Primero debe asignar habitación a un sucursal ',
             type: "warning",
           });
         return ;

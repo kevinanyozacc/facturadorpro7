@@ -13,7 +13,7 @@
                                 :class="{ shift: see_more }"
                                 @click="clickSeeMore"
                             >
-                                {{ see_more ? "Ocultar filtros de busqueda" : "Mostrar filtros de busqueda" }}
+                                {{ see_more ? "Ocultar filtros" : "Mostrar filtros" }}
                             </el-button>
                         </div>
                     </div>

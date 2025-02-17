@@ -94,7 +94,7 @@
                             <div class="col-lg-2 d-none">
                                 <div :class="{'has-danger': errors.establishment_id}"
                                      class="form-group">
-                                    <label class="control-label">Establecimiento</label>
+                                    <label class="control-label">Sucursal</label>
                                     <el-select v-model="form.establishment_id"
                                                @change="changeEstablishment">
                                         <el-option v-for="option in establishments"

@@ -21,7 +21,7 @@
           </div>
         </div>
         <div v-if="userType==='admin'" class="form-group">
-          <label class="control-label" for="establishment">Establecimiento</label>
+          <label class="control-label" for="establishment">Sucursal</label>
           <el-select
             type="text"
             id="establishment"
@@ -54,7 +54,7 @@
           </div>
         </div>
         <div class="form-group">
-          <label class="control-label" for="floor">Piso</label>
+          <label class="control-label" for="floor">Ubicación</label>
           <el-select
             type="text"
             id="floor"

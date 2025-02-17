@@ -7,7 +7,7 @@
         </a>
       </h2>
       <ol class="breadcrumbs">
-        <li class="active"><span>REGISTRO DE PISOS</span></li>
+        <li class="active"><span>REGISTRO DE UBICACIONES</span></li>
       </ol>
       <div class="right-wrapper pull-right">
         <div class="btn-group flex-wrap">
@@ -47,9 +47,9 @@
             <thead>
               <tr>
                 <!-- <th class="text-center">#</th> -->
-                <th>Piso</th>
+                <th>Ubicación</th>
                 <th class="text-center">Visible</th>
-                <th>Establecimiento</th>
+                <th>Sucursal</th>
                 <th></th>
               </tr>
             </thead>

@@ -18,7 +18,7 @@
                         <div class="row">
                             <div class="col-lg-2">
                                 <div class="form-group" :class="{'has-danger': errors.establishment_id}">
-                                    <label class="control-label font-weight-bold">Establecimiento<span class="text-danger"> *</span></label>
+                                    <label class="control-label font-weight-bold">Sucursal<span class="text-danger"> *</span></label>
                                     <el-select v-model="form.establishment_id" @change="changeEstablishment">
                                         <el-option v-for="option in establishments" :key="option.id" :value="option.id" :label="option.description"></el-option>
                                     </el-select>

@@ -2,15 +2,17 @@
     <div>
         <div class="row ">
 
-            <div class="col-md-12 col-lg-12 col-xl-12 ">
-                <el-button
-                    type="primary"
-                    class="btn-show-filter mb-2"
-                    :class="{ shift: isVisible }"
-                    @click="toggleInformation"
-                >
-                    {{ isVisible ? "Ocultar opciones de filtro" : "Mostrar opciones de filtro" }}
-                </el-button>
+            <div class="col-md-12 col-lg-12 col-xl-12 filter-container">
+                <div class="btn-filter-content">
+                    <el-button
+                        type="primary"
+                        class="btn-show-filter mb-2"
+                        :class="{ shift: isVisible }"
+                        @click="toggleInformation"
+                    >
+                        {{ isVisible ? "Ocultar filtros" : "Mostrar filtros" }}
+                    </el-button>
+                </div>
                 <div class="row" v-if="applyFilter && isVisible">
                     <div class="col-lg-4 col-md-4 col-sm-12 pb-2">
                         <div class="d-flex">

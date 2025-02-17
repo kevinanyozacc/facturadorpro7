@@ -49,7 +49,7 @@
                                 <th>Número de ficha</th>
                                 <th>Producto</th>
                                 <th>Usuario</th>
-                                <th>Establecimiento</th>
+                                <th>Sucursal</th>
                                 <th>Cantidad</th>
                                 <th># Paquetes</th>
                                 <th>Lote</th>

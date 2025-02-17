@@ -49,7 +49,7 @@
                 <!-- <th class="text-center">#</th> -->
                 <th>Nombre</th>
                 <th class="text-center">Visible</th>
-                <th>Establecimiento</th>
+                <th>Sucursal</th>
                 <th></th>
               </tr>
             </thead>

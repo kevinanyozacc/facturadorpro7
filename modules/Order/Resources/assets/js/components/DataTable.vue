@@ -2,15 +2,17 @@
     <div v-loading="loading_submit">
         <div class="row ">
 
-            <div class="col-md-9 col-lg-9 col-xl-9 ">
-                <el-button
-                    type="primary"
-                    class="btn-show-filter mb-2"
-                    :class="{ shift: isVisible }"
-                    @click="toggleInformation"
-                >
-                    {{ isVisible ? "Ocultar opciones de filtro" : "Mostrar opciones de filtro" }}
-                </el-button>
+            <div class="col-md-9 col-lg-9 col-xl-9 filter-container">
+                <div class="btn-filter-content">
+                    <el-button
+                        type="primary"
+                        class="btn-show-filter mb-2"
+                        :class="{ shift: isVisible }"
+                        @click="toggleInformation"
+                    >
+                        {{ isVisible ? "Ocultar filtros" : "Mostrar filtros" }}
+                    </el-button>
+                </div>
                 <div class="row" v-if="applyFilter && isVisible">
                     <div class="col-lg-4 col-md-4 col-sm-12 pb-2">
                         <label for="">Tipo</label>
@@ -54,7 +56,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-3 col-md-4 col-sm-12 pb-2">
+                    <div class="col-lg-3 col-md-4 col-sm-12 pb-2 btn-container-mobile">
                         <el-button type="primary" v-if="typeUser == 'admin' &&  soapCompany != '03'" @click.prevent="clickGenerateDocuments()" >
                             Generar comprobantes
                         </el-button>

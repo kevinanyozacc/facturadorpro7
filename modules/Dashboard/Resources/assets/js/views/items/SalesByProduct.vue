@@ -17,7 +17,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-6 col-md-3 form-group">
-                                    <label class="control-label">Establecimiento</label>
+                                    <label class="control-label">Sucursal</label>
                                     <el-select v-model="form.establishment_id" @change="loadAll">
                                         <el-option
                                         v-for="option in establishments"

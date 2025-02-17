@@ -25,7 +25,7 @@
                                                 <th>Email</th>
                                                 <th>Nombre</th>
                                                 <th>Perfil</th>
-                                                <th>Establecimiento</th>
+                                                <th>Sucursal</th>
                                             </tr>
                                         </thead>
                                         <tbody>

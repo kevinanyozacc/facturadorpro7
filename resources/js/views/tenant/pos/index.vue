@@ -261,14 +261,20 @@
                                         :src="item.image_url"
                                         class="img-thumbail img-custom"
                                     />
-                                    <p class="text-muted mb-0">
+                                    <p class="text-muted mb-0" style="display: flex; justify-content: space-between; align-items: center;">
                                         <small>{{ item.internal_id }}</small>
-                                        <template v-if="item.sets.length > 0">
-                                            <br/>
-                                            <small>
-                                                {{ item.sets.join("-") }}
-                                            </small>
-                                        </template>
+                                        <el-tooltip
+                                            class="item"
+                                            effect="dark"
+                                            :content="item.sets.flat().join(',\n')"
+                                            placement="bottom"
+                                        >
+                                            <i v-if="item.sets.length > 0" 
+                                               class="fas fa-box-open ms-2" 
+                                               style="cursor: pointer;">
+                                            </i>
+                                        </el-tooltip>
+
                                         <small class="measuring-unit">{{ item.unit_type_id }}</small>
 
                                         <!-- <el-popover v-if="item.warehouses" placement="right" width="280"  trigger="hover">
@@ -584,7 +590,16 @@
                                     <td class="">
                                         <p class="item-description">{{ item.item.description }}</p>
                                         <small>{{ item.unit_type_id }}</small><br>
-                                        <small>{{ nameSets(item.item_id) }}</small>
+                                        <el-tooltip
+                                            class="item"
+                                            effect="dark"
+                                            :content="nameSets(item.item_id) || 'N.A'"
+                                            placement="bottom-end"
+                                        >
+                                            <i class="fas fa-box-open ms-2" 
+                                               style="cursor: pointer;">
+                                            </i>
+                                        </el-tooltip>
                                     </td>
                                     <td style="width: 80px; vertical-align: top">
                                         <el-input v-model="item.item.aux_quantity"
@@ -909,7 +924,9 @@
 .el-input-group__append {
     padding: 0 10px !important;
 }
-
+.el-tooltip__popper {
+    white-space: pre-line;
+}
 @media only screen and (max-width: 767px)
 {
     #main-wrapper {
@@ -2370,7 +2387,7 @@ export default {
             let row = this.items.find(x => x.item_id == id);
             if (row) {
                 if (row.sets.length > 0) {
-                    return row.sets.join("-");
+                    return row.sets.join(",\n");
                 } else {
                     return "";
                 }
