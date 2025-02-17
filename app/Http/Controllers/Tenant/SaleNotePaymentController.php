@@ -79,7 +79,7 @@ class SaleNotePaymentController extends Controller
             $record->save();
             $this->createGlobalPayment($record, $request->all());
             $this->saveFiles($record, $request, 'sale_notes');
-
+            $this->createCashDocumentPayment($record,false);
         });
 
         if($request->paid == true)
@@ -104,12 +104,12 @@ class SaleNotePaymentController extends Controller
                 $credit->cash_id_processed = $cash->id;
                 $credit->save();
 
-                $req = [
-                    'document_id' => null,
-                    'sale_note_id' => $sale_note->id
-                ];
+                // $req = [
+                //     'document_id' => null,
+                //     'sale_note_id' => $sale_note->id
+                // ];
 
-                $cash->cash_documents()->updateOrCreate($req);
+                // $cash->cash_documents()->updateOrCreate($req);
 
             }
 
@@ -127,6 +127,7 @@ class SaleNotePaymentController extends Controller
     {
         $item = SaleNotePayment::findOrFail($id);
         $sale_note_id = $item->sale_note_id;
+        $item->cashDocumentPayments()->delete();
         $item->delete();
 
         $sale_note = SaleNote::find($item->sale_note_id);

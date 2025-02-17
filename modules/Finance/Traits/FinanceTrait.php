@@ -18,6 +18,10 @@
     use Modules\Sale\Models\QuotationPayment;
     use Modules\Sale\Models\TechnicalServicePayment;
     use App\Models\Tenant\ExchangeRate;
+    use App\Models\Tenant\CashDocumentPayment;
+    use App\Models\Tenant\CashDocumentCredit;
+    use App\Models\Tenant\CashDocument;
+
 
 
     trait FinanceTrait
@@ -128,6 +132,29 @@
             ];
         }
 
+        public function createCashDocumentPayment($payment, $isDocument = true)
+        {
+
+            $cash = Cash::where([
+                ['user_id', auth()->user()->id],
+                ['state', true],
+            ])->first();
+
+            $cashDocument = ($isDocument)
+                ?CashDocument::where('document_id',$payment->document_id)->first()
+                :CashDocument::where('sale_note_id',$payment->sale_note_id)->first();
+            $cashDocumentCredit = ($isDocument)
+                ?CashDocumentCredit::where('document_id',$payment->document_id)->first()
+                :CashDocumentCredit::where('sale_note_id',$payment->sale_note_id)->first();
+
+            CashDocumentPayment::create([
+                'cash_id' => $cash->id,
+                $isDocument ? 'document_payment_id' : 'sale_note_payment_id' => $payment->id,
+                'cash_document_id' => optional($cashDocument)->id,
+                'cash_document_credit_id' => optional($cashDocumentCredit)->id,
+            ]);
+
+        }
 
         public function deleteAllPayments($payments)
         {

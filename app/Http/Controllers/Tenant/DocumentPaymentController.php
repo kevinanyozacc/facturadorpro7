@@ -81,7 +81,7 @@ class DocumentPaymentController extends Controller
             $record->save();
             $this->createGlobalPayment($record, $request->all());
             $this->saveFiles($record, $request, 'documents');
-
+            $this->createCashDocumentPayment($record,true);
             return $record;
         });
 
@@ -105,12 +105,12 @@ class DocumentPaymentController extends Controller
                 $credit->cash_id_processed = $cash->id;
                 $credit->save();
 
-                $req = [
-                    'document_id' => $request->document_id,
-                    'sale_note_id' => null
-                ];
+                // $req = [
+                //     'document_id' => $request->document_id,
+                //     'sale_note_id' => null
+                // ];
 
-                $cash->cash_documents()->updateOrCreate($req);
+                // $cash->cash_documents()->updateOrCreate($req);
 
             }
 
@@ -127,6 +127,7 @@ class DocumentPaymentController extends Controller
     public function destroy($id)
     {
         $item = DocumentPayment::findOrFail($id);
+        $item->cashDocumentPayments()->delete();
         $item->delete();
 
         return [

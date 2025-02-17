@@ -132,7 +132,11 @@ class SaleNotePayment extends ModelTenant
         return self::whereIn('sale_note_id', $sale_notes_id)->sum('payment');
     }
 
-    
+    public function cashDocumentPayments()
+    {
+        return $this->hasMany(CashDocumentPayment::class, 'sale_note_payment_id', 'id');
+    }
+
     /**
      * 
      * Filtros para obtener pagos en efectivo

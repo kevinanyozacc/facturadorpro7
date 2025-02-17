@@ -27,6 +27,7 @@ use Modules\Finance\Models\Income;
 use App\CoreFacturalo\Helpers\Template\ReportHelper;
 use Carbon\Carbon;
 use Modules\Restaurant\Models\RestaurantTable;
+use App\Models\Tenant\CashDocumentPayment;
 
 
 /**
@@ -302,66 +303,45 @@ class CashController extends Controller
      *
      * @return array
      */
-    public function cash_document(Request $request) {
-
+    public function cash_document(Request $request)
+    {
         $cash = Cash::where([
-                                ['user_id', auth()->user()->id],
-                                ['state', true],
-                            ])->first();
+            ['user_id', auth()->id()],
+            ['state', true],
+        ])->firstOrFail();
+
+        $isDocument = $request->document_id !== null;
+        $documentModel = $isDocument ? Document::class : SaleNote::class;
+        $documentField = $isDocument ? 'document_id' : 'sale_note_id';
+        $paymentConditionField = $isDocument ? 'payment_condition_id' : 'payment_method_type_id';
+        $creditCondition = $isDocument ? '02' : '09';
+
+        $document = $documentModel::findOrFail((int) $request->$documentField);
+
+        $isCredit = $document->$paymentConditionField === $creditCondition;
+        $cashDocumentCredit = $isCredit ? CashDocumentCredit::create([
+            'cash_id' => $cash->id,
+            $documentField => $document->id,
+        ]) : null;
         
-        (int)$payment_credit = 0;
+        $cashDocument = $cash->cash_documents()->updateOrCreate([
+            'document_id' => $request->document_id,
+            'sale_note_id' => $request->sale_note_id,
+            'quotation_id' => $request->quotation_id,
+        ]);
         
+        $document->payments->each(function($payment) use($cash,$isDocument,$cashDocument){
+            CashDocumentPayment::create([
+                'cash_id' => $cash->id,
+                $isDocument ? 'document_payment_id' : 'sale_note_payment_id' => $payment->id,
+                'cash_document_id' => optional($cashDocument)->id,
+            ]);
+        });
 
-        if($request->document_id != null) {
-            $document_id = $request->document_id;
-
-            $document =  Document::find((int)$document_id);
-
-                                            //credito
-            if($document->payment_condition_id == '02')  {
-                CashDocumentCredit::create([
-                    'cash_id' => $cash->id,
-                    'document_id' => $document_id
-                ]);
-
-                $payment_credit += 1;
-            }
-        }
-        else if($request->sale_note_id != null) {
-
-             $document_id = $request->sale_note_id;
-
-             $document =  SaleNote::find((int)$document_id);
-
-                                                //credito
-             if($document->payment_method_type_id == '09')  {
-                CashDocumentCredit::create([
-                    'cash_id' => $cash->id,
-                    'sale_note_id' => $document_id
-                ]);
-
-                $payment_credit += 1;
-            }
-        }
-        else if($request->quotation_id != null) {
-
-        }
-
-        if($payment_credit == 0) {
-
-            $req = [
-                'document_id' => $request->document_id,
-                'sale_note_id' => $request->sale_note_id,
-                'quotation_id' => $request->quotation_id,
-            ];
-
-            $cash->cash_documents()->updateOrCreate($req);
-        }
-        
-        return [
+        return response()->json([
             'success' => true,
             'message' => 'Venta con éxito',
-        ];
+        ]);
     }
 
     

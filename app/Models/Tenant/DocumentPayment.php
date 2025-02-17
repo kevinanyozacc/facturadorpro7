@@ -65,6 +65,10 @@ class DocumentPayment extends ModelTenant
         return $this->morphOne(PaymentFile::class, 'payment');
     }
 
+    public function cashDocumentPayments()
+    {
+        return $this->hasMany(CashDocumentPayment::class, 'document_payment_id', 'id');
+    }
         
     /**
      * 

@@ -173,7 +173,7 @@
                     <th>Cliente/Proveedor</th>
                     <th>N° Documento</th>
                     <th>Moneda</th>
-                    <th>T.Pagado</th>
+                    <th>M.Pagado</th>
                     <th>Total</th>
                 </tr>
                 </thead>

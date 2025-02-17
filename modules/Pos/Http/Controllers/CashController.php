@@ -39,12 +39,15 @@ use Modules\Pos\Models\CashTransaction;
 use App\Models\Tenant\CashDocumentCredit;
 use Modules\Finance\Models\Income;
 use App\CoreFacturalo\Helpers\Template\ReportHelper;
+use Modules\Pos\Traits\CashReportTrait;
+use App\Models\Tenant\CashDocumentPayment;
 // use Carbon\Carbon;
 //Fin - Deyvis: pendiente revisar para que funke
 
 
 class CashController extends Controller
 {
+    use CashReportTrait;
 
     private const PAYMENT_METHOD_TYPE_CASH = '01';
 
@@ -157,7 +160,6 @@ class CashController extends Controller
         $data['cash_time_closed'] = $cash->time_closed;
         $data['cash_time_opening'] = $cash->time_opening;
         $data['cash_documents'] = $cash_documents;
-        $data['cash_documents_total'] = (int)$cash_documents->count();
 
         $data['company_name'] = $company->name;
         $data['company_number'] = $company->number;
@@ -190,6 +192,11 @@ class CashController extends Controller
         $all_items = []; // declaro items
         $collection_items = new Collection();
 
+        $existingCashDocumentIds = $cash_documents->pluck('id');
+        $cashDocumentInOtherCash = self::getDocumentsInOtherCash($existingCashDocumentIds,$cash->id,$status_type_id);
+
+        $cash_documents = $cash_documents->merge($cashDocumentInOtherCash);
+        $data['cash_documents_total'] = (int)$cash_documents->count();
 
         /************************/
 
@@ -219,7 +226,9 @@ class CashController extends Controller
                     $cash_income += $total;
                     $final_balance += $total;
                     if (count($sale_note->payments) > 0) {
-                        $pays = $sale_note->payments;
+                        $pays = $sale_note->payments->filter(function ($payment) use ($cash_id) {
+                            return $payment->cashDocumentPayments->contains('cash_id', $cash_id);
+                        });
                         foreach ($methods_payment as $record)
                         {
                             $record_total = $pays->where('payment_method_type_id', $record->id)->sum('payment');
@@ -227,7 +236,7 @@ class CashController extends Controller
                             if($record->id === '01') $data['total_payment_cash_01_sale_note'] += $record_total;
                         }
 
-                        $data['total_cash_income_pmt_01'] += $this->getIncomeEgressCashDestination($sale_note->payments);
+                        $data['total_cash_income_pmt_01'] += $this->getIncomeEgressCashDocumentPayments($sale_note->payments,$cash_id);
 
                     }
 
@@ -241,6 +250,14 @@ class CashController extends Controller
                         $date_payment=$value->date_of_payment->format('Y-m-d');
                     }
                 }
+                $totalPayments = (!in_array($sale_note->state_type_id, $status_type_id))
+                    ? 0
+                    : $sale_note->payments()
+                    ->whereHas('cashDocumentPayments', function ($query) use ($cash_id) {
+                        $query->where('cash_id', $cash_id);
+                    })
+                    ->sum('payment');
+
                 $temp = [
                     'type_transaction'          => 'Venta',
                     'document_type_description' => 'NOTA DE VENTA',
@@ -254,7 +271,7 @@ class CashController extends Controller
                     'currency_type_id'          => $sale_note->currency_type_id,
                     'usado'                     => $usado." ".__LINE__,
                     'tipo'                      => 'sale_note',
-                    'total_payments'            => (!in_array($sale_note->state_type_id, $status_type_id)) ? 0 : $sale_note->payments->sum('payment'),
+                    'total_payments'            => $totalPayments,
                     'type_transaction_prefix'   => 'income',
                     'order_number_key'          => $order_number.'_'.$sale_note->created_at->format('YmdHis'),
                 ];
@@ -276,7 +293,9 @@ class CashController extends Controller
                 $record_total = 0;
                 $document = $cash_document->document;
                 $payment_condition_id = $document->payment_condition_id;
-                $pays = $document->payments;
+                $pays = $document->payments->filter(function ($payment) use ($cash_id) {
+                    return $payment->cashDocumentPayments->contains('cash_id', $cash_id);
+                });
                 $pagado = 0;
                 if (in_array($document->state_type_id, $status_type_id)) {
                     if ($payment_condition_id == '01') {
@@ -347,7 +366,7 @@ class CashController extends Controller
                     }
 
                     $data['total_tips'] += $document->tip ? $document->tip->total : 0;
-                    $data['total_cash_income_pmt_01'] += $this->getIncomeEgressCashDestination($document->payments);
+                    $data['total_cash_income_pmt_01'] += $this->getIncomeEgressCashDocumentPayments($document->payments,$cash_id);
 
                 }
                 if ($record_total != $document->total) {
@@ -360,6 +379,15 @@ class CashController extends Controller
                     }
                 }
                 $order_number = $document->document_type_id === '01' ? 1 : 2;
+
+                $totalPayments = (!in_array($document->state_type_id, $status_type_id))
+                    ? 0
+                    : $document->payments()
+                    ->whereHas('cashDocumentPayments', function ($query) use ($cash_id) {
+                        $query->where('cash_id', $cash_id);
+                    })
+                    ->sum('payment');
+
                 $temp = [
                     'type_transaction'          => 'Venta',
                     'document_type_description' => $document->document_type->description,
@@ -374,7 +402,7 @@ class CashController extends Controller
                     'usado'                     => $usado." ".__LINE__,
 
                     'tipo' => 'document',
-                    'total_payments'            => (!in_array($document->state_type_id, $status_type_id)) ? 0 : $document->payments->sum('payment'),
+                    'total_payments'            => $totalPayments,
                     'type_transaction_prefix'   => 'income',
                     'order_number_key'          => $order_number.'_'.$document->created_at->format('YmdHis'),
 
@@ -838,6 +866,12 @@ class CashController extends Controller
         ];
     }
 
+    public function getIncomeEgressCashDocumentPayments($payments,$cash_id){
+        return $this->getPaymentsByCashFilter($payments)
+            ->filter(function ($payment) use ($cash_id) {
+            return $payment->cashDocumentPayments->contains('cash_id', $cash_id);
+        })->sum('payment');
+    }
 
     /**
      *
@@ -1196,5 +1230,13 @@ class CashController extends Controller
         return response()->file($temp, $headers);
     }
 
+    protected function getDocumentsInOtherCash($existingCashDocumentIds,$cash_id,$status_type_id){
+
+        $cashDocumentsInOtherCashIds = CashDocumentPayment::where('cash_id',$cash_id)->pluck('cash_document_id');
+        $filteredIds = $cashDocumentsInOtherCashIds->diff($existingCashDocumentIds);
+        $cashDocuments = CashDocument::whereIn('id', $filteredIds)->get();
+
+        return $cashDocuments;
+    }
 
 }

@@ -358,7 +358,7 @@
                             Moneda
                         </th>
                         <th>
-                            T.Pagado
+                            M.Pagado
                         </th>
                         <th>
                             Total

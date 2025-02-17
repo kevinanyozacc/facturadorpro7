@@ -677,6 +677,10 @@
             return $this->belongsTo(PaymentMethodType::class);
         }
 
+        public function cash_sale_note()
+        {
+            return $this->hasOne(CashDocument::class, 'sale_note_id');
+        }
 
         /**
          *
