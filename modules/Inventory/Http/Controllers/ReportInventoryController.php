@@ -101,12 +101,13 @@ class ReportInventoryController extends Controller
                 $query->without(['item_type', 'unit_type', 'warehouses', 'item_unit_types', 'tags']);
                }])
               ->whereHas('item', function ($q) {
-                  $q->where([
-                                ['item_type_id', '01'],
-                                ['unit_type_id', '!=', 'ZZ'],
-                            ])
-                    ->whereNotIsSet()
-                    ->whereStockMin();
+                $q->where([
+                    ['item_type_id', '01'],
+                    ['unit_type_id', '!=', 'ZZ'],
+                ]);
+                $q->where('stock', '>', 0);
+                $q->whereColumn('items.stock_min', '>=', 'item_warehouse.stock');
+                $q->whereNotIsSet();
               })->where('stock', '>', 0);
 
         }
