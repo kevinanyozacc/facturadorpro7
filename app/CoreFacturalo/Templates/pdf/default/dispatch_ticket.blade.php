@@ -134,10 +134,33 @@
         @php
             $document_type_dispatcher = App\Models\Tenant\Catalogs\IdentityDocumentType::findOrFail($document->dispatcher->identity_document_type_id);
         @endphp
-    <tr>
-        <td>Nombre y/o razón social: {{ $document->dispatcher->name }}</td>
-        <td>{{ $document_type_dispatcher->description }}: {{ $document->dispatcher->number }}</td>
-    </tr>
+        <tr>
+            <td>Nombre y/o razón social: {{ $document->dispatcher->name }}</td>
+            <td>{{ $document_type_dispatcher->description }}: {{ $document->dispatcher->number }}</td>
+        </tr>
+        @if($document->has_transport_driver_01)
+        <tr>
+            @if($document->transport_data)
+                <td>Número de placa del vehículo Principal: {{ $document->transport_data['plate_number'] }}</td>
+            @endif
+            @if($document->transport_data['tuc'])
+                <td>Certificado de habilitación vehicular: {{ $document->transport_data['tuc'] }}</td>
+            @endif
+        </tr>
+        <tr>
+            @if($document->driver->number)
+                <td>Conductor Principal: {{$document->driver->name}}</td>
+            @endif
+            @if($document->driver->number)
+                <td>Documento de conductor: {{ $document->driver->number }}</td>
+            @endif
+        </tr>
+        <tr>
+            @if($document->driver->license)
+                <td>Licencia del conductor: {{ $document->driver->license }}</td>
+            @endif
+        </tr>
+        @endif
     @else
     <tr>
         @if($document->transport_data)

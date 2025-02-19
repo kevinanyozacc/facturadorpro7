@@ -93,11 +93,11 @@
         <cbc:GrossWeightMeasure
             unitCode="{{ $document['unit_type_id'] }}">{{ $document['total_weight'] }}</cbc:GrossWeightMeasure>
         
-        @if($document['transport_tuc'] && $document['transport_mode_type_id'] != '02')
+        @if($document['transport_tuc'] && $document['transport_mode_type_id'] != '02' && $document['has_transport_driver_01'] ==true)
             <cbc:SpecialInstructions>SUNAT_Envio_IndicadorVehiculoConductoresTransp</cbc:SpecialInstructions>
         @endif
 
-        @if($document['packages_number'])
+        @if($document['packages_number'] && $document['has_transport_driver_01'] ==false)
             <cbc:TotalTransportHandlingUnitQuantity>{{ $document['packages_number'] }}</cbc:TotalTransportHandlingUnitQuantity>
         @endif
         @if($document['transfer_reason_type_id']=='09')
@@ -128,7 +128,7 @@
                     </cac:PartyLegalEntity>
                 </cac:CarrierParty>
             @endif
-            @if($document['transport_mode_type_id'] === '02')
+            @if($document['transport_mode_type_id'] === '02'||($document['transport_mode_type_id'] === '01' && $document['has_transport_driver_01'] ==true))
             <!-- CONDUCTOR PRINCIPAL -->
                 <cac:DriverPerson>
                     <!-- TIPO Y NUMERO DE DOCUMENTO DE IDENTIDAD -->
@@ -199,8 +199,7 @@
                 </cac:DespatchAddress>
             </cac:Despatch>
         </cac:Delivery>
-        @if($document['transport_mode_type_id'] === '02')
-{{--            @if($document['license_plate'])--}}
+        @if($document['transport_mode_type_id'] === '02' || ($document['transport_mode_type_id'] === '01' && $document['has_transport_driver_01'] ==true))
                 <cac:TransportHandlingUnit>
                     <cac:TransportEquipment>
                         <!-- VEHICULO PRINCIPAL -->
@@ -216,7 +215,6 @@
                         @endif
                     </cac:TransportEquipment>
                 </cac:TransportHandlingUnit>
-{{--            @endif--}}
         @endif
     </cac:Shipment>
     <!-- DETALLES DE BIENES A TRASLADAR -->

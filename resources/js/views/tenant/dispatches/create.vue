@@ -246,6 +246,15 @@
                         </div>
                         <hr>
                         <h4>Datos modo de traslado</h4>
+                        <div class="row" v-if="form.transport_mode_type_id === '01'">
+                            <div class="col-lg-4">
+                                <div class="form-comtrol">
+                                    <el-checkbox v-model="form.has_transport_driver_01">
+                                        Registrar vehículos y conductores del transportista
+                                    </el-checkbox>
+                                </div>
+                            </div>
+                        </div>
                         <div class="row">
                             <template v-if="form.transport_mode_type_id === '01'">
                                 <div class="col-lg-6">
@@ -269,7 +278,7 @@
                                     </div>
                                 </div>
                             </template>
-                            <template v-if="form.transport_mode_type_id === '02'">
+                            <template v-if="form.transport_mode_type_id === '02'|| form.has_transport_driver_01">
                                 <div class="col-lg-7 form-modern">
                                     <label class="control-label">
                                         Datos del conductor
@@ -366,7 +375,7 @@
                                             v-text="errors.transport_id[0]"></small>
                                     </div>
                                 </div>
-                                <div class="col-lg-3">
+                                <div class="col-lg-3" v-if="form.transport_mode_type_id === '02'">
                                     <div class="form-group">
                                         <label class="control-label">N° placa semirremolque</label>
                                         <el-input v-model="form.secondary_license_plates.semitrailer"></el-input>
@@ -991,6 +1000,7 @@ export default {
                 date_delivery_to_transport: null,
                 secondary_transports: null,
                 secondary_drivers: null,
+                has_transport_driver_01: false,
             }
         },
         setDescriptionOfItem(item) {
@@ -1453,7 +1463,6 @@ export default {
                 }
                 this.form.driver = _.find(this.drivers, { 'id': this.form.driver_id });
                 this.form.transport = _.find(this.transports, { 'id': this.form.transport_id });
-                // this.form.license_plate = this.form.transport.plate_number;
 
                 if (this.form.driver.identity_document_type_id === '' || _.isNull(this.form.driver.identity_document_type_id)) {
                     return this.$message.error('El tipo de documento del conductor es requerido')
@@ -1467,9 +1476,6 @@ export default {
                 if (this.form.driver.license === '' || _.isNull(this.form.driver.license)) {
                     return this.$message.error('La licencia del conductor es requerido')
                 }
-                // if (this.form.license_plate === '' || _.isNull(this.form.license_plate)) {
-                //     return this.$message.error('El número de placa es requerido')
-                // }
                 if (this.selectedDrivers.length > 1) {
                     this.form.secondary_drivers = this.selectedDrivers.slice(1);
                 }
@@ -1501,9 +1507,44 @@ export default {
                 if (this.form.dispatcher.name === '' || _.isNull(this.form.dispatcher.name)) {
                     return this.$message.error('El nombre del transportista es requerido')
                 }
-                // if (this.form.dispatcher.number_mtc === '' || _.isNull(this.form.dispatcher.number_mtc)) {
-                //     return this.$message.error('El MTC del transportista es requerido')
-                // }
+
+                if(this.form.has_transport_driver_01){
+                    if (this.selectedDrivers.length > 0) {
+                        this.form.driver_id = _.head(this.selectedDrivers).id;
+                    }
+                    if (this.selectedTransports.length > 0) {
+                        this.form.transport_id = _.head(this.selectedTransports).id;
+                    }
+                    if (!this.form.driver_id) {
+                        return this.$message.error('El conductor es requerido')
+                    }
+                    if (!this.form.transport_id) {
+                        return this.$message.error('El vehículo es requerido')
+                    }
+                    this.form.driver = _.find(this.drivers, { 'id': this.form.driver_id });
+                    this.form.transport = _.find(this.transports, { 'id': this.form.transport_id });
+
+                    if (this.form.driver.identity_document_type_id === '' || _.isNull(this.form.driver.identity_document_type_id)) {
+                        return this.$message.error('El tipo de documento del conductor es requerido')
+                    }
+                    if (this.form.driver.number === '' || _.isNull(this.form.driver.number)) {
+                        return this.$message.error('El número del conductor es requerido')
+                    }
+                    if (this.form.driver.name === '' || _.isNull(this.form.driver.name)) {
+                        return this.$message.error('El nombre del conductor es requerido')
+                    }
+                    if (this.form.driver.license === '' || _.isNull(this.form.driver.license)) {
+                        return this.$message.error('La licencia del conductor es requerido')
+                    }
+
+                    if (this.selectedDrivers.length > 1) {
+                        this.form.secondary_drivers = this.selectedDrivers.slice(1);
+                    }
+                    if (this.selectedTransports.length > 1) {
+                        this.form.secondary_transports = this.selectedTransports.slice(1);
+                    }
+                }
+
             }
             const validateQuantity = await this.verifyQuantityItems()
             if (!validateQuantity.validate) {

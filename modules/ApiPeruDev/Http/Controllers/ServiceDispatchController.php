@@ -346,6 +346,7 @@ class ServiceDispatchController extends Controller
             'secondary_drivers' => $record->secondary_drivers,
             'related_number' => optional($record->related)->number,
             'related_document_type_id' => optional($record->related)->document_type_id,
+            'has_transport_driver_01' => $record->has_transport_driver_01,
         ];
     }
 

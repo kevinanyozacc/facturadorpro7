@@ -97,6 +97,7 @@ class Dispatch extends ModelTenant
         'container_number',
         'origin',
         'delivery',
+        'has_transport_driver_01',
         'dispatcher_id',
         'dispatcher',
         'driver_id',
@@ -623,6 +624,7 @@ class Dispatch extends ModelTenant
             'btn_pdf' => $btn_pdf,
             'btn_options' => $btn_options,
             'btn_edit' => $btn_edit,
+            'has_transport_driver_01'=> $this->has_transport_driver_01,
         ];
     }
 
