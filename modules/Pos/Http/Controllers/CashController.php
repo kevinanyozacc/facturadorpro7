@@ -692,8 +692,8 @@ class CashController extends Controller
             $incomes=$incomes->whereBetween('date_of_issue',[$cash->date_opening,$cash->date_closed]);
             $incomes=$incomes->whereBetween('time_of_issue',[$cash->time_opening,$cash->time_closed]);
         }else{
-            $incomes=$incomes->whereBetween('date_of_issue',[$cash->date_opening,$date_closed]);
-            $incomes=$incomes->whereBetween('time_of_issue',[$cash->time_opening,$time_closed]);
+            $incomes=$incomes->where('date_of_issue','>=',Carbon::parse($cash->date_opening)->startOfDay());
+            $incomes=$incomes->where('time_of_issue','>=', $cash->time_opening);
         }
 
         $incomes=$incomes->get();
@@ -701,7 +701,6 @@ class CashController extends Controller
         if (isset($incomes[0])) {
 
             $data['cash_documents_total'] = (int)$incomes->count();
-            /* dd(isset($incomes[0])); */
             foreach ($incomes as $income) {
                 
                 $usado = '';                
