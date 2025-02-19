@@ -33,9 +33,9 @@
             </div>
         @endif
 
-        @if(config('configuration.multi_user_enabled'))
+        <!-- @if(config('configuration.multi_user_enabled'))
             <tenant-multi-users-change-client></tenant-multi-users-change-client>
-        @endif
+        @endif -->
 
         <div class="logo-container-mobile">
             <a href="{{route('tenant.dashboard.index')}}" class="logo pt-2 pt-md-0">
@@ -60,7 +60,7 @@
                 <div>
 
                 </div>
-                <a href="#" data-toggle="dropdown" class="user-profile-content">
+                <a href="#" class="user-profile-content">
                     <div class="profile-info" data-lock-name="{{ $vc_user->email }}"
                         data-lock-email="{{ $vc_user->email }}">
                         <span class="name">{{ $vc_user->name }}</span>
@@ -325,7 +325,7 @@
                     <a href="@if(in_array('configuration', $vc_modules)){{route('tenant.companies.create')}}@else # @endif"
                         class="btn-sunat btn-danger" data-toggle="tooltip" data-placement="bottom"
                         title="Clic para ver o cambiar la configuración del entorno y el tipo de conexión">
-                        <span style="font-weight: 600;">DEMO</span>
+                        <span class="btn-title">Modo: DEMO</span>
                         <span style="font-size: 12px;">Conectado a {{ $environment }}</span>
                     </a>
                 </li>
@@ -334,7 +334,7 @@
                     <a href="@if(in_array('configuration', $vc_modules)){{route('tenant.companies.create')}}@else # @endif"
                         class="btn-sunat {{ $productionClass }}" data-toggle="tooltip" data-placement="bottom"
                         title="Clic para ver o cambiar la configuración del entorno y el tipo de conexión">
-                        <span style="font-weight: 600;">PRODUCCIÓN</span>
+                        <span class="btn-title">PRODUCCIÓN</span>
                         <span style="font-size: 12px;">Conectado a {{ $environment }}</span>
                     </a>
                 </li>
@@ -343,7 +343,7 @@
                     <a href="@if(in_array('configuration', $vc_modules)){{route('tenant.companies.create')}}@else # @endif"
                         class="btn-sunat btn-info" data-toggle="tooltip" data-placement="bottom"
                         title="Clic para ver o cambiar la configuración del entorno y el tipo de conexión">
-                        <span style="font-weight: 600;">INTERNO</span>
+                        <span class="btn-title">Modo: INTERNO</span>
                         <span style="font-size: 12px;">Conectado a SERVIDOR</span>
                     </a>
                 </li>
@@ -419,7 +419,7 @@
         @endif
         <span class="separator"></span>
         <div id="userbox" class="userbox">
-            <a href="#" data-toggle="dropdown" class="user-profile-content">
+            <a href="#" class="user-profile-content check-double" style="cursor: pointer;">
                 <div class="profile-info" data-lock-name="{{ $vc_user->email }}"
                     data-lock-email="{{ $vc_user->email }}">
                     <span class="name">{{ $vc_user->name }}</span>
@@ -441,7 +441,7 @@
                 </figure>
                 {{-- <i class="fa custom-caret"></i> --}}
             </a>
-            <div class="dropdown-menu">
+            <div class="dropdown-menu-desktop">
                 <ul class="list-unstyled mb-0">
                     @if(in_array('cuenta', $vc_modules))
                         @if(in_array('account_users_list', $vc_module_levels))
@@ -478,6 +478,20 @@
                             </svg>
                             Estilos y temas</a>
                     </li>
+                    <li class="multi-user-content pt-1 pl-4 pr-4">
+                        @if(config('configuration.multi_user_enabled'))
+                            <tenant-multi-users-change-client></tenant-multi-users-change-client>
+                        @endif
+
+                        <!-- <div id="reception-component-container" style="width: 100%;">
+                            <reception-component
+                                :user-type="'admin'"
+                                :establishment-id="{{ auth()->user()->establishment_id }}"
+                                :establishments="{{ isset($establishments) ? json_encode($establishments) : json_encode([]) }}"
+                            ></reception-component>
+                        </div> -->
+
+                    </li>
                     {{-- <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"
                             @click.stop>
@@ -513,7 +527,7 @@
                                 <path d="M5 21v-16a2 2 0 0 1 2 -2h7.5m2.5 10.5v7.5" />
                                 <path d="M14 7h7m-3 -3l3 3l-3 3" />
                             </svg>
-                            @lang('app.buttons.logout')
+                            Cerrar Sesión
                         </a>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                             @csrf
@@ -534,20 +548,36 @@
         // Mostrar/ocultar header-right al hacer clic en options-user-mobile
         optionsUserMobile.addEventListener('click', function () {
             headerRight.classList.toggle('active');
-            body.classList.toggle('no-scroll'); // Deshabilita el scroll de la página principal
+            body.classList.toggle('no-scroll');
         });
 
         // Ocultar header-right al hacer clic en close-container-user
         closeContainerUser.addEventListener('click', function () {
             headerRight.classList.remove('active');
-            body.classList.remove('no-scroll'); // Habilita el scroll de la página principal
+            body.classList.remove('no-scroll');
         });
 
         // Ocultar header-right al hacer clic fuera de él
         document.addEventListener('click', function (event) {
             if (!headerRight.contains(event.target) && !optionsUserMobile.contains(event.target)) {
                 headerRight.classList.remove('active');
-                body.classList.remove('no-scroll'); // Habilita el scroll de la página principal
+                body.classList.remove('no-scroll');
+            }
+        });
+    });
+    // script para panejo de dropdown-menu-desktop
+    document.addEventListener('DOMContentLoaded', function () {
+        const userProfile = document.querySelector('.check-double');
+        const dropdownMenu = document.querySelector('.dropdown-menu-desktop');
+
+        userProfile.addEventListener('click', function (event) {
+            event.stopPropagation();
+            dropdownMenu.classList.toggle('active');
+        });
+
+        document.addEventListener('click', function (event) {
+            if (!userProfile.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                dropdownMenu.classList.remove('active');
             }
         });
     });

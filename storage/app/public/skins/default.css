@@ -653,7 +653,7 @@ html.sidebar-left-collapsed .sidebar-left .nav-main > li > a {
     color: var(--primary-color);
 }
 html.fixed.sidebar-white:not(.dark) .sidebar-left a {
-    color: var(--dark-color);
+    color: var(--dark-color) !important;
     font-size: 15px;
 }
 @media only screen and (min-width: 768px) {
@@ -823,7 +823,7 @@ html.sidebar-left-collapsed .sidebar-left .nano:hover {
 }
 html.sidebar-light:not(.dark):not(.sidebar-green):not(.sidebar-green) ul.nav-main > li.nav-active > a ,
 .el-dropdown-menu__item:not(.is-disabled):hover, .el-dropdown-menu__item:focus {
-    color: var(--dark-color);
+    color: var(--dark-color) !important;
 }
 .invoice table.table > thead:first-child > tr > th {
     border: none;
@@ -1469,8 +1469,15 @@ html.sidebar-white .el-button--primary:hover {
     transition: none;
 }
 /* --------------------------- tema light --------------------------- */
-html.sidebar-light .userbox.show .dropdown-menu a:hover {
-    background-color: var(--dark-color);
+.dropdown-menu-desktop ul li a:hover {
+    background-color: var(--accent-color) !important;
+    color: var(--dark-color) !important;
+}
+.dropdown-menu-desktop ul li a{
+    color: var(--dark-color);
+}
+.dropdown-menu-desktop{
+    color: var(--dark-color);
 }
 /* --------------------------- tema Oscuro --------------------------- */
 /* html.dark .header .logo-container .topbar-links:hover {
@@ -2314,5 +2321,22 @@ html.dark .el-message--success {
 }
 html.dark .el-message .el-icon-success {
     color: var(--accent-color);
+}
+html.dark .dropdown-menu-desktop{
+    background-color: var(--contents-dark);
+}
+html.dark .dropdown-menu-desktop ul li a{
+    background-color: transparent;
+}
+html.dark .dropdown-menu-desktop .divider{
+    background-color: var(--background-dark);
+}
+html.dark .dropdown-menu-desktop, 
+html.dark .dropdown-menu-desktop ul li a{
+    color: var(--accent-color);
+}
+html.dark .dropdown-menu-desktop ul li a:hover {
+    background-color: var(--button-second) !important;
+    color: var(--light-color) !important;
 }
 /* end */

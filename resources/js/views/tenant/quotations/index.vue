@@ -27,7 +27,7 @@
                 <data-table :resource="resource" :state-types="state_types">
                     <tr slot="heading">
                         <!-- <th>#</th> -->
-                        <th class="text-center">Fecha Emisión</th>
+                        <th class="text-left">Fecha Emisión</th>
                         <th class="text-center" v-if="columns.delivery_date.visible">T. Entrega</th>
                         <th>Registrado por</th>
                         <th>Vendedor</th>
@@ -57,7 +57,7 @@
                     </tr>
                     <tr slot-scope="{ index, row }" :class="{ anulate_color : row.state_type_id == '11' }">
                         <!-- <td>{{ index }}</td> -->
-                        <td class="text-center">{{ row.date_of_issue }}</td>
+                        <td class="text-left">{{ row.date_of_issue }}</td>
                         <td class="text-center" v-if="columns.delivery_date.visible">{{ row.delivery_date }}</td>
                         <td>{{ row.user_name }}</td>
                         <td>{{ row.seller_name }}</td>

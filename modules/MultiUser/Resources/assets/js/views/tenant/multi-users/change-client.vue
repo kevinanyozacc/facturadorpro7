@@ -1,14 +1,14 @@
 <template>
-    <div v-if="multi_users.length > 1" class="row ml-3 mr-3"  style="max-height: 50px; max-width: 300px;">
-        <form autocomplete="off" :action="`/${resource}`" method="POST" ref="form">
+    <div v-if="multi_users.length > 1" class=""  style="max-height: 100%; width: 100%;">
+        <form autocomplete="off" :action="`/${resource}`" method="POST" ref="form" style="width: 100%;">
 
             <input type="hidden" name="_token" :value="csrf_token">
 
             <input type="hidden" name="is_destination" v-model="form.is_destination">
 
-            <div class="col-md-12">
+            <div class="col-md-12 pr-0 pl-0">
                 <div class="form-group">
-
+                    <label class="control-label mt-0">Cambiar empresa:</label>
                     <select 
                         class="form-control"
                         v-model="form.multi_user_id" 
