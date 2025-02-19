@@ -460,6 +460,12 @@
                     <td class="text-center border-left align-top">{{ $row->item->unit_type_id }}</td>
                     <td class="text-center border-left align-top">{{ $row->item->internal_id }}</td>
                     <td class="text-left border-left align-top">{{ $row->item->description }}{!!$row->name_product_pdf!!}
+                        
+                    @php 
+                        $name_product_pdf_length = strlen($row->name_product_pdf); 
+                        $height = $height - $name_product_pdf_length;
+                    @endphp
+
                         @if($row->attributes)
                             @foreach($row->attributes as $attr)
                                 <br/><span style="font-size: 9px">{!! $attr->description !!} : {{ $attr->value }}</span>
@@ -473,12 +479,12 @@
                         
                         {{--<br/><span style="font-size: 9px">ICBPER : {{ $row->total_plastic_bag_taxes }}</span>--}} </td>
                    
-
+{{-- 
                 @if($row->name_product_pdf)
                     {!!$row->name_product_pdf!!}
                 @else
                     {!!$row->item->description!!}</td>
-                @endif
+                @endif --}}
 
 
                 @if($row->total_isc > 0)
@@ -559,7 +565,7 @@
     @endphp
 
         @endforeach
-          @if ($height > 0)
+          @if ($height > 60)
                     <tr>
                     <td class="border-left" style="height: {{ $height }}px"></td>
                     <td class="border-left"></td>

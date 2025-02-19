@@ -603,7 +603,7 @@
                                     </td>
                                     <td style="width: 80px; vertical-align: top">
                                         <el-input v-model="item.item.aux_quantity"
-                                                  @input="clickAddItem(item, index, true)"
+                                                  @input="(value) => clickAddItem(item, index, true, value)"
                                                   @keyup.enter.native="keyupEnterQuantity"></el-input>
                                     </td>
 
@@ -1696,7 +1696,7 @@ export default {
                 this.form_item.aux_quantity = this.getQuantityFromElectronicScale()
             }
         },
-        async clickAddItem(item, index, input = false) {
+        async clickAddItem(item, index, input = false, value = '') {
 
             //Validar precio mínimo
             if (parseFloat(item.sale_unit_price) < 0.1){
@@ -1746,6 +1746,14 @@ export default {
 
                 if (input) {
 
+
+                    let aux_quantity;
+                    if (!Number(item.item.aux_quantity)) {
+                        aux_quantity = 1 
+                        
+                    } else {
+                        aux_quantity = exist_item.item.aux_quantity
+                    }                    
                     response = await this.getStatusStock(
                         item.item_id,
                         exist_item.item.aux_quantity
@@ -1756,7 +1764,8 @@ export default {
                         return this.$message.error(response.message);
                     }
 
-                    exist_item.quantity = exist_item.item.aux_quantity;
+                    exist_item.quantity = aux_quantity;
+                    
                 } else {
 
                     response = await this.getStatusStock(

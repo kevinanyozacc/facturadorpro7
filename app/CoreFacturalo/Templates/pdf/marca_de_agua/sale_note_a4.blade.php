@@ -15,8 +15,43 @@
     if($establishment->logo) {
         $logo = "{$establishment->logo}";
     }
-    $configurationInPdf= App\CoreFacturalo\Helpers\Template\TemplateHelper::getConfigurationInPdf();
 
+    $configurationInPdf= App\CoreFacturalo\Helpers\Template\TemplateHelper::getConfigurationInPdf();
+    
+        $totalProductos = count($document->items);
+        $totalFilas = 6 + $totalProductos;
+
+    // if (!empty($configurationInPdf->show_bank_accounts_in_pdf) &&
+    //     in_array($document->document_type->id, ['01', '03'])) {
+    //     $totalFilas += count($accounts);
+    // }
+
+    if ($document->payment_method_type_id) {
+        $totalFilas++;
+    }
+
+    // if ($document->payment_condition_id === '01' && $payments->count()) {
+    //     $totalFilas += $payments->count();
+    // } else {
+    //     $totalFilas += count($document->fee);
+    // }
+
+    $allowed = $totalFilas;
+    if ($allowed>26){
+        $allowed_items = 70 - $totalFilas;
+    }elseif($totalProductos>=20){
+        $allowed_items = 0;
+    }
+    elseif($allowed<=26){
+        $allowed_items = 70 - $totalProductos;
+    }
+
+    $quantity_items = $document->items()->count();
+    $cycle_items = $allowed_items - ($quantity_items * 3);
+    $total_weight = 0;
+
+
+    $type = App\CoreFacturalo\Helpers\Template\TemplateHelper::getTypeSoap();
 @endphp
 <html>
 <head>
@@ -24,6 +59,15 @@
     {{--<link href="{{ $path_style }}" rel="stylesheet" />--}}
 </head>
 <body>
+@if($document->state_type->id == '11')
+    <div class="company_logo_box" style="position: absolute; text-align: center; top:30%;">
+        <img src="data:{{mime_content_type(public_path("status_images".DIRECTORY_SEPARATOR."anulado.png"))}};base64, {{base64_encode(file_get_contents(public_path("status_images".DIRECTORY_SEPARATOR."anulado.png")))}}" alt="anulado" class="" style="opacity: 0.6;">
+    </div>
+@else
+<div class="item_watermark" style="position: absolute; text-align: center; top:42%;">
+    <img style="width: 100%" height="200px" src="data:{{mime_content_type(public_path("{$logo}"))}};base64, {{base64_encode(file_get_contents(public_path("{$logo}")))}}" alt="{{$company->name}}" alt="anulado" class="" style="opacity: 0.1;width: 95%">
+</div>
+@endif
 <table class="full-width">
     <tr>
         @if($company->logo)
@@ -51,19 +95,142 @@
             </div>
         </td>
         <td width="30%" class="border-box py-4 px-2 text-center">
-            <h5 class="text-center">NOTA DE VENTA</h5>
-            <h3 class="text-center">{{ $tittle }}</h3>
+            <h5 class="text-center font-bold">NOTA DE VENTA</h5>
+            <h3 class="text-center font-bold">{{ $tittle }}</h3>
         </td>
     </tr>
 </table>
-<table class="full-width mt-5">
+<table class="full-width mt-3">
     <tr>
+        <td width="47%" class="border-box pl-3 align-top">
+            <table class="full-width">
+                <tr>
+                    <td class="font-sm" width="80px">
+                        <strong>Cliente</strong>
+                        <td class="font-sm" width="8px">:</td>
+                        <td class="font-sm">
+                            {{ $customer->name }}
+                        </td>
+                    </td>
+                </tr>
+                <tr>
+                        <td class="font-sm" width="80px">
+                            <strong>{{$customer->identity_document_type->description}}</strong>
+                            <td class="font-sm" width="8px">:</td>
+                            <td class="font-sm">
+                                {{$customer->number}}
+                            </td>
+                        </td>
+                </tr>
+                @if ($customer->address !== '')
+                <tr>
+                    <td class="font-sm align-top" width="80px">
+                        <strong>Dirección</strong>
+                    </td>
+                    <td class="font-sm align-top" width="8px">:</td>
+                    <td colspan="3">
+                        {{ strtoupper($customer->address) }}
+                        {{ ($customer->district_id !== '-')? ', '.strtoupper($customer->district->description) : '' }}
+                        {{ ($customer->province_id !== '-')? ', '.strtoupper($customer->province->description) : '' }}
+                        {{ ($customer->department_id !== '-')? '- '.strtoupper($customer->department->description) : '' }}
+                    </td>
+                </tr>
+                @endif
+                <tr>
+                    <td class="font-sm align-top" width="80px">
+                        <strong>Teléfono:</strong>
+                    </td>
+                    <td class="font-sm align-top" width="8px">:</td>
+                    <td class="font-sm">
+                        {{ $customer->telephone }}
+                    </td>
+                </tr>
+            </table>
+        </td>
+        <td width="3%"></td>
+        <td width="50%" class="border-box pl-3 align-top">
+            <table class="full-width">
+                <tr>
+                    <tr>
+                        <td class="font-sm" width="90px">
+                            <strong>Fecha Emisión</strong>
+                        </td>
+                        <td class="font-sm" width="8px">:</td>
+                        <td class="font-sm">
+                           {{$document->date_of_issue->format('Y-m-d')}} / {{ $document->time_of_issue }}
+                        </td>
+                    </tr>
+                    <tr>
+                        @if ($document->due_date)
+                            <td class="font-sm" width="65px">
+                                <strong>Fecha Vencimiento</strong>
+                            </td>
+                            <td class="font-sm" width="8px">:</td>
+                            <td>{{ $document->getFormatDueDate() }}</td>
+                        @endif
+                    </tr>
+                </tr>
+                <tr>
+                    @if ($document->total_canceled)
+                    <td class="font-sm align-top" width="50px">
+                        <strong>Estado</strong>
+                        <td class="font-sm align-top" width="8px">:</td>
+                        <td colspan="3">CANCELADO</td>
+                    </td>
+
+                    @else
+                    <td class="font-sm align-top" width="50px">
+                        <strong>Estado</strong>
+                        <td class="font-sm align-top" width="8px">:</td>
+                        <td colspan="3">PENDIENTE DE PAGO</td>
+                    </td>
+                    @endif
+                    @if ($document->plate_number !== null)
+                        <td>
+                            <tr>
+                                <td width="15%">N° Placa:</td>
+                                <td width="85%">{{ $document->plate_number }}</td>
+                            </tr>
+                        </td>
+                    @endif
+                </tr>
+                <tr>
+                    @if ($document->observation)
+                    <td class="font-sm align-top" width="50px">
+                        <strong>Observación</strong>
+                        <td class="font-sm align-top" width="8px">:</td>
+                        <td colspan="3">{{ $document->observation }}</td>
+                    </td>
+                    @endif
+                    @if ($document->reference_data)
+                        <td class="font-sm align-top" width="50px">
+                            <strong>D. Referencia</strong>
+                            <td class="font-sm align-top" width="8px">:</td>
+                            <td colspan="3">{{ $document->reference_data }}</td>
+                        </td>
+                    @endif
+                </tr>
+                <tr>
+                    @if ($document->purchase_order)
+                        <td class="font-sm align-top" width="50px">
+                            <strong>Orden de compra</strong>
+                            <td class="font-sm align-top" width="8px">:</td>
+                            <td colspan="3">{{ $document->purchase_order }}</td>
+                        </td>
+                    @endif
+
+                </tr>
+
+            </table>
+        </td>
+    </tr>
+    {{-- <tr>
         <td width="15%">Cliente:</td>
         <td width="45%">{{ $customer->name }}</td>
         <td width="25%">Fecha de emisión:</td>
         <td>{{$document->date_of_issue->format('Y-m-d')}} / {{ $document->time_of_issue }}</td>
-    </tr>
-    <tr>
+    </tr> --}}
+    {{-- <tr>
         <td>{{ $customer->identity_document_type->description }}:</td>
         <td>{{ $customer->number }}</td>
 
@@ -72,8 +239,8 @@
             <td>{{ $document->getFormatDueDate() }}</td>
         @endif
 
-    </tr>
-    @if ($customer->address !== '')
+    </tr> --}}
+    {{-- @if ($customer->address !== '')
     <tr>
         <td class="align-top">Dirección:</td>
         <td colspan="3">
@@ -83,22 +250,22 @@
             {{ ($customer->department_id !== '-')? '- '.strtoupper($customer->department->description) : '' }}
         </td>
     </tr>
-    @endif
-    <tr>
+    @endif --}}
+    {{-- <tr>
         <td>Teléfono:</td>
         <td>{{ $customer->telephone }}</td>
         @if(isset($configurationInPdf) && $configurationInPdf->show_seller_in_pdf)
             <td>Vendedor:</td>
             <td> @if($document->seller_id != 0){{$document->seller->name }} @else {{ $document->user->name }} @endif</td>
         @endif
-    </tr>
-    @if ($document->plate_number !== null)
+    </tr> --}}
+    {{-- @if ($document->plate_number !== null)
     <tr>
         <td width="15%">N° Placa:</td>
         <td width="85%">{{ $document->plate_number }}</td>
     </tr>
-    @endif
-    @if ($document->total_canceled)
+    @endif --}}
+    {{-- @if ($document->total_canceled)
     <tr>
         <td class="align-top">Estado:</td>
         <td colspan="3">CANCELADO</td>
@@ -108,25 +275,19 @@
         <td class="align-top">Estado:</td>
         <td colspan="3">PENDIENTE DE PAGO</td>
     </tr>
-    @endif
-    @if ($document->observation)
-    <tr>
-        <td class="align-top">Observación:</td>
-        <td colspan="3">{{ $document->observation }}</td>
-    </tr>
-    @endif
-    @if ($document->reference_data)
+    @endif --}}
+    {{-- @if ($document->reference_data)
         <tr>
             <td class="align-top">D. Referencia:</td>
             <td colspan="3">{{ $document->reference_data }}</td>
         </tr>
-    @endif
-    @if ($document->purchase_order)
+    @endif --}}
+    {{-- @if ($document->purchase_order)
         <tr>
             <td class="align-top">Orden de compra:</td>
             <td colspan="3">{{ $document->purchase_order }}</td>
         </tr>
-    @endif
+    @endif --}}
 </table>
 
 @if ($document->isPointSystem())
@@ -165,27 +326,27 @@
 <table class="full-width mt-10 mb-10">
     <thead class="">
     <tr class="bg-grey">
-        <th class="border-top-bottom text-center py-2" width="8%">COD.</th>
-        <th class="border-top-bottom text-center py-2" width="8%">CANT.</th>
-        <th class="border-top-bottom text-center py-2" width="8%">UNIDAD</th>
-        <th class="border-top-bottom text-left py-2">DESCRIPCIÓN</th>
-        <th class="border-top-bottom text-right py-2" width="12%">P.UNIT</th>
-        <th class="border-top-bottom text-right py-2" width="8%">DTO.</th>
-        <th class="border-top-bottom text-right py-2" width="12%">TOTAL</th>
+        <th class="border-top-bottom text-center py-2" class="cell-solid" width="8%">COD.</th>
+        <th class="border-top-bottom text-center py-2" class="cell-solid" width="8%">CANT.</th>
+        <th class="border-top-bottom text-center py-2" class="cell-solid" width="8%">UNIDAD</th>
+        <th class="border-top-bottom text-left py-2" class="cell-solid">DESCRIPCIÓN</th>
+        <th class="border-top-bottom text-right py-2" class="cell-solid" width="12%">P.UNIT</th>
+        <th class="border-top-bottom text-right py-2" class="cell-solid" width="8%">DTO.</th>
+        <th class="border-top-bottom text-right py-2" class="cell-solid" width="12%">TOTAL</th>
     </tr>
     </thead>
     <tbody>
     @foreach($document->items as $row)
         <tr>
-            <td class="text-center align-top">{{ $row->item->internal_id }}</td>
-            <td class="text-center align-top">
+            <td class="text-center align-top cell-solid-rl">{{ $row->item->internal_id }}</td>
+            <td class="text-center align-top cell-solid-rl">
                 @if(((int)$row->quantity != $row->quantity))
                     {{ $row->quantity }}
                 @else
                     {{ number_format($row->quantity, 0) }}
                 @endif
             </td>
-            <td class="text-center align-top">{{ $row->item->unit_type_id }}</td>
+            <td class="text-center align-top cell-solid-rl">{{ $row->item->unit_type_id }}</td>
             <td class="text-left">
                 @if($row->name_product_pdf)
                     {!!$row->name_product_pdf!!}
@@ -220,8 +381,8 @@
                 @endif
 
             </td>
-            <td class="text-right align-top">{{ number_format($row->unit_price, 2) }}</td>
-            <td class="text-right align-top">
+            <td class="text-right align-top cell-solid-rl">{{ number_format($row->unit_price, 2) }}</td>
+            <td class="text-right align-top cell-solid-rl">
                 @if($row->discounts)
                     @php
                         $total_discount_line = 0;
@@ -234,15 +395,99 @@
                 0
                 @endif
             </td>
-            <td class="text-right align-top">{{ number_format($row->total, 2) }}</td>
+            <td class="text-right align-top cell-solid-rl">{{ number_format($row->total, 2) }}</td>
+        </tr>
+        {{-- <tr>
+            <td colspan="7" class="border-bottom"></td>
+        </tr> --}}
+    @endforeach
+
+        @for($i = 0; $i < $cycle_items; $i++)
+        <tr>
+            <td class="p-1 text-center align-top desc cell-solid-rl"></td>
+            <td class="p-1 text-center align-top desc cell-solid-rl">
+            </td>
+            <td class="p-1 text-center align-top desc cell-solid-rl"></td>
+            <td class="p-1 text-left align-top desc text-upp cell-solid-rl">
+            </td>
+            <td class="p-1 text-right align-top desc cell-solid-rl"></td>
+            <td class="p-1 text-right align-top desc cell-solid-rl">
+            </td>
+            <td class="p-1 text-right align-top desc cell-solid-rl"></td>
+        </tr>
+        @endfor
+        <tr>
+            @if(isset($configurationInPdf) && $configurationInPdf->show_seller_in_pdf)
+                <td class="p-1 text-left align-top desc cell-solid" colspan="3"><strong> VENDEDOR:</strong> {{ $document->user->name }}</td>
+            @endif
+            <td class="p-1 text-left align-top desc cell-solid font-bold">
+                {{-- SON: 
+                @foreach(array_reverse( (array)$document->legends) as $row)
+                    @if ($row->code == "1000")
+                        {{ $row->value }} {{ $document->currency_type->description }}
+                    @else
+                        {{$row->code}}: {{ $row->value }}
+                    @endif
+                @endforeach --}}
+            </td>
+            <td class="p-1 text-right align-top desc cell-solid font-bold" colspan="2">
+                OP. GRAVADA {{$document->currency_type->symbol}}
+            </td>
+            <td class="p-1 text-right align-top desc cell-solid font-bold">{{ number_format($document->total_taxed, 2) }}</td>
         </tr>
         <tr>
-            <td colspan="7" class="border-bottom"></td>
+            <td class="p-1 text-left align-top desc cell-solid" colspan="3" rowspan="6">
+                @php
+                    $total_packages = $document->items()->sum('quantity');
+                @endphp
+                <strong> Total bultos:</strong>
+                    {{ number_format($total_packages, 0) }}
+                <br>
+                {{-- <strong> Total Peso:</strong>
+                    {{$total_weight}} KG
+                <br> --}}
+            <td class="p-1 text-center align-top desc cell-solid " rowspan="6">
+            </td>
+            <td class="p-1 text-right align-top desc cell-solid font-bold" colspan="2">
+                OP. INAFECTAS {{$document->currency_type->symbol}}
+            </td>
+            <td class="p-1 text-right align-top desc cell-solid font-bold">{{ number_format($document->total_unaffected, 2) }}</td>
         </tr>
-    @endforeach
-        @if($document->total_exportation > 0)
+        <tr>
+            <td class="p-1 text-right align-top desc cell-solid font-bold" colspan="2">
+                OP. EXONERADAS {{$document->currency_type->symbol}}
+            </td>
+            <td class="p-1 text-right align-top desc cell-solid font-bold">{{ number_format($document->total_exonerated, 2) }}</td>
+        </tr>
+        <tr>
+            <td class="p-1 text-right align-top desc cell-solid font-bold" colspan="2">
+                OP. GRATUITAS {{$document->currency_type->symbol}}
+            </td>
+            <td class="p-1 text-right align-top desc cell-solid font-bold">{{ number_format($document->total_free, 2) }}</td>
+        </tr>
+        <tr>
+            <td class="p-1 text-right align-top desc cell-solid font-bold" colspan="2">
+                TOTAL DCTOS. {{$document->currency_type->symbol}}
+            </td>
+            <td class="p-1 text-right align-top desc cell-solid font-bold">{{ number_format($document->total_discount, 2) }}</td>
+        </tr>
+        <tr>
+
+            <td class="p-1 text-right align-top desc cell-solid font-bold" colspan="2">
+                IGV. {{$document->currency_type->symbol}}
+            </td>
+            <td class="p-1 text-right align-top desc cell-solid font-bold">{{ number_format($document->total_igv, 2) }}</td>
+        </tr>
+        <tr>
+            <td class="p-1 text-right align-top desc cell-solid font-bold" colspan="2">
+                TOTAL A PAGAR. {{$document->currency_type->symbol}}
+            </td>
+            <td class="p-1 text-right align-top desc cell-solid font-bold">{{ number_format($document->total, 2) }}</td>
+        </tr>
+
+        {{-- @if($document->total_exportation > 0)
             <tr>
-                <td colspan="6" class="text-right font-bold">OP. EXPORTACIÓN: {{ $document->currency_type->symbol }}</td>
+                <td colspan="6" class="text-right font-bold ">OP. EXPORTACIÓN: {{ $document->currency_type->symbol }}</td>
                 <td class="text-right font-bold">{{ number_format($document->total_exportation, 2) }}</td>
             </tr>
         @endif
@@ -263,7 +508,7 @@
                 <td colspan="6" class="text-right font-bold">OP. EXONERADAS: {{ $document->currency_type->symbol }}</td>
                 <td class="text-right font-bold">{{ number_format($document->total_exonerated, 2) }}</td>
             </tr>
-        @endif
+        @endif --}}
         {{-- @if($document->total_taxed > 0)
              <tr>
                 <td colspan="6" class="text-right font-bold">OP. GRAVADAS: {{ $document->currency_type->symbol }}</td>
@@ -288,10 +533,6 @@
             </tr>
         @endif
 
-        <tr>
-            <td colspan="6" class="text-right font-bold">TOTAL A PAGAR: {{ $document->currency_type->symbol }}</td>
-            <td class="text-right font-bold">{{ number_format($document->total, 2) }}</td>
-        </tr>
 
         @php
             $change_payment = $document->getChangePayment();
