@@ -14,7 +14,7 @@ class BackupFiles extends Command
      *
      * @var string
      */
-    protected $signature = 'bk:files --type={type} --folder={folder}';
+    protected $signature = 'bk:files --type={type?} --folder={folder?}';
 
     /**
      * The console command description.

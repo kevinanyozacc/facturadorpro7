@@ -40,10 +40,7 @@ class TenantCommand extends Command
     public function handle() {
         foreach (Task::where('execution_time', Carbon::now()->format('H:i').':00')->get() as $task) {
             try {
-                Artisan::call($task->class,[
-                    'type' => 'todos'
-                ]);
-                
+                Artisan::call($task->class);
                 $task->output = Artisan::output();
                 $task->save();
             }

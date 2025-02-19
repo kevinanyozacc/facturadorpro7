@@ -18,7 +18,7 @@ class BackupDatabase extends Command
      *
      * @var string
      */
-    protected $signature = 'bk:bd --type={type} --database={database?}';
+    protected $signature = 'bk:bd --type={type?} --database={database?}';
 
     /**
      * The console command description.
@@ -51,7 +51,7 @@ class BackupDatabase extends Command
     public function handle()
     {
         try {
-            $type = $this->argument('type');
+            $type = ($this->argument('type')) ? $this->argument('type') : 'todos';
             $database = $this->argument('database');
             $this->initDbConfig();
 
