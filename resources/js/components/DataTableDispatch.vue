@@ -6,7 +6,7 @@
 
                 <div class="row">
                     <div class="col-lg-8 col-md-8 mb-2">
-                        <div class="form-group">
+                        <div class="form-group filter-content">
                             <el-button
                                 type="primary"
                                 class="btn-show-filter mb-2"

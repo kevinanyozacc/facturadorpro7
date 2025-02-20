@@ -823,8 +823,9 @@ html.sidebar-left-collapsed .sidebar-left .nano:hover {
 }
 html.sidebar-light:not(.dark):not(.sidebar-green):not(.sidebar-green) ul.nav-main > li.nav-active > a ,
 .el-dropdown-menu__item:not(.is-disabled):hover, .el-dropdown-menu__item:focus {
-    color: var(--dark-color) !important;
+    color: var(--dark-color);
 }
+html.sidebar-light:not(.dark):not(.sidebar-green):not(.sidebar-green) ul.nav-main > li.nav-active > a
 .invoice table.table > thead:first-child > tr > th {
     border: none;
 }

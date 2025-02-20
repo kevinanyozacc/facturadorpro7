@@ -1371,4 +1371,11 @@ margin-top: 7px;
   width: 100px;
   height: 54px;
 }
+.filter-content{
+  margin-top: 40px;
+  display: flex;
+  width: 100%;
+  align-items: end;
+  justify-content: end;
+}
 }
