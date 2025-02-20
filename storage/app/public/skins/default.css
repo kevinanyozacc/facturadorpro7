@@ -1147,6 +1147,12 @@ body .v-modal {
 .tab-content-default{
     border-radius: 20px !important;
 }
+.total-rows span{
+    background-color: var(--accent-color);
+    border-radius: 8px;
+    padding: 5px;
+    text-align: center;
+}
 html.sidebar-light:not(.dark) .style-switcher {
     background: #ffffff;
 }
@@ -2271,7 +2277,8 @@ html.dark a:not([href]):not([tabindex]),
 html.dark .el-upload-list__item .el-icon-close {
     color: var(--light-color);
 }
-html.dark .el-upload-list__item:hover {
+html.dark .el-upload-list__item:hover,
+html.dark .total-rows span {
     background-color: var(--button-second);
 }
 html.dark .transfer-data-table{

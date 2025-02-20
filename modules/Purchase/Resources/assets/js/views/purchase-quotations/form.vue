@@ -83,7 +83,7 @@
                                     <table class="table">
                                         <thead>
                                             <tr width="100%" class="table-titles-default">
-                                                <th width="5%">#</th>
+                                                <!-- <th width="5%">#</th> -->
                                                 <th width="50%" class="font-weight-bold">Descripción</th>
                                                 <th width="15%" class="text-center font-weight-bold">Unidad</th>
                                                 <th width="15%" class="text-right font-weight-bold">Cantidad</th> 
@@ -92,7 +92,7 @@
                                         </thead>
                                         <tbody v-if="form.items.length > 0">
                                             <tr v-for="(row, index) in form.items" :key="index" width="100%">
-                                                <td width="5%">{{index + 1}}</td>
+                                                <!-- <td width="5%">{{index + 1}}</td> -->
                                                 <td width="50%">{{row.item.description}}</td>
                                                 <td width="15%" class="text-center">{{row.item.unit_type_id}}</td>
                                                 <td width="15%" class="text-right">{{row.quantity}}</td> 
@@ -100,12 +100,15 @@
                                                     <button type="button" class="btn waves-effect waves-light btn-xs btn-danger" @click.prevent="clickRemoveItem(index)">x</button>
                                                 </td>
                                             </tr>
-                                            <tr><td colspan="8"></td></tr>
+                                            <!-- <tr><td colspan="8"></td></tr> -->
                                         </tbody>
                                     </table>
+                                    <div v-if="form.items.length > 0" class="total-rows">
+                                        <span>Total de ítems: {{ form.items.length }}</span>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-lg-12 col-md-6 d-flex align-items-end">
+                            <div class="col-lg-12 col-md-6 d-flex align-items-end mt-2">
                                 <div class="form-group">
                                     <button type="button" class="btn waves-effect waves-light btn-primary" @click.prevent="showDialogAddItem = true">+ Agregar Producto</button>
                                 </div>

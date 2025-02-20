@@ -612,7 +612,7 @@
                             <table class="table table-sm">
                                 <thead>
                                 <tr class="table-titles-default">
-                                    <th width="0.5%"><!--#--></th>
+                                    <th width="0.5%"></th>
                                     <th class="font-weight-bold"
                                         width="30%">Descripción
                                     </th>
@@ -828,8 +828,11 @@
                                 <!-- Ocultar en cel -->
                                 <tr>
 
-                                    <td class="pt-3"
+                                    <td class="pt-1"
                                         colspan="4">
+                                        <div v-if="form.items.length > 0" class="total-rows">
+                                            <span>Total de ítems: {{ form.items.length }}</span>
+                                        </div>
                                         <el-popover
                                             placement="top-start"
                                             :open-delay="1000"
@@ -837,7 +840,7 @@
                                             trigger="hover"
                                             content="Presiona F2">
                                             <el-button slot="reference"
-                                                class="btn waves-effect waves-light btn-primary hidden-sm-down"
+                                                class="btn waves-effect waves-light btn-primary hidden-sm-down mt-2"
                                                 type="button"
                                                 @click.prevent="clickAddItemInvoice">
                                                 Agregar Producto <kbd>F2</kbd>
@@ -1270,7 +1273,7 @@
                                 <!-- @todo: Mejorar evitando duplicar codigo -->
                                 <!-- Ocultar en cel -->
                                 </tbody>
-                            </table>
+                            </table>                            
                         </div>
                         <!-- @todo: Mejorar evitando duplicar codigo -->
                         <!-- Mostrar en cel -->
@@ -1923,6 +1926,7 @@
 .table-responsive.payment th{
     border-bottom: none !important;
 }
+
 @media only screen and (max-width: 991px) {
     .form-client-default{
         width: 100% !important;

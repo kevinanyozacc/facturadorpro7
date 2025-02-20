@@ -467,7 +467,7 @@
                                     <table class="table">
                                         <thead>
                                         <tr>
-                                            <th>#</th>
+                                            <!-- <th>#</th> -->
                                             <th>Descripción</th>
                                             <th>Almacén</th>
                                             <th>Lote</th>
@@ -484,7 +484,7 @@
                                         <tbody>
                                         <tr v-for="(row, index) in form.items"
                                             :key="index">
-                                            <td>{{ index + 1 }}</td>
+                                            <!-- <td>{{ index + 1 }}</td> -->
                                             <td>
                                                 {{
                                                     setDescriptionOfItem(row.item)
@@ -527,6 +527,9 @@
                                         </tr>
                                         </tbody>
                                     </table>
+                                    <div v-if="form.items.length > 0" class="total-rows">
+                                        <span>Total de ítems: {{ form.items.length }}</span>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-12">

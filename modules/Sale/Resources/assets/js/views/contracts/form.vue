@@ -191,7 +191,7 @@
                         <div class="row mt-3">
                             <div class="col-md-12">
                                 <div class="table-responsive">
-                                    <table class="table">
+                                    <table class="table mb-1">
                                         <thead>
                                         <tr class="table-titles-default">
                                             <th width="0.5%"><!--#--></th>
@@ -236,14 +236,17 @@
                                                 </button>
                                             </td>
                                         </tr>
-                                        <tr>
+                                        <!-- <tr>
                                             <td colspan="9"></td>
-                                        </tr>
+                                        </tr> -->
                                         </tbody>
                                     </table>
+                                    <div v-if="form.items.length > 0" class="total-rows">
+                                        <span>Total de ítems: {{ form.items.length }}</span>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-lg-12 col-md-6 d-flex align-items-end">
+                            <div class="col-lg-12 col-md-6 d-flex align-items-end mt-2">
                                 <div class="form-group">
                                     <button type="button" class="btn waves-effect waves-light btn-primary"
                                             @click.prevent="showDialogAddItem = true">+ Agregar Producto
