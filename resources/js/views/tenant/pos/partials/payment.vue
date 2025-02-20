@@ -817,12 +817,13 @@ export default {
             // let percentage_igv = 18
             // let amount = parseFloat(this.discount_amount)
             
-            let input_global_discount;
-            if ( (this.configuration.global_discount_type_id === "02") && this.configuration.exact_discount) {
-                input_global_discount = parseFloat(this.discount_amount / 1.18) //input se usa para monto y porcentaje
-            } else {
-                input_global_discount = parseFloat(this.discount_amount) //input se usa para monto y porcentaje
+            let input_global_discount = parseFloat(this.discount_amount);
+            if(this.is_discount_amount) {
+                if ( (this.configuration.global_discount_type_id === "02") && this.configuration.exact_discount) {
+                    input_global_discount = parseFloat(this.discount_amount / 1.18) //input se usa para monto y porcentaje
+                }
             }
+
             // let base = (this.globalDiscountTypeId === '02') ? parseFloat(this.form.total_taxed) : parseFloat(this.form.total)
             // let factor = _.round(amount / base, 5)
 
@@ -877,7 +878,8 @@ export default {
                 
                 this.form.total_discount = _.round(amount, 2)
                 this.setGlobalDiscount(factor, _.round(amount,2), _.round(base,2))
-                this.enter_amount = _.round(total - this.discount_amount,2)
+                let discount_inner = this.is_discount_amount ? this.discount_amount :  (total * this.discount_amount / 100) 
+                this.enter_amount = _.round(total - discount_inner,2)
 
             } else {
                 

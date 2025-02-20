@@ -4235,7 +4235,11 @@ export default {
 
             this.deleteDiscountGlobal()
 
-            let amount_discount = this.configuration.global_discount_type_id === "02" && this.configuration.exact_discount ? (this.total_global_discount / 1.18) : this.total_global_discount;
+            let amount_discount = this.total_global_discount
+            if(this.is_amount) {
+                amount_discount = this.configuration.global_discount_type_id === "02" && this.configuration.exact_discount ? (this.total_global_discount / 1.18) : this.total_global_discount;
+            }
+
             let input_global_discount = parseFloat(amount_discount)
 
             if (input_global_discount > 0)
