@@ -2,7 +2,7 @@
     <div>
         <div class="row">
             <div class="col-md-12 col-lg-12 col-xl-12 ">
-                <div class="row mt-2">
+                <div class="row mt-2 m-0 p-0">
                     <div class="col-md-3 form-modern">
                         <label class="control-label">
                             Periodo
@@ -78,21 +78,7 @@
                                 value-format="yyyy-MM-dd"></el-date-picker>
                         </div>
                     </template>
-
-                    <div class="col-2">
-                        <label class="control-label" style="width: 100%;">
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        </label>
-
-                        <el-button
-                            class="submit"
-                            type="info"
-                            @click.prevent="ShowTransferModal()">
-                            <i class="fa fa-cash-register"></i>
-                            Transferir entre cuentas
-                        </el-button>
-                    </div>
-                    <div class="col-2 form-modern">
+                    <div class="form-modern col-md-2">
                         <label class="control-label">
                             Moneda
                         </label>
@@ -105,6 +91,20 @@
                                        label="Dolares"
                                        value="USD"></el-option>
                         </el-select>
+                    </div>
+
+                    <div class="col-md-2">
+                        <label class="control-label" style="width: 100%;">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </label>
+
+                        <el-button
+                            class="submit"
+                            type="info"
+                            @click.prevent="ShowTransferModal()">
+                            <i class="fa fa-cash-register"></i>
+                            Transferir entre cuentas
+                        </el-button>
                     </div>
                     <div class="col-lg-7 col-md-7 col-md-7 col-sm-12"
                          style="margin-top:29px">

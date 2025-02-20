@@ -78,7 +78,16 @@
         </div>
     </div>
 </template>
-
+<style>
+@media only screen and (max-width: 390px){
+    .filter-content{
+      margin-top: 0px;
+      display: flex;
+      align-items: start;
+      justify-content: start;
+    }
+}
+</style>
 <script>
  
     import DataTable from '../../../../../../../resources/js/components/DataTableDocuments.vue'

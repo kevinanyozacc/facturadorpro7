@@ -97,7 +97,16 @@
         <ModalGenerateCPE :show.sync="showModalGenerateCPE"></ModalGenerateCPE>
     </div>
 </template>
-
+<style>
+@media only screen and (max-width: 390px){
+    .filter-content{
+      margin-top: 0px;
+      display: flex;
+      align-items: start;
+      justify-content: start;
+    }
+}
+</style>
 <script>
 import DataTable from '../../../components/DataTableDispatch.vue'
 // import DataTable from '../../../components/DataTable.vue'
