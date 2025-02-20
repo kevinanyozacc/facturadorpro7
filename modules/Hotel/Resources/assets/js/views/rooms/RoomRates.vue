@@ -144,6 +144,7 @@ export default {
               });
               this.roomRates = this.roomRates.filter((r) => r.id !== rate.id);
               this.$emit("onDeleteRate", rate.id);
+              this.onFetchRates();
             })
             .catch((error) => {
               this.axiosError(error);
@@ -174,6 +175,7 @@ export default {
             price: 0,
           };
           this.$emit("onAddRoomRate", response.data.room_rate);
+          this.onFetchRates();
         })
         .catch((error) => {
           this.axiosError(error);
@@ -192,7 +194,8 @@ export default {
     },
     onFetchRates() {
       this.$http.get(`/hotels/rooms/tables/${this.room.establishment.id}`).then((response) => {
-        this.rates = response.data.rates;
+        const existingRateIds = this.roomRates.map(item => item.rate.id);
+        this.rates = response.data.rates.filter(rate => !existingRateIds.includes(rate.id));
       });
     },
   },
