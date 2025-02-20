@@ -228,7 +228,7 @@ class SireService
 
                 $documents = null;
                 if ($status_code == '06' && $filename != null) {
-                    $documents = $this->queryFile($filename, $type);
+                    $documents = $this->queryFile($filename, $type,$period, $ticket);
                 }
                 return [
                     'success' => true,
@@ -253,18 +253,18 @@ class SireService
         return isset($object[$key]) ? $object[$key] : null;
     }
 
-    public function queryFile($filename, $type)
+    public function queryFile($filename, $type, $period, $ticket)
     {
         $get_token = $this->getToken();
         $token = $get_token['token'];
 
         switch ($type) {
             case 'sale':
-                $suffix = '&codLibro=140000';
+                $suffix = '&codLibro=140000&perTributario='.$period.'&codProceso=10&numTicket='.$ticket;
                 $url = str_replace(['FILENAME','SUFFIX'], [$filename, $suffix], self::$DOWNLOAD);
                 break;
             case 'purchase':
-                $suffix = '';
+                $suffix = '&perTributario='.$period.'&codProceso=10&numTicket='.$ticket;
                 $url = str_replace(['FILENAME','SUFFIX'], [$filename, $suffix], self::$DOWNLOAD);
                 break;
         }
@@ -313,15 +313,15 @@ class SireService
                     if($type == 'sale'){
                         foreach ($lines as $line) {
                             $values = explode('|', $line);
-                            $serie = $values[3];
-                            $number = (int) $values[4];
+                            $serie = $values[7];
+                            $number = (int) $values[8];
                             $dataCollection->push([
                                 'service' => 'SUNAT',
-                                'date' => $values[0], // 2023/05/01
-                                'document_type' => $values[2],
+                                'date' => $values[4], // 2023/05/01
+                                'document_type' => $values[6],
                                 'serie' => $serie,
                                 'number' => $number,
-                                'total' => $values[21]
+                                'total' => $values[25]
                             ]);
 
                             $document = Document::where('series', $serie)
