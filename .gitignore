@@ -32,7 +32,6 @@ composer.lock
 app/CoreFacturalo/Templates/pdf/personalizada*
 public/templates/pdf/personalizada*
 supervisor.conf
-report.*
 
 
 
