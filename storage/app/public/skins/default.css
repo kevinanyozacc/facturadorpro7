@@ -1094,6 +1094,9 @@ ul.nav-main li.nav-parent > a:after {
     display: flex;
     justify-content: space-between;
 }
+.hyo {
+    scrollbar-color: var(--primary-color) #f1f1f100;
+}
 a.ws-flotante {
     border-radius: 0 !important;
     transform: scale(0.85);
@@ -2346,5 +2349,12 @@ html.dark .dropdown-menu-desktop ul li a{
 html.dark .dropdown-menu-desktop ul li a:hover {
     background-color: var(--button-second) !important;
     color: var(--light-color) !important;
+}
+html.dark .hyo {
+    scrollbar-color: var(--inputs-dark) #f1f1f100;
+}
+html.dark button.btn-primary-pos {
+    background: var(--button-second) !important;
+    border-color: var(--borders-dark) !important;
 }
 /* end */

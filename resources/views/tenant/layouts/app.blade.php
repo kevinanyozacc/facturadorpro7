@@ -88,6 +88,12 @@
         body {
             opacity: 0;
             transition: opacity 0.5s ease-in-out;
+            transition: overflow 0.3s;
+        }
+
+        html.sidebar-left-opened,
+        body.options-user-mobile-opened {
+            overflow: hidden !important;
         }
 
         body.visible {

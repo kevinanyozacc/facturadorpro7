@@ -548,20 +548,20 @@
         // Mostrar/ocultar header-right al hacer clic en options-user-mobile
         optionsUserMobile.addEventListener('click', function () {
             headerRight.classList.toggle('active');
-            body.classList.toggle('no-scroll');
+            document.documentElement.classList.add('options-user-mobile-opened');
         });
 
         // Ocultar header-right al hacer clic en close-container-user
         closeContainerUser.addEventListener('click', function () {
             headerRight.classList.remove('active');
-            body.classList.remove('no-scroll');
+            document.documentElement.classList.remove('options-user-mobile-opened');
         });
 
         // Ocultar header-right al hacer clic fuera de él
         document.addEventListener('click', function (event) {
             if (!headerRight.contains(event.target) && !optionsUserMobile.contains(event.target)) {
                 headerRight.classList.remove('active');
-                body.classList.remove('no-scroll');
+                document.documentElement.classList.remove('options-user-mobile-opened');
             }
         });
     });

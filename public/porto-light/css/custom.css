@@ -1138,7 +1138,7 @@ visibility: hidden !important;
 }
 }
 .dropdown-menu-desktop.active {
-visibility: visible !important; /* Mostrar cuando tenga la clase active */
+visibility: visible !important;
 opacity: 1 !important;
 }
 li.multi-user-content{
