@@ -151,9 +151,9 @@ class Inventory extends ModelTenant
 
         $input = '-';
         $output = '-';
-        if ($this->real_stock > $this->system_stock){
+        if ($this->transaction->type == 'input'){
             $input = $this->quantity;
-        } else {
+        } else if ($this->transaction->type == 'output') {
             $output = -$this->quantity;
         }
 

@@ -537,7 +537,7 @@ class InventoryController extends Controller
 
             $inventory = new Inventory();
             $inventory->type = $type;
-            $inventory->description = 'STock Real';
+            $inventory->description = 'Stock Real';
             $inventory->item_id = $item_id;
             $inventory->warehouse_id = $warehouse_id;
             $inventory->quantity = $quantity_new;
