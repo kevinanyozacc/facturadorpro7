@@ -160,6 +160,7 @@
         {
 
             foreach ($payments as $payment) {
+                $payment->cashDocumentPayments()->delete();
                 $payment->delete();
             }
 

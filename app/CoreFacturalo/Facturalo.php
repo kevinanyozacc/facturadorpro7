@@ -1368,7 +1368,7 @@ class Facturalo
 
     }
 
-    private function savePayments($document, $payments)
+    private function savePayments($document, $payments, $isUpdate = false)
     {
         $total = $document->total;
         $balance = $total - collect($payments)->sum('payment');
@@ -1421,6 +1421,9 @@ class Facturalo
             //considerar la creacion de una caja chica cuando recien se crea el cliente
             if(isset($row['payment_destination_id'])){
                 $this->createGlobalPayment($record, $row);
+                if($isUpdate){
+                    $this->createCashDocumentPayment($record,true);
+                }
             }
 
         }
@@ -1451,8 +1454,11 @@ class Facturalo
                 $document->fill($inputs);
                 $document->save();
 
+                $document->payments()->each(function ($payment) {
+                    $payment->cashDocumentPayments()->delete();
+                });
                 $document->payments()->delete();
-                $this->savePayments($document, $inputs['payments']);
+                $this->savePayments($document, $inputs['payments'],true);
 
                 $document->fee()->delete();
                 $this->saveFee($document, $inputs['fee']);

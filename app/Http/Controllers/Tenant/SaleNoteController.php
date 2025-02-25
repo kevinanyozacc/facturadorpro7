@@ -618,8 +618,10 @@ class SaleNoteController extends Controller
     {
         DB::connection('tenant')->beginTransaction();
         try {
+            $isUpdate = true;
             if (!isset($inputs['id'])) {
                 $inputs['id'] = false;
+                $isUpdate = false;
             }
             $data = $this->mergeData($inputs);
             $this->sale_note =  SaleNote::query()->updateOrCreate(['id' => $inputs['id']], $data);
@@ -693,7 +695,7 @@ class SaleNoteController extends Controller
             }
 
             //pagos
-            $this->savePayments($this->sale_note, $data['payments']);
+            $this->savePayments($this->sale_note, $data['payments'], $isUpdate);
 
             $this->setFilename();
             $this->createPdf($this->sale_note,"a4", $this->sale_note->filename);
@@ -1755,7 +1757,7 @@ class SaleNoteController extends Controller
     }
 
 
-    public function savePayments($sale_note, $payments){
+    public function savePayments($sale_note, $payments, $isUpdate = false){
 
         $total = $sale_note->total;
         $balance = $total - collect($payments)->sum('payment');
@@ -1809,6 +1811,9 @@ class SaleNoteController extends Controller
 
             if(isset($row['payment_destination_id'])){
                 $this->createGlobalPayment($record_payment, $row);
+                if($isUpdate){
+                    $this->createCashDocumentPayment($record_payment,false);
+                }
             }
 
             if(isset($row['payment_filename'])){
