@@ -695,9 +695,9 @@
                                                 <el-input-number
                                                     v-model="row.quantity"
                                                     :min="0.01"
-                                                    class="input-custom"
+                                                    class="input-custom "
                                                     :controls="false"
-                                                    style="min-width: 98px !important"
+                                                    style="min-width: 70px !important"
                                                     :disabled="hasRowAdvancedOption(row)"
                                                     @change="changeRowQuantity(row)"
                                                     @focus="valueInputSelect($event)"
@@ -712,8 +712,8 @@
                                     </td>
 
                                     <td class="text-right">
-                                        <template v-if="showEditableItems">
-                                            <span class="currency">{{ currency_type.symbol }}</span>
+                                        <div v-if="showEditableItems" class="input-with-currency">
+                                            <span class="currency-symbol">{{ currency_type.symbol }}</span>
                                             <div @keydown.enter="handleEnterKey($event)">
                                                 <el-input-number
                                                     v-model="row.unit_value"
@@ -727,15 +727,15 @@
                                                     >
                                                 </el-input-number>
                                             </div>
-                                        </template>
+                                        </div>
                                         <template v-else>
                                             {{ currency_type.symbol }} {{ getFormatUnitPriceRow(row.unit_value) }}
                                         </template>
                                     </td>
 
                                     <td class="text-right">
-                                        <template v-if="showEditableItems">
-                                            <span class="currency">{{ currency_type.symbol }}</span>
+                                        <div v-if="showEditableItems" class="input-with-currency">
+                                            <span class="currency-symbol">{{ currency_type.symbol }}</span>
                                             <div @keydown.enter="handleEnterKey($event)">
                                                 <el-input-number
                                                     v-model="row.unit_price"
@@ -749,7 +749,7 @@
                                                     >
                                                 </el-input-number>
                                             </div>
-                                        </template>
+                                        </div>
                                         <template v-else>
                                             {{ currency_type.symbol }} {{ getFormatUnitPriceRow(row.unit_price) }}
                                         </template>
@@ -757,8 +757,8 @@
 
 
                                     <td class="text-right">
-                                        <template v-if="showEditableItems">
-                                            <span class="currency">{{ currency_type.symbol }}</span>
+                                        <div v-if="showEditableItems" class="input-with-currency">
+                                            <span class="currency-symbol">{{ currency_type.symbol }}</span>
                                             <div @keydown.enter="handleEnterKey($event)">
                                                 <el-input-number
                                                     v-model="row.total_value"
@@ -773,7 +773,7 @@
 
                                                 </el-input-number>
                                             </div>
-                                        </template>
+                                        </div>
                                         <template v-else>
                                             {{ currency_type.symbol }} {{ row.total_value }}
                                         </template>
@@ -782,8 +782,8 @@
                                     <td class="text-right">
 
 
-                                        <template v-if="showEditableItems">
-                                            <span class="currency">{{ currency_type.symbol }}</span>
+                                        <div v-if="showEditableItems" class="input-with-currency">
+                                            <span class="currency-symbol">{{ currency_type.symbol }}</span>
                                             <div @keydown.enter="handleEnterKey($event)">
                                                 <el-input-number
                                                     v-model="row.total"
@@ -798,7 +798,7 @@
 
                                                 </el-input-number>
                                             </div>
-                                        </template>
+                                        </div>
                                         <template v-else>
                                             {{ currency_type.symbol }} {{ row.total }}
                                         </template>
@@ -829,10 +829,7 @@
                                 <tr>
 
                                     <td class="pt-1"
-                                        colspan="4">
-                                        <div v-if="form.items.length > 0" class="total-rows">
-                                            <span>Total de ítems: {{ form.items.length }}</span>
-                                        </div>
+                                        colspan="4">                                        
                                         <el-popover
                                             placement="top-start"
                                             :open-delay="1000"
@@ -846,6 +843,9 @@
                                                 Agregar Producto <kbd>F2</kbd>
                                             </el-button>
                                         </el-popover>
+                                        <div v-if="form.items.length > 0" class="total-rows mt-2">
+                                            <span>Total de ítems: {{ form.items.length }}</span>
+                                        </div>
                                         <!-- <el-select
                                             v-if="!configuration.enable_list_product"
                                             v-model="selected_option_price"
@@ -1816,8 +1816,20 @@
 </template>
 
 <style>
+.input-with-currency {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    position: relative;
+}
+.input-with-currency div{
+    width: 100%;
+}
 .input-custom {
     width: 50% !important;
+}
+.input-with-currency div .input-custom {
+    width: 100% !important;
 }
 .el-textarea__inner {
     height: 65px !important;

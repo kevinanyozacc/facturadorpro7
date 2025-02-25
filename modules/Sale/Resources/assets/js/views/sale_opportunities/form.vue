@@ -170,17 +170,18 @@
                                             <td colspan="8"></td>
                                         </tr>
                                         </tbody>
-                                    </table>    
-                                    <div v-if="form.items.length > 0" class="total-rows">
-                                        <span>Total de ítems: {{ form.items.length }}</span>
-                                    </div>                                
+                                    </table>                                                                    
                                 </div>
                             </div>
-                            <div class="col-lg-12 col-md-6 d-flex align-items-end">
-                                <div class="form-group mt-2">
+                            <div class="col-lg-12 col-md-6 d-flex flex-column align-items-start">
+                                <div class="pb-2">
                                     <button type="button" class="btn waves-effect waves-light btn-primary"
                                             @click.prevent="showDialogAddItem = true">+ Agregar Producto
                                     </button>
+                                </div>
+
+                                <div v-if="form.items.length > 0" class="total-rows">
+                                    <span>Total de ítems: {{ form.items.length }}</span>
                                 </div>
                             </div>
 

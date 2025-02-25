@@ -162,15 +162,15 @@
                         @input="searchItems"
                         @keyup.native="keyupTabCustomer"
                         @keyup.enter.native="keyupEnterAddItem"
-                        class="m-bottom mt-3"
+                        class="m-bottom input-search-pos mt-3"
                         ref="ref_search_items"
                     >
                         <template v-if="validteCreateProduct">
                             <el-button
                                 slot="append"
-                                icon="el-icon-plus"
                                 @click.prevent="showDialogNewItem = true"
-                            ></el-button>
+                                class="btn-add-product-pos"
+                            >Nuevo Producto</el-button>
                         </template>
                     </el-input>
                 </template>
@@ -188,7 +188,7 @@
                         @change="searchItemsBarcode"
                         @keyup.native="keyupTabCustomer"
                         ref="ref_search_items"
-                        class="m-bottom mt-3"
+                        class="m-bottom input-search-pos mt-3"
 
                         @focus="searchFromBarcode = true"
                         @blur="searchFromBarcode = false"
@@ -196,9 +196,8 @@
                         <template v-if="validteCreateProduct">
                             <el-button
                                 slot="append"
-                                icon="el-icon-plus"
                                 @click.prevent="showDialogNewItem = true"
-                            ></el-button>
+                            >Nuevo Producto</el-button>
                         </template>
                     </el-input>
                 </template>
@@ -583,23 +582,14 @@
             >
                 <div class="h-60" style="overflow-y: auto">
 
-                    <div class="row py-1 border-bottom m-0 p-0">
+                    <div class="row py-1 m-0 p-0">
                         <div class="col-12">
                             <table class="table table-sm table-borderless mb-0 pos-list-items">
                                 <tr v-for="(item, index) in form.items.slice().reverse()"  :key="index">
                                     <td class="">
                                         <p class="item-description">{{ item.item.description }}</p>
                                         <small>{{ item.unit_type_id }}</small><br>
-                                        <el-tooltip
-                                            class="item"
-                                            effect="dark"
-                                            :content="nameSets(item.item_id) || 'N.A'"
-                                            placement="bottom-end"
-                                        >
-                                            <i class="fas fa-box-open ms-2" 
-                                               style="cursor: pointer;">
-                                            </i>
-                                        </el-tooltip>
+                                        <small v-html="nameSets(item.item_id)"></small>
                                     </td>
                                     <td style="width: 80px; vertical-align: top">
                                         <el-input v-model="item.item.aux_quantity"
@@ -2396,7 +2386,7 @@ export default {
             let row = this.items.find(x => x.item_id == id);
             if (row) {
                 if (row.sets.length > 0) {
-                    return row.sets.join(",\n");
+                    return row.sets.join(",<br>");
                 } else {
                     return "";
                 }

@@ -175,30 +175,14 @@
 
                     <div class="col-md-4 col-sm-4">
                         <div :class="{'has-danger': errors.quantity}"
-                             class="form-group">
-
+                            class="form-group">
                             <label class="control-label">Cantidad</label>
-                            <el-input
-                                ref="inputQuantity"
-                                v-model="form.quantity"
-                                :disabled="form.item.calculate_quantity"
-                                @blur="validateQuantity"
-                                @input.native="changeValidateQuantity">
-                                <el-button slot="prepend"
-                                           :disabled="form.quantity < 0.01 || form.item.calculate_quantity"
-                                           icon="el-icon-minus"
-                                           style="padding-right: -5px; padding-left: 12px;"
-                                           @click="clickDecrease"></el-button>
-                                <el-button slot="append"
-                                           :disabled="form.item.calculate_quantity"
-                                           icon="el-icon-plus"
-                                           style="padding-right: 5px ;padding-left: 16px"
-                                           @click="clickIncrease"></el-button>
-                            </el-input>
+                            <el-input-number v-model="form.quantity"
+                                        :disabled="form.item.calculate_quantity"
+                                        :min="0.01"></el-input-number>
                             <small v-if="errors.quantity"
-                                   class="form-control-feedback"
-                                   v-text="errors.quantity[0]"></small>
-
+                              class="form-control-feedback"
+                              v-text="errors.quantity[0]"></small>
                         </div>
                     </div>
 

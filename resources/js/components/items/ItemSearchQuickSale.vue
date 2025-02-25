@@ -49,9 +49,9 @@
             </el-option>
         </el-select>
 
-        <div class="w-50 pl-0 pt-2">
+        <div class="w-100 pl-0 pt-2">
             <el-checkbox v-model="searchOnEnter" @change="changeSearchOnEnter" >Buscar solo al presionar Enter</el-checkbox>
-            <el-checkbox ref="searchItemCheckbox" v-model="search_item_by_barcode" @change="focusInputSearch()">Buscar por código de barras</el-checkbox>
+            <el-checkbox ref="searchItemCheckbox" v-model="search_item_by_barcode" @change="focusInputSearch(); saveSearchByBarcodeSetting()">Buscar por código de barras</el-checkbox>
         </div>
         
 
@@ -137,6 +137,11 @@
         mounted()
         {
             this.is_mounted = true
+
+            const storedSearchByBarcode = localStorage.getItem('search_item_by_barcode');
+            if (storedSearchByBarcode !== null) {
+                this.search_item_by_barcode = JSON.parse(storedSearchByBarcode);
+            }
         },
         methods:
         {
@@ -144,6 +149,9 @@
                 if (this.search_item_by_barcode) {
                     this.$refs.selectBarcode.focus()
                 }
+            },
+            saveSearchByBarcodeSetting() {
+                localStorage.setItem('search_item_by_barcode', JSON.stringify(this.search_item_by_barcode));
             },
             blurSelect() {
                 this.search_item_by_barcode = false;

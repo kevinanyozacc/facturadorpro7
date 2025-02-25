@@ -34,7 +34,7 @@ p {
     border: 1px solid var(--accent-color);
 }
 .el-select .el-input.is-focus .el-input__inner {
-    border-color: #e9f2f2;
+    border-color: var(--accent-color);
 }
 .el-input.el-input--small.el-input-group.el-input-group--append input {
   border-radius: 12px 0 0 12px;
@@ -147,7 +147,7 @@ address {
 .el-input-number__decrease {
     position: absolute;
     z-index: 1;
-    top: 10px;
+    top: 11px;
     width: 40px;
     height: auto;
     text-align: center;
@@ -159,7 +159,7 @@ address {
 .el-input-number__increase {
     position: absolute;
     z-index: 1;
-    top: 10px;
+    top: 11px;
     width: 40px;
     height: auto;
     text-align: center;
@@ -383,6 +383,13 @@ nav#menu {
     background-color: #fff !important;
     border: 1px solid var(--accent-color);
 }
+.form-group:focus-within label.control-label,
+.form-period:focus-within label.control-label,
+.form-group:focus-within label.control-label--buys,
+.form-seller:focus-within label.control-label,
+.form-modern:focus-within label.control-label {
+    background-color: #fff;
+}
 .el-input--small .el-input__inner:hover, .el-input-group__prepend:hover {
     border: 1px solid var(--accent-color);
 }
@@ -560,6 +567,27 @@ ul.nav-main li.nav-expanded > a {
 .el-input__inner:hover {
     border-color: #b3bad3;
 }
+.input-search-pos{
+    height: 45px !important;
+}
+.input-search-pos input{
+    background-color: var(--accent-color) !important;
+    margin-top: 5px;
+}
+.input-search-pos input:focus{
+    background-color: #FFF !important;
+}
+.input-search-pos .el-input-group__append{
+    background-color: transparent;
+    border: none;
+}
+.input-search-pos .el-input-group__append .btn-add-product-pos{
+    background-color: var(--primary-color);
+    height: 36px;
+    color: var(--light-color);
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
 .el-input__inner:focus,
 .el-textarea__inner:focus {
     border-color: var(--accent-color);
@@ -580,6 +608,9 @@ html.fixed.sidebar-white:not(.dark) .sidebar-left a:hover,
 html.fixed.sidebar-white:not(.dark) .sidebar-left a:active,
 html.fixed.sidebar-white:not(.dark) .sidebar-left a:focus {
     color: var(--dark-color);
+}
+ul.nav-main li.nav-active:not(.nav-parent) > a.dashboard-link{
+    color: var(--light-color) !important;
 }
 .el-dialog {
     border-radius: 12px;
@@ -788,6 +819,19 @@ ul.nav-main li .nav-children li a:before {
 }
 a.text-info:hover, a.text-info:focus {
     color: var(--primary-color) !important;
+}
+.el-tabs--card > .el-tabs__header .el-tabs__nav,
+.el-tabs--card > .el-tabs__header .el-tabs__item,
+.el-tabs--card > .el-tabs__header .el-tabs__item.is-active {
+    border-color: transparent;
+}
+.el-tabs--card > .el-tabs__header,
+.el-tabs__header{
+    margin-bottom: 0px;
+}
+.el-tabs__content{
+    padding: 10px;
+    border-radius: 8px;
 }
 html.fixed.sidebar-white .sidebar-left, html.fixed.sidebar-white .sidebar-header, html.fixed.sidebar-white .sidebar-left .nano {
     transition: all .15s ease;
@@ -1102,7 +1146,7 @@ a.ws-flotante {
     transform: scale(0.85);
 }
 tbody tr:hover:not(:last-child) {
-    background: transparent;
+    background: var(--light);
 }
 .card-header.bg-info {
   background: var(--dark-color) !important;
@@ -1155,6 +1199,16 @@ body .v-modal {
     border-radius: 8px;
     padding: 5px;
     text-align: center;
+}
+.currency-symbol {
+    background-color: var(--accent-color);
+    border-right: 1px solid var(--accent-color);
+}
+.input-custom.el-input-number.is-controls-right .el-input-number__increase, .input-custom.el-input-number.is-controls-right .el-input-number__decrease {
+    height: 50%;
+}
+.input-custom .el-input-number__increase {
+    top: 0;
 }
 html.sidebar-light:not(.dark) .style-switcher {
     background: #ffffff;
@@ -1639,7 +1693,8 @@ html.dark .el-input-group__append{
     background-color: transparent;
     border: none !important;
 }
-html.dark .el-input--small .el-input__inner:focus{
+html.dark .el-input--small .el-input__inner:focus,
+html.dark .input-search-pos input:focus{
     background-color: var(--contents-dark) !important;
 }
 html.dark .form-group label.control-label:has(+div),
@@ -2149,7 +2204,7 @@ html.dark .list-config {
 html.dark ul.nav.list-config li:hover {
     background: var(--button-second) !important;
 }
-html.dark .el-tree {
+html.dark .el-tree{
     background: var(--background-dark);
     color: var(--accent-color);
 }
@@ -2288,7 +2343,7 @@ html.dark .transfer-data-table{
     border: 1px solid var(--borders-dark);
 }
 html.dark .card.card-reports .card-title,
-html.dark .card-extras-header {
+html.dark .card-extras-header{
     background: var(--background-dark) !important;
 }
 html.dark .table-titles-default th{
@@ -2308,7 +2363,8 @@ html.sidebar-dark .el-button--primary, html.sidebar-dark .btn-custom {
 html.sidebar-dark .userbox.show .dropdown-menu a:hover {
     background-color: var(--inputs-dark);
 }
-html.fixed.sidebar-white .sidebar-left, html.fixed.sidebar-white .sidebar-header, html.fixed.sidebar-white .sidebar-left .nano {
+html.fixed.sidebar-white .sidebar-left, html.fixed.sidebar-white .sidebar-header, html.fixed.sidebar-white .sidebar-left .nano,
+html.dark .el-tabs__content {
     background-color: var(--background-dark) !important;
 }
 html.dark ul.nav-main li .nav-children li a:before {
@@ -2333,7 +2389,12 @@ html.dark .el-message--success {
 html.dark .el-message .el-icon-success {
     color: var(--accent-color);
 }
-html.dark .dropdown-menu-desktop{
+html.dark .dropdown-menu-desktop,
+html.dark .form-group:focus-within label.control-label,
+html.dark .form-period:focus-within label.control-label,
+html.dark .form-group:focus-within label.control-label--buys,
+html.dark .form-seller:focus-within label.control-label,
+html.dark .form-modern:focus-within label.control-label{
     background-color: var(--contents-dark);
 }
 html.dark .dropdown-menu-desktop ul li a{
@@ -2356,5 +2417,22 @@ html.dark .hyo {
 html.dark button.btn-primary-pos {
     background: var(--button-second) !important;
     border-color: var(--borders-dark) !important;
+}
+html.dark .input-search-pos input{
+    background-color: var(--inputs-dark) !important;
+    margin-top: 5px;
+}
+html.dark .el-tabs--card > .el-tabs__header{
+    border-bottom: 1px solid transparent;
+}
+html.dark .currency-symbol {
+    background-color: var(--button-second);
+    border-right: 1px solid var(--borders-dark);
+}
+html.dark .el-input-number__increase, html.dark .el-input-number__decrease {
+    top: 10px;
+}
+html.dark .input-custom .el-input-number__increase {
+    top: 1px;
 }
 /* end */

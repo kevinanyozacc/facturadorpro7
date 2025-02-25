@@ -128,7 +128,7 @@ html.sidebar-light:not(.dark) .page-header h2 {
     color: #314267;
 }
 
-.pos .border-bottom {
+.pos-list-items tr{
     border-bottom: 1px dashed #e0e6f8 !important;
 }
 .exchange-currency span{
@@ -136,8 +136,6 @@ html.sidebar-light:not(.dark) .page-header h2 {
     border-radius: 4px;
     padding: 0 3px;
 }
-
-
 .pos .product-item .card-body  {
     margin: 0;
     padding: 0;
@@ -147,6 +145,7 @@ html.sidebar-light:not(.dark) .page-header h2 {
 }
 .pos .card.product-item {
     margin-bottom: 12px;
+    height: 100%;
 }
 
 small.measuring-unit{

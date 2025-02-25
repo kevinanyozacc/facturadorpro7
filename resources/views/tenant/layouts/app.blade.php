@@ -92,7 +92,7 @@
         }
 
         html.sidebar-left-opened,
-        body.options-user-mobile-opened {
+        html.options-user-mobile-opened {
             overflow: hidden !important;
         }
 

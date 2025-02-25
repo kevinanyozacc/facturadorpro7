@@ -1150,6 +1150,28 @@ align-items: center !important;
 border-top: 1px solid #e5e5e5;
 margin-top: 7px;
 }
+.input-with-currency {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.currency-symbol {
+  position: absolute;
+  left: 0px;
+  z-index: 10;
+  font-weight: bold;
+  pointer-events: none;
+  height: 100%;
+  width: 25px;
+  border-radius: 8px 0 0 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-right: 1px solid #EAEEF7;
+}
+.input-with-currency .el-input-number input {
+  padding-left: 30px !important;
+}
 @media only screen and (max-width: 767px){
 .header .logo-container-mobile{
   display: flex;

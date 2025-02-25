@@ -44,7 +44,7 @@ $inventory_configuration = InventoryConfiguration::getSidebarPermissions();
                 <ul class="nav nav-main nav-main-mobile">
                     @if(in_array('dashboard', $vc_modules))
                         <li class="{{ ($firstLevel === 'dashboard') ? 'nav-active' : '' }}">
-                            <a class="nav-link" href="{{ route('tenant.dashboard.index') }}">
+                            <a class="nav-link dashboard-link" href="{{ route('tenant.dashboard.index') }}">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                     stroke-linejoin="round"
