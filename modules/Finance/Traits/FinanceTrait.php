@@ -160,7 +160,9 @@
         {
 
             foreach ($payments as $payment) {
-                $payment->cashDocumentPayments()->delete();
+                if (method_exists($payment, 'cashDocumentPayments')) {
+                    $payment->cashDocumentPayments()->delete();
+                }
                 $payment->delete();
             }
 

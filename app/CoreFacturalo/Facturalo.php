@@ -1455,7 +1455,9 @@ class Facturalo
                 $document->save();
 
                 $document->payments()->each(function ($payment) {
-                    $payment->cashDocumentPayments()->delete();
+                    if (method_exists($payment, 'cashDocumentPayments')) {
+                        $payment->cashDocumentPayments()->delete();
+                    }
                 });
                 $document->payments()->delete();
                 $this->savePayments($document, $inputs['payments'],true);
