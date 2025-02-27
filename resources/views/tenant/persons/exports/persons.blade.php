@@ -24,6 +24,7 @@
                                 <th>Número de documento</th>
                                 <th>Nombre</th>
                                 <th>Nombre comercial</th>
+                                <th>Direccion</th>
                                 <th>Código interno</th>
                                 <th>Correo</th>
                                 <th>Teléfono</th>
@@ -55,6 +56,7 @@
                                 <td class="celda">{{$value->number}}</td>
                                 <td class="celda">{{$value->name }}</td>
                                 <td class="celda">{{$value->trade_name }}</td>
+                                <td class="celda">{{$value->address }}</td>
                                 <td class="celda">{{$value->internal_code }}</td>
                                 <td class="celda">{{$value->email }}</td>
                                 <td class="celda">{{$value->telephone }}</td>
