@@ -184,6 +184,8 @@ class ItemsImport implements ToCollection
 
                     }else{
 
+                        $_date_of_due = $date_of_due ? Date::excelToDateTimeObject($date_of_due)->format('Y-m-d') : null;
+
                         Item::create([
                             'description' => $description,
                             'model' => $model,
@@ -198,6 +200,7 @@ class ItemsImport implements ToCollection
                             'purchase_unit_price' => $purchase_unit_price,
                             'purchase_affectation_igv_type_id' => $purchase_affectation_igv_type_id,
                             'stock' => $stock,
+                            'date_of_due' => $_date_of_due,
                             'stock_min' => $stock_min,
                             'category_id' => optional($category)->id,
                             'brand_id' => optional($brand)->id,
