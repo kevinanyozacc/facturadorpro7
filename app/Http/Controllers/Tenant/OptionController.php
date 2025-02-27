@@ -279,7 +279,7 @@ class OptionController extends Controller
         }catch(\Exception $ex){
             return [
                 'success' => false,
-                'message' => 'Inconvenientes al eliminar'.$ex->getMessage(),
+                'message' => 'Inconvenientes al eliminar',
                 'delete_quantity' => $deletedItem,
             ];
         }

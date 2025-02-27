@@ -266,7 +266,7 @@ html.dark .card-footer {
 
 html.dark .bg-white,
 html.dark .bg-light {
-    background: #283046;
+    background: #283046 !important;
 }
 html.dark .pos-list-items tr:hover,
 html.dark .card:hover .card-footer.configuration-options,
