@@ -22,7 +22,8 @@ use Modules\Order\Models\OrderNote;
 use Modules\Order\Models\OrderForm;
 use Modules\Inventory\Models\{
     ItemWarehouse,
-    InventoryKardex
+    InventoryKardex,
+    DevolutionItem
 };
 use Modules\Sale\Models\SaleOpportunity;
 use Modules\Sale\Models\Contract;
@@ -32,7 +33,8 @@ use App\Models\Tenant\{
     CashDocument,
     ItemMovement,
     Inventory,
-    Item
+    Item,
+    ItemUnitType
 };
 use Modules\Payment\Models\PaymentLink;
 use Modules\MercadoPago\Models\Transaction;
@@ -41,6 +43,10 @@ use Modules\Production\Models\{
     Production,
     Mill,
     Packaging,
+};
+use Modules\Item\Models\{
+    ItemLotsGroup,
+    ItemLot
 };
 use Modules\Purchase\Models\WeightedAverageCost;
 use Illuminate\Support\Facades\DB;
@@ -241,7 +247,10 @@ class OptionController extends Controller
     {   
         $id_items_movement = ItemMovement::distinct()->pluck('item_id');
         $id_items_inventory = Inventory::distinct()->where('description','<>','Stock inicial')->pluck('item_id');
-        $ids_item_merge = $id_items_movement->merge($id_items_inventory)->unique();
+        $id_items_devolution_items = DevolutionItem::distinct()->pluck('item_id');
+        $ids_item_merge = $id_items_movement->merge($id_items_inventory)
+            ->merge($id_items_devolution_items)
+            ->unique();
         $ids_item_merge_array = $ids_item_merge->toArray();
         $deletedItem = 0;
     
@@ -252,8 +261,11 @@ class OptionController extends Controller
                 
                 InventoryKardex::whereIn('item_id', $ids_item_delete_array)->delete();
                 Kardex::whereIn('item_id', $ids_item_delete_array)->delete();
-                WeightedAverageCost::whereIn('item_id',$ids_item_delete_array)->delete();
-                Inventory::whereIn('item_id',$ids_item_delete_array)->delete();
+                WeightedAverageCost::whereIn('item_id', $ids_item_delete_array)->delete();
+                Inventory::whereIn('item_id', $ids_item_delete_array)->delete();
+                ItemUnitType::whereIn('item_id', $ids_item_delete_array)->delete();
+                ItemLot::whereIn('item_id', $ids_item_delete_array)->delete();
+                ItemLotsGroup::whereIn('item_id', $ids_item_delete_array)->delete();
                 
                 $deletedItem = Item::whereIn('id', $ids_item_delete_array)->delete();
             });
@@ -267,7 +279,7 @@ class OptionController extends Controller
         }catch(\Exception $ex){
             return [
                 'success' => false,
-                'message' => 'Inconvenientes al eliminar',
+                'message' => 'Inconvenientes al eliminar'.$ex->getMessage(),
                 'delete_quantity' => $deletedItem,
             ];
         }
