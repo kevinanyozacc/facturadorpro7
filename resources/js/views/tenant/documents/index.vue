@@ -92,7 +92,7 @@
                 </el-dropdown>
             </div>
             -->
-            <div class="card-body ">
+            <div class="card-body card-body-invoice">
                 <div class="data-table-visible-columns">
                     <el-dropdown :hide-on-click="false" slot="showhide">
                         <el-button type="primary">

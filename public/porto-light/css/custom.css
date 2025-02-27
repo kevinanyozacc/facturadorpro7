@@ -1172,6 +1172,9 @@ margin-top: 7px;
 .input-with-currency .el-input-number input {
   padding-left: 30px !important;
 }
+ul.nav-main li.nav-active:not(.nav-parent) > a.dashboard-link {
+  color: #fff !important;
+}
 @media only screen and (max-width: 767px){
 .header .logo-container-mobile{
   display: flex;

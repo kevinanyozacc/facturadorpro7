@@ -2,14 +2,14 @@
     <div>
         <div class="row ">
 
-            <div class="col-md-12 col-lg-12 col-xl-12 p-0">
+            <div class="col-md-12 col-lg-12 col-xl-12 p-0 filter-invoice">
 
                 <div class="row col-12 p-0">
                     <div class="col-lg-9 col-md-8 col-sm-12 mb-2 p-0">
                         <div class="form-group filter-content">
                             <el-button
                                 type="primary"
-                                class="btn-show-filter mb-2 ml-2"
+                                class="btn-show-filter btn-show-filter-invoice mb-2 ml-1"
                                 :class="{ shift: see_more }"
                                 @click="clickSeeMore"
                             >
@@ -21,7 +21,7 @@
                         <slot name="showhide"></slot>
                     </div>
                 </div>
-                <div class="row mt-2" v-if="see_more">
+                <div class="row mt-2 content-filter-invoice" v-if="see_more">
                     <div class="col-lg-4 col-md-4 ">
                         <div class="form-group">
                             <label class="control-label">Tipo comprobante</label>

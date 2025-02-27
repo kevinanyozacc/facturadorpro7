@@ -748,6 +748,16 @@ html.fixed.sidebar-white:not(.dark) .sidebar-left a {
         right: 56% !important;  
     }
 }
+@media only screen and (min-width: 391px){
+    .card-body-invoice div .row .filter-invoice{
+        padding: 0 5px !important;
+    }
+}
+@media only screen and (max-width: 390px){
+    .card-body-invoice div .row .filter-invoice .content-filter-invoice{
+        padding: 0 5px !important;
+    }
+}
 .header .logo-container .topbar-links {
     margin-top: 4px;
     height: 50px;

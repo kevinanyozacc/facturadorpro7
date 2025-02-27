@@ -895,3 +895,16 @@ html.sidebar-white .el-button--primary:hover {
     background: #f3f4fc;
     border-radius: 6px;
 }
+@media only screen and (min-width: 391px){
+    .card-body-invoice div .row .filter-invoice{
+        padding: 0 15px !important;
+    }
+    .card-body-invoice .btn-show-filter-invoice{
+        margin-left: 15px !important;
+    }
+}
+@media only screen and (max-width: 390px){
+    .card-body-invoice div .row .filter-invoice .content-filter-invoice{
+        padding: 0 15px !important;
+    }
+}
