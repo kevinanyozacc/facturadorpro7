@@ -145,7 +145,7 @@
 
         <div
             v-if="!is_payment"
-            class="row col-lg-12 m-0 p-0"
+            class="row col-lg-12 m-0 p-0 pos-container"
             v-loading="loading"
         >
             <div class="col-lg-8 col-md-6 px-4 hyo">
@@ -260,13 +260,14 @@
                                         :src="item.image_url"
                                         class="img-thumbail img-custom"
                                     />
-                                    <p class="text-muted mb-0" style="display: flex; justify-content: space-between; align-items: center;">
-                                        <small>{{ item.internal_id }}</small>
+                                    <p class="text-muted mb-0 " style="display: flex; justify-content: space-between; align-items: center;">
+                                        <small style="width: 45%;">{{ item.internal_id }}</small>
                                         <el-tooltip
-                                            class="item"
+                                            class="item text-center"
                                             effect="dark"
                                             :content="item.sets.flat().join(',\n')"
                                             placement="bottom"
+                                            style="width: 10%;"
                                         >
                                             <i v-if="item.sets.length > 0" 
                                                class="fas fa-box-open ms-2" 
@@ -274,7 +275,7 @@
                                             </i>
                                         </el-tooltip>
 
-                                        <small class="measuring-unit">{{ item.unit_type_id }}</small>
+                                        <small class="measuring-unit text-right" style="width: 45%;">{{ item.unit_type_id }}</small>
 
                                         <!-- <el-popover v-if="item.warehouses" placement="right" width="280"  trigger="hover">
                       <el-table  :data="item.warehouses">
@@ -284,15 +285,15 @@
                       <el-button slot="reference"><i class="fa fa-search"></i></el-button>
                     </el-popover> -->
                                     </p>
-                                    <p v-if="configuration.show_complete_name_pos" class="font-weight-semibold mb-0 text-center">
+                                    <span v-if="configuration.show_complete_name_pos" class="font-weight-semibold mb-0 d-flex justify-content-center">
                                         {{ item.description }}
-                                    </p>
-                                    <p v-else class="font-weight-semibold mb-0 text-center">
+                                    </span>
+                                    <span v-else class="font-weight-semibold mb-0 d-flex justify-content-center">
                                         {{ item.description.substring(0, 50) }}
-                                    </p>
+                                    </span>
 
                                 </div>
-                                <div class="card-footer pointer text-center bg-white">
+                                <div class="card-footer pointer text-center">
                                     <!-- <button type="button" class="btn waves-effect waves-light btn-xs btn-danger m-1__2" @click="clickHistorySales(item.item_id)"><i class="fa fa-list"></i></button>
                   <button type="button" class="btn waves-effect waves-light btn-xs btn-success m-1__2" @click="clickHistoryPurchases(item.item_id)"><i class="fas fa-cart-plus"></i></button> -->
                                     <template v-if="!item.edit_unit_price">

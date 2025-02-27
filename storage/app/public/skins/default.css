@@ -2404,8 +2404,14 @@ html.dark .form-group:focus-within label.control-label,
 html.dark .form-period:focus-within label.control-label,
 html.dark .form-group:focus-within label.control-label--buys,
 html.dark .form-seller:focus-within label.control-label,
-html.dark .form-modern:focus-within label.control-label{
-    background-color: var(--contents-dark);
+html.dark .form-modern:focus-within label.control-label,
+html.dark .pos-container .bg-white,
+html.dark .pos-container .bg-light{
+    background-color: var(--contents-dark) !important;
+}
+.card.product-item:hover {
+    box-shadow: 0 0 2px var(--accent-color);
+    border-radius: 8px;
 }
 html.dark .dropdown-menu-desktop ul li a{
     background-color: transparent;
