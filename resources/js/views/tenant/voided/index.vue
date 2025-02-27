@@ -22,7 +22,7 @@
                     <tr slot="heading">
                         <!-- <th>#</th> -->
                         <th class="text-left">F.Emisión</th>
-                        <th class="text-center">F.E.Comprobante</th>
+                        <th class="text-left">F.E.Comprobante</th>
                         <th>Identificador</th>
                         <th>Ticket</th>
                         <th>Estado</th>
@@ -32,7 +32,7 @@
                     <tr slot-scope="{ index, row }" :class="{'text-danger': (row.state_type_id === '05'), 'text-warning': (row.state_type_id === '03')}">
                         <!-- <td>{{ index }}</td> -->
                         <td class="text-left">{{ row.date_of_issue }}</td>
-                        <td class="text-center">{{ row.date_of_reference }}</td>
+                        <td class="text-left">{{ row.date_of_reference }}</td>
                         <td>{{ row.identifier }}</td>
                         <td>{{ row.ticket }}</td>
                         <td>{{ row.state_type_description }}</td>

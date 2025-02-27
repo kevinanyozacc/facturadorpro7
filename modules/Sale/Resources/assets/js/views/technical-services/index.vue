@@ -20,9 +20,9 @@
                     <tr slot="heading">
                         <!-- <th>#</th> -->
                         <th>Cliente</th>
-                        <th>Celular</th>
-                        <th>Número</th>
-                        <th>F. Emisión</th>
+                        <th class="text-right">Celular</th>
+                        <th class="text-right">Número</th>
+                        <th >F. Emisión</th>
                         <th>N° Serie</th>
                         <th>Costo S.</th>
                         <th>Costo P.</th>
@@ -37,9 +37,9 @@
                     <tr slot-scope="{ index, row }">
                         <!-- <td>{{ index }}</td> -->
                         <td>{{ row.customer_name }}<br/><small v-text="row.customer_number"></small></td>
-                        <td class="text-center">{{ row.cellphone }}</td>
-                        <td class="text-center">{{ row.id }}</td>
-                        <td class="text-center">{{ row.date_of_issue }}</td>
+                        <td class="text-right">{{ row.cellphone }}</td>
+                        <td class="text-right">{{ row.id }}</td>
+                        <td class="text-left">{{ row.date_of_issue }}</td>
                         <td class="text-center">{{ row.serial_number }}</td>
                         <td class="text-center">{{ row.cost }}</td>
                         <td class="text-center">{{ row.total }}</td>

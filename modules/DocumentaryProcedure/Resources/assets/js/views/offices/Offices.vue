@@ -102,7 +102,7 @@
                             <td> {{ item.string_days }}
                             </td>
                             -->
-                            <td class="text-center">
+                            <td class="text-right">
                                 <el-button
                                     :disabled="loading"
                                     type="success"

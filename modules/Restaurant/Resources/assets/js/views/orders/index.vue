@@ -26,12 +26,12 @@
             <th>Codigo de Pedido</th>
             <th>Cliente</th>
             <th class="text-center">Detalle Productos</th>
-            <th>Total</th>
+            <th class="text-right">Total</th>
             <th>Fecha Emision</th>
             <th>Medio Pago</th>
             <th>Estatus del Pedido</th>
             <th class="text-center">Documento</th>
-            <th class="text-center">Opciones</th>
+            <th class="text-right">Opciones</th>
           </tr>
           <tr></tr>
           <tr slot-scope="{ index, row }">
@@ -78,7 +78,7 @@
                 </el-popover>
               </template>
             </td>
-            <td>S/ {{row.total}}</td>
+            <td class="text-right">S/ {{row.total}}</td>
             <td>{{row.created_at}}</td>
             <td>{{row.reference_payment}}</td>
             <td>
@@ -104,7 +104,7 @@
                 {{row.number_document}}
               </template>
             </td>
-            <td class="text-center">
+            <td class="text-right">
               <template v-if="row.document_type_id == '80'">
                 <el-button v-if="row.sale_note_id" class="submit" type="success" icon="el-icon-tickets" @click.prevent="clickOptions(row.sale_note_id)"></el-button>
               </template>
@@ -163,7 +163,7 @@
         </div>
       </div>
       <div class="form-actions text-right pt-2">
-        <el-button @click="close">Cerrar</el-button>
+        <el-button class="second-buton" @click="close">Cerrar</el-button>
         <el-button type="primary" @click="save">Guardar</el-button>
       </div>
     </el-dialog>

@@ -45,13 +45,13 @@
                             <thead>
                             <tr>
                                 <!-- <th>#</th> -->
-                                <th>Número de registro</th>
-                                <th>Número de ficha</th>
+                                <th class="text-right">Número de registro</th>
+                                <th class="text-right">Número de ficha</th>
                                 <th>Producto</th>
                                 <th>Usuario</th>
                                 <th>Sucursal</th>
-                                <th>Cantidad</th>
-                                <th># Paquetes</th>
+                                <th class="text-right">Cantidad</th>
+                                <th class="text-right"># Paquetes</th>
                                 <th>Lote</th>
                                 <th>Fecha de inicio</th>
                                 <th>Fecha de fin</th>
@@ -63,13 +63,13 @@
                             <tbody>
                             <tr v-for="(row, index) in records">
                                 <!-- <td>{{ index + 1 }}</td> -->
-                                <td>000{{ row.id}}</td>
-                                <td>{{ row.name}}</td>
+                                <td class="text-right">000{{ row.id}}</td>
+                                <td class="text-right">{{ row.name}}</td>
                                 <td>{{ row.item.name}}</td>
                                 <td>{{ row.user}}</td>
                                 <td>{{ row.stablishment}}</td>
-                                <td>{{ row.quantity}}</td>
-                                <td>{{ row.number_packages}}</td>
+                                <td class="text-right">{{ row.quantity}}</td>
+                                <td class="text-right">{{ row.number_packages}}</td>
                                 <td>{{ row.lot_code}}</td>
                                 <td >{{ row.date_start }} - {{row.time_start}}</td>
                                 <td >{{ row.date_end }} - {{row.time_end}}</td>

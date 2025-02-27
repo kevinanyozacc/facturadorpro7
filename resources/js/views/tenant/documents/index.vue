@@ -20,9 +20,8 @@
                 </svg>
             </a></h2>
             <ol class="breadcrumbs">
-                <li class="active"><span>Comprobantes</span></li>
-                <li><span class="text-muted">Facturas - Notas <small>(crédito y débito)</small> - Boletas - Anulaciones</span>
-                </li>
+                <li class="active"><span>Listado de comprobantes</span></li>
+                <!-- <li><span class="text-muted">Facturas - Notas <small>(crédito y débito)</small> - Boletas - Anulaciones</span></li> -->
             </ol>
             <div class="right-wrapper pull-right"
                  v-if="typeUser != 'integrator'">
@@ -129,7 +128,7 @@
                         <th v-if="columns.send_it.visible">Email Enviado</th>
                         <th>Estado</th>
                         <th v-if="columns.user_name.visible">Usuario</th>
-                        <th v-if="columns.exchange_rate_sale.visible">T.C.</th>
+                        <th class="text-right" v-if="columns.exchange_rate_sale.visible">T.C.</th>
                         <th class="text-center" v-if="columns.currency_type_id.visible"  >Moneda</th>
                         <th class="text-right"
                             v-if="columns.guides.visible">Guia

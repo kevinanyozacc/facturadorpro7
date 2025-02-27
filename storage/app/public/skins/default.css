@@ -1711,7 +1711,7 @@ html.dark .el-select-dropdown{
 }
 html.dark .el-select-dropdown__item.hover,
 html.dark .el-select-dropdown__item:hover {
-    background-color: var(--contents-dark);
+    background-color: var(--button-second);
     color: var(--light-color);
 }
 html.dark .el-popper[x-placement^="bottom"] .popper__arrow {

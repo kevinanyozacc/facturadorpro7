@@ -23,8 +23,8 @@
                         <!-- <th>#</th> -->
                         <th>Nombre</th>
                         <th class="text-left">Tipo de documento</th>
-                        <th class="text-left">Número</th>
-                        <th class="text-left">Licencia</th>
+                        <th class="text-right">Número</th>
+                        <th class="text-center">Licencia</th>
                         <th class="text-center">Predeterminado</th>
                         <th class="text-center">Estado</th>
                         <th class="text-right">Acciones</th>
@@ -33,8 +33,8 @@
                         <!-- <td>{{ index }}</td> -->
                         <td>{{ row.name }}</td>
                         <td class="text-left">{{ row.document_type }}</td>
-                        <td class="text-left">{{ row.number }}</td>
-                        <td class="text-left">{{ row.license }}</td>
+                        <td class="text-right">{{ row.number }}</td>
+                        <td class="text-center">{{ row.license }}</td>
                         <td class="text-center">{{ row.is_default }}</td>
                         <td class="text-center">
                             <el-switch v-model="row.is_active" @change="toggleActiveDriver(row)" />

@@ -33,7 +33,7 @@
                         <th>Almacen Destino</th>
                         <th>Detalle</th>
                         <th>Detalle Productos</th>
-                        <th>Cantidad Total Productos</th>
+                        <th class="text-right">Cantidad Total Productos</th>
                         <th class="text-right">Acciones</th>
                     </tr>
                     <tr></tr>
@@ -76,7 +76,7 @@
                                            icon="el-icon-zoom-in"></el-button>
                             </el-popover>
                         </td>
-                        <td>{{ row.quantity }}</td>
+                        <td class="text-right">{{ row.quantity }}</td>
                         <td class="text-right">
                             <button
                                 class="btn waves-effect waves-light btn-xs btn-info"

@@ -104,15 +104,15 @@
                             <!-- <th>#</th> -->
                             <th>Descripción</th>
                             <th class="text-center" v-if="resource !== 'finances/payment-method-types'">S. Inicial</th>
-                            <th class="text-center">CPE</th>
-                            <th class="text-center">N. Venta</th>
-                            <th class="text-center">Cotización</th>
-                            <th class="text-center">Contrato</th>
-                            <th class="text-center">S. Técnico</th>
-                            <th class="text-center">Ingresos</th>
-                            <th class="text-center">Compras</th>
-                            <th class="text-center">Gastos</th>
-                            <th class="text-center">Saldo</th>
+                            <th class="text-right">CPE</th>
+                            <th class="text-right">N. Venta</th>
+                            <th class="text-right">Cotización</th>
+                            <th class="text-right">Contrato</th>
+                            <th class="text-right">S. Técnico</th>
+                            <th class="text-right">Ingresos</th>
+                            <th class="text-right">Compras</th>
+                            <th class="text-right">Gastos</th>
+                            <th class="text-right">Saldo</th>
 
                         </tr>
                         </thead>
@@ -121,15 +121,15 @@
                             <!-- <td class="">{{ index + 1 }}</td> -->
                             <td class="">{{ row.description }}</td>
                             <td class="text-center"  v-if="resource !== 'finances/payment-method-types'">{{ row.initial_balance | DecimalText}}</td>
-                            <td class="text-center">{{ row.document_payment | DecimalText}}</td>
-                            <td class="text-center">{{ row.sale_note_payment | DecimalText}}</td>
-                            <td  class="text-center">{{ row.quotation_payment | DecimalText}}</td>
-                            <td  class="text-center">{{ row.contract_payment | DecimalText}}</td>
-                            <td  class="text-center">{{ row.technical_service_payment | DecimalText}}</td>
-                            <td class="text-center">{{ row.income_payment | DecimalText}}</td>
-                            <td class="text-center">{{ row.purchase_payment | DecimalText}}</td>
-                            <td class="text-center">{{ row.expense_payment | DecimalText}}</td>
-                            <td class="text-center">S/ {{ row.balance | DecimalText}}</td>
+                            <td class="text-right">{{ row.document_payment | DecimalText}}</td>
+                            <td class="text-right">{{ row.sale_note_payment | DecimalText}}</td>
+                            <td  class="text-right">{{ row.quotation_payment | DecimalText}}</td>
+                            <td  class="text-right">{{ row.contract_payment | DecimalText}}</td>
+                            <td  class="text-right">{{ row.technical_service_payment | DecimalText}}</td>
+                            <td class="text-right">{{ row.income_payment | DecimalText}}</td>
+                            <td class="text-right">{{ row.purchase_payment | DecimalText}}</td>
+                            <td class="text-right">{{ row.expense_payment | DecimalText}}</td>
+                            <td class="text-right">S/ {{ row.balance | DecimalText}}</td>
                         </tr>
                         </tbody>
                         <tfoot>

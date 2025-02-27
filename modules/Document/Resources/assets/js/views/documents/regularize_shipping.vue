@@ -14,8 +14,8 @@
                     <tr slot="heading">
                         <!-- <th>#</th> -->
                         <th>Entorno</th>
-                        <th class="text-center">Usuario</th>
-                        <th class="text-center">F. Emisión</th>
+                        <th class="text-left">Usuario</th>
+                        <th class="text-left">F. Emisión</th>
                         <th>Cliente</th>
                         <th>Comprobante</th>
                         <th>Descripción</th>
@@ -25,8 +25,8 @@
                     <tr slot-scope="{ index, row }">
                         <!-- <td>{{ index }}</td> -->
                         <td>{{ row.soap_type_description }}</td>
-                        <td class="text-center">{{ row.user_name }}</td>
-                        <td class="text-center">{{ row.date_of_issue }}</td>
+                        <td class="text-left">{{ row.user_name }}</td>
+                        <td class="text-left">{{ row.date_of_issue }}</td>
                         <td>{{ row.customer_name }}<br/><small v-text="row.customer_number"></small></td>
                         <td>{{ row.number }}<br/>
                             <small v-text="row.document_type_description"></small><br/>

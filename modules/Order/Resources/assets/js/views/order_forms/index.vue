@@ -22,7 +22,7 @@
                         <th>Número</th>
                         <th class="text-center">Fecha Envío</th>
                         <th class="text-center">Descargas</th>
-                        <th class="text-center">Acciones</th>
+                        <th class="text-right">Acciones</th>
                     <tr>
                     <tr slot-scope="{ index, row }" :class="{'text-danger': (row.state_type_id === '11')}">
                         <!-- <td>{{ index }}</td> -->
@@ -34,7 +34,7 @@
                         <td class="text-center">
                             <button type="button" class="btn waves-effect waves-light btn-xs btn-info" @click.prevent="clickDownload(row.external_id, 'a4')">PDF</button>
                         </td>
-                        <td class="text-center">
+                        <td class="text-right">
                             <a v-if="row.btn_dispatch" :href="`/order-forms/dispatch-create/${row.id}`" class="btn waves-effect waves-light btn-xs btn-primary m-1__2">Generar Guía</a>
                             <a v-if="row.btn_dispatch" :href="`/order-forms/create/${row.id}`" class="btn waves-effect waves-light btn-xs btn-warning m-1__2">Editar</a>
                             <button type="button" class="btn waves-effect waves-light btn-xs btn-info" @click.prevent="clickOptions(row.id)">Opciones</button>

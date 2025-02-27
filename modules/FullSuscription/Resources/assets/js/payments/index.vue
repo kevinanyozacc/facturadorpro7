@@ -38,13 +38,13 @@
                         <th class="text-left">
                             Cliente
                         </th>
-                        <th class="text-center">
+                        <th class="text-left">
                             Plan
                         </th>
-                        <th class="text-center">
+                        <th class="text-right">
                             Cant.Periodo/Ciclo
                         </th>
-                        <th class="text-center">
+                        <th class="text-right">
                             Total (cant * total)
                         </th>
 
@@ -59,13 +59,13 @@
                         <td class="text-left">
                             {{ row.parent_customer.description }}
                         </td>
-                        <td class="text-center">
+                        <td class="text-left">
                             {{ row.plan.name }}
                         </td>
-                        <td class="text-center">
+                        <td class="text-right">
                             {{ row.quantity_period }}
                         </td>
-                        <td class="text-center">
+                        <td class="text-right">
                             {{ row.quantity_period * row.total }}
                         </td>
                         <td class="text-right">

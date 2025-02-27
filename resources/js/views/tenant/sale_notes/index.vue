@@ -75,12 +75,12 @@
                         <th class="text-center" v-if="columns.recurrence.visible">
                             Recurrencia
                         </th>
-                        <td class="text-right" v-if="columns.region.visible">
+                        <th class="text-left" v-if="columns.region.visible">
                             Region
-                        </td>
-                        <td class="text-right" v-if="columns.dispatch_status.visible">
+                        </th>
+                        <th class="text-right" v-if="columns.dispatch_status.visible">
                             Estado de despacho
-                        </td>
+                        </th>
                          <th class="text-center" v-if="columns.type_period.visible" >
                             Tipo Periodo
                         </th>
@@ -157,7 +157,7 @@
                             </template>
                         </td>
 
-                        <td class="text-right" v-if="columns.region.visible">
+                        <td class="text-left" v-if="columns.region.visible">
                             {{ row.customer_region }}
                         </td>
 

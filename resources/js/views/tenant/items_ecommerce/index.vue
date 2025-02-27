@@ -40,8 +40,8 @@
             <th>Unidad</th>
             <th class="text-center">Imagen</th>
             <th>Nombre</th>
-            <th class="text-center">P.Unitario (Venta)</th>
-            <th class="text-center">Stock General</th>
+            <th class="text-right">P.Unitario (Venta)</th>
+            <th class="text-right">Stock General</th>
             <th class="text-center">Tags</th>
 
             <th class="text-center">Visible en Tienda</th>
@@ -59,9 +59,9 @@
               <!--<img :src="row.image_url_medium"  width="40" height="40" class="img-thumbail img-custom" /> -->
             </td>
             <td>{{ row.description }}</td>
-            <td class="text-center">{{ row.sale_unit_price }}</td>
-            <td class="text-center">{{ stock(row.warehouses) }}</td>
-            <td>
+            <td class="text-right">{{ row.sale_unit_price }}</td>
+            <td class="text-right">{{ stock(row.warehouses) }}</td>
+            <td class="text-center">
               <el-tag style="margin:1px" v-for="tag in row.tags" :key="tag.id">{{tag.tag.name}}</el-tag>
             </td>
             <td class="text-center">

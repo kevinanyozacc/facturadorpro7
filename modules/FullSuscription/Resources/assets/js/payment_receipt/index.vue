@@ -84,10 +84,10 @@
                         <th class="text-right">Total</th>
 
                         <th v-if="columns.total_paid.visible"
-                            class="text-center">Pagado
+                            class="text-right">Pagado
                         </th>
                         <th v-if="columns.total_pending_paid.visible"
-                            class="text-center">Por pagar
+                            class="text-right">Por pagar
                         </th>
 
                         <th class="text-center">Comprobantes</th>
@@ -168,12 +168,12 @@
 
                         <!--Pagado -->
                         <td v-if="columns.total_paid.visible"
-                            class="text-center">
+                            class="text-right">
                             {{ row.total_paid }}
                         </td>
                         <!-- Por pagar -->
                         <td v-if="columns.total_pending_paid.visible"
-                            class="text-center">
+                            class="text-right">
                             {{ row.total_pending_paid }}
                         </td>
                         <!--Comprobantes -->
@@ -208,7 +208,7 @@
                         </td>
 
                         <!-- Descarga -->
-                        <td class="text-right">
+                        <td class="text-center">
                             <button class="btn waves-effect waves-light btn-xs btn-info"
                                     type="button"
                                     @click.prevent="clickDownload(row.external_id)">

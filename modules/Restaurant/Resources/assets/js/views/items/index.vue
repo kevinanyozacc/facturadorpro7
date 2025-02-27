@@ -41,7 +41,7 @@
             <th>Nombre</th>
             <th class="text-right">P.Unitario (Venta)</th>
             <th class="text-right">Stock General</th>
-            <th class="text-center">Categoría</th>
+            <th class="text-left">Categoría</th>
             <th class="text-center">Visible en Restaurant</th>
             <th class="text-right">Acciones</th>
           </tr>
@@ -58,7 +58,7 @@
             <td>{{ row.description }}</td>
             <td class="text-right">{{ row.sale_unit_price }}</td>
             <td class="text-right">{{ stock(row.warehouses) }}</td>
-            <td class="text-center">
+            <td class="text-left">
               {{row.category_description}}
             </td>
             <td class="text-center">

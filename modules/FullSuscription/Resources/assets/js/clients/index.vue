@@ -53,7 +53,7 @@
                         <th class="text-right">
                             Teléfono
                         </th>
-                        <th class="text-right">
+                        <th class="text-left">
                             Correo
                         </th>
                         <th class="text-right">
@@ -83,7 +83,7 @@
                         <td class="text-right">
                             {{ row.telephone }}
                         </td>
-                        <td class="text-right">
+                        <td class="text-left">
                             {{ row.email }}
                         </td>
                         <td class="text-right">

@@ -109,7 +109,7 @@
           <table class="table">
             <thead>
               <tr>
-                <th></th>
+                <th class="text-right">ID</th>
                 <th>Habitación</th>
                 <th>Categoría</th>
                 <th>Ubicación</th>
@@ -158,11 +158,11 @@
                     <span class="ml-2">HABILITAR</span>
                   </el-button>
                 </td>
-                <td class="text-center">
+                <td class="text-left">
                   <span v-if="item.active">Si</span>
                   <span v-else>No</span>
                 </td>
-                <td class="text-center">
+                <td class="text-right">
                   <el-button
                     type="success"
                     @click="onEdit(item)"

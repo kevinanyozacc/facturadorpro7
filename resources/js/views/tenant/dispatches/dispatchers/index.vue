@@ -23,7 +23,7 @@
                         <!-- <th>#</th> -->
                         <th>Nombre</th>
                         <th class="text-left">Tipo de documento</th>
-                        <th class="text-left">Número</th>
+                        <th class="text-right">Número</th>
                         <th class="text-left">MTC</th>
                         <th class="text-center">Predeterminado</th>
                         <th class="text-center">Estado</th>
@@ -33,7 +33,7 @@
                         <!-- <td>{{ index }}</td> -->
                         <td>{{ row.name }}</td>
                         <td class="text-left">{{ row.document_type }}</td>
-                        <td class="text-left">{{ row.number }}</td>
+                        <td class="text-right">{{ row.number }}</td>
                         <td class="text-left">{{ row.number_mtc }}</td>
                         <td class="text-center">{{ row.is_default }}</td>
                         <td class="text-center">

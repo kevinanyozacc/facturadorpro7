@@ -71,7 +71,7 @@
                             <th>Descripción</th>
                             <th>Terminos y condiciones</th>
                             <th>Activo</th>
-                            <th>Precio</th>
+                            <th class="text-right">Precio</th>
                             <th></th>
                         </tr>
                         </thead>
@@ -131,8 +131,8 @@
                                 <span v-if="item.active">Si</span>
                                 <span v-else>No</span>
                             </td>
-                            <td>{{ item.price }}</td>
-                            <td class="text-center">
+                            <td class="text-right">{{ item.price }}</td>
+                            <td class="text-right">
                                 <el-button
                                     :disabled="loading"
                                     type="success"

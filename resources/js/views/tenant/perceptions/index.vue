@@ -20,9 +20,9 @@
                         <th>Receptor</th>
                         <!-- <th class="text-center">Tipo</th> -->
                         <th>Número</th>
-                        <th class="text-right">Régimen de percepción</th>
+                        <th class="text-left">Régimen de percepción</th>
                         <th class="text-right">Total</th>
-                        <th class="text-center">Descargas</th>
+                        <th class="text-right">Descargas</th>
                     <tr>
                     <tr slot-scope="{ index, row }" :class="{'text-danger': (row.state_type_id === '11')}">
                         <!-- <td>{{ index }}</td> -->
@@ -30,9 +30,9 @@
                         <td>{{ row.customer_name }} <br/> <small>{{ row.customer_number }}</small></td>
                         <!-- <td class="text-center">{{ row.document_type_short }}<br/> -->
                         <td>{{ row.number }}</td>
-                        <td class="text-right">{{ row.perception_type_description }}</td>
+                        <td class="text-left">{{ row.perception_type_description }}</td>
                         <td class="text-right">{{ row.total }}</td>
-                        <td class="text-center">
+                        <td class="text-right">
                             <button type="button" class="btn waves-effect waves-light btn-xs btn-info"
                                     @click.prevent="clickDownload(row.download_external_xml)">XML</button>
                             <button type="button" class="btn waves-effect waves-light btn-xs btn-info"

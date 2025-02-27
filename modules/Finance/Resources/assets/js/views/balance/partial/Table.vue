@@ -143,19 +143,19 @@
                             <!-- <th>#</th> -->
                             <th>Descripción</th>
                             <th v-if="resource !== 'finances/payment-method-types'"
-                                class="text-center">S. Inicial
+                                class="text-right">S. Inicial
                             </th>
-                            <th class="text-center">CPE</th>
-                            <th class="text-center">N. Venta</th>
-                            <th class="text-center">Cotización</th>
-                            <th class="text-center">Contrato</th>
-                            <th class="text-center">S. Técnico</th>
-                            <th class="text-center">Ingresos</th>
-                            <th class="text-center">Compras</th>
-                            <th class="text-center">Gastos</th>
-                            <th class="text-center">P. Bancarios</th>
-                            <th class="text-center">Pago P. Bancarios</th>
-                            <th class="text-center">Saldo</th>
+                            <th class="text-right">CPE</th>
+                            <th class="text-right">N. Venta</th>
+                            <th class="text-right">Cotización</th>
+                            <th class="text-right">Contrato</th>
+                            <th class="text-right">S. Técnico</th>
+                            <th class="text-right">Ingresos</th>
+                            <th class="text-right">Compras</th>
+                            <th class="text-right">Gastos</th>
+                            <th class="text-right">P. Bancarios</th>
+                            <th class="text-right">Pago P. Bancarios</th>
+                            <th class="text-right">Saldo</th>
 
                         </tr>
                         </thead>
@@ -164,20 +164,20 @@
                             <!-- <td class="">{{ index + 1 }}</td> -->
                             <td class="">{{ row.description }}</td>
                             <td v-if="resource !== 'finances/payment-method-types'"
-                                class="text-center">
+                                class="text-right">
                                 {{ row.initial_balance | DecimalText }}
                             </td>
-                            <td class="text-center">{{ row.document_payment | DecimalText }}</td>
-                            <td class="text-center">{{ row.sale_note_payment | DecimalText }}</td>
-                            <td class="text-center">{{ row.quotation_payment | DecimalText }}</td>
-                            <td class="text-center">{{ row.contract_payment | DecimalText }}</td>
-                            <td class="text-center">{{ row.technical_service_payment | DecimalText }}</td>
-                            <td class="text-center">{{ row.income_payment | DecimalText }}</td>
-                            <td class="text-center">{{ row.purchase_payment | DecimalText }}</td>
-                            <td class="text-center">{{ row.expense_payment | DecimalText }}</td>
-                            <td class="text-center">{{curencySymbol}} {{ row.bank_loan | DecimalText }}</td>
-                            <td class="text-center">{{curencySymbol}} {{ row.bank_loan_payment | DecimalText }}</td>
-                            <td class="text-center">{{curencySymbol}} {{ row.balance | DecimalText }}</td>
+                            <td class="text-right">{{ row.document_payment | DecimalText }}</td>
+                            <td class="text-right">{{ row.sale_note_payment | DecimalText }}</td>
+                            <td class="text-right">{{ row.quotation_payment | DecimalText }}</td>
+                            <td class="text-right">{{ row.contract_payment | DecimalText }}</td>
+                            <td class="text-right">{{ row.technical_service_payment | DecimalText }}</td>
+                            <td class="text-right">{{ row.income_payment | DecimalText }}</td>
+                            <td class="text-right">{{ row.purchase_payment | DecimalText }}</td>
+                            <td class="text-right">{{ row.expense_payment | DecimalText }}</td>
+                            <td class="text-right">{{curencySymbol}} {{ row.bank_loan | DecimalText }}</td>
+                            <td class="text-right">{{curencySymbol}} {{ row.bank_loan_payment | DecimalText }}</td>
+                            <td class="text-right">{{curencySymbol}} {{ row.balance | DecimalText }}</td>
                         </tr>
                         </tbody>
                         <tfoot>

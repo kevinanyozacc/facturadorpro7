@@ -64,10 +64,10 @@
                         <th v-if="columns.description.visible">Descripción</th>
                         <th v-if="columns.model.visible">Modelo</th>
                         <!-- <th v-if="columns.brand.visible">Marca</th>  -->
-                        <th v-if="columns.item_code.visible">Cód. SUNAT</th>
+                        <th class="text-right" v-if="columns.item_code.visible">Cód. SUNAT</th>
                         <!-- <th  class="text-left">Stock</th> -->
                         <th class="text-right">P.Unitario (Venta)</th>
-                        <th class="text-center">Tiene Igv</th>
+                        <th class="text-left">Tiene Igv</th>
                         <th class="text-right">Acciones</th>
                     </tr>
                     <tr slot-scope="{ index, row }">
@@ -77,7 +77,7 @@
                         <td>{{ row.description }}</td>
                         <td v-if="columns.description.visible">{{ row.name }}</td>
                         <td v-if="columns.model.visible">{{ row.model }}</td>
-                        <td v-if="columns.item_code.visible">{{ row.item_code }}</td>
+                        <td class="text-right" v-if="columns.item_code.visible">{{ row.item_code }}</td>
                         <!-- <td>
                             <template v-if="typeUser=='seller' && row.unit_type_id !='ZZ'">{{ row.stock }}</template>
                             <template v-else-if="typeUser!='seller'&& row.unit_type_id !='ZZ'">
@@ -85,7 +85,7 @@
                             </template>
                         </td> -->
                         <td class="text-right">{{ row.sale_unit_price }}</td>
-                        <td class="text-center">{{ row.has_igv_description }}</td>
+                        <td class="text-left    ">{{ row.has_igv_description }}</td>
                         <td class="text-right">
                             <template v-if="typeUser === 'admin'">
                                 <button type="button" class="btn waves-effect waves-light btn-xs btn-info"

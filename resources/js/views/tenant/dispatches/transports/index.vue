@@ -25,7 +25,7 @@
                         <th class="text-left">Modelo</th>
                         <th class="text-left">Marca</th>
                         <th class="text-left">Certificado de habilitación vehicular</th>
-                        <th class="text-center">Predeterminado</th>
+                        <th class="text-left">Predeterminado</th>
                         <th class="text-center">Estado</th>
                         <th class="text-right">Acciones</th>
                     </tr>
@@ -35,7 +35,7 @@
                         <td class="text-left">{{ row.model }}</td>
                         <td class="text-left">{{ row.brand }}</td>
                         <td class="text-left">{{ row.tuc }}</td>
-                        <td class="text-center">{{ row.is_default }}</td>
+                        <td class="text-left">{{ row.is_default }}</td>
                         <td class="text-center">
                             <el-switch v-model="row.is_active" @change="toggleActiveTransport(row)" />
                         </td>

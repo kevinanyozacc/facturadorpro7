@@ -22,7 +22,7 @@
                         <th>Estado</th>
                         <th class="text-right">T.Retención</th>
                         <th class="text-right">Total</th>
-                        <th class="text-center">Descargas</th>
+                        <th class="text-right">Descargas</th>
                     <tr>
                     <tr slot-scope="{ index, row }">
                         <!-- <td>{{ index }}</td> -->
@@ -34,7 +34,7 @@
                         </td>
                         <td class="text-right">{{ row.total_retention }}</td>
                         <td class="text-right">{{ row.total }}</td>
-                        <td class="text-center">
+                        <td class="text-right">
                             <button type="button" class="btn waves-effect waves-light btn-xs btn-info"
                                     @click.prevent="clickDownload(row.download_external_xml)">XML</button>
                             <button type="button" class="btn waves-effect waves-light btn-xs btn-info"

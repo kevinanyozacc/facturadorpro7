@@ -58,20 +58,20 @@
                     <tr slot="heading">
                         <!-- <th>#</th> -->
                         <th>Nombre</th>
-                        <th>Cód interno</th>
-                        <th class="text-right">Tipo de documento</th>
+                        <th class="text-right">Cód interno</th>
+                        <th class="text-left">Tipo de documento</th>
                         <th class="text-right">Número</th>
                         <th v-if="columns.person_type.visible === true" class="text-center">T. Cliente</th>
-                        <th v-if="columns.observation.visible === true" class="text-center">Observaciones</th>
-                        <th v-if="columns.zone.visible === true" class="text-center">Zona</th>
-                        <th v-if="columns.website.visible === true" class="text-center">WebSite</th>
-                        <th v-if="columns.credit_days.visible === true" class="text-center">Días de crédito</th>
-                        <th v-if="columns.seller.visible === true" class="text-center">Vendedor asignado</th>
-                        <th v-if="columns.email.visible === true" class="text-center">Correo</th>
-                        <th v-if="columns.telephone.visible === true" class="text-center">Telefono</th>
-                        <th v-if="columns.department.visible === true" class="text-center">Departamento</th>
-                        <th v-if="columns.province.visible === true" class="text-center">Provincia</th>
-                        <th v-if="columns.district.visible === true" class="text-center">Distrito</th>
+                        <th v-if="columns.observation.visible === true" class="text-left">Observaciones</th>
+                        <th v-if="columns.zone.visible === true" class="text-left">Zona</th>
+                        <th v-if="columns.website.visible === true" class="text-left">WebSite</th>
+                        <th v-if="columns.credit_days.visible === true" class="text-right">Días de crédito</th>
+                        <th v-if="columns.seller.visible === true" class="text-left">Vendedor asignado</th>
+                        <th v-if="columns.email.visible === true" class="text-left">Correo</th>
+                        <th v-if="columns.telephone.visible === true" class="text-right">Telefono</th>
+                        <th v-if="columns.department.visible === true" class="text-left">Departamento</th>
+                        <th v-if="columns.province.visible === true" class="text-left">Provincia</th>
+                        <th v-if="columns.district.visible === true" class="text-left">Distrito</th>
 
                         <th class="text-center" v-if="showAccumulatedPoints">Puntos acumulados</th>
 
@@ -80,20 +80,20 @@
                     <tr slot-scope="{ index, row }" :class="{ disable_color : !row.enabled}">
                         <!-- <td>{{ index }}</td> -->
                         <td>{{ row.name }}</td>
-                        <td>{{ row.internal_code }}</td>
-                        <td class="text-right">{{ row.document_type }}</td>
+                        <td class="text-right">{{ row.internal_code }}</td>
+                        <td class="text-left">{{ row.document_type }}</td>
                         <td class="text-right">{{ row.number }}</td>
                         <td v-if="columns.person_type.visible === true" class="text-left">{{ row.person_type }}</td>
                         <td v-if="columns.observation.visible === true" class="text-left">{{ row.observation }}</td>
                         <td v-if="columns.zone.visible === true" class="text-left">{{ (row.zone)?row.zone.name:'' }}</td>
                         <td v-if="columns.website.visible === true" class="text-left">{{ row.website }}</td>
-                        <td v-if="columns.credit_days.visible === true" class="text-center">{{ row.credit_days }}</td>
-                        <td v-if="columns.seller.visible === true " class="text-center">{{ (row.seller && row.seller.name)?row.seller.name:'' }}</td>
-                        <td v-if="columns.email.visible === true " class="text-center">{{ row.email }}</td>
-                        <td v-if="columns.telephone.visible === true " class="text-center">{{ row.telephone?row.telephone:'' }}</td>
-                        <td v-if="columns.department.visible === true " class="text-center">{{ (row.department)?row.department.description:'' }}</td>
-                        <td v-if="columns.province.visible === true " class="text-center">{{ (row.province)?row.province.description:'' }}</td>
-                        <td v-if="columns.district.visible === true " class="text-center">{{ (row.district)?row.district.description:'' }}</td>
+                        <td v-if="columns.credit_days.visible === true" class="text-right">{{ row.credit_days }}</td>
+                        <td v-if="columns.seller.visible === true " class="text-left">{{ (row.seller && row.seller.name)?row.seller.name:'' }}</td>
+                        <td v-if="columns.email.visible === true " class="text-left">{{ row.email }}</td>
+                        <td v-if="columns.telephone.visible === true " class="text-right">{{ row.telephone?row.telephone:'' }}</td>
+                        <td v-if="columns.department.visible === true " class="text-left">{{ (row.department)?row.department.description:'' }}</td>
+                        <td v-if="columns.province.visible === true " class="text-left">{{ (row.province)?row.province.description:'' }}</td>
+                        <td v-if="columns.district.visible === true " class="text-left">{{ (row.district)?row.district.description:'' }}</td>
 
                         <td v-if="showAccumulatedPoints" class="text-center">{{ row.accumulated_points }}</td>
 

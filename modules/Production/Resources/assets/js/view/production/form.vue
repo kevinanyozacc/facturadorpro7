@@ -124,9 +124,8 @@
                                     class="form-group"
                                 >
                                     <label class="control-label">Orden de producción</label>
-                                    <input
+                                    <el-input
                                         v-model="form.production_order"
-                                        class="form-control form-control-default"
                                         placeholder="Orden de producción"
                                         type="text"
                                     />

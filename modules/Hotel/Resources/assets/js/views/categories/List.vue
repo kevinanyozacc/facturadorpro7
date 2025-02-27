@@ -48,7 +48,7 @@
               <tr>
                 <!-- <th class="text-center">#</th> -->
                 <th>Nombre</th>
-                <th class="text-center">Visible</th>
+                <th class="text-left">Visible</th>
                 <th>Sucursal</th>
                 <th></th>
               </tr>
@@ -57,12 +57,12 @@
               <tr v-for="(item, index) in items" :key="item.id">
                 <!-- <td class="text-center">{{ (index+1) }}</td> -->
                 <td>{{ item.description }}</td>
-                <td class="text-center">
+                <td class="text-left">
                   <span v-if="item.active">Si</span>
                   <span v-else>No</span>
                 </td>
                 <td>{{ item.establishment_name }}</td>
-                <td class="text-center">
+                <td class="text-right">
                   <el-button type="success" @click="onEdit(item)">
                     <i class="fa fa-edit"></i>
                   </el-button>

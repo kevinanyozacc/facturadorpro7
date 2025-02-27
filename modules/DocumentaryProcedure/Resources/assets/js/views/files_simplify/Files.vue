@@ -226,7 +226,7 @@
                             <th>Cliente</th>
                             <th>Fecha/Hora registro</th>
                             <!--                            <th>Datos del cliente</th>-->
-                            <th>Ultimo número de seguimiento</th>
+                            <th class="text-right">Ultimo número de seguimiento</th>
                             <th>Etapa</th>
                             <th>Status de Etapa</th>
                             <th>Fecha de fin</th>
@@ -296,12 +296,12 @@
                                 {{ item.datetime_register }}
                             </td>
                             <!--                            <td>{{ item.sender.name }}</td>-->
-                            <td>{{ (item.last_guide && item.last_guide.guide) ? item.last_guide.guide : '' }}</td>
+                            <td class="text-right">{{ (item.last_guide && item.last_guide.guide) ? item.last_guide.guide : '' }}</td>
                             <td>
                                 <div v-if="item.last_guide && item.last_guide.doc_office && item.last_guide.doc_office.name"
                                      :style="'background-color:'+ item.last_guide.doc_office.color+
                                              ';font-size: 12px;'"
-                                     class="badge"
+                                     class="badge pl-0 text-left"
                                 >
                                     {{ item.last_guide.doc_office.name }}
                                 </div>

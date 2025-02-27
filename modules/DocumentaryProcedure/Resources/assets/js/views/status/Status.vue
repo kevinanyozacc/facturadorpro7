@@ -79,7 +79,7 @@
                         >
                             <!-- <td class="text-left">{{ index + 1 }}</td> -->
                             <td>{{ item.name }}</td>
-                            <td class="text-center">
+                            <td class="text-right">
                                 <el-button
                                     :disabled="loading"
                                     type="success"

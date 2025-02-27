@@ -151,16 +151,16 @@
                     <tr slot="heading"
                         width="100%">
                         <!-- <th>#</th> -->
-                        <th>ID</th>
-                        <th>Cód. Interno</th>
+                        <th class="text-right" style="max-width: 83px;">ID</th>
+                        <th class="text-right">Cód. Interno</th>
                         <th>Unidad</th>
                         <th>Imagen</th>
                         <th>Nombre</th>
                         <th v-if="columns.description.visible">Descripción</th>
                         <th v-if="columns.model.visible">Modelo</th>
                         <th v-if="columns.brand.visible">Marca</th>
-                        <th v-if="columns.item_code.visible">Cód. SUNAT</th>
-                        <th v-if="(columns.sanitary!== undefined && columns.sanitary.visible===true )">R.S.</th>
+                        <th class="text-right" v-if="columns.item_code.visible">Cód. SUNAT</th>
+                        <th class="text-right" v-if="(columns.sanitary!== undefined && columns.sanitary.visible===true )">R.S.</th>
                         <th v-if="(columns.cod_digemid!== undefined && columns.cod_digemid.visible===true )">DIGEMID
                         </th>
                         <template v-if="typeUser == 'admin'">
@@ -176,11 +176,11 @@
                             P.Unitario (Compra)
                         </th>
                         <th v-if="columns.real_unit_price.visible"
-                            class="text-center">P. venta
+                            class="text-right">P. venta
                         </th>
-                        <th class="text-center">Tiene Igv (Venta)</th>
+                        <th class="text-left">Tiene Igv (Venta)</th>
                         <th v-if="columns.purchase_has_igv_description.visible"
-                            class="text-center">Tiene Igv (Compra)
+                            class="text-left">Tiene Igv (Compra)
                         </th>
                         <th class="text-right"></th>
                     </tr>
@@ -191,8 +191,8 @@
                         :class="{ disable_color: !row.active }"
                     >
                         <!-- <td>{{ index }}</td> -->
-                        <td>{{ row.id }}</td> 
-                        <td>{{ row.internal_id }}</td>
+                        <td class="text-right">{{ row.id }}</td> 
+                        <td class="text-right">{{ row.internal_id }}</td>
                         <td>{{ row.unit_type_id }}</td>
                         <td><img :src="row.image_url_small" style="object-fit: contain;" alt width="32px" height="32px" />
                         </td>
@@ -200,12 +200,12 @@
                         <td v-if="columns.description.visible">{{ row.name }}</td>
                         <td v-if="columns.model.visible">{{ row.model }}</td>
                         <td v-if="columns.brand.visible">{{ row.brand }}</td>
-                        <td v-if="columns.item_code.visible">{{ row.item_code }}</td>
+                        <td class="text-right" v-if="columns.item_code.visible">{{ row.item_code }}</td>
                         <td v-if="(columns.sanitary!== undefined && columns.sanitary.visible===true )">{{
                                 row.sanitary
                                                                                                        }}
                         </td>
-                        <td v-if="(columns.cod_digemid!== undefined && columns.cod_digemid.visible===true )">
+                        <td class="text-right" v-if="(columns.cod_digemid!== undefined && columns.cod_digemid.visible===true )">
                             {{ row.cod_digemid }}
                         </td>
 
@@ -290,14 +290,14 @@
                             {{ row.purchase_unit_price }}
                         </td>
                         <td v-if="columns.real_unit_price.visible"
-                            class="text-center">
+                            class="text-right">
                             {{ row.sale_unit_price_with_igv }}
                         </td>
-                        <td class="text-center">
+                        <td class="text-left">
                             {{ row.has_igv_description }}
                         </td>
                         <td v-if="columns.purchase_has_igv_description.visible"
-                            class="text-center">
+                            class="text-left">
                             {{ row.purchase_has_igv_description }}
                         </td>
                         <td class="text-right">

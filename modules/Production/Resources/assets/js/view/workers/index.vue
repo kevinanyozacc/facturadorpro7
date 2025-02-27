@@ -23,18 +23,18 @@
                     <tr slot="heading">
                         <!-- <th>#</th> -->
                         <th>Nombre</th>
-                        <th class="text-center">Tipo de documento</th>
-                        <th class="text-center">Número</th>
-                        <th class="text-center">Fecha admisión</th>
+                        <th class="text-left">Tipo de documento</th>
+                        <th class="text-right">Número</th>
+                        <th class="text-left">Fecha admisión</th>
                         <th >Cargo</th>
                         <th class="text-right">Acciones</th>
                     </tr>
                     <tr slot-scope="{ index, row }">
                         <!-- <td>{{ index }}</td> -->
                         <td>{{ row.name }}</td>
-                        <td class="text-center">{{ row.document_type }}</td>
-                        <td class="text-center">{{ row.number }}</td> 
-                        <td class="text-center">{{ row.admission_date }}</td> 
+                        <td class="text-left">{{ row.document_type }}</td>
+                        <td class="text-right">{{ row.number }}</td> 
+                        <td class="text-left">{{ row.admission_date }}</td> 
                         <td >{{ row.occupation }}</td> 
                         <td class="text-right">
                             <div class="dropdown">
