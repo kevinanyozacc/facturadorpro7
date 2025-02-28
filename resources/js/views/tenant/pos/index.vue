@@ -586,7 +586,7 @@
                     <div class="row py-1 m-0 p-0">
                         <div class="col-12">
                             <table class="table table-sm table-borderless mb-0 pos-list-items">
-                                <tr v-for="(item, index) in form.items.slice().reverse()"  :key="index">
+                                <tr v-for="(item, index) in form.items" :key="index">
                                     <td class="">
                                         <p class="item-description">{{ item.item.description }}</p>
                                         <small>{{ item.unit_type_id }}</small><br>
