@@ -850,14 +850,14 @@
 
                 let amount_discount = this.total_global_discount
                 if(this.is_amount){
-                    amount_discount = this.configuration.global_discount_type_id === "02" && this.configuration.exact_discount ? (this.total_global_discount / 1.18) : this.total_global_discount;
+                    amount_discount = this.configuration.global_discount_type_id === "02" && this.configuration.exact_discount ? (this.total_global_discount / (1 + this.percentage_igv)) : this.total_global_discount;
                 }
 
                 let input_global_discount = parseFloat(amount_discount)
 
                 if (input_global_discount > 0)
                 {
-                    const percentage_igv = 18
+                    const percentage_igv = this.percentage_igv * 100
                     let base = (this.isGlobalDiscountBase) ? parseFloat(ctx.total_taxed) : parseFloat(ctx.total)
                     let amount = 0
                     let factor = 0

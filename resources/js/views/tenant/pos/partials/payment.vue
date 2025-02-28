@@ -820,7 +820,7 @@ export default {
             let input_global_discount = parseFloat(this.discount_amount);
             if(this.is_discount_amount) {
                 if ( (this.configuration.global_discount_type_id === "02") && this.configuration.exact_discount) {
-                    input_global_discount = parseFloat(this.discount_amount / 1.18) //input se usa para monto y porcentaje
+                    input_global_discount = parseFloat(this.discount_amount / (1 + this.percentageIgv)) //input se usa para monto y porcentaje
                 }
             }
 
