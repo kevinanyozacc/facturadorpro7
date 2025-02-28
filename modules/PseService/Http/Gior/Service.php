@@ -60,7 +60,6 @@ final class Service
             'body' => json_encode($body),
             'verify' => false,
         ]);
-
         $statusCode = $response->getStatusCode();
         $data = json_decode($response->getBody(), true);
 
@@ -159,12 +158,6 @@ final class Service
 
         $statusCode = $response->getStatusCode();
         $data = json_decode($response->getBody(), true);
-
-        // dd($response,$statusCode,$data);
-        Log::info("---PSE sendXmlSigned---");
-        Log::info($statusCode);
-        Log::info($data);
-        Log::info("---END PSE sendXmlSigned---");
 
         if($statusCode !== 200) {
             $error = Errors::getMessage($statusCode);

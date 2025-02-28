@@ -146,7 +146,8 @@ class ServiceDispatchController extends Controller
                         $has_cdr = true;
                         $download_external_cdr = $dispatch->download_external_cdr;
                         $this->uploadStorage($dispatch->filename, $response['cdr'], 'cdr_b64');
-                        $file_content_cdr = (new CdrRead())->getCrdContent($response['cdr']);
+                        // $file_content_cdr = (new CdrRead())->getCrdContent($response['cdr']);
+                        $file_content_cdr = base64_decode($response['cdr']);
                         $storage->uploadCdr($dispatch->filename, $file_content_cdr);
                         $cdr_content = $storage->getCdr($dispatch->filename);
                         $res['cdr_data'] = (new CdrRead())->getCdrData($cdr_content);
