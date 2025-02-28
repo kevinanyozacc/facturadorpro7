@@ -8,8 +8,8 @@
                 <li class="active"><span> Consulta de Notas de venta </span></li>
             </ol>
         </div>
-        <div class="card mb-0 pt-2 pt-md-0 tab-content-default row-new">
-            <div class="p-b-30">
+        <div class="card mb-0 pt-md-0 tab-content-default row-new">
+            <div class="">
                 <!-- <h3 class="my-0">Consulta de Notas de venta</h3> -->
     
                 <div class="data-table-visible-columns">

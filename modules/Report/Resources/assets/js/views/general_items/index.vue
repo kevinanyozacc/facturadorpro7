@@ -8,8 +8,8 @@
                 <li class="active"><span> Reporte general de productos </span></li>
             </ol>
         </div>
-        <div class="card mb-0 pt-2 pt-md-0 tab-content-default row-new">
-            <div class=" mb-4">
+        <div class="card mb-0 pt-md-0 tab-content-default row-new">
+            <div class="">
                 <!-- <h3 class="my-0">Reporte general de productos</h3> -->
     
                 <div class="data-table-visible-columns ">
@@ -22,6 +22,7 @@
                                 <el-checkbox
                                     v-model="column.visible"
                                     :disabled="column.disable"
+                                    @change="saveColumnVisibility"
                                 >{{ column.title }}</el-checkbox>
                             </el-dropdown-item>
                         </el-dropdown-menu>
@@ -183,7 +184,7 @@
             }
         },
         created(){
-
+            this.loadColumnVisibility();
         },
          mounted() {
 
@@ -205,8 +206,15 @@
 
         },
         methods: {
-
-
+            saveColumnVisibility() {
+                localStorage.setItem('columnVisibilityGeneralitems', JSON.stringify(this.columns));
+            },
+            loadColumnVisibility() {
+                const savedColumns = localStorage.getItem('columnVisibilityGeneralitems');
+                if (savedColumns) {
+                    this.columns = JSON.parse(savedColumns);
+                }
+            }
         }
     }
 </script>

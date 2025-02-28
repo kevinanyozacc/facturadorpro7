@@ -14,13 +14,22 @@
             </div> -->
             <div class="card mb-0">
                 <div class="card-body">
-    
+                    <div class="btn-filter-content">
+                        <el-button
+                            type="primary"
+                            class="btn-show-filter"
+                            :class="{ shift: isVisible }"
+                            @click="toggleInformation"
+                        >
+                            {{ isVisible ? "Ocultar filtros" : "Mostrar filtros" }}
+                        </el-button>
+                    </div>
                     <div class="row">
     
                         <div class="col-xl-12">
                             <section >
                             <div>
-                                <div class="row">
+                                <div class="row" v-if="isVisible">
                                     <div class="col-md-2" >
                                         <div class="form-group">
                                             <label class="control-label">Usuario</label>
@@ -288,6 +297,7 @@
         components: {ExpensePayments, PurchasePayments, DataTable},
         data() {
             return {
+                isVisible: false,
                 resource: 'finances/to-pay',
                 users: [],
                 form: {},
@@ -420,7 +430,9 @@
         },
 
         methods: {
-
+            toggleInformation(){
+                this.isVisible = !this.isVisible;
+            },
             clickDownloadPaymentMethod() {
                 let query = queryString.stringify({
                     ...this.form

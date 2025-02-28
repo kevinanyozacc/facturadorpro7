@@ -1,7 +1,17 @@
 <template>
     <div>
+        <div class="btn-filter-content">
+            <el-button
+                type="primary"
+                class="btn-show-filter"
+                :class="{ shift: isVisible }"
+                @click="toggleInformation"
+            >
+                {{ isVisible ? "Ocultar filtros" : "Mostrar filtros" }}
+            </el-button>
+        </div>
         <div class="row">
-            <div class="col-md-12 col-lg-12 col-xl-12 ">
+            <div class="col-md-12 col-lg-12 col-xl-12 " v-if="isVisible">
                 <div class="row mt-2 m-0 p-0">
                     <div class="col-md-3 form-modern">
                         <label class="control-label">
@@ -233,6 +243,7 @@ export default {
     },
     data() {
         return {
+            isVisible: false,
             loading_submit: false,
             loading_search: false,
             showDialogTransfer: false,
@@ -278,6 +289,9 @@ export default {
         await this.getRecords()
     },
     methods: {
+        toggleInformation(){
+            this.isVisible = !this.isVisible;
+        },
         ...mapActions([
             'loadConfiguration',
         ]),

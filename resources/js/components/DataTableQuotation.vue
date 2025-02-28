@@ -46,7 +46,7 @@
                     </div>
                 </div>
 
-            <div class="col-md-12 col-lg-12 col-xl-12 ">
+            <div class="col-md-12 col-lg-12 col-xl-12" v-if="isVisible">
 
                 <div class="row mt-2">
                         <div class="col-md-3 form-modern">

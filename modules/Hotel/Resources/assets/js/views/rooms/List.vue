@@ -26,7 +26,17 @@
         <h3 class="my-0">Listado de habitaciones</h3>
       </div> -->
       <div class="card-body">
-        <div class="row">
+        <div class="btn-filter-content mb-3">
+          <el-button
+              type="primary"
+              class="btn-show-filter"
+              :class="{ shift: isVisible }"
+              @click="toggleInformation"
+          >
+              {{ isVisible ? "Ocultar filtros" : "Mostrar filtros" }}
+          </el-button>
+        </div>
+        <div class="row" v-if="isVisible">
           <div v-if="userType==='admin'" class="col-12 col-md-3 mb-3">
             <div class="form-group">
               <select
@@ -244,6 +254,7 @@ export default {
   },
   data() {
     return {
+      isVisible: false,
       items: [],
       categories: [],
       floors: [],
@@ -276,6 +287,9 @@ export default {
     this.getTables()
   },
   methods: {
+    toggleInformation(){
+      this.isVisible = !this.isVisible;
+    },
     onFilter() {
       this.loading = true;
       const params = this.filter;

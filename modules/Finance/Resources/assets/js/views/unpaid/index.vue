@@ -9,30 +9,40 @@
             </ol>
         </div>
         <div class="card tab-content-default row-new mb-0 pt-2 pt-md-0">
-            <div class="">
+            <div class="h-auto">
                 <!-- <h3 class="my-0">Cuentas por cobrar</h3> -->
-                <div class="data-table-visible-columns" style="top: 10px;">
+                <div class="d-flex justify-content-between pl-3 pt-3 pr-3 pb-0">
+                    <div class="btn-filter-content">
+                        <el-button
+                            type="primary"
+                            class="btn-show-filter"
+                            :class="{ shift: isVisible }"
+                            @click="toggleInformation"
+                        >
+                            {{ isVisible ? "Ocultar filtros" : "Mostrar filtros" }}
+                        </el-button>
+                    </div>
                     <el-dropdown :hide-on-click="false">
                         <el-button type="primary">
                             Mostrar/Ocultar columnas<i class="el-icon-arrow-down el-icon--right"></i>
                         </el-button>
                         <el-dropdown-menu slot="dropdown">
                             <el-dropdown-item v-for="(column, index) in columns" :key="index">
-                                <el-checkbox v-model="column.visible">{{ column.title }}</el-checkbox>
+                                <el-checkbox v-model="column.visible" @change="saveColumnVisibility">{{ column.title }}</el-checkbox>
                             </el-dropdown-item>
                         </el-dropdown-menu>
                     </el-dropdown>
                 </div>
             </div>
-            <div class="card mb-0 mt-3">
+            <div class="card mb-0">
                 <div class="card-body">
     
                     <div class="row">
     
                         <div class="col-xl-12">
                             <section >
-                            <div>
-                                <div class="row">
+                            <div>                                
+                                <div class="row" v-if="isVisible">
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label class="control-label">Sucursal</label>
@@ -435,6 +445,7 @@
         components: {DocumentPayments, SaleNotePayments},
         data() {
             return {
+                isVisible: false,
                 resource: 'finances/unpaid',
                 form: {},
                 customers: [],
@@ -477,6 +488,7 @@
             }
         },
         async created() {
+            this.loadColumnVisibility();
 
             this.$eventHub.$on("reloadDataUnpaid", () => {
                 this.loadUnpaid();
@@ -585,6 +597,18 @@
         },
 
         methods: {
+            toggleInformation(){
+                this.isVisible = !this.isVisible;
+            },
+            saveColumnVisibility() {
+                localStorage.setItem('columnVisibilityUnpaid', JSON.stringify(this.columns));
+            },
+            loadColumnVisibility() {
+                const savedColumns = localStorage.getItem('columnVisibilityUnpaid');
+                if (savedColumns) {
+                    this.columns = JSON.parse(savedColumns);
+                }
+            },
             changePaymentMethodType(){
                 this.loadUnpaid()
             },

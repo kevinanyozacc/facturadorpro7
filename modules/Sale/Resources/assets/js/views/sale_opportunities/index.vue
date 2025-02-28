@@ -17,7 +17,7 @@
                     </el-button>
                     <el-dropdown-menu slot="dropdown">
                         <el-dropdown-item v-for="(column, index) in columns" :key="index">
-                            <el-checkbox v-model="column.visible">{{ column.title }}</el-checkbox>
+                            <el-checkbox v-model="column.visible" @change="saveColumnVisibility">{{ column.title }}</el-checkbox>
                         </el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
@@ -190,8 +190,18 @@
             }
         },
         created() {
+            this.loadColumnVisibility();
         },
         methods: {
+            saveColumnVisibility() {
+                localStorage.setItem('columnVisibility', JSON.stringify(this.columns));
+            },
+            loadColumnVisibility() {
+                const savedColumns = localStorage.getItem('columnVisibility');
+                if (savedColumns) {
+                    this.columns = JSON.parse(savedColumns);
+                }
+            },
             clickDownloadFile(filename) {
                 window.open(
                     `/${this.resource}/download-file/${filename}`,

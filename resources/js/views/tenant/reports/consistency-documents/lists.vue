@@ -19,7 +19,7 @@
                     </el-button>
                     <el-dropdown-menu slot="dropdown">
                         <el-dropdown-item v-for="(column, index) in columns" :key="index">
-                            <el-checkbox v-model="column.visible">{{ column.title }}</el-checkbox>
+                            <el-checkbox v-model="column.visible" @change="saveColumnVisibility">{{ column.title }}</el-checkbox>
                         </el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
@@ -153,11 +153,21 @@
                 }
         },
         created() {
+            this.loadColumnVisibility();
             this.minDate = new Date(this.minDate.getFullYear(), this.minDate.getMonth(), 1);
             this.form.date_start[0] = this.minDate;
             this.refresh();
         },
         methods: {
+            saveColumnVisibility() {
+                localStorage.setItem('columnVisibilityConsistencydocuments', JSON.stringify(this.columns));
+            },
+            loadColumnVisibility() {
+                const savedColumns = localStorage.getItem('columnVisibilityConsistencydocuments');
+                if (savedColumns) {
+                    this.columns = JSON.parse(savedColumns);
+                }
+            },
             refresh() {
                 this.loading_submit = true;
                 this.$http.post(`/${this.resource}/lists`, this.form)

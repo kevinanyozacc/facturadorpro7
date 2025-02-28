@@ -1,10 +1,20 @@
 <template>
     <div v-loading="loading">
+        <div class="btn-filter-content">
+            <el-button
+                type="primary"
+                class="btn-show-filter"
+                :class="{ shift: isVisible }"
+                @click="toggleInformation"
+            >
+                {{ isVisible ? "Ocultar filtros" : "Mostrar filtros" }}
+            </el-button>
+        </div>
         <div class="row">
 
             <div class="col-md-12 col-lg-12 col-xl-12 ">
 
-                <div class="row mt-2">
+                <div class="row mt-2" v-if="isVisible">
                         <div class="col-md-3 form-modern">
                             <label class="control-label">Periodo
                                 <el-tooltip class="item" effect="dark" content="Filtra por fecha de pago" placement="top-start">
@@ -145,6 +155,7 @@
         },
         data () {
             return {
+                isVisible: false,
                 loading_submit:false,
                 loading_search:false,
                 loading: false,
@@ -194,6 +205,9 @@
 
         },
         methods: {
+            toggleInformation(){
+                this.isVisible = !this.isVisible;
+            },
             initTotals(){
 
                 this.totals = {

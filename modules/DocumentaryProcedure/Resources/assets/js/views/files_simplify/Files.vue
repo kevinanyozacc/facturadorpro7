@@ -40,8 +40,18 @@
                 <h3 class="my-0">Todos los tramites</h3>
             </div> -->
             <div class="card-body">
+                <div class="btn-filter-content mb-3">
+                    <el-button
+                        type="primary"
+                        class="btn-show-filter"
+                        :class="{ shift: isVisible }"
+                        @click="toggleInformation"
+                    >
+                        {{ isVisible ? "Ocultar filtros" : "Mostrar filtros" }}
+                    </el-button>
+                </div>
                 <form class="row"
-                      @submit.prevent="onFilter">
+                      @submit.prevent="onFilter" v-if="isVisible">
 
                     <div class="col-6 col-md-4 mb-3">
                         <el-select
@@ -506,6 +516,7 @@ export default {
     },
     data() {
         return {
+            isVisible: false,
             showModalDerive: false,
             showModalStage: false,
             showStageModalObservationStage: false,
@@ -555,6 +566,9 @@ export default {
 
     },
     methods: {
+        toggleInformation(){
+            this.isVisible = !this.isVisible;
+        },
         ...mapActions([
             'loadOffices',
             'loadActions',

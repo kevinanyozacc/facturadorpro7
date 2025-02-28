@@ -154,7 +154,7 @@
                         <th class="text-right">T.Gravado</th>
                         <th class="text-right">T.Igv</th>
                         <th class="text-right" v-if="columns.total.visible">Total</th>
-                        <th class="text-center" v-if="columns.balance.visible">Saldo</th>
+                        <th class="text-right" v-if="columns.balance.visible">Saldo</th>
                         <th class="text-center" style="min-width: 95px;" v-if="columns.purchase_order.visible">Orden de
                             compra
                         </th>

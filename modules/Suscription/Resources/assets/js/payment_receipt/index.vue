@@ -39,7 +39,7 @@
                     <el-dropdown-menu slot="dropdown">
                         <el-dropdown-item v-for="(column, index) in columns"
                                           :key="index">
-                            <el-checkbox v-model="column.visible">{{ column.title }}</el-checkbox>
+                            <el-checkbox v-model="column.visible" @change="saveColumnVisibility">{{ column.title }}</el-checkbox>
                         </el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
@@ -493,6 +493,7 @@ export default {
         }
     },
     created() {
+        this.loadColumnVisibility();
         this.loadConfiguration()
         this.$store.commit('setConfiguration', this.configuration)
     },
@@ -515,6 +516,15 @@ export default {
         }
     },
     methods: {
+        saveColumnVisibility() {
+            localStorage.setItem('columnVisibilitySchoolreceipt', JSON.stringify(this.columns));
+        },
+        loadColumnVisibility() {
+            const savedColumns = localStorage.getItem('columnVisibilitySchoolreceipt');
+            if (savedColumns) {
+                this.columns = JSON.parse(savedColumns);
+            }
+        },
         ...mapActions([
             'loadConfiguration',
         ]),

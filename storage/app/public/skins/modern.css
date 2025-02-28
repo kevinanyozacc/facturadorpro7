@@ -551,10 +551,24 @@ div.card-header {
     border-radius: 8px !important;
 }
 
-html.fixed.sidebar-white .sidebar-left, html.fixed.sidebar-white .sidebar-header, html.fixed.sidebar-white .sidebar-left .nano {
-    background-color: #f3f4fb !important;
+html.fixed.sidebar-white .sidebar-left, 
+html.fixed.sidebar-white .sidebar-header, 
+html.fixed.sidebar-white .sidebar-left .nano, 
+html.dark .el-tabs__content{
+    background-color: #283046;
     box-shadow: none;
-    border-right: 1px solid #E0E6F7;
+    border-right: 1px solid #283046;
+}
+html.dark .tab-content {
+    background-color: #283046;
+    border: 1px solid #161d31;
+}
+html.dark .el-input__inner, html.dark .el-textarea__inner {
+    color: #f5f5f5;
+    background-color: #f2f4fa61;
+}
+html.dark .card.card-reports .card-title {
+    background: #161d31;
 }
 div.el-tab-pane {
     padding: 4px;
@@ -582,4 +596,17 @@ div.el-tab-pane {
 
 tbody tr:hover:not(:last-child) {
     background: #fafbfd;
+}
+@media only screen and (min-width: 391px){
+    .card-body-invoice div .row .filter-invoice{
+        padding: 0 15px !important;
+    }
+    .card-body-invoice .btn-show-filter-invoice{
+        margin-left: 15px !important;
+    }
+}
+@media only screen and (max-width: 390px){
+    .card-body-invoice div .row .filter-invoice .content-filter-invoice{
+        padding: 0 15px !important;
+    }
 }

@@ -32,94 +32,105 @@
                 </h3>
             </div> -->
             <div class="card-body">
-
+                <div class="btn-filter-content mb-1">
+                    <el-button
+                        type="primary"
+                        class="btn-show-filter"
+                        :class="{ shift: isVisible }"
+                        @click="toggleInformation"
+                    >
+                        {{ isVisible ? "Ocultar filtros" : "Mostrar filtros" }}
+                    </el-button>
+                </div>
                 <div class="row">
-                    <div class="col-md-3">
-                        <label class="control-label">Fecha de envio</label>
-                        <el-select v-model="form.period"
-                                   @change="changePeriod">
-                            <el-option key="month"
-                                       label="Por mes"
-                                       value="month"></el-option>
-                            <el-option key="between_months"
-                                       label="Entre meses"
-                                       value="between_months"></el-option>
-                            <el-option key="date"
-                                       label="Por fecha"
-                                       value="date"></el-option>
-                            <el-option key="between_dates"
-                                       label="Entre fechas"
-                                       value="between_dates"></el-option>
-                        </el-select>
-                    </div>
-                    <template v-if="form.period === 'month' || form.period === 'between_months'">
-                        <div class="col-md-3">
-                            <label class="control-label">Mes de</label>
-                            <el-date-picker v-model="form.month_start"
-                                            :clearable="false"
-                                            format="MM/yyyy"
-                                            type="month"
-                                            value-format="yyyy-MM"
-                                            @change="changeDisabledMonths"></el-date-picker>
+                    <div class="row" v-if="isVisible">
+                        <div class="col-md-4">
+                            <label class="control-label">Fecha de envio</label>
+                            <el-select v-model="form.period"
+                                       @change="changePeriod">
+                                <el-option key="month"
+                                           label="Por mes"
+                                           value="month"></el-option>
+                                <el-option key="between_months"
+                                           label="Entre meses"
+                                           value="between_months"></el-option>
+                                <el-option key="date"
+                                           label="Por fecha"
+                                           value="date"></el-option>
+                                <el-option key="between_dates"
+                                           label="Entre fechas"
+                                           value="between_dates"></el-option>
+                            </el-select>
                         </div>
-                    </template>
-                    <template v-if="form.period === 'between_months'">
-                        <div class="col-md-3">
-                            <label class="control-label">Mes al</label>
-                            <el-date-picker v-model="form.month_end"
-                                            :clearable="false"
-                                            :picker-options="pickerOptionsMonths"
-                                            format="MM/yyyy"
-                                            type="month"
-                                            value-format="yyyy-MM"></el-date-picker>
+                        <template v-if="form.period === 'month' || form.period === 'between_months'">
+                            <div class="col-md-4">
+                                <label class="control-label">Mes de</label>
+                                <el-date-picker v-model="form.month_start"
+                                                :clearable="false"
+                                                format="MM/yyyy"
+                                                type="month"
+                                                value-format="yyyy-MM"
+                                                @change="changeDisabledMonths"></el-date-picker>
+                            </div>
+                        </template>
+                        <template v-if="form.period === 'between_months'">
+                            <div class="col-md-4">
+                                <label class="control-label">Mes al</label>
+                                <el-date-picker v-model="form.month_end"
+                                                :clearable="false"
+                                                :picker-options="pickerOptionsMonths"
+                                                format="MM/yyyy"
+                                                type="month"
+                                                value-format="yyyy-MM"></el-date-picker>
+                            </div>
+                        </template>
+                        <template v-if="form.period === 'date' || form.period === 'between_dates'">
+                            <div class="col-md-4">
+                                <label class="control-label">Fecha del</label>
+                                <el-date-picker v-model="form.date_start"
+                                                :clearable="false"
+                                                format="dd/MM/yyyy"
+                                                type="date"
+                                                value-format="yyyy-MM-dd"
+                                                @change="changeDisabledDates"></el-date-picker>
+                            </div>
+                        </template>
+                        <template v-if="form.period === 'between_dates'">
+                            <div class="col-md-4">
+                                <label class="control-label">Fecha al</label>
+                                <el-date-picker v-model="form.date_end"
+                                                :clearable="false"
+                                                :picker-options="pickerOptionsDates"
+                                                format="dd/MM/yyyy"
+                                                type="date"
+                                                value-format="yyyy-MM-dd"></el-date-picker>
+                            </div>
+                        </template>
+                        <div class="col-12 mt-4">
+                            <el-button :loading="loading_submit"
+                                       class="submit"
+                                       icon="el-icon-search"
+                                       type="primary"
+                                       @click.prevent="getRecordsByFilter">Buscar
+                            </el-button>
+    
+    
+                            <!--                        <el-button class="submit" type="danger"  icon="el-icon-tickets" @click.prevent="clickDownloadPdf()" >Exportar PDF</el-button>-->
+    
+                            <el-button class="submit"
+                                       type="success"
+                                       @click.prevent="clickDownloadExcel()"><i class="fa fa-file-excel"></i> Exportal Excel
+                                                                                                              (Productos
+                                                                                                              fabricados)
+                            </el-button>
+                            <el-button class="submit"
+                                       type="success"
+                                       @click.prevent="clickDownloadExcel2()"><i class="fa fa-file-excel"></i> Exportal
+                                                                                                               Excel
+                                                                                                               (Productos en
+                                                                                                               proceso)
+                            </el-button>
                         </div>
-                    </template>
-                    <template v-if="form.period === 'date' || form.period === 'between_dates'">
-                        <div class="col-md-3">
-                            <label class="control-label">Fecha del</label>
-                            <el-date-picker v-model="form.date_start"
-                                            :clearable="false"
-                                            format="dd/MM/yyyy"
-                                            type="date"
-                                            value-format="yyyy-MM-dd"
-                                            @change="changeDisabledDates"></el-date-picker>
-                        </div>
-                    </template>
-                    <template v-if="form.period === 'between_dates'">
-                        <div class="col-md-3">
-                            <label class="control-label">Fecha al</label>
-                            <el-date-picker v-model="form.date_end"
-                                            :clearable="false"
-                                            :picker-options="pickerOptionsDates"
-                                            format="dd/MM/yyyy"
-                                            type="date"
-                                            value-format="yyyy-MM-dd"></el-date-picker>
-                        </div>
-                    </template>
-                    <div class="col-12 mt-4">
-                        <el-button :loading="loading_submit"
-                                   class="submit"
-                                   icon="el-icon-search"
-                                   type="primary"
-                                   @click.prevent="getRecordsByFilter">Buscar
-                        </el-button>
-
-
-                        <!--                        <el-button class="submit" type="danger"  icon="el-icon-tickets" @click.prevent="clickDownloadPdf()" >Exportar PDF</el-button>-->
-
-                        <el-button class="submit"
-                                   type="success"
-                                   @click.prevent="clickDownloadExcel()"><i class="fa fa-file-excel"></i> Exportal Excel
-                                                                                                          (Productos
-                                                                                                          fabricados)
-                        </el-button>
-                        <el-button class="submit"
-                                   type="success"
-                                   @click.prevent="clickDownloadExcel2()"><i class="fa fa-file-excel"></i> Exportal
-                                                                                                           Excel
-                                                                                                           (Productos en
-                                                                                                           proceso)
-                        </el-button>
                     </div>
                     <div class="col-12 p-t-20 table-responsive">
                         <table class="table">
@@ -218,6 +229,7 @@ export default {
     },
     data() {
         return {
+            isVisible: false,
             can_add_new_product: false,
             showDialog: false,
             loading_submit: false,
@@ -303,6 +315,9 @@ export default {
 
     },
     methods: {
+        toggleInformation(){
+            this.isVisible = !this.isVisible;
+        },
         ...mapActions([
             'loadConfiguration',
         ]),

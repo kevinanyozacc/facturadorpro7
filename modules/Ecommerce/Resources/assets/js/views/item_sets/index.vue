@@ -47,7 +47,7 @@
                         <el-dropdown-item v-for="(column, index) in columnsComputed" :key="index">
                             <el-checkbox
                                 v-if="column.title !== undefined && column.visible !== undefined"
-                                v-model="column.visible"
+                                v-model="column.visible" @change="saveColumnVisibility"
                             >{{ column.title }}
                             </el-checkbox>
                         </el-dropdown-item>
@@ -174,6 +174,7 @@ export default {
         }
     },
     created() {
+        this.loadColumnVisibility();
         this.loadConfiguration()
         this.$store.commit('setConfiguration', this.configuration)
         if (this.config.is_pharmacy !== true) {
@@ -182,6 +183,15 @@ export default {
 
     },
     methods: {
+        saveColumnVisibility() {
+            localStorage.setItem('columnVisibilityEcommerceitems', JSON.stringify(this.columns));
+        },
+        loadColumnVisibility() {
+            const savedColumns = localStorage.getItem('columnVisibilityEcommerceitems');
+            if (savedColumns) {
+                this.columns = JSON.parse(savedColumns);
+            }
+        },
         ...mapActions([
             'loadConfiguration',
         ]),

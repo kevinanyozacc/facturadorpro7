@@ -8,8 +8,8 @@
                 <li class="active"><span> Consulta de Documentos </span></li>
             </ol>
         </div>
-        <div class="card mb-0 pt-2 pt-md-0 tab-content-default row-new">
-            <div class="mb-4">
+        <div class="card mb-0 pt-md-0 tab-content-default row-new">
+            <div class="">
                 <!-- <h3 class="my-0">Consulta de Documentos</h3> -->
                 <div class="data-table-visible-columns" style="top: 10px;">
                     <el-dropdown :hide-on-click="false">

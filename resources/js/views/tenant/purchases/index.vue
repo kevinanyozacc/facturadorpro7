@@ -21,7 +21,7 @@
                     </el-button>
                     <el-dropdown-menu slot="dropdown">
                         <el-dropdown-item v-for="(column, index) in columns" :key="index">
-                            <el-checkbox v-model="column.visible">{{ column.title }}</el-checkbox>
+                            <el-checkbox v-model="column.visible" @change="saveColumnVisibility">{{ column.title }}</el-checkbox>
                         </el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
@@ -278,6 +278,7 @@ import {mapActions, mapState} from 'vuex'
             ]),
         },
         async created() {
+            this.loadColumnVisibility();
             this.$store.commit('setConfiguration',this.configuration)
             this.$store.commit('setTypeUser',this.typeUser)
             await this.$http.get(`/${this.resource}/tables`)
@@ -287,6 +288,15 @@ import {mapActions, mapState} from 'vuex'
             this.getDocumentTypes()
         },
         methods: {
+            saveColumnVisibility() {
+                localStorage.setItem('columnVisibilityPurchases', JSON.stringify(this.columns));
+            },
+            loadColumnVisibility() {
+                const savedColumns = localStorage.getItem('columnVisibilityPurchases');
+                if (savedColumns) {
+                    this.columns = JSON.parse(savedColumns);
+                }
+            },
             getItemDescription(scope)
             {
                 return scope.row.name_product_pdf ? scope.row.name_product_pdf :scope.row.description

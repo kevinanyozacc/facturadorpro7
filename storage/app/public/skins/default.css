@@ -1585,8 +1585,12 @@ html.dark,
 html.dark body {
     background-color: var(--background-dark);
 }
-html.dark .card-body {
+html.dark .card-body,
+html.dark .el-date-table td.in-range div {
     background: var(--contents-dark);
+}
+html.dark .el-date-table td.in-range div:hoverf{
+    background-color: var(--accent-color);
 }
 html.dark .sidebar-toggle {
     border: none;
@@ -1712,10 +1716,12 @@ html.dark .form-period label.control-label:has(+div) {
     color: var(--accent-color);
 }
 html.dark .el-input__inner,
-html.dark .el-textarea__inner {
+html.dark .el-textarea__inner,
+html.dark .el-message-box__title {
     color: var(--light-color);
 }
-html.dark .el-select-dropdown{
+html.dark .el-select-dropdown,
+html.dark .el-message-box {
     border: solid 1px var(--borders-dark);
     background-color: var(--contents-dark);
 }
@@ -2334,7 +2340,8 @@ html.dark .clearfix-default,
 html.dark .invoice header {
     border-bottom: 1px solid var(--borders-dark) !important;
 }
-html.dark .card-extras{
+html.dark .card-extras,
+html.dark .form-control-default{
     border: 1px solid var(--borders-dark) !important;
 }
 html.dark .upload-demo-default{
@@ -2450,5 +2457,10 @@ html.dark .el-input-number__increase, html.dark .el-input-number__decrease {
 }
 html.dark .input-custom .el-input-number__increase {
     top: 1px;
+}
+html.dark .el-pagination .btn-prev, html.dark .el-pagination .btn-next {
+    background: var(--button-second);
+    border: 1px solid var(--borders-dark);
+    color: var(--accent-color);
 }
 /* end */

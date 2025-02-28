@@ -25,8 +25,17 @@
         </div>
         <div class="card tab-content-default row-new mb-0">
             <div class="card-body">
-
-                <div class="row">
+                <div class="btn-filter-content mb-1">
+                    <el-button
+                        type="primary"
+                        class="btn-show-filter"
+                        :class="{ shift: isVisible }"
+                        @click="toggleInformation"
+                    >
+                        {{ isVisible ? "Ocultar filtros" : "Mostrar filtros" }}
+                    </el-button>
+                </div>
+                <div class="row" v-if="isVisible">
                     <div class="col-md-3">
                         <label class="control-label">Fecha de envio</label>
                         <el-select v-model="form.period"
@@ -213,6 +222,7 @@ export default {
     },
     data() {
         return {
+            isVisible: false,
             showDialogVoided: false,
             resource: 'mill-production',
             loading_submit: false,
@@ -231,6 +241,9 @@ export default {
         this.getRecords()
     },
     methods: {
+        toggleInformation(){
+            this.isVisible = !this.isVisible;
+        },
         ...mapActions([
             'loadConfiguration',
         ]),

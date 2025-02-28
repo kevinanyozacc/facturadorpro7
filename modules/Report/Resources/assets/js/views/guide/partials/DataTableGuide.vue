@@ -1,8 +1,18 @@
 <template>
     <div>
+        <div class="btn-filter-content">
+            <el-button
+                type="primary"
+                class="btn-show-filter"
+                :class="{ shift: isVisible }"
+                @click="toggleInformation"
+            >
+                {{ isVisible ? "Ocultar filtros" : "Mostrar filtros" }}
+            </el-button>
+        </div>
         <div class="row">
 
-            <div class="col-md-12 col-lg-12 col-xl-12 ">
+            <div class="col-md-12 col-lg-12 col-xl-12 " v-if="isVisible">
 
                 <div class="row mt-2">
 
@@ -296,6 +306,7 @@ export default {
     },
     data() {
         return {
+            isVisible: false,
             filter_range:false,
             showDialog: false,
             loading_submit: false,
@@ -357,7 +368,9 @@ export default {
 
     },
     methods: {
-
+        toggleInformation(){
+            this.isVisible = !this.isVisible;
+        },
         clickTotalByItem() {
             this.showDialog = true
         },
