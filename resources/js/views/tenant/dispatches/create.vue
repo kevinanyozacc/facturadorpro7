@@ -214,9 +214,13 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <div :class="{ 'has-danger': errors.origin_address_id }" class="form-group">
-                                    <label class="control-label">Punto de partida<span class="text-danger"> *</span>
-                                        <a href="#"
-                                           @click.prevent="showDialogOriginAddressForm = true">[+ Nuevo]</a>
+                                    <label class="control-label">
+                                        <span v-show="form.transfer_reason_type_id != '02'">Punto de partida</span>
+                                        <span v-show="form.transfer_reason_type_id == '02'">Punto de llegada</span>
+                                        <span class="text-danger"> *</span>
+                                        <a href="#" @click.prevent="showDialogOriginAddressForm = true">
+                                            [+ Nuevo]
+                                        </a>
                                     </label>
                                     <el-select v-model="form.origin_address_id" placeholder="Seleccionar punto de partida">
                                         <el-option v-for="option in origin_addresses" :key="option.id"
@@ -230,9 +234,12 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <div :class="{ 'has-danger': errors.delivery_address_id }" class="form-group">
-                                    <label class="control-label">Punto de llegada<span class="text-danger"> *</span>
-                                        <a href="#" v-if="form.customer_id"
-                                            @click.prevent="showDialogDeliveryAddressForm = true">[+ Nuevo]</a>
+                                    <label class="control-label">
+                                        <span v-show="form.transfer_reason_type_id != '02'">Punto de llegada</span>
+                                        <span v-show="form.transfer_reason_type_id == '02'">Punto de partida</span>
+                                        <span class="text-danger"> *</span>
+                                            <a href="#" v-if="form.customer_id"
+                                                @click.prevent="showDialogDeliveryAddressForm = true">[+ Nuevo]</a>
                                     </label>
                                     <el-select v-model="form.delivery_address_id"
                                         placeholder="Seleccionar punto de llegada">

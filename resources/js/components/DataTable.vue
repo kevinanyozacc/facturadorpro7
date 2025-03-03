@@ -90,7 +90,7 @@
             <div class="col-md-4 col-lg-4 col-xl-4" v-if="fromRestaurant||fromEcommerce">
                 <div class="d-flex">
                     <div style="width:160px">
-                        Hacer visiblie todo los productos
+                        Hacer visible todos los productos
                         <el-tooltip class="item" content="Unicamente se hará visiblie si tiene codigo interno"
                             effect="dark" placement="top-start">
                             <i class="fa fa-info-circle"></i>

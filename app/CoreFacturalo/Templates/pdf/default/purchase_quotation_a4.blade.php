@@ -70,6 +70,7 @@
     <tr class="bg-grey">
         <th class="border-top-bottom text-center py-2" width="10%">CANT.</th>
         <th class="border-top-bottom text-center py-2" width="10%">UNIDAD</th>
+        <th class="border-top-bottom text-center py-2" width="10%">MODELO</th>
         <th class="border-top-bottom text-left py-2" width="80%">DESCRIPCIÓN</th>
     </tr>
     </thead>
@@ -89,6 +90,7 @@
 
             </td>
         </tr>
+        <td class="text-center align-top">{{ $row->item->model }}</td>
         <tr>
             <td colspan="6" class="border-bottom"></td>
         </tr>

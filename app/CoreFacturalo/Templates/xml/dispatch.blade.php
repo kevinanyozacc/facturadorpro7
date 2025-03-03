@@ -74,7 +74,7 @@
                 <cbc:ID schemeURI="urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo06"
                         schemeAgencyName="PE:SUNAT"
                         schemeName="Documento de Identidad"
-                        schemeID="{{ $document['customer_identity_document_type_id'] }}">{{ $document['customer_number'] }}</cbc:ID>
+                        schemeID="{{ $document['customer_identity_document_type_id'] }}">{{$document['transfer_reason_type_id']!='02'?$document['customer_number']:$document['company_number']}}</cbc:ID>
             </cac:PartyIdentification>
             <cac:PartyLegalEntity>
                 <cbc:RegistrationName><![CDATA[{{ $document['customer_name'] }}]]></cbc:RegistrationName>
@@ -167,37 +167,69 @@
             @endif
         </cac:ShipmentStage>
         <cac:Delivery>
+            @if($document['transfer_reason_type_id'] != '02')
             <!-- DIRECCION DEL PUNTO DE LLEGADA -->
-            <cac:DeliveryAddress>
-                <!-- UBIGEO DE LLEGADA -->
-                <cbc:ID schemeAgencyName="PE:INEI"
-                        schemeName="Ubigeos">{{ $document['delivery_location_id'] }}</cbc:ID>
-                <!-- CODIGO DE ESTABLECIMIENTO ANEXO DE LLEGADA -->
-                @if($document['customer_identity_document_type_id'] === '6')
-                <cbc:AddressTypeCode listAgencyName="PE:SUNAT"
-                                     listName="Establecimientos anexos"
-                                     listID="{{ $document['customer_number'] }}">{{ $document['delivery_code'] }}</cbc:AddressTypeCode>
-                @endif
-                <cac:AddressLine>
-                    <cbc:Line><![CDATA[{{ $document['delivery_address'] }}]]></cbc:Line>
-                </cac:AddressLine>
-            </cac:DeliveryAddress>
-            <cac:Despatch>
-                <!-- DIRECCION DEL PUNTO DE PARTIDA -->
-                <cac:DespatchAddress>
-                    <!-- UBIGEO DE PARTIDA -->
+                <cac:DeliveryAddress>
+                    <!-- UBIGEO DE LLEGADA -->
+                    <cbc:ID schemeAgencyName="PE:INEI"
+                            schemeName="Ubigeos">{{ $document['delivery_location_id'] }}</cbc:ID>
+                    <!-- CODIGO DE ESTABLECIMIENTO ANEXO DE LLEGADA -->
+                    @if($document['customer_identity_document_type_id'] === '6')
+                    <cbc:AddressTypeCode listAgencyName="PE:SUNAT"
+                                        listName="Establecimientos anexos"
+                                        listID="{{ $document['customer_number'] }}">{{ $document['delivery_code'] }}</cbc:AddressTypeCode>
+                    @endif
+                    <cac:AddressLine>
+                        <cbc:Line><![CDATA[{{ $document['delivery_address'] }}]]></cbc:Line>
+                    </cac:AddressLine>
+                </cac:DeliveryAddress>
+                <cac:Despatch>
+                    <!-- DIRECCION DEL PUNTO DE PARTIDA -->
+                    <cac:DespatchAddress>
+                        <!-- UBIGEO DE PARTIDA -->
+                        <cbc:ID schemeAgencyName="PE:INEI"
+                                schemeName="Ubigeos">{{ $document['origin_location_id'] }}</cbc:ID>
+                        <!-- CODIGO DE ESTABLECIMIENTO ANEXO DE PARTIDA -->
+                        <cbc:AddressTypeCode listName="Establecimientos anexos"
+                                            listAgencyName="PE:SUNAT"
+                                            listID="{{ $document['company_number'] }}">0000</cbc:AddressTypeCode>
+                        <!-- DIRECCION COMPLETA Y DETALLADA DE PARTIDA -->
+                        <cac:AddressLine>
+                            <cbc:Line><![CDATA[{{ $document['origin_address'] }}]]></cbc:Line>
+                        </cac:AddressLine>
+                    </cac:DespatchAddress>
+                </cac:Despatch>
+            @else
+                <!-- DIRECCION DEL PUNTO DE LLEGADA -->
+                <cac:DeliveryAddress>
+                    <!-- UBIGEO DE LLEGADA -->
                     <cbc:ID schemeAgencyName="PE:INEI"
                             schemeName="Ubigeos">{{ $document['origin_location_id'] }}</cbc:ID>
-                    <!-- CODIGO DE ESTABLECIMIENTO ANEXO DE PARTIDA -->
-                    <cbc:AddressTypeCode listName="Establecimientos anexos"
-                                         listAgencyName="PE:SUNAT"
-                                         listID="{{ $document['company_number'] }}">0000</cbc:AddressTypeCode>
-                    <!-- DIRECCION COMPLETA Y DETALLADA DE PARTIDA -->
+                    <!-- CODIGO DE ESTABLECIMIENTO ANEXO DE LLEGADA -->
+                    <cbc:AddressTypeCode listAgencyName="PE:SUNAT"
+                                        listName="Establecimientos anexos"
+                                        listID="{{ $document['company_number'] }}">0000</cbc:AddressTypeCode>
                     <cac:AddressLine>
                         <cbc:Line><![CDATA[{{ $document['origin_address'] }}]]></cbc:Line>
                     </cac:AddressLine>
-                </cac:DespatchAddress>
-            </cac:Despatch>
+                </cac:DeliveryAddress>
+                <cac:Despatch>
+                    <!-- DIRECCION DEL PUNTO DE PARTIDA -->
+                    <cac:DespatchAddress>
+                        <!-- UBIGEO DE PARTIDA -->
+                        <cbc:ID schemeAgencyName="PE:INEI"
+                                schemeName="Ubigeos">{{ $document['delivery_location_id'] }}</cbc:ID>
+                        <!-- CODIGO DE ESTABLECIMIENTO ANEXO DE PARTIDA -->
+                        <cbc:AddressTypeCode listName="Establecimientos anexos"
+                                            listAgencyName="PE:SUNAT"
+                                            listID="{{ $document['customer_number'] }}">{{ $document['delivery_code'] }}</cbc:AddressTypeCode>
+                        <!-- DIRECCION COMPLETA Y DETALLADA DE PARTIDA -->
+                        <cac:AddressLine>
+                            <cbc:Line><![CDATA[{{ $document['delivery_address'] }}]]></cbc:Line>
+                        </cac:AddressLine>
+                    </cac:DespatchAddress>
+                </cac:Despatch>
+            @endif
         </cac:Delivery>
         @if($document['transport_mode_type_id'] === '02' || ($document['transport_mode_type_id'] === '01' && $document['has_transport_driver_01'] ==true))
                 <cac:TransportHandlingUnit>

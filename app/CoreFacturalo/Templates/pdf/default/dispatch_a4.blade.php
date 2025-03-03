@@ -50,7 +50,7 @@
     <table class="full-width border-box mt-10 mb-10">
         <thead>
         <tr>
-            <th class="border-bottom text-left">DESTINATARIO</th>
+            <th class="border-bottom text-left">{{ $document['transfer_reason_type_id'] != '02' ? 'DESTINATARIO' : 'PROVEEDOR' }}</th>
         </tr>
         </thead>
         <tbody>
@@ -137,7 +137,12 @@
         @endif
     </tr>
     <tr>
-        <td colspan="2">P.Partida: {{ $document->origin->location_id }} - {{ $document->origin->address }}
+        <td colspan="2">
+            {{-- P.Partida: {{ $document->origin->location_id }} - {{ $document->origin->address }} --}}
+            @php
+                $direction_label_origin = $document['transfer_reason_type_id'] != '02' ? 'P.Partida:': 'P.Llegada:'
+            @endphp
+            {{ $direction_label_origin }}
             {{ ($establishment->address !== '-')? $establishment->address : '' }}
             {{ ($establishment->district_id !== '-')? ', '.$establishment->district->description : '' }}
             {{ ($establishment->province_id !== '-')? ', '.$establishment->province->description : '' }}
@@ -145,7 +150,8 @@
         </td>
     </tr>
     <tr>
-        <td colspan="2">P.Llegada: {{ $document->delivery->location_id }} - {{ $document->delivery->address }}
+        <td colspan="2">
+            {{-- P.Llegada: {{ $document->delivery->location_id }} - {{ $document->delivery->address }} --}}
             @php
                 use Illuminate\Support\Facades\DB;
                 $delivery = DB::connection('tenant')->table('districts')
@@ -154,7 +160,9 @@
                     ->where('districts.id', '=', $document->delivery->location_id)
                     ->select('districts.description as district_description', 'provinces.description as province_description','departments.description as department_description')
                     ->first();
+                $direction_label_delivery = $document['transfer_reason_type_id'] == '02' ? 'P.Partida:': 'P.Llegada:'
             @endphp
+            {{ $direction_label_delivery }}
             {{ ($delivery->district_description !== '-')? ', '.$delivery->district_description : '' }}
             {{ ($delivery->province_description !== '-')? ', '.$delivery->province_description : '' }}
             {{ ($delivery->department_description !== '-')? '- '.$delivery->department_description : '' }}
