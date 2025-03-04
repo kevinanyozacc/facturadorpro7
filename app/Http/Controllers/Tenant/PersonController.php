@@ -50,8 +50,15 @@ class PersonController extends Controller
     public function records($type, Request $request)
     {
 
-        $records = Person::where($request->column, 'like', "%{$request->value}%")
-            ->where('type', $type)
+        $value = $request->value;
+        if ($request->column == 'document_type') {
+            $records = Person::whereHas('identity_document_type', function($query) use($value){
+                $query->where('description', 'like', "%{$value}%");
+            });
+        } else {
+            $records = Person::where($request->column, 'like', "%{$request->value}%");
+        }
+        $records = $records->where('type', $type)
             ->whereFilterCustomerBySeller($type)
             ->orderBy('id', 'asc');
 
