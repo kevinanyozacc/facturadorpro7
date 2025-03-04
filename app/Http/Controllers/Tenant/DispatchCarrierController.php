@@ -101,7 +101,7 @@ class DispatchCarrierController extends Controller
             $query->where('customer_id', $customer_id);
         }
 
-        return $query->oldest('id');
+        return $query->latest();
     }
 
 

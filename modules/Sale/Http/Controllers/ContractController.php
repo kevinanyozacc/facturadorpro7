@@ -126,7 +126,7 @@ class ContractController extends Controller
             return $records->whereTypeUser()->orderBy('delivery_date');
         }
 
-        return $records->whereTypeUser()->oldest('id');
+        return $records->whereTypeUser()->latest();
     }
 
     public function searchCustomers(Request $request)

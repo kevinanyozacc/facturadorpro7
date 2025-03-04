@@ -106,7 +106,7 @@ class ExpenseController extends Controller
 
     private function data($date_start, $date_end, $model)
     {
-        $data = $model::with('state_type')->whereBetween('date_of_issue', [$date_start, $date_end])->whereTypeUser()->oldest('id');
+        $data = $model::with('state_type')->whereBetween('date_of_issue', [$date_start, $date_end])->whereTypeUser()->latest();
         return $data;
     }
 

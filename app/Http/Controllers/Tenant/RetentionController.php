@@ -45,7 +45,7 @@ class RetentionController extends Controller
         $records = Retention::where($request->column, 'like', "%{$request->value}%")
                             // ->orderBy('series')
                             // ->orderBy('number', 'desc');
-                            ->oldest('id');
+                            ->latest();
 
         return new RetentionCollection($records->paginate(config('tenant.items_per_page')));
     }

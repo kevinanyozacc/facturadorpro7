@@ -60,7 +60,7 @@ class PersonController extends Controller
         }
         $records = $records->where('type', $type)
             ->whereFilterCustomerBySeller($type)
-            ->orderBy('id', 'asc');
+            ->orderBy('name');
 
         return new PersonCollection($records->paginate(config('tenant.items_per_page')));
     }

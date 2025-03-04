@@ -32,7 +32,7 @@ class CategoryController extends Controller
     public function records(Request $request)
     {
         $records = Category::where($request->column, 'like', "%{$request->value}%")
-                            ->oldest('id');
+                            ->latest();
 
         return new CategoryCollection($records->paginate(config('tenant.items_per_page')));
     }

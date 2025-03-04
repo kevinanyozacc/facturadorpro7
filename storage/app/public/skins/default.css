@@ -2463,14 +2463,4 @@ html.dark .el-pagination .btn-prev, html.dark .el-pagination .btn-next {
     border: 1px solid var(--borders-dark);
     color: var(--accent-color);
 }
-.el-cascader-node:not(.is-disabled):hover, .el-cascader-node:not(.is-disabled):focus {
-    background: var(--button-second) !important;
-}
-.el-cascader-menu {
-    color: var(--light-color) !important;
-}
-.el-cascader__dropdown {
-    background: var(--contents-dark) !important;
-    border: solid 1px var(--borders-dark) !important;
-}
 /* end */

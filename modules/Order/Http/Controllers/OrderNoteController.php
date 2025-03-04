@@ -122,12 +122,14 @@
                 $records = OrderNote::whereHas('user', function ($query) use ($request) {
                     $query->where('name', 'like', "%{$request->value}%");
                 })
-                    ->whereTypeUser();
+                    ->whereTypeUser()
+                    ->latest();
 
             } else {
 
                 $records = OrderNote::where($request->column, 'like', "%{$request->value}%")
-                    ->whereTypeUser();
+                    ->whereTypeUser()
+                    ->latest();
 
             }
 
@@ -147,10 +149,11 @@
                 $union = $documents->union($sale_note);
 
                 $records = OrderNote::whereIn('id', $union)
-                                    ->whereTypeUser();
+                                    ->whereTypeUser()
+                                    ->latest();
             }
 
-            return $records->oldest('id');
+            return $records;
         }
 
 

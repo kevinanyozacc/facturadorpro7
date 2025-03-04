@@ -90,7 +90,7 @@
         public function getRecords(Request $request, $id = 0)
         {
             $files = Expediente::with('offices')
-                ->orderBy('documentary_files.id', 'asc')
+                ->orderBy('documentary_files.id', 'DESC')
             ;
             if($request->has('archived') && $request->archived === true){
                 $files->WithArchive();

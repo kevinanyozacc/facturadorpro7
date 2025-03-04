@@ -57,7 +57,7 @@ class DevolutionController extends Controller
 
         $records = Devolution::where($request->column, 'like', "%{$request->value}%")
                                 ->whereTypeUser()
-                                ->oldest('id');
+                                ->latest();
 
         return new DevolutionCollection($records->paginate(config('tenant.items_per_page')));
     }

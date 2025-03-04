@@ -19,7 +19,7 @@ class HotelCategoryController extends Controller
 	{
 		$user = auth()->user();
 
-		$query = HotelCategory::with('establishment')->orderBy('id', 'asc');
+		$query = HotelCategory::with('establishment')->orderBy('id', 'DESC');
 
 		if (request()->ajax()) {
 			if (request('establishment_id') && $user->type === 'admin') {

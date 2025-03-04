@@ -83,7 +83,7 @@
                 $records = TechnicalService::where($request->column, 'like', "%{$request->value}%");
             }
 
-            return $records->whereTypeUser()->oldest('id');
+            return $records->whereTypeUser()->latest();
         }
 
         public function searchCustomers(Request $request)

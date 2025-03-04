@@ -60,9 +60,9 @@ class TransferController extends Controller
     public function records(Request $request)
     {
         if ($request->column) {
-            $records = InventoryTransfer::with(['warehouse', 'warehouse_destination', 'inventory'])->where('created_at', 'like', "%{$request->value}%")->oldest('id');
+            $records = InventoryTransfer::with(['warehouse', 'warehouse_destination', 'inventory'])->where('created_at', 'like', "%{$request->value}%")->latest();
         } else {
-            $records = InventoryTransfer::with(['warehouse', 'warehouse_destination', 'inventory'])->oldest('id');
+            $records = InventoryTransfer::with(['warehouse', 'warehouse_destination', 'inventory'])->latest();
 
         }
         //return json_encode( $records );

@@ -41,7 +41,7 @@ class ContingencyController extends Controller
         $records = Document::where($request->column, 'like', "%{$request->value}%")
                             ->whereIn('series',$series)
                             ->whereTypeUser()
-                            ->oldest('id');
+                            ->latest();
 
         return new DocumentCollection($records->paginate(config('tenant.items_per_page')));
     } 

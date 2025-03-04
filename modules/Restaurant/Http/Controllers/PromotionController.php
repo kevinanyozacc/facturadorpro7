@@ -40,7 +40,7 @@ class PromotionController extends Controller
 
     public function records(Request $request)
     {
-        $records = Promotion::where('apply_restaurant', 1)->orderBy('id', 'asc');
+        $records = Promotion::where('apply_restaurant', 1)->orderBy('description');
 
         return new PromotionCollection($records->paginate(config('tenant.items_per_page')));
     }

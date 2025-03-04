@@ -48,14 +48,14 @@ class ItemLotController extends Controller
         if($request->column == 'item_description'){
             
             $records = ItemLot::whereHas('item', function($query) use($request){
-                            $query->where('description', 'like', "%{$request->value}%");
+                            $query->where('description', 'like', "%{$request->value}%")->latest();
                         });
 
         }else{
-            $records = ItemLot::where($request->column, 'like', "%{$request->value}%");
+            $records = ItemLot::where($request->column, 'like', "%{$request->value}%")->latest();
         }
 
-        return $records->oldest('id');
+        return $records;
     }
 
 

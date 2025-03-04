@@ -28,7 +28,7 @@ class DispatcherController extends Controller
     public function records(Request $request)
     {
         $records = Dispatcher::where($request->column, 'like', "%{$request->value}%")
-                            ->orderBy('id', 'asc');
+                            ->orderBy('name');
 
         return new DispatcherCollection($records->paginate(config('tenant.items_per_page')));
     }

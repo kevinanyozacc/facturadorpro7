@@ -91,7 +91,7 @@ class PurchaseOrderController extends Controller
     {
         $records = PurchaseOrder::where($request->column, 'like', "%{$request->value}%")
                             ->whereTypeUser()
-                            ->oldest('id');
+                            ->latest();
 
         return new PurchaseOrderCollection($records->paginate(config('tenant.items_per_page')));
     }

@@ -34,7 +34,7 @@ class PersonTypeController extends Controller
     {
 
         $records = PersonType::where($request->column, 'like', "%{$request->value}%")
-                            ->oldest('id');
+                            ->latest();
 
         return new PersonTypeCollection($records->paginate(config('tenant.items_per_page')));
     }

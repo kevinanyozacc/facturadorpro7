@@ -61,7 +61,7 @@ class SaleOpportunityController extends Controller
         $configuration = Configuration::first();
         $SellerCanGenerateSaleOpportunities = $configuration->getSellerCanGenerateSaleOpportunities();
 
-        return view('sale::sale_opportunities.index', compact('SellerCanGenerateSaleOpportunities'));
+        return view('sale::sale_opportunities.index',compact('SellerCanGenerateSaleOpportunities'));
     }
 
 
@@ -86,30 +86,29 @@ class SaleOpportunityController extends Controller
         return new SaleOpportunityCollection($records->paginate(config('tenant.items_per_page')));
     }
 
-    private function getRecords($request)
-    {
+    private function getRecords($request){
 
-        if ($request->column == 'user_name') {
+        if($request->column == 'user_name'){
 
-            $records = SaleOpportunity::whereHas('user', function ($query) use ($request) {
-                $query->where('name', 'like', "%{$request->value}%");
-            })
-                ->whereTypeUser()
-                ->oldest('id');
+            $records = SaleOpportunity::whereHas('user', function($query) use($request){
+                            $query->where('name', 'like', "%{$request->value}%");
+                        })
+                        ->whereTypeUser()
+                        ->latest();
 
-        } elseif ($request->column == 'customer_name') {
+        }elseif($request->column == 'customer_name'){
 
-            $records = SaleOpportunity::whereHas('person', function ($query) use ($request) {
-                $query->where('name', 'like', "%{$request->value}%");
-            })
-                ->whereTypeUser()
-                ->oldest('id');
+            $records = SaleOpportunity::whereHas('person', function($query) use($request){
+                            $query->where('name', 'like', "%{$request->value}%");
+                        })
+                        ->whereTypeUser()
+                        ->latest();
 
-        } else {
+        }else{
 
             $records = SaleOpportunity::where($request->column, 'like', "%{$request->value}%")
-                ->whereTypeUser()
-                ->oldest('id');
+                                ->whereTypeUser()
+                                ->latest();
 
         }
 
@@ -119,39 +118,38 @@ class SaleOpportunityController extends Controller
     public function searchCustomers(Request $request)
     {
 
-        $customers = Person::where('number', 'like', "%{$request->input}%")
-            ->orWhere('name', 'like', "%{$request->input}%")
-            ->whereType('customers')->orderBy('name')
-            ->get()->transform(function ($row) {
-                return [
-                    'id' => $row->id,
-                    'description' => $row->number . ' - ' . $row->name,
-                    'name' => $row->name,
-                    'number' => $row->number,
-                    'identity_document_type_id' => $row->identity_document_type_id,
-                    'identity_document_type_code' => $row->identity_document_type->code
-                ];
-            });
+        $customers = Person::where('number','like', "%{$request->input}%")
+                            ->orWhere('name','like', "%{$request->input}%")
+                            ->whereType('customers')->orderBy('name')
+                            ->get()->transform(function($row) {
+                                return [
+                                    'id' => $row->id,
+                                    'description' => $row->number.' - '.$row->name,
+                                    'name' => $row->name,
+                                    'number' => $row->number,
+                                    'identity_document_type_id' => $row->identity_document_type_id,
+                                    'identity_document_type_code' => $row->identity_document_type->code
+                                ];
+                            });
 
         return compact('customers');
     }
 
-    public function tables()
-    {
+    public function tables() {
 
         $customers = $this->table('customers');
         $establishments = Establishment::where('id', auth()->user()->establishment_id)->get();
         $currency_types = CurrencyType::whereActive()->get();
         $company = Company::active();
 
-        return compact('customers', 'establishments', 'currency_types', 'company');
+        return compact('customers', 'establishments','currency_types','company');
     }
 
 
     public function option_tables()
     {
         $establishment = Establishment::where('id', auth()->user()->establishment_id)->first();
-        $series = Series::where('establishment_id', $establishment->id)->get();
+        $series = Series::where('establishment_id',$establishment->id)->get();
         $document_types_invoice = DocumentType::whereIn('id', ['01', '03', '80'])->get();
         $payment_method_types = PaymentMethodType::all();
         $payment_destinations = []; //$this->getPaymentDestinations();
@@ -160,10 +158,9 @@ class SaleOpportunityController extends Controller
     }
 
 
-    public function item_tables()
-    {
+    public function item_tables() {
 
-        $items = $this->table('items');
+         $items = $this->table('items');
         // $items = SearchItemController::getNotServiceItemToModal();
 
         $affectation_igv_types = AffectationIgvType::whereActive()->get();
@@ -181,10 +178,9 @@ class SaleOpportunityController extends Controller
     }
 
 
-    public function getFullDescription($row)
-    {
+    public function getFullDescription($row){
 
-        $desc = ($row->internal_id) ? $row->internal_id . ' - ' . $row->description : $row->description;
+        $desc = ($row->internal_id)?$row->internal_id.' - '.$row->description : $row->description;
         $category = ($row->category) ? " - {$row->category->name}" : "";
         $brand = ($row->brand) ? " - {$row->brand->name}" : "";
 
@@ -194,8 +190,7 @@ class SaleOpportunityController extends Controller
     }
 
 
-    public function store(SaleOpportunityRequest $request)
-    {
+    public function store(SaleOpportunityRequest $request) {
 
         // dd($request->all());
 
@@ -203,7 +198,7 @@ class SaleOpportunityController extends Controller
 
             $data = $this->mergeData($request);
 
-            $this->sale_opportunity = SaleOpportunity::updateOrCreate(['id' => $request->input('id')], $data);
+            $this->sale_opportunity =  SaleOpportunity::updateOrCreate( ['id' => $request->input('id')], $data);
 
             $this->sale_opportunity->items()->delete();
             $this->sale_opportunity->files()->delete();
@@ -249,10 +244,9 @@ class SaleOpportunityController extends Controller
 
 
 
-    private function setFilename()
-    {
+    private function setFilename(){
 
-        $name = [$this->sale_opportunity->prefix, $this->sale_opportunity->id, date('Ymd')];
+        $name = [$this->sale_opportunity->prefix,$this->sale_opportunity->id,date('Ymd')];
         $this->sale_opportunity->filename = join('-', $name);
         $this->sale_opportunity->save();
 
@@ -264,10 +258,10 @@ class SaleOpportunityController extends Controller
         switch ($table) {
             case 'customers':
 
-                $customers = Person::whereType('customers')->orderBy('name')->take(20)->get()->transform(function ($row) {
+                $customers = Person::whereType('customers')->orderBy('name')->take(20)->get()->transform(function($row) {
                     return [
                         'id' => $row->id,
-                        'description' => $row->number . ' - ' . $row->name,
+                        'description' => $row->number.' - '.$row->name,
                         'name' => $row->name,
                         'number' => $row->number,
                         'identity_document_type_id' => $row->identity_document_type_id,
@@ -286,24 +280,24 @@ class SaleOpportunityController extends Controller
                     // ->with(['warehouses' => function($query) use($warehouse){
                     //     return $query->where('warehouse_id', $warehouse->id);
                     // }])
-                    ->get()->transform(function ($row) {
-                        $full_description = $this->getFullDescription($row);
-                        // $full_description = ($row->internal_id)?$row->internal_id.' - '.$row->description:$row->description;
-                        return [
-                            'id' => $row->id,
-                            'full_description' => $full_description,
-                            'description' => $row->description,
-                            'currency_type_id' => $row->currency_type_id,
-                            'currency_type_symbol' => $row->currency_type->symbol,
-                            'sale_unit_price' => $row->sale_unit_price,
-                            'purchase_unit_price' => $row->purchase_unit_price,
-                            'unit_type_id' => $row->unit_type_id,
-                            'sale_affectation_igv_type_id' => $row->sale_affectation_igv_type_id,
-                            'purchase_affectation_igv_type_id' => $row->purchase_affectation_igv_type_id,
-                            'is_set' => (bool) $row->is_set,
-                            'has_igv' => (bool) $row->has_igv,
-                            'calculate_quantity' => (bool) $row->calculate_quantity,
-                            'item_unit_types' => collect($row->item_unit_types)->transform(function ($row) {
+                    ->get()->transform(function($row) {
+                    $full_description = $this->getFullDescription($row);
+                    // $full_description = ($row->internal_id)?$row->internal_id.' - '.$row->description:$row->description;
+                    return [
+                        'id' => $row->id,
+                        'full_description' => $full_description,
+                        'description' => $row->description,
+                        'currency_type_id' => $row->currency_type_id,
+                        'currency_type_symbol' => $row->currency_type->symbol,
+                        'sale_unit_price' => $row->sale_unit_price,
+                        'purchase_unit_price' => $row->purchase_unit_price,
+                        'unit_type_id' => $row->unit_type_id,
+                        'sale_affectation_igv_type_id' => $row->sale_affectation_igv_type_id,
+                        'purchase_affectation_igv_type_id' => $row->purchase_affectation_igv_type_id,
+                        'is_set' => (bool) $row->is_set,
+                        'has_igv' => (bool) $row->has_igv,
+                        'calculate_quantity' => (bool) $row->calculate_quantity,
+                        'item_unit_types' => collect($row->item_unit_types)->transform(function($row) {
                             return [
                                 'id' => $row->id,
                                 'description' => "{$row->description}",
@@ -316,15 +310,15 @@ class SaleOpportunityController extends Controller
                                 'price_default' => $row->price_default,
                             ];
                         }),
-                            'warehouses' => collect($row->warehouses)->transform(function ($row) {
+                        'warehouses' => collect($row->warehouses)->transform(function($row) {
                             return [
                                 'warehouse_id' => $row->warehouse->id,
                                 'warehouse_description' => $row->warehouse->description,
                                 'stock' => $row->stock,
                             ];
                         })
-                        ];
-                    });
+                    ];
+                });
                 return $items;
 
                 break;
@@ -346,12 +340,10 @@ class SaleOpportunityController extends Controller
         return $this->searchClientById($id);
     }
 
-    public function download($external_id, $format = 'a4')
-    {
+    public function download($external_id, $format = 'a4') {
         $sale_opportunity = SaleOpportunity::where('external_id', $external_id)->first();
 
-        if (!$sale_opportunity)
-            throw new Exception("El código {$external_id} es inválido, no se encontro el pedido relacionado");
+        if (!$sale_opportunity) throw new Exception("El código {$external_id} es inválido, no se encontro el pedido relacionado");
 
         $this->reloadPDF($sale_opportunity, $format, $sale_opportunity->filename);
 
@@ -359,12 +351,10 @@ class SaleOpportunityController extends Controller
     }
 
 
-    public function toPrint($external_id, $format)
-    {
+    public function toPrint($external_id, $format) {
         $sale_opportunity = SaleOpportunity::where('external_id', $external_id)->first();
 
-        if (!$sale_opportunity)
-            throw new Exception("El código {$external_id} es inválido, no se encontro el pedido relacionado");
+        if (!$sale_opportunity) throw new Exception("El código {$external_id} es inválido, no se encontro el pedido relacionado");
 
         $this->reloadPDF($sale_opportunity, $format, $sale_opportunity->filename);
         $temp = tempnam(sys_get_temp_dir(), 'sale_opportunity');
@@ -382,13 +372,11 @@ class SaleOpportunityController extends Controller
     }
 
 
-    private function reloadPDF($sale_opportunity, $format, $filename)
-    {
+    private function reloadPDF($sale_opportunity, $format, $filename) {
         $this->createPdf($sale_opportunity, $format, $filename);
     }
 
-    public function createPdf($sale_opportunity = null, $format_pdf = null, $filename = null)
-    {
+    public function createPdf($sale_opportunity = null, $format_pdf = null, $filename = null) {
 
         ini_set("pcre.backtrack_limit", "5000000");
         $template = new Template();
@@ -398,8 +386,7 @@ class SaleOpportunityController extends Controller
         $company = ($this->company != null) ? $this->company : Company::active();
         $filename = ($filename != null) ? $filename : $this->sale_opportunity->filename;
 
-        $base_template = Establishment::find($document->establishment_id)->template_pdf;
-        ;
+        $base_template = Establishment::find($document->establishment_id)->template_pdf;;
 
         $html = $template->pdf($base_template, "sale_opportunity", $company, $document, $format_pdf);
 
@@ -416,26 +403,26 @@ class SaleOpportunityController extends Controller
 
             $pdf = new Mpdf([
                 'fontDir' => array_merge($fontDirs, [
-                    app_path('CoreFacturalo' . DIRECTORY_SEPARATOR . 'Templates' .
-                        DIRECTORY_SEPARATOR . 'pdf' .
-                        DIRECTORY_SEPARATOR . $base_template .
-                        DIRECTORY_SEPARATOR . 'font')
+                    app_path('CoreFacturalo'.DIRECTORY_SEPARATOR.'Templates'.
+                                                DIRECTORY_SEPARATOR.'pdf'.
+                                                DIRECTORY_SEPARATOR.$base_template.
+                                                DIRECTORY_SEPARATOR.'font')
                 ]),
                 'fontdata' => $fontData + [
                     'custom_bold' => [
-                        'R' => $pdf_font_bold . '.ttf',
+                        'R' => $pdf_font_bold.'.ttf',
                     ],
                     'custom_regular' => [
-                        'R' => $pdf_font_regular . '.ttf',
+                        'R' => $pdf_font_regular.'.ttf',
                     ],
                 ]
             ]);
         }
 
-        $path_css = app_path('CoreFacturalo' . DIRECTORY_SEPARATOR . 'Templates' .
-            DIRECTORY_SEPARATOR . 'pdf' .
-            DIRECTORY_SEPARATOR . $base_template .
-            DIRECTORY_SEPARATOR . 'style.css');
+        $path_css = app_path('CoreFacturalo'.DIRECTORY_SEPARATOR.'Templates'.
+                                             DIRECTORY_SEPARATOR.'pdf'.
+                                             DIRECTORY_SEPARATOR.$base_template.
+                                             DIRECTORY_SEPARATOR.'style.css');
 
         $stylesheet = file_get_contents($path_css);
 
@@ -443,8 +430,8 @@ class SaleOpportunityController extends Controller
         $pdf->WriteHTML($html, HTMLParserMode::HTML_BODY);
 
         if ($format_pdf != 'ticket') {
-            if (config('tenant.pdf_template_footer')) {
-                $html_footer = $template->pdfFooter($base_template, $document);
+            if(config('tenant.pdf_template_footer')) {
+                $html_footer = $template->pdfFooter($base_template,$document);
                 $pdf->SetHTMLFooter($html_footer);
             }
         }
@@ -452,8 +439,7 @@ class SaleOpportunityController extends Controller
         $this->uploadFile($filename, $pdf->output('', 'S'), 'sale_opportunity');
     }
 
-    public function uploadFile($filename, $file_content, $file_type)
-    {
+    public function uploadFile($filename, $file_content, $file_type) {
         $this->uploadStorage($filename, $file_content, $file_type);
     }
 
@@ -466,8 +452,8 @@ class SaleOpportunityController extends Controller
 
         $email = $customer_email;
         $mailable = new SaleOpportunityEmail($client, $sale_opportunity);
-        $id = (int) $sale_opportunity->id;
-        $model = __FILE__ . ";;" . __LINE__;
+        $id = (int)$sale_opportunity->id;
+        $model = __FILE__.";;".__LINE__;
         $sendIt = EmailController::SendMail($email, $mailable, $id, $model);
         /*
         Configuration::setConfigSmtpMail();

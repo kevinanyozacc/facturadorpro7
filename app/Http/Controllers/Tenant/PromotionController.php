@@ -45,7 +45,7 @@ class PromotionController extends Controller
                 $query->where('type','<>', 'promotions')
                 ->orWhereNull('type');
             })
-            ->orderBy('id', 'asc');
+            ->orderBy('description');
         
         return new PromotionCollection($records->paginate(config('tenant.items_per_page')));
     }

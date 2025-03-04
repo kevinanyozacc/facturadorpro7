@@ -470,10 +470,12 @@ class SaleNoteController extends Controller
                                     $query
                                         ->where('name', 'like', "%{$request->value}%")
                                         ->orWhere('number', 'like', "%{$request->value}%");
-                                });
+                                })
+                                ->latest();
 
         }else{
-            $records->where($request->column, 'like', "%{$request->value}%");
+            $records->where($request->column, 'like', "%{$request->value}%")
+                    ->latest('id');
         }
         if($request->series) {
             $records->where('series', 'like', '%' . $request->series . '%');
@@ -494,7 +496,7 @@ class SaleNoteController extends Controller
         if($request->observations) {
             $records->where('observation', 'like', '%' . $request->observations . '%');
         }
-        return $records->oldest('id');
+        return $records;
     }
 
 

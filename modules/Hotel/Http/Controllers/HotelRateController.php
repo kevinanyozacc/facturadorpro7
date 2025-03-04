@@ -20,7 +20,7 @@ class HotelRateController extends Controller
 
 		$user = auth()->user();
 
-		$query = HotelRate::with('establishment')->orderBy('id', 'asc');
+		$query = HotelRate::with('establishment')->orderBy('id', 'DESC');
 
 		if (request()->ajax()) {
 			if (request('establishment_id') && $user->type === 'admin') {

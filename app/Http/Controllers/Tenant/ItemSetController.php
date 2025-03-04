@@ -51,7 +51,7 @@ class ItemSetController extends Controller
         $records = Item::whereTypeUser()
                         ->whereIsSet()
                         ->where($request->column, 'like', "%{$request->value}%")
-                        ->orderBy('id', 'asc');
+                        ->orderBy('description');
 
         return new ItemCollection($records->paginate(config('tenant.items_per_page')));
     }

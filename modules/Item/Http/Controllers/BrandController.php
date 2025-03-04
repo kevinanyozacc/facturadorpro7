@@ -29,7 +29,7 @@ class BrandController extends Controller
     public function records(Request $request)
     {
         $records = Brand::where($request->column, 'like', "%{$request->value}%")
-                            ->oldest('id');
+                            ->latest();
 
         return new BrandCollection($records->paginate(config('tenant.items_per_page')));
     }

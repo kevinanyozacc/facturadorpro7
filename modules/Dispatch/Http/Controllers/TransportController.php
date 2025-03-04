@@ -28,7 +28,7 @@ class TransportController extends Controller
     public function records(Request $request)
     {
         $records = Transport::where($request->column, 'like', "%{$request->value}%")
-                            ->orderBy('id', 'asc');
+                            ->orderBy('plate_number');
 
         return new TransportCollection($records->paginate(config('tenant.items_per_page')));
     }
