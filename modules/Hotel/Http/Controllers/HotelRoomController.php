@@ -25,7 +25,7 @@ class HotelRoomController extends Controller
 	{
 		$user = auth()->user();
 
-		$query = HotelRoom::with('establishment','category', 'floor')->orderBy('id', 'DESC');
+		$query = HotelRoom::with('establishment','category', 'floor')->orderBy('id', 'asc');
 
 		if (request()->ajax()) {
 

@@ -205,7 +205,7 @@ class ItemController extends Controller
         }
 
 
-        return $records->orderBy('id', 'desc');
+        return $records->orderBy('id', 'asc');
 
     }
 

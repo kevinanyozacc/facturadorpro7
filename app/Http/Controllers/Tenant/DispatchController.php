@@ -114,7 +114,7 @@ class DispatchController extends Controller
             $query->where('customer_id', $customer_id);
         }
 
-        return $query->latest();
+        return $query->oldest('id');
     }
 
     public function data_table()

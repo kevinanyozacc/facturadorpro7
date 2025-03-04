@@ -98,8 +98,7 @@
                     $records = Purchase::whereHas('supplier', function ($query) use ($request) {
                         return $query->where($request->column, 'like', "%{$request->value}%");
                     })
-                        ->whereTypeUser()
-                        ->latest();
+                        ->whereTypeUser();
 
                     break;
 
@@ -108,21 +107,19 @@
                     $records = Purchase::whereHas('purchase_payments', function ($query) use ($request) {
                         return $query->where($request->column, 'like', "%{$request->value}%");
                     })
-                        ->whereTypeUser()
-                        ->latest();
+                        ->whereTypeUser();
 
                     break;
 
                 default:
 
                     $records = Purchase::where($request->column, 'like', "%{$request->value}%")
-                        ->whereTypeUser()
-                        ->latest();
+                        ->whereTypeUser();
 
                     break;
             }
 
-            return $records;
+            return $records->oldest('id');
 
         }
 

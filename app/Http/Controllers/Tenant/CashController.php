@@ -58,8 +58,7 @@ class CashController extends Controller
         $records = Cash::withOut(['cash_documents'])
                         ->where($request->column, 'like', "%{$request->value}%")
                         ->whereTypeUser()
-                        ->orderBy('date_opening', 'DESC')
-                        ->orderBy('time_opening','desc');
+                        ->orderBy('id','asc');
 
         return new CashCollection($records->paginate(config('tenant.items_per_page')));
     }

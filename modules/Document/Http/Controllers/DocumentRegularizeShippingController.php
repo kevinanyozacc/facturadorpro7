@@ -54,8 +54,7 @@ class DocumentRegularizeShippingController extends Controller
                             ->where('state_type_id', 'like', '%' . $state_type_id . '%')
                             ->whereBetween('date_of_issue', [$d_start , $d_end])
                             ->whereRegularizeShipping()
-                            ->whereTypeUser()
-                            ->latest();
+                            ->whereTypeUser();
 
         }else{
 
@@ -65,8 +64,7 @@ class DocumentRegularizeShippingController extends Controller
                             ->where('series', 'like', '%' . $series . '%')
                             ->where('number', 'like', '%' . $number . '%')
                             ->whereRegularizeShipping()
-                            ->whereTypeUser()
-                            ->latest();
+                            ->whereTypeUser();
         }
 
         if($pending_payment){
@@ -77,7 +75,7 @@ class DocumentRegularizeShippingController extends Controller
             $records = $records->where('customer_id', $customer_id);
         }
 
-        return $records;
+        return $records->oldest('id');
 
     }
 

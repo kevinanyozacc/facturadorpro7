@@ -1211,7 +1211,6 @@ class DocumentController extends Controller
         if ($purchase_order) {
             $records->where('purchase_order', $purchase_order);
         }
-        $records->whereTypeUser()->latest();
 
         if ($pending_payment) {
             $records->where('total_canceled', false);
@@ -1244,6 +1243,8 @@ class DocumentController extends Controller
         if ($observations) {
             $records = $records->where('additional_information', 'like', '%' . $observations . '%');
         }
+
+        $records->whereTypeUser()->oldest('id');
 
         return $records;
     }

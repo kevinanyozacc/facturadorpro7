@@ -75,7 +75,7 @@ class FixedAssetPurchaseController extends Controller
                 break;
         }
 
-        return $records->whereTypeUser()->latest();
+        return $records->whereTypeUser()->oldest('id');
 
     }
 

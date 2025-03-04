@@ -81,7 +81,7 @@
             $records = BankLoan::
             where($request->column, 'like', "%{$request->value}%")
                 ->whereTypeUser()
-                ->latest();
+                ->oldest('id');
             return new BankLoanCollection($records->paginate(config('tenant.items_per_page')));
         }
 

@@ -53,7 +53,7 @@ class ItemSetController extends Controller
                         ->whereIsSet()
                         ->where('apply_store', 1)
                         ->where($request->column, 'like', "%{$request->value}%")
-                        ->orderBy('description');
+                        ->orderBy('id', 'asc');
 
         return new ItemCollection($records->paginate(config('tenant.items_per_page')));
     }

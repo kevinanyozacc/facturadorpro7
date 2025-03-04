@@ -44,7 +44,7 @@ class FixedAssetItemController extends Controller
 
         $records = FixedAssetItem::whereTypeUser()->where($request->column, 'like', "%{$request->value}%");
 
-        return $records->orderBy('description');
+        return $records->orderBy('id', 'asc');
 
     }
 

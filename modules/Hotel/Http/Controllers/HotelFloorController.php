@@ -19,7 +19,7 @@ class HotelFloorController extends Controller
 	{
 		$user = auth()->user();
 
-		$query = HotelFloor::with('establishment')->orderBy('id', 'DESC');
+		$query = HotelFloor::with('establishment')->orderBy('id', 'asc');
 
 		if (request()->ajax()) {
 

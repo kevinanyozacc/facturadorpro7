@@ -140,8 +140,6 @@ class QuotationController extends Controller
                 ->whereTypeUser();
         }
 
-        $records = $query->latest();
-
         $form = json_decode($request->form);
 
         if ($form->date_start && $form->date_end) {
@@ -149,8 +147,10 @@ class QuotationController extends Controller
         }
 
         $state_type_id = $form->state_type_id ?? null;
-        if ($state_type_id) $records->where('state_type_id', $state_type_id);
+        if ($state_type_id)
+            $records->where('state_type_id', $state_type_id);
 
+        $records = $query->oldest('id');
         return $records;
     }
 
@@ -211,8 +211,21 @@ class QuotationController extends Controller
         */
         $sellers = User::GetSellers(false)->get();
 
-        return compact('customers','enabled_discount_global' ,'establishments','global_discount_types',  'currency_types', 'discount_types', 'charge_types', 'configuration',
-            'company', 'document_type_03_filter', 'payment_method_types', 'payment_destinations', 'sellers');
+        return compact(
+            'customers',
+            'enabled_discount_global',
+            'establishments',
+            'global_discount_types',
+            'currency_types',
+            'discount_types',
+            'charge_types',
+            'configuration',
+            'company',
+            'document_type_03_filter',
+            'payment_method_types',
+            'payment_destinations',
+            'sellers'
+        );
 
     }
 
@@ -522,9 +535,9 @@ class QuotationController extends Controller
                 'unit_type_id' => $row->unit_type_id,
                 'sale_affectation_igv_type_id' => $row->sale_affectation_igv_type_id,
                 'purchase_affectation_igv_type_id' => $row->purchase_affectation_igv_type_id,
-                'is_set' => (bool)$row->is_set,
-                'has_igv' => (bool)$row->has_igv,
-                'calculate_quantity' => (bool)$row->calculate_quantity,
+                'is_set' => (bool) $row->is_set,
+                'has_igv' => (bool) $row->has_igv,
+                'calculate_quantity' => (bool) $row->calculate_quantity,
                 'item_unit_types' => collect($row->item_unit_types)->transform(function ($row) {
                     return [
                         'id' => $row->id,
@@ -570,7 +583,8 @@ class QuotationController extends Controller
     {
         $quotation = Quotation::where('external_id', $external_id)->first();
 
-        if (!$quotation) throw new Exception("El código {$external_id} es inválido, no se encontro la cotización relacionada");
+        if (!$quotation)
+            throw new Exception("El código {$external_id} es inválido, no se encontro la cotización relacionada");
 
         $this->reloadPDF($quotation, $format, $quotation->filename);
 
@@ -581,7 +595,8 @@ class QuotationController extends Controller
     {
         $quotation = Quotation::where('external_id', $external_id)->first();
 
-        if (!$quotation) throw new Exception("El código {$external_id} es inválido, no se encontro la cotización relacionada");
+        if (!$quotation)
+            throw new Exception("El código {$external_id} es inválido, no se encontro la cotización relacionada");
 
         $this->reloadPDF($quotation, $format, $quotation->filename);
         $temp = tempnam(sys_get_temp_dir(), 'quotation');
@@ -622,7 +637,8 @@ class QuotationController extends Controller
         if ($format_pdf === 'ticket' or $format_pdf === 'ticket_80') {
 
             $width = 78;
-            if (config('tenant.enabled_template_ticket_80')) $width = 76;
+            if (config('tenant.enabled_template_ticket_80'))
+                $width = 76;
 
             $company_name = (strlen($company->name) / 20) * 10;
             $company_address = (strlen($document->establishment->address) / 30) * 10;
@@ -674,7 +690,8 @@ class QuotationController extends Controller
                     $terms_condition +
                     $contact +
                     $document_description +
-                    $total_taxed],
+                    $total_taxed
+                ],
                 'margin_top' => 2,
                 'margin_right' => 5,
                 'margin_bottom' => 0,
@@ -719,7 +736,7 @@ class QuotationController extends Controller
                 $total_unaffected +
                 $total_exonerated +
                 $total_taxed;
-            $diferencia = 148 - (float)$alto;
+            $diferencia = 148 - (float) $alto;
 
             $pdf = new Mpdf([
                 'mode' => 'utf-8',
@@ -756,13 +773,13 @@ class QuotationController extends Controller
                             DIRECTORY_SEPARATOR . 'font')
                     ]),
                     'fontdata' => $fontData + [
-                            'custom_bold' => [
-                                'R' => $pdf_font_bold . '.ttf',
-                            ],
-                            'custom_regular' => [
-                                'R' => $pdf_font_regular . '.ttf',
-                            ],
+                        'custom_bold' => [
+                            'R' => $pdf_font_bold . '.ttf',
                         ],
+                        'custom_regular' => [
+                            'R' => $pdf_font_regular . '.ttf',
+                        ],
+                    ],
                     'default_font' => 'arial'
                 ];
 
@@ -780,21 +797,20 @@ class QuotationController extends Controller
                                 DIRECTORY_SEPARATOR . 'font')
                         ]),
                         'fontdata' => $fontData + [
-                                'custom_bold' => [
-                                    'R' => $pdf_font_bold . '.ttf',
-                                ],
-                                'custom_regular' => [
-                                    'R' => $pdf_font_regular . '.ttf',
-                                ],
+                            'custom_bold' => [
+                                'R' => $pdf_font_bold . '.ttf',
                             ],
+                            'custom_regular' => [
+                                'R' => $pdf_font_regular . '.ttf',
+                            ],
+                        ],
                         'default_font' => 'arial'
                     ];
 
                 }
 
                 $pdf = new Mpdf($default);
-            }
-            else {
+            } else {
                 $pdf = new Mpdf([
                     'default_font' => 'arial'
                 ]);
@@ -878,7 +894,7 @@ class QuotationController extends Controller
 
         $email = $customer_email;
         $mailable = new QuotationEmail($client, $quotation);
-        $id = (int)$request->id;
+        $id = (int) $request->id;
         $sendIt = EmailController::SendMail($email, $mailable, $id, 3);
         /*
         Configuration::setConfigSmtpMail();
