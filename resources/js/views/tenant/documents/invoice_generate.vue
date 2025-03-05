@@ -4100,6 +4100,8 @@ export default {
             this.form.subtotal = _.round(total, 2)
             this.form.total = _.round(total_all, 2)
 
+            this.form.total_taxed = this.recalculateDecimalTotalTaxed(this.form.total,this.form.total_igv);
+
             // this.form.subtotal = _.round(total + this.form.total_plastic_bag_taxes, 2)
             // this.form.total = _.round(total + this.form.total_plastic_bag_taxes - this.total_discount_no_base, 2)
 
@@ -4125,6 +4127,9 @@ export default {
 
             this.setTotalPointsBySale(this.config)
 
+        },
+        recalculateDecimalTotalTaxed(total, igv){
+            return total - igv;
         },
         sumDiscountsNoBaseByItem(row) {
 

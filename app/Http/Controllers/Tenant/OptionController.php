@@ -205,6 +205,16 @@ class OptionController extends Controller
 
         CashDocumentCredit::whereIn($column, $records_id)->delete();
 
+        $document_records = $model::where('soap_type_id', '01')->get();
+
+        $document_records->each(function ($record) {
+            $record->payments()->each(function ($payment) {
+                if (method_exists($payment, 'cashDocumentPayments')) {
+                    $payment->cashDocumentPayments()->delete();
+                }
+            });
+        });
+
         $model::where('soap_type_id', '01')->delete();
     }
 
