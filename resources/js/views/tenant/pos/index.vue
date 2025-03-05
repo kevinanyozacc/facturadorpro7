@@ -2061,10 +2061,16 @@ export default {
             this.form.total_plastic_bag_taxes = _.round(total_plastic_bag_taxes, 2)
 
             this.form.total = _.round(total, 2)
+
+            this.form.total_taxed = this.recalculateDecimalTotalTaxed(this.form.total,this.form.total_igv);
+            
             // this.form.total = _.round(total + this.form.total_plastic_bag_taxes, 2)
 
             this.form.subtotal = this.form.total
 
+        },
+        recalculateDecimalTotalTaxed(total, igv){
+            return total - igv;
         },
         changeDateOfIssue() {
             // this.searchExchangeRateByDate(this.form.date_of_issue).then(response => {
