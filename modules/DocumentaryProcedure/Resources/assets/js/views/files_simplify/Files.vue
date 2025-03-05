@@ -3,7 +3,8 @@
         <div class="page-header pr-0">
             <h2>
                 <a href="/documentary-procedure/files_simplify">
-                    <svg xmlns="http://www.w3.org/2000/svg"
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
                         style="margin-top: -5px;"
                         width="24"
                         height="24"
@@ -13,8 +14,11 @@
                         stroke-width="2"
                         stroke-linecap="round"
                         stroke-linejoin="round"
-                        class="feather feather-folder">
-                        <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                        class="feather feather-folder"
+                    >
+                        <path
+                            d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"
+                        ></path>
                     </svg>
                 </a>
             </h2>
@@ -27,7 +31,6 @@
                         :href="`/documentary-procedure/files_simplify/new`"
                         class="btn btn-custom btn-sm mt-2 mr-2"
                         type="button"
-
                     >
                         <!--// @click="onCreate"-->
                         <i class="fa fa-plus-circle"></i> Nuevo
@@ -50,9 +53,7 @@
                         {{ isVisible ? "Ocultar filtros" : "Mostrar filtros" }}
                     </el-button>
                 </div>
-                <form class="row"
-                      @submit.prevent="onFilter" v-if="isVisible">
-
+                <form class="row" @submit.prevent="onFilter" v-if="isVisible">
                     <div class="col-6 col-md-4 mb-3">
                         <el-select
                             v-model="filter.person_id"
@@ -72,9 +73,7 @@
                                 :value="option.id"
                             ></el-option>
                         </el-select>
-
                     </div>
-
 
                     <div class="col-6 col-md-4 mb-3">
                         <el-input
@@ -164,31 +163,29 @@
                         >
                         </el-date-picker>
                     </div>
-                    <div
-                        class="col-6 col-md-4 mb-3">
+                    <div class="col-6 col-md-4 mb-3">
                         <label class="control-label">
                             Archivados
                         </label>
-                        <div
-                            class="form-group">
-                            <el-switch v-model="filter.archived"
-                                       active-text="Si"
-                                       inactive-text="No"
-                                       @change="onFilter"
+                        <div class="form-group">
+                            <el-switch
+                                v-model="filter.archived"
+                                active-text="Si"
+                                inactive-text="No"
+                                @change="onFilter"
                             ></el-switch>
                         </div>
                     </div>
-                    <div
-                        class="col-6 col-md-4 mb-3">
+                    <div class="col-6 col-md-4 mb-3">
                         <label class="control-label">
                             Vencidos
                         </label>
-                        <div
-                            class="form-group">
-                            <el-switch v-model="filter.expired"
-                                       active-text="Si"
-                                       inactive-text="No"
-                                       @change="onFilter"
+                        <div class="form-group">
+                            <el-switch
+                                v-model="filter.expired"
+                                active-text="Si"
+                                inactive-text="No"
+                                @change="onFilter"
                             ></el-switch>
                         </div>
                     </div>
@@ -200,218 +197,307 @@
                         </el-button>
                     </div> -->
                     <div class="col-12 col-md-12">&nbsp;</div>
-                    <div class="col-lg-7 col-md-7 col-md-7 col-sm-12"
-                         style="margin-top:29px">
-
-                        <el-button class="submit"
-                                   icon="el-icon-search"
-                                   native-type="submit"
-                                   type="primary">Buscar
+                    <div
+                        class="col-lg-7 col-md-7 col-md-7 col-sm-12"
+                        style="margin-top:29px"
+                    >
+                        <el-button
+                            class="submit"
+                            icon="el-icon-search"
+                            native-type="submit"
+                            type="primary"
+                            >Buscar
                         </el-button>
 
-                        <template v-if="items.length>0">
-
-                            <el-button class="submit"
-                                       type="success"
-                                       @click.prevent="clickDownload('excel')"><i class="fa fa-file-excel"></i> Exporta
-                                                                                                                Excel
+                        <template v-if="items.length > 0">
+                            <el-button
+                                class="submit"
+                                type="success"
+                                @click.prevent="clickDownload('excel')"
+                                ><i class="fa fa-file-excel"></i> Exporta Excel
                             </el-button>
-                            <el-button class="submit"
-                                       icon="el-icon-tickets"
-                                       type="danger"
-                                       @click.prevent="clickDownload('pdf')">Exportar PDF
+                            <el-button
+                                class="submit"
+                                icon="el-icon-tickets"
+                                type="danger"
+                                @click.prevent="clickDownload('pdf')"
+                                >Exportar PDF
                             </el-button>
-
                         </template>
                     </div>
-
                 </form>
                 <div class="table-responsive">
                     <table class="table">
                         <thead>
-                        <tr>
-                            <!-- <th>#</th> -->
-                            <th>Numero de expediente</th>
-                            <th>Trámite</th>
-                            <th>Cliente</th>
-                            <th>Fecha/Hora registro</th>
-                            <!--                            <th>Datos del cliente</th>-->
-                            <th class="text-right">Ultimo número de seguimiento</th>
-                            <th>Etapa</th>
-                            <th>Status de Etapa</th>
-                            <th>Fecha de fin</th>
-                            <th></th>
-                        </tr>
+                            <tr>
+                                <!-- <th>#</th> -->
+                                <th>Numero de expediente</th>
+                                <th>Trámite</th>
+                                <th>Cliente</th>
+                                <th>Fecha/Hora registro</th>
+                                <!--                            <th>Datos del cliente</th>-->
+                                <th class="text-right">
+                                    Ultimo número de seguimiento
+                                </th>
+                                <th>Etapa</th>
+                                <th>Status de Etapa</th>
+                                <th>Fecha de fin</th>
+                                <th></th>
+                            </tr>
                         </thead>
                         <tbody>
-                        <tr v-for="(item,index) in items"
-                            :key="item.id">
-                            <!-- <td class="text-right">{{ index + 1 }}</td> -->
-                            <td>{{ item.invoice }}
-                                <template v-if="item.is_archive && item.observation ">
-                                    <br>
-                                    Motivo: {{item.observation}}
-                                </template>
+                            <tr v-for="(item, index) in items" :key="item.id">
+                                <!-- <td class="text-right">{{ index + 1 }}</td> -->
+                                <td>
+                                    {{ item.invoice }}
+                                    <template
+                                        v-if="
+                                            item.is_archive && item.observation
+                                        "
+                                    >
+                                        <br />
+                                        Motivo: {{ item.observation }}
+                                    </template>
+                                </td>
+                                <td>
+                                    <!-- requisitos -->
+                                    <el-tooltip
+                                        v-if="
+                                            item &&
+                                                item.documentary_process &&
+                                                item.documentary_process
+                                                    .requirements &&
+                                                item.documentary_process
+                                                    .requirements.length > 0
+                                        "
+                                        placement="right-start"
+                                    >
+                                        <div slot="content">
+                                            Requisitos:
+                                            <ul
+                                                v-for="requirement in item
+                                                    .documentary_process
+                                                    .requirements"
+                                            >
+                                                <li
+                                                    v-if="
+                                                        requirement
+                                                            .requirement_name
+                                                            .length > 0
+                                                    "
+                                                >
+                                                    {{
+                                                        requirement.requirement_name
+                                                    }}
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <i class="fa fa-info-circle"></i>
+                                    </el-tooltip>
 
+                                    <span
+                                        v-if="
+                                            item.documentary_process !==
+                                                undefined &&
+                                                item.documentary_process
+                                                    .name !== undefined
+                                        "
+                                    >
+                                        {{ item.documentary_process.name }}
+                                    </span>
 
-                            </td>
-                            <td>
-
-
-                                <!-- requisitos -->
-                                <el-tooltip v-if="item && item.documentary_process && item.documentary_process.requirements && item.documentary_process.requirements.length > 0"
-                                            placement="right-start"
-                                >
-                                    <div slot="content">
-                                        Requisitos:
-                                        <ul v-for="(requirement) in item.documentary_process.requirements">
-                                            <li v-if="requirement.requirement_name.length > 0">
-                                                {{ requirement.requirement_name }}
-                                            </li>
-                                        </ul>
-
+                                    <!-- terminos y condiciones -->
+                                    <el-tooltip
+                                        v-if="
+                                            item &&
+                                                item.documentary_process &&
+                                                item.documentary_process
+                                                    .documentary_terms &&
+                                                item.documentary_process
+                                                    .documentary_terms.length >
+                                                    0
+                                        "
+                                        placement="right-start"
+                                    >
+                                        <div slot="content">
+                                            Términos y condiciones:
+                                            <ul
+                                                v-for="requirement in item
+                                                    .documentary_process
+                                                    .documentary_terms"
+                                            >
+                                                <li>
+                                                    {{ requirement.term_name }}
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <i class="fa fa-text-width "></i>
+                                    </el-tooltip>
+                                </td>
+                                <td>
+                                    <span
+                                        v-if="
+                                            item.person !== undefined &&
+                                                item.person.description !==
+                                                    undefined
+                                        "
+                                    >
+                                        {{ item.person.description }}
+                                    </span>
+                                </td>
+                                <td>
+                                    {{ formatDateTime(item.datetime_register) }}
+                                </td>
+                                <!--                            <td>{{ item.sender.name }}</td>-->
+                                <td class="text-right">
+                                    {{
+                                        item.last_guide && item.last_guide.guide
+                                            ? item.last_guide.guide
+                                            : ""
+                                    }}
+                                </td>
+                                <td>
+                                    <div
+                                        v-if="
+                                            item.last_guide &&
+                                                item.last_guide.doc_office &&
+                                                item.last_guide.doc_office.name
+                                        "
+                                        :style="
+                                            'background-color:' +
+                                                item.last_guide.doc_office
+                                                    .color +
+                                                ';font-size: 12px;'
+                                        "
+                                        class="badge pl-0 text-left"
+                                    >
+                                        {{ item.last_guide.doc_office.name }}
                                     </div>
-                                    <i class="fa fa-info-circle"></i>
-                                </el-tooltip>
-
-                                <span
-                                    v-if=" item.documentary_process !== undefined && item.documentary_process.name !== undefined ">
-                                    {{ item.documentary_process.name }}
-                                </span>
-
-
-                                <!-- terminos y condiciones -->
-                                <el-tooltip v-if="item && item.documentary_process && item.documentary_process.documentary_terms && item.documentary_process.documentary_terms.length > 0"
-                                            placement="right-start">
-                                    <div slot="content">
-                                        Términos y condiciones:
-                                        <ul v-for="(requirement) in item.documentary_process.documentary_terms">
-                                            <li>
-                                                {{ requirement.term_name }}
-                                            </li>
-                                        </ul>
-
+                                </td>
+                                <td>
+                                    <div
+                                        v-if="
+                                            item.last_guide_status &&
+                                                item.last_guide_status.name
+                                        "
+                                        :style="
+                                            'background-color:' +
+                                                item.last_guide_status.color +
+                                                ';font-size: 12px;'
+                                        "
+                                        class="badge"
+                                    >
+                                        {{ item.last_guide_status.name }}
                                     </div>
-                                    <i class="fa fa-text-width "></i>
-                                </el-tooltip>
-
-                            </td>
-                            <td>
-                                <span
-                                    v-if=" item.person !== undefined && item.person.description !== undefined ">
-                                     {{ item.person.description }}
-                                </span>
-                            </td>
-                            <td>
-                                {{ item.datetime_register }}
-                            </td>
-                            <!--                            <td>{{ item.sender.name }}</td>-->
-                            <td class="text-right">{{ (item.last_guide && item.last_guide.guide) ? item.last_guide.guide : '' }}</td>
-                            <td>
-                                <div v-if="item.last_guide && item.last_guide.doc_office && item.last_guide.doc_office.name"
-                                     :style="'background-color:'+ item.last_guide.doc_office.color+
-                                             ';font-size: 12px;'"
-                                     class="badge pl-0 text-left"
-                                >
-                                    {{ item.last_guide.doc_office.name }}
-                                </div>
-                            </td>
-                            <td>
-
-
-                                <div v-if="item.last_guide_status && item.last_guide_status.name"
-                                     :style="'background-color:'+ item.last_guide_status.color+
-                                             ';font-size: 12px;'"
-                                     class="badge"
-                                >
-                                    {{ item.last_guide_status.name }}
-                                </div>
-                            </td>
-                            <td>
-                                <div v-if="item &&
-                                item.last_guide &&
-                                item.last_guide.date_end"
-                                     :class="item.last_guide.class">
-
-                                    {{ item.last_guide.date_end }}
-                                    <br>
-                                    <strong>
-                                            {{ getDiffDay(  item.last_guide.date_end) }}
-                                    </strong>
-                                </div>
-
-                            </td>
-                            <td class="text-center td-btns">
-
-                                <div class="dropdown">
-                                    <button id="dropdownMenuButton"
+                                </td>
+                                <td>
+                                    <div
+                                        v-if="
+                                            item &&
+                                                item.last_guide &&
+                                                item.last_guide.date_end
+                                        "
+                                        :class="item.last_guide.class"
+                                    >
+                                        {{
+                                            formatDateTime(
+                                                item.last_guide.date_end
+                                            )
+                                        }}
+                                        <br />
+                                        <strong>
+                                            {{
+                                                getDiffDay(
+                                                    item.last_guide.date_end
+                                                )
+                                            }}
+                                        </strong>
+                                    </div>
+                                </td>
+                                <td class="text-center td-btns">
+                                    <div class="dropdown">
+                                        <button
+                                            id="dropdownMenuButton"
                                             aria-expanded="false"
                                             aria-haspopup="true"
                                             class="btn btn-default btn-sm"
                                             data-toggle="dropdown"
-                                            type="button">
-                                        <i class="fas fa-ellipsis-v"></i>
-                                    </button>
-                                    <div aria-labelledby="dropdownMenuButton"
-                                         class="dropdown-menu">
-
-                                        <template v-if="!item.is_archive">
+                                            type="button"
+                                        >
+                                            <i class="fas fa-ellipsis-v"></i>
+                                        </button>
+                                        <div
+                                            aria-labelledby="dropdownMenuButton"
+                                            class="dropdown-menu"
+                                        >
+                                            <template v-if="!item.is_archive">
                                                 <button
                                                     class="dropdown-item"
                                                     type="button"
-                                                    @click.prevent="editItem(item.id)">
+                                                    @click.prevent="
+                                                        editItem(item.id)
+                                                    "
+                                                >
                                                     Editar/Ver
-
                                                 </button>
                                                 <button
-
                                                     class="dropdown-item"
                                                     type="button"
-                                                    @click.prevent="printFile(item.id)">
+                                                    @click.prevent="
+                                                        printFile(item.id)
+                                                    "
+                                                >
                                                     Imprimir
                                                 </button>
                                                 <button
                                                     v-if="!item.is_completed"
                                                     class="dropdown-item"
                                                     type="button"
-                                                    @click.prevent="removeItem(item.id)">
+                                                    @click.prevent="
+                                                        removeItem(item.id)
+                                                    "
+                                                >
                                                     Eliminar
                                                 </button>
                                                 <button
                                                     v-if="!item.is_completed"
                                                     class="dropdown-item"
                                                     type="button"
-                                                    @click.prevent="completeItem(item.id)">
+                                                    @click.prevent="
+                                                        completeItem(item.id)
+                                                    "
+                                                >
                                                     Finalizar
                                                 </button>
-                                            <button
-                                                class="dropdown-item"
-                                                type="button"
-                                                @click.prevent="archiveFile(item.id)">
-                                                Archivar
-                                            </button>
-
-                                        </template>
-                                        <template v-else>
-                                            <button
-                                                class="dropdown-item"
-                                                type="button"
-                                                @click.prevent="reactiveFile(item.id)">
-                                                Retomar Tramite
-                                            </button>
-
-
-                                        </template>
+                                                <button
+                                                    class="dropdown-item"
+                                                    type="button"
+                                                    @click.prevent="
+                                                        archiveFile(item.id)
+                                                    "
+                                                >
+                                                    Archivar
+                                                </button>
+                                            </template>
+                                            <template v-else>
+                                                <button
+                                                    class="dropdown-item"
+                                                    type="button"
+                                                    @click.prevent="
+                                                        reactiveFile(item.id)
+                                                    "
+                                                >
+                                                    Retomar Tramite
+                                                </button>
+                                            </template>
+                                        </div>
                                     </div>
 
-                                </div>
-
-                                <!--
+                                    <!--
                                 AGREGAR SECUENCIA DE TRAMITE <br>
                                 IMPRIMIR ESTADO DE TRAMITE<br>
-                                -->
-                            </td>
-                        </tr>
+                                --></td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -458,52 +544,52 @@ import StageModalObservationStage from "./ModalHistoricalObservation";
 import ModalStage from "./ModalStage";
 */
 import moment from "moment";
-import queryString from 'query-string'
+import queryString from "query-string";
 
-import {mapActions, mapState} from "vuex";
+import { mapActions, mapState } from "vuex";
 
 export default {
     props: {
         local_files: {
             type: Array,
-            required: true,
+            required: true
         },
         local_offices: {
             type: Array,
-            required: true,
+            required: true
         },
         local_processes: {
             type: Array,
-            required: false,
+            required: false
         },
         local_actions: {
             type: Array,
-            required: false,
+            required: false
         },
         local_customers: {
             type: Array,
-            required: false,
+            required: false
         },
         local_documentTypes: {
             type: Array,
-            required: false,
+            required: false
         },
         local_statusDocumentary: {
             type: Array,
-            required: false,
-        },
+            required: false
+        }
     },
     computed: {
         ...mapState([
-            'offices',
-            'file',
-            'files',
-            'processes',
-            'actions',
-            'customers',
-            'documentTypes',
-            'statusDocumentary',
-        ]),
+            "offices",
+            "file",
+            "files",
+            "processes",
+            "actions",
+            "customers",
+            "documentTypes",
+            "statusDocumentary"
+        ])
     },
     components: {
         ModalAddReason
@@ -529,7 +615,7 @@ export default {
                 archived: 0,
                 expired: 0,
                 name: "",
-                register_date: "Hoy",
+                register_date: "Hoy"
             },
             basePath: "/documentary-procedure/files",
             datesFilter: [
@@ -540,42 +626,50 @@ export default {
                 "Este mes",
                 "Mes anterior",
                 "Este año",
-                "Personalizado",
-            ],
+                "Personalizado"
+            ]
         };
     },
     created() {
-        this.loadOffices()
-        this.loadActions()
-        this.loadCustomers()
-        this.loadProcesses()
-        this.loadFiles()
-        this.loadDocumentTypes()
-
+        this.loadOffices();
+        this.loadActions();
+        this.loadCustomers();
+        this.loadProcesses();
+        this.loadFiles();
+        this.loadDocumentTypes();
     },
     mounted() {
-        this.$store.commit('setOffices', this.local_offices)
-        this.$store.commit('setFiles', this.local_files)
-        this.$store.commit('setProcesses', this.local_processes)
-        this.$store.commit('setActions', this.local_actions)
-        this.$store.commit('setCustomers', this.local_customers)
-        this.$store.commit('setDocumentTypes', this.local_documentTypes)
-        this.$store.commit('setStatusDocumentary', this.local_statusDocumentary)
+        this.$store.commit("setOffices", this.local_offices);
+        this.$store.commit("setFiles", this.local_files);
+        this.$store.commit("setProcesses", this.local_processes);
+        this.$store.commit("setActions", this.local_actions);
+        this.$store.commit("setCustomers", this.local_customers);
+        this.$store.commit("setDocumentTypes", this.local_documentTypes);
+        this.$store.commit(
+            "setStatusDocumentary",
+            this.local_statusDocumentary
+        );
 
         this.items = this.files;
-
     },
     methods: {
-        toggleInformation(){
+        formatDateTime(dateTime) {
+            if (!dateTime) return null;
+            const parsedDate = moment(dateTime, "YYYY-MM-DD - HH:mm:ss");
+            return parsedDate.isValid()
+                ? parsedDate.format("DD-MM-YYYY h:mmA")
+                : null;
+        },
+        toggleInformation() {
             this.isVisible = !this.isVisible;
         },
         ...mapActions([
-            'loadOffices',
-            'loadActions',
-            'loadCustomers',
-            'loadProcesses',
-            'loadDocumentTypes',
-            'loadFiles',
+            "loadOffices",
+            "loadActions",
+            "loadCustomers",
+            "loadProcesses",
+            "loadDocumentTypes",
+            "loadFiles"
         ]),
         haveStage(item) {
             if (item === null) return false;
@@ -584,14 +678,13 @@ export default {
             if (item.observations == null) return false;
             if (item.observations.length == null) return false;
             if (item.observations.length < 1) return false;
-            return true
+            return true;
         },
         showDocument(item) {
             item.disable = true;
-            this.$store.commit('setFile', item)
-            this.$store.commit('setOffices', this.offices)
+            this.$store.commit("setFile", item);
+            this.$store.commit("setOffices", this.offices);
             this.openModalAddEdit = true;
-
         },
         onShowExtraButtons(file) {
             if (file.offices) {
@@ -611,17 +704,18 @@ export default {
             this.loading = true;
             this.$http
                 .post(`/documentary-procedure/file/reload`, this.filter)
-                .then((result) => {
+                .then(result => {
                     let files = result.data.data;
-                    this.$store.commit('setFiles', files)
-                    this.items = this.files
+                    this.$store.commit("setFiles", files);
+                    this.items = this.files;
                     this.loading = false;
-                }).catch((err) => {
-                this.loading = false;
-            })
+                })
+                .catch(err => {
+                    this.loading = false;
+                });
         },
         onAddOffice(office) {
-            this.items = this.items.map((i) => {
+            this.items = this.items.map(i => {
                 if (i.id === this.file.id) {
                     i.offices.push(office);
                 }
@@ -634,7 +728,7 @@ export default {
         },
         onShowModalStage(file) {
             //this.file = file;
-            this.$store.commit('setFile', file)
+            this.$store.commit("setFile", file);
             this.showModalStage = true;
         },
         onPrepareFilterDate() {
@@ -646,19 +740,27 @@ export default {
                 this.filter.date_end = null;
             }
             if (this.filter.register_date === "Ayer") {
-                this.filter.date_start = date.subtract(1, "days").format("YYYY-MM-DD");
+                this.filter.date_start = date
+                    .subtract(1, "days")
+                    .format("YYYY-MM-DD");
                 this.filter.date_end = null;
             }
             if (this.filter.register_date === "Anteriores a 7 días") {
-                this.filter.date_start = date.subtract(7, "days").format("YYYY-MM-DD");
+                this.filter.date_start = date
+                    .subtract(7, "days")
+                    .format("YYYY-MM-DD");
                 this.filter.date_end = moment().format("YYYY-MM-DD");
             }
             if (this.filter.register_date === "Anteriores a 30 días") {
-                this.filter.date_start = date.subtract(30, "days").format("YYYY-MM-DD");
+                this.filter.date_start = date
+                    .subtract(30, "days")
+                    .format("YYYY-MM-DD");
                 this.filter.date_end = moment().format("YYYY-MM-DD");
             }
             if (this.filter.register_date === "Este mes") {
-                this.filter.date_start = date.startOf("month").format("YYYY-MM-DD");
+                this.filter.date_start = date
+                    .startOf("month")
+                    .format("YYYY-MM-DD");
                 this.filter.date_end = date.endOf("month").format("YYYY-MM-DD");
             }
             if (this.filter.register_date === "Mes anterior") {
@@ -666,10 +768,14 @@ export default {
                 this.filter.date_start = prevMonth
                     .startOf("month")
                     .format("YYYY-MM-DD");
-                this.filter.date_end = prevMonth.endOf("month").format("YYYY-MM-DD");
+                this.filter.date_end = prevMonth
+                    .endOf("month")
+                    .format("YYYY-MM-DD");
             }
             if (this.filter.register_date === "Este año") {
-                this.filter.date_start = date.startOf("year").format("YYYY-MM-DD");
+                this.filter.date_start = date
+                    .startOf("year")
+                    .format("YYYY-MM-DD");
                 this.filter.date_end = date.endOf("year").format("YYYY-MM-DD");
             }
             if (this.filter.register_date === "Personalizado") {
@@ -677,7 +783,7 @@ export default {
             }
         },
         onFilter() {
-            this.updateFiles()
+            this.updateFiles();
         },
         onDelete(item) {
             this.loading = true;
@@ -687,11 +793,11 @@ export default {
                 {
                     confirmButtonText: "Si, continuar",
                     cancelButtonText: "No, cerrar",
-                    type: "warning",
+                    type: "warning"
                 }
             )
                 .then(() => {
-                    this.updateFiles()
+                    this.updateFiles();
                     /*
                     this.$http
                         .delete(`${this.basePath}/${item.id}/delete`)
@@ -714,11 +820,11 @@ export default {
                 .catch();
         },
         onShowHistoricalStage(item) {
-            this.$store.commit('setFile', item)
+            this.$store.commit("setFile", item);
             this.showStageModalObservationStage = true;
         },
         onUpdateItem(data) {
-            this.items = this.items.map((i) => {
+            this.items = this.items.map(i => {
                 if (i.id === data.id) {
                     return data;
                 }
@@ -726,62 +832,60 @@ export default {
             });
         },
         onUploadComplete() {
-            this.updateFiles()
-
+            this.updateFiles();
         },
         onAddItem(data) {
-            this.updateFiles()
+            this.updateFiles();
         },
         editItem(id) {
-            window.location = `/documentary-procedure/files_simplify/edit/` + id;
-
+            window.location =
+                `/documentary-procedure/files_simplify/edit/` + id;
         },
         printFile(id) {
-            window.open(`/documentary-procedure/files_simplify/export_current/` + id, '_blank');
+            window.open(
+                `/documentary-procedure/files_simplify/export_current/` + id,
+                "_blank"
+            );
         },
         completeItem(id) {
             this.$http
                 .post(`/documentary-procedure/files_simplify/complete/` + id)
-                .then((response) => {
+                .then(response => {
                     this.$message({
                         type: "success",
-                        message: response.data.message,
+                        message: response.data.message
                     });
-
                 })
-                .catch((error) => {
-                    this.axiosError(error)
+                .catch(error => {
+                    this.axiosError(error);
                 })
                 .finally(() => {
                     this.updateFiles();
                 });
         },
         archiveFile(id) {
-
             this.temp_id = id;
             this.openModalReason = true;
 
             return null;
-
         },
 
         onArchive() {
-            this.temp_id=0
+            this.temp_id = 0;
             this.openModalReason = false;
-            this.updateFiles()
+            this.updateFiles();
         },
         reactiveFile(id) {
             this.$http
                 .post(`/documentary-procedure/files_simplify/reactive/` + id)
-                .then((response) => {
+                .then(response => {
                     this.$message({
                         type: "success",
-                        message: response.data.message,
+                        message: response.data.message
                     });
-
                 })
-                .catch((error) => {
-                    this.axiosError(error)
+                .catch(error => {
+                    this.axiosError(error);
                 })
                 .finally(() => {
                     this.updateFiles();
@@ -790,43 +894,43 @@ export default {
         removeItem(id) {
             this.$http
                 .post(`/documentary-procedure/files_simplify/destroy/` + id)
-                .then((response) => {
-
+                .then(response => {
                     this.$message({
                         type: "success",
-                        message: response.data.message,
+                        message: response.data.message
                     });
-
                 })
-                .catch((error) => {
-                    this.axiosError(error)
+                .catch(error => {
+                    this.axiosError(error);
                 })
                 .finally(() => {
                     this.updateFiles();
                 });
-
         },
         onCreate() {
             window.location = `/documentary-procedure/files_simplify/create`;
-            return null
+            return null;
         },
         onEdit(item) {
-            this.$store.commit('setFile', item)
-            this.$store.commit('setOffices', this.offices)
+            this.$store.commit("setFile", item);
+            this.$store.commit("setOffices", this.offices);
             this.openModalAddEdit = true;
         },
         clickDownload(type) {
-
             let query = queryString.stringify({
                 ...this.filter
             });
-            if (type == 'excel') {
-                window.open(`/documentary-procedure/files_simplify/export/excel?${query}`, '_blank');
+            if (type == "excel") {
+                window.open(
+                    `/documentary-procedure/files_simplify/export/excel?${query}`,
+                    "_blank"
+                );
                 return null;
             }
-            window.open(`/documentary-procedure/files_simplify/export/pdf?${query}`, '_blank');
-
-
+            window.open(
+                `/documentary-procedure/files_simplify/export/pdf?${query}`,
+                "_blank"
+            );
         },
         searchRemoteCustomers(input) {
             if (input.length > 0) {
@@ -835,43 +939,46 @@ export default {
 
                 this.$http
                     .get(`/documents/search/customers?${parameters}`)
-                    .then((response) => {
-                        this.$store.commit('setCustomers', response.data.customers)
+                    .then(response => {
+                        this.$store.commit(
+                            "setCustomers",
+                            response.data.customers
+                        );
                     })
-                    .catch((error) => this.axiosError(error))
+                    .catch(error => this.axiosError(error))
                     .finally(() => (this.loading = false));
             }
         },
 
         changeCustomer() {
             const customer = this.customers
-                .filter((c) => this.filter.person_id == c.id)
-                .reduce((c) => c);
+                .filter(c => this.filter.person_id == c.id)
+                .reduce(c => c);
             this.form.sender = {
                 name: customer.name,
                 address: customer.address,
                 number: customer.number,
-                identity_document_type_id: customer.identity_document_type_id,
+                identity_document_type_id: customer.identity_document_type_id
             };
         },
         getDiffDay(dateEnd) {
-            let str = '';
-            if (dateEnd === undefined) return str;
-            if (dateEnd === null) return str;
+            let str = "";
+            if (!dateEnd) return str;
 
-            let now = moment().startOf('day');
-            dateEnd = moment(dateEnd, "YYYY-MM-DD HH:mm:ss").startOf('day');
-            let total = (dateEnd.diff(now, 'days')+1);
+            let now = moment().startOf("day");
+            dateEnd = moment(dateEnd, "YYYY-MM-DD HH:mm:ss").startOf("day");
+            let total = dateEnd.diff(now, "days") + 1;
+
             if (total > 0) {
-                str = 'Falta(n) ' + total + ' día(s)';
+                str = "Falta(n) " + total + " día(s)";
             } else if (total < 0) {
-                // str = 'Finalizó hace ' + total + ' día(s)';
+                str = "Finalizó hace " + Math.abs(total) + " día(s)";
             } else {
-                str = 'Hoy finaliza'
+                str = "Hoy finaliza";
             }
-            return str
-        },
-    },
+            return str;
+        }
+    }
 };
 </script>
 <style>

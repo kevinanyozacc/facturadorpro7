@@ -14,16 +14,16 @@ class PerceptionCollection extends ResourceCollection
      */
     public function toArray($request)
     {
-        return $this->collection->transform(function($row, $key) {
+        return $this->collection->transform(function ($row, $key) {
             return [
                 'id' => $row->id,
                 'group_id' => $row->group_id,
                 'soap_type_id' => $row->soap_type_id,
-                'date_of_issue' => $row->date_of_issue->format('Y-m-d'),
+                'date_of_issue' => $row->date_of_issue->format('d-m-Y'),
                 'document_type_short' => $row->document_type->short,
                 'number' => $row->number_full,
                 'customer_name' => $row->customer->name,
-                'customer_number' => $row->customer->identity_document_type->description.' '.$row->customer->number,
+                'customer_number' => $row->customer->identity_document_type->description . ' ' . $row->customer->number,
                 'total_retention' => $row->total_retention,
                 'perception_type_description' => $row->perception_type->description,
                 'total' => $row->total,

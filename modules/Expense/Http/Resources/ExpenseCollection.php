@@ -14,12 +14,12 @@ class ExpenseCollection extends ResourceCollection
      */
     public function toArray($request)
     {
-        return $this->collection->transform(function($row, $key) {
+        return $this->collection->transform(function ($row, $key) {
 
 
             return [
                 'id' => $row->id,
-                'date_of_issue' => $row->date_of_issue->format('Y-m-d'),
+                'date_of_issue' => $row->date_of_issue->format('d-m-Y'),
                 'number' => $row->number,
                 'supplier_name' => $row->supplier->name,
                 'supplier_number' => $row->supplier->number,

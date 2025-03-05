@@ -14,11 +14,11 @@ class PersonTypeCollection extends ResourceCollection
      */
     public function toArray($request)
     {
-        return $this->collection->transform(function($row, $key) {
+        return $this->collection->transform(function ($row, $key) {
             return [
                 'id' => $row->id,
                 'description' => $row->description,
-                'created_at' => $row->created_at->format('Y-m-d H:i:s'),
+                'created_at' => $row->created_at->format('d-m-Y h:iA'),
                 'updated_at' => $row->updated_at->format('Y-m-d H:i:s'),
             ];
         });
