@@ -14,7 +14,7 @@ class SummaryCollection extends ResourceCollection
      */
     public function toArray($request)
     {
-        return $this->collection->transform(function($row, $key) {
+        return $this->collection->transform(function ($row, $key) {
             $btn_ticket = false;
             $has_xml = false;
             $has_cdr = false;
@@ -30,8 +30,8 @@ class SummaryCollection extends ResourceCollection
             }
             return [
                 'id' => $row->id,
-                'date_of_issue' => $row->date_of_issue->format('Y-m-d'),
-                'date_of_reference' => $row->date_of_reference->format('Y-m-d'),
+                'date_of_issue' => $row->date_of_issue->format('d-m-Y'),
+                'date_of_reference' => $row->date_of_reference->format('d-m-Y'),
                 'state_type_id' => $row->state_type_id,
                 'state_type_description' => $row->state_type->description,
                 'ticket' => $row->ticket,

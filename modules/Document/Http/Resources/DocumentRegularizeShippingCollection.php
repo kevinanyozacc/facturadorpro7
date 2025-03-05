@@ -13,8 +13,9 @@ class DocumentRegularizeShippingCollection extends ResourceCollection
      * @param  \Illuminate\Http\Request  $request
      * @return mixed
      */
-    public function toArray($request) {
-        return $this->collection->transform(function($row, $key) {
+    public function toArray($request)
+    {
+        return $this->collection->transform(function ($row, $key) {
 
             $btn_resend = $row->isAvailableResend();
             $text_tooltip = '';
@@ -41,7 +42,7 @@ class DocumentRegularizeShippingCollection extends ResourceCollection
                 }
             }
 
-            if($row->regularize_shipping) {
+            if ($row->regularize_shipping) {
                 $message_regularize_shipping = "{$row->response_regularize_shipping->code} - {$row->response_regularize_shipping->description}";
             }
 
@@ -50,7 +51,7 @@ class DocumentRegularizeShippingCollection extends ResourceCollection
                 'soap_type_id' => $row->soap_type_id,
                 'group_id' => $row->group_id,
                 'soap_type_description' => $row->soap_type->description,
-                'date_of_issue' => $row->date_of_issue->format('Y-m-d'),
+                'date_of_issue' => $row->date_of_issue->format('d-m-Y'),
                 'number' => $row->number_full,
                 'customer_name' => $row->customer->name,
                 'customer_number' => $row->customer->number,

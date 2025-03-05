@@ -41,7 +41,7 @@ class UnpaidCollection extends ResourceCollection
                     $invoice = Invoice::where('document_id', $row->id)->first();
                     if ($invoice) {
                         $due = Carbon::parse($invoice->date_of_due); // $invoice->date_of_due;
-                        $date_of_due = $invoice->date_of_due->format('Y/m/d');
+                        $date_of_due = $invoice->date_of_due->format('d/m/Y');
                         $now = Carbon::now();
                         if ($now > $due) {
                             $delay_payment = $now->diffInDays($due);
@@ -86,7 +86,7 @@ class UnpaidCollection extends ResourceCollection
                 'customer_name' => $row->customer_name,
                 'customer_id' => $row->customer_id,
                 'number_full' => $row->number_full,
-                'total' => number_format((float)$row->total, 2, ".", ""),
+                'total' => number_format((float) $row->total, 2, ".", ""),
                 'total_to_pay' => number_format($total_to_pay, 2, ".", ""),
                 'type' => $row->type,
                 'guides' => $guides,
@@ -94,11 +94,11 @@ class UnpaidCollection extends ResourceCollection
                 'delay_payment' => $delay_payment,
                 'date_of_due' => $date_of_due,
                 'currency_type_id' => $row->currency_type_id,
-                'exchange_rate_sale' => (float)$row->exchange_rate_sale,
+                'exchange_rate_sale' => (float) $row->exchange_rate_sale,
                 "user_id" => $row->user_id,
                 "username" => $row->username,
                 "total_subtraction" => $row->total_subtraction,
-                "total_credit_notes" => $this->getTotalCreditNote($row) ,
+                "total_credit_notes" => $this->getTotalCreditNote($row),
                 "total_payment" => $row->total_payment,
                 "web_platforms" => $web_platforms,
                 "purchase_order" => $purchase_order,

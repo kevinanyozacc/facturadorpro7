@@ -14,15 +14,15 @@ class IncomeCollection extends ResourceCollection
      */
     public function toArray($request)
     {
-        return $this->collection->transform(function($row, $key) {
+        return $this->collection->transform(function ($row, $key) {
 
 
             return [
                 'id' => $row->id,
-                'date_of_issue' => $row->date_of_issue->format('Y-m-d'),
+                'date_of_issue' => $row->date_of_issue->format('d-m-Y'),
                 'number' => $row->number,
                 'external_id' => $row->external_id,
-                'customer_name' => $row->customer, 
+                'customer_name' => $row->customer,
                 'currency_type_id' => $row->currency_type_id,
                 'state_type_id' => $row->state_type_id,
                 'total' => $row->total,

@@ -13,22 +13,22 @@ class OrderFormCollection extends ResourceCollection
      */
     public function toArray($request)
     {
-        return $this->collection->transform(function($row, $key) {
+        return $this->collection->transform(function ($row, $key) {
 
             $btn_dispatch = $row->dispatch ? false : true;
 
-            
+
             return [
                 'id' => $row->id,
                 'btn_dispatch' => $btn_dispatch,
                 'external_id' => $row->external_id,
                 'soap_type_id' => $row->soap_type_id,
-                'date_of_issue' => $row->date_of_issue->format('Y-m-d'),
+                'date_of_issue' => $row->date_of_issue->format('d-m-Y'),
                 'number' => $row->number_full,
                 'driver_name' => $row->driver->name,
                 'customer_name' => $row->customer->name,
-                'customer_number' => $row->customer->identity_document_type->description.' '.$row->customer->number,
-                'date_of_shipping' => $row->date_of_shipping->format('Y-m-d'),
+                'customer_number' => $row->customer->identity_document_type->description . ' ' . $row->customer->number,
+                'date_of_shipping' => $row->date_of_shipping->format('d-m-Y'),
                 'state_type_id' => $row->state_type_id,
                 'state_type_description' => $row->state_type->description,
                 'created_at' => $row->created_at->format('Y-m-d H:i:s'),

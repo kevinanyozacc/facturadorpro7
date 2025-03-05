@@ -14,21 +14,21 @@ class PurchaseQuotationCollection extends ResourceCollection
      */
     public function toArray($request)
     {
-        return $this->collection->transform(function($row, $key) {
-        
+        return $this->collection->transform(function ($row, $key) {
+
             return [
-                'id' => $row->id, 
+                'id' => $row->id,
                 'has_purchase_orders' => ($row->purchase_orders->count()) ? true : false,
                 'soap_type_id' => $row->soap_type_id,
                 'external_id' => $row->external_id,
-                'date_of_issue' => $row->date_of_issue->format('Y-m-d'),
-                'identifier' => $row->identifier, 
-                'state_type_id' => $row->state_type_id, 
-                'state_type_description' => $row->state_type->description,  
+                'date_of_issue' => $row->date_of_issue->format('d-m-Y'),
+                'identifier' => $row->identifier,
+                'state_type_id' => $row->state_type_id,
+                'state_type_description' => $row->state_type->description,
                 'created_at' => $row->created_at->format('Y-m-d H:i:s'),
                 'updated_at' => $row->updated_at->format('Y-m-d H:i:s'),
             ];
         });
     }
-    
+
 }

@@ -4,7 +4,29 @@
         <div class="page-header pr-0">
             <h2>
                 <a href="/suscription/payment_receipt">
-                    <svg  xmlns="http://www.w3.org/2000/svg" style="margin-top: -5px;" width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-calendar-user"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 21h-6a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4.5" /><path d="M16 3v4" /><path d="M8 3v4" /><path d="M4 11h16" /><path d="M19 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M22 22a2 2 0 0 0 -2 -2h-2a2 2 0 0 0 -2 2" /></svg>
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        style="margin-top: -5px;"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="icon icon-tabler icons-tabler-outline icon-tabler-calendar-user"
+                    >
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path
+                            d="M12 21h-6a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4.5"
+                        />
+                        <path d="M16 3v4" />
+                        <path d="M8 3v4" />
+                        <path d="M4 11h16" />
+                        <path d="M19 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                        <path d="M22 22a2 2 0 0 0 -2 -2h-2a2 2 0 0 0 -2 2" />
+                    </svg>
                 </a>
             </h2>
             <ol class="breadcrumbs">
@@ -33,13 +55,21 @@
             <div class="data-table-visible-columns">
                 <el-dropdown :hide-on-click="false">
                     <el-button type="primary">
-                        Mostrar/Ocultar columnas<i class="el-icon-arrow-down el-icon--right">
-                    </i>
+                        Mostrar/Ocultar columnas<i
+                            class="el-icon-arrow-down el-icon--right"
+                        >
+                        </i>
                     </el-button>
                     <el-dropdown-menu slot="dropdown">
-                        <el-dropdown-item v-for="(column, index) in columns"
-                                          :key="index">
-                            <el-checkbox v-model="column.visible" @change="saveColumnVisibility">{{ column.title }}</el-checkbox>
+                        <el-dropdown-item
+                            v-for="(column, index) in columns"
+                            :key="index"
+                        >
+                            <el-checkbox
+                                v-model="column.visible"
+                                @change="saveColumnVisibility"
+                                >{{ column.title }}</el-checkbox
+                            >
                         </el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
@@ -47,7 +77,7 @@
             <div class="card-body">
                 <data-table-payment-receipt
                     :resource="resource"
-                    :extraquery="{onlySuscription:1}"
+                    :extraquery="{ onlySuscription: 1 }"
                 >
                     <tr slot="heading">
                         <!-- <th>#</th> -->
@@ -59,9 +89,7 @@
                         <th>Recibo de pago</th>
                         <th>Estado</th>
                         <th class="text-center">Moneda</th>
-                        <th
-                            class="text-right">F. Vencimiento
-                        </th>
+                        <th class="text-right">F. Vencimiento</th>
                         <!--
                         <th v-if="columns.total_exportation.visible"
                             class="text-right">T.Exportación
@@ -86,20 +114,26 @@
                         -->
                         <th class="text-right">Total</th>
 
-                        <th v-if="columns.total_paid.visible"
-                            class="text-center">Pagado
+                        <th
+                            v-if="columns.total_paid.visible"
+                            class="text-center"
+                        >
+                            Pagado
                         </th>
-                        <th v-if="columns.total_pending_paid.visible"
-                            class="text-center">Por pagar
+                        <th
+                            v-if="columns.total_pending_paid.visible"
+                            class="text-center"
+                        >
+                            Por pagar
                         </th>
 
                         <th class="text-center">Comprobantes</th>
                         <th class="text-center">Estado pago</th>
-<!--                        <th class="text-center">Orden de compra</th>-->
+                        <!--                        <th class="text-center">Orden de compra</th>-->
                         <th class="text-center">Pagos</th>
                         <th class="text-center">Descarga</th>
-<!--                        <th class="text-center"> Recurrencia </th>-->
-                       <!--
+                        <!--                        <th class="text-center"> Recurrencia </th>-->
+                        <!--
                          <th v-if="columns.type_period.visible"
                             class="text-center">
                             Tipo Periodo
@@ -119,35 +153,40 @@
                         </th>
                         -->
                         <th class="text-right">Acciones</th>
-                    <tr>
+                    </tr>
+
+                    <tr></tr>
                     <tr slot-scope="{ index, row }">
                         <!-- # -->
                         <!-- <td>{{ index }}</td> -->
                         <!-- Fecha Emisión -->
-                        <td class="text-left">{{ row.date_of_issue }}</td>
+                        <td class="text-left">
+                            {{ formatDate(row.date_of_issue) }}
+                        </td>
                         <!-- Cliente -->
-                        <td>{{ row.customer_name }}<br/>
-                            <small v-text="row.customer_number">
-                            </small>
+                        <td>
+                            {{ row.customer_name }}<br />
+                            <small v-text="row.customer_number"> </small>
                         </td>
                         <!-- Hijo -->
-                        <td>{{ row.children_name }}<br/>
+                        <td>
+                            {{ row.children_name }}<br />
                             <small v-text="row.children_number"></small>
                         </td>
-<!--                        Grado-->
-                    <td>{{ row.grade }} </td>
-<!--                        Sección -->
-                    <td>{{ row.section }} </td>
+                        <!--                        Grado-->
+                        <td>{{ row.grade }}</td>
+                        <!--                        Sección -->
+                        <td>{{ row.section }}</td>
                         <!-- Recibo de pago -->
-                        <td>{{ row.full_number }} </td>
+                        <td>{{ row.full_number }}</td>
                         <!-- Estado  -->
                         <td>{{ row.state_type_description }}</td>
                         <!--Moneda -->
                         <td class="text-center">{{ row.currency_type_id }}</td>
 
                         <!-- F. Vencimiento -->
-                        <td
-                            class="text-right">{{ row.due_date }}
+                        <td class="text-right">
+                            {{ formatDate(row.due_date) }}
                         </td>
                         <!-- -- >
                         <td v-if="columns.total_exportation.visible"
@@ -178,29 +217,41 @@
                         <td class="text-right">{{ row.total }}</td>
 
                         <!--Pagado -->
-                        <td v-if="columns.total_paid.visible"
-                            class="text-center">
+                        <td
+                            v-if="columns.total_paid.visible"
+                            class="text-center"
+                        >
                             {{ row.total_paid }}
                         </td>
                         <!-- Por pagar -->
-                        <td v-if="columns.total_pending_paid.visible"
-                            class="text-center">
+                        <td
+                            v-if="columns.total_pending_paid.visible"
+                            class="text-center"
+                        >
                             {{ row.total_pending_paid }}
                         </td>
                         <!--Comprobantes -->
                         <td>
-                            <template v-for="(document,i) in row.documents">
-                                <label :key="i"
-                                       class="d-block"
-                                       v-text="document.number_full">
+                            <template v-for="(document, i) in row.documents">
+                                <label
+                                    :key="i"
+                                    class="d-block"
+                                    v-text="document.number_full"
+                                >
                                 </label>
                             </template>
                         </td>
                         <!-- Estado pago -->
                         <td class="text-center">
                             <span
-                                :class="{'bg-success': (row.total_canceled), 'bg-warning': (!row.total_canceled)}"
-                                class="badge text-white">{{ row.total_canceled ? 'Pagado' : 'Pendiente' }}
+                                :class="{
+                                    'bg-success': row.total_canceled,
+                                    'bg-warning': !row.total_canceled
+                                }"
+                                class="badge text-white"
+                                >{{
+                                    row.total_canceled ? "Pagado" : "Pendiente"
+                                }}
                             </span>
                         </td>
 
@@ -209,22 +260,24 @@
 
                         <!-- Pagos -->
                         <td class="text-center">
-                            <button class="btn waves-effect waves-light btn-xs btn-primary"
-                                    style="min-width: 41px"
-                                    type="button"
-                                    @click.prevent="clickPayment(row.id)">
-                                <i class="fas fa-money-bill-alt">
-                                </i>
+                            <button
+                                class="btn waves-effect waves-light btn-xs btn-primary"
+                                style="min-width: 41px"
+                                type="button"
+                                @click.prevent="clickPayment(row.id)"
+                            >
+                                <i class="fas fa-money-bill-alt"> </i>
                             </button>
                         </td>
 
                         <!-- Descarga -->
                         <td class="text-right">
-                            <button class="btn waves-effect waves-light btn-xs btn-info"
-                                    type="button"
-                                    @click.prevent="clickDownload(row.external_id)">
-                                <i class="fas fa-file-pdf">
-                                </i>
+                            <button
+                                class="btn waves-effect waves-light btn-xs btn-info"
+                                type="button"
+                                @click.prevent="clickDownload(row.external_id)"
+                            >
+                                <i class="fas fa-file-pdf"> </i>
                             </button>
                         </td>
                         <!-- -- >
@@ -255,22 +308,23 @@
                             {{ row.paid ? 'Pagado' : 'Pendiente' }}
                         </td>
                         <!-- license_plate-->
-                    <!--
+                        <!--
                         <td v-if="columns.license_plate.visible"
                             class="text-right">
                             {{ row.license_plate }}
                         </td>
                     -->
                         <td class="text-right">
-                            <button v-if="row.state_type_id != '11'"
-                                    class="btn waves-effect waves-light btn-xs btn-danger"
-                                    data-placement="top"
-                                    data-toggle="tooltip"
-                                    title="Anular"
-                                    type="button"
-                                    @click.prevent="clickVoided(row.id)">
-                                <i class="fas fa-trash">
-                                </i>
+                            <button
+                                v-if="row.state_type_id != '11'"
+                                class="btn waves-effect waves-light btn-xs btn-danger"
+                                data-placement="top"
+                                data-toggle="tooltip"
+                                title="Anular"
+                                type="button"
+                                @click.prevent="clickVoided(row.id)"
+                            >
+                                <i class="fas fa-trash"> </i>
                             </button>
 
                             <!--
@@ -286,15 +340,20 @@
                             </button>
                             -->
 
-                            <button v-if="!row.changed && row.state_type_id != '11' && soapCompany != '03'"
-                                    class="btn waves-effect waves-light btn-xs btn-success"
-                                    data-placement="top"
-                                    data-toggle="tooltip"
-                                    title="Generar comprobante"
-                                    type="button"
-                                    @click.prevent="clickGenerate(row.id)">
-                                <i class="fas fa-file-excel">
-                                </i>
+                            <button
+                                v-if="
+                                    !row.changed &&
+                                        row.state_type_id != '11' &&
+                                        soapCompany != '03'
+                                "
+                                class="btn waves-effect waves-light btn-xs btn-success"
+                                data-placement="top"
+                                data-toggle="tooltip"
+                                title="Generar comprobante"
+                                type="button"
+                                @click.prevent="clickGenerate(row.id)"
+                            >
+                                <i class="fas fa-file-excel"> </i>
                             </button>
                             <!--
                             <el-tooltip class="item"
@@ -323,15 +382,16 @@
                             </el-tooltip>
                             -->
 
-                            <button v-if="row.state_type_id != '11'"
-                                    class="btn waves-effect waves-light btn-xs btn-info"
-                                    data-placement="top"
-                                    data-toggle="tooltip"
-                                    title="Imprimir"
-                                    type="button"
-                                    @click.prevent="clickOptions(row.id)">
-                                <i class="fas fa-print">
-                                </i>
+                            <button
+                                v-if="row.state_type_id != '11'"
+                                class="btn waves-effect waves-light btn-xs btn-info"
+                                data-placement="top"
+                                data-toggle="tooltip"
+                                title="Imprimir"
+                                type="button"
+                                @click.prevent="clickOptions(row.id)"
+                            >
+                                <i class="fas fa-print"> </i>
                             </button>
                             <!--
                             <button class="btn waves-effect waves-light btn-xs btn-info"
@@ -353,32 +413,34 @@
                                 </i>
                             </button>
                             -->
-
                         </td>
-
-
                     </tr>
                 </data-table-payment-receipt>
             </div>
         </div>
 
-        <sale-note-payments :documentId="recordId"
-                            :showDialog.sync="showDialogPayments">
+        <sale-note-payments
+            :documentId="recordId"
+            :showDialog.sync="showDialogPayments"
+        >
         </sale-note-payments>
 
-        <sale-notes-options :configuration="config"
-                            :recordId="saleNotesNewId"
-                            :showClose="true"
-                            :showDialog.sync="showDialogOptions">
+        <sale-notes-options
+            :configuration="config"
+            :recordId="saleNotesNewId"
+            :showClose="true"
+            :showDialog.sync="showDialogOptions"
+        >
         </sale-notes-options>
 
-        <sale-note-generate :recordId="recordId"
-                            :show.sync="showDialogGenerate"
-                            :showClose="false"
-                            :showGenerate="true">
+        <sale-note-generate
+            :recordId="recordId"
+            :show.sync="showDialogGenerate"
+            :showClose="false"
+            :showGenerate="true"
+        >
         </sale-note-generate>
-        <ModalGenerateCPE :show.sync="showModalGenerateCPE">
-        </ModalGenerateCPE>
+        <ModalGenerateCPE :show.sync="showModalGenerateCPE"> </ModalGenerateCPE>
         <!--
         <UploadToOtherServer
             :configuration="config"
@@ -392,39 +454,37 @@
 <script>
 // import DataTable from '../../../components/DataTableSaleNote.vue'
 // import UploadToOtherServer from './partials/upload_other_server_group.vue'
-import SaleNotePayments from './partials/payments.vue'
-import SaleNotesOptions from './partials/options.vue'
-import SaleNoteGenerate from './partials/option_documents'
-import ModalGenerateCPE from './ModalGenerateCPE'
-import {mapActions, mapState} from "vuex/dist/vuex.mjs";
-import {deletable} from "../../../../../../resources/js/mixins/deletable";
+import SaleNotePayments from "./partials/payments.vue";
+import SaleNotesOptions from "./partials/options.vue";
+import SaleNoteGenerate from "./partials/option_documents";
+import ModalGenerateCPE from "./ModalGenerateCPE";
+import { mapActions, mapState } from "vuex/dist/vuex.mjs";
+import { deletable } from "../../../../../../resources/js/mixins/deletable";
 
 export default {
     // tenant-index-payment-receipt
     props: [
-        'soapCompany',
+        "soapCompany",
         // 'typeUser',
-        'configuration'
+        "configuration"
     ],
     mixins: [deletable],
     components: {
-       //  DataTable,
+        //  DataTable,
         SaleNotePayments,
         SaleNotesOptions,
         SaleNoteGenerate,
-        ModalGenerateCPE,
+        ModalGenerateCPE
         // UploadToOtherServer
     },
     computed: {
-        ...mapState([
-            'config',
-        ]),
+        ...mapState(["config"])
     },
     data() {
         return {
             showModalGenerateCPE: false,
             showMigrateNv: false,
-            resource: 'sale-notes',
+            resource: "sale-notes",
             showDialogPayments: false,
             showDialogOptions: false,
             showDialogGenerate: false,
@@ -432,14 +492,14 @@ export default {
             recordId: null,
             columns: {
                 total_paid: {
-                    title: 'Pagado',
+                    title: "Pagado",
                     visible: false
                 },
 
                 total_pending_paid: {
-                    title: 'Por pagar',
+                    title: "Por pagar",
                     visible: false
-                },
+                }
                 /*
                 paid: {
                     title: 'Estado de Pago',
@@ -488,60 +548,69 @@ export default {
                     visible: true
                 },
                 */
-
             }
-        }
+        };
     },
     created() {
         this.loadColumnVisibility();
-        this.loadConfiguration()
-        this.$store.commit('setConfiguration', this.configuration)
+        this.loadConfiguration();
+        this.$store.commit("setConfiguration", this.configuration);
     },
     filters: {
         period(name) {
-            let res = ''
+            let res = "";
             switch (name) {
-                case 'month':
-                    res = 'Mensual'
-                    break
-                case 'year':
-                    res = 'Anual'
-                    break
+                case "month":
+                    res = "Mensual";
+                    break;
+                case "year":
+                    res = "Anual";
+                    break;
                 default:
-
                     break;
             }
 
-            return res
+            return res;
         }
     },
     methods: {
+        formatDate(date) {
+            if (!date) return null;
+            const parsedDate = moment(date);
+            return parsedDate.isValid()
+                ? parsedDate.format("DD-MM-YYYY")
+                : null;
+        },
         saveColumnVisibility() {
-            localStorage.setItem('columnVisibilitySchoolreceipt', JSON.stringify(this.columns));
+            localStorage.setItem(
+                "columnVisibilitySchoolreceipt",
+                JSON.stringify(this.columns)
+            );
         },
         loadColumnVisibility() {
-            const savedColumns = localStorage.getItem('columnVisibilitySchoolreceipt');
+            const savedColumns = localStorage.getItem(
+                "columnVisibilitySchoolreceipt"
+            );
             if (savedColumns) {
                 this.columns = JSON.parse(savedColumns);
             }
         },
-        ...mapActions([
-            'loadConfiguration',
-        ]),
+        ...mapActions(["loadConfiguration"]),
         duplicate(id) {
-            this.$http.post(`${this.resource}/duplicate`, {id})
+            this.$http
+                .post(`${this.resource}/duplicate`, { id })
                 .then(response => {
                     if (response.data.success) {
-                        this.$message.success('Se guardaron los cambios correctamente.')
-                        this.$eventHub.$emit('reloadData')
+                        this.$message.success(
+                            "Se guardaron los cambios correctamente."
+                        );
+                        this.$eventHub.$emit("reloadData");
                     } else {
-                        this.$message.error('No se guardaron los cambios')
+                        this.$message.error("No se guardaron los cambios");
                     }
                 })
-                .catch(error => {
-
-                })
-            this.$eventHub.$emit('reloadData')
+                .catch(error => {});
+            this.$eventHub.$emit("reloadData");
         },
         onOpenModalGenerateCPE() {
             this.showModalGenerateCPE = true;
@@ -550,68 +619,77 @@ export default {
             this.showMigrateNv = true;
         },
         clickDownload(external_id) {
-            window.open(`/sale-notes/downloadExternal/${external_id}`, '_blank');
+            window.open(
+                `/sale-notes/downloadExternal/${external_id}`,
+                "_blank"
+            );
         },
         clickOptions(recordId) {
-            this.saleNotesNewId = recordId
-            this.showDialogOptions = true
+            this.saleNotesNewId = recordId;
+            this.showDialogOptions = true;
         },
         sendToServer(recordId) {
-            this.$http.post('/sale-notes/UpToOther', {'sale_note_id': recordId}).then(response => {
-                if (response.data.success) {
-                    this.$message.success(response.data.message);
-                    this.$eventHub.$emit('reloadData')
-                } else {
-                    this.$message.error(response.data.message);
-                }
-            }).catch(error => {
-                if (
-                    error.response !== undefined &&
-                    error.response.status !== undefined &&
-                    error.response.status.errors !== undefined &&
-                    error.response.status === 422) {
-                    this.errors = error.response.data.errors;
-                } else {
-                    console.log(error);
-                }
-            }).then(() => {
-            });
+            this.$http
+                .post("/sale-notes/UpToOther", { sale_note_id: recordId })
+                .then(response => {
+                    if (response.data.success) {
+                        this.$message.success(response.data.message);
+                        this.$eventHub.$emit("reloadData");
+                    } else {
+                        this.$message.error(response.data.message);
+                    }
+                })
+                .catch(error => {
+                    if (
+                        error.response !== undefined &&
+                        error.response.status !== undefined &&
+                        error.response.status.errors !== undefined &&
+                        error.response.status === 422
+                    ) {
+                        this.errors = error.response.data.errors;
+                    } else {
+                        console.log(error);
+                    }
+                })
+                .then(() => {});
         },
         clickGenerate(recordId) {
-            this.recordId = recordId
-            this.showDialogGenerate = true
+            this.recordId = recordId;
+            this.showDialogGenerate = true;
         },
         clickPayment(recordId) {
             this.recordId = recordId;
             this.showDialogPayments = true;
         },
-        clickCreate(id = '') {
-            location.href = `/${this.resource}/create/${id}`
+        clickCreate(id = "") {
+            location.href = `/${this.resource}/create/${id}`;
         },
 
         changeConcurrency(row) {
-            this.$http.post(`/${this.resource}/enabled-concurrency`, row).then(response => {
-                if (response.data.success) {
-                    this.$message.success(response.data.message);
-                    this.$eventHub.$emit('reloadData')
-                } else {
-                    this.$message.error(response.data.message);
-                }
-            }).catch(error => {
-                if (error.response.status === 422) {
-                    this.errors = error.response.data.errors;
-                } else {
-                    console.log(error);
-                }
-            }).then(() => {
-            });
+            this.$http
+                .post(`/${this.resource}/enabled-concurrency`, row)
+                .then(response => {
+                    if (response.data.success) {
+                        this.$message.success(response.data.message);
+                        this.$eventHub.$emit("reloadData");
+                    } else {
+                        this.$message.error(response.data.message);
+                    }
+                })
+                .catch(error => {
+                    if (error.response.status === 422) {
+                        this.errors = error.response.data.errors;
+                    } else {
+                        console.log(error);
+                    }
+                })
+                .then(() => {});
         },
         clickVoided(id) {
             this.anular(`/${this.resource}/anulate/${id}`).then(() =>
-                this.$eventHub.$emit('reloadData')
-            )
-        },
-
+                this.$eventHub.$emit("reloadData")
+            );
+        }
     }
-}
+};
 </script>

@@ -14,7 +14,7 @@ class RetentionCollection extends ResourceCollection
      */
     public function toArray($request)
     {
-        return $this->collection->transform(function($row, $key) {
+        return $this->collection->transform(function ($row, $key) {
 
             $has_cdr = false;
 
@@ -24,10 +24,10 @@ class RetentionCollection extends ResourceCollection
 
             return [
                 'id' => $row->id,
-                'date_of_issue' => $row->date_of_issue->format('Y-m-d'),
+                'date_of_issue' => $row->date_of_issue->format('d-m-Y'),
                 'number' => $row->number_full,
                 'supplier_name' => $row->supplier->name,
-                'supplier_number' => $row->supplier->identity_document_type->description.' '.$row->supplier->number,
+                'supplier_number' => $row->supplier->identity_document_type->description . ' ' . $row->supplier->number,
                 'state_type_id' => $row->state_type_id,
                 'state_type_description' => $row->state_type->description,
                 'total_retention' => $row->total_retention,
