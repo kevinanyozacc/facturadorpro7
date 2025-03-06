@@ -652,6 +652,10 @@ html.sidebar-left-collapsed .sidebar-left .nav-main > li > a {
     background-color: var(--accent-color) !important;
     color: #212529 !important;
     z-index: 1 !important;
+    opacity: 0.5;
+}
+.toggle-button-invoice{
+    right: -102px !important;
 }
 .toggle-button:hover {
     background-color: var(--primary-color) !important;
@@ -686,6 +690,10 @@ html.sidebar-left-collapsed .sidebar-left .nav-main > li > a {
 html.fixed.sidebar-white:not(.dark) .sidebar-left a {
     color: var(--dark-color) !important;
     font-size: 15px;
+}
+.toggle-button.shift {
+    z-index: 1023;
+    opacity: 1;
 }
 @media only screen and (min-width: 768px) {
     html.sidebar-left-collapsed .sidebar-left,
@@ -725,6 +733,17 @@ html.fixed.sidebar-white:not(.dark) .sidebar-left a {
     .page-header {
         margin: 0 -15px 20px !important;
     }
+    .datetime-container {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: space-between !important;
+    }
+    .datetime-container > div {
+        width: 50%;
+    }
+    .is-hidden-mobile{
+        display: none !important;
+    }
 }
 @media only screen and (max-width: 768px) {
     .row-new{
@@ -734,18 +753,18 @@ html.fixed.sidebar-white:not(.dark) .sidebar-left a {
     }
 }
 @media only screen and (max-width: 550px) {
-    .toggle-button-invoice.shift {
-        right: 66% !important;
+    .toggle-button.shift {
+        position: fixed;
+        width: 230px !important;
+        left: -102px;
+    }
+    .additional-information {
+        width: 95% !important;
     }
 }
 @media only screen and (max-width: 460px) {
     .toggle-button-quotations.shift {
         right: 58% !important;
-    }
-}
-@media only screen and (max-width: 420px) {
-    .toggle-button-invoice.shift {
-        right: 56% !important;  
     }
 }
 @media only screen and (min-width: 391px){
@@ -1575,7 +1594,8 @@ html.fixed.sidebar-dark .sidebar-left .nano {
 }
 /* Header Dark */
 html.dark .header,
-html.header-dark .header {
+html.header-dark .header,
+html.dark .header .logo-container, html.header-dark .header .logo-container {
     background: var(--background-dark);
     border-bottom-color: var(--background-dark);
     border-top-color: var(--background-dark);
@@ -1608,10 +1628,12 @@ html.dark .header .logo-container .topbar-links {
 html.dark .header .logo-container .topbar-links:hover {
     background: var(--primary-color);
 }
-html.fixed.sidebar-dark .sidebar-left a {
+html.fixed.sidebar-dark .sidebar-left a,
+html.dark .navigation-options {
     color: var(--accent-color) !important;
 }
-html.dark .nav-parent.nav-active a{
+html.dark .nav-parent.nav-active a,
+html.dark .dropdown-menu-mobile .pendingWork-container{
     background-color: var(--contents-dark);
 }
 html.fixed.sidebar-dark .sidebar-left a::before,
@@ -2076,6 +2098,10 @@ html.dark fieldset[disabled] .form-control {
 html.dark .toggle-button{
     background-color: var(--primary-color) !important;
     color: var(--light-color) !important;
+    opacity: 0.5;
+}
+html.dark .toggle-button.shift{
+    opacity: 1;
 }
 html.dark .toggle-button:hover{
     background-color: var(--primary-color);
@@ -2349,7 +2375,10 @@ html.dark .upload-demo-default{
     background-color: var(--inputs-dark);
 }
 html.dark a:not([href]):not([tabindex]),
-html.dark .el-upload-list__item .el-icon-close {
+html.dark .el-upload-list__item .el-icon-close,
+html.dark .icon-tabler-grid-dots,
+html.dark .fa-bars,
+html.dark .fa-times {
     color: var(--light-color);
 }
 html.dark .el-upload-list__item:hover,
@@ -2383,6 +2412,7 @@ html.sidebar-dark .userbox.show .dropdown-menu a:hover {
 html.fixed.sidebar-white .sidebar-left, html.fixed.sidebar-white .sidebar-header, html.fixed.sidebar-white .sidebar-left .nano,
 html.dark .el-tabs__content {
     background-color: var(--background-dark) !important;
+    border-bottom: none;
 }
 html.dark ul.nav-main li .nav-children li a:before {
     border: 1px solid var(--accent-color);
@@ -2423,7 +2453,8 @@ html.dark .pos-container .bg-light{
 html.dark .dropdown-menu-desktop ul li a{
     background-color: transparent;
 }
-html.dark .dropdown-menu-desktop .divider{
+html.dark .dropdown-menu-desktop .divider,
+html.dark .header .header-right{
     background-color: var(--background-dark);
 }
 html.dark .dropdown-menu-desktop, 
@@ -2462,5 +2493,11 @@ html.dark .el-pagination .btn-prev, html.dark .el-pagination .btn-next {
     background: var(--button-second);
     border: 1px solid var(--borders-dark);
     color: var(--accent-color);
+}
+html.dark .user-profile-content .profile-info .role {
+            color: var(--accent-color);
+}
+html.dark .user-profile-content .profile-info .name {
+            color: var(--light-color);
 }
 /* end */
