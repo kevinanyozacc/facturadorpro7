@@ -273,8 +273,7 @@
                 <div class="col-lg-8">
                     <div class="card card-default">
 
-                        <div class="card-body text-center">
-
+                        <div class="card-body text-center" v-if="!disabledDiscountForSeller">
                             <div class="row col-lg-12">
                                 <div class="col-lg-6">
                                     <div class="form-group">
@@ -677,6 +676,10 @@ export default {
 
             return false
         },
+        disabledDiscountForSeller()
+        {
+            return this.configuration.restrict_seller_discount && this.typeUser === 'seller';
+        }
     },
     methods:
     {
