@@ -92,12 +92,14 @@
                         <el-dropdown-item
                             v-for="(column, index) in columns"
                             :key="index"
+                            v-if="column.title !== 'Zona'"
                         >
                             <el-checkbox
                                 @change="getColumnsToShow(1)"
                                 v-model="column.visible"
-                                >{{ column.title }}</el-checkbox
                             >
+                                {{ column.title }}
+                            </el-checkbox>
                         </el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
@@ -430,6 +432,18 @@ export default {
         };
     },
     created() {
+        const storedColumns = JSON.parse(
+            localStorage.getItem("client_columns")
+        );
+
+        if (storedColumns && storedColumns.zone) {
+            storedColumns.zone.visible = false;
+            localStorage.setItem(
+                "client_columns",
+                JSON.stringify(storedColumns)
+            );
+        }
+
         this.title = this.type === "customers" ? "Clientes" : "Proveedores";
         this.getColumnsToShow();
     },
@@ -455,7 +469,7 @@ export default {
             this.$http
                 .post("/validate_columns", {
                     columns: this.columns,
-                    report: "client_index", // Nombre del reporte.
+                    report: "client_index",
                     updated: updated !== undefined
                 })
                 .then(response => {
@@ -463,6 +477,10 @@ export default {
                         let currentCols = response.data.columns;
                         if (currentCols !== undefined) {
                             this.columns = currentCols;
+
+                            if (this.columns.zone) {
+                                this.columns.zone.visible = false;
+                            }
                         }
                     }
                 })
