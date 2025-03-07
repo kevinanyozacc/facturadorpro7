@@ -896,9 +896,6 @@ export default {
         this.form.establishment_id = this.establishment.id;
 
         this.enabledSearchItemByBarcode()
-        console.log(this.config)
-        console.log(this.validteCreateProduct);
-        
     },
 
     computed: {
@@ -912,7 +909,11 @@ export default {
             'config',
         ]),
         validteCreateProduct() {
-            return this.config.typeUser == "admin"  || (this.config.typeUser == "seller" && this.config.seller_can_create_product)
+            if (this.config) {
+                return this.config.typeUser == "admin"  || (this.config.typeUser == "seller" && this.config.seller_can_create_product)
+            } 
+
+            return false;
         },
         classObjectCol() {
             let cols = this.configuration.colums_grid_item;
