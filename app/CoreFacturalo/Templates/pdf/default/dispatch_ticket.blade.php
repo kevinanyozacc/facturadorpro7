@@ -60,7 +60,7 @@
 <table class="full-width border-box mt-10 mb-10">
     <thead>
     <tr>
-        <th class="border-bottom text-left">DESTINATARIO</th>
+        <th class="border-bottom text-left">{{ $document['transfer_reason_type_id'] != '02' ? 'DESTINATARIO' : 'PROVEEDOR' }}</th>
     </tr>
     </thead>
     <tbody>
