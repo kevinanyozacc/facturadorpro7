@@ -88,6 +88,42 @@
     </tr>
     </tbody>
 </table>
+@if ($document['transfer_reason_type_id'] == '02')
+<table class="full-width border-box mt-10 mb-10">
+    @php
+        // dd($document->toArray());
+        $company = \App\CoreFacturalo\Helpers\Template\TemplateHelper::getInformationCompany();
+        // dd($company);
+    @endphp
+    <thead>
+    <tr>
+        <th class="border-bottom text-left">DESTINATARIO</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>Razón Social: {{ $company['company']->name }}</td>
+    </tr>
+    <tr>
+        <td>RUC: {{ $company['company']->number }}
+        </td>
+    </tr>
+    <tr>
+        <td>Dirección: {{ $company['establishment']->address }}
+            {{-- {{ ($customer->district_id !== '-')? ', '.$customer->district->description : '' }}
+            {{ ($customer->province_id !== '-')? ', '.$customer->province->description : '' }}
+            {{ ($customer->department_id !== '-')? '- '.$customer->department->description : '' }} --}}
+        </td>
+    </tr>
+    @if ($company['establishment']->telephone)
+    <tr>
+        <td>Teléfono:{{ $company['establishment']->telephone }}</td>
+    </tr>
+    @endif
+    </tbody>
+</table>
+    
+@endif
 <table class="full-width border-box mt-10 mb-10">
     <thead>
     <tr>
@@ -118,8 +154,12 @@
         @endif
     </tr>
     <tr>
-        <td>P.Partida: {{ $document->origin->location_id }} - {{ $document->origin->address }}</td>
-        <td>P.Llegada: {{ $document->delivery->location_id }} - {{ $document->delivery->address }}</td>
+        @php
+            $direction_label_delivery = $document['transfer_reason_type_id'] == '02' ? 'P.Partida:': 'P.Llegada:';
+            $direction_label_origin = $document['transfer_reason_type_id'] != '02' ? 'P.Partida:': 'P.Llegada:';
+        @endphp
+        <td> {{ $direction_label_origin }} {{ $document->origin->location_id }} - {{ $document->origin->address }}</td>
+        <td> {{ $direction_label_delivery }} {{ $document->delivery->location_id }} - {{ $document->delivery->address }}</td>
     </tr>
     </tbody>
 </table>

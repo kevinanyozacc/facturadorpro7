@@ -62,7 +62,8 @@ class Company extends ModelTenant
     /**
      * @return mixed
      */
-    public function getCodDigemid() {
+    public function getCodDigemid()
+    {
         return $this->cod_digemid;
     }
 
@@ -71,7 +72,8 @@ class Company extends ModelTenant
      *
      * @return Company
      */
-    public function setCodDigemid($cod_digemid) {
+    public function setCodDigemid($cod_digemid)
+    {
         $this->cod_digemid = $cod_digemid;
         return $this;
     }
@@ -161,9 +163,8 @@ class Company extends ModelTenant
     {
         $app_logo = self::select('app_logo')->firstOrFail()->app_logo;
 
-        if($app_logo)
-        {
-            $app_logo = asset('storage/uploads/logos/'.$app_logo);
+        if ($app_logo) {
+            $app_logo = asset('storage/uploads/logos/' . $app_logo);
         }
 
         return $app_logo;
@@ -260,4 +261,8 @@ class Company extends ModelTenant
         return $this->belongsTo(SoapType::class);
     }
 
+    public function scopeGetInformationCompany($query)
+    {
+        return $query->select('number', 'name')->first();
+    }
 }

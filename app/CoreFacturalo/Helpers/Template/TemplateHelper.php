@@ -9,7 +9,8 @@ use App\Models\Tenant\Configuration;
     use App\Models\Tenant\Document;
     use App\Models\Tenant\DocumentFee;
     use App\Models\Tenant\DocumentPayment;
-    use App\Models\Tenant\PaymentCondition;
+use App\Models\Tenant\Establishment;
+use App\Models\Tenant\PaymentCondition;
     use App\Models\Tenant\Zone;
 
     class TemplateHelper
@@ -288,5 +289,16 @@ use App\Models\Tenant\Configuration;
         public static function getTypeSoap()
         {
             return Company::getTypeSoap();
+        }
+
+        public static function getInformationCompany()
+        {
+            // Oficina general (default) y Empresa
+            $company = Company::getInformationCompany();
+            $establishment = Establishment::find(1);
+            return [
+                'company' => $company,
+                'establishment' => $establishment
+            ];
         }
     }
