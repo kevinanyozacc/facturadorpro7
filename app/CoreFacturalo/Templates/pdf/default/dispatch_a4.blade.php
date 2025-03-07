@@ -140,7 +140,7 @@
         <td colspan="2">
             {{-- P.Partida: {{ $document->origin->location_id }} - {{ $document->origin->address }} --}}
             @php
-                $direction_label_origin = $document['transfer_reason_type_id'] != '02' ? 'P.Partida:': 'P.Llegada:'
+                $direction_label_origin = $document['transfer_reason_type_id'] != '02' ? 'P.Partida:': 'P.Llegada:';
             @endphp
             {{ $direction_label_origin }}
             {{ ($establishment->address !== '-')? $establishment->address : '' }}
@@ -160,9 +160,10 @@
                     ->where('districts.id', '=', $document->delivery->location_id)
                     ->select('districts.description as district_description', 'provinces.description as province_description','departments.description as department_description')
                     ->first();
-                $direction_label_delivery = $document['transfer_reason_type_id'] == '02' ? 'P.Partida:': 'P.Llegada:'
+                $direction_label_delivery = $document['transfer_reason_type_id'] == '02' ? 'P.Partida:': 'P.Llegada:';
             @endphp
             {{ $direction_label_delivery }}
+            {{  $document->delivery->address  }}
             {{ ($delivery->district_description !== '-')? ', '.$delivery->district_description : '' }}
             {{ ($delivery->province_description !== '-')? ', '.$delivery->province_description : '' }}
             {{ ($delivery->department_description !== '-')? '- '.$delivery->department_description : '' }}
