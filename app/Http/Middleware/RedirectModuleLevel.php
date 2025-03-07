@@ -172,7 +172,12 @@
                 /** Documentos */
                 if ($path[0] == "documents") {
                     $group = "list_document";
-                } elseif ($path[0] == "contingencies") {
+                } elseif ($path[0] == "documents" && $module=='pos_garage') {
+                    $group = "pos_garage";
+                } elseif ($path[0] == "documents" && $module=='pos') {
+                    $group = "pos";
+                }
+                elseif ($path[0] == "contingencies") {
                     $group = "document_contingengy";
                 } elseif (in_array($path[0], ["items", "brands", "item-sets"])) {
                     $group = "items";
@@ -217,6 +222,8 @@
                     $group = "account_summary";
                 } elseif ($path[0] == "pos") {
                     $group = "pos";
+                } elseif ($path[0] == "pos_garage") {
+                    $group = "pos_garage";
                 } else {
                     $group = null;
                 }
@@ -381,6 +388,8 @@
                     return redirect()->route('tenant.accounting_ledger.index');
                 case 'pos':
                     return redirect()->route('tenant.pos.index');
+                case 'pos_garage':
+                        return redirect()->route('tenant.pos.garage');
                 case 'configuration_visual':
                 case 'configuration_advance':
                 case 'configuration_company':

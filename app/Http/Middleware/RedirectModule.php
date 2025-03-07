@@ -44,7 +44,6 @@
                     $group = $this->getGroup($path, $module);
                     if ($group) {
                         if ($this->getModuleByGroup($modules, $group) === 0) {
- 
                             return $this->redirectRoute($module);
                         }
                     }
@@ -81,6 +80,12 @@
                 $firstLevel == "voided") {
                 $group = "documents";
             } ///* Module purchases  */
+            elseif($firstLevel == "documents"&& $secondLevel=="preventa"){
+                $group = "preventa";
+            }
+            elseif($firstLevel == "pos" && $secondLevel=="garage"){
+                $group = "garage";
+            }
             elseif (
                 $firstLevel == "bank_loan" ||
                 $firstLevel == "purchases" ||
@@ -313,6 +318,8 @@
 
                 case 'establishments':
                     return redirect()->route('tenant.users.index');
+                case 'preventa':
+                    return redirect()->route('tenant.quotations.index');
 
                 case 'documentary-procedure':
                 case 'hotels':
