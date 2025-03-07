@@ -597,6 +597,10 @@ div.el-tab-pane {
 tbody tr:hover:not(:last-child) {
     background: #fafbfd;
 }
+html.fixed.sidebar-white:not(.dark) .sidebar-left, html.fixed.sidebar-white:not(.dark) .sidebar-header, html.fixed.sidebar-white:not(.dark) .sidebar-left .nano {
+    border: none !important;
+    box-shadow: 0 0 15px 0 rgb(34 41 47 / 5%);
+}
 @media only screen and (min-width: 391px){
     .card-body-invoice div .row .filter-invoice{
         padding: 0 15px !important;
