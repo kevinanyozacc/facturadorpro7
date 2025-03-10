@@ -2191,10 +2191,9 @@ export default {
 
             this.form.total = _.round(total, 2);
 
-            this.form.total_taxed = this.recalculateDecimalTotalTaxed(
-                this.form.total,
-                this.form.total_igv
-            );
+            if (this.verifyRecalculateTotalTaxed() && this.form.total_taxed > 0) {
+                this.form.total_taxed = this.recalculateDecimalTotalTaxed(this.form.total, this.form.total_igv);
+            }
 
             // this.form.total = _.round(total + this.form.total_plastic_bag_taxes, 2)
 
@@ -2202,6 +2201,13 @@ export default {
         },
         recalculateDecimalTotalTaxed(total, igv) {
             return total - igv;
+        },
+        verifyRecalculateTotalTaxed() {
+            const keysToCheck = [
+                'total_isc', 'total_igv_free', 'total_discount', 'total_exportation',
+                'total_exonerated', 'total_unaffected', 'total_free', 'total_plastic_bag_taxes'
+            ];
+            return !keysToCheck.some(key => this.form[key] > 0);
         },
         changeDateOfIssue() {
             // this.searchExchangeRateByDate(this.form.date_of_issue).then(response => {
