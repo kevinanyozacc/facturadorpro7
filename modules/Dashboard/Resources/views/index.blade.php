@@ -142,7 +142,7 @@ $a = $vc_modules;
                     @endif
 
                     @if(auth()->user()->type != 'integrator')
-                        @if(in_array('pos', $vc_modules))
+                        @if(in_array('pos', $vc_modules_levels))
                             <div class="card shadow-sm border-top my-2">
                                 <div class="card-header py-1 font-weight-bold">
                                     Punto de venta
