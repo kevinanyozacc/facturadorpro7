@@ -98,11 +98,11 @@
                         </el-select>
                     </div>
                     <!-- Campo de busqueda -->
-                    <div class="col-md-5 col-sm-12 pb-2">
+                    <div class="col-md-4 col-sm-12 pb-2">
                         <el-input
                             v-model="hotel_name_room"
                             clearable
-                            placeholder="Buscar por nombre de habitacion"
+                            placeholder="Buscar habitación"
                             prefix-icon="el-icon-search"
                             style="width: 100%;"
                             @input="searchRooms"
@@ -110,7 +110,7 @@
                         </el-input>
                     </div>
                     <!-- botones de status -->
-                    <div class="col-md-4 col-sm-12 pb-2">
+                    <div class="col-md-5 col-sm-12 pb-2">
                         <el-button-group
                         >
                             <el-button
@@ -127,82 +127,105 @@
                         </el-button-group>
                     </div>
                 </div>
-                <hr/>
-                <div class="row">
+                <div class="card-columns">
                     <div v-for="ro in items"
                          :key="ro.id"
-                         class="col-sm-12 col-md-6 col-lg-4 mb-4">
+                         class="card hotel-rooms">
                         <el-card
                             :class="onGetColorStatus(ro.status)"
-                            style="min-height: 160px"
+                            shadow="never"
                         >
-                            <div
-                                slot="header"
-                                class="d-flex align-items-center justify-content-between"
-                            >
-                                <span>{{ ro.status }}: {{ ro.name }}</span>
+                            <div class="">
+                                <!-- <h4>{{ ro.status }}</h4> -->
+                                  
+                                   <span class="text-muted">{{ ro.category.description }} - {{ ro.floor.description }}</span>
+                                   <h2 class="mt-0">
+                                    <svg  xmlns="http://www.w3.org/2000/svg"  width="32"  height="32"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-door"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 12v.01" /><path d="M3 21h18" /><path d="M6 21v-16a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v16" /></svg>
+                                      <b>{{ ro.name }}</b>
+                                    </h2>
+                                   <p class="description">{{ ro.description }}</p>
+
                                 <template v-if="ro.status === 'LIMPIEZA'">
                                     <el-button
                                         :disabled="loading"
                                         :loading="loading"
-                                        style="margin-left: auto"
                                         title="Finalizar limpieza"
-                                        type="primary"
+                                        class="btn btn-block btn-info"
                                         @click="onFinalizeClean(ro)"
                                     >
-                                        <i class="fa fa-broom"></i>
+                                    <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-spray"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 10m0 2a2 2 0 0 1 2 -2h4a2 2 0 0 1 2 2v7a2 2 0 0 1 -2 2h-4a2 2 0 0 1 -2 -2z" /><path d="M6 10v-4a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v4" /><path d="M15 7h.01" /><path d="M18 9h.01" /><path d="M18 5h.01" /><path d="M21 3h.01" /><path d="M21 7h.01" /><path d="M21 11h.01" /><path d="M10 7h1" /></svg>
+                                        Finalizar limpieza
                                     </el-button>
                                 </template>
+                                <template v-if="ro.status === 'MANTENIMIENTO'">
+                                    <h4 class="text-warning text-center mb-0">
+                                    <svg  xmlns="http://www.w3.org/2000/svg"  width="20"  height="20"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-tool"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 10h3v-3l-3.5 -3.5a6 6 0 0 1 8 8l6 6a2 2 0 0 1 -3 3l-6 -6a6 6 0 0 1 -8 -8l3.5 3.5" /></svg>
+                                        <b>En mantenimiento:</b>
+                                    </h4>
+                                    <p class="text-center">Debe cambiar el estado a <b>Disponible</b> en el módulo Habitaciones.</p>
+                                </template>
+                                
                                 <template v-if="ro.status === 'OCUPADO'">
-                                    <el-button
-                                        style="margin-left: auto"
+                                    <div>
+                                        <p>
+                                        <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-user"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" /><path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" /></svg>
+                                    <span class="">{{ ro.rent.customer.name }}</span></p>
+                                    <p>
+                                        <svg  xmlns="http://www.w3.org/2000/svg"  width="18"  height="18"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-calendar"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z" /><path d="M16 3v4" /><path d="M8 3v4" /><path d="M4 11h16" /><path d="M11 15h1" /><path d="M12 15v3" /></svg>
+                                        <span class="">{{ formatDate(ro.rent.output_date) }}
+                                        <el-button
+                                            title="Extender Tiempo"
+                                            class="btn btn-xs"
+                                            @click="ShowDialogExtendTimeRoom(ro)"
+                                        >
+                                            agregar días
+                                        </el-button>
+                                        <br>
+                                        <svg  xmlns="http://www.w3.org/2000/svg"  width="18"  height="18"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-clock"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" /><path d="M12 7v5l3 3" /></svg> 
+                                        {{ ro.rent.output_time }}
+                                    </span>
+                                    </p>
+                                    
+                                </div>
+                                <div class="row">
+                                    <div class="col-3">
+                                        <el-button
+                                            title="Agregar productos"
+                                            class="btn btn-block btn-danger"
+                                            data-toggle="tooltip"
+                                            @click="onGoToAddProducts(ro)"
+                                        >
+                                        <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-hotel-service"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8.5 10a1.5 1.5 0 0 1 -1.5 -1.5a5.5 5.5 0 0 1 11 0v10.5a2 2 0 0 1 -2 2h-7a2 2 0 0 1 -2 -2v-2c0 -1.38 .71 -2.444 1.88 -3.175l4.424 -2.765c1.055 -.66 1.696 -1.316 1.696 -2.56a2.5 2.5 0 1 0 -5 0a1.5 1.5 0 0 1 -1.5 1.5z" /></svg> 
+                                        </el-button>
+                                    </div>
+                                    <div class="col-9">
+                                        <el-button
                                         title="Ir al checkout"
-                                        type="primary"
+                                        class="btn btn-block btn-danger"
                                         @click="onGoToCheckout(ro)"
-                                    >
-                                        <i class="fa fa-arrow-circle-right"></i>
-                                    </el-button>
-                                    <el-button
-                                        style="margin-left: 0.5rem"
-                                        title="Agregar productos"
-                                        type="primary"
-                                        @click="onGoToAddProducts(ro)"
-                                    >
-                                        <i class="fa fa-plus-circle"></i>
-                                    </el-button>
-
-                                    <el-button
-                                        style="margin-left: 0.5rem"
-                                        title="Extender Tiempo"
-                                        type="primary"
-                                        @click="ShowDialogExtendTimeRoom(ro)"
-                                    >
-                                        <i class="fa fa-plus"></i>
-                                    </el-button>
+                                    >Check-out 
+                                        <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-door-exit"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M13 12v.01" /><path d="M3 21h18" /><path d="M5 21v-16a2 2 0 0 1 2 -2h7.5m2.5 10.5v7.5" /><path d="M14 7h7m-3 -3l3 3l-3 3" /></svg>
+                                        </el-button>
+                                    </div>
+                                </div>
                                 </template>
                                 <el-button
                                     v-if="ro.status === 'DISPONIBLE'"
-                                    type="primary"
+                                    class="btn btn-block btn-success"
                                     @click="onToRent(ro)"
                                 >
-                                    <i class="fa fa-arrow-circle-left"></i>
+                                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-door-enter">
+                                        <g transform="scale(-1 1) translate(-24 0)">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                            <path d="M13 12v.01" />
+                                            <path d="M3 21h18" />
+                                            <path d="M5 21v-16a2 2 0 0 1 2 -2h6m4 10.5v7.5" />
+                                            <path d="M21 7h-7m3 -3l-3 3l3 3" />
+                                        </g>
+                                    </svg> Disponible
                                 </el-button>
                             </div>
-                            <div
-                                v-if="ro.status === 'DISPONIBLE'"
-                                class="d-flex justify-content-center align-items-center"
-                            >
-                                <i class="fa fa-bed fa-2x mt-2"></i>
-                                <span class="h3 ml-3">{{ ro.name }}</span>
-                            </div>
-                            <div
-                                v-if="ro.status === 'OCUPADO'"
-                                class="text-center"
-                            >
-                                <i class="fa fa-user-tie fa-2x"></i>
-                                <span class="h6 ml-3">{{ ro.rent.customer.name }}</span>
-                                <p class="ml-3 text-white">Salida: {{ ro.rent.output_date }} / {{ ro.rent.output_time }}</p>
-                            </div>
+                           
                         </el-card>
                     </div>
                 </div>
@@ -385,13 +408,13 @@ export default {
         },
         onGetColorStatus(status) {
             if (status === "DISPONIBLE") {
-                return "btn-success";
+                return "available";
             } else if (status === "MANTENIMIENTO") {
-                return "btn-warning";
+                return "maintenance";
             } else if (status === "OCUPADO") {
-                return "btn-danger";
+                return "occupied";
             } else if (status === "LIMPIEZA") {
-                return "btn-info";
+                return "cleaning";
             }
             return "";
         },
@@ -422,6 +445,11 @@ export default {
                     location.reload();
                 })
                 .finally(() => (this.loading = false));
+        },
+        formatDate(dateString) {
+            if (!dateString) return "";
+            const [year, month, day] = dateString.split("-");
+            return `${day}/${month}`; 
         }
     },
 };

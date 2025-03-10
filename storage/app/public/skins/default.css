@@ -1,18 +1,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Anaheim:wght@400..800&family=Heebo:wght@100..900&family=Host+Grotesk:ital,wght@0,300..800;1,300..800&family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Jaldi:wght@400;700&family=Maven+Pro:wght@400..900&family=Pragati+Narrow:wght@400;700&family=Questrial&family=Roboto:ital,wght@0,100..900;1,100..900&family=Sora:wght@100..800&display=swap');
 
 :root{
-  --primary-color: #0c7286;
-  --dark-color: #001524;
-  --light-color: #eef5f5;
-  --accent-color: #d5e8e8;
-  --highlight-color: #75e4e4;
-  /* modo dark */
-  --background-dark: #12192d;
-  --contents-dark: #16223a;
-  --inputs-dark: #383f53;
-  --borders-dark: #2d394c;
-  --button-second: #283046;
-  --font-family: "Roboto", sans-serif;
+    --primary-color: #0c7286;
+    --dark-color: #001524;
+    --light-color: #eef5f5;
+    --accent-color: #d5e8e8;
+    --highlight-color: #75e4e4;
+    /* modo dark */
+    --background-dark: #12192d;
+    --contents-dark: #16223a;
+    --inputs-dark: #383f53;
+    --borders-dark: #2d394c;
+    --button-second: #283046;
+    --font-family: "Roboto", sans-serif;
+    --danger: #ff0066;
+    --success: #00c666;
+    --warning: #ff8400;
+    --primary: #007bff;
+    --info: #1dadff; 
 }
 
 html, body {
@@ -23,6 +28,10 @@ html, body {
 
 p {
     color: var(--dark-color);
+}
+
+h1, h2, h3, h4, h5, h6{
+    font-family: var(--font-family, sans-serif);
 }
 
 .el-input--small .el-input__inner,
@@ -190,9 +199,6 @@ address {
 }
 .pdf-template-content:hover > .el-card-template::before {
     background-color: rgba(213, 232, 232, 0.64) !important;
-}
-.btn{
-    border-radius: 8px;
 }
 .btn-submit-default{
     min-width: 180px;
@@ -805,28 +811,21 @@ html.fixed.sidebar-white:not(.dark) .sidebar-left a {
 .avatar-uploader .el-upload:hover {
     border-color: var(--accent-color);
 }
-.btn-danger {
+/* .btn-danger {
     background-color: #fc4e4b;
     border-color: #fc4e4b;
     box-shadow: unset;
-}
+} */
 .notifications > li .notification-icon .badge,
 .badge-danger {
     background: rgb(252 78 75 / 20%);
-    color: #fc4f4b;
+    /* color: #fc4f4b; */
     font-weight: bold;
 }
 .el-carousel__arrow {
     display: none;
 }
-.disable_color {
-    color: #fc4f4b;
-}
-.btn-info {
-    background-color: #3bbefc;
-    border-color: #3bbefc;
-    box-shadow: unset;
-}
+
 .badge-info {
     background: rgb(59 190 252 / 20%) !important;
     color: #3bbdfb !important;
@@ -840,11 +839,6 @@ ul.nav-main li .nav-children li a:before {
 }
 .badge {
     padding: 0.7em;
-}
-.btn-warning {
-    background-color: #ff9200;
-    border-color: #ff9200;
-    box-shadow: unset;
 }
 a.text-info:hover, a.text-info:focus {
     color: var(--primary-color) !important;
@@ -932,9 +926,6 @@ html.sidebar-light:not(.dark):not(.sidebar-green):not(.sidebar-green) ul.nav-mai
     margin: 0 8px 0;
     opacity: 0;
 }
-.text-danger{
-    color: #fc4f4b !important;
-}
 .table th, .table td {
     padding: 0.5rem;
 }
@@ -960,28 +951,25 @@ html.sidebar-light:not(.dark):not(.sidebar-green):not(.sidebar-green) ul.nav-mai
 }
 span.badge.bg-danger.text-white {
     background: rgb(252 78 75 / 20%) !important;
-    color: #fc4f4b !important;
+    /* color: #fc4f4b !important; */
 }
 span.badge.bg-secondary.text-white.bg-success,
 span.badge.text-white.bg-success {
     background: rgb(35 218 149 / 20%) !important;
     color: #23da95 !important;
 }
-.btn-warning:hover, .btn-warning.hover {
+/* .btn-warning:hover, .btn-warning.hover {
     background-color: #ffa71f;
     border-color: #ffa71f;
-    box-shadow: none;
 }
 .btn-danger:hover, .btn-danger.hover {
     background-color: #fc716f;
     border-color: #fc716f;
-    box-shadow: none;
 }
 .btn-info:hover, .btn-info.hover {
     background-color: #64cafc;
     border-color: #64cafc;
-    box-shadow: none;
-}
+} */
 .page-header h2 {
     border-bottom: none;
 }
@@ -2430,8 +2418,8 @@ html.fixed.sidebar-white .sidebar-left a:focus {
     color: var(--light-color);
 }
 html.dark .el-message--success {
-    background-color: #67C23A;
-    border-color: #67C23A;
+    background-color: var(--success);
+    border-color: var(--success);
 }
 html.dark .el-message .el-icon-success {
     color: var(--accent-color);

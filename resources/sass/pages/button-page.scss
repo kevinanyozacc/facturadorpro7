@@ -112,19 +112,16 @@ Buttons
 
 .btn-secondary,
 .btn-secondary.disabled {
-    box-shadow: $default-shadow;
     transition: 0.2s ease-in;
     background-color: $white;
     color: $bodytext;
     border-color:$secondary;
     &:hover {
-        box-shadow: $default-shadow-hover;
         color: $white!important;
     }
     &.active,
     &:active,
     &:focus {
-        box-shadow: $default-shadow-hover;
         color: $white!important;
         background: $dark;
         border-color: $dark;
@@ -143,18 +140,15 @@ Buttons
 .btn-primary.disabled {
     background: $primary;
     border: 1px solid $primary;
-    box-shadow: $primary-shadow;
     transition: 0.2s ease-in;
     &:hover {
         background: $primary;
-        box-shadow: $primary-shadow-hover;
         border: 1px solid $primary;
     }
     &.active,
     &:active,
     &:focus {
         background: $primary-dark;
-        box-shadow: $primary-shadow-hover;
         border-color: transparent;
     }
 }
@@ -180,18 +174,15 @@ Buttons
 .btn-success.disabled {
     background: $success;
     border: 1px solid $success;
-    box-shadow: $success-shadow;
     transition: 0.2s ease-in;
     &:hover {
         background: $success;
-        box-shadow: $success-shadow-hover;
         border: 1px solid $success;
     }
     &.active,
     &:active,
     &:focus {
         background: $success-dark;
-        box-shadow: $success-shadow-hover;
         border-color: transparent;
     }
 }
@@ -200,18 +191,15 @@ Buttons
 .btn-info.disabled {
     background: $info;
     border: 1px solid $info;
-    box-shadow: $info-shadow;
     transition: 0.2s ease-in;
     &:hover {
         background: $info;
         border: 1px solid $info;
-        box-shadow: $info-shadow-hover;
     }
     &.active,
     &:active,
     &:focus {
         background: $info-dark;
-        box-shadow: $info-shadow-hover;
         border-color: transparent;
     }
 }
@@ -220,13 +208,11 @@ Buttons
 .btn-warning.disabled {
     background: $warning;
     color: $white;
-    box-shadow: $warning-shadow;
     border: 1px solid $warning;
     transition: 0.2s ease-in;
     &:hover {
         background: $warning;
         color: $white;
-        box-shadow: $warning-shadow-hover;
         border: 1px solid $warning;
     }
     &.active,
@@ -234,7 +220,6 @@ Buttons
     &:focus {
         background: $warning-dark;
         color: $white;
-        box-shadow: $warning-shadow-hover;
         border-color: transparent;
     }
 }
@@ -243,18 +228,15 @@ Buttons
 .btn-danger.disabled {
     background: $danger;
     border: 1px solid $danger;
-    box-shadow: $danger-shadow;
     transition: 0.2s ease-in;
     &:hover {
         background: $danger;
-        box-shadow: $danger-shadow-hover;
         border: 1px solid $danger;
     }
     &.active,
     &:active,
     &:focus {
         background: $danger-dark;
-        box-shadow: $danger-shadow-hover;
         border-color: transparent;
     }
 }
@@ -297,7 +279,6 @@ Buttons
 
 .btn-outline-secondary {
     background-color: $white;
-    box-shadow: $default-shadow;
     transition: 0.2s ease-in;
     border-color: $secondary;
     &:hover,
@@ -316,20 +297,17 @@ Buttons
     color: $primary;
     background-color: $white;
     border-color: $primary;
-    box-shadow: $primary-shadow;
     transition: 0.2s ease-in;
     &:hover,
     &:focus,
     &.focus {
         background: $primary;
-        box-shadow: $primary-shadow-hover;
         color: $white;
         border-color: $primary;
     }
     &.active,
     &:active,
     &:focus {
-        box-shadow: $primary-shadow-hover;
         background-color: $primary-dark;
         border-color: $primary-dark;
     }
@@ -339,7 +317,6 @@ Buttons
     color: $success;
     background-color: transparent;
     border-color: $success;
-    box-shadow: $success-shadow;
     transition: 0.2s ease-in;
     &:hover,
     &:focus,
@@ -347,12 +324,10 @@ Buttons
         background: $success;
         border-color: $success;
         color: $white;
-        box-shadow: $success-shadow-hover;
     }
     &.active,
     &:active,
     &:focus {
-        box-shadow: $success-shadow-hover;
         background-color: $success-dark;
         border-color: $success-dark;
     }
@@ -362,7 +337,6 @@ Buttons
     color: $info;
     background-color: transparent;
     border-color: $info;
-    box-shadow: $info-shadow;
     transition: 0.2s ease-in;
     &:hover,
     &:focus,
@@ -370,12 +344,10 @@ Buttons
         background: $info;
         border-color: $info;
         color: $white;
-        box-shadow: $info-shadow-hover;
     }
     &.active,
     &:active,
     &:focus {
-        box-shadow: $info-shadow-hover;
         background-color: $info-dark;
         border-color: $info-dark;
     }
@@ -385,7 +357,6 @@ Buttons
     color: $warning;
     background-color: transparent;
     border-color: $warning;
-    box-shadow: $warning-shadow;
     transition: 0.2s ease-in;
     &:hover,
     &:focus,
@@ -393,12 +364,10 @@ Buttons
         background: $warning;
         border-color: $warning;
         color: $white;
-        box-shadow: $warning-shadow-hover;
     }
     &.active,
     &:active,
     &:focus {
-        box-shadow: $warning-shadow-hover;
         background-color: $warning-dark;
         border-color:$warning-dark;
     }
@@ -408,7 +377,6 @@ Buttons
     color: $danger;
     background-color: transparent;
     border-color: $danger;
-    box-shadow: $danger-shadow;
     transition: 0.2s ease-in;
     &:hover,
     &:focus,
@@ -416,12 +384,10 @@ Buttons
         background: $danger;
         border-color: $danger;
         color: $white;
-        box-shadow: $danger-shadow-hover;
     }
     &.active,
     &:active,
     &:focus {
-        box-shadow: $danger-shadow-hover;
         background-color: $danger-dark;
     }
 }
@@ -436,12 +402,10 @@ Buttons
         background: $red;
         border-color: $red;
         color: $white;
-        box-shadow: $danger-shadow-hover;
     }
     &.active,
     &:active,
     &:focus {
-        box-shadow: $danger-shadow-hover;
         background-color: $red-dark;
     }
 }
