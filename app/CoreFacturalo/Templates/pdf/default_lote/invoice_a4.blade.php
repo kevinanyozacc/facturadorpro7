@@ -178,7 +178,7 @@
             @if ($document->detraction)
                 <td width="120px">MONTO DETRACCIÓN</td>
                 <td width="8px">:</td>
-                <td>S/ {{ $document->detraction->amount}}</td>
+                <td>{{$document->currency_type->symbol}} {{$document->currency_type->id == 'USD' ? number_format(($document->detraction->amount/$document->exchange_rate_sale), 2) : $document->detraction->amount}}</td>
             @endif
         </tr>
     @endif
@@ -886,14 +886,19 @@
             </td>
         </tr>
         <tr>
-            <td>Base imponible de la retención:
-                S/ {{ round($document->retention->amount_pen / $document->retention->percentage, 2) }}</td>
+            <td>Valor total del comprobante: 
+                    {{$document->currency_type->symbol}}
+                    {{ $document->currency_type->id == 'USD' ? number_format(($document->getRetentionTaxBase()/$document->exchange_rate_sale), 2) : $document->getRetentionTaxBase() }}
+                {{-- S/ {{ round($document->retention->amount_pen / $document->retention->percentage, 2) }} --}}
+            </td>
         </tr>
         <tr>
             <td>Porcentaje de la retención {{ $document->retention->percentage * 100 }}%</td>
         </tr>
         <tr>
-            <td>Monto de la retención S/ {{ $document->retention->amount_pen }}</td>
+            <td>Monto de la retención
+                {{$document->currency_type->symbol}} {{ $document->currency_type->id == 'USD' ? number_format(($document->retention->amount_pen/$document->exchange_rate_sale), 2) : $document->getRetentionTaxBase()}}
+            </td>
         </tr>
     </table>
 @endif
