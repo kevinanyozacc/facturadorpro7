@@ -1438,6 +1438,8 @@ export default {
             this.form.item = _.find(this.items, {'id': this.form.item_id});
             this.form.item = this.setExtraFieldOfitem(this.form.item)
             this.form.item_unit_types = _.find(this.items, {'id': this.form.item_id}).item_unit_types
+            console.log(this.form)
+            console.log(this.form.item)
             this.form.unit_price_value = this.form.item.sale_unit_price;
             if(!this.configuration.enable_list_product && this.selectedOptionPrice !== 1) {
                 if(this.form.item_unit_types.length) {
@@ -1445,8 +1447,6 @@ export default {
                     let priceSelected = first_list[this.selectedOptionPrice];
                     // row.sale_unit_price = priceSelected;
                     this.form.unit_price_value = priceSelected;
-                } else {
-                    this.form.unit_price_value = "0"
                 }
             }
 

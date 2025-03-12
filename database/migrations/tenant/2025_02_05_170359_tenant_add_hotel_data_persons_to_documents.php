@@ -31,6 +31,7 @@ class TenantAddHotelDataPersonsToDocuments extends Migration
         Schema::table('documents', function (Blueprint $table) {
             $table->dropColumn('hotel_data_persons');
             $table->dropColumn('source_module');
+            $table->dropForeign(['hotel_rent_id']);
             $table->dropColumn('hotel_rent_id');
         });
     }
