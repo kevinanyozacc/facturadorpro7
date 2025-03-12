@@ -833,7 +833,44 @@ background: transparent !important;
 .card {
 border: transparent !important;
 }
-
+.input-disabled {
+  cursor: not-allowed;
+  & input{
+      border-color: transparent !important;
+  }
+}
+.product-search-model .el-tooltip {
+  position: absolute;
+  right: 7px;
+  top: 46px;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  z-index: 10;
+  height: 32px;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+.more-width-input input.el-input__inner {
+  margin-left: -1px !important;
+}
+.product-model .tooltips-container{
+  position: absolute;
+  right: 30px;
+  top: 46px;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  z-index: 10;
+  height: 32px;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+.tooltips-container {
+  width: 45px;
+  height: 55px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 /* -------------------------- botones -------------------------- */
 /* -------------------------- white -------------------------- */
 /* botones */

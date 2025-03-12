@@ -7380,43 +7380,45 @@ html.sidebar-light:not(.dark) ul.nav-main li .nav-children li a:focus {
 
 /* Colors */
 .btn-primary {
-    background-color: #2446e8;
-    border-color: #2446e8;
+    background-color: var(--primary);
+    border-color: var(--primary);
     color: #fff;
 }
 
 .btn-primary:hover,
 .btn-primary.hover {
-    background-color: #0069d9;
-    border-color: #0069d9;
+    background-color: #1269ec;
+    border-color: #1269ec;
     color: #fff;
 }
 
 .btn-primary:focus,
 .btn-primary.focus {
+    background-color: #1f47cd;
+    border-color: #1f47cd ;
     -webkit-box-shadow: 0 0 0 3px rgba(204, 204, 204, 0.5);
-    box-shadow: 0 0 0 3px rgba(204, 204, 204, 0.5);
+    box-shadow: 0 0 0 3px rgba(31, 72, 205, 0.479);
     color: #fff;
 }
 
 .btn-primary.disabled,
 .btn-primary:disabled {
-    background-color: #ccc;
-    border-color: #ccc;
+    background-color: #1269ec;
+    border-color: #1269ec;
 }
 
 .btn-primary:active,
 .btn-primary.active,
 .show > .btn-primary.dropdown-toggle {
-    background-color: #b9b9b9;
+    background-color: #1269ec;
     background-image: none;
-    border-color: #b3b3b3;
+    border-color: #1269ec ;
 }
 
 .show > .btn-primary.dropdown-toggle {
-    background-color: #b9b9b9;
+    background-color: #1269ec;
     background-image: none;
-    border-color: #b3b3b3;
+    border-color: #1269ec;
 }
 
 .btn-success {
@@ -7427,15 +7429,17 @@ html.sidebar-light:not(.dark) ul.nav-main li .nav-children li a:focus {
 
 .btn-success:hover,
 .btn-success.hover {
-    background-color: #5ab75a;
-    border-color: #63bb63;
+    background-color: #00ab40 !important;
+    border-color: #00ab40 !important;
     color: #fff;
 }
 
 .btn-success:focus,
 .btn-success.focus {
-    -webkit-box-shadow: 0 0 0 3px rgba(71, 164, 71, 0.5);
-    box-shadow: 0 0 0 3px rgba(71, 164, 71, 0.5);
+    background-color: #009933 !important;
+    border-color: #009933 !important;
+    -webkit-box-shadow: 0 0 0 3px #00993386;
+    box-shadow: 0 0 0 3px #00993386;
     color: #fff;
 }
 
@@ -7448,15 +7452,15 @@ html.sidebar-light:not(.dark) ul.nav-main li .nav-children li a:focus {
 .btn-success:active,
 .btn-success.active,
 .show > .btn-success.dropdown-toggle {
-    background-color: #3b893b;
+    background-color: #008826 !important;
     background-image: none;
-    border-color: #388038;
+    border-color: #008826 !important;
 }
 
 .show > .btn-success.dropdown-toggle {
-    background-color: #3b893b;
+    background-color: #008826;
     background-image: none;
-    border-color: #388038;
+    border-color: #008826;
 }
 
 .btn-warning {
@@ -7467,15 +7471,17 @@ html.sidebar-light:not(.dark) ul.nav-main li .nav-children li a:focus {
 
 .btn-warning:hover,
 .btn-warning.hover {
-    background-color: #f0ac4b;
-    border-color: #f1b257;
+    background-color: #ffae17 !important;
+    border-color: #ffae17 !important;
     color: #fff;
 }
 
 .btn-warning:focus,
 .btn-warning.focus {
+    background-color: #ffc721 !important;
+    border-color: #ffc721 !important;
     -webkit-box-shadow: 0 0 0 3px rgba(237, 156, 40, 0.5);
-    box-shadow: 0 0 0 3px rgba(237, 156, 40, 0.5);
+    box-shadow: 0 0 0 3px rgba(255, 174, 23, 0.575);
     color: #fff;
 }
 
@@ -7488,15 +7494,15 @@ html.sidebar-light:not(.dark) ul.nav-main li .nav-children li a:focus {
 .btn-warning:active,
 .btn-warning.active,
 .show > .btn-warning.dropdown-toggle {
-    background-color: #dc8912;
+    background-color: #ffc721 !important;
     background-image: none;
-    border-color: #d18211;
+    border-color: #ffc721 !important;
 }
 
 .show > .btn-warning.dropdown-toggle {
-    background-color: #dc8912;
+    background-color: #ffc721 !important;
     background-image: none;
-    border-color: #d18211;
+    border-color: #ffc721 !important;
 }
 
 .btn-danger {
@@ -7507,15 +7513,15 @@ html.sidebar-light:not(.dark) ul.nav-main li .nav-children li a:focus {
 
 .btn-danger:hover,
 .btn-danger.hover {
-    background-color: #d9514d;
-    border-color: #db5b57;
+    background-color: #d7005f;
+    border-color: #d7005f;
     color: #fff;
 }
 
 .btn-danger:focus,
 .btn-danger.focus {
-    -webkit-box-shadow: 0 0 0 3px #d2322d80;
-    box-shadow: 0 0 0 3px rgba(210, 50, 45, 0.5);
+    -webkit-box-shadow: 0 0 0 3px #d7005f !important;
+    box-shadow: 0 0 0 3px rgba(215, 0, 97, 0.541);
     color: #fff;
 }
 
@@ -7528,15 +7534,15 @@ html.sidebar-light:not(.dark) ul.nav-main li .nav-children li a:focus {
 .btn-danger:active,
 .btn-danger.active,
 .show > .btn-danger.dropdown-toggle {
-    background-color: #b32b26;
+    background-color: #c2005c !important;
     background-image: none;
-    border-color: #a82824;
+    border-color: #c2005c !important;
 }
 
 .show > .btn-danger.dropdown-toggle {
-    background-color: #b32b26;
+    background-color: #c2005c;
     background-image: none;
-    border-color: #a82824;
+    border-color: #c2005c;
 }
 
 .btn-info {
@@ -7547,15 +7553,17 @@ html.sidebar-light:not(.dark) ul.nav-main li .nav-children li a:focus {
 
 .btn-info:hover,
 .btn-info.hover {
-    background-color: #7bcce4;
-    border-color: #85d0e7;
+    background-color: #1d8bdb !important;
+    border-color: #1d8bdb !important;
     color: #fff;
 }
 
 .btn-info:focus,
 .btn-info.focus {
+    background-color: #1b79c7 !important;
+    border-color: #1b79c7 !important;
     -webkit-box-shadow: 0 0 0 3px rgba(91, 192, 222, 0.5);
-    box-shadow: 0 0 0 3px rgba(91, 192, 222, 0.5);
+    box-shadow: 0 0 0 3px rgba(27, 122, 199, 0.514);
     color: #fff;
 }
 
@@ -7568,15 +7576,15 @@ html.sidebar-light:not(.dark) ul.nav-main li .nav-children li a:focus {
 .btn-info:active,
 .btn-info.active,
 .show > .btn-info.dropdown-toggle {
-    background-color: #3bb4d8;
+    background-color: #1d8bdb !important;
+    border-color: #1d8bdb !important;
     background-image: none;
-    border-color: #31b0d5;
 }
 
 .show > .btn-info.dropdown-toggle {
-    background-color: #3bb4d8;
+    background-color: #1d8bdb !important;
+    border-color: #1d8bdb !important;
     background-image: none;
-    border-color: #31b0d5;
 }
 
 .btn-dark {
@@ -13129,8 +13137,8 @@ html.dark .notifications > li .notification-icon i {
 }
 
 .notifications > li .notification-icon .badge {
-    background: #d2312d;
-    color: #fff;
+    background: #ff3a7e47;
+    color: var(--danger);
     font-size: 10px;
     font-weight: normal;
     height: 16px;
