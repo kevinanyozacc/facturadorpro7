@@ -35,7 +35,6 @@
             $modules = $request->user()->getModules();
             $this->route_path = $request->path();
 
-
             if (!$request->ajax()) {
 
                 if (count($modules)) {
@@ -69,7 +68,6 @@
             $firstLevel = $path[0] ?? null;
             $secondLevel = $path[1] ?? null;
             $group = null;
-            //dd($firstLevel);
             ///* Module Documents */
             if (
                 $firstLevel == "pos" ||
@@ -94,11 +92,15 @@
             } ///* Module advanced */
             elseif (
                 $firstLevel == "retentions" ||
-                $firstLevel == "dispatches" ||
-                $firstLevel == "dispatch_carrier" ||
                 $firstLevel == "perceptions") {
                 $group = "advanced";
             } ///* Module reports */
+            elseif (
+                $firstLevel == "dispatches" ||
+                $firstLevel == "dispatch_carrier"
+            ) {
+                $group = "guia";
+            }
             elseif (
                 $firstLevel == "list-reports" ||
                 ($firstLevel == "reports" && $secondLevel == "purchases") ||
