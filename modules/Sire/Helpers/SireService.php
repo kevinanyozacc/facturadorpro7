@@ -45,14 +45,12 @@ class SireService
 
     public function getToken($force = false)
     {
-        if ($force || !($token = Cache::get('sire_token'))) {
-            $queryToken = $this->queryToken();
-            if (!$queryToken['success']) {
-                return $queryToken;
-            }
-            $token = $queryToken['access_token'];
-        }
+        $queryToken = $this->queryToken();
 
+        if (!$queryToken['success']) {
+            return $queryToken;
+        }
+        $token = $queryToken['access_token'];
         return [
             'success' => true,
             'token' => $token
@@ -92,7 +90,7 @@ class SireService
         }
 
         if ($statusCode === 200) {
-            $this->updateToken($data['access_token'], $data['expires_in']);
+
             return [
                 'success' => true,
                 'code' => $statusCode,
@@ -117,7 +115,7 @@ class SireService
                 break;
         }
         $get_token = $this->getToken();
-        $token = $get_token['token'];
+        $token = ($get_token['success'])? $get_token['token']: null;
 
         $url_base = self::$PERIODS;
         $url = str_replace('COD_LIBRO', $cod_libro, $url_base);
@@ -152,7 +150,7 @@ class SireService
     public function getTicket($type, $period)
     {
         $get_token = $this->getToken();
-        $token = $get_token['token'];
+        $token = ($get_token['success'])? $get_token['token']: null;
 
         switch ($type) {
             case 'sale':
@@ -196,7 +194,7 @@ class SireService
     public function queryTicket($page, $period, $ticket, $type)
     {
         $get_token = $this->getToken();
-        $token = $get_token['token'];
+        $token = ($get_token['success'])? $get_token['token']: null;
 
         $url = str_replace(['NUM_PAGE','PERIOD','NUM_TICKET'], [$page, $period, $ticket], self::$QUERY);
 
@@ -256,7 +254,7 @@ class SireService
     public function queryFile($filename, $type, $period, $ticket)
     {
         $get_token = $this->getToken();
-        $token = $get_token['token'];
+        $token = ($get_token['success'])? $get_token['token']: null;
 
         switch ($type) {
             case 'sale':
@@ -392,7 +390,7 @@ class SireService
     public function sendAccept($period)
     {
         $get_token = $this->getToken();
-        $token = $get_token['token'];
+        $token = ($get_token['success'])? $get_token['token']: null;
 
         $url = str_replace('PERIOD', $period, self::$ACCEPT);
 
