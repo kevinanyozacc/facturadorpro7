@@ -815,9 +815,32 @@ export default {
                 return this.$message.warning('Debe agregar productos');
             }
 
-            let error_quantity = this.form.items.some(item => item.quantity < 1);
-            if(error_quantity) {
-                return this.$message.error('Los productos deben tener cantidades mayor a 0');
+            let unit_type_notAllowed = ['ZZ', 'BX', 'NIU'];
+
+            let errorZeroQuantity = false
+            let errorFloatQuantity = false
+            let existError = this.form.items.some(item => {
+                if (Number(item.quantity) == 0) {
+                    errorZeroQuantity = true
+                    return true; 
+                }
+
+                if (unit_type_notAllowed.includes(item.unit_type_id) && !Number.isInteger(Number(item.quantity))) {
+                    errorFloatQuantity =  true
+                    return  true
+                }
+                return item.quantity == 0 ? true : false
+            });
+
+            if(existError) {
+                if (errorZeroQuantity) {
+                    this.$message.error('Los productos deben tener cantidades mayor a 0');
+                }
+                if (errorFloatQuantity) {
+                    this.$message.error('El producto con ese tipo de unidad no permite cantidad en decimales');
+                }
+                
+                return 
             }
 
             if (!moment(moment().format("YYYY-MM-DD")).isSame(this.form.date_of_issue)) {

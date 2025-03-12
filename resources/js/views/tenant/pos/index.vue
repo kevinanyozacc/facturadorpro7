@@ -675,12 +675,10 @@
                                         <el-input
                                             v-model="item.item.aux_quantity"
                                             @input="
-                                                value =>
                                                     clickAddItem(
                                                         item,
                                                         index,
                                                         true,
-                                                        value
                                                     )
                                             "
                                             @keyup.enter.native="
@@ -1767,6 +1765,32 @@ export default {
                 }
             });
 
+            let unit_type_notAllowed = ['ZZ', 'BX', 'NIU'];
+            let errorZeroQuantity = false
+            let errorFloatQuantity = false
+            let existError = this.form.items.some(item => {
+                if (Number(item.quantity) == 0) {
+                    errorZeroQuantity = true
+                    return true; 
+                }
+                if (unit_type_notAllowed.includes(item.unit_type_id) && !Number.isInteger(Number(item.quantity))) {
+                    errorFloatQuantity =  true
+                    return  true
+                }
+                return item.quantity == 0 ? true : false
+            });
+
+            if(existError) {
+                if (errorZeroQuantity) {
+                    this.$message.error('Los productos deben tener cantidades mayor a 0');
+                }
+                if (errorFloatQuantity) {
+                    this.$message.error('El producto con ese tipo de unidad no permite cantidad en decimales');
+                }
+                
+                return 
+            }
+
             if (flag > 0)
                 return this.$message.error("Cantidad negativa o incorrecta");
             if (!this.form.customer_id)
@@ -1803,7 +1827,7 @@ export default {
                 this.form_item.aux_quantity = this.getQuantityFromElectronicScale();
             }
         },
-        async clickAddItem(item, index, input = false, value = "") {
+        async clickAddItem(item, index, input = false) {
             //Validar precio mínimo
             if (parseFloat(item.sale_unit_price) < 0.1) {
                 this.$message.error(
@@ -1811,15 +1835,6 @@ export default {
                 );
                 this.loanding = false;
                 return;
-            }
-
-            let error_quantity = this.form.items.some(
-                item => item.quantity < 1
-            );
-            if (error_quantity) {
-                return this.$message.error(
-                    "Los productos deben tener cantidades mayor a 0"
-                );
             }
 
             this.loading = true;
@@ -1855,12 +1870,6 @@ export default {
 
             if (exist_item) {
                 if (input) {
-                    let aux_quantity;
-                    if (!Number(item.item.aux_quantity)) {
-                        aux_quantity = 1;
-                    } else {
-                        aux_quantity = exist_item.item.aux_quantity;
-                    }
                     response = await this.getStatusStock(
                         item.item_id,
                         exist_item.item.aux_quantity
@@ -1871,7 +1880,7 @@ export default {
                         return this.$message.error(response.message);
                     }
 
-                    exist_item.quantity = aux_quantity;
+                    exist_item.quantity = exist_item.item.aux_quantity;
                 } else {
                     response = await this.getStatusStock(
                         item.item_id,
@@ -1996,7 +2005,6 @@ export default {
                     exchangeRateSale,
                     this.percentage_igv
                 );
-                // console.log(this.row)
 
                 // this.row['unit_type_id'] = item.presentation ? item.presentation.unit_type_id : 'NIU';
 

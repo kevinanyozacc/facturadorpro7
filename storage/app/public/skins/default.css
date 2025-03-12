@@ -375,6 +375,20 @@ html.fixed.sidebar-nuevo-tema .sidebar-left, html.fixed.sidebar-nuevo-tema .side
   border-color: var(--dark-color);
   box-shadow: none;
 }
+.btn-primary:focus,
+.btn-primary.focus {
+    background-color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+    opacity: 0.7 !important;
+    box-shadow: none !important;
+}
+.btn-primary:active,
+.btn-primary.active,
+.show > .btn-primary.dropdown-toggle {
+    background-color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+    opacity: 0.7 !important;
+}
 .sidebar-left .sidebar-header{
     margin-bottom: 0;
 }
@@ -385,9 +399,25 @@ nav#menu {
     background-color: var(--light-color) !important;
     border: 1px solid var(--accent-color);
 }
-.el-input--small .el-input__inner:focus, .el-input-group__prepend:focus {
+.el-input--small .el-input__inner:focus, 
+.el-input-group__prepend:focus-within {
     background-color: #fff !important;
-    border: 1px solid var(--accent-color);
+    border: 1px solid var(--highlight-color) !important;
+    box-shadow: 
+        -4px 0 var(--accent-color),   /* Borde izquierdo */
+         4px 0 var(--accent-color),   /* Borde derecho */
+         0 4px var(--accent-color),   /* Borde inferior */
+         0 -4px var(--accent-color),  /* Borde superior */
+        -3px 3px var(--accent-color), /* Esquina inferior izquierda */
+         3px 3px var(--accent-color), /* Esquina inferior derecha */
+        -3px -3px var(--accent-color),/* Esquina superior izquierda */
+         3px -3px var(--accent-color);/* Esquina superior derecha */
+}
+
+
+.el-input--small .el-input__inner:hover, 
+.el-input-group__prepend:hover {
+    border-color: var(--accent-color);
 }
 .form-group:focus-within label.control-label,
 .form-period:focus-within label.control-label,
@@ -395,9 +425,14 @@ nav#menu {
 .form-seller:focus-within label.control-label,
 .form-modern:focus-within label.control-label {
     background-color: #fff;
-}
-.el-input--small .el-input__inner:hover, .el-input-group__prepend:hover {
-    border: 1px solid var(--accent-color);
+    border-color: var(--highlight-color) !important;
+    box-shadow: 
+        -4px 0 var(--accent-color),    /* Borde izquierdo */
+         4px 0 var(--accent-color),    /* Borde derecho */
+         0 -4px var(--accent-color),   /* Borde superior */
+        -3px -3px var(--accent-color), /* Esquina superior izquierda */
+         3px -3px var(--accent-color); /* Esquina superior derecha */
+    border-bottom: 0px !important;
 }
 .el-tabs__item:hover {
     color: var(--primary-color);
@@ -530,11 +565,6 @@ ul.nav.list-config li:hover {
 .el-date-table td.available:hover {
     color: var(--primary-color);
 }
-.btn-info-default{
-    background-color: var(--primary-color) !important;
-    border-color: var(--primary-color) !important;
-}
-.btn-info-default:hover,
 .btn-search-default:hover{
     background-color: var(--primary-color) !important;
     border-color: var(--primary-color) !important;
@@ -596,8 +626,17 @@ ul.nav-main li.nav-expanded > a {
 }
 .el-input__inner:focus,
 .el-textarea__inner:focus {
-    border-color: var(--accent-color);
+    border-color: var(--highlight-color) !important;
     background: #fff;
+    box-shadow: 
+        -4px 0 var(--accent-color),   /* Borde izquierdo */
+         4px 0 var(--accent-color),   /* Borde derecho */
+         0 4px var(--accent-color),   /* Borde inferior */
+         0 -4px var(--accent-color),  /* Borde superior */
+        -3px 3px var(--accent-color), /* Esquina inferior izquierda */
+         3px 3px var(--accent-color), /* Esquina inferior derecha */
+        -3px -3px var(--accent-color),/* Esquina superior izquierda */
+         3px -3px var(--accent-color);/* Esquina superior derecha */
 }
 .el-checkbox {
     color: var(--dark-color);
@@ -700,6 +739,19 @@ html.fixed.sidebar-white:not(.dark) .sidebar-left a {
 .toggle-button.shift {
     z-index: 1023;
     opacity: 1;
+}
+.input-disabled {
+    color: #888 !important;
+    cursor: not-allowed;
+    & input{
+        border-color: transparent !important;
+        color: #888 !important;
+    }
+}
+.input-disabled-container .control-label{
+    color: #888 !important;
+    cursor: not-allowed;
+    border-color: transparent !important;
 }
 @media only screen and (min-width: 768px) {
     html.sidebar-left-collapsed .sidebar-left,
@@ -816,12 +868,6 @@ html.fixed.sidebar-white:not(.dark) .sidebar-left a {
     border-color: #fc4e4b;
     box-shadow: unset;
 } */
-.notifications > li .notification-icon .badge,
-.badge-danger {
-    background: rgb(252 78 75 / 20%);
-    /* color: #fc4f4b; */
-    font-weight: bold;
-}
 .el-carousel__arrow {
     display: none;
 }
@@ -948,10 +994,6 @@ html.sidebar-light:not(.dark):not(.sidebar-green):not(.sidebar-green) ul.nav-mai
 }
 .btn-search-border{
     border-radius: 0 5px 5px 0 !important;
-}
-span.badge.bg-danger.text-white {
-    background: rgb(252 78 75 / 20%) !important;
-    /* color: #fc4f4b !important; */
 }
 span.badge.bg-secondary.text-white.bg-success,
 span.badge.text-white.bg-success {
@@ -1226,6 +1268,37 @@ body .v-modal {
 }
 .input-custom .el-input-number__increase {
     top: 0;
+}
+.product-search-model .el-tooltip,
+.product-model .tooltips-container {
+    position: absolute;
+    right: 7px;
+    top: 46px;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+    z-index: 10;
+    height: 54px !important;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    background-color: var(--primary-color);
+    color: var(--light-color);
+}
+.more-width-input input.el-input__inner {
+    margin-left: -1px !important;
+}
+.product-model .tooltips-container .el-tooltip{
+    height: 26px;
+    background-color: var(--primary-color);
+    border: none;
+    color: var(--light-color);
+}
+.tooltips-container {
+    width: 45px;
+    height: 55px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 html.sidebar-light:not(.dark) .style-switcher {
     background: #ffffff;
@@ -1920,7 +1993,6 @@ html.dark .el-radio-button__orig-radio:checked + .el-radio-button__inner {
 html.dark .el-radio-button:first-child .el-radio-button__inner {
     border-left: 1px solid var(--borders-dark);
 }
-html.dark .btn-danger,
 html.dark .form-actions .second-buton,
 html.dark .second-buton{
     background-color: var(--button-second);
@@ -1947,11 +2019,6 @@ html.dark .dropdown-item:hover,
 html.dark .dropdown-item:focus {
   color: var(--light-color) !important;
   background-color: var(--dark-color);
-}
-html.dark .btn-info:hover, html.dark .btn-info.hover,
-html.dark .btn-info {
-    background-color: var(--primary-color) !important;
-    border-color: var(--borders-dark);
 }
 html.dark .dropdown-divider {
     border-top: 1px solid var(--borders-dark);
@@ -2472,7 +2539,7 @@ html.dark .currency-symbol {
     border-right: 1px solid var(--borders-dark);
 }
 html.dark .el-input-number__increase, html.dark .el-input-number__decrease {
-    top: 10px;
+    top: 9px;
 }
 html.dark .input-custom .el-input-number__increase {
     top: 1px;
@@ -2487,5 +2554,38 @@ html.dark .user-profile-content .profile-info .role {
 }
 html.dark .user-profile-content .profile-info .name {
             color: var(--light-color);
+}
+html.dark .el-input--small .el-input__inner:focus, 
+html.dark .el-input-group__prepend:focus-within,
+html.dark .el-input__inner:focus,
+html.dark .el-textarea__inner:focus {
+    border-color: var(--highlight-color) !important;
+    box-shadow: 
+        -4px 0 var(--borders-dark),   /* Borde izquierdo */
+         4px 0 var(--borders-dark),   /* Borde derecho */
+         0 4px var(--borders-dark),   /* Borde inferior */
+         0 -4px var(--borders-dark),  /* Borde superior */
+        -3px 3px var(--borders-dark), /* Esquina inferior izquierda */
+         3px 3px var(--borders-dark), /* Esquina inferior derecha */
+        -3px -3px var(--borders-dark),/* Esquina superior izquierda */
+         3px -3px var(--borders-dark);/* Esquina superior derecha */
+}
+html.dark .form-group:focus-within label.control-label,
+html.dark .form-period:focus-within label.control-label,
+html.dark .form-group:focus-within label.control-label--buys,
+html.dark .form-seller:focus-within label.control-label,
+html.dark .form-modern:focus-within label.control-label {
+    box-shadow: 
+        -4px 0 var(--borders-dark),    /* Borde izquierdo */
+         4px 0 var(--borders-dark),    /* Borde derecho */
+         0 -4px var(--borders-dark),   /* Borde superior */
+        -3px -3px var(--borders-dark), /* Esquina superior izquierda */
+         3px -3px var(--borders-dark); /* Esquina superior derecha */
+}
+.el-input-number__decrease {
+    border-radius: 4px 0 0 8px;
+}
+.el-input-number__increase {
+    border-radius: 0 4px 8px 0;
 }
 /* end */

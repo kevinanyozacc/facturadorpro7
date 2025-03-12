@@ -3,11 +3,31 @@
         <div class="page-header pr-0">
             <h2>
                 <a :href="itemUrl">
-                    <svg  xmlns="http://www.w3.org/2000/svg" style="margin-top: -5px;"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-category-2"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 4h6v6h-6z" /><path d="M4 14h6v6h-6z" /><path d="M17 17m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" /><path d="M7 7m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" /></svg>
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        style="margin-top: -5px;"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="icon icon-tabler icons-tabler-outline icon-tabler-category-2"
+                    >
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M14 4h6v6h-6z" />
+                        <path d="M4 14h6v6h-6z" />
+                        <path d="M17 17m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+                        <path d="M7 7m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+                    </svg>
                 </a>
             </h2>
             <ol class="breadcrumbs">
-                <li class="active"><span>{{ titleTopBar }}</span></li>
+                <li class="active">
+                    <span>{{ titleTopBar }}</span>
+                </li>
             </ol>
             <div class="right-wrapper pull-right">
                 <template v-if="typeUser === 'admin'">
@@ -37,33 +57,35 @@
                                 class="dropdown-item text-1"
                                 href="#"
                                 @click.prevent="clickExport()"
-                            >Listado</a
+                                >Listado</a
                             >
                             <a
                                 class="dropdown-item text-1"
                                 href="#"
                                 @click.prevent="clickExportWp()"
-                            >Woocommerce</a
+                                >Woocommerce</a
                             >
                             <a
                                 class="dropdown-item text-1"
                                 href="#"
                                 @click.prevent="clickExportBarcode()"
-                            >Etiquetas</a>
-                            <template v-if="config.show_extra_info_to_item">
-                            <a
-                                class="dropdown-item text-1"
-                                href="#"
-                                @click.prevent="clickExportExtra()"
+                                >Etiquetas</a
                             >
-                                Atributos Extra
-                            </a>
+                            <template v-if="config.show_extra_info_to_item">
+                                <a
+                                    class="dropdown-item text-1"
+                                    href="#"
+                                    @click.prevent="clickExportExtra()"
+                                >
+                                    Atributos Extra
+                                </a>
                             </template>
                             <a
                                 class="dropdown-item text-1"
                                 href="#"
                                 @click.prevent="clickExportBartender()"
-                            >Bartender</a>
+                                >Bartender</a
+                            >
                         </div>
                     </div>
                     <div class="btn-group flex-wrap">
@@ -92,25 +114,31 @@
                                 class="dropdown-item text-1"
                                 href="#"
                                 @click.prevent="clickImport()"
-                            >Productos</a
+                                >Productos</a
                             >
                             <a
                                 class="dropdown-item text-1"
                                 href="#"
                                 @click.prevent="clickImportListPrice()"
-                            >L. Precios</a
+                                >L. Precios</a
                             >
                             <template v-if="config.show_extra_info_to_item">
                                 <a
                                     class="dropdown-item text-1"
                                     href="#"
-                                    @click.prevent="clickImportExtraWithExtraInfo()"
-                                >L. Atributos</a
+                                    @click.prevent="
+                                        clickImportExtraWithExtraInfo()
+                                    "
+                                    >L. Atributos</a
                                 >
                             </template>
-                            
-                            <a class="dropdown-item text-1" href="#" @click.prevent="clickImportUpdatePrice()">Actualizar precios</a>
 
+                            <a
+                                class="dropdown-item text-1"
+                                href="#"
+                                @click.prevent="clickImportUpdatePrice()"
+                                >Actualizar precios</a
+                            >
                         </div>
                     </div>
                 </template>
@@ -131,25 +159,31 @@
             <div class="data-table-visible-columns">
                 <el-dropdown :hide-on-click="false">
                     <el-button type="primary">
-                        Mostrar/Ocultar columnas<i class="el-icon-arrow-down el-icon--right"></i>
+                        Mostrar/Ocultar columnas<i
+                            class="el-icon-arrow-down el-icon--right"
+                        ></i>
                     </el-button>
                     <el-dropdown-menu slot="dropdown">
-                        <el-dropdown-item v-for="(column, index) in columnsComputed"
-                                          :key="index">
+                        <el-dropdown-item
+                            v-for="(column, index) in columnsComputed"
+                            :key="index"
+                        >
                             <el-checkbox
-                                v-if="column.title !== undefined && column.visible !== undefined"
-                                v-model="column.visible" @change="saveColumnVisibility"
-                            >{{ column.title }}
+                                v-if="
+                                    column.title !== undefined &&
+                                        column.visible !== undefined
+                                "
+                                v-model="column.visible"
+                                @change="saveColumnVisibility"
+                                >{{ column.title }}
                             </el-checkbox>
                         </el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
             </div>
             <div class="card-body">
-                <data-table :productType="type"
-                            :resource="resource">
-                    <tr slot="heading"
-                        width="100%">
+                <data-table :productType="type" :resource="resource">
+                    <tr slot="heading" width="100%">
                         <!-- <th>#</th> -->
                         <th class="text-right" style="max-width: 83px;">ID</th>
                         <th class="text-right">Cód. Interno</th>
@@ -159,28 +193,61 @@
                         <th v-if="columns.description.visible">Descripción</th>
                         <th v-if="columns.model.visible">Modelo</th>
                         <th v-if="columns.brand.visible">Marca</th>
-                        <th class="text-right" v-if="columns.item_code.visible">Cód. SUNAT</th>
-                        <th class="text-right" v-if="(columns.sanitary!== undefined && columns.sanitary.visible===true )">R.S.</th>
-                        <th v-if="(columns.cod_digemid!== undefined && columns.cod_digemid.visible===true )">DIGEMID
+                        <th class="text-right" v-if="columns.item_code.visible">
+                            Cód. SUNAT
+                        </th>
+                        <th
+                            class="text-right"
+                            v-if="
+                                columns.sanitary !== undefined &&
+                                    columns.sanitary.visible === true
+                            "
+                        >
+                            R.S.
+                        </th>
+                        <th
+                            v-if="
+                                columns.cod_digemid !== undefined &&
+                                    columns.cod_digemid.visible === true
+                            "
+                        >
+                            DIGEMID
                         </th>
                         <template v-if="typeUser == 'admin'">
                             <th class="text-center">Historial</th>
                         </template>
                         <th class="text-left">Stock</th>
-                        <th v-if="(columns.extra_data!== undefined && columns.extra_data.visible===true )"
-                            class="text-center">Stock por datos extra
+                        <th
+                            v-if="
+                                columns.extra_data !== undefined &&
+                                    columns.extra_data.visible === true
+                            "
+                            class="text-center"
+                        >
+                            Stock por datos extra
                         </th>
                         <th class="text-right">P.Unitario (Venta)</th>
-                        <th v-if="typeUser != 'seller' && columns.purchase_unit_price.visible"
-                            class="text-right">
+                        <th
+                            v-if="
+                                typeUser != 'seller' &&
+                                    columns.purchase_unit_price.visible
+                            "
+                            class="text-right"
+                        >
                             P.Unitario (Compra)
                         </th>
-                        <th v-if="columns.real_unit_price.visible"
-                            class="text-right">P. venta
+                        <th
+                            v-if="columns.real_unit_price.visible"
+                            class="text-right"
+                        >
+                            P. venta
                         </th>
                         <th class="text-left">Tiene Igv (Venta)</th>
-                        <th v-if="columns.purchase_has_igv_description.visible"
-                            class="text-left">Tiene Igv (Compra)
+                        <th
+                            v-if="columns.purchase_has_igv_description.visible"
+                            class="text-left"
+                        >
+                            Tiene Igv (Compra)
                         </th>
                         <th class="text-right"></th>
                     </tr>
@@ -191,21 +258,42 @@
                         :class="{ disable_color: !row.active }"
                     >
                         <!-- <td>{{ index }}</td> -->
-                        <td class="text-right">{{ row.id }}</td> 
+                        <td class="text-right">{{ row.id }}</td>
                         <td class="text-right">{{ row.internal_id }}</td>
                         <td>{{ row.unit_type_id }}</td>
-                        <td><img :src="row.image_url_small" style="object-fit: contain;" alt width="32px" height="32px" />
+                        <td>
+                            <img
+                                :src="row.image_url_small"
+                                style="object-fit: contain;"
+                                alt
+                                width="32px"
+                                height="32px"
+                            />
                         </td>
                         <td>{{ row.description }}</td>
-                        <td v-if="columns.description.visible">{{ row.name }}</td>
+                        <td v-if="columns.description.visible">
+                            {{ row.name }}
+                        </td>
                         <td v-if="columns.model.visible">{{ row.model }}</td>
                         <td v-if="columns.brand.visible">{{ row.brand }}</td>
-                        <td class="text-right" v-if="columns.item_code.visible">{{ row.item_code }}</td>
-                        <td v-if="(columns.sanitary!== undefined && columns.sanitary.visible===true )">{{
-                                row.sanitary
-                                                                                                       }}
+                        <td class="text-right" v-if="columns.item_code.visible">
+                            {{ row.item_code }}
                         </td>
-                        <td class="text-right" v-if="(columns.cod_digemid!== undefined && columns.cod_digemid.visible===true )">
+                        <td
+                            v-if="
+                                columns.sanitary !== undefined &&
+                                    columns.sanitary.visible === true
+                            "
+                        >
+                            {{ row.sanitary }}
+                        </td>
+                        <td
+                            class="text-right"
+                            v-if="
+                                columns.cod_digemid !== undefined &&
+                                    columns.cod_digemid.visible === true
+                            "
+                        >
                             {{ row.cod_digemid }}
                         </td>
 
@@ -222,29 +310,42 @@
                         </template>
 
                         <td>
-                            <div v-if="config.product_only_location == true">
+                            <div
+                                v-if="config.product_only_location == true"
+                                :class="{
+                                    'text-danger': row.stock < row.stock_min
+                                }"
+                            >
                                 {{ row.stock }}
                             </div>
                             <div v-else>
                                 <template
                                     v-if="
                                         typeUser == 'seller' &&
-                                        row.unit_type_id != 'ZZ'
+                                            row.unit_type_id != 'ZZ'
                                     "
-                                >{{ row.stock }}
-                                </template
-                                >
+                                    ><span
+                                        :class="{
+                                            'text-danger':
+                                                row.stock < row.stock_min
+                                        }"
+                                        >{{ row.stock }}</span
+                                    >
+                                </template>
                                 <template
                                     v-else-if="
                                         typeUser != 'seller' &&
-                                        row.unit_type_id != 'ZZ'
+                                            row.unit_type_id != 'ZZ'
                                     "
                                 >
                                     <button
                                         class="btn waves-effect waves-light btn-xs btn-info"
                                         type="button"
                                         @click.prevent="
-                                            clickWarehouseDetail(row.warehouses, row.item_unit_types)
+                                            clickWarehouseDetail(
+                                                row.warehouses,
+                                                row.item_unit_types
+                                            )
                                         "
                                     >
                                         <i class="fa fa-search"></i>
@@ -257,24 +358,39 @@
 
                             <!-- <br/>Mín:{{ row.stock_min }} -->
                         </td>
-                        <td v-if="(columns.extra_data!== undefined && columns.extra_data.visible===true )"
-                            class="text-center">
-
-                            <template v-if="
-                            config.show_extra_info_to_item &&
-                            (
-                                row.stock_by_extra.total !== null ||
-                                row.stock_by_extra.colors !== null ||
-                                row.stock_by_extra.CatItemSize !== null ||
-                                row.stock_by_extra.CatItemStatus !== null ||
-                                row.stock_by_extra.CatItemUnitBusiness !== null ||
-                                row.stock_by_extra.CatItemMoldCavity !== null ||
-                                row.stock_by_extra.CatItemPackageMeasurement !== null ||
-                                row.stock_by_extra.CatItemUnitsPerPackage !== null ||
-                                row.stock_by_extra.CatItemMoldProperty !== null ||
-                                row.stock_by_extra.CatItemProductFamily !== null
-                            )
-                                ">
+                        <td
+                            v-if="
+                                columns.extra_data !== undefined &&
+                                    columns.extra_data.visible === true
+                            "
+                            class="text-center"
+                        >
+                            <template
+                                v-if="
+                                    config.show_extra_info_to_item &&
+                                        (row.stock_by_extra.total !== null ||
+                                            row.stock_by_extra.colors !==
+                                                null ||
+                                            row.stock_by_extra.CatItemSize !==
+                                                null ||
+                                            row.stock_by_extra.CatItemStatus !==
+                                                null ||
+                                            row.stock_by_extra
+                                                .CatItemUnitBusiness !== null ||
+                                            row.stock_by_extra
+                                                .CatItemMoldCavity !== null ||
+                                            row.stock_by_extra
+                                                .CatItemPackageMeasurement !==
+                                                null ||
+                                            row.stock_by_extra
+                                                .CatItemUnitsPerPackage !==
+                                                null ||
+                                            row.stock_by_extra
+                                                .CatItemMoldProperty !== null ||
+                                            row.stock_by_extra
+                                                .CatItemProductFamily !== null)
+                                "
+                            >
                                 <button
                                     class="btn waves-effect waves-light btn-xs btn-primary"
                                     type="button"
@@ -285,34 +401,46 @@
                             </template>
                         </td>
                         <td class="text-right">{{ row.sale_unit_price }}</td>
-                        <td v-if="typeUser != 'seller' && columns.purchase_unit_price.visible"
-                            class="text-right">
+                        <td
+                            v-if="
+                                typeUser != 'seller' &&
+                                    columns.purchase_unit_price.visible
+                            "
+                            class="text-right"
+                        >
                             {{ row.purchase_unit_price }}
                         </td>
-                        <td v-if="columns.real_unit_price.visible"
-                            class="text-right">
+                        <td
+                            v-if="columns.real_unit_price.visible"
+                            class="text-right"
+                        >
                             {{ row.sale_unit_price_with_igv }}
                         </td>
                         <td class="text-left">
                             {{ row.has_igv_description }}
                         </td>
-                        <td v-if="columns.purchase_has_igv_description.visible"
-                            class="text-left">
+                        <td
+                            v-if="columns.purchase_has_igv_description.visible"
+                            class="text-left"
+                        >
                             {{ row.purchase_has_igv_description }}
                         </td>
                         <td class="text-right">
                             <div class="dropdown">
-                                <button id="dropdownMenuButton"
-                                        aria-expanded="false"
-                                        aria-haspopup="true"
-                                        class="btn btn-default btn-sm"
-                                        data-toggle="dropdown"
-                                        type="button">
+                                <button
+                                    id="dropdownMenuButton"
+                                    aria-expanded="false"
+                                    aria-haspopup="true"
+                                    class="btn btn-default btn-sm"
+                                    data-toggle="dropdown"
+                                    type="button"
+                                >
                                     <i class="fas fa-ellipsis-v"></i>
                                 </button>
-                                <div aria-labelledby="dropdownMenuButton"
-                                     class="dropdown-menu">
-
+                                <div
+                                    aria-labelledby="dropdownMenuButton"
+                                    class="dropdown-menu"
+                                >
                                     <template v-if="typeUser === 'admin'">
                                         <button
                                             class="dropdown-item"
@@ -335,7 +463,9 @@
                                         <button
                                             v-if="row.active"
                                             class="dropdown-item"
-                                            @click.prevent="clickDisable(row.id)"
+                                            @click.prevent="
+                                                clickDisable(row.id)
+                                            "
                                         >
                                             Inhabilitar
                                         </button>
@@ -354,26 +484,34 @@
                                         </button>
                                         <button
                                             class="dropdown-item"
-                                            @click.prevent="clickPrintBarcode(row)"
+                                            @click.prevent="
+                                                clickPrintBarcode(row)
+                                            "
                                         >
                                             Etiquetas
                                         </button>
                                         <div class="dropdown-divider"></div>
                                         <button
                                             class="dropdown-item"
-                                            @click.prevent="clickPrintBarcodeX(row, 1)"
+                                            @click.prevent="
+                                                clickPrintBarcodeX(row, 1)
+                                            "
                                         >
                                             Etiquetas 1x1
                                         </button>
                                         <button
                                             class="dropdown-item"
-                                            @click.prevent="clickPrintBarcodeX(row, 2)"
+                                            @click.prevent="
+                                                clickPrintBarcodeX(row, 2)
+                                            "
                                         >
                                             Etiquetas 1x2
                                         </button>
                                         <button
                                             class="dropdown-item"
-                                            @click.prevent="clickPrintBarcodeX(row, 3)"
+                                            @click.prevent="
+                                                clickPrintBarcodeX(row, 3)
+                                            "
                                         >
                                             Etiquetas 1x3
                                         </button>
@@ -419,7 +557,6 @@
                 :showDialog.sync="showImportExtraWithExtraInfo"
             ></items-import-extra-info>
 
-
             <items-import-update-price
                 :showDialog.sync="showImporUpdatePrice"
             ></items-import-update-price>
@@ -445,7 +582,6 @@
     </div>
 </template>
 <script>
-
 import ItemsForm from "./form.vue";
 import WarehousesDetail from "./partials/warehouses.vue";
 import ItemsImport from "./import.vue";
@@ -457,17 +593,14 @@ import ItemsExportWp from "./partials/export_wp.vue";
 import ItemsExportBarcode from "./partials/export_barcode.vue";
 import ItemsExportExtra from "./partials/export_extra.vue";
 import DataTable from "../../../components/DataTable.vue";
-import {deletable} from "../../../mixins/deletable";
+import { deletable } from "../../../mixins/deletable";
 import ItemsHistory from "@viewsModuleItem/items/history.vue";
-import {mapActions, mapState} from "vuex";
+import { mapActions, mapState } from "vuex";
 import ItemsImportUpdatePrice from "./partials/update_prices.vue";
 import ItemsExportBartender from "./partials/export_bartender.vue";
 
 export default {
-    props: [
-        "configuration",
-        "typeUser",
-        "type"],
+    props: ["configuration", "typeUser", "type"],
     mixins: [deletable],
     components: {
         ItemsForm,
@@ -504,57 +637,58 @@ export default {
             warehousesDetail: [],
             columns: {
                 description: {
-                    title: 'Descripción',
+                    title: "Descripción",
                     visible: false
                 },
                 item_code: {
-                    title: 'Cód. SUNAT',
+                    title: "Cód. SUNAT",
                     visible: false
                 },
                 purchase_unit_price: {
-                    title: 'P.Unitario (Compra)',
+                    title: "P.Unitario (Compra)",
                     visible: false
                 },
                 purchase_has_igv_description: {
-                    title: 'Tiene Igv (Compra)',
+                    title: "Tiene Igv (Compra)",
                     visible: false
                 },
                 model: {
-                    title: 'Modelo',
+                    title: "Modelo",
                     visible: false
                 },
                 brand: {
-                    title: 'Marca',
+                    title: "Marca",
                     visible: false
                 },
                 sanitary: {
-                    title: 'N° Sanitario',
+                    title: "N° Sanitario",
                     visible: false
                 },
                 cod_digemid: {
-                    title: 'DIGEMID',
+                    title: "DIGEMID",
                     visible: false
                 },
                 real_unit_price: {
-                    title: 'Mostrar el precio de venta total (con el cálculo IGV)',
+                    title:
+                        "Mostrar el precio de venta total (con el cálculo IGV)",
                     visible: false
                 },
                 extra_data: {
-                    title: 'Stock Por datos extra',
+                    title: "Stock Por datos extra",
                     visible: false
-                },
+                }
             },
             item_unit_types: [],
-            titleTopBar: '',
-            title: '',
+            titleTopBar: "",
+            title: "",
             showDialogHistory: false,
-            showDialogItemStock: false,
+            showDialogItemStock: false
         };
     },
     created() {
         this.loadColumnVisibility();
-        this.$store.commit('setConfiguration', this.configuration);
-        this.loadConfiguration()
+        this.$store.commit("setConfiguration", this.configuration);
+        this.loadConfiguration();
 
         if (this.config.is_pharmacy !== true) {
             delete this.columns.sanitary;
@@ -562,68 +696,71 @@ export default {
         }
         if (this.config.show_extra_info_to_item !== true) {
             delete this.columns.extra_data;
-
         }
-        if (this.type === 'ZZ') {
-            this.titleTopBar = 'Servicios';
-            this.title = 'Listado de servicios';
+        if (this.type === "ZZ") {
+            this.titleTopBar = "Servicios";
+            this.title = "Listado de servicios";
         } else {
-            this.titleTopBar = 'Productos';
-            this.title = 'Listado de productos';
+            this.titleTopBar = "Productos";
+            this.title = "Listado de productos";
         }
-        this.$http.get(`/configurations/record`).then((response) => {
-            this.$store.commit('setConfiguration', response.data.data);
+        this.$http.get(`/configurations/record`).then(response => {
+            this.$store.commit("setConfiguration", response.data.data);
             //this.config = response.data.data;
         });
         this.canCreateProduct();
-        this.getItems()
+        this.getItems();
     },
     computed: {
         ...mapState([
-            'config',
-            'colors',
-            'CatItemSize',
-            'CatItemMoldCavity',
-            'CatItemMoldProperty',
-            'CatItemUnitBusiness',
-            'CatItemStatus',
-            'CatItemPackageMeasurement',
-            'CatItemProductFamily',
-            'CatItemUnitsPerPackage'
+            "config",
+            "colors",
+            "CatItemSize",
+            "CatItemMoldCavity",
+            "CatItemMoldProperty",
+            "CatItemUnitBusiness",
+            "CatItemStatus",
+            "CatItemPackageMeasurement",
+            "CatItemProductFamily",
+            "CatItemUnitsPerPackage"
         ]),
-        columnsComputed: function () {
+        columnsComputed: function() {
             return this.columns;
         },
         itemUrl() {
-            return this.type === 'ZZ' ? '/services' : '/items';
+            return this.type === "ZZ" ? "/services" : "/items";
         }
     },
     methods: {
         saveColumnVisibility() {
-            localStorage.setItem('columnVisibilityItems', JSON.stringify(this.columns));
+            localStorage.setItem(
+                "columnVisibilityItems",
+                JSON.stringify(this.columns)
+            );
         },
         loadColumnVisibility() {
-            const savedColumns = localStorage.getItem('columnVisibilityItems');
+            const savedColumns = localStorage.getItem("columnVisibilityItems");
             if (savedColumns) {
                 this.columns = JSON.parse(savedColumns);
             }
         },
-        ...mapActions([
-            'loadConfiguration',
-        ]),
+        ...mapActions(["loadConfiguration"]),
         clickHistory(recordId) {
-            this.recordId = recordId
-            this.showDialogHistory = true
+            this.recordId = recordId;
+            this.showDialogHistory = true;
         },
         clickStockItems(row) {
-            this.recordItem = row
-            this.showDialogItemStock = true
+            this.recordItem = row;
+            this.showDialogItemStock = true;
         },
         canCreateProduct() {
-            if (this.typeUser === 'admin') {
-                this.can_add_new_product = true
-            } else if (this.typeUser === 'seller') {
-                if (this.config !== undefined && this.config.seller_can_create_product !== undefined) {
+            if (this.typeUser === "admin") {
+                this.can_add_new_product = true;
+            } else if (this.typeUser === "seller") {
+                if (
+                    this.config !== undefined &&
+                    this.config.seller_can_create_product !== undefined
+                ) {
                     this.can_add_new_product = this.config.seller_can_create_product;
                 }
             }
@@ -631,8 +768,8 @@ export default {
         },
         duplicate(id) {
             this.$http
-                .post(`${this.resource}/duplicate`, {id})
-                .then((response) => {
+                .post(`${this.resource}/duplicate`, { id })
+                .then(response => {
                     if (response.data.success) {
                         this.$message.success(
                             "Se guardaron los cambios correctamente."
@@ -642,13 +779,12 @@ export default {
                         this.$message.error("No se guardaron los cambios");
                     }
                 })
-                .catch((error) => {
-                });
+                .catch(error => {});
             this.$eventHub.$emit("reloadData");
         },
         clickWarehouseDetail(warehouses, item_unit_types) {
             this.warehousesDetail = warehouses;
-            this.item_unit_types = item_unit_types
+            this.item_unit_types = item_unit_types;
             this.showWarehousesDetail = true;
         },
         clickCreate(recordId = null) {
@@ -679,7 +815,7 @@ export default {
         clickImportExtraWithExtraInfo() {
             this.showImportExtraWithExtraInfo = true;
         },
-        clickImportUpdatePrice(){
+        clickImportUpdatePrice() {
             this.showImporUpdatePrice = true;
         },
         clickDelete(id) {
@@ -722,24 +858,46 @@ export default {
                 );
             }
 
-            window.open(`/${this.resource}/export/barcode/print_x?format=${x}&id=${row.id}`);
+            window.open(
+                `/${this.resource}/export/barcode/print_x?format=${x}&id=${
+                    row.id
+                }`
+            );
         },
         getItems() {
             this.$http.get(`/${this.resource}/item/tables`).then(response => {
-                let data = response.data
-                    if(this.config.show_extra_info_to_item) {
-                        this.$store.commit('setColors', data.colors)
-                        this.$store.commit('setCatItemSize', data.CatItemSize)
-                        this.$store.commit('setCatItemMoldCavity', data.CatItemMoldCavity);
-                        this.$store.commit('setCatItemMoldProperty', data.CatItemMoldProperty);
-                        this.$store.commit('setCatItemUnitBusiness', data.CatItemUnitBusiness);
-                        this.$store.commit('setCatItemStatus', data.CatItemStatus);
-                        this.$store.commit('setCatItemPackageMeasurement', data.CatItemPackageMeasurement);
-                        this.$store.commit('setCatItemProductFamily', data.CatItemProductFamily);
-                        this.$store.commit('setCatItemUnitsPerPackage', data.CatItemUnitsPerPackage);
-                    }
-            })
-        },
-    },
+                let data = response.data;
+                if (this.config.show_extra_info_to_item) {
+                    this.$store.commit("setColors", data.colors);
+                    this.$store.commit("setCatItemSize", data.CatItemSize);
+                    this.$store.commit(
+                        "setCatItemMoldCavity",
+                        data.CatItemMoldCavity
+                    );
+                    this.$store.commit(
+                        "setCatItemMoldProperty",
+                        data.CatItemMoldProperty
+                    );
+                    this.$store.commit(
+                        "setCatItemUnitBusiness",
+                        data.CatItemUnitBusiness
+                    );
+                    this.$store.commit("setCatItemStatus", data.CatItemStatus);
+                    this.$store.commit(
+                        "setCatItemPackageMeasurement",
+                        data.CatItemPackageMeasurement
+                    );
+                    this.$store.commit(
+                        "setCatItemProductFamily",
+                        data.CatItemProductFamily
+                    );
+                    this.$store.commit(
+                        "setCatItemUnitsPerPackage",
+                        data.CatItemUnitsPerPackage
+                    );
+                }
+            });
+        }
+    }
 };
 </script>
