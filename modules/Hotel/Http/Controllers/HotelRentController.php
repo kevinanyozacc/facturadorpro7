@@ -12,6 +12,7 @@ use Modules\Hotel\Models\HotelRoom;
 use App\Models\Tenant\Configuration;
 use App\Models\Tenant\Company;
 use App\Models\Tenant\Establishment;
+use Modules\Hotel\Models\HotelRentOrder;
 use Modules\Hotel\Models\HotelRentItem;
 use App\Models\Tenant\PaymentMethodType;
 use Modules\Finance\Traits\FinanceTrait;
@@ -35,8 +36,9 @@ class HotelRentController extends Controller
 			->findOrFail($roomId);
 
 		$affectation_igv_types = AffectationIgvType::whereActive()->get();
+		$series = Series::where('establishment_id',  auth()->user()->establishment_id)->get();
 
-		return view('hotel::rooms.rent', compact('room', 'affectation_igv_types'));
+		return view('hotel::rooms.rent', compact('room', 'affectation_igv_types','series'));
 	}
 
 	public function store(HotelRentRequest $request, $roomId)
@@ -61,6 +63,14 @@ class HotelRentController extends Controller
 			$room->status = 'OCUPADO';
 			$room->save();
 
+			$order = new HotelRentOrder();
+			$order->hotel_rent_id = $rent->id;
+			$order->order_number = 1;
+			$order->order_status = $request->payment_status;
+			$order->sale_note_id = $request->sale_note_id;
+			$order->establishment_id = $room->establishment_id;
+			$order->save();
+
 			// Agregando la habitación a la lista de productos
 			$item = new HotelRentItem();
 			$item->type = 'HAB';
@@ -68,6 +78,7 @@ class HotelRentController extends Controller
 			$item->item_id = $request->product['item_id'];
 			$item->item = $request->product;
 			$item->payment_status = $request->payment_status;
+			$item->hotel_rent_order_id = $order->id;
 			$item->save();
 
 			//registrar pago
@@ -89,6 +100,10 @@ class HotelRentController extends Controller
 		}
 	}
 
+	private function getOrderNumberHotelRent($establishment_id)
+	{
+		
+	}
 
 	/**
 	 *
@@ -108,8 +123,6 @@ class HotelRentController extends Controller
 				'reference' => $rent_payment['reference'],
 				'payment' => $rent_payment['payment'],
 			]);
-
-			$this->createGlobalPayment($record, $rent_payment);
 		}
 	}
 
@@ -165,11 +178,19 @@ class HotelRentController extends Controller
 		$establishment = Establishment::query()->find(auth()->user()->establishment_id);
 		$configuration = Configuration::first();
 
-		$products = HotelRentItem::where('hotel_rent_id', $rentId)
-			->where('type', 'PRO')
+		$products = HotelRentItem::select(
+				'hotel_rent_items.*', 
+				DB::raw("IFNULL(CONCAT(sale_notes.series, '-', sale_notes.number), '') as document")
+			)
+			->leftJoin('hotel_rent_orders', 'hotel_rent_items.hotel_rent_order_id', '=', 'hotel_rent_orders.id')
+			->leftJoin('sale_notes', 'hotel_rent_orders.sale_note_id', '=', 'sale_notes.id')
+			->where('hotel_rent_items.hotel_rent_id', $rentId)
+			->where('hotel_rent_items.type', 'PRO')
 			->get();
 
-		return view('hotel::rooms.add-product-to-room', compact('rent', 'configuration', 'products', 'establishment'));
+		$series = Series::where('establishment_id',  auth()->user()->establishment_id)->get();
+
+		return view('hotel::rooms.add-product-to-room', compact('rent', 'configuration', 'products', 'establishment','series'));
 	}
 
 
@@ -183,10 +204,21 @@ class HotelRentController extends Controller
 	 */
 	public function addProductsToRoom(HotelRentItemRequest $request, $rentId)
 	{
-        $idInRequest = [];
+		$rent = HotelRent::findOrFail($rentId);
+
+		if( isset($request->sale_note_id) && $request->sale_note_id !=null) {
+			$order = new HotelRentOrder();
+			$order->hotel_rent_id = $rentId;
+			$order->order_number = 1;
+			$order->order_status = 'PAID';
+			$order->sale_note_id = $request->sale_note_id;
+			$order->establishment_id = $rent->establishment_id;
+			$order->save();
+		}
+		
 		foreach ($request->products as $product) {
 			$item = HotelRentItem::where('hotel_rent_id', $rentId)
-				->where('item_id', $product['item_id'])
+				->where('id', $product['id'])
 				->first();
 			if (!$item) {
 				$item = new HotelRentItem();
@@ -196,25 +228,15 @@ class HotelRentController extends Controller
 				$item->payment_status = $product['payment_status'];
 				$item->save();
 
-				//registrar pago
 				$this->saveHotelRentItemPayment($product['rent_payment'], $item);
 			}
 			$item->item = $product;
 			$item->payment_status = $product['payment_status'];
+			$item->hotel_rent_order_id = ($product['payment_status']=='PAID')? $order->id: null;
 			$item->save();
             $idInRequest[] = $item->id;
 
 		}
-
-        // Borrar los items que no esten asignados con PRO
-        $rent = HotelRent::find($rentId);
-        $itemsToDelete =$rent->items->where('type','PRO')->whereNotIn('id',$idInRequest);
-
-        foreach($itemsToDelete as $deleteable)
-		{
-			$this->deleteHotelRentItemPayment($deleteable);
-            $deleteable->delete();
-        }
 
 		return response()->json([
 			'success' => true,
@@ -227,7 +249,16 @@ class HotelRentController extends Controller
     $rent = HotelRent::with('room', 'room.category', 'items')
       ->findOrFail($rentId);
 
-    $room = $rent->items->firstWhere('type', 'HAB');
+	$items = HotelRentItem::select(
+			'hotel_rent_items.*', 
+			DB::raw("IFNULL(CONCAT(sale_notes.series, '-', sale_notes.number), '') as document")
+		)
+		->leftJoin('hotel_rent_orders', 'hotel_rent_items.hotel_rent_order_id', '=', 'hotel_rent_orders.id')
+		->leftJoin('sale_notes', 'hotel_rent_orders.sale_note_id', '=', 'sale_notes.id')
+		->where('hotel_rent_items.hotel_rent_id', $rent->id)
+		->get();
+	
+	$room = $items->firstWhere('type', 'HAB');
 
     $customer = Person::withOut('department', 'province', 'district')
       ->findOrFail($rent->customer_id);
@@ -251,7 +282,8 @@ class HotelRentController extends Controller
             'series',
             'document_types_invoice',
       		'affectation_igv_types',
-			'payments'
+			'payments',
+			'items'
         ));
   }
 

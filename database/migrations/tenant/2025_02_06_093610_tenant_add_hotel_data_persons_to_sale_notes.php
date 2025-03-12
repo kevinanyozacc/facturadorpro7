@@ -31,6 +31,7 @@ class TenantAddHotelDataPersonsToSaleNotes extends Migration
         Schema::table('sale_notes', function (Blueprint $table) {
             $table->dropColumn('hotel_data_persons');
             $table->dropColumn('source_module');
+            $table->dropForeign(['hotel_rent_id']);
             $table->dropColumn('hotel_rent_id');
         });
     }

@@ -14,6 +14,7 @@ class HotelRentItem extends ModelTenant
 		'item_id',
 		'item',
 		'payment_status',
+		'hotel_rent_order_id',
 	];
 
 	public function getItemAttribute($value)

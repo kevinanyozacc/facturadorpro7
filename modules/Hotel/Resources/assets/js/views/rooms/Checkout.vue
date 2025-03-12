@@ -85,7 +85,7 @@
                                     <td>Costo por tarifa</td>
                                     <td>Cant. noches</td>
                                     <td>Carga por salir tarde</td>
-                                    <td></td>
+                                    <td>Comprobante</td>
                                     <td></td>
                                 </tr>
                                 <tr>
@@ -99,7 +99,7 @@
                                                       type="number"></el-input>
                                         </div>
                                     </td>
-                                    <td></td>
+                                    <td>{{ room.document }}</td>
                                     <td class="text-center">
                                         <div class="d-d-inline-block"
                                              style="max-width: 120px">
@@ -113,7 +113,31 @@
                                 </tr>
                                 <tr class="table-info">
                                     <td></td>
-                                    <td colspan="5">Servicio al cuarto</td>
+                                    <td colspan="5">Servicio a la habitación - PAGADA</td>
+                                </tr>
+                                <tr>
+                                    <td>#</td>
+                                    <td>Descripción</td>
+                                    <td>Precio unitario</td>
+                                    <td>Cantidad</td>
+                                    <td>Comprobante</td>
+                                    <td>Total</td>
+                                </tr>
+                                <tr
+                                    v-for="(it, i) in rentPaidItems"
+                                    :key="i"
+                                >
+                                    <td>{{ i + 1 }}</td>
+                                    <td>{{ it.item.item.description }}</td>
+                                    <td>{{ it.item.input_unit_price_value | toDecimals }}</td>
+                                    <td>{{ it.item.quantity | toDecimals }}</td>
+                                    <td>{{ it.document}}</td>
+                                    <td>{{ it.item.total | toDecimals }}</td>
+                                </tr>
+
+                                <tr class="table-info">
+                                    <td></td>
+                                    <td colspan="5">Servicio a la habitación - Cargada a la habitación</td>
                                 </tr>
                                 <tr>
                                     <td>#</td>
@@ -124,8 +148,7 @@
                                     <td>Total</td>
                                 </tr>
                                 <tr
-                                    v-for="(it, i) in currentRent.items"
-                                    v-show="it.type === 'PRO'"
+                                    v-for="(it, i) in rentDebtItems"
                                     :key="i"
                                 >
                                     <td>{{ i + 1 }}</td>
@@ -328,7 +351,7 @@
                         </table>
                     </div>
                     <div class="col-12 pt-3">
-                        <template v-if="canMakePayment">
+                        <template v-if="canMakePayment && totalDebt > 0">
                             <el-button
                                 :disabled="loading"
                                 :loading="loading"
@@ -337,6 +360,17 @@
                             >
                                 <i class="fa fa-save"></i>
                                 <span class="ml-2">Guardar y Generar Comprobante</span>
+                            </el-button>
+                        </template>
+                        <template v-else-if="canMakePayment">
+                            <el-button
+                                :disabled="loading"
+                                :loading="loading"
+                                type="primary"
+                                @click="onGoToFinalizeRent"
+                            >
+                                <i class="fa fa-save"></i>
+                                <span class="ml-2">Guardar</span>
                             </el-button>
                         </template>
                         <template v-else>
@@ -452,6 +486,10 @@ export default {
             type: Array,
             required: true,
         },
+        rentItems: {
+            type: Array,
+            required: true,
+        },
     },
     computed: {
         ...mapState([
@@ -470,6 +508,14 @@ export default {
         hasDebt()
         {
             return this.totalDebt > 0
+        },
+        rentPaidItems()
+        {
+            return this.rentItems.filter(it => it.type === 'PRO' && it.payment_status === 'PAID')
+        },
+        rentDebtItems()
+        {
+            return this.rentItems.filter(it => it.type === 'PRO' && it.payment_status === 'DEBT')
         }
     },
     created() {
@@ -521,30 +567,29 @@ export default {
         this.title = `Checkout: Habitación ${this.currentRent.room.name}`;
         this.total = this.room.item.total;
 
-        this.document.items = await this.currentRent.items.map((i) => {
-
-            if(i.item.affectation_igv_type == undefined || _.isEmpty(i.item.affectation_igv_type))
-            {
-                i.item.affectation_igv_type = _.find(this.affectationIgvTypes, { id : i.item.affectation_igv_type_id })
-            }
-
-            return calculateRowItem(i.item, "PEN", 3, this.percentage_igv)
-        });
+        this.document.items = await this.currentRent.items
+            .filter(it => it.payment_status === 'DEBT')
+            .map(i => {
+                if (!i.item.affectation_igv_type || _.isEmpty(i.item.affectation_igv_type)) {
+                    i.item.affectation_igv_type = _.find(this.affectationIgvTypes, { id: i.item.affectation_igv_type_id });
+                }
+                return calculateRowItem(i.item, "PEN", 3, this.percentage_igv);
+            });
 
         await this.onCalculateTotals();
         await this.onCalculatePaidAndDebts();
 
-        if(this.totalPaid > 0){
+        if(this.totalDebt > 0){
             let cash = _.find(this.paymentDestinations, {id: 'cash'})
-            this.document.payments = this.payments.map(row => ({
+            this.document.payments.push({
                 id: null,
                 document_id: null,
-                date_of_payment: row.date_of_payment,
-                payment_method_type_id: row.payment_method_type_id,
-                payment_destination_id: cash ? cash.id : null,
-                reference: row.reference,
-                payment: row.payment
-            }));
+                date_of_payment: moment().format("YYYY-MM-DD"),
+                payment_method_type_id: "01",
+                payment_destination_id: (cash)? cash.id : null,
+                reference: null,
+                payment: this.totalDebt,
+            });
         }
         
         this.validateIdentityDocumentType();
@@ -620,12 +665,13 @@ export default {
                 }
             }
 
+            let cash = _.find(this.paymentDestinations, {id: 'cash'})
             this.document.payments.push({
                 id: null,
                 document_id: null,
                 date_of_payment: moment().format("YYYY-MM-DD"),
                 payment_method_type_id: "01",
-                payment_destination_id: null,
+                payment_destination_id: (cash)? cash.id : null,
                 reference: null,
                 payment: payment,
             });
@@ -648,7 +694,7 @@ export default {
         {
             const total_payments = _.sumBy(this.document.payments, 'payment')
 
-            if(total_payments > (this.totalPaid + this.totalDebt)) return this.getResponseValidations(false, 'El total de los pagos agregados es superior al monto.')
+            if(total_payments > (this.totalDebt)) return this.getResponseValidations(false, 'El total de los pagos agregados es superior al monto.')
             
             return this.getResponseValidations()
         },
@@ -687,8 +733,28 @@ export default {
             }
 
         },
+        async onGoToFinalizeRent() {
+            this.loading = true;
+            const payloadFinalizedRent = {
+                arrears: this.arrears,
+            };
+            this.loading = true;
+            this.$http.post( `/hotels/reception/${this.currentRent.id}/rent/finalized`,
+                    payloadFinalizedRent
+                )
+                .then((response) => {
+                    this.$message({
+                        message: response.data.message,
+                        type: "success",
+                    });
+                    window.location.href = "/hotels/reception";
+                })
+                .finally(() => {
+                    this.loading = false
+                });
+        },
         async onGoToInvoice() {
-            // console.log('onGoToInvoice');
+
             await this.onUpdateItemsWithExtras();
             await this.onCalculateTotals();
             let validate_payment_destination = this.validatePaymentDestination();

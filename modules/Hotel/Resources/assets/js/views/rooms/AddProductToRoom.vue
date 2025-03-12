@@ -25,6 +25,25 @@
             </div>
             <div class="card-body">
                 <div class="row justify-content-between">
+                    <div class="col-12 col-md-3 form-group">
+                        <div :class="{ 'has-danger': errors.series_id }"
+                            class="form-group">
+                            <label class="control-label">Serie</label>
+                            <el-select v-model="document.series_id">
+                                <el-option
+                                    v-for="option in series"
+                                    :key="option.id"
+                                    :label="option.number"
+                                    :value="option.id"
+                                ></el-option>
+                            </el-select>
+                            <small
+                                v-if="errors.series_id"
+                                class="form-control-feedback"
+                                v-text="errors.series_id[0]"
+                            ></small>
+                        </div>
+                    </div>
                     <div class="col-12">
                         <div class="text-right">
                             <el-button type="primary"
@@ -40,8 +59,8 @@
                                 <th class="text-center">Cant.</th>
                                 <th class="text-center">Precio</th>
                                 <th class="text-right">Importe</th>
+                                <th class="text-center">Comprobante</th>
                                 <th class="text-center">Estado del pago</th>
-
                                 <th class="text-center">M. Pago</th>
                                 <th class="text-center">Destino</th>
 
@@ -50,13 +69,14 @@
                             </thead>
                             <tbody>
                             <tr v-for="(p, index) in form.products"
-                                :key="p.item_id">
+                                :key="index">
                                 <td>{{ p.item.description }}</td>
                                 <td class="text-center">{{ p.quantity | toDecimals }}</td>
                                 <td class="text-center">
                                     {{ p.input_unit_price_value | toDecimals }}
                                 </td>
                                 <td class="text-right">{{ p.total | toDecimals }}</td>
+                                <td class="text-right">{{ p.document}}</td>
                                 <td class="text-center">
                                     <div class="d-inline-block"
                                          style="max-width: 150px">
@@ -136,7 +156,8 @@
 
                                 <td>
                                     <el-button type="danger"
-                                               @click="onDeleteProduct(p)">
+                                        :disabled="p.is_registered"
+                                        @click="onDeleteProduct(index)">
                                         <i class="fa fa-trash"></i>
                                     </el-button>
                                 </td>
@@ -173,21 +194,6 @@
                                 <td></td>
                                 <td></td>
                             </tr>
-                            <tr>
-                                <td colspan="7"></td>
-                                <td>
-                                    <el-button
-                                        :disabled="loading"
-                                        :loading="loading"
-                                        class="btn-block"
-                                        type="primary"
-                                        @click="onSubmit"
-                                    >
-                                        <i class="fa fa-save"></i>
-                                        <span class="ml-2">Guardar</span>
-                                    </el-button>
-                                </td>
-                            </tr>
                             </tfoot>
                         </table>
 
@@ -195,19 +201,49 @@
                              class="form-control-feedback">
                             {{ errors.products[0] }}
                         </div>
-                        <div v-if="this.products.length>0 && form.products.length  < 1"
+                        <template v-if="canMakePayment">
+                            <div
+                                class="pull-right">
+                                <el-button
+                                    :disabled="loading"
+                                    :loading="loading"
+                                    class="btn-block"
+                                    type="primary"
+                                    @click="onSubmit"
+                                >
+                                    <i class="fa fa-save"></i>
+                                    <span class="ml-2">Guardar</span>
+                                </el-button>
+                            </div>
+                            <div v-if="this.products.length>0 && form.products.length  < 1"
+                                class="pull-right">
+                                <el-button
+                                    :disabled="loading"
+                                    :loading="loading"
+                                    class="btn-block"
+                                    type="primary"
+                                    @click="onTotalDeleteProduct"
+                                >
+                                    <i class="fa fa-save"></i>
+                                    <span class="ml-2">Guardar</span>
+                                </el-button>
+                            </div>
+                        </template>
+                        <template v-else>
+                            <div
                              class="pull-right">
                             <el-button
-                                :disabled="loading"
-                                :loading="loading"
                                 class="btn-block"
                                 type="primary"
-                                @click="onTotalDeleteProduct"
+                                @click="onGotoBack"
                             >
-                                <i class="fa fa-save"></i>
-                                <span class="ml-2">Guardar</span>
+                                <i class="fa fa-arrow-left"></i>
+                                <span class="ml-2">Regresar</span>
                             </el-button>
                         </div>
+                        </template>
+                        
+                        
 
                     </div>
                 </div>
@@ -227,6 +263,13 @@
             @add="onAddItem"
 
         ></tenant-documents-items-list>
+
+        <sale-note-options :configuration="config"
+                           :recordId="form.sale_note_id"
+                           :showClose="true"
+                           :showDialog.sync="showDialogSaleNoteOptions">
+        </sale-note-options>
+
     </div>
 </template>
 
@@ -235,10 +278,12 @@
 import {functions} from "../../../../../../../resources/js/mixins/functions";
 import moment from "moment";
 import {mapState} from "vuex/dist/vuex.mjs";
+import SaleNoteOptions from "@views/sale_notes/partials/options.vue";
 
 export default {
     components: {
         // DocumentFormItem,
+        SaleNoteOptions,
     },
     mixins: [
         functions
@@ -261,6 +306,10 @@ export default {
             type: Object,
             required: true,
         },
+        allSeries: {
+            type: Array,
+            required: true,
+        },
     },
     data() {
         return {
@@ -274,32 +323,53 @@ export default {
                 igv: 0,
                 date_of_issue: moment().format("YYYY-MM-DD"),
                 establishment_id: null,
+                sale_note_id: null,
             },
             errors: {},
             typeUser: "admin",
             loading: false,
             payment_method_types: [],
             payment_destinations: [],
+            resource_documents: "sale-notes",
+            document: {
+                payments: [],
+                items: [],
+            },
+            series: [],
+            form_cash_document: {},
+            showDialogSaleNoteOptions: false,
         };
     },
     computed: {
         ...mapState([
             'config',
         ]),
+        canMakePayment: function () {
+            if (this.form.sale_note_id!=null || !this.isAtLeastOneNotRegister()) {
+                return false;
+            }
+            return true;
+        },
     },
-    mounted() {
-        // console.log(this.configuration);
+    async mounted() {
+
         this.form.establishment_id = this.establishment.id;
         this.getPercentageIgv();
         if (this.products) {
             const products = this.products.map((p) => {
-                p.item.payment_status = p.payment_status;
+                p.item.payment_status = p.payment_status
                 p.item.is_registered = p.id ? true : false
+                p.item.id = p.id
+                p.item.document = p.document
                 return p.item;
             });
             this.form.products = products;
             this.onCalculateTotals();
         }
+        this.series = _.filter(this.allSeries, {
+            document_type_id: '80',
+        });
+        await this.initDocument();
     },
     async created() 
     {
@@ -316,6 +386,14 @@ export default {
         {
             return row.payment_status === 'PAID'
         },
+        isAtLeastOnePaid(items)
+        {
+            return items.some(item => item.payment_status === "PAID");
+        },
+        isAtLeastOneNotRegister()
+        {
+            return this.form.products.some(item => item.is_registered === false);
+        },
         async getTables()
         {
             this.loading = true
@@ -328,7 +406,17 @@ export default {
                                 this.loading = false
                             })
         },
-        onSubmit() {
+        async onSubmit() {
+
+            this.form.products = this.form.products
+                .filter((item) => item.is_registered === false || item.payment_status === 'DEBT');
+
+            if (this.isAtLeastOnePaid(this.form.products)) {
+                const paidProducts = this.form.products.filter(item => item.payment_status === "PAID");
+                this.document.items.push(...paidProducts);
+                await this.onGoToInvoice();
+            }
+
             this.loading = true;
             this.$http
                 .post(
@@ -336,7 +424,9 @@ export default {
                     this.form
                 )
                 .then((response) => {
-                    window.location.href = "/hotels/reception";
+                    if(this.form.sale_note_id == null){
+                        window.location.href = "/hotels/reception";
+                    }
                     this.$message({
                         message: response.data.message,
                         type: "success",
@@ -361,24 +451,21 @@ export default {
                 .catch(() => {
                 });
         },
-        onDeleteProduct(product) {
+        onDeleteProduct(index) {
             this.$confirm(
-                "¿estás seguro de eliminar el producto seleccionado?",
+                "¿Estás seguro de eliminar el producto seleccionado?",
                 "Cuidado",
                 {
-                    confirmButtonText: "Si",
+                    confirmButtonText: "Sí",
                     cancelButtonText: "No",
                     type: "warning",
                 }
             )
-                .then(() => {
-                    this.form.products = this.form.products.filter(
-                        (p) => p.item_id !== product.item_id
-                    );
-                    this.onCalculateTotals();
-                })
-                .catch(() => {
-                });
+            .then(() => {
+                this.form.products.splice(index, 1);
+                this.onCalculateTotals();
+            })
+            .catch(() => {});
         },
         onOpenModalProducts() {
             this.showDialogAddItem = true;
@@ -418,6 +505,7 @@ export default {
             const { payment_method_type_id, payment_destination_id } = await this.getDefaultValuesRentPayment()
 
             const newProduct = {
+                id: null,
                 payment_status: "PAID",
                 affectation_igv_type_id: product.affectation_igv_type_id,
                 attributes: product.attributes,
@@ -447,19 +535,6 @@ export default {
                 unit_value: product.unit_value,
                 warehouse_id: product.warehouse_id,
                 input_unit_price_value: product.input_unit_price_value,
-                // item: {
-                //   description: product.item.description,
-                //   item_type_id: product.item.item_type_id,
-                //   internal_id: product.item.internal_id,
-                //   item_code: product.item.item_code,
-                //   item_code_gs1: product.item.item_code_gs1,
-                //   unit_type_id: product.item.unit_type_id,
-                //   presentation: product.item.presentation,
-                //   amount_plastic_bag_taxes: product.item.amount_plastic_bag_taxes,
-                //   is_set: product.item.is_set,
-                //   lots: product.item.lots,
-                //   IdLoteSelected: product.item.IdLoteSelected,
-                // },
                 item: this.getNewItem(product),
                 rent_payment: {
                     payment_method_type_id: payment_method_type_id,
@@ -467,14 +542,16 @@ export default {
                     reference: null,
                     payment: product.total
                 },
+                is_registered:false,
+                document: "",
             };
 
             const repeteads = this.form.products.filter(
-                (p) => p.item_id === newProduct.item_id
+                (p) => (p.item_id === newProduct.item_id && p.is_registered == false)
             );
             if (repeteads.length > 0) {
                 this.form.products = this.form.products.map((p) => {
-                    if (p.item_id === newProduct.item_id) {
+                    if (p.item_id === newProduct.item_id && p.is_registered == false) {
                         return newProduct;
                     }
                     return p;
@@ -487,13 +564,6 @@ export default {
         getNewItem(product) {
 
             let new_item = product.item
-
-            // new_item.description = product.item.description
-            // new_item.internal_id = product.item.internal_id
-            // new_item.unit_type_id = product.item.unit_type_id
-            // new_item.is_set = product.item.is_set
-            // new_item.lots = product.item.lots
-            // new_item.amount_plastic_bag_taxes = product.item.amount_plastic_bag_taxes
             new_item.item_type_id = product.item.item_type_id
             new_item.item_code = product.item.item_code
             new_item.item_code_gs1 = product.item.item_code_gs1
@@ -503,9 +573,210 @@ export default {
             return new_item
 
         },
+        initDocument() {
+            this.document = {
+                customer_id: this.rent.customer_id,
+                customer: this.rent.customer,
+                document_type_id: '80',
+                series_id: this.series.length > 0 ? this.series[0].id : null,
+                prefix: 'NV',
+                establishment_id: this.establishment.id,
+                number: "#",
+                date_of_issue: moment().format("YYYY-MM-DD"),
+                time_of_issue: moment().format("HH:mm:ss"),
+                currency_type_id: "PEN",
+                purchase_order: null,
+                exchange_rate_sale: 0,
+                total_prepayment: 0,
+                total_charge: 0,
+                total_discount: 0,
+                total_exportation: 0,
+                total_free: 0,
+                total_taxed: 0,
+                total_unaffected: 0,
+                total_exonerated: 0,
+                total_igv: 0,
+                total_base_isc: 0,
+                total_isc: 0,
+                total_base_other_taxes: 0,
+                total_other_taxes: 0,
+                total_taxes: 0,
+                total_value: 0,
+                total: 0,
+                subtotal: 0,
+                operation_type_id: "0101",
+                date_of_due: moment().format("YYYY-MM-DD"),
+                delivery_date: moment().format("YYYY-MM-DD"),
+                items: [],
+                charges: [],
+                discounts: [],
+                attributes: [],
+                guides: [],
+                additional_information: null,
+                actions: {
+                    format_pdf: "a4",
+                },
+                dispatch_id: null,
+                dispatch: null,
+                is_receivable: false,
+                payments: [],
+                hotel: {},
+                hotel_data_persons: [],
+                source_module: 'HOTEL',
+                hotel_rent_id: null
+            };
+        },
+        async onGoToInvoice() {
+            try {
+                await this.onCalculateTotalsDocument();
+                await this.setDataPayments();
+                
+                let validate_payment_destination = this.validatePaymentDestination();
+                if (validate_payment_destination.error_by_item > 0) {
+                    return this.$message.error("El destino del pago es obligatorio");
+                }
+
+                this.loading = true;
+
+                const response = await this.$http.post(`/${this.resource_documents}`, this.document);
+
+                if (response.data.success) {
+                    this.form.sale_note_id = response.data.data.id;
+                    this.successGoToInvoice();
+                    this.$emit("update:showDialog", false);
+                    this.saveCashDocument();
+                } else {
+                    this.$message.error(response.data.message);
+                }
+            } catch (error) {
+                console.error("Error en onGoToInvoice:", error);
+                if (error.response) {
+                    this.errors = error.response.data;
+                } else {
+                    this.$message.error(error.response.data.message || "Error inesperado");
+                }
+            } finally {
+                this.loading = false;
+            }
+        },
+        saveCashDocument() {
+            this.$http
+                .post(`/cash/cash_document`, this.form_cash_document)
+                .then((response) => {
+                    if (!response.data.success) {
+                        this.$message.error(response.data.message);
+                    }
+                })
+                .catch((error) => {
+                    this.axiosError(error);
+                });
+        },
+        onCalculateTotalsDocument() {
+            let total_exportation = 0;
+            let total_taxed = 0;
+            let total_exonerated = 0;
+            let total_unaffected = 0;
+            let total_free = 0;
+            let total_igv = 0;
+            let total_value = 0;
+            let total = 0;
+            let total_plastic_bag_taxes = 0;
+            let total_discount = 0;
+            let total_charge = 0;
+            this.document.items.forEach((row) => {
+                total_discount += parseFloat(row.total_discount);
+                total_charge += parseFloat(row.total_charge);
+
+                if (row.affectation_igv_type_id === "10") {
+                    total_taxed += parseFloat(row.total_value);
+                }
+
+                if (row.affectation_igv_type_id === '20') {
+                    total_exonerated += parseFloat(row.total_value)
+                }
+
+                if (["10", "20", "30", "40"].indexOf(row.affectation_igv_type_id) < 0) {
+                    total_free += parseFloat(row.total_value);
+                }
+
+                if (
+                    ["10", "20", "30", "40"].indexOf(row.affectation_igv_type_id) > -1
+                ) {
+                    total_igv += parseFloat(row.total_igv);
+                    total += parseFloat(row.total);
+                }
+
+                total_value += parseFloat(row.total_value);
+                total_plastic_bag_taxes += parseFloat(row.total_plastic_bag_taxes);
+
+                if (["13", "14", "15"].includes(row.affectation_igv_type_id)) {
+                    let unit_value =
+                        row.total_value / row.quantity / (1 + this.percentage_igv / 100);
+                    let total_value_partial = unit_value * row.quantity;
+                    row.total_taxes = row.total_value - total_value_partial;
+                    row.total_igv = row.total_value - total_value_partial;
+                    row.total_base_igv = total_value_partial;
+                    total_value -= row.total_value;
+                }
+            });
+
+            this.document.total_exportation = _.round(total_exportation, 2);
+            this.document.total_taxed = _.round(total_taxed, 2);
+            this.document.total_exonerated = _.round(total_exonerated, 2);
+            this.document.total_unaffected = _.round(total_unaffected, 2);
+            this.document.total_free = _.round(total_free, 2);
+            this.document.total_igv = _.round(total_igv, 2);
+            this.document.total_value = _.round(total_value, 2);
+            this.document.total_taxes = _.round(total_igv, 2);
+            this.document.total_plastic_bag_taxes = _.round(
+                total_plastic_bag_taxes,
+                2
+            );
+            this.document.total = _.round(
+                total + this.document.total_plastic_bag_taxes,
+                2
+            );
+            this.document.subtotal = _.round(
+                this.document.total,
+                2
+            );
+        },
+        validatePaymentDestination() {
+            let error_by_item = 0;
+            this.document.payments.forEach((item) => {
+                if (item.payment_destination_id == null) error_by_item++;
+            });
+
+            return {
+                error_by_item: error_by_item,
+            };
+        },
+        successGoToInvoice() {
+            this.initFormCashDocument()
+            this.form_cash_document.sale_note_id = this.form.sale_note_id
+            this.showDialogSaleNoteOptions = true
+        },
+        initFormCashDocument() {
+            this.form_cash_document = {
+                document_id: null,
+                sale_note_id: null,
+            };
+        },
+        async setDataPayments(){
+            this.document.payments = this.document.items.map(item => ({
+                id: null,
+                document_id: null,
+                date_of_payment: this.document.date_of_issue,
+                payment_method_type_id: item.rent_payment.payment_method_type_id,
+                payment_destination_id: item.rent_payment.payment_destination_id,
+                reference: item.rent_payment.reference,
+                payment: item.total
+            }));
+        },
         onGotoBack() {
             window.location.href = "/hotels/reception";
         },
+        
     },
 };
 </script>
