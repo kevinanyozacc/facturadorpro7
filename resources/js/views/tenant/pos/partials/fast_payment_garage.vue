@@ -815,7 +815,7 @@ export default {
                 return this.$message.warning('Debe agregar productos');
             }
 
-            let unit_type_notAllowed = ['ZZ', 'BX', 'NIU'];
+            let unit_type_notAllowed = ['ZZ','NIU'];
 
             let errorZeroQuantity = false
             let errorFloatQuantity = false

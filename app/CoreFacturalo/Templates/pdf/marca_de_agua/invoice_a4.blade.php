@@ -418,7 +418,12 @@
                     <br><span class="">Valor total del comprobante: </span>{{$document->currency_type->symbol}}
                     {{ $document->currency_type->id == 'USD' ? number_format(($document->getRetentionTaxBase()/$document->exchange_rate_sale), 2) : $document->getRetentionTaxBase() }}
                     <br><span class="">Porcentaje de la retención: </span>{{ $document->retention->percentage * 100 }}%
-                    <br><span class="">Monto de la retención: </span>{{$document->currency_type->symbol}} {{ $document->currency_type->id == 'USD' ? number_format(($document->retention->amount_pen/$document->exchange_rate_sale), 2) : $document->getRetentionTaxBase()}}
+                    <br><span class="">Monto de la retención {{ $document->currency_type->id == 'USD' ? 'soles' : '' }}:</span> 
+                    S/ {{ $document->retention->amount_pen}}
+                    @if ($document->currency_type->id == 'USD')
+                        <br><span class="">Monto de la retención dólares:</span>
+                        {{$document->currency_type->symbol}} {{ number_format(($document->retention->amount_pen/$document->exchange_rate_sale), 2)}}
+                    @endif
                 @endif
                 @if ($document->detraction)
                     <span class="font-bold">N. Cta. detracciones:</span> {{ $document->detraction->bank_account }}
@@ -426,7 +431,13 @@
                     <br><span class="font-bold">B/S sujeto a detracción:</span> {{$document->detraction->detraction_type_id}} - {{ $detractionType->getDetractionTypeDescription($document->detraction->detraction_type_id ) }}
                     <br><span class="font-bold">Método de pago:</span> {{ $detractionType->getPaymentMethodTypeDescription($document->detraction->payment_method_id ) }}
                     <br><span class="font-bold">Porcentaje detracción:</span> {{ $document->detraction->percentage}}%
-                    <br><span class="font-bold">Monto detracción:</span> {{$document->currency_type->symbol}} {{$document->currency_type->id == 'USD' ? number_format(($document->detraction->amount/$document->exchange_rate_sale), 2) : $document->detraction->amount}}
+                    <br><span class="font-bold">Monto detracción {{ $document->currency_type->id == 'USD' ? 'soles' : ''  }}:</span> S/ {{ $document->detraction->amount}}
+
+                    @if ($document->currency_type->id == 'USD')
+                        <br><span class="font-bold">Monto detracción dólares:</span>
+                        {{$document->currency_type->symbol}} {{ number_format(($document->detraction->amount/$document->exchange_rate_sale), 2)}}
+                    @endif
+
                 @endif
             <td class="p-1 text-center align-top desc cell-solid " rowspan="6">
                 <img src="data:image/png;base64, {{ $document->qr }}" class="p-0 m-0" style="width: 120px;" /><br>

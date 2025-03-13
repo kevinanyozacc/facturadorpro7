@@ -1765,7 +1765,7 @@ export default {
                 }
             });
 
-            let unit_type_notAllowed = ['ZZ', 'BX', 'NIU'];
+            let unit_type_notAllowed = ['ZZ', 'NIU'];
             let errorZeroQuantity = false
             let errorFloatQuantity = false
             let existError = this.form.items.some(item => {

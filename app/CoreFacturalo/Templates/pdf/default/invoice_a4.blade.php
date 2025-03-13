@@ -179,11 +179,29 @@
                 {{ ($customer->department_id !== '-')? '- '.$customer->department->description : '' }}
             </td>
 
+            {{-- @php
+                dd($document->currency_type->toArray());
+            @endphp --}}
             @if ($document->detraction)
-                <td width="120px">MONTO DETRACCIÓN</td>
-                <td width="8px">:</td>
-                <td>{{$document->currency_type->symbol}} {{$document->currency_type->id == 'USD' ? number_format(($document->detraction->amount/$document->exchange_rate_sale), 2) : $document->detraction->amount}}</td>
+                        <td width="120px">MONTO DETRACCIÓN {{ $document->currency_type->id == 'USD' ? 'SOLES' : ''  }}
+                        </td>
+                        <td width="8px">:</td>
+                        <td> S/ {{ $document->detraction->amount}}</td>
             @endif
+        </tr>
+    @endif
+    @if ($document->detraction && $document->currency_type->id == 'USD')
+        <tr>
+            <td>
+            </td>
+            <td>
+            </td>
+            <td>
+            </td>
+                <td width="120px">MONTO DETRACCIÓN DÓLARES</td>
+                <td width="8px">:</td>
+                <td>{{$document->currency_type->symbol}} {{ number_format(($document->detraction->amount/$document->exchange_rate_sale), 2)}}</td>
+
         </tr>
     @endif
 
@@ -889,10 +907,18 @@
             <td>Porcentaje de la retención: {{ $document->retention->percentage * 100 }}%</td>
         </tr>
         <tr>
-            <td>Monto de la retención:
-                {{$document->currency_type->symbol}} {{ $document->currency_type->id == 'USD' ? number_format(($document->retention->amount_pen/$document->exchange_rate_sale), 2) : $document->getRetentionTaxBase()}}
+            <td>Monto de la retención {{ $document->currency_type->id == 'USD' ? 'soles' : '' }}:
+                S/ {{ $document->retention->amount_pen}}
+            </td>
+        </tr>
+        @if ($document->currency_type->id == 'USD')
+        <tr>
+            <td>Monto de la retención dólares:
+                {{$document->currency_type->symbol}} {{ number_format(($document->retention->amount_pen/$document->exchange_rate_sale), 2)}}
                 </td>
         </tr>
+            
+        @endif
     </table>
 @endif
 
