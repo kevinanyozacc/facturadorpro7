@@ -164,39 +164,36 @@
                             </tr>
                             </tbody>
                             <tfoot v-if="form.products.length > 0">
-                            <tr>
-                                <td class="text-right"
-                                    colspan="3">SUBTOTAL
-                                </td>
-                                <td class="text-right">
-                                    {{ this.form.subtotal | toDecimals }}
-                                </td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td class="text-right"
-                                    colspan="3">IGV
-                                </td>
-                                <td class="text-right">
-                                    {{ this.form.igv | toDecimals }}
-                                </td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td class="text-right"
-                                    colspan="3">TOTAL
-                                </td>
-                                <td class="text-right">
-                                    {{ this.form.total | toDecimals }}
-                                </td>
-                                <td></td>
-                                <td></td>
-                            </tr>
+                                <tr>
+                                    <td class="text-right">
+                                        <strong>SUBTOTAL</strong> 
+                                    </td>
+                                    <td class="text-right">
+                                       <strong>{{ this.form.subtotal | toDecimals }}</strong> 
+                                    </td>
+
+                                    <!-- <td class="text-right">
+                                        <strong>IGV</strong>
+                                    </td>
+                                    <td class="text-right">
+                                        <strong>{{ this.form.igv | toDecimals }}</strong>
+                                    </td> -->
+
+                                    <td class="text-right">
+                                        <strong>TOTAL</strong>
+                                    </td>
+                                    <td class="text-right">
+                                        <strong>{{ this.form.total | toDecimals }}</strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                </tr>
                             </tfoot>
                         </table>
-
+                        <div class="form-control-feedback">
+                            <p>El valor total es del último pedido que esta realizando</p>
+                        </div>
                         <div v-if="errors.products"
                              class="form-control-feedback">
                             {{ errors.products[0] }}
@@ -409,7 +406,7 @@ export default {
         async onSubmit() {
 
             this.form.products = this.form.products
-                .filter((item) => item.is_registered === false || item.payment_status === 'DEBT');
+                .filter((item) => item.is_registered === false);
 
             if (this.isAtLeastOnePaid(this.form.products)) {
                 const paidProducts = this.form.products.filter(item => item.payment_status === "PAID");
@@ -471,12 +468,15 @@ export default {
             this.showDialogAddItem = true;
         },
         onCalculateTotals() {
-            this.form.subtotal = this.form.products
-                .map((p) => p.total_value)
+            const unRegisteredProducts = this.form.products.filter(p => p.is_registered === false);
+            this.form.subtotal = unRegisteredProducts
+                .map(p => p.total_value)
                 .reduce((a, p) => a + p, 0);
-            this.form.igv = this.form.products
-                .map((p) => p.total_igv)
+
+            this.form.igv = unRegisteredProducts
+                .map(p => p.total_igv)
                 .reduce((a, p) => a + p, 0);
+
             this.form.total = this.form.subtotal + this.form.igv;
         },
         getDefaultValuesRentPayment()
