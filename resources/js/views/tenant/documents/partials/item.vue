@@ -263,6 +263,7 @@
                             <label class="control-label">Cantidad</label>
                             <el-input-number
                                 v-model="form.quantity"
+                                @change="calculateTotal"
                                 :disabled="form.item.calculate_quantity"
                                 :min="0.01"
                             ></el-input-number>
@@ -1528,6 +1529,7 @@ export default {
         // },
         initForm() {
             this.errors = {};
+            this.readonly_total = 0;
 
             this.form = {
                 // category_id: [1],
@@ -1795,8 +1797,6 @@ export default {
             this.form.item = _.find(this.items, {'id': this.form.item_id});
             this.form.item = this.setExtraFieldOfitem(this.form.item)
             this.form.item_unit_types = _.find(this.items, {'id': this.form.item_id}).item_unit_types
-            console.log(this.form)
-            console.log(this.form.item)
             this.form.unit_price_value = this.form.item.sale_unit_price;
             if (
                 !this.configuration.enable_list_product &&
@@ -1818,6 +1818,7 @@ export default {
             this.form.quantity = 1;
             this.cleanTotalItem();
             this.showListStock = true;
+            this.readonly_total = this.form.unit_price_value;
 
             //asignar variables isc
             this.form.has_isc = this.form.item.has_isc;
