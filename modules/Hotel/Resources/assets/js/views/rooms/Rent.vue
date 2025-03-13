@@ -13,392 +13,436 @@
                 <h3 class="my-0">RENTAR HABITACIÓN</h3>
             </div> -->
             <div class="card-body">
-                <div class="card">
-                    <div class="card-header">Datos de la habitación</div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-12 col-md-6 form-group">
-                                <div class="row">
-                                    <div class="col-4">Nombre</div>
-                                    <div class="col-8">
-                                        <strong>{{ room.name }}</strong>
+                <template v-if="canMakePayment">
+                    <div class="card">
+                        <div class="card-header">Datos de la habitación</div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-12 col-md-6 form-group">
+                                    <div class="row">
+                                        <div class="col-4">Nombre</div>
+                                        <div class="col-8">
+                                            <strong>{{ room.name }}</strong>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-12 col-md-6 form-group">
-                                <div class="row">
-                                    <div class="col-4">Detalles</div>
-                                    <div class="col-8">
-                                        <strong>{{ room.description }}</strong>
+                                <div class="col-12 col-md-6 form-group">
+                                    <div class="row">
+                                        <div class="col-4">Detalles</div>
+                                        <div class="col-8">
+                                            <strong>{{ room.description }}</strong>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-12 col-md-6 form-group">
-                                <div class="row">
-                                    <div class="col-4">Categoría</div>
-                                    <div class="col-8">
-                                        <strong>{{ room.category.description }}</strong>
+                                <div class="col-12 col-md-6 form-group">
+                                    <div class="row">
+                                        <div class="col-4">Categoría</div>
+                                        <div class="col-8">
+                                            <strong>{{ room.category.description }}</strong>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-12 col-md-6 form-group">
-                                <div class="row">
-                                    <div class="col-4">Estado</div>
-                                    <div class="col-8">
-                    <span
-                        class="badge badge-pill"
-                        :class="onGetStatus(room.status)"
-                    >{{ room.status }}</span
-                    >
+                                <div class="col-12 col-md-6 form-group">
+                                    <div class="row">
+                                        <div class="col-4">Estado</div>
+                                        <div class="col-8">
+                                            <span
+                                                class="badge badge-pill"
+                                                :class="onGetStatus(room.status)"
+                                            >{{ room.status }}</span
+                                            >
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 form-group">
+                                    <div class="row">
+                                        <div class="col-4">Costo</div>
+                                        <div class="col-8">
+                                            <strong>{{ rate_unit_value }}</strong>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="card">
-                    <div class="card-header">Datos del cliente</div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div
-                                class="form-group col-12 col-md-6"
-                                :class="{ 'has-danger': errors.customer_id }"
-                            >
-                                <label class="control-label font-weight-bold text-info">
-                                    Cliente
-                                    <a href="#" @click.prevent="showDialogNewPerson = true"
-                                    >[+ Nuevo]</a
+                    <div class="card">
+                        <div class="card-header">Datos del cliente</div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div
+                                    class="form-group col-12 col-md-6"
+                                    :class="{ 'has-danger': errors.customer_id }"
+                                >
+                                    <label class="control-label font-weight-bold text-info">
+                                        Cliente
+                                        <a href="#" @click.prevent="showDialogNewPerson = true"
+                                        >[+ Nuevo]</a
+                                        >
+                                    </label>
+                                    <el-select
+                                        v-model="form.customer_id"
+                                        filterable
+                                        remote
+                                        class="border-left rounded-left border-info"
+                                        popper-class="el-select-customers"
+                                        placeholder="Escriba el nombre o número de documento del cliente"
+                                        :remote-method="searchRemoteCustomers"
+                                        :loading="loading"
+                                        @change="changeCustomer"
                                     >
-                                </label>
-                                <el-select
-                                    v-model="form.customer_id"
-                                    filterable
-                                    remote
-                                    class="border-left rounded-left border-info"
-                                    popper-class="el-select-customers"
-                                    placeholder="Escriba el nombre o número de documento del cliente"
-                                    :remote-method="searchRemoteCustomers"
-                                    :loading="loading"
-                                    @change="changeCustomer"
+                                        <el-option
+                                            v-for="option in customers"
+                                            :key="option.id"
+                                            :value="option.id"
+                                            :label="option.description"
+                                        ></el-option>
+                                    </el-select>
+                                    <el-checkbox v-model="search_item_by_barcode"
+                                                :disabled="recordItem != null">Buscar por
+                                        código de
+                                        barras
+                                    </el-checkbox>
+                                    <small
+                                        class="form-control-feedback"
+                                        v-if="errors.customer_id"
+                                        v-text="errors.customer_id[0]"
+                                    ></small>
+                                </div>
+                                <div
+                                    class="form-group col-12 col-md-6"
+                                    :class="{ 'has-danger': errors['customer.address'] }"
                                 >
-                                    <el-option
-                                        v-for="option in customers"
-                                        :key="option.id"
-                                        :value="option.id"
-                                        :label="option.description"
-                                    ></el-option>
-                                </el-select>
-                                <el-checkbox v-model="search_item_by_barcode"
-                                            :disabled="recordItem != null">Buscar por
-                                    código de
-                                    barras
-                                </el-checkbox>
-                                <small
-                                    class="form-control-feedback"
-                                    v-if="errors.customer_id"
-                                    v-text="errors.customer_id[0]"
-                                ></small>
+                                    <label class="control-label">Dirección</label>
+                                    <el-input v-model="form.customer.address"></el-input>
+                                    <small
+                                        class="form-control-feedback"
+                                        v-if="errors['customer.address']"
+                                        v-text="errors['customer.address'][0]"
+                                    ></small>
+                                </div>
                             </div>
-                            <div
-                                class="form-group col-12 col-md-6"
-                                :class="{ 'has-danger': errors['customer.address'] }"
-                            >
-                                <label class="control-label">Dirección</label>
-                                <el-input v-model="form.customer.address"></el-input>
-                                <small
-                                    class="form-control-feedback"
-                                    v-if="errors['customer.address']"
-                                    v-text="errors['customer.address'][0]"
-                                ></small>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div
-                                class="form-group col-12 col-md-10"
-                                :class="{ 'has-danger': errors.notes }"
-                            >
-                                <label class="control-label" for="notes">Notas</label>
-                                <el-input v-model="form.notes"></el-input>
-                                <small
-                                    class="form-control-feedback"
-                                    v-if="errors.notes"
-                                    v-text="errors.notes[0]"
-                                ></small>
-                            </div>
-                            <div
-                                class="form-group col-12 col-md-2"
-                                :class="{ 'has-danger': errors.towels }"
-                            >
-                                <label class="control-label" for="notes">Toallas</label>
-                                <el-input v-model="form.towels" type="number"></el-input>
-                                <small
-                                    class="form-control-feedback"
-                                    v-if="errors.towels"
-                                    v-text="errors.towels[0]"
-                                ></small>
+                            <div class="row">
+                                <!-- <div
+                                    class="form-group col-12 col-md-2"
+                                    :class="{ 'has-danger': errors.towels }"
+                                >
+                                    <label class="control-label" for="notes">Toallas</label>
+                                    <el-input v-model="form.towels" type="number"></el-input>
+                                    <small
+                                        class="form-control-feedback"
+                                        v-if="errors.towels"
+                                        v-text="errors.towels[0]"
+                                    ></small>
+                                </div> -->
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="card">
-                    <div class="card-header">Datos del alojamiento</div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div
-                                class="col-12 col-md-3 form-group"
-                                :class="{ 'has-danger': errors.hotel_rate_id }"
-                            >
-                                <label class="control-label" for="rate">Tarifa</label>
-                                <el-select
-                                    v-model="form.hotel_rate_id"
-                                    @change="onSelectedRate"
+                    <div class="card">
+                        <div class="card-header">Datos del alojamiento</div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div
+                                    class="col-12 col-md-3 form-group"
+                                    :class="{ 'has-danger': errors.hotel_rate_id }"
                                 >
-                                    <el-option
-                                        v-for="option in room.rates"
-                                        :key="option.hotel_rate_id"
-                                        :value="option.hotel_rate_id"
-                                        :label="option.rate.description"
-                                    ></el-option>
-                                </el-select>
-                                <small
-                                    class="form-control-feedback"
-                                    v-if="errors.hotel_rate_id"
-                                    v-text="errors.hotel_rate_id[0]"
-                                ></small>
-                            </div>
-
-                            <!-- afectación igv -->
-                            <div
-                                class="col-12 col-md-3 form-group"
-                                :class="{ 'has-danger': errors.affectation_igv_type_id }"
-                            >
-                                <label class="control-label" for="rate">Tipo de afectación</label>
-
-                                <el-select
-                                    v-model="form.affectation_igv_type_id"
-                                >
-                                    <el-option
-                                        v-for="option in getAllowedAffectationIgvTypes"
-                                        :key="option.id"
-                                        :value="option.id"
-                                        :label="option.description"
-                                    ></el-option>
-                                </el-select>
-
-                                <small
-                                    class="form-control-feedback"
-                                    v-if="errors.affectation_igv_type_id"
-                                    v-text="errors.affectation_igv_type_id[0]"
-                                ></small>
-                            </div>
-                            <!-- afectación igv -->
-
-                            <div
-                                class="col-12 col-md-2 form-group"
-                                :class="{ 'has-danger': errors.rate_price }"
-                                v-if="rate"
-                            >
-                                <label class="control-label" for="rate">Precio</label>
-                                <el-input-number
-                                    v-model="form.rate_price"
-                                    controls-position="right"
-                                    :min="0"
-                                    @change="onUpdateTotalToPay"
-                                ></el-input-number>
-                                <small
-                                    class="form-control-feedback"
-                                    v-if="errors.rate_price"
-                                    v-text="errors.rate_price[0]"
-                                ></small>
-                            </div>
-
-
-                            <div
-                                class="col-12 col-md-2 form-group"
-                                :class="{ 'has-danger': errors.duration }"
-                                v-if="rate"
-                            >
-                                <label class="control-label" for="rate">Cant. noches</label>
-                                <el-input-number
-                                    v-model="form.duration"
-                                    controls-position="right"
-                                    @change="onUpdateTotalToPay"
-                                    :min="1"
-                                ></el-input-number>
-                                <small
-                                    class="form-control-feedback"
-                                    v-if="errors.duration"
-                                    v-text="errors.duration[0]"
-                                ></small>
-                            </div>
-                            <div class="col-12 col-md-2 text-center">
-                                <h6>
-                                    Total a pagar:
-                                    <br/>
-                                    <span class="h5">{{ form.total_to_pay }}</span>
-                                </h6>
-                            </div>
-                            <div
-                                class="col-6 col-md-3 form-group"
-                                :class="{ 'has-danger': errors.quantity_persons }"
-                            >
-                                <label class="control-label">Cant. de personas ({{ form.quantity_persons }})</label>
-                                <el-button icon="el-icon-edit-outline"
-                                    size="small"
-                                    type="success"
-                                    @click.prevent="clickAddPerson">Personas
-                                </el-button>
-                                <small
-                                    class="form-control-feedback"
-                                    v-if="errors.quantity_persons"
-                                    v-text="errors.quantity_persons[0]"
-                                ></small>
-                            </div>
-                            <div>
-                                <div :class="{'has-danger': errors.lot_code}"
-                                        class="form-group">
-                                    
-                                    <small v-if="errors.lot_code"
-                                            class="form-control-feedback"
-                                            v-text="errors.lot_code[0]"></small>
+                                    <label class="control-label" for="rate">Tarifa</label>
+                                    <el-select
+                                        v-model="form.hotel_rate_id"
+                                        @change="onSelectedRate"
+                                    >
+                                        <el-option
+                                            v-for="option in room.rates"
+                                            :key="option.hotel_rate_id"
+                                            :value="option.hotel_rate_id"
+                                            :label="option.rate.description"
+                                        ></el-option>
+                                    </el-select>
+                                    <small
+                                        class="form-control-feedback"
+                                        v-if="errors.hotel_rate_id"
+                                        v-text="errors.hotel_rate_id[0]"
+                                    ></small>
                                 </div>
-                            </div>
-                            <div
-                                class="col-6 col-md-3 form-group"
-                                :class="{ 'has-danger': errors.payment_status }"
-                            >
-                                <label class="control-label">Estado de pago</label>
-                                <el-select
-                                    v-model="form.payment_status"
-                                    @change="onChangeStatusPayment"
+
+                                <!-- afectación igv -->
+                                <div
+                                    class="col-12 col-md-3 form-group"
+                                    :class="{ 'has-danger': errors.affectation_igv_type_id }"
                                 >
-                                    <el-option value="PAID" label="Pagado"></el-option>
-                                    <el-option value="ACCOUNT" label="A cuenta"></el-option>
-                                    <el-option value="DEBT" label="Falta pagar"></el-option>
-                                </el-select>
-                                <small
-                                    class="form-control-feedback"
-                                    v-if="errors.payment_status"
-                                    v-text="errors.payment_status[0]"
-                                ></small>
-                            </div>
-                            <div
-                                class="col-6 col-md-3 form-group"
-                                :class="{ 'has-danger': errors.output_date }"
-                            >
-                                <label class="control-label">Fecha de salida</label>
-                                <el-date-picker
-                                    v-model="form.output_date"
-                                    type="date"
-                                    placeholder="Seleccione una fecha"
-                                    value-format="yyyy-MM-dd"
-                                ></el-date-picker>
-                                <small
-                                    class="form-control-feedback"
-                                    v-if="errors.output_date"
-                                    v-text="errors.output_date[0]"
-                                ></small>
-                            </div>
-                            <div
-                                class="col-6 col-md-3 form-group"
-                                :class="{ 'has-danger': errors.output_time }"
-                            >
-                                <label class="control-label">Hora de salida</label>
-                                <el-input v-model="form.output_time" placeholder="HH:MM">
-                                </el-input>
-                                <small
-                                    class="form-control-feedback"
-                                    v-if="errors.output_time"
-                                    v-text="errors.output_time[0]"
-                                ></small>
-                            </div>
-                            
-                            <!-- mostrar campos adicionales para pago, si tiene estado pagado -->
-                            <template v-if="isPaid">
-                                <div class="col-12 col-md-3 form-group">
-                                    <div :class="{ 'has-danger': errors.series_id }"
-                                        class="form-group">
-                                        <label class="control-label">Serie</label>
-                                        <el-select v-model="document.series_id">
+                                    <label class="control-label" for="rate">Tipo de afectación</label>
+
+                                    <el-select
+                                        v-model="form.affectation_igv_type_id"
+                                    >
+                                        <el-option
+                                            v-for="option in getAllowedAffectationIgvTypes"
+                                            :key="option.id"
+                                            :value="option.id"
+                                            :label="option.description"
+                                        ></el-option>
+                                    </el-select>
+
+                                    <small
+                                        class="form-control-feedback"
+                                        v-if="errors.affectation_igv_type_id"
+                                        v-text="errors.affectation_igv_type_id[0]"
+                                    ></small>
+                                </div>
+                                <!-- afectación igv -->
+
+                                <div
+                                    class="col-12 col-md-2 form-group"
+                                    :class="{ 'has-danger': errors.rate_price }"
+                                    v-if="rate"
+                                >
+                                    <label class="control-label" for="rate">Precio</label>
+                                    <el-input-number
+                                        v-model="form.rate_price"
+                                        controls-position="right"
+                                        :min="0"
+                                        @change="onUpdateTotalToPay"
+                                    ></el-input-number>
+                                    <small
+                                        class="form-control-feedback"
+                                        v-if="errors.rate_price"
+                                        v-text="errors.rate_price[0]"
+                                    ></small>
+                                </div>
+
+
+                                <div
+                                    class="col-12 col-md-2 form-group"
+                                    :class="{ 'has-danger': errors.duration }"
+                                    v-if="rate"
+                                >
+                                    <label class="control-label" for="rate">Cant. noches</label>
+                                    <el-input-number
+                                        v-model="form.duration"
+                                        controls-position="right"
+                                        @change="onUpdateTotalToPay"
+                                        :min="1"
+                                    ></el-input-number>
+                                    <small
+                                        class="form-control-feedback"
+                                        v-if="errors.duration"
+                                        v-text="errors.duration[0]"
+                                    ></small>
+                                </div>
+                                <div class="col-12 col-md-2 text-center">
+                                    <h6>
+                                        Total a pagar:
+                                        <br/>
+                                        <span class="h5">{{ form.total_to_pay }}</span>
+                                    </h6>
+                                </div>
+                                <div
+                                    class="col-6 col-md-3 form-group"
+                                    :class="{ 'has-danger': errors.quantity_persons }"
+                                >
+                                    <label class="control-label">Cant. de personas ({{ form.quantity_persons }})</label>
+                                    <el-button icon="el-icon-edit-outline"
+                                        size="small"
+                                        type="success"
+                                        @click.prevent="clickAddPerson">Personas
+                                    </el-button>
+                                    <small
+                                        class="form-control-feedback"
+                                        v-if="errors.quantity_persons"
+                                        v-text="errors.quantity_persons[0]"
+                                    ></small>
+                                </div>
+                                <div>
+                                    <div :class="{'has-danger': errors.lot_code}"
+                                            class="form-group">
+                                        
+                                        <small v-if="errors.lot_code"
+                                                class="form-control-feedback"
+                                                v-text="errors.lot_code[0]"></small>
+                                    </div>
+                                </div>
+                                <div
+                                    class="col-6 col-md-3 form-group"
+                                    :class="{ 'has-danger': errors.payment_status }"
+                                >
+                                    <label class="control-label">Estado de pago</label>
+                                    <el-select
+                                        v-model="form.payment_status"
+                                        @change="onChangeStatusPayment"
+                                    >
+                                        <el-option value="PAID" label="Pagado"></el-option>
+                                        <el-option value="ACCOUNT" label="A cuenta"></el-option>
+                                        <el-option value="DEBT" label="Falta pagar"></el-option>
+                                    </el-select>
+                                    <small
+                                        class="form-control-feedback"
+                                        v-if="errors.payment_status"
+                                        v-text="errors.payment_status[0]"
+                                    ></small>
+                                </div>
+                                <div
+                                    class="col-6 col-md-3 form-group"
+                                    :class="{ 'has-danger': errors.input_date }"
+                                >
+                                    <label class="control-label">Fecha de entrada</label>
+                                    <el-date-picker
+                                        :disabled="true"
+                                        v-model="form.input_date"
+                                        type="date"
+                                        placeholder="Seleccione una fecha"
+                                        value-format="yyyy-MM-dd"
+                                    ></el-date-picker>
+                                    <small
+                                        class="form-control-feedback"
+                                        v-if="errors.input_date"
+                                        v-text="errors.input_date[0]"
+                                    ></small>
+                                </div>
+                                <div
+                                    class="col-6 col-md-3 form-group"
+                                    :class="{ 'has-danger': errors.input_time }"
+                                >
+                                    <label class="control-label">Hora de entrada</label>
+                                    <el-input v-model="form.input_time" placeholder="HH:MM">
+                                    </el-input>
+                                    <small
+                                        class="form-control-feedback"
+                                        v-if="errors.input_time"
+                                        v-text="errors.input_time[0]"
+                                    ></small>
+                                </div>
+                                <div
+                                    class="col-6 col-md-3 form-group"
+                                    :class="{ 'has-danger': errors.output_date }"
+                                >
+                                    <label class="control-label">Fecha de salida</label>
+                                    <el-date-picker
+                                        v-model="form.output_date"
+                                        type="date"
+                                        placeholder="Seleccione una fecha"
+                                        value-format="yyyy-MM-dd"
+                                    ></el-date-picker>
+                                    <small
+                                        class="form-control-feedback"
+                                        v-if="errors.output_date"
+                                        v-text="errors.output_date[0]"
+                                    ></small>
+                                </div>
+                                <div
+                                    class="col-6 col-md-3 form-group"
+                                    :class="{ 'has-danger': errors.output_time }"
+                                >
+                                    <label class="control-label">Hora de salida</label>
+                                    <el-input v-model="form.output_time" placeholder="HH:MM">
+                                    </el-input>
+                                    <small
+                                        class="form-control-feedback"
+                                        v-if="errors.output_time"
+                                        v-text="errors.output_time[0]"
+                                    ></small>
+                                </div>
+                                <div
+                                    class="form-group col-12 col-md-6"
+                                    :class="{ 'has-danger': errors.notes }"
+                                >
+                                    <label class="control-label" for="notes">Notas</label>
+                                    <el-input v-model="form.notes"></el-input>
+                                    <small
+                                        class="form-control-feedback"
+                                        v-if="errors.notes"
+                                        v-text="errors.notes[0]"
+                                    ></small>
+                                </div>
+                                
+                                <!-- mostrar campos adicionales para pago, si tiene estado pagado -->
+                                <template v-if="isPaid">
+                                    <div class="col-12 col-md-3 form-group">
+                                        <div :class="{ 'has-danger': errors.series_id }"
+                                            class="form-group">
+                                            <label class="control-label">Serie</label>
+                                            <el-select v-model="document.series_id">
+                                                <el-option
+                                                    v-for="option in series"
+                                                    :key="option.id"
+                                                    :label="option.number"
+                                                    :value="option.id"
+                                                ></el-option>
+                                            </el-select>
+                                            <small
+                                                v-if="errors.series_id"
+                                                class="form-control-feedback"
+                                                v-text="errors.series_id[0]"
+                                            ></small>
+                                        </div>
+                                    </div>
+                                    
+                                    <div
+                                        class="col-12 col-md-3 form-group"
+                                        :class="{ 'has-danger': errors['rent_payment.payment_method_type_id'] }"
+                                    >
+                                        <label class="control-label" for="rate">Método de pago</label>
+
+                                        <el-select
+                                            v-model="form.rent_payment.payment_method_type_id"
+                                            filterable
+                                        >
                                             <el-option
-                                                v-for="option in series"
+                                                v-for="option in payment_method_types"
                                                 :key="option.id"
-                                                :label="option.number"
                                                 :value="option.id"
+                                                :label="option.description"
                                             ></el-option>
                                         </el-select>
+
                                         <small
-                                            v-if="errors.series_id"
                                             class="form-control-feedback"
-                                            v-text="errors.series_id[0]"
+                                            v-if="errors['rent_payment.payment_method_type_id']"
+                                            v-text="errors['rent_payment.payment_method_type_id'][0]"
                                         ></small>
                                     </div>
-                                </div>
-                                
-                                <div
-                                    class="col-12 col-md-3 form-group"
-                                    :class="{ 'has-danger': errors['rent_payment.payment_method_type_id'] }"
-                                >
-                                    <label class="control-label" for="rate">Método de pago</label>
 
-                                    <el-select
-                                        v-model="form.rent_payment.payment_method_type_id"
-                                        filterable
+                                    <div
+                                        class="col-12 col-md-3 form-group"
+                                        :class="{ 'has-danger': errors['rent_payment.payment_destination_id'] }"
                                     >
-                                        <el-option
-                                            v-for="option in payment_method_types"
-                                            :key="option.id"
-                                            :value="option.id"
-                                            :label="option.description"
-                                        ></el-option>
-                                    </el-select>
+                                        <label class="control-label" for="rate">Destino</label>
 
-                                    <small
-                                        class="form-control-feedback"
-                                        v-if="errors['rent_payment.payment_method_type_id']"
-                                        v-text="errors['rent_payment.payment_method_type_id'][0]"
-                                    ></small>
-                                </div>
+                                        <el-select
+                                            v-model="form.rent_payment.payment_destination_id"
+                                            filterable
+                                        >
+                                            <el-option
+                                                v-for="option in payment_destinations"
+                                                :key="option.id"
+                                                :value="option.id"
+                                                :label="option.description"
+                                            ></el-option>
+                                        </el-select>
 
-                                <div
-                                    class="col-12 col-md-3 form-group"
-                                    :class="{ 'has-danger': errors['rent_payment.payment_destination_id'] }"
-                                >
-                                    <label class="control-label" for="rate">Destino</label>
-
-                                    <el-select
-                                        v-model="form.rent_payment.payment_destination_id"
-                                        filterable
+                                        <small
+                                            class="form-control-feedback"
+                                            v-if="errors['rent_payment.payment_destination_id']"
+                                            v-text="errors['rent_payment.payment_destination_id'][0]"
+                                        ></small>
+                                    </div>
+                                    
+                                    <div
+                                        class="col-12 col-md-3 form-group"
                                     >
-                                        <el-option
-                                            v-for="option in payment_destinations"
-                                            :key="option.id"
-                                            :value="option.id"
-                                            :label="option.description"
-                                        ></el-option>
-                                    </el-select>
+                                        <label class="control-label" for="rate">Referencia</label>
 
-                                    <small
-                                        class="form-control-feedback"
-                                        v-if="errors['rent_payment.payment_destination_id']"
-                                        v-text="errors['rent_payment.payment_destination_id'][0]"
-                                    ></small>
-                                </div>
-                                
-                                <div
-                                    class="col-12 col-md-3 form-group"
-                                >
-                                    <label class="control-label" for="rate">Referencia</label>
+                                        <el-input
+                                            v-model="form.rent_payment.reference"
+                                        ></el-input>
+                                    </div>
+                                </template>
 
-                                    <el-input
-                                        v-model="form.rent_payment.reference"
-                                    ></el-input>
-                                </div>
-                            </template>
+                            </div>
 
                         </div>
+                    </div>
+                    <div class="card">
                         <div class="d-flex justify-content-between pt-5">
                             <template v-if="canMakePayment">
                                 <el-button
@@ -411,20 +455,24 @@
                                 >
                                 <el-button class="second-buton" @click="onToBackPage">Cancelar</el-button>
                             </template>
-                            <template v-else>
-                                <el-button
-                                    @click="onToBackPage"
-                                    type="primary"
-                                >
-                                    <span class="ml-2">
-                                        Regresar
-                                    </span>
-                                </el-button>
-                            </template>
-                            
                         </div>
                     </div>
-                </div>
+                </template>
+                <template v-else>
+                    <div class="card">
+                        <div class="card-header">Registro éxitoso</div>
+                        <div class="d-flex justify-content-between pt-5">
+                            <el-button
+                                @click="onToBackPage"
+                                type="primary"
+                            >
+                                <span class="ml-2">
+                                    Regresar
+                                </span>
+                            </el-button>
+                        </div>
+                    </div>
+                </template>
             </div>
         </div>
         <person-form
@@ -498,6 +546,8 @@ export default {
                 rate: {},
                 duration: 1,
                 total_to_pay: 0,
+                input_time: "12:00",
+                input_date: moment().format("YYYY-MM-DD"),
                 output_time: "12:00",
                 output_date: null,
                 payment_status: 'PAID',
@@ -515,6 +565,7 @@ export default {
                 },
             },
             rate: null,
+            rate_unit_value: 0,
             loading: false,
             showDialogNewPerson: false,
             showDialogPersons: false,
@@ -662,6 +713,7 @@ export default {
                 .reduce((r) => r);
             this.rate = rate.rate;
             this.rate.price = rate.price;
+            this.rate_unit_value = rate.price;
             this.form.rate_price = rate.price;
             this.onUpdateTotalToPay();
         },

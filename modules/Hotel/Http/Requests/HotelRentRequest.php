@@ -23,6 +23,7 @@ class HotelRentRequest extends FormRequest
 			'duration'                 => 'required|numeric|min:1',
 			'quantity_persons'         => 'required|numeric|min:1',
 			'payment_status'           => 'required|in:PAID,DEBT',
+			'input_time'              =>  'required|date_format:H:i',
 			'output_date'              => 'required|date_format:Y-m-d',
 			'output_time'              => 'required|date_format:H:i',
 			'product'                  => 'required',

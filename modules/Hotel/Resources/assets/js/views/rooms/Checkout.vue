@@ -23,394 +23,393 @@
             <div class="card-header bg-info">
                 <h3 class="my-0">{{ title }}</h3>
             </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-12 col-md-4 mb-3">
-                        <ul class="list-group">
-                            <li class="list-group-item active">Habitación</li>
-                            <li class="list-group-item d-flex justify-content-between">
-                                <span>Habitación:</span>
-                                <strong>{{ currentRent.room.name }}</strong>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between">
-                                <span>Tipo:</span>
-                                <strong>{{ currentRent.room.category.description }}</strong>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="col-12 col-md-4 mb-3">
-                        <ul class="list-group">
-                            <li class="list-group-item active">Cliente</li>
-                            <li class="list-group-item d-flex justify-content-between">
-                                <span>Nombres:</span>
-                                <strong>{{ currentRent.customer.name }}</strong>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between">
-                                <span># Documento:</span>
-                                <strong>{{ currentRent.customer.number }}</strong>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="col-12 col-md-4 mb-3">
-                        <ul class="list-group">
-                            <li class="list-group-item active">Entrada/Salida</li>
-                            <li class="list-group-item d-flex justify-content-between">
-                                <span>Fecha/Hora Entrada:</span>
-                                <strong
-                                >{{ currentRent.input_date | toDate }} -
-                                    {{ currentRent.input_time | toTime }}</strong
-                                >
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between">
-                                <span>Fecha/Hora Salida:</span>
-                                <strong
-                                >{{ currentRent.output_date | toDate }} -
-                                    {{ currentRent.output_time | toTime }}</strong
-                                >
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="col-12">
-                        <div class="table-responsive">
-                            <table class="table table-bordered">
-                                <thead>
-                                <tr class="table-info">
-                                    <th></th>
-                                    <th colspan="5">Costo del alojamiento</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>#</td>
-                                    <td>Costo por tarifa</td>
-                                    <td>Cant. noches</td>
-                                    <td>Carga por salir tarde</td>
-                                    <td>Comprobante</td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>{{ room.item.unit_price | toDecimals }}</td>
-                                    <td>{{ room.item.quantity }}</td>
-                                    <td class="text-center">
-                                        <div class="d-d-inline-block"
-                                             style="max-width: 120px">
-                                            <el-input v-model="arrears"
-                                                      type="number"></el-input>
-                                        </div>
-                                    </td>
-                                    <td>{{ room.document }}</td>
-                                    <td class="text-center">
-                                        <div class="d-d-inline-block"
-                                             style="max-width: 120px">
-                                            <el-input
-                                                v-model="total"
-                                                readonly
-                                                type="number"
-                                            ></el-input>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr class="table-info">
-                                    <td></td>
-                                    <td colspan="5">Servicio a la habitación - PAGADA</td>
-                                </tr>
-                                <tr>
-                                    <td>#</td>
-                                    <td>Descripción</td>
-                                    <td>Precio unitario</td>
-                                    <td>Cantidad</td>
-                                    <td>Comprobante</td>
-                                    <td>Total</td>
-                                </tr>
-                                <tr
-                                    v-for="(it, i) in rentPaidItems"
-                                    :key="i"
-                                >
-                                    <td>{{ i + 1 }}</td>
-                                    <td>{{ it.item.item.description }}</td>
-                                    <td>{{ it.item.input_unit_price_value | toDecimals }}</td>
-                                    <td>{{ it.item.quantity | toDecimals }}</td>
-                                    <td>{{ it.document}}</td>
-                                    <td>{{ it.item.total | toDecimals }}</td>
-                                </tr>
-
-                                <tr class="table-info">
-                                    <td></td>
-                                    <td colspan="5">Servicio a la habitación - Cargada a la habitación</td>
-                                </tr>
-                                <tr>
-                                    <td>#</td>
-                                    <td>Descripción</td>
-                                    <td>Precio unitario</td>
-                                    <td>Cantidad</td>
-                                    <td>Estado</td>
-                                    <td>Total</td>
-                                </tr>
-                                <tr
-                                    v-for="(it, i) in rentDebtItems"
-                                    :key="i"
-                                >
-                                    <td>{{ i + 1 }}</td>
-                                    <td>{{ it.item.item.description }}</td>
-                                    <td>{{ it.item.input_unit_price_value | toDecimals }}</td>
-                                    <td>{{ it.item.quantity | toDecimals }}</td>
-                                    <td>
-                                        {{ it.payment_status === "PAID" ? "PAGADO" : "DEBE" }}
-                                    </td>
-                                    <td>{{ it.item.total | toDecimals }}</td>
-                                </tr>
-                                </tbody>
-                                <tfoot>
-                                <tr>
-                                    <td class="text-right"
-                                        colspan="5">Pagado
-                                    </td>
-                                    <td>
-                                        <h3 class="my-0">
-                                            <span class="badge badge-pill badge-info">
-                                                {{ totalPaid | toDecimals }}
-                                            </span>
-                                        </h3>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="text-right"
-                                        colspan="5">Debe
-                                    </td>
-                                    <td>
-                                        <h3 class="my-0">
-                                            <span class="badge badge-pill badge-danger">
-                                                {{ totalDebt | toDecimals }}
-                                            </span>
-                                        </h3>
-                                    </td>
-                                </tr>
-                                </tfoot>
-                            </table>
+            <template v-if="canMakePayment">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12 col-md-4 mb-3">
+                            <ul class="list-group">
+                                <li class="list-group-item active">Habitación</li>
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span>Habitación:</span>
+                                    <strong>{{ currentRent.room.name }}</strong>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span>Tipo:</span>
+                                    <strong>{{ currentRent.room.category.description }}</strong>
+                                </li>
+                            </ul>
                         </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div
-                            :class="{ 'has-danger': errors.document_type_id }"
-                            class="form-group"
-                        >
-                            <label class="control-label">Tipo comprobante</label>
-                            <el-select
-                                v-model="document.document_type_id"
-                                class="border-left rounded-left border-info"
-                                dusk="document_type_id"
-                                popper-class="el-select-document_type"
-                                @change="changeDocumentType"
-                            >
-                                <el-option
-                                    v-for="option in document_types"
-                                    :key="option.id"
-                                    :label="option.description"
-                                    :value="option.id"
-                                ></el-option>
-                            </el-select>
-                            <small
-                                v-if="errors.document_type_id"
-                                class="form-control-feedback"
-                                v-text="errors.document_type_id[0]"
-                            ></small>
+                        <div class="col-12 col-md-4 mb-3">
+                            <ul class="list-group">
+                                <li class="list-group-item active">Cliente</li>
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span>Nombres:</span>
+                                    <strong>{{ currentRent.customer.name }}</strong>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span># Documento:</span>
+                                    <strong>{{ currentRent.customer.number }}</strong>
+                                </li>
+                            </ul>
                         </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div :class="{ 'has-danger': errors.series_id }"
-                             class="form-group">
-                            <label class="control-label">Serie</label>
-                            <el-select v-model="document.series_id">
-                                <el-option
-                                    v-for="option in series"
-                                    :key="option.id"
-                                    :label="option.number"
-                                    :value="option.id"
-                                ></el-option>
-                            </el-select>
-                            <small
-                                v-if="errors.series_id"
-                                class="form-control-feedback"
-                                v-text="errors.series_id[0]"
-                            ></small>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div
-                            :class="{ 'has-danger': errors.date_of_issue }"
-                            class="form-group"
-                        >
-                            <label class="control-label">Fecha de emisión</label>
-                            <el-date-picker
-                                v-model="document.date_of_issue"
-                                :clearable="false"
-                                readonly
-                                type="date"
-                                value-format="yyyy-MM-dd"
-                                @change="changeDateOfIssue"
-                            ></el-date-picker>
-                            <small
-                                v-if="errors.date_of_issue"
-                                class="form-control-feedback"
-                                v-text="errors.date_of_issue[0]"
-                            ></small>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div
-                            :class="{ 'has-danger': errors.date_of_issue }"
-                            class="form-group"
-                        >
-                            <label class="control-label">Fecha de vencimiento</label>
-                            <el-date-picker
-                                v-model="document.date_of_due"
-                                :clearable="false"
-                                type="date"
-                                value-format="yyyy-MM-dd"
-                            ></el-date-picker>
-                            <small
-                                v-if="errors.date_of_due"
-                                class="form-control-feedback"
-                                v-text="errors.date_of_due[0]"
-                            ></small>
-                        </div>
-                    </div>
-
-                    <div class="col-12">
-                        <table class="table">
-                            <thead>
-                            <tr width="100%">
-                                <th v-if="document.payments.length > 0">M. Pago</th>
-                                <th v-if="document.payments.length > 0">Destino</th>
-                                <th v-if="document.payments.length > 0">Referencia</th>
-                                <th v-if="document.payments.length > 0">Monto</th>
-                                <th width="15%">
-                                    <a
-                                        class="text-center font-weight-bold text-info"
-                                        href="#"
-                                        @click.prevent="clickAddPayment"
-                                    >[+ Agregar]</a
+                        <div class="col-12 col-md-4 mb-3">
+                            <ul class="list-group">
+                                <li class="list-group-item active">Entrada/Salida</li>
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span>Fecha/Hora Entrada:</span>
+                                    <strong
+                                    >{{ currentRent.input_date | toDate }} -
+                                        {{ currentRent.input_time | toTime }}</strong
                                     >
-                                </th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr v-for="(row, index) in document.payments"
-                                :key="index">
-                                <td>
-                                    <div class="form-group mb-2 mr-2">
-                                        <el-select v-model="row.payment_method_type_id">
-                                            <el-option
-                                                v-for="option in paymentMethodTypes"
-                                                :key="option.id"
-                                                :label="option.description"
-                                                :value="option.id"
-                                            ></el-option>
-                                        </el-select>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="form-group mb-2 mr-2">
-                                        <el-select
-                                            v-model="row.payment_destination_id"
-                                            :disabled="row.payment_destination_disabled"
-                                            filterable
-                                        >
-                                            <el-option
-                                                v-for="option in paymentDestinations"
-                                                :key="option.id"
-                                                :label="option.description"
-                                                :value="option.id"
-                                            ></el-option>
-                                        </el-select>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="form-group mb-2 mr-2">
-                                        <el-input v-model="row.reference"></el-input>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="form-group mb-2 mr-2">
-                                        <el-input v-model="row.payment"></el-input>
-                                    </div>
-                                </td>
-                                <td class="series-table-actions text-center">
-                                    <button
-                                        class="btn waves-effect waves-light btn-xs btn-danger"
-                                        type="button"
-                                        @click.prevent="clickCancel(index)"
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span>Fecha/Hora Salida:</span>
+                                    <strong
+                                    >{{ currentRent.output_date | toDate }} -
+                                        {{ currentRent.output_time | toTime }}</strong
                                     >
-                                        <i class="fa fa-trash"></i>
-                                    </button>
-                                </td>
-                                <br/>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="col-12 pt-3">
-                        <template v-if="canMakePayment && totalDebt > 0">
-                            <el-button
-                                :disabled="loading"
-                                :loading="loading"
-                                type="primary"
-                                @click="onGoToInvoice"
-                            >
-                                <i class="fa fa-save"></i>
-                                <span class="ml-2">Guardar y Generar Comprobante</span>
-                            </el-button>
-                        </template>
-                        <template v-else-if="canMakePayment">
-                            <el-button
-                                :disabled="loading"
-                                :loading="loading"
-                                type="primary"
-                                @click="onGoToFinalizeRent"
-                            >
-                                <i class="fa fa-save"></i>
-                                <span class="ml-2">Guardar</span>
-                            </el-button>
-                        </template>
-                        <template v-else>
-                            <!-- No debe dejar pagar si ya se finalizo el servicio -->
-                            <!--
-                            <el-button
-                                :disabled="true"
-                                type="primary"
-                            >
-                                <i class="fa fa-save"></i>
-                                <span class="ml-2">Guardar y Generar Comprobante</span>
-                            </el-button>
-                            -->
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-12">
                             <div class="table-responsive">
                                 <table class="table table-bordered">
                                     <thead>
-                                    <tr class="table-danger">
-
-                                        <th colspan="">
-                                            Ya se finalizó el proceso.
-                                            <el-button
-                                                @click="onExitPage"
-                                                type="primary"
-                                            >
-                                                <!-- <i class="fa fa-save"></i>-->
-                                                <span class="ml-2">
-                                                    Regresar
-                                                </span>
-                                            </el-button>
-                                        </th>
+                                    <tr class="table-info">
+                                        <th></th>
+                                        <th colspan="5">Costo del alojamiento</th>
                                     </tr>
                                     </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>#</td>
+                                        <td>Costo por tarifa</td>
+                                        <td>Cant. noches</td>
+                                        <td>Carga por salir tarde</td>
+                                        <td>Comprobante</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>{{ room.item.unit_price | toDecimals }}</td>
+                                        <td>{{ room.item.quantity }}</td>
+                                        <td class="text-center">
+                                            <div class="d-d-inline-block"
+                                                style="max-width: 120px">
+                                                <el-input v-model="arrears"
+                                                        type="number"></el-input>
+                                            </div>
+                                        </td>
+                                        <td>{{ room.document }}</td>
+                                        <td class="text-center">
+                                            <div class="d-d-inline-block"
+                                                style="max-width: 120px">
+                                                <el-input
+                                                    v-model="total"
+                                                    readonly
+                                                    type="number"
+                                                ></el-input>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr class="table-info">
+                                        <td></td>
+                                        <td colspan="5">Servicio a la habitación - PAGADA</td>
+                                    </tr>
+                                    <tr>
+                                        <td>#</td>
+                                        <td>Descripción</td>
+                                        <td>Precio unitario</td>
+                                        <td>Cantidad</td>
+                                        <td>Comprobante</td>
+                                        <td>Total</td>
+                                    </tr>
+                                    <tr
+                                        v-for="(it, i) in rentPaidItems"
+                                        :key="i"
+                                    >
+                                        <td>{{ i + 1 }}</td>
+                                        <td>{{ it.item.item.description }}</td>
+                                        <td>{{ it.item.input_unit_price_value | toDecimals }}</td>
+                                        <td>{{ it.item.quantity | toDecimals }}</td>
+                                        <td>{{ it.document}}</td>
+                                        <td>{{ it.item.total | toDecimals }}</td>
+                                    </tr>
+
+                                    <tr class="table-info">
+                                        <td></td>
+                                        <td colspan="5">Servicio a la habitación - Cargada a la habitación</td>
+                                    </tr>
+                                    <tr>
+                                        <td>#</td>
+                                        <td>Descripción</td>
+                                        <td>Precio unitario</td>
+                                        <td>Cantidad</td>
+                                        <td>Estado</td>
+                                        <td>Total</td>
+                                    </tr>
+                                    <tr
+                                        v-for="(it, i) in rentDebtItems"
+                                        :key="i"
+                                    >
+                                        <td>{{ i + 1 }}</td>
+                                        <td>{{ it.item.item.description }}</td>
+                                        <td>{{ it.item.input_unit_price_value | toDecimals }}</td>
+                                        <td>{{ it.item.quantity | toDecimals }}</td>
+                                        <td>
+                                            {{ it.payment_status === "PAID" ? "PAGADO" : "DEBE" }}
+                                        </td>
+                                        <td>{{ it.item.total | toDecimals }}</td>
+                                    </tr>
+                                    </tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <td class="text-right"
+                                            colspan="5">Pagado
+                                        </td>
+                                        <td>
+                                            <h3 class="my-0">
+                                                <span class="badge badge-pill badge-info">
+                                                    {{ totalPaid | toDecimals }}
+                                                </span>
+                                            </h3>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-right"
+                                            colspan="5">Debe
+                                        </td>
+                                        <td>
+                                            <h3 class="my-0">
+                                                <span class="badge badge-pill badge-danger">
+                                                    {{ totalDebt | toDecimals }}
+                                                </span>
+                                            </h3>
+                                        </td>
+                                    </tr>
+                                    </tfoot>
                                 </table>
                             </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div
+                                :class="{ 'has-danger': errors.document_type_id }"
+                                class="form-group"
+                            >
+                                <label class="control-label">Tipo comprobante</label>
+                                <el-select
+                                    v-model="document.document_type_id"
+                                    class="border-left rounded-left border-info"
+                                    dusk="document_type_id"
+                                    popper-class="el-select-document_type"
+                                    @change="changeDocumentType"
+                                >
+                                    <el-option
+                                        v-for="option in document_types"
+                                        :key="option.id"
+                                        :label="option.description"
+                                        :value="option.id"
+                                    ></el-option>
+                                </el-select>
+                                <small
+                                    v-if="errors.document_type_id"
+                                    class="form-control-feedback"
+                                    v-text="errors.document_type_id[0]"
+                                ></small>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div :class="{ 'has-danger': errors.series_id }"
+                                class="form-group">
+                                <label class="control-label">Serie</label>
+                                <el-select v-model="document.series_id">
+                                    <el-option
+                                        v-for="option in series"
+                                        :key="option.id"
+                                        :label="option.number"
+                                        :value="option.id"
+                                    ></el-option>
+                                </el-select>
+                                <small
+                                    v-if="errors.series_id"
+                                    class="form-control-feedback"
+                                    v-text="errors.series_id[0]"
+                                ></small>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div
+                                :class="{ 'has-danger': errors.date_of_issue }"
+                                class="form-group"
+                            >
+                                <label class="control-label">Fecha de emisión</label>
+                                <el-date-picker
+                                    v-model="document.date_of_issue"
+                                    :clearable="false"
+                                    readonly
+                                    type="date"
+                                    value-format="yyyy-MM-dd"
+                                    @change="changeDateOfIssue"
+                                ></el-date-picker>
+                                <small
+                                    v-if="errors.date_of_issue"
+                                    class="form-control-feedback"
+                                    v-text="errors.date_of_issue[0]"
+                                ></small>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div
+                                :class="{ 'has-danger': errors.date_of_issue }"
+                                class="form-group"
+                            >
+                                <label class="control-label">Fecha de vencimiento</label>
+                                <el-date-picker
+                                    v-model="document.date_of_due"
+                                    :clearable="false"
+                                    type="date"
+                                    value-format="yyyy-MM-dd"
+                                ></el-date-picker>
+                                <small
+                                    v-if="errors.date_of_due"
+                                    class="form-control-feedback"
+                                    v-text="errors.date_of_due[0]"
+                                ></small>
+                            </div>
+                        </div>
 
-
-                        </template>
+                        <div class="col-12">
+                            <table class="table">
+                                <thead>
+                                <tr width="100%">
+                                    <th v-if="document.payments.length > 0">M. Pago</th>
+                                    <th v-if="document.payments.length > 0">Destino</th>
+                                    <th v-if="document.payments.length > 0">Referencia</th>
+                                    <th v-if="document.payments.length > 0">Monto</th>
+                                    <th width="15%">
+                                        <a
+                                            class="text-center font-weight-bold text-info"
+                                            href="#"
+                                            @click.prevent="clickAddPayment"
+                                        >[+ Agregar]</a
+                                        >
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr v-for="(row, index) in document.payments"
+                                    :key="index">
+                                    <td>
+                                        <div class="form-group mb-2 mr-2">
+                                            <el-select v-model="row.payment_method_type_id">
+                                                <el-option
+                                                    v-for="option in paymentMethodTypes"
+                                                    :key="option.id"
+                                                    :label="option.description"
+                                                    :value="option.id"
+                                                ></el-option>
+                                            </el-select>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group mb-2 mr-2">
+                                            <el-select
+                                                v-model="row.payment_destination_id"
+                                                :disabled="row.payment_destination_disabled"
+                                                filterable
+                                            >
+                                                <el-option
+                                                    v-for="option in paymentDestinations"
+                                                    :key="option.id"
+                                                    :label="option.description"
+                                                    :value="option.id"
+                                                ></el-option>
+                                            </el-select>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group mb-2 mr-2">
+                                            <el-input v-model="row.reference"></el-input>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group mb-2 mr-2">
+                                            <el-input v-model="row.payment"></el-input>
+                                        </div>
+                                    </td>
+                                    <td class="series-table-actions text-center">
+                                        <button
+                                            class="btn waves-effect waves-light btn-xs btn-danger"
+                                            type="button"
+                                            @click.prevent="clickCancel(index)"
+                                        >
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </td>
+                                    <br/>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-12 pt-3">
+                            <template v-if="canMakePayment && totalDebt > 0">
+                                <el-button
+                                    :disabled="loading"
+                                    :loading="loading"
+                                    type="primary"
+                                    @click="onGoToInvoice"
+                                >
+                                    <i class="fa fa-save"></i>
+                                    <span class="ml-2">Guardar y Generar Comprobante</span>
+                                </el-button>
+                            </template>
+                            <template v-else-if="canMakePayment">
+                                <el-button
+                                    :disabled="loading"
+                                    :loading="loading"
+                                    type="primary"
+                                    @click="onGoToFinalizeRent"
+                                >
+                                    <i class="fa fa-save"></i>
+                                    <span class="ml-2">Guardar</span>
+                                </el-button>
+                            </template>
+                        </div>
                     </div>
+                </div>     
+            </template>
+            <template v-else>
+                <div class="card-body">
+                   <div class="card-header">Checkout éxitoso</div>
+                   <div class="row">
+                        <div class="col-12 pt-3">
+                            <template>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                        <tr class="table-danger">
+
+                                            <th colspan="">
+                                                Ya se finalizó el proceso.
+                                                <el-button
+                                                    @click="onExitPage"
+                                                    type="primary"
+                                                >
+                                                    <!-- <i class="fa fa-save"></i>-->
+                                                    <span class="ml-2">
+                                                        Regresar
+                                                    </span>
+                                                </el-button>
+                                            </th>
+                                        </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </template>
+                        </div>
+                   </div> 
                 </div>
-            </div>
+            </template>
         </div>
         <document-options
             :isContingency="false"
