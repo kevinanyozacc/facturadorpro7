@@ -480,18 +480,31 @@
                     </li>
                     <li class="multi-user-content pt-1 pl-4 pr-4">
                         @if(config('configuration.multi_user_enabled'))
-                            <tenant-multi-users-change-client></tenant-multi-users-change-client>
+                            <tenant-multi-users-change-client
+                            ></tenant-multi-users-change-client>
                         @endif
-
-                        <!-- <div id="reception-component-container" style="width: 100%;">
+                        {{-- <div id="reception-component-container" style="width: 100%;">
                             <reception-component
                                 :user-type="'admin'"
                                 :establishment-id="{{ auth()->user()->establishment_id }}"
                                 :establishments="{{ isset($establishments) ? json_encode($establishments) : json_encode([]) }}"
                             ></reception-component>
-                        </div> -->
-
+                        </div> --}}
                     </li>
+
+                    <li class="multi-user-content pt-1 pl-4 pr-4">
+                        @php
+                            $establishments = App\Models\Tenant\Establishment::select('id', 'description')->get();
+                            $current =  auth()->user()->establishment_id;
+                        @endphp
+                        @if (auth()->user()->type == 'admin')
+                           <tenant-hotel-sucursale
+                            :establishments='@json($establishments)'
+                            :current_establishment={{ $current }}
+                           ></tenant-hotel-sucursale>
+                        @endif
+                    <li>
+
                     {{-- <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"
                             @click.stop>

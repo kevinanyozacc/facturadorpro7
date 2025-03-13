@@ -10,36 +10,6 @@
                 <li class="active"><span>VISTA GENERAL RECEPCIÓN</span></li>
             </ol>
             <div class="right-wrapper pull-right">
-                <div v-if="userType==='admin'" class="btn-group flex-wrap">
-                    <button
-                        aria-expanded="false"
-                        class="btn btn-custom btn-sm mt-2 mr-2 dropdown-toggle"
-                        data-toggle="dropdown"
-                        type="button"
-                    >
-                    <svg  xmlns="http://www.w3.org/2000/svg"  width="20"  height="20"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-list-numbers"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M11 6h9" /><path d="M11 12h9" /><path d="M12 18h8" /><path d="M4 16a2 2 0 1 1 4 0c0 .591 -.5 1 -1 1.5l-3 2.5h4" /><path d="M6 10v-6l-2 2" /></svg>
-                    Cambiar Sucursal
-                        <span class="caret"></span>
-                    </button>
-                    <div
-                        class="dropdown-menu"
-                        role="menu"
-                        style="
-                            position: absolute;
-                            will-change: transform;
-                            top: 0px;
-                            left: 0px;
-                            transform: translate3d(0px, 42px, 0px);
-                        "
-                        x-placement="bottom-start"
-                    >
-                        <a v-for="item in establishments" :key="item.id" :value="item.id" :label="item.description"
-                            class="dropdown-item text-1"
-                            href="#"
-                            @click.prevent="clickChangeEstablishment(item.id)"
-                        > {{ item.description }}</a>
-                    </div>
-                </div>
                 <div class="btn-group flex-wrap">
                     <button
                         aria-expanded="false"
