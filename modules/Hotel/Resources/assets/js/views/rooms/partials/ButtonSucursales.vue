@@ -1,9 +1,9 @@
 <template>
-        <div class="col-md-12 pr-0 pl-0">
-            <div class="form-group">
-                    <label class="control-label mt-0">Cambiar Sucursales</label>
+    <div class="col-md-12 pr-0 pl-0">
+        <div class="form-group">
+            <label class="mt-0">Cambiar Sucursales</label>
 
-        <!-- <button
+            <!-- <button
             aria-expanded="false"
             class="btn btn-custom btn-sm mt-2 mr-2 dropdown-toggle"
             data-toggle="dropdown"
@@ -13,20 +13,21 @@
                     Cambiar Sucursal
                 <span class="caret"></span>
         </button> -->
-        <select 
-            class="form-control"
-            name="multi_user_id"
-            @change="clickChangeEstablishment()"
-            v-model="establishment_id"
+            <select
+                class="form-control"
+                name="multi_user_id"
+                @change="clickChangeEstablishment()"
+                v-model="establishment_id"
             >
-            <option 
-                v-for="item in establishments"
-                :key="item.id"
-                :label="item.description"
-                :value="item.id">
-            </option>
-        </select>
-        <!-- <div
+                <option
+                    v-for="item in establishments"
+                    :key="item.id"
+                    :label="item.description"
+                    :value="item.id"
+                >
+                </option>
+            </select>
+            <!-- <div
             class="dropdown-menu"
             role="menu"
             style="
@@ -44,17 +45,15 @@
                 @click.prevent="clickChangeEstablishment(item.id)"
                         > {{ item.description }}</a>
         </div> -->
-
-            </div>
         </div>
-
+    </div>
 </template>
 <script>
 export default {
     props: {
         establishments: {
             type: Array,
-            required: true,
+            required: true
         },
         current_establishment: {
             type: String,
@@ -64,29 +63,28 @@ export default {
     data() {
         return {
             establishment_id: undefined
-        }
+        };
     },
-    mounted(){
-        this.establishment_id = this.current_establishment
+    mounted() {
+        this.establishment_id = this.current_establishment;
     },
-    methods:{
-        clickChangeEstablishment(){
-            
+    methods: {
+        clickChangeEstablishment() {
             this.loading = true;
             const payload = {
-                establishment_id: this.establishment_id,
+                establishment_id: this.establishment_id
             };
             this.$http
                 .post(`/hotels/reception/change-user-establishment`, payload)
-                .then((response) => {
+                .then(response => {
                     this.$message({
                         type: "success",
-                        message: response.data.message,
+                        message: response.data.message
                     });
                     location.reload();
                 })
                 .finally(() => (this.loading = false));
-        },
+        }
     }
-}
+};
 </script>

@@ -224,6 +224,7 @@
                             <label class="control-label">Cantidad</label>
                             <el-input-number
                                 v-model="form.quantity"
+                                @change="calculateTotal"
                                 :disabled="form.item.calculate_quantity"
                                 :min="0.01"
                             ></el-input-number>
@@ -1271,6 +1272,7 @@ export default {
         // },
         initForm() {
             this.errors = {};
+            this.readonly_total = 0;
 
             this.form = {
                 // category_id: [1],
@@ -1551,6 +1553,7 @@ export default {
             this.addDescriptionToDocumentItem();
 
             this.getLastPriceItem();
+            this.readonly_total = this.form.unit_price_value;
         },
         addDescriptionToDocumentItem() {
             if (this.canAddDescriptionToDocumentItem) {
