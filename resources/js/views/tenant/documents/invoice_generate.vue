@@ -4983,7 +4983,7 @@ export default {
                         this.form.fee[index].date = date;
                     }
                 }
-            } else if (payment_method_type.id == "09") {
+            } else if (payment_method_type.id == "09" || payment_method_type.is_credit) {
                 this.form.payment_method_type_id = payment_method_type.id;
                 this.form.date_of_due = this.form.date_of_issue;
                 // this.form.payments = []
