@@ -12,24 +12,7 @@
             data-placement="bottom"
             data-toggle="tooltip"
         >
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="icon icon-tabler icons-tabler-outline icon-tabler-invoice"
-            >
-                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                <path d="M14 3v4a1 1 0 0 0 1 1h4" />
-                <path
-                    d="M19 12v7a1.78 1.78 0 0 1 -3.1 1.4a1.65 1.65 0 0 0 -2.6 0a1.65 1.65 0 0 1 -2.6 0a1.65 1.65 0 0 0 -2.6 0a1.78 1.78 0 0 1 -3.1 -1.4v-14a2 2 0 0 1 2 -2h7l5 5v4.25"
-                />
-            </svg>
+            <span v-html="getIcon(menu.menu_a.icon_id)"></span>
             <span>{{ menu.menu_a.label_menu }}</span>
         </a>
         <a
@@ -44,25 +27,7 @@
             data-placement="bottom"
             data-toggle="tooltip"
         >
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="icon icon-tabler icons-tabler-outline icon-tabler-license"
-            >
-                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                <path
-                    d="M15 21h-9a3 3 0 0 1 -3 -3v-1h10v2a2 2 0 0 0 4 0v-14a2 2 0 1 1 2 2h-2m2 -4h-11a3 3 0 0 0 -3 3v11"
-                />
-                <path d="M9 7l4 0" />
-                <path d="M9 11l4 0" />
-            </svg>
+            <span v-html="getIcon(menu.menu_b.icon_id)"></span>
             <span>{{ menu.menu_b.label_menu }}</span>
         </a>
         <a
@@ -77,25 +42,7 @@
             data-placement="bottom"
             data-toggle="tooltip"
         >
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="icon icon-tabler icons-tabler-outline icon-tabler-writing"
-            >
-                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                <path
-                    d="M20 17v-12c0 -1.121 -.879 -2 -2 -2s-2 .879 -2 2v12l2 2l2 -2z"
-                />
-                <path d="M16 7h4" />
-                <path d="M18 19h-13a2 2 0 1 1 0 -4h4a2 2 0 1 0 0 -4h-3" />
-            </svg>
+            <span v-html="getIcon(menu.menu_c.icon_id)"></span>
             <span>{{ menu.menu_c.label_menu }}</span>
         </a>
         <a
@@ -110,27 +57,7 @@
             data-placement="bottom"
             data-toggle="tooltip"
         >
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="icon icon-tabler icons-tabler-outline icon-tabler-tag-starred"
-            >
-                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                <path d="M7.5 7.5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
-                <path
-                    d="M3 6v5.172a2 2 0 0 0 .586 1.414l7.71 7.71a2.41 2.41 0 0 0 3.408 0l5.592 -5.592a2.41 2.41 0 0 0 0 -3.408l-7.71 -7.71a2 2 0 0 0 -1.414 -.586h-5.172a3 3 0 0 0 -3 3z"
-                />
-                <path
-                    d="M12.5 13.847l-1.5 1.153l.532 -1.857l-1.532 -1.143h1.902l.598 -1.8l.598 1.8h1.902l-1.532 1.143l.532 1.857z"
-                />
-            </svg>
+            <span v-html="getIcon(menu.menu_d.icon_id)"></span>
             <span>{{ menu.menu_d.label_menu }}</span>
         </a>
         <a
@@ -141,27 +68,29 @@
             title="editar accesos directos"
             @click="showDialog = true"
         >
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="icon icon-tabler icons-tabler-outline icon-tabler-edit"
-            >
-                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                <path
-                    d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"
-                />
-                <path
-                    d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"
-                />
-                <path d="M16 5l3 3" />
-            </svg>
+            <span>
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="icon icon-tabler icons-tabler-outline icon-tabler-edit"
+                >
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path
+                        d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"
+                    />
+                    <path
+                        d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"
+                    />
+                    <path d="M16 5l3 3" />
+                </svg>
+            </span>
             <span class="fix-m"><i class="fas fa-ellipsis-h"></i></span>
         </a>
         <el-dialog
@@ -279,8 +208,23 @@ export default {
     },
     created() {
         this.getRecords();
+        this.loadIcons();
     },
     methods: {
+        async loadIcons() {
+            try {
+                const response = await fetch("/json/icons/icons.json");
+                this.icons = await response.json();
+            } catch (error) {
+                console.error("Error al cargar los íconos:", error);
+            }
+        },
+        getIcon(icon_id) {
+            if (!this.icons || !this.icons[icon_id]) {
+                return '<span style="color: red;">⚠️ Icono no disponible</span>';
+            }
+            return this.icons[icon_id];
+        },
         getRecords() {
             this.$http.get(`/configurations/visual/get_menu`).then(response => {
                 if (response.data !== "") {
