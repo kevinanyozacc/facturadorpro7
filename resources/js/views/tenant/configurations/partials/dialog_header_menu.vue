@@ -213,8 +213,15 @@ export default {
     methods: {
         async loadIcons() {
             try {
+                const cachedIcons = localStorage.getItem("icons");
+                if (cachedIcons) {
+                    this.icons = JSON.parse(cachedIcons);
+                    return;
+                }
+    
                 const response = await fetch("/json/icons/icons.json");
                 this.icons = await response.json();
+                localStorage.setItem("icons", JSON.stringify(this.icons));
             } catch (error) {
                 console.error("Error al cargar los íconos:", error);
             }
