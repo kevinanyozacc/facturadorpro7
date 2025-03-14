@@ -751,7 +751,7 @@
                                 <div
                                     class="p-2 payment-container"
                                     v-if="showPayments"
-                                    style="margin-left: auto; background-color: #f3f4fc;"
+                                    style="margin-left: auto;"
                                 >
                                     <label class="control-label">
                                         Pagos referenciales

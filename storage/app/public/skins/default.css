@@ -871,12 +871,6 @@ html.fixed.sidebar-white:not(.dark) .sidebar-left a {
 .el-carousel__arrow {
     display: none;
 }
-
-.badge-info {
-    background: rgb(59 190 252 / 20%) !important;
-    color: #3bbdfb !important;
-    font-weight: bold !important;
-}
 ul.nav-main li .nav-children li a:before {
     left: 18px;
     width: 7px;

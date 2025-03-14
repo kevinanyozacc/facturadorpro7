@@ -452,9 +452,18 @@ table,
 .invoice address,
 html.fixed.sidebar-white .sidebar-left a,
 ul.nav-main li.nav-parent>a:after {
-    color: #1f1f1f;
+    color: #1f1f1f !important;
 }
-
+.dropdown-menu-desktop {
+    & ul li {
+        & a {
+            &:hover {
+                background-color: #18181b;
+                color: #ffff;
+            }
+        }
+    }
+}
 .el-input__inner,
 .el-textarea__inner {
     border: 1px solid #cccccc;

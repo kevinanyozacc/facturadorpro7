@@ -7306,7 +7306,7 @@ html.sidebar-light:not(.dark) ul.nav-main li .nav-children li a:focus {
 
 .badge-info {
     background: var(--info) !important;
-    color: #fff;
+    color: #fff !important;
 }
 
 .badge-dark {
@@ -13137,8 +13137,8 @@ html.dark .notifications > li .notification-icon i {
 }
 
 .notifications > li .notification-icon .badge {
-    background: #ff3a7e47;
-    color: var(--danger);
+    background: var(--danger);
+    color: #fff;
     font-size: 10px;
     font-weight: normal;
     height: 16px;
@@ -13164,7 +13164,9 @@ html.dark .notifications > li .notification-icon i {
     right: -5px;
     width: 245px;
 }
-
+.payment-container{
+    background-color: #f3f4fc;
+}
 @media only screen and (min-width: 768px) {
     .notifications .notification-menu {
         left: auto !important;

@@ -149,6 +149,21 @@ ul.nav-main li.nav-parent > a:after,
     color: #031a6e;
     background-color: #f2f4fa61;
 }
+html.fixed.sidebar-white:not(.dark) .sidebar-left a {
+    color: #66789C;
+}
+html.fixed.sidebar-white:not(.dark) .sidebar-left a:hover {
+    color: #2446e8 !important;
+}
+html.fixed.sidebar-white .sidebar-left a {
+    color: #d0d2d6;
+}
+html.fixed.sidebar-white .sidebar-left a:hover {
+    color: #fff !important;
+}
+html.dark ul.nav-main li.nav-parent > a:after {
+    color: #d0d2d6;
+}
 .el-input__inner:hover {
     border-color: #b3bad3;
 }
@@ -315,7 +330,6 @@ html.sidebar-left-collapsed .sidebar-left .nano:hover {
 }
 html.sidebar-light:not(.dark) ul.nav-main > li.nav-active > a {
     color: #2446e8 !important;
-    background: #fff;
     border-radius: 8px !important;
 }
 .userbox .name,
@@ -362,21 +376,6 @@ span.badge.bg-secondary.text-white.bg-success,
 span.badge.text-white.bg-success {
     background: rgb(35 218 149 / 20%) !important;
     color: #23da95 !important;
-}
-.btn-warning:hover, .btn-warning.hover {
-    background-color: #ffa71f;
-    border-color: #ffa71f;
-    box-shadow: none;
-}
-.btn-danger:hover, .btn-danger.hover {
-    background-color: #fc716f;
-    border-color: #fc716f;
-    box-shadow: none;
-}
-.btn-info:hover, .btn-info.hover {
-    background-color: #64cafc;
-    border-color: #64cafc;
-    box-shadow: none;
 }
 .page-header h2 {
     border-bottom: none;
@@ -532,7 +531,22 @@ a.ws-flotante {
     border-radius: 0 !important;
     transform: scale(0.85);
 }
-
+.d-lg-block{
+    display: flex !important;
+    align-items: start !important;
+    justify-content: center !important;
+    gap: 3px;
+}
+.dropdown-menu-desktop {
+    & ul li {
+        & a {
+            &:hover {
+                background-color: #2446e8;
+                color: #ffff;
+            }
+        }
+    }
+}
 html.sidebar-light:not(.dark) .style-switcher {
     background: #ffffff !important;
 }
@@ -550,6 +564,7 @@ html.sidebar-light:not(.dark) .style-switcher {
 div.card-header {
     border-radius: 8px !important;
 }
+
 
 html.fixed.sidebar-white .sidebar-left, 
 html.fixed.sidebar-white .sidebar-header, 
@@ -593,13 +608,104 @@ div.el-tab-pane {
 .table-responsive.payment .el-input__inner {
     background: #fff;
 }
-
+.toggle-button.shift {
+    z-index: 1023;
+}
 tbody tr:hover:not(:last-child) {
     background: #fafbfd;
 }
 html.fixed.sidebar-white:not(.dark) .sidebar-left, html.fixed.sidebar-white:not(.dark) .sidebar-header, html.fixed.sidebar-white:not(.dark) .sidebar-left .nano {
     border: none !important;
     box-shadow: 0 0 15px 0 rgb(34 41 47 / 5%);
+}
+/* theme dark */
+html.dark .el-dialog {
+    background-color: #283046;
+    border-color: #283046;
+}
+html.dark .invoice table.table > thead:first-child > tr > th {
+    background-color: #21283c;
+    border-bottom-color: #21283c;
+    border-top-color: #21283c;
+}
+html.dark .additional-information{
+    background-color: #283046;
+}
+html.dark .el-collapse-item__wrap label, html.dark .el-collapse-item__header {
+    color: #66789C;
+}
+html.dark .el-collapse-item__header, html.dark .el-collapse-item__wrap {
+    background-color: #283046;
+    border-color: #283046;
+}
+html.dark .el-collapse a {
+    background: #283046;
+}
+html.dark .el-collapse, html.dark .table > thead > tr > th, html.dark .table > tbody > tr > th, html.dark .table > tfoot > tr > th, html.dark .table > thead > tr > td, html.dark .table > tbody > tr > td, html.dark .table > tfoot > tr > td, html.dark .table-bordered {
+    border-color: #252d44;
+}
+html.dark .sidebar-toggle:hover {
+    background-color: #21283c;
+}
+html.dark .header .logo-container .topbar-links {
+    background: #21283c;
+}
+html.dark .header .logo-container .topbar-links:hover {
+    background: #2446e8;
+}
+html.dark .el-dropdown-menu {
+    background-color: #283046;
+}
+html.dark .el-dropdown-menu__item:not(.is-disabled):hover, html.dark .el-dropdown-menu__item:focus {
+    background-color: #333c55;  
+}
+html.dark .el-select .el-input__inner:focus{
+    border-color: #252d44;
+}
+html.dark .btn-default {
+    background-color: #333f61;
+    border-color: #161d31;
+    color: #eee;
+}
+html.dark .btn-default:hover, html.dark .btn-default:focus, html.dark .btn-default:active, html.dark .btn-default.active, html.dark .show > .dropdown-toggle.btn-default {
+    color: #eee;
+    background-color: #0f1932;
+    border-color: #0f1932;
+}
+html.dark .el-input-number__increase, 
+html.dark .el-input-number__decrease {
+    background: #37415a;
+    color: #ffffff;
+}
+html.dark,html.dark body,
+html.dark .notifications a.notification-icon.text-secondary {
+    color: #d1dbe6 !important;
+}
+html.dark table, html.dark .table, html.dark .el-dialog__body, html.dark .invoice address {
+    color: #bfcbe3;
+}
+html.dark .el-input-group__append, html.dark .el-input-group__prepend {
+    background-color: #37415a;
+    color: #ffffff;
+}
+html.dark .card-header-invoice {
+    background-color: #283046 !important;
+}
+html.dark .card-footer {
+    background: #283046;
+    border:1px solid #ffffff;
+    border-radius: 8px;
+}
+html.dark .table-responsive.payment, html.dark .payment-container {
+    background: #283046;
+}
+html.dark .table-responsive.payment .el-input__inner {
+    background: #757b8a;
+}
+@media only screen and (max-width: 991px){
+    .d-lg-block{
+        display: none !important;
+    }   
 }
 @media only screen and (min-width: 391px){
     .card-body-invoice div .row .filter-invoice{
