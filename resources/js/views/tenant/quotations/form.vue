@@ -1678,7 +1678,10 @@ export default {
                 return this.configuration.add_description_to_document_item;
 
             return false;
-        }
+        },
+        isGlobalDiscountBase: function() {
+            return this.configuration.global_discount_type_id === "02";
+        },
     },
     methods: {
         changeTypeDiscount() {
@@ -1713,9 +1716,6 @@ export default {
                 this.form.discounts.splice(index, 1);
                 this.form.total_discount = 0;
             }
-        },
-        isGlobalDiscountBase: function() {
-            return this.configuration.global_discount_type_id === "02";
         },
         discountGlobal(ctx) {
             this.deleteDiscountGlobal();
@@ -2082,6 +2082,12 @@ export default {
                 );
             });
             this.form.items = items;
+            
+            if (this.form.currency_type_id === 'PEN') {
+                this.total_global_discount = _.round( this.total_global_discount* this.form.exchange_rate_sale,2)
+            } else {
+                this.total_global_discount = _.round(this.total_global_discount / this.form.exchange_rate_sale,2)
+            }
             this.calculateTotal();
         },
         calculateTotal() {
