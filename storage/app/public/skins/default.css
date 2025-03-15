@@ -30,8 +30,11 @@ p {
     color: var(--dark-color);
 }
 
-h1, h2, h3, h4, h5, h6{
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6{
     font-family: var(--font-family, sans-serif);
+}
+.bg-accent-color {
+    background-color: var(--accent-color) !important;
 }
 
 .el-input--small .el-input__inner,
@@ -2588,4 +2591,14 @@ html.dark .form-modern:focus-within label.control-label {
 .el-input-number__increase {
     border-radius: 0 4px 8px 0;
 }
+span.text-muted svg {
+    transform: translateY(-1px);
+}
+button.available,
+button.maintenance,
+button.occupied,
+button.cleaning{
+    height: 42px;
+}
+
 /* end */

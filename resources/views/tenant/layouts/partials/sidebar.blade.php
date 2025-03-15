@@ -1060,8 +1060,7 @@ $inventory_configuration = InventoryConfiguration::getSidebarPermissions();
                                     <path d="M9 15l0 .01" />
                                     <path d="M9 18l0 .01" />
                                 </svg>
-                                <span>Hoteles <sup
-                                        style="background: #ffc300;padding: 0px 3px;border-radius: 4px;">Beta</sup></span>
+                                <span>Hoteles</span>
                             </a>
                             <ul class="nav nav-children">
                                 @if(in_array('hotels_reception', $vc_module_levels))
