@@ -588,7 +588,6 @@
                                 <div
                                     class="p-2 payment-container"
                                     v-if="showPayments && !form.quotation_id"
-                                    style="background-color: #f3f4fc;"
                                 >
                                     <table>
                                         <thead>

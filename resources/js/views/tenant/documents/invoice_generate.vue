@@ -299,7 +299,7 @@
                         </div>
                     </div>
                     <div class="card-body border-top no-gutters">
-                        <div class="row">
+                        <div class="">
                             <div
                                 :class="{ 'has-danger': errors.customer_id }"
                                 class="form-group form-client-default ml-1 w-50 mb-0 p-0"
@@ -4983,7 +4983,10 @@ export default {
                         this.form.fee[index].date = date;
                     }
                 }
-            } else if (payment_method_type.id == "09" || payment_method_type.is_credit) {
+            } else if (
+                payment_method_type.id == "09" ||
+                payment_method_type.is_credit
+            ) {
                 this.form.payment_method_type_id = payment_method_type.id;
                 this.form.date_of_due = this.form.date_of_issue;
                 // this.form.payments = []
@@ -5918,6 +5921,12 @@ export default {
                 );
             });
             this.form.items = items;
+            
+            if (this.form.currency_type_id === 'PEN') {
+                this.total_global_discount = _.round(this.total_global_discount  * this.form.exchange_rate_sale,2)
+            } else {
+                this.total_global_discount = _.round(this.total_global_discount / this.form.exchange_rate_sale,2)
+            }
             this.calculateTotal();
         },
         calculateTotal() {
@@ -6133,8 +6142,14 @@ export default {
             this.form.subtotal = _.round(total, 2);
             this.form.total = _.round(total_all, 2);
 
-            if (this.verifyRecalculateTotalTaxed() && this.form.total_taxed > 0) {
-                this.form.total_taxed = this.recalculateDecimalTotalTaxed(this.form.total, this.form.total_igv);
+            if (
+                this.verifyRecalculateTotalTaxed() &&
+                this.form.total_taxed > 0
+            ) {
+                this.form.total_taxed = this.recalculateDecimalTotalTaxed(
+                    this.form.total,
+                    this.form.total_igv
+                );
             }
 
             // this.form.subtotal = _.round(total + this.form.total_plastic_bag_taxes, 2)
@@ -6166,8 +6181,14 @@ export default {
         },
         verifyRecalculateTotalTaxed() {
             const keysToCheck = [
-                'total_isc', 'total_igv_free', 'total_discount', 'total_exportation',
-                'total_exonerated', 'total_unaffected', 'total_free', 'total_plastic_bag_taxes'
+                "total_isc",
+                "total_igv_free",
+                "total_discount",
+                "total_exportation",
+                "total_exonerated",
+                "total_unaffected",
+                "total_free",
+                "total_plastic_bag_taxes"
             ];
             return !keysToCheck.some(key => this.form[key] > 0);
         },

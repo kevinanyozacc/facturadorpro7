@@ -1310,7 +1310,7 @@
                             <div
                                 class="p-2 table-responsive-default payment-container"
                                 v-if="showPayments"
-                                style="background-color: #f3f4fc; width: 70%; margin-left: auto;"
+                                style="width: 70%; margin-left: auto;"
                             >
                                 <table>
                                     <thead>
@@ -2034,7 +2034,10 @@ export default {
                 id: this.form.payments[index].payment_method_type_id
             });
 
-            if (payment_method_type.id == "09" || payment_method_type.is_credit) {
+            if (
+                payment_method_type.id == "09" ||
+                payment_method_type.is_credit
+            ) {
                 this.form.payment_method_type_id = payment_method_type.id;
                 this.form.date_of_due = this.form.date_of_issue;
                 // this.form.payments = []

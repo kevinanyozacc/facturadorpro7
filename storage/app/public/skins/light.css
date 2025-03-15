@@ -487,7 +487,9 @@ a.ws-flotante {
     border-radius: 0 !important;
     transform: scale(0.85);
 }
-
+html.fixed.sidebar-white:not(.dark) .sidebar-left a{
+    color: #60769a !important;
+}
 /************************************ tema morado ************************************/
 /* header */
 html.sidebar-blue .userbox.show .dropdown-menu a:hover {
