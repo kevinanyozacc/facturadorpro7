@@ -7,8 +7,8 @@
     width="400px"
   >
     <form autocomplete="off" @submit.prevent="onSubmit">
-      <div class="form-body">
-        <div class="form-group">
+      <div class="row form-body">
+        <div class="col-12 form-group mb-0">
           <label class="control-label" for="name">Nombre de la habitación</label>
           <el-input
             type="text"
@@ -20,7 +20,7 @@
             {{ errors.name[0] }}
           </div>
         </div>
-        <div v-if="userType==='admin'" class="form-group">
+        <div v-if="userType==='admin'" class="col-12 form-group mb-0">
           <label class="control-label" for="establishment">Sucursal</label>
           <el-select
             type="text"
@@ -37,7 +37,7 @@
             {{ errors.establishment_id[0] }}
           </div>
         </div>
-        <div class="form-group">
+        <div class="col-6 form-group mb-0">
           <label class="control-label" for="category">Categoría</label>
           <el-select
             type="text"
@@ -53,7 +53,7 @@
             {{ errors.hotel_category_id[0] }}
           </div>
         </div>
-        <div class="form-group">
+        <div class="col-6 form-group mb-0">
           <label class="control-label" for="floor">Ubicación</label>
           <el-select
             type="text"
@@ -69,7 +69,7 @@
             {{ errors.hotel_floor_id[0] }}
           </div>
         </div>
-        <div class="form-group">
+        <div class="col-12 form-group">
           <label class="control-label" for="description">Detalles</label>
           <el-input
             rows="3"
@@ -83,11 +83,14 @@
             {{ errors.description[0] }}
           </div>
         </div>
-        <div class="form-group">
+        <div class="col-12 form-group">
           <label>Mostrar habitación</label>
           <el-switch v-model="form.active"></el-switch>
         </div>
-        <div class="row text-center">
+        <div class="col-12 row text-center">
+          <div class="col-6">
+            <el-button class="btn-block second-buton" @click="onClose">Cancelar</el-button>
+          </div>
           <div class="col-6">
             <el-button
               native-type="submit"
@@ -98,9 +101,7 @@
               >Guardar</el-button
             >
           </div>
-          <div class="col-6">
-            <el-button class="btn-block second-buton" @click="onClose">Cancelar</el-button>
-          </div>
+          
         </div>
       </div>
     </form>

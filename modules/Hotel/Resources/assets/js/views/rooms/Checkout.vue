@@ -2,10 +2,12 @@
     <div>
         <div class="page-header pr-0">
             <h2>
-                <a href="/dashboard"><i class="fas fa-tachometer-alt"></i></a>
+                <a href="/hotels/reception">
+                    <svg  xmlns="http://www.w3.org/2000/svg" style="margin-top: -5px;" width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-building-skyscraper"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 21l18 0" /><path d="M5 21v-14l8 -4v18" /><path d="M19 21v-10l-6 -4" /><path d="M9 9l0 .01" /><path d="M9 12l0 .01" /><path d="M9 15l0 .01" /><path d="M9 18l0 .01" /></svg>
+                </a>
             </h2>
             <ol class="breadcrumbs">
-                <li class="active"><span>RECEPCIÓN</span></li>
+                <li class="active"><span>CHECK-OUT: <b>{{ title }}</b> (Registro de salida)</span></li>
             </ol>
             <div class="right-wrapper pull-right">
                 <div class="btn-group flex-wrap">
@@ -19,10 +21,7 @@
                 </div>
             </div>
         </div>
-        <div class="card mb-0">
-            <div class="card-header bg-info">
-                <h3 class="my-0">{{ title }}</h3>
-            </div>
+        <div class="card mb-0 tab-content-default row-new">
             <template v-if="canMakePayment">
                 <div class="card-body">
                     <div class="row">
@@ -379,35 +378,22 @@
                 </div>     
             </template>
             <template v-else>
-                <div class="card-body">
-                   <div class="card-header">Checkout éxitoso</div>
-                   <div class="row">
-                        <div class="col-12 pt-3">
-                            <template>
-                                <div class="table-responsive">
-                                    <table class="table table-bordered">
-                                        <thead>
-                                        <tr class="table-danger">
-
-                                            <th colspan="">
-                                                Ya se finalizó el proceso.
-                                                <el-button
-                                                    @click="onExitPage"
-                                                    type="primary"
-                                                >
-                                                    <!-- <i class="fa fa-save"></i>-->
-                                                    <span class="ml-2">
-                                                        Regresar
-                                                    </span>
-                                                </el-button>
-                                            </th>
-                                        </tr>
-                                        </thead>
-                                    </table>
-                                </div>
-                            </template>
-                        </div>
-                   </div> 
+                <div class="card text-center">
+                   <div>
+                    <svg  xmlns="http://www.w3.org/2000/svg"  width="96"  height="96"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="1.5"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-rosette-discount-check text-success"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 7.2a2.2 2.2 0 0 1 2.2 -2.2h1a2.2 2.2 0 0 0 1.55 -.64l.7 -.7a2.2 2.2 0 0 1 3.12 0l.7 .7c.412 .41 .97 .64 1.55 .64h1a2.2 2.2 0 0 1 2.2 2.2v1c0 .58 .23 1.138 .64 1.55l.7 .7a2.2 2.2 0 0 1 0 3.12l-.7 .7a2.2 2.2 0 0 0 -.64 1.55v1a2.2 2.2 0 0 1 -2.2 2.2h-1a2.2 2.2 0 0 0 -1.55 .64l-.7 .7a2.2 2.2 0 0 1 -3.12 0l-.7 -.7a2.2 2.2 0 0 0 -1.55 -.64h-1a2.2 2.2 0 0 1 -2.2 -2.2v-1a2.2 2.2 0 0 0 -.64 -1.55l-.7 -.7a2.2 2.2 0 0 1 0 -3.12l.7 -.7a2.2 2.2 0 0 0 .64 -1.55v-1" /><path d="M9 12l2 2l4 -4" /></svg>
+                    <h2>Checkout éxitoso en {{this.currentRent.room.name}}</h2>
+                    <p class="text-sm">Ya se finalizó el proceso y puede volver a recepción.</p>
+                    <el-button
+                        @click="onExitPage"
+                        type="primary"
+                        class="btn btn-primary mt-4"
+                    >
+                        <span class="ml-2">
+                            Volver a recepción
+                        </span>
+                    </el-button>
+                </div>
+                   
                 </div>
             </template>
         </div>
@@ -553,7 +539,6 @@ export default {
     async mounted() {
         // console.log(this.config);
 
-
         this.form.establishment_id = this.config.establishment.id;
         this.form.date_of_issue = moment().format("YYYY-MM-DD");
         await this.getPercentageIgv();
@@ -563,7 +548,7 @@ export default {
         this.initForm();
         await this.initDocument();
         this.all_document_types = this.documentTypesInvoice;
-        this.title = `Checkout: Habitación ${this.currentRent.room.name}`;
+        this.title = this.currentRent.room.name;
         this.total = this.room.item.total;
 
         this.document.items = await this.currentRent.items

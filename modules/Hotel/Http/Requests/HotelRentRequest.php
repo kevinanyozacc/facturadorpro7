@@ -17,7 +17,7 @@ class HotelRentRequest extends FormRequest
 			'customer_id'              => 'required|numeric',
 			'customer'                 => 'required',
 			'customer.name'            => 'required',
-			'customer.address'         => 'required',
+			'customer.address'         => 'nullable|string|max:255',
 			'notes'                    => 'max:250',
 			'towels'                   => 'required|numeric|min:1',
 			'duration'                 => 'required|numeric|min:1',

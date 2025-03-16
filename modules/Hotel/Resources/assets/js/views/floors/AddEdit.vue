@@ -42,6 +42,9 @@
         </div>
         <div class="row text-center">
           <div class="col-6">
+            <el-button class="btn-block second-buton" @click="onClose">Cancelar</el-button>
+          </div>
+          <div class="col-6">
             <el-button
               native-type="submit"
               :disabled="loading"
@@ -50,9 +53,6 @@
               :loading="loading"
               >Guardar</el-button
             >
-          </div>
-          <div class="col-6">
-            <el-button class="btn-block second-buton" @click="onClose">Cancelar</el-button>
           </div>
         </div>
       </div>

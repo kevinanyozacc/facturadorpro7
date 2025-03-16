@@ -143,29 +143,29 @@
                 <td>{{ item.floor.description }}</td>
                 <td>{{ (item.establishment) ? item.establishment.description: '' }}</td>
                 <td>
-                  <el-button class="second-buton" @click="onShowMyRates(item)">
-                    <i class="fa fa-money-bill-alt"></i>
+                  <el-button class="btn btn-sm btn-default" @click="onShowMyRates(item)">
+                    <svg  xmlns="http://www.w3.org/2000/svg"  width="16"  height="16"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-coins"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 14c0 1.657 2.686 3 6 3s6 -1.343 6 -3s-2.686 -3 -6 -3s-6 1.343 -6 3z" /><path d="M9 14v4c0 1.656 2.686 3 6 3s6 -1.344 6 -3v-4" /><path d="M3 6c0 1.072 1.144 2.062 3 2.598s4.144 .536 6 0c1.856 -.536 3 -1.526 3 -2.598c0 -1.072 -1.144 -2.062 -3 -2.598s-4.144 -.536 -6 0c-1.856 .536 -3 1.526 -3 2.598z" /><path d="M3 6v10c0 .888 .772 1.45 2 2" /><path d="M3 11c0 .888 .772 1.45 2 2" /></svg>
                   </el-button>
                 </td>
                 <td>{{ item.status }}</td>
                 <td class="text-center">
                   <el-button
-                    type="warning"
+                    class="btn btn-sm btn-warning"
                     v-if="item.status === 'DISPONIBLE'"
                     @click="onChangeStatus(item, 'MANTENIMIENTO')"
                     :disabled="loading"
                   >
-                    <i class="fa fa-tools"></i>
-                    <span class="ml-2">MANTENIMIENTO</span>
+                  <svg  xmlns="http://www.w3.org/2000/svg"  width="16"  height="16"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-tool"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 10h3v-3l-3.5 -3.5a6 6 0 0 1 8 8l6 6a2 2 0 0 1 -3 3l-6 -6a6 6 0 0 1 -8 -8l3.5 3.5" /></svg> 
+                    Mantenimiento
                   </el-button>
                   <el-button
-                    type="info"
+                    class="btn btn-sm btn-info"
                     v-if="item.status === 'MANTENIMIENTO'"
                     @click="onChangeStatus(item, 'DISPONIBLE')"
                     :disabled="loading"
                   >
-                    <i class="fa fa-check"></i>
-                    <span class="ml-2">HABILITAR</span>
+                  <svg  xmlns="http://www.w3.org/2000/svg"  width="16"  height="16"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-check"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l5 5l10 -10" /></svg> 
+                    Habilitar
                   </el-button>
                 </td>
                 <td class="text-left">
@@ -174,18 +174,18 @@
                 </td>
                 <td class="text-right">
                   <el-button
-                    type="success"
+                    class="btn btn-sm btn-success"
                     @click="onEdit(item)"
                     :disabled="loading"
                   >
-                    <i class="fa fa-edit"></i>
+                  <svg  xmlns="http://www.w3.org/2000/svg"  width="16"  height="16"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-edit"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" /><path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" /><path d="M16 5l3 3" /></svg>
                   </el-button>
                   <el-button
-                    type="danger"
+                    class="btn btn-sm btn-danger"
                     @click="onDelete(item)"
                     :disabled="loading"
                   >
-                    <i class="fa fa-trash"></i>
+                  <svg  xmlns="http://www.w3.org/2000/svg"  width="16"  height="16"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-trash"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg>
                   </el-button>
                 </td>
               </tr>
@@ -388,3 +388,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+svg.icon-tabler{
+  transform: translateY(-1px);
+}
+</style>

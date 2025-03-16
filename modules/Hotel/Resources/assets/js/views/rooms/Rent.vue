@@ -155,7 +155,7 @@
                                     class="form-group col-12 col-md-5"
                                     :class="{ 'has-danger': errors['customer.address'] }"
                                 >
-                                    <label class="control-label">Dirección</label>
+                                    <label class="control-label">Dirección (Opcional)</label>
                                     <el-input v-model="form.customer.address"></el-input>
                                     <small
                                         class="form-control-feedback"
@@ -171,7 +171,12 @@
                                     <el-button
                                         class="btn btn-success btn-block"
                                         @click.prevent="clickAddPerson">
-                                        <label class="badge badge-secondary" style="position: absolute; top: 8px; right: 0; transform: scale(1.5); padding: 4px;">{{ form.quantity_persons }}</label>
+                                        <label 
+                                            class="badge badge-secondary" 
+                                            style="position: absolute; top: 8px; right: 0; transform: scale(1.5); padding: 4px;"
+                                            v-show="form.customer_id" 
+                                        >
+                                            {{ form.quantity_persons }}</label>
                                         Huéspedes<br>Registrados
                                     </el-button>
                                     <small
@@ -199,8 +204,8 @@
                         </div>
                     </div>
 
-                    <div class="card my-0">
-                        <div class="card-body pt-0">
+                    <div class="card my-0" v-if="Number(rate_unit_value) > 0">
+                        <div class="card-body py-0">
                     <div class="row">
                         <div class="col-12 col-lg-4" >
                             <div class="row"> 
@@ -352,7 +357,7 @@
                                     <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-cash-register"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M21 15h-2.5c-.398 0 -.779 .158 -1.061 .439c-.281 .281 -.439 .663 -.439 1.061c0 .398 .158 .779 .439 1.061c.281 .281 .663 .439 1.061 .439h1c.398 0 .779 .158 1.061 .439c.281 .281 .439 .663 .439 1.061c0 .398 -.158 .779 -.439 1.061c-.281 .281 -.663 .439 -1.061 .439h-2.5" /><path d="M19 21v1m0 -8v1" /><path d="M13 21h-7c-.53 0 -1.039 -.211 -1.414 -.586c-.375 -.375 -.586 -.884 -.586 -1.414v-10c0 -.53 .211 -1.039 .586 -1.414c.375 -.375 .884 -.586 1.414 -.586h2m12 3.12v-1.12c0 -.53 -.211 -1.039 -.586 -1.414c-.375 -.375 -.884 -.586 -1.414 -.586h-2" /><path d="M16 10v-6c0 -.53 -.211 -1.039 -.586 -1.414c-.375 -.375 -.884 -.586 -1.414 -.586h-4c-.53 0 -1.039 .211 -1.414 .586c-.375 .375 -.586 .884 -.586 1.414v6m8 0h-8m8 0h1m-9 0h-1" /><path d="M8 14v.01" /><path d="M8 17v.01" /><path d="M12 13.99v.01" /><path d="M12 17v.01" /></svg> Opciones de pago</h4>
                                 
                                 <div
-                                    class="col-6 col-md-3 form-group"
+                                    class="col-6 col-md-3 form-group mb-3"
                                     :class="{ 'has-danger': errors.payment_status }"
                                 >
                                     <label class="control-label mt-0">Estado de pago</label>
@@ -453,7 +458,7 @@
 
                         </div>
                     </div>
-                    <div class="card my-0">
+                    <div class="card my-0" v-if="Number(rate_unit_value) > 0">
                         <div class="card-body">
                             <div class="row">
                                 <h4 class="col-12 my-0">
@@ -472,11 +477,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card">
+                    <div class="card mb-0">
                         <div class="d-flex justify-content-between">
                             <template v-if="canMakePayment">
                                 <el-button class="btn btn-default" @click="onToBackPage">Cancelar</el-button>
-                                <el-button
+                                <el-button v-if="Number(rate_unit_value) > 0"
                                     type="primary"
                                     :loading="loading"
                                     :disabled="loading"
