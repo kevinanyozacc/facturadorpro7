@@ -24,7 +24,7 @@
         <div class="card mb-0 tab-content-default row-new">
             <template v-if="canMakePayment">
                 <div class="card-body">
-                    <div class="row card-body bg-light-color m-3">
+                    <div class="row card-body">
                         <div class="col-12 col-md-3 h1 m-0 pt-1">
                             Salida 
                             <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-door-exit" style="transform: translateY(-4px);"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M13 12v.01"></path><path d="M3 21h18"></path><path d="M5 21v-16a2 2 0 0 1 2 -2h7.5m2.5 10.5v7.5"></path><path d="M14 7h7m-3 -3l3 3l-3 3"></path></svg> 
@@ -35,24 +35,24 @@
                                 {{ currentRent.customer.name }}</b>
                             </h4>
                         </div>
-                        <div class="col-12 col-md-3 card card-body my-0 mx-1 p-3">
+                        <div class="col-12 col-md-3 card card-body bg-light-color my-0 mx-1 p-3">
                             <span class="text-muted"><svg  xmlns="http://www.w3.org/2000/svg"  width="16"  height="16"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-id"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 4m0 3a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v10a3 3 0 0 1 -3 3h-12a3 3 0 0 1 -3 -3z" /><path d="M9 10m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M15 8l2 0" /><path d="M15 12l2 0" /><path d="M7 16l10 0" /></svg> DNI/RUC/CE</span>
                             <h4 class="m-0"><b>
                                 {{ currentRent.customer.number }}</b>
                             </h4>
                         </div>
-                        <div class="col-12 col-md-3 card card-body my-0 mx-1 p-3">
+                        <div class="col-12 col-md-3 card card-body bg-light-color my-0 mx-1 p-3">
                             <span class="text-muted"><svg  xmlns="http://www.w3.org/2000/svg"  width="16"  height="16"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-door"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 12v.01" /><path d="M3 21h18" /><path d="M6 21v-16a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v16" /></svg> {{ currentRent.room.category.description }}</span>
                             <h4 class="m-0"><b>
                                 {{ currentRent.room.name }}</b></h4>
                         </div>
-                        <div class="col-12 col-md-3 card card-body my-0 mx-1 p-3">
+                        <div class="col-12 col-md-3 card card-body bg-light-color my-0 mx-1 p-3">
                             <span class="text-muted"><svg  xmlns="http://www.w3.org/2000/svg"  width="16"  height="16"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-calendar-up"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12.5 21h-6.5a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v5" /><path d="M16 3v4" /><path d="M8 3v4" /><path d="M4 11h16" /><path d="M19 22v-6" /><path d="M22 19l-3 -3l-3 3" /></svg> Check-IN</span>
                             <h4 class="m-0"><b>
                                 {{ new Date(currentRent.input_date).toLocaleDateString('es-ES', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' }).replace(/ de /g, ' ')  }} <br>
                                 {{ new Date(`2000-01-01T${currentRent.input_time}`).toLocaleTimeString('es-ES', { hour: 'numeric', minute: '2-digit', hour12: true }) }}</b></h4>
                         </div>
-                        <div class="col-12 col-md-3 card card-body my-0 mx-1 p-3">
+                        <div class="col-12 col-md-3 card card-body bg-light-color my-0 mx-1 p-3">
                             <span class="text-muted"><svg  xmlns="http://www.w3.org/2000/svg"  width="16"  height="16"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-calendar-down"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12.5 21h-6.5a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v5" /><path d="M19 16v6" /><path d="M22 19l-3 3l-3 -3" /><path d="M16 3v4" /><path d="M8 3v4" /><path d="M4 11h16" /></svg> Check-OUT</span>
                             <h4 class="m-0"><b>
                                 {{ new Date(currentRent.output_date).toLocaleDateString('es-ES', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' }).replace(/ de /g, ' ')  }} <br>
@@ -179,6 +179,11 @@
                                 </table>
                             </div>
                         </div>
+                    </div>
+                    <div class="row card-body">
+                        <div class="col-12 h6 m-0">
+                            <b><svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-file-dollar"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 3v4a1 1 0 0 0 1 1h4" /><path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" /><path d="M14 11h-2.5a1.5 1.5 0 0 0 0 3h1a1.5 1.5 0 0 1 0 3h-2.5" /><path d="M12 17v1m0 -8v1" /></svg> Información del comprobante (Solo para el monto pendiente de pago)</b>
+                        </div>
                         <div class="col-lg-3">
                             <div
                                 :class="{ 'has-danger': errors.document_type_id }"
@@ -265,7 +270,11 @@
                                 ></small>
                             </div>
                         </div>
-
+                    </div>
+                    <div class="row card-body bg-accent-color m-3">
+                        <div class="col-12 h6 m-0">
+                            <b><svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-cash-register"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M21 15h-2.5c-.398 0 -.779 .158 -1.061 .439c-.281 .281 -.439 .663 -.439 1.061c0 .398 .158 .779 .439 1.061c.281 .281 .663 .439 1.061 .439h1c.398 0 .779 .158 1.061 .439c.281 .281 .439 .663 .439 1.061c0 .398 -.158 .779 -.439 1.061c-.281 .281 -.663 .439 -1.061 .439h-2.5" /><path d="M19 21v1m0 -8v1" /><path d="M13 21h-7c-.53 0 -1.039 -.211 -1.414 -.586c-.375 -.375 -.586 -.884 -.586 -1.414v-10c0 -.53 .211 -1.039 .586 -1.414c.375 -.375 .884 -.586 1.414 -.586h2m12 3.12v-1.12c0 -.53 -.211 -1.039 -.586 -1.414c-.375 -.375 -.884 -.586 -1.414 -.586h-2" /><path d="M16 10v-6c0 -.53 -.211 -1.039 -.586 -1.414c-.375 -.375 -.884 -.586 -1.414 -.586h-4c-.53 0 -1.039 .211 -1.414 .586c-.375 .375 -.586 .884 -.586 1.414v6m8 0h-8m8 0h1m-9 0h-1" /><path d="M8 14v.01" /><path d="M8 17v.01" /><path d="M12 13.99v.01" /><path d="M12 17v.01" /></svg> Registro de pagos pendientes</b>
+                        </div>
                         <div class="col-12">
                             <table class="table">
                                 <thead>
@@ -339,6 +348,8 @@
                                 </tbody>
                             </table>
                         </div>
+                    </div>
+                    <div class="row card-body">
                         <div class="col-12 pt-3 text-right">
                             <template v-if="canMakePayment && totalDebt > 0">
                                 <el-button
