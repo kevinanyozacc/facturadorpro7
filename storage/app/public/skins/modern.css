@@ -329,7 +329,7 @@ html.sidebar-left-collapsed .sidebar-left .nano:hover {
     border-radius: 4px;
 }
 html.sidebar-light:not(.dark) ul.nav-main > li.nav-active > a {
-    color: #2446e8 !important;
+    color: #2446e8;
     border-radius: 8px !important;
 }
 .userbox .name,
@@ -701,6 +701,9 @@ html.dark .table-responsive.payment, html.dark .payment-container {
 }
 html.dark .table-responsive.payment .el-input__inner {
     background: #757b8a;
+}
+ul.nav-main li.nav-active:not(.nav-parent) > a.dashboard-link {
+    color: #fff !important;
 }
 @media only screen and (max-width: 991px){
     .d-lg-block{

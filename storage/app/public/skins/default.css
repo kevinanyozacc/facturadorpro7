@@ -1299,6 +1299,35 @@ body .v-modal {
     justify-content: center;
     align-items: center;
 }
+.btn-submit-container .el-input-group input{
+    margin-top: 7px;
+}
+.btn-submit-container .el-input-group .el-input-group__append{
+    background: transparent !important;
+    border: none !important;
+}
+.btn-submit-container .el-input-group .el-input-group__append button{
+    height: 42px;
+    border-radius: 0 8px 8px 0 !important;
+    margin-right: -10px;
+    background-color: var(--primary-color);
+    color: var(--light-color);
+}
+.code-number-container{
+    position: absolute;
+    background: var(--accent-color);
+    top: 7px;
+    height: 42px;
+    width: 34px;
+    border-radius: 8px 0 0 8px;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+}
+.btn-submit-container .el-input-group--append  .el-input-group__prepend{
+    display: none !important;
+}
 html.sidebar-light:not(.dark) .style-switcher {
     background: #ffffff;
 }
@@ -2307,7 +2336,8 @@ html.dark .el-tree{
 html.dark .el-tree-node__expand-icon {
     color: var(--accent-color);
 }
-html.dark .el-tree-node__content:hover {
+html.dark .el-tree-node__content:hover,
+html.dark .code-number-container {
     background-color: var(--button-second);
 }
 html.dark .text-muted ,
@@ -2339,7 +2369,8 @@ html.dark .el-popover {
     border: 1px solid var(--borders-dark);
     color: var(--light-color);
 }
-html.dark .additional-information{
+html.dark .additional-information,
+html.dark .bg-white, html.dark .bg-light {
     background-color: var(--contents-dark) !important;
 }
 html.dark .btn-primary.disabled, .btn-primary:disabled {

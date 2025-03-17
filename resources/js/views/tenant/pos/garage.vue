@@ -8,9 +8,11 @@
             />
 
             <!-- F4 -->
-            <Keypress :key-code="115"
+            <Keypress
+                :key-code="115"
                 key-event="keyup"
-                @success="handleFn115"/>
+                @success="handleFn115"
+            />
             <!-- F4 -->
 
             <div class="col-md-4">
@@ -96,7 +98,9 @@
                     <h2 class="text-sm pr-5" style="font-size: 14px;">
                         T/C {{ form.exchange_rate_sale }}
                     </h2>
-                    <h2 class="text-sm  pull-right" style="font-size: 14px;">{{ user.name }}</h2>
+                    <h2 class="text-sm  pull-right" style="font-size: 14px;">
+                        {{ user.name }}
+                    </h2>
                 </div>
             </div>
         </div>
@@ -147,7 +151,6 @@
                         @keyup.native="keyupTabCustomer"
                         ref="ref_search_items"
                         class="m-bottom mt-3"
-
                         @focus="searchFromBarcode = true"
                         @blur="searchFromBarcode = false"
                     >
@@ -174,12 +177,15 @@
                         </div>
                     </div>
                 </div>
-                <br/>
+                <br />
 
                 <div v-if="place == 'cat'" class="row no-gutters">
                     <template v-for="(item, index) in categories">
                         <div class="col" :key="index">
-                            <div @click="filterCategorie(item.id)" class="card p-0 m-0 mb-1 mr-1 text-center">
+                            <div
+                                @click="filterCategorie(item.id)"
+                                class="card p-0 m-0 mb-1 mr-1 text-center"
+                            >
                                 <div
                                     :style="{ backgroundColor: item.color }"
                                     class="card-body pointer rounded-0"
@@ -224,7 +230,7 @@
                                     >
                                         <small>{{ item.internal_id }}</small>
                                         <template v-if="item.sets.length > 0">
-                                            <br/>
+                                            <br />
                                             <small>
                                                 {{ item.sets.join("-") }}
                                             </small>
@@ -239,20 +245,29 @@
                     </el-popover> -->
                                     </p>
                                 </div>
-                                <div class="card-footer pointer text-center bg-primary">
-
+                                <div
+                                    class="card-footer pointer text-center bg-primary"
+                                >
                                     <!-- <button type="button" class="btn waves-effect waves-light btn-xs btn-danger m-1__2" @click="clickHistorySales(item.item_id)"><i class="fa fa-list"></i></button>
                   <button type="button" class="btn waves-effect waves-light btn-xs btn-success m-1__2" @click="clickHistoryPurchases(item.item_id)"><i class="fas fa-cart-plus"></i></button> -->
                                     <template v-if="!item.edit_unit_price">
                                         <h5
-                                            class="font-weight-semibold text-right text-white"
+                                            class="font-weight-semibold text-right text-white mb-2"
                                         >
                                             <button
-                                                v-if="configuration.options_pos && edit_unit_price"
+                                                v-if="
+                                                    configuration.options_pos &&
+                                                        edit_unit_price
+                                                "
                                                 type="button"
                                                 class="btn btn-xs btn-primary-pos"
-                                                @click="clickOpenInputEditUP(index)">
-                                                <span style="font-size:16px;">&#9998;</span>
+                                                @click="
+                                                    clickOpenInputEditUP(index)
+                                                "
+                                            >
+                                                <span style="font-size:16px;"
+                                                    >&#9998;</span
+                                                >
                                             </button>
                                             ({{ item.unit_type_id }})
                                             {{ item.currency_type_symbol }}
@@ -288,8 +303,6 @@
                                             ></el-button>
                                         </el-input>
                                     </template>
-
-
                                 </div>
                                 <div
                                     v-if="configuration.options_pos"
@@ -326,7 +339,7 @@
                     <el-button slot="reference">Hov</el-button>
                 </el-popover>-->
 
-                                    <el-row style="width:100%">
+                                    <el-row class="mt-1" style="width:100%">
                                         <el-col :span="6">
                                             <el-tooltip
                                                 class="item"
@@ -501,29 +514,61 @@
                                             </el-tooltip>
                                         </el-col>
 
-
-                                        <el-col :span="6" v-if="allowedChangeAffectationExoneratedIgv(item.sale_affectation_igv_type_id)">
-                                            <el-tooltip class="item" effect="dark" content="Modificar el tipo de afectación" placement="bottom-end">
-
+                                        <el-col
+                                            :span="6"
+                                            v-if="
+                                                allowedChangeAffectationExoneratedIgv(
+                                                    item.sale_affectation_igv_type_id
+                                                )
+                                            "
+                                        >
+                                            <el-tooltip
+                                                class="item"
+                                                effect="dark"
+                                                content="Modificar el tipo de afectación"
+                                                placement="bottom-end"
+                                            >
                                                 <el-popover
                                                     placement="top"
                                                     title="Seleccionar tipo de afectación"
                                                     width="330"
                                                     trigger="click"
                                                 >
-                                                    <div v-for="(row, index) in getAffectationExoneratedIgv" class="pt-1 mt-1 pb-1">
-                                                        <el-radio v-model="item.sale_affectation_igv_type_id" :label="row.id" @change="changeAffectationExoneratedIgv(row, item)">{{row.description}}</el-radio>
+                                                    <div
+                                                        v-for="(row,
+                                                        index) in getAffectationExoneratedIgv"
+                                                        class="pt-1 mt-1 pb-1"
+                                                    >
+                                                        <el-radio
+                                                            v-model="
+                                                                item.sale_affectation_igv_type_id
+                                                            "
+                                                            :label="row.id"
+                                                            @change="
+                                                                changeAffectationExoneratedIgv(
+                                                                    row,
+                                                                    item
+                                                                )
+                                                            "
+                                                            >{{
+                                                                row.description
+                                                            }}</el-radio
+                                                        >
                                                     </div>
 
-                                                    <button slot="reference" style="width:100%" type="button" class="btn btn-xs btn-primary-pos">
-                                                        <i class="fas fa-sync-alt"></i>
+                                                    <button
+                                                        slot="reference"
+                                                        style="width:100%"
+                                                        type="button"
+                                                        class="btn btn-xs btn-primary-pos"
+                                                    >
+                                                        <i
+                                                            class="fas fa-sync-alt"
+                                                        ></i>
                                                     </button>
-
                                                 </el-popover>
-
                                             </el-tooltip>
                                         </el-col>
-
                                     </el-row>
                                 </div>
                             </section>
@@ -617,16 +662,33 @@
                     </div>
                     <div class="row py-1 border-bottom m-0 p-0">
                         <div class="col-12">
-                            <table class="table table-sm table-borderless mb-0 pos-list-items">
+                            <table
+                                class="table table-sm table-borderless mb-0 pos-list-items"
+                            >
                                 <template v-for="(item, index) in form.items">
                                     <tr :key="index">
-                                        <td style="width: 10px; text-align: center; vertical-align: top" class="pos-list-label">
+                                        <td
+                                            style="width: 10px; text-align: center; vertical-align: top"
+                                            class="pos-list-label"
+                                        >
                                             {{ item.unit_type_id }}
                                         </td>
-                                        <td style="width: 80px; vertical-align: top">
-                                            <el-input v-model="item.item.aux_quantity"
-                                                      @input="clickAddItem(item, index, true)"
-                                                      @keyup.enter.native="keyupEnterQuantity"></el-input>
+                                        <td
+                                            style="width: 80px; vertical-align: top"
+                                        >
+                                            <el-input
+                                                v-model="item.item.aux_quantity"
+                                                @input="
+                                                    clickAddItem(
+                                                        item,
+                                                        index,
+                                                        true
+                                                    )
+                                                "
+                                                @keyup.enter.native="
+                                                    keyupEnterQuantity
+                                                "
+                                            ></el-input>
                                         </td>
                                         <td>
                                             <p class="item-description">
@@ -636,28 +698,48 @@
                                                 {{ nameSets(item.item_id) }}
                                             </small>
                                         </td>
-                                        <td style="width: 10px; text-align: center; vertical-align: top" class="pos-list-label">
+                                        <td
+                                            style="width: 10px; text-align: center; vertical-align: top"
+                                            class="pos-list-label"
+                                        >
                                             {{ currency_type.symbol }}
                                         </td>
-                                        <td style="width: 80px; vertical-align: top">
-
+                                        <td
+                                            style="width: 80px; vertical-align: top"
+                                        >
                                             <template v-if="edit_unit_price">
                                                 <el-input
                                                     v-model="item.total"
-                                                    @input="calculateQuantity(index)"
-                                                    @blur="blurCalculateQuantity(index)"
-                                                    :readonly="!item.item.calculate_quantity">
-
+                                                    @input="
+                                                        calculateQuantity(index)
+                                                    "
+                                                    @blur="
+                                                        blurCalculateQuantity(
+                                                            index
+                                                        )
+                                                    "
+                                                    :readonly="
+                                                        !item.item
+                                                            .calculate_quantity
+                                                    "
+                                                >
                                                 </el-input>
                                             </template>
                                             <template v-else>
                                                 {{ item.total }}
                                             </template>
-
                                         </td>
-                                        <td class="text-right" style="width: 36px; padding-left: 0; padding-right: 0; vertical-align: top">
-                                            <a class="btn btn-sm btn-default" @click="clickDeleteItem(index)">
-                                                <i class="fas fa-trash fa-wf"></i>
+                                        <td
+                                            class="text-right"
+                                            style="width: 36px; padding-left: 0; padding-right: 0; vertical-align: top"
+                                        >
+                                            <a
+                                                class="btn btn-sm btn-default"
+                                                @click="clickDeleteItem(index)"
+                                            >
+                                                <i
+                                                    class="fas fa-trash fa-wf"
+                                                ></i>
                                             </a>
                                         </td>
                                     </tr>
@@ -668,7 +750,6 @@
                 </div>
                 <div class="h-50 bg-light" style="overflow-y: auto">
                     <div class="row m-0 p-0 d-flex align-items-center">
-
                         <template v-if="show_fast_payment_garage">
                             <fast-payment
                                 :is_payment.sync="is_payment"
@@ -683,14 +764,12 @@
                                 :rows-items="form.items.length"
                                 ref="componentFastPaymentGarage"
                                 :configuration="configuration"
+                                :type-user="typeUser"
                             ></fast-payment>
                         </template>
-
                     </div>
                 </div>
             </div>
-
-
 
             <person-form
                 :showDialog.sync="showDialogNewPerson"
@@ -804,10 +883,10 @@
 
 <script>
 import Keypress from "vue-keypress";
-import {calculateRowItem} from "../../../helpers/functions";
+import { calculateRowItem } from "../../../helpers/functions";
 import FastPayment from "./partials/fast_payment_garage.vue";
 import ItemForm from "./partials/form.vue";
-import {functions, exchangeRate} from "../../../mixins/functions";
+import { functions, exchangeRate } from "../../../mixins/functions";
 import HistorySalesForm from "../../../../../modules/Pos/Resources/assets/js/views/history/sales.vue";
 import HistoryPurchasesForm from "../../../../../modules/Pos/Resources/assets/js/views/history/purchases.vue";
 import PersonForm from "../persons/form.vue";
@@ -815,10 +894,16 @@ import WarehousesDetail from "../items/partials/warehouses.vue";
 import queryString from "query-string";
 import TableItems from "./partials/table.vue";
 import ItemUnitTypes from "./partials/item_unit_types.vue";
-import {mapActions, mapState} from "vuex/dist/vuex.mjs";
+import { mapActions, mapState } from "vuex/dist/vuex.mjs";
 
 export default {
-    props: ["configuration", "soapCompany", "businessTurns", "typeUser", "isPrint"],
+    props: [
+        "configuration",
+        "soapCompany",
+        "businessTurns",
+        "typeUser",
+        "isPrint"
+    ],
 
     components: {
         FastPayment,
@@ -872,14 +957,14 @@ export default {
             focusClienteSelect: false,
             show_fast_payment_garage: false,
             itemUnitTypes: [],
-            affectations_exonerated_igv: ['10', '20'],
-            searchFromBarcode: false,
+            affectations_exonerated_igv: ["10", "20"],
+            searchFromBarcode: false
         };
     },
     async created() {
-        this.loadConfiguration()
+        this.loadConfiguration();
 
-        this.show_fast_payment_garage = false
+        this.show_fast_payment_garage = false;
         await this.initForm();
         await this.getTables();
         await this.getPercentageIgv();
@@ -891,27 +976,28 @@ export default {
 
         await this.selectDefaultCustomer();
 
-        this.show_fast_payment_garage = true
+        this.show_fast_payment_garage = true;
 
         this.form.establishment_id = this.establishment.id;
 
-        this.enabledSearchItemByBarcode()
+        this.enabledSearchItemByBarcode();
     },
 
     computed: {
-        getAffectationExoneratedIgv()
-        {
-            return _.filter(this.affectation_igv_types, (row) =>{
-                return this.isExoneratedIgv(row.id)
-            })
+        getAffectationExoneratedIgv() {
+            return _.filter(this.affectation_igv_types, row => {
+                return this.isExoneratedIgv(row.id);
+            });
         },
-        ...mapState([
-            'config',
-        ]),
+        ...mapState(["config"]),
         validteCreateProduct() {
             if (this.config) {
-                return this.config.typeUser == "admin"  || (this.config.typeUser == "seller" && this.config.seller_can_create_product)
-            } 
+                return (
+                    this.config.typeUser == "admin" ||
+                    (this.config.typeUser == "seller" &&
+                        this.config.seller_can_create_product)
+                );
+            }
 
             return false;
         },
@@ -947,62 +1033,72 @@ export default {
             };
         },
         edit_unit_price() {
-            if(this.typeUser === 'admin') {
-                return true
+            if (this.typeUser === "admin") {
+                return true;
             }
-            if(this.typeUser === 'seller') {
+            if (this.typeUser === "seller") {
                 return this.configuration.allow_edit_unit_price_to_seller;
             }
             return false;
         }
     },
     methods: {
-        enabledSearchItemByBarcode()
-        {
-            if (this.configuration.search_item_by_barcode)
-            {
-                this.search_item_by_barcode = true
+        enabledSearchItemByBarcode() {
+            if (this.configuration.search_item_by_barcode) {
+                this.search_item_by_barcode = true;
             }
         },
-        isExoneratedIgv(affectation_igv_type_id)
-        {
-            return this.affectations_exonerated_igv.includes(affectation_igv_type_id)
+        isExoneratedIgv(affectation_igv_type_id) {
+            return this.affectations_exonerated_igv.includes(
+                affectation_igv_type_id
+            );
         },
-        allowedChangeAffectationExoneratedIgv(affectation_igv_type_id)
-        {
-            if(this.configuration)
-            {
-                return (this.configuration.change_affectation_exonerated_igv && this.isExoneratedIgv(affectation_igv_type_id))
+        allowedChangeAffectationExoneratedIgv(affectation_igv_type_id) {
+            if (this.configuration) {
+                return (
+                    this.configuration.change_affectation_exonerated_igv &&
+                    this.isExoneratedIgv(affectation_igv_type_id)
+                );
             }
 
-            return false
+            return false;
         },
-        changeAffectationExoneratedIgv(affectation_igv_type, item)
-        {
-            const exist_item = _.find(this.form.items, { item_id : item.item_id })
+        changeAffectationExoneratedIgv(affectation_igv_type, item) {
+            const exist_item = _.find(this.form.items, {
+                item_id: item.item_id
+            });
 
-            if(exist_item)
-            {
-                if(exist_item.affectation_igv_type_id != affectation_igv_type.id) this.$message.warning('Ya agregó el producto con otro tipo de afectación, para aplicar el cambio debe eliminarlo y agregarlo nuevamente.')
+            if (exist_item) {
+                if (
+                    exist_item.affectation_igv_type_id !=
+                    affectation_igv_type.id
+                )
+                    this.$message.warning(
+                        "Ya agregó el producto con otro tipo de afectación, para aplicar el cambio debe eliminarlo y agregarlo nuevamente."
+                    );
             }
 
-            item.change_affectation_exonerated_igv = true
+            item.change_affectation_exonerated_igv = true;
         },
-        setOriginalAffectationToItems()
-        {
-            if(this.configuration !== undefined && this.configuration.change_affectation_exonerated_igv)
-            {
+        setOriginalAffectationToItems() {
+            if (
+                this.configuration !== undefined &&
+                this.configuration.change_affectation_exonerated_igv
+            ) {
                 this.items.forEach(row => {
-
-                    if(row.change_affectation_exonerated_igv !== undefined && row.change_affectation_exonerated_igv && row.sale_affectation_igv_type_id != row.original_affectation_igv_type_id)
-                    {
-                        row.sale_affectation_igv_type_id = row.original_affectation_igv_type_id
+                    if (
+                        row.change_affectation_exonerated_igv !== undefined &&
+                        row.change_affectation_exonerated_igv &&
+                        row.sale_affectation_igv_type_id !=
+                            row.original_affectation_igv_type_id
+                    ) {
+                        row.sale_affectation_igv_type_id =
+                            row.original_affectation_igv_type_id;
                     }
-
-                })
+                });
             }
         },
-        ...mapActions(['loadConfiguration']),
+        ...mapActions(["loadConfiguration"]),
         keyupEnterQuantity() {
             this.initFocus();
         },
@@ -1012,9 +1108,8 @@ export default {
         handleFn113() {
             this.setView("cat3");
         },
-        handleFn115()
-        {
-            this.openDialogNewPerson()
+        handleFn115() {
+            this.openDialogNewPerson();
         },
         initFocus() {
             this.$refs.ref_search_items.$el
@@ -1035,21 +1130,18 @@ export default {
             }
 
             if (this.items.length == 1) {
-
-                if(this.items[0].unit_type.length > 0 && this.configuration.select_available_price_list){
-
+                if (
+                    this.items[0].unit_type.length > 0 &&
+                    this.configuration.select_available_price_list
+                ) {
                     // console.log(this.configuration.select_available_price_list)
-                    this.itemUnitTypes = this.items[0].unit_type
-                    this.showDialogItemUnitTypes = true
-
-                }else{
-
+                    this.itemUnitTypes = this.items[0].unit_type;
+                    this.showDialogItemUnitTypes = true;
+                } else {
                     this.clickAddItem(this.items[0], 0);
                     this.filterItems();
                     this.cleanInput();
                 }
-
-
             } else {
                 this.$message.warning(
                     "No puede añadir directamente el producto al listado, hay más de uno ubicado en la búsqueda"
@@ -1074,9 +1166,7 @@ export default {
         getRecords() {
             this.loading = true;
             return this.$http
-                .get(
-                    `/${this.resource}/items?${this.getQueryParameters()}`
-                )
+                .get(`/${this.resource}/items?${this.getQueryParameters()}`)
                 .then(response => {
                     this.all_items = response.data.data;
                     this.filterItems();
@@ -1095,7 +1185,7 @@ export default {
         },
         getQueryParameters() {
             return queryString.stringify({
-                garage:1,
+                garage: 1,
                 page: this.pagination.current_page
                     ? this.pagination.current_page
                     : 1,
@@ -1120,7 +1210,10 @@ export default {
                 this.initDateTimeIssue();
                 // this.calculateTotal()
             }
-            let amount = localStorage.setItem('amount_garage', JSON.stringify(this.form.total))
+            let amount = localStorage.setItem(
+                "amount_garage",
+                JSON.stringify(this.form.total)
+            );
         },
         initDateTimeIssue() {
             this.form.date_of_issue = moment().format("YYYY-MM-DD");
@@ -1129,9 +1222,15 @@ export default {
         },
         setFormPosLocalStorage(form_param = null) {
             if (form_param) {
-                localStorage.setItem("form_pos_garage", JSON.stringify(form_param));
+                localStorage.setItem(
+                    "form_pos_garage",
+                    JSON.stringify(form_param)
+                );
             } else {
-                localStorage.setItem("form_pos_garage", JSON.stringify(this.form));
+                localStorage.setItem(
+                    "form_pos_garage",
+                    JSON.stringify(this.form)
+                );
             }
         },
         cancelFormPosLocalStorage() {
@@ -1146,7 +1245,7 @@ export default {
             let item_search = this.items[index];
             this.items[index].sale_unit_price = this.items[
                 index
-                ].edit_sale_unit_price;
+            ].edit_sale_unit_price;
             this.items[index].edit_unit_price = false;
 
             // console.log(item_search)
@@ -1202,7 +1301,7 @@ export default {
                 return;
             }
 
-            this.openDialogNewPerson()
+            this.openDialogNewPerson();
 
             // if (this.input_person.number) {
             //     if (!isNaN(parseInt(this.input_person.number))) {
@@ -1224,14 +1323,10 @@ export default {
             //     }
             // }
         },
-        openDialogNewPerson()
-        {
-            if (this.input_person.number)
-            {
-                if (!isNaN(parseInt(this.input_person.number)))
-                {
-                    switch (this.input_person.number.length)
-                    {
+        openDialogNewPerson() {
+            if (this.input_person.number) {
+                if (!isNaN(parseInt(this.input_person.number))) {
+                    switch (this.input_person.number.length) {
                         case 8:
                             this.input_person.identity_document_type_id = "1";
                             this.showDialogNewPerson = true;
@@ -1274,7 +1369,7 @@ export default {
             if (this.form.items[index].item.calculate_quantity) {
                 let quantity = _.round(
                     parseFloat(this.form.items[index].total) /
-                    parseFloat(this.form.items[index].unit_price),
+                        parseFloat(this.form.items[index].unit_price),
                     4
                 );
 
@@ -1291,7 +1386,6 @@ export default {
             //  this.clickAddItem(this.form.items[index],index, true)
         },
         blurCalculateQuantity(index) {
-
             this.row = calculateRowItem(
                 this.form.items[index],
                 this.form.currency_type_id,
@@ -1325,12 +1419,9 @@ export default {
             });
             this.customer = customer;
 
-            if (this.configuration.default_document_type_80)
-            {
-                this.form.document_type_id = "80"
-            }
-            else if (this.configuration.default_document_type_03)
-            {
+            if (this.configuration.default_document_type_80) {
+                this.form.document_type_id = "80";
+            } else if (this.configuration.default_document_type_03) {
                 this.form.document_type_id = "03";
             } else {
                 this.form.document_type_id =
@@ -1339,7 +1430,8 @@ export default {
 
             // console.log(this.customer);
 
-            if(this.$refs.componentFastPaymentGarage) this.$refs.componentFastPaymentGarage.filterSeries()
+            if (this.$refs.componentFastPaymentGarage)
+                this.$refs.componentFastPaymentGarage.filterSeries();
 
             this.setLocalStorageIndex("customer", this.customer);
             this.setFormPosLocalStorage();
@@ -1371,7 +1463,6 @@ export default {
             );
 
             await this.$eventHub.$on("cancelSaleGarage", () => {
-
                 this.is_payment = false;
                 this.initForm();
                 this.changeExchangeRate();
@@ -1380,11 +1471,14 @@ export default {
 
                 this.$nextTick(() => {
                     this.initFocus();
-                    if(this.$refs.componentFastPaymentGarage && !this.form.series_id) this.$refs.componentFastPaymentGarage.filterSeries()
+                    if (
+                        this.$refs.componentFastPaymentGarage &&
+                        !this.form.series_id
+                    )
+                        this.$refs.componentFastPaymentGarage.filterSeries();
                 });
 
-                this.form.establishment_id = this.establishment.id
-
+                this.form.establishment_id = this.establishment.id;
             });
 
             // await this.$eventHub.$on("indexInitFocus", () => {
@@ -1405,25 +1499,21 @@ export default {
                 this.initForm();
                 this.getTables();
                 this.setFormPosLocalStorage();
-                this.setOriginalAffectationToItems()
-
+                this.setOriginalAffectationToItems();
             });
 
-            await this.$eventHub.$on("enterSelectItemUnitType", (unit_type) => {
-                this.selectItemUnitType(unit_type)
+            await this.$eventHub.$on("enterSelectItemUnitType", unit_type => {
+                this.selectItemUnitType(unit_type);
             });
 
             this.form.establishment_id = this.establishment.id;
-
         },
-        selectItemUnitType(unit_type){
-
-            this.setPriceItem(unit_type, 0)
-            this.clickAddItem(this.items[0], 0)
-            this.filterItems()
-            this.cleanInput()
-            this.initFocus()
-
+        selectItemUnitType(unit_type) {
+            this.setPriceItem(unit_type, 0);
+            this.clickAddItem(this.items[0], 0);
+            this.filterItems();
+            this.cleanInput();
+            this.initFocus();
         },
         initForm() {
             this.form = {
@@ -1501,14 +1591,13 @@ export default {
                 discounts: [],
                 attributes: [],
                 has_igv: false,
-                has_plastic_bag_taxes: false,
+                has_plastic_bag_taxes: false
             };
         },
         async clickPayment() {
-
-            if(!this.form.subtotal){
+            if (!this.form.subtotal) {
                 //fix para agregar subtotal si no existe prop en json almacenado en local storage
-                this.form.subtotal = this.form.total
+                this.form.subtotal = this.form.total;
             }
 
             let flag = 0;
@@ -1540,15 +1629,14 @@ export default {
             this.setFormPosLocalStorage();
         },
         async clickAddItem(item, index, input = false) {
-
             //Validar precio mínimo
 
-            if (parseFloat(item.sale_unit_price) < 0.1){
-
-                this.$message.error("El precio del producto debe ser mayor a 0.1");
+            if (parseFloat(item.sale_unit_price) < 0.1) {
+                this.$message.error(
+                    "El precio del producto debe ser mayor a 0.1"
+                );
                 this.loading = false;
                 return;
-
             }
 
             this.loading = true;
@@ -1569,9 +1657,7 @@ export default {
             let response = null;
 
             if (exist_item) {
-
                 if (input) {
-
                     response = await this.getStatusStock(
                         item.item_id,
                         exist_item.item.aux_quantity
@@ -1584,7 +1670,6 @@ export default {
 
                     exist_item.quantity = exist_item.item.aux_quantity;
                 } else {
-
                     response = await this.getStatusStock(
                         item.item_id,
                         parseFloat(exist_item.item.aux_quantity) + 1
@@ -1611,11 +1696,13 @@ export default {
 
                 let unit_price = exist_item.item.has_igv
                     ? exist_item.item.sale_unit_price
-                    : exist_item.item.sale_unit_price * (1 + this.percentage_igv);
+                    : exist_item.item.sale_unit_price *
+                      (1 + this.percentage_igv);
                 // exist_item.unit_price = unit_price
                 exist_item.item.unit_price = unit_price;
 
-                exist_item.has_plastic_bag_taxes = exist_item.item.has_plastic_bag_taxes;
+                exist_item.has_plastic_bag_taxes =
+                    exist_item.item.has_plastic_bag_taxes;
 
                 this.row = calculateRowItem(
                     exist_item,
@@ -1624,12 +1711,10 @@ export default {
                     this.percentage_igv
                 );
 
-
                 this.row["unit_type_id"] = item.unit_type_id;
 
                 this.form.items[pos] = this.row;
             } else {
-
                 response = await this.getStatusStock(
                     item.item_id,
                     item.presentation
@@ -1642,7 +1727,7 @@ export default {
                 }
 
                 // this.form_item.item = item;
-                this.form_item.item = { ...item }
+                this.form_item.item = { ...item };
 
                 this.form_item.unit_price_value = this.form_item.item.sale_unit_price;
                 this.form_item.has_igv = this.form_item.item.has_igv;
@@ -1653,7 +1738,8 @@ export default {
 
                 let unit_price = this.form_item.has_igv
                     ? this.form_item.unit_price_value
-                    : this.form_item.unit_price_value * (1 + this.percentage_igv);
+                    : this.form_item.unit_price_value *
+                      (1 + this.percentage_igv);
 
                 this.form_item.unit_price = unit_price;
                 this.form_item.item.unit_price = unit_price;
@@ -1666,7 +1752,7 @@ export default {
                 this.form_item.attributes = [];
                 this.form_item.affectation_igv_type = _.find(
                     this.affectation_igv_types,
-                    {id: this.form_item.affectation_igv_type_id}
+                    { id: this.form_item.affectation_igv_type_id }
                 );
 
                 // console.log(this.form_item)
@@ -1710,18 +1796,19 @@ export default {
 
             await this.setFormPosLocalStorage();
 
-            await this.setDefaultDataPriceSelected(item)
-
+            await this.setDefaultDataPriceSelected(item);
         },
-        setDefaultDataPriceSelected(item)
-        {
-            if(item.apply_price_selected_add_product != undefined && item.apply_price_selected_add_product && this.configuration.price_selected_add_product)
-            {
-                item.sale_unit_price = parseFloat(item.aux_sale_unit_price)
-                item.unit_type_id = item.aux_unit_type_id
-                item.presentation = null
+        setDefaultDataPriceSelected(item) {
+            if (
+                item.apply_price_selected_add_product != undefined &&
+                item.apply_price_selected_add_product &&
+                this.configuration.price_selected_add_product
+            ) {
+                item.sale_unit_price = parseFloat(item.aux_sale_unit_price);
+                item.unit_type_id = item.aux_unit_type_id;
+                item.presentation = null;
 
-                item.apply_price_selected_add_product = false
+                item.apply_price_selected_add_product = false;
             }
         },
         async getStatusStock(item_id, quantity) {
@@ -1743,7 +1830,6 @@ export default {
         },
 
         calculateTotal() {
-
             let total_discount = 0;
             let total_charge = 0;
             let total_exportation = 0;
@@ -1754,7 +1840,7 @@ export default {
             let total_igv = 0;
             let total_value = 0;
             let total = 0;
-            let total_plastic_bag_taxes = 0
+            let total_plastic_bag_taxes = 0;
 
             this.form.items.forEach(row => {
                 total_discount += parseFloat(row.total_discount);
@@ -1788,8 +1874,9 @@ export default {
                     total += parseFloat(row.total);
                 }
                 total_value += parseFloat(row.total_value);
-                total_plastic_bag_taxes += parseFloat(row.total_plastic_bag_taxes)
-
+                total_plastic_bag_taxes += parseFloat(
+                    row.total_plastic_bag_taxes
+                );
             });
 
             this.form.total_exportation = _.round(total_exportation, 2);
@@ -1805,17 +1892,21 @@ export default {
             this.form.total_igv = _.round(total_igv, 2);
             this.form.total_value = _.round(total_value, 2);
             this.form.total_taxes = _.round(total_igv, 2);
-            this.form.total_plastic_bag_taxes = _.round(total_plastic_bag_taxes, 2)
+            this.form.total_plastic_bag_taxes = _.round(
+                total_plastic_bag_taxes,
+                2
+            );
             // this.form.total = _.round(total, 2);
-            this.form.total = _.round(total + this.form.total_plastic_bag_taxes, 2)
-            this.form.subtotal = this.form.total
+            this.form.total = _.round(
+                total + this.form.total_plastic_bag_taxes,
+                2
+            );
+            this.form.subtotal = this.form.total;
 
-            this.checkPaymentGarage()
+            this.checkPaymentGarage();
         },
-        checkPaymentGarage(){
-
-            this.$eventHub.$emit('eventCheckPaymentGarage')
-
+        checkPaymentGarage() {
+            this.$eventHub.$emit("eventCheckPaymentGarage");
         },
         changeDateOfIssue() {
             // this.searchExchangeRateByDate(this.form.date_of_issue).then(response => {
@@ -1876,12 +1967,13 @@ export default {
         async searchItems() {
             if (this.input_item.length > 0) {
                 this.loading = true;
-                let parameters = `input_item=${this.input_item}&cat=${this.category_selected}&garage=1`;
+                let parameters = `input_item=${this.input_item}&cat=${
+                    this.category_selected
+                }&garage=1`;
 
                 await this.$http
                     .get(`/${this.resource}/search_items_cat?${parameters}`)
                     .then(response => {
-
                         this.all_items = response.data.data;
 
                         if (response.data.data.length > 0) {
@@ -1925,22 +2017,22 @@ export default {
                 await this.filterItems();
             }
         },
-        fixItems(){
+        fixItems() {
             this.items = this.all_items.map(i => {
                 /** Si description es vacio y hay nombre */
-                if(i.name !== undefined) {
-                    if ( i.description === undefined || i.description == null ) {
+                if (i.name !== undefined) {
+                    if (i.description === undefined || i.description == null) {
                         i.description = i.name;
                     }
                 }
                 /** Si description es vacio aun */
-                if(i.description == null){
+                if (i.description == null) {
                     i.description = i.internal_id;
                 }
 
                 return i;
             });
-            this.all_items =this.items;
+            this.all_items = this.items;
         },
         enabledSearchItemsBarcode() {
             if (this.search_item_by_barcode) {
@@ -2050,9 +2142,9 @@ export default {
             console.log(_.reverse(items));
             return _.reverse(items);
         },
-        DescriptionLength(item){
-            if(item.description === undefined) return 0;
-            if(item.description == null) return 0;
+        DescriptionLength(item) {
+            if (item.description === undefined) return 0;
+            if (item.description == null) return 0;
             return item.description.length;
         }
     }

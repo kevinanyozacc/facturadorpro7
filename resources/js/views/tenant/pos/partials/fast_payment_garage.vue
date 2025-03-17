@@ -22,7 +22,7 @@
                         </el-option>
                     </el-select>
                 </div>
-                <div class="col-3">
+                <div class="col-3" v-if="!disabledDiscountForSeller">
                     <el-switch v-model="enabled_discount"
                                active-text="Descuento"
                                class="control-label mb-0 font-weight-semibold m-0 text-center m-b-0"
@@ -265,6 +265,9 @@
 .el-radio-button {
     margin-bottom: 0px;
 }
+.border-bottom {
+    border-bottom: 1px solid transparent !important;
+}
 </style>
 
 <script>
@@ -288,7 +291,8 @@ export default {
         'businessTurns',
         'isPrint',
         'rowsItems',
-        'configuration'
+        'configuration',
+        'typeUser'
     ],
     data() {
         return {
@@ -372,6 +376,12 @@ export default {
     mounted() {
         // console.log(this.currencyTypeActive)
         this.checkPaymentGarage()
+    },
+    computed: {
+        disabledDiscountForSeller()
+        {
+            return this.configuration.restrict_seller_discount && this.typeUser === 'seller';
+        }
     },
     methods: {
         handleFn113() {
