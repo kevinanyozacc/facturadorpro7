@@ -24,75 +24,63 @@
         <div class="card mb-0 tab-content-default row-new">
             <template v-if="canMakePayment">
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col-12 col-md-4 mb-3">
-                            <ul class="list-group">
-                                <li class="list-group-item active">Habitación</li>
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span>Habitación:</span>
-                                    <strong>{{ currentRent.room.name }}</strong>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span>Tipo:</span>
-                                    <strong>{{ currentRent.room.category.description }}</strong>
-                                </li>
-                            </ul>
+                    <div class="row card-body bg-light-color m-3">
+                        <div class="col-12 col-md-3 h1 m-0 pt-1">
+                            Salida 
+                            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-door-exit" style="transform: translateY(-4px);"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M13 12v.01"></path><path d="M3 21h18"></path><path d="M5 21v-16a2 2 0 0 1 2 -2h7.5m2.5 10.5v7.5"></path><path d="M14 7h7m-3 -3l3 3l-3 3"></path></svg> 
                         </div>
-                        <div class="col-12 col-md-4 mb-3">
-                            <ul class="list-group">
-                                <li class="list-group-item active">Cliente</li>
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span>Nombres:</span>
-                                    <strong>{{ currentRent.customer.name }}</strong>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span># Documento:</span>
-                                    <strong>{{ currentRent.customer.number }}</strong>
-                                </li>
-                            </ul>
+                        <div class="col-9">
+                            <span class="text-muted"><svg  xmlns="http://www.w3.org/2000/svg"  width="16"  height="16"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-user"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" /><path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" /></svg> Cliente</span>
+                            <h4 class="mt-0"><b>
+                                {{ currentRent.customer.name }}</b>
+                            </h4>
                         </div>
-                        <div class="col-12 col-md-4 mb-3">
-                            <ul class="list-group">
-                                <li class="list-group-item active">Entrada/Salida</li>
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span>Fecha/Hora Entrada:</span>
-                                    <strong
-                                    >{{ currentRent.input_date | toDate }} -
-                                        {{ currentRent.input_time | toTime }}</strong
-                                    >
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span>Fecha/Hora Salida:</span>
-                                    <strong
-                                    >{{ currentRent.output_date | toDate }} -
-                                        {{ currentRent.output_time | toTime }}</strong
-                                    >
-                                </li>
-                            </ul>
+                        <div class="col-12 col-md-3 card card-body my-0 mx-1 p-3">
+                            <span class="text-muted"><svg  xmlns="http://www.w3.org/2000/svg"  width="16"  height="16"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-id"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 4m0 3a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v10a3 3 0 0 1 -3 3h-12a3 3 0 0 1 -3 -3z" /><path d="M9 10m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M15 8l2 0" /><path d="M15 12l2 0" /><path d="M7 16l10 0" /></svg> DNI/RUC/CE</span>
+                            <h4 class="m-0"><b>
+                                {{ currentRent.customer.number }}</b>
+                            </h4>
                         </div>
+                        <div class="col-12 col-md-3 card card-body my-0 mx-1 p-3">
+                            <span class="text-muted"><svg  xmlns="http://www.w3.org/2000/svg"  width="16"  height="16"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-door"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 12v.01" /><path d="M3 21h18" /><path d="M6 21v-16a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v16" /></svg> {{ currentRent.room.category.description }}</span>
+                            <h4 class="m-0"><b>
+                                {{ currentRent.room.name }}</b></h4>
+                        </div>
+                        <div class="col-12 col-md-3 card card-body my-0 mx-1 p-3">
+                            <span class="text-muted"><svg  xmlns="http://www.w3.org/2000/svg"  width="16"  height="16"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-calendar-up"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12.5 21h-6.5a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v5" /><path d="M16 3v4" /><path d="M8 3v4" /><path d="M4 11h16" /><path d="M19 22v-6" /><path d="M22 19l-3 -3l-3 3" /></svg> Check-IN</span>
+                            <h4 class="m-0"><b>
+                                {{ new Date(currentRent.input_date).toLocaleDateString('es-ES', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' }).replace(/ de /g, ' ')  }} <br>
+                                {{ new Date(`2000-01-01T${currentRent.input_time}`).toLocaleTimeString('es-ES', { hour: 'numeric', minute: '2-digit', hour12: true }) }}</b></h4>
+                        </div>
+                        <div class="col-12 col-md-3 card card-body my-0 mx-1 p-3">
+                            <span class="text-muted"><svg  xmlns="http://www.w3.org/2000/svg"  width="16"  height="16"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-calendar-down"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12.5 21h-6.5a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v5" /><path d="M19 16v6" /><path d="M22 19l-3 3l-3 -3" /><path d="M16 3v4" /><path d="M8 3v4" /><path d="M4 11h16" /></svg> Check-OUT</span>
+                            <h4 class="m-0"><b>
+                                {{ new Date(currentRent.output_date).toLocaleDateString('es-ES', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' }).replace(/ de /g, ' ')  }} <br>
+                                {{ new Date(`2000-01-01T${currentRent.output_time}`).toLocaleTimeString('es-ES', { hour: 'numeric', minute: '2-digit', hour12: true }) }}</b></h4>
+                        </div>
+                    </div>
+                    <div class="row card-body">
                         <div class="col-12">
                             <div class="table-responsive">
-                                <table class="table table-bordered">
-                                    <thead>
-                                    <tr class="table-info">
-                                        <th></th>
-                                        <th colspan="5">Costo del alojamiento</th>
-                                    </tr>
-                                    </thead>
+                                <table class="table text-right">
                                     <tbody>
-                                    <tr>
+                                    <tr class="text-left">
+                                        <td colspan="6"><b class="h6">
+                                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-coins"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 14c0 1.657 2.686 3 6 3s6 -1.343 6 -3s-2.686 -3 -6 -3s-6 1.343 -6 3z" /><path d="M9 14v4c0 1.656 2.686 3 6 3s6 -1.344 6 -3v-4" /><path d="M3 6c0 1.072 1.144 2.062 3 2.598s4.144 .536 6 0c1.856 -.536 3 -1.526 3 -2.598c0 -1.072 -1.144 -2.062 -3 -2.598s-4.144 -.536 -6 0c-1.856 .536 -3 1.526 -3 2.598z" /><path d="M3 6v10c0 .888 .772 1.45 2 2" /><path d="M3 11c0 .888 .772 1.45 2 2" /></svg> Alojamiento: Tarifas y Cargos Adicionales</b></td>
+                                    </tr>
+                                    <tr class="bg-light-color">
                                         <td>#</td>
-                                        <td>Costo por tarifa</td>
+                                        <td class="text-left">Tarifa por día</td>
                                         <td>Cant. noches</td>
-                                        <td>Carga por salir tarde</td>
+                                        <td>Cargo por salir tarde</td>
                                         <td>Comprobante</td>
-                                        <td></td>
+                                        <td>Total</td>
                                     </tr>
                                     <tr>
                                         <td>1</td>
-                                        <td>{{ room.item.unit_price | toDecimals }}</td>
+                                        <td class="text-left">{{ room.item.unit_price | toDecimals }}</td>
                                         <td>{{ room.item.quantity }}</td>
-                                        <td class="text-center">
+                                        <td class="float-right">
                                             <div class="d-d-inline-block"
                                                 style="max-width: 120px">
                                                 <el-input v-model="arrears"
@@ -100,7 +88,7 @@
                                             </div>
                                         </td>
                                         <td>{{ room.document }}</td>
-                                        <td class="text-center">
+                                        <td class="float-right">
                                             <div class="d-d-inline-block"
                                                 style="max-width: 120px">
                                                 <el-input
@@ -111,13 +99,13 @@
                                             </div>
                                         </td>
                                     </tr>
-                                    <tr class="table-info">
-                                        <td></td>
-                                        <td colspan="5">Servicio a la habitación - PAGADA</td>
+                                    <tr class="text-left" v-if="rentPaidItems.length > 0">
+                                        <td colspan="6"><b class="h6">
+                                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-receipt-2"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 21v-16a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v16l-3 -2l-2 2l-2 -2l-2 2l-2 -2l-3 2" /><path d="M14 8h-2.5a1.5 1.5 0 0 0 0 3h1a1.5 1.5 0 0 1 0 3h-2.5m2 0v1.5m0 -9v1.5" /></svg> Servicio a la habitación (Pagado)</b></td>
                                     </tr>
-                                    <tr>
+                                    <tr class="bg-light-color" v-if="rentPaidItems.length > 0">
                                         <td>#</td>
-                                        <td>Descripción</td>
+                                        <td class="text-left">Descripción</td>
                                         <td>Precio unitario</td>
                                         <td>Cantidad</td>
                                         <td>Comprobante</td>
@@ -128,20 +116,20 @@
                                         :key="i"
                                     >
                                         <td>{{ i + 1 }}</td>
-                                        <td>{{ it.item.item.description }}</td>
+                                        <td class="text-left">{{ it.item.item.description }}</td>
                                         <td>{{ it.item.input_unit_price_value | toDecimals }}</td>
                                         <td>{{ it.item.quantity | toDecimals }}</td>
                                         <td>{{ it.document}}</td>
                                         <td>{{ it.item.total | toDecimals }}</td>
                                     </tr>
-
-                                    <tr class="table-info">
-                                        <td></td>
-                                        <td colspan="5">Servicio a la habitación - Cargada a la habitación</td>
+                                    <tr><td></td></tr>
+                                    <tr class="text-left" v-if="rentDebtItems.length > 0">
+                                        <td colspan="6"><b class="h6 text-danger">
+                                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-receipt-off"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 21v-16m2 -2h10a2 2 0 0 1 2 2v10m0 4.01v1.99l-3 -2l-2 2l-2 -2l-2 2l-2 -2l-3 2" /><path d="M11 7l4 0" /><path d="M9 11l2 0" /><path d="M13 15l2 0" /><path d="M15 11l0 .01" /><path d="M3 3l18 18" /></svg> Servicio a la habitación (Cargo Pendiente)</b></td>
                                     </tr>
-                                    <tr>
+                                    <tr class="bg-light-color" v-if="rentDebtItems.length > 0">
                                         <td>#</td>
-                                        <td>Descripción</td>
+                                        <td class="text-left">Descripción</td>
                                         <td>Precio unitario</td>
                                         <td>Cantidad</td>
                                         <td>Estado</td>
@@ -150,9 +138,10 @@
                                     <tr
                                         v-for="(it, i) in rentDebtItems"
                                         :key="i"
+                                        class="text-danger"
                                     >
                                         <td>{{ i + 1 }}</td>
-                                        <td>{{ it.item.item.description }}</td>
+                                        <td class="text-left">{{ it.item.item.description }}</td>
                                         <td>{{ it.item.input_unit_price_value | toDecimals }}</td>
                                         <td>{{ it.item.quantity | toDecimals }}</td>
                                         <td>
@@ -350,27 +339,25 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="col-12 pt-3">
+                        <div class="col-12 pt-3 text-right">
                             <template v-if="canMakePayment && totalDebt > 0">
                                 <el-button
                                     :disabled="loading"
                                     :loading="loading"
-                                    type="primary"
+                                    class="btn btn-primary"
                                     @click="onGoToInvoice"
                                 >
-                                    <i class="fa fa-save"></i>
-                                    <span class="ml-2">Guardar y Generar Comprobante</span>
+                                <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-device-floppy"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 4h10l4 4v10a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2" /><path d="M12 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M14 4l0 4l-6 0l0 -4" /></svg> Guardar y Generar Comprobante
                                 </el-button>
                             </template>
                             <template v-else-if="canMakePayment">
                                 <el-button
                                     :disabled="loading"
                                     :loading="loading"
-                                    type="primary"
+                                    class="btn btn-primary"
                                     @click="onGoToFinalizeRent"
                                 >
-                                    <i class="fa fa-save"></i>
-                                    <span class="ml-2">Guardar</span>
+                                <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-device-floppy"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 4h10l4 4v10a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2" /><path d="M12 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M14 4l0 4l-6 0l0 -4" /></svg> Guardar
                                 </el-button>
                             </template>
                         </div>

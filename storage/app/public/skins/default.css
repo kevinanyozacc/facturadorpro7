@@ -33,10 +33,12 @@ p {
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6{
     font-family: var(--font-family, sans-serif);
 }
+.bg-light-color {
+    background-color: var(--light-color) !important;
+}
 .bg-accent-color {
     background-color: var(--accent-color) !important;
 }
-
 .el-input--small .el-input__inner,
 .el-input-group__append, .el-input-group__prepend {
     font-size: 15px;
