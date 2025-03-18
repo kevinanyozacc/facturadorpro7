@@ -214,7 +214,7 @@
 
         <div id="client-list"
              class="card">
-            <div class="card-header bg-info">Listado de Clientes</div>
+            <div class="card-header bg-info bg-info-customer-admin">Listado de Clientes</div>
             <div class="card-body">
                 <div class="row">
                     <div class="col">
@@ -226,13 +226,21 @@
                             <i class="fa fa-plus-circle"></i> Nuevo
                         </button>
                     </div>
+                    <div class="col-lg-3 search-container pt-2">
+                        <el-input
+                            v-model="searchQuery"
+                            placeholder="Buscar por hostname, nombre, ruc o correo"
+                            style="width: 100%;"
+                            prefix-icon="el-icon-search">
+                        </el-input>
+                    </div>
                 </div>
                 <div class="table-responsive">
                     <table class="table">
                         <thead>
                         <tr>
                             <th>#</th>
-                            <th>Hostname</th>
+                            <th class="sticky-column">Hostname</th>
                             <th>Nombre</th>
                             <th>RUC</th>
                             <th>Plan</th>
@@ -281,10 +289,9 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr v-for="(row, index) in records"
-                            :key="index">
+                            <tr v-for="(row, index) in filteredRecords" :key="index">
                             <td>{{ index + 1 }}</td>
-                            <td>
+                            <td class="sticky-column">
                                 <!-- {{ row.hostname }} -->
                                 <a :href="`http://${row.hostname}`"
                                    style="color:black"
@@ -598,7 +605,20 @@
     </div>
 </template>
 <style>
-
+.table th,
+.table td {
+    white-space: nowrap;
+}
+th.sticky-column,
+td.sticky-column {
+    position: sticky;
+    left: 0;
+    background-color: #fff;
+    z-index: 1;
+}
+th.sticky-column {
+    z-index: 2;
+}
 </style>
 <script>
 import CompaniesForm from "./form.vue";
@@ -635,6 +655,7 @@ export default {
     },
     data() {
         return {
+            searchQuery: "",
             selectBillingDate: "",
             showDialogEdit: false,
             showDialog: false,
@@ -683,6 +704,24 @@ export default {
 
         this.text_limit_doc = "El límite de comprobantes fue superado";
         this.text_limit_users = "El límite de usuarios fue superado";
+    },
+    computed: {
+        filteredRecords() {
+            if (!this.searchQuery) {
+                return this.records;
+            }
+
+            const query = this.searchQuery.toLowerCase();
+
+            return this.records.filter((row) => {
+                return (
+                    (row.name && row.name.toLowerCase().includes(query)) ||
+                    (row.hostname && row.hostname.toLowerCase().includes(query)) ||
+                    (row.email && row.email.toLowerCase().includes(query)) ||
+                    (row.number && row.number.toLowerCase().includes(query))
+                );
+            });
+        },
     },
     methods: {
         changeLockedTenant(row) {

@@ -1,6 +1,6 @@
 <template>
     <div class="card">
-        <div class="card-header bg-info">
+        <div class="card-header bg-info bg-info-customer-admin">
             <h3 class="my-0">Clientes</h3>
         </div>
         <div class="card-body">  

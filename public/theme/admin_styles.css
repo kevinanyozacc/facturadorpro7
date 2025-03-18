@@ -756,3 +756,6 @@ html.sidebar-left-big-icons.sidebar-light .sidebar-left .nano .nav-main > li:hov
     border-radius: 12px !important; 
     margin-left: 5px !important;
 }
+.card-header.bg-info-customer-admin{
+    background-color: var(--accent-color) !important;
+}
