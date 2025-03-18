@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use App\Models\Tenant\{
+    Configuration,
     Document,
     PaymentCondition,
     Series,
@@ -103,6 +104,7 @@ class DocumentController extends Controller
         $payment_method_types = PaymentMethodType::get();
         $payment_destinations = $this->getPaymentDestinations();
         $payment_conditions = PaymentCondition::selectGeneralColumns()->get();
+        $terms_condition = Configuration::first()->terms_condition_sale;
 
         $customers = Person::filterApiInitialCustomers()->get()
                             ->transform(function($row) {
@@ -119,7 +121,8 @@ class DocumentController extends Controller
             'payment_conditions', 
             'payment_method_types',
             'payment_destinations', 
-            'customers'
+            'customers',
+            'terms_condition'
         );
     }
 

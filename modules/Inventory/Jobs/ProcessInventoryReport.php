@@ -235,7 +235,7 @@
                         'warehouse_name' => $row->warehouse->description,
                         'currency_type_id' => $item->currency_type_id,
                         'sale_unit_price_pen' => $item->sale_unit_price,
-                        'exchange' => $exchange->sale,
+                        'exchange' => optional($exchange)->sale,
                     ];
 
                 }

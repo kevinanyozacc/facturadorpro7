@@ -75,6 +75,7 @@ class DocumentTransform
             'payment_condition_id' => Functions::valueKeyInArray($inputs, 'codigo_condicion_de_pago', '01'),
             'sale_note_id' => Functions::valueKeyInArray($inputs, 'codigo_nota_venta'),
             'seller_id' => Functions::valueKeyInArray($inputs, 'codigo_vendedor'),
+            'terms_condition' => Functions::valueKeyInArray($inputs, 'terminos_condiciones'),
         ];
 
         $inputs_transform = self::invoice($inputs_transform, $inputs);

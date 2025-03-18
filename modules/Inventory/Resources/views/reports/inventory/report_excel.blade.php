@@ -85,12 +85,14 @@
         </td>
         <td>{{ date('d/m/Y')}}</td>
     </tr>
+    @if (isset($records[0]['exchange']))
     <tr>
         <td colspan="2"
             class="label">T/C:
         </td>
         <td>{{ $records[0]['exchange'] }}</td>
-    </tr>
+    </tr>    
+    @endif
 </table>
 <table style="width: 100%"
        class="table-records">
