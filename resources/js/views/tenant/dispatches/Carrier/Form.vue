@@ -156,6 +156,45 @@
                         </div>
                         <hr>
                         <div class="row">
+                            <div class="col-12">
+                                <button class="btn waves-effect waves-light btn-sm btn-primary"
+                                    type="button"
+                                    @click.prevent="openDialogReferenceDocument()">
+                                    Documento relacionado
+                                </button>
+                            </div>
+                            <div class="col-12" v-if="form.reference_documents.length > 0">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th class="font-weight-bold">Tipo de Documento</th>
+                                                <th class="font-weight-bold">Número</th>
+                                                <th class="font-weight-bold">Emisor</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-for="(row, index) in form.reference_documents" :key="index">
+                                                <td>{{ index + 1 }}</td>
+                                                <td>{{ row.document_type.description }}</td>
+                                                <td>{{ row.number }}</td>
+                                                <td>{{ row.customer }}</td>
+                                                <td class="text-end">
+                                                    <button class="btn waves-effect waves-light btn-xs btn-danger"
+                                                        type="button"
+                                                        @click.prevent="clickRemoveReferenceDocument(index)">x
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
                             <div class="col-12 col-md-4">
                                 <div :class="{'has-danger': errors.sender_id}"
                                      class="form-group">
@@ -648,6 +687,14 @@
                 :lotsGroupSelected="lotsGroupSelected"
             >
             </list-lots-group>
+
+            <DialogReferenceDocument
+            dispatch_type_id="31"
+            :document_data="{}"
+            :showDialog.sync="showDialogReferenceDocumentForm"
+            @addReferenceDocument="addReferenceDocument"
+            :supplierData="supplier_data"
+            ></DialogReferenceDocument>
     
         </div>
     </div>
@@ -670,6 +717,7 @@ import DispatchFinish from '../partials/finish'
 import {mapActions, mapState} from "vuex/dist/vuex.mjs";
 import WarehousesDetail from '@components/WarehousesDetail.vue'
 import {setDefaultSeriesByMultipleDocumentTypes} from '@mixins/functions'
+import DialogReferenceDocument from './partials/DialogReferenceDocument.vue'
 
 export default {
     props: [
@@ -695,7 +743,8 @@ export default {
         SenderAddressForm,
         ReceiverAddressForm,
         SelectLotsForm,
-        ListLotsGroup
+        ListLotsGroup,
+        DialogReferenceDocument
     },
     mixins: [setDefaultSeriesByMultipleDocumentTypes],
     computed: {
@@ -720,6 +769,7 @@ export default {
     },
     data() {
         return {
+            showDialogReferenceDocumentForm: false,
             can_add_new_product: false,
             showDialogNewItem: false,
             showDialogAddItems: false,
@@ -836,6 +886,15 @@ export default {
         });
     },
     methods: {
+        addReferenceDocument(row) {
+            this.form.reference_documents.push(JSON.parse(JSON.stringify(row)))
+        },
+        clickRemoveReferenceDocument(index) {
+            this.form.reference_documents.splice(index, 1)
+        },
+        openDialogReferenceDocument() {
+            this.showDialogReferenceDocumentForm = true
+        },
         ...mapActions([
             'loadItems',
             'loadConfiguration',
@@ -887,6 +946,7 @@ export default {
                 receiver_address_data: {},
                 secondary_transports:null,
                 secondary_drivers:null,
+                reference_documents: [],
                 payer: {
                     identity_document_type_id: null,
                     identity_document_type_description: null,
