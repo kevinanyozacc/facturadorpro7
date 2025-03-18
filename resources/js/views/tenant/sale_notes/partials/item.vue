@@ -1139,6 +1139,10 @@ export default {
                 const params = {
                     input: input,
                     search_by_barcode: this.search_item_by_barcode ? 1 : 0,
+                    search_item_by_barcode_presentation: this
+                        .search_item_by_barcode_presentation
+                        ? 1
+                        : 0,
                     search_factory_code_items: this
                         .enabledSearchFactoryCodeItems
                 };
@@ -1147,8 +1151,8 @@ export default {
                     .then(response => {
                         this.items = response.data.items;
                         this.loading_search = false;
-                        this.enabledSearchItemsBarcode();
-                        this.enabledSearchItemBySeries();
+                        this.enabledSearchItemsBarcode(input);
+                        this.enabledSearchItemBySeries(input);
                         if (this.items.length == 0) {
                             this.filterItems();
                             this.items = [];
@@ -1166,13 +1170,33 @@ export default {
                 if (this.$refs.selectBarcode) {
                     this.$refs.selectBarcode.$data.selectedLabel = "";
                 }
+                //busqueda por presentacion
+                if (this.search_item_by_barcode_presentation) {
+                    if (this.items.length == 1) {
+                        const item_unit_type = _.find(
+                            this.items[0].item_unit_types,
+                            { barcode: input }
+                        );
 
-                if (this.items.length == 1) {
-                    this.form.item_id = this.items[0].id;
-                    if (this.$refs.selectBarcode) {
-                        this.$refs.selectBarcode.blur();
+                        if (!_.isEmpty(item_unit_type)) {
+                            this.form.item_id = this.items[0].id;
+                            this.$refs.selectBarcode.blur();
+                            this.changeItem();
+                            this.selectedPrice(item_unit_type);
+                        }
                     }
-                    this.changeItem();
+                }
+                //busqueda comun
+
+                else {
+                    if(this.items.length == 1) {
+                        this.form.item_id = this.items[0].id;
+                        if (this.$refs.selectBarcode) {
+                            this.$refs.selectBarcode.blur();
+                        }
+                        this.changeItem();
+                    }
+
                 }
             }
         },
