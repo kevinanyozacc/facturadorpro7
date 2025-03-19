@@ -4030,7 +4030,6 @@ export default {
             this.changeDateOfIssue();
             this.changeDocumentType();
             this.changeDestinationSale();
-            this.changeCurrencyType();
             this.setDefaultDocumentType();
             this.setConfigGlobalDiscountType();
         });
@@ -4160,6 +4159,12 @@ export default {
         if (notesNumbersFromNotes) {
             this.form.sale_notes_relateds = JSON.parse(notesNumbersFromNotes);
             localStorage.removeItem("notes");
+        }
+
+        if (this.form.currency_type_id === 'USD') { // Si los documentos precargados han sido establecidos y tienen dolar
+            this.changeCurrencyType();
+        } else if (this.config.currency_type_id === 'USD' ) { // Si en configuracion tiene como dolar por defecto
+            this.changeCurrencyType();
         }
 
         this.startConnectionQzTray();
@@ -5759,11 +5764,11 @@ export default {
             // if (! this.isUpdate) {
             await this.searchExchangeRateByDate(this.form.date_of_issue).then(
                 response => {
-                    this.form.exchange_rate_sale = response;
+                    this.form.exchange_rate_sale = 3.6551;
                 }
             );
             await this.getPercentageIgv();
-            this.changeCurrencyType();
+            // this.changeCurrencyType(); // 
             // }
         },
         assignmentDateOfPayment() {
