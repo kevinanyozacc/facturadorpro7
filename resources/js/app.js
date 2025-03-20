@@ -6,6 +6,7 @@ import ElementUI from 'element-ui'
 
 import lang from 'element-ui/lib/locale/lang/es'
 import locale from 'element-ui/lib/locale'
+import SupportConfiguration from './views/system/configuration/supportConfiguration.vue';
 
 locale.use(lang)
 
@@ -18,6 +19,8 @@ export default ElementUI;
 
 Vue.use(ElementUI, { size: 'small' })
 Vue.prototype.$eventHub = new Vue()
+
+Vue.component('system-support-configuration', SupportConfiguration);
 
 Vue.component('tenant-item-aditional-info-selector', require('./views/tenant/components/partials/item_extra_info.vue'));
 Vue.component('tenant-item-aditional-info-modal', require('./views/tenant/components/partials/modal_item_info_attributes.vue'));

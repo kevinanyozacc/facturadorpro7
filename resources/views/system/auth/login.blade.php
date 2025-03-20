@@ -4,10 +4,26 @@
 
     <section class="body-sign">
         <div class="center-sign">
+            <div class="logo-login">
+                @php
+                    use App\Models\System\Configuration;
+                    $configuration = Configuration::first();
+                    $logo = $configuration->login->logo ?? null;
+                @endphp
+
+                @if ($logo)
+                    <img class="uk-logo-inverse" width="100" height="auto" src="{{ $logo }}" alt="Logo" />
+                @elseif (file_exists(public_path('theme/logo.svg')))
+                    <img class="uk-logo-inverse" width="100" height="auto" src="{{ asset('theme/logo.svg') }}" alt="Logo" />
+                @else
+                    <i class="fa fa-circle fa-3x"></i>
+                @endif
+            </div>
             <div class="">
                 <div class="card card-header card-primary bg-info">
                     <p class="card-title text-center">Acceso al Sistema</p>
-                    <h1 class="display-3 position-absolute text-left font-weight-bold" style="left: 90%; margin-top: -35px; color: rgba(255,255,255,.1);">7</h1>
+                    <h1 class="display-3 position-absolute text-left font-weight-bold"
+                        style="left: 90%; margin-top: -35px; color: rgba(255,255,255,.1);">7</h1>
                 </div>
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}">
@@ -15,7 +31,8 @@
                         <div class="form-group mb-3">
                             <label>Correo electrónico</label>
                             <div class="input-group">
-                                <input id="email" type="email" name="email" class="form-control form-control-lg" value="{{ old('email') }}">
+                                <input id="email" type="email" name="email" class="form-control form-control-lg"
+                                    value="{{ old('email') }}">
                                 <span class="input-group-append">
                                     <span class="input-group-text">
                                         <i class="fas fa-user"></i>
@@ -58,7 +75,8 @@
                     </form>
                 </div>
             </div>
-            <p class="text-center text-muted mt-3 mb-3">{{ config('app.name') }} &copy; Copyright {{ date('Y') }}. Todos los derechos reservados</p>
+            <p class="text-center text-muted mt-3 mb-3">{{ config('app.name') }} &copy; Copyright {{ date('Y') }}. Todos los
+                derechos reservados</p>
         </div>
     </section>
 

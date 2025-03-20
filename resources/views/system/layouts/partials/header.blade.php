@@ -1,8 +1,16 @@
 <header class="header" style="left:0;">
-    <div class="logo-container">
-        <a href="{{route('system.dashboard')}}" class="logo pt-2 pt-md-0">
-            @if (file_exists(public_path('theme/logo.svg')))
-                <img class="uk-logo-inverse" width="100" height="auto" src="{{asset('theme/logo.svg')}}" alt="Logo" />
+    <div class="logo-container ml-2 mt-1">
+        <a href="{{ route('system.dashboard') }}" class="logo pt-2 pt-md-0">
+            @php
+                use App\Models\System\Configuration;
+                $configuration = Configuration::first();
+                $logo = $configuration->login->logo ?? null;
+            @endphp
+
+            @if ($logo)
+                <img class="uk-logo-inverse" width="100" height="auto" src="{{ $logo }}" alt="Logo" />
+            @elseif (file_exists(public_path('theme/logo.svg')))
+                <img class="uk-logo-inverse" width="100" height="auto" src="{{ asset('theme/logo.svg') }}" alt="Logo" />
             @else
                 <i class="fa fa-circle fa-3x"></i>
             @endif

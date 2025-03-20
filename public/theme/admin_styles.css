@@ -759,3 +759,46 @@ html.sidebar-left-big-icons.sidebar-light .sidebar-left .nano .nav-main > li:hov
 .card-header.bg-info-customer-admin{
     background-color: var(--accent-color) !important;
 }
+tbody tr:hover{
+    background-color: var(--light);
+}
+tbody tr:hover td.sticky-column {
+    background-color: var(--light);
+}
+.logo-container{
+    height: auto !important;
+    max-height: 65px !important;
+    width: 151px;
+    display: flex;
+    align-items: center;
+    justify-content: center !important;
+}
+.logo-container a.logo .uk-logo-inverse{
+    width: auto;
+    max-width: 150px;
+    height: auto;
+    max-height: 65px;
+}
+.logo-login .uk-logo-inverse{
+    width: auto;
+    max-width: 300px !important;
+    height: auto;
+    max-height: 110px !important;
+}
+.userbox .profile-picture{
+    margin-right: 0px;
+}
+.userbox.show .dropdown-menu {
+    left: -23px !important;
+}
+.logo-login{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+@media only screen and (max-width: 767px){
+    .logo-container a.logo{
+        position: absolute;
+        right: 30px;
+    }
+}

@@ -1,6 +1,6 @@
 <template>
     <div class="card">
-        <div class="card-header bg-info">
+        <div class="card-header bg-info bg-info-customer-admin">
             <h3 class="my-0">Datos del Administrador <small>Acceso al sistema</small></h3>
         </div>
         <div class="card-body">
@@ -38,7 +38,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="col-md-6">
                             <div class="form-group" :class="{'has-danger': errors.phone}">
                                 <label class="control-label">Teléfono</label>
@@ -61,7 +61,7 @@
                                 <small class="form-control-feedback">Se mostrará un icono de Whatsapp en cada cliente.</small>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="form-actions text-right pt-2">
                     <el-button type="primary" native-type="submit" :loading="loading_submit">Guardar</el-button>
@@ -102,8 +102,8 @@
                     api_token: null,
                     password: null,
                     password_confirmation: null,
-                    phone: null,
-                    enable_whatsapp: true
+                    // phone: null,
+                    // enable_whatsapp: true
                 }
             },
             submit() {

@@ -19,7 +19,7 @@
             </div>
             <div class="col-12 col-md-6">
               <div class="form-group">
-                <label>Posición del formulario</label>
+                <label class="control-label">Posición del formulario</label>
                 <el-select v-model="form.position_form">
                   <el-option
                     key="left"
@@ -43,7 +43,7 @@
                 <el-switch v-model="form.show_logo_in_form"></el-switch>
               </div>
               <div class="form-group">
-                <label>Posición del logo de la empresa</label>
+                <label class="control-label">Posición del logo de la empresa</label>
                 <el-select v-model="form.position_logo">
                   <el-option
                     key="top-left"
@@ -82,19 +82,19 @@
                 <el-switch v-model="form.show_socials"></el-switch>
               </div>
               <div class="form-group">
-                <label>Facebook</label>
+                <label class="control-label">Facebook</label>
                 <el-input v-model="form.facebook"></el-input>
               </div>
               <div class="form-group">
-                <label>Twitter</label>
+                <label class="control-label">Twitter</label>
                 <el-input v-model="form.twitter"></el-input>
               </div>
               <div class="form-group">
-                <label>Instagram</label>
+                <label class="control-label">Instagram</label>
                 <el-input v-model="form.instagram"></el-input>
               </div>
               <div class="form-group">
-                <label>Linkedin</label>
+                <label class="control-label">Linkedin</label>
                 <el-input v-model="form.linkedin"></el-input>
               </div>
             </div>
