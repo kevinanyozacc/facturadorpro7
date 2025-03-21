@@ -483,6 +483,9 @@ html.sidebar-light:not(.dark) .page-header .breadcrumbs span {
     display: flex;
     justify-content: space-between;
 }
+.toggle-button-quotations.shift{
+    right: 298px;
+}
 a.ws-flotante {
     border-radius: 0 !important;
     transform: scale(0.85);

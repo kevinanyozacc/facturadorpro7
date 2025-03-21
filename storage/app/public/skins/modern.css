@@ -547,6 +547,9 @@ a.ws-flotante {
         }
     }
 }
+.card-footer.configuration-options {
+    background: #f3f4fb;
+}
 html.sidebar-light:not(.dark) .style-switcher {
     background: #ffffff !important;
 }

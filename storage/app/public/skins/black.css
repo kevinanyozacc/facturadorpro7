@@ -1160,3 +1160,18 @@ html.sidebar-white .el-button--primary:hover {
 tbody tr:hover:not(:last-child) {
     background: #f5f6f8;
 }
+.card-footer.configuration-options{
+    background: #c0c0c0;
+}
+.card:hover .card-footer.configuration-options {
+    background: #5b5b5b;
+}
+.pos .card-footer,
+.product-item .card-footer{
+    border: 1px solid #c0c0c0;
+    border-top-color: transparent;
+}
+.pos .product-item .card-body,
+.product-item .card-body{
+    border: 1px solid #c0c0c0 !important;
+}

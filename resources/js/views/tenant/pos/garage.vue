@@ -124,15 +124,15 @@
                         @input="searchItems"
                         @keyup.native="keyupTabCustomer"
                         @keyup.enter.native="keyupEnterAddItem"
-                        class="m-bottom mt-3"
+                        class="m-bottom mt-3 input-search-pos"
                         ref="ref_search_items"
                     >
                         <template v-if="validteCreateProduct">
                             <el-button
                                 slot="append"
-                                icon="el-icon-plus"
                                 @click.prevent="showDialogNewItem = true"
-                            ></el-button>
+                                class="btn-add-product-pos"
+                            >Nuevo Producto</el-button>
                         </template>
                     </el-input>
                 </template>
@@ -198,16 +198,16 @@
                     </template>
                 </div>
 
-                <div v-if="place == 'prod' || place == 'cat2'" class="row">
+                <div v-if="place == 'prod' || place == 'cat2'" class="row product-pos-container">
                     <template v-for="(item, index) in items">
-                        <div v-bind:style="classObjectCol" :key="index">
-                            <section class="card ">
+                        <div :key="index">
+                            <section class="card product-item">
                                 <div
-                                    class="card-body pointer px-2 pt-2"
+                                    class="card-body pointer px-2 pt-2 m-0 pb-0"
                                     @click="clickAddItem(item, index)"
                                 >
                                     <p
-                                        class="font-weight-semibold mb-0"
+                                        class="font-weight-semibold mb-0 product-name-description"
                                         v-if="DescriptionLength(item) > 50"
                                         data-toggle="tooltip"
                                         data-placement="top"
@@ -216,7 +216,7 @@
                                         {{ item.description.substring(0, 50) }}
                                     </p>
                                     <p
-                                        class="font-weight-semibold mb-0"
+                                        class="font-weight-semibold mb-0 product-name-description"
                                         v-if="DescriptionLength(item) <= 50"
                                     >
                                         {{ item.description }}
@@ -227,14 +227,25 @@
                                     />
                                     <p
                                         class="text-muted font-weight-lighter mb-0"
+                                        style="display: flex; justify-content: space-between; align-items: center;"
                                     >
-                                        <small>{{ item.internal_id }}</small>
-                                        <template v-if="item.sets.length > 0">
-                                            <br />
-                                            <small>
-                                                {{ item.sets.join("-") }}
-                                            </small>
-                                        </template>
+                                        <small style="width: 45%;">{{ item.internal_id }}</small>
+                                        <el-tooltip
+                                            class="item text-center"
+                                            effect="dark"
+                                            :content="
+                                                item.sets.flat().join(',\n')
+                                            "
+                                            placement="bottom"
+                                            style="width: 10%;"
+                                        >
+                                            <i
+                                                v-if="item.sets.length > 0"
+                                                class="fas fa-box-open ms-2"
+                                                style="cursor: pointer;"
+                                            >
+                                            </i>
+                                        </el-tooltip>
 
                                         <!-- <el-popover v-if="item.warehouses" placement="right" width="280"  trigger="hover">
                       <el-table  :data="item.warehouses">
@@ -243,16 +254,22 @@
                       </el-table>
                       <el-button slot="reference"><i class="fa fa-search"></i></el-button>
                     </el-popover> -->
+                                        <small
+                                            class="measuring-unit text-right"
+                                            style="width: 45%;"
+                                            >{{ item.unit_type_id }}
+                                        </small>
                                     </p>
                                 </div>
                                 <div
-                                    class="card-footer pointer text-center bg-primary"
+                                    class="card-footer pointer text-center mb-1"
+                                    style="border-radius: 0px;"
                                 >
                                     <!-- <button type="button" class="btn waves-effect waves-light btn-xs btn-danger m-1__2" @click="clickHistorySales(item.item_id)"><i class="fa fa-list"></i></button>
                   <button type="button" class="btn waves-effect waves-light btn-xs btn-success m-1__2" @click="clickHistoryPurchases(item.item_id)"><i class="fas fa-cart-plus"></i></button> -->
                                     <template v-if="!item.edit_unit_price">
                                         <h5
-                                            class="font-weight-semibold text-right text-white mb-2"
+                                            class="font-weight-semibold text-center m-0"
                                         >
                                             <button
                                                 v-if="
@@ -269,7 +286,6 @@
                                                     >&#9998;</span
                                                 >
                                             </button>
-                                            ({{ item.unit_type_id }})
                                             {{ item.currency_type_symbol }}
                                             {{ item.sale_unit_price }}
                                         </h5>
@@ -306,7 +322,7 @@
                                 </div>
                                 <div
                                     v-if="configuration.options_pos"
-                                    class=" card-footer  bg-primary btn-group flex-wrap"
+                                    class=" card-footer configuration-options gap btn-group flex-wrap"
                                     style="width:100% !important; padding:0 !important; "
                                 >
                                     <!-- <el-popover v-if="item.warehouses" placement="right" width="280"  trigger="hover">
@@ -878,6 +894,19 @@
 
 .ws-flotante {
     display: none;
+}
+.product-pos-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
+    gap: 0.9rem;
+}
+
+.product-pos-container > * {
+    max-width: 300px;
+    width: 100%;
+}
+.el-tooltip__popper {
+    white-space: pre-line;
 }
 </style>
 
