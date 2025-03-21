@@ -1093,6 +1093,41 @@ html.fixed.sidebar-white:not(.dark) .sidebar-left, html.fixed.sidebar-white:not(
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
 }
+.card-footer.pointer .el-input--mini div.el-input-group__append {
+    background-color: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45%;
+    padding: 5px 0 0 0 !important;
+}
+.card-footer.pointer .el-input--mini div.el-input-group__append button{
+    width: 50%;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0px;
+}
+.card-footer.pointer .el-input--mini div.el-input-group__append button.el-button--primary {
+    margin-left: -20px;
+}
+.card-footer.pointer .el-input--mini{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.card-footer.pointer .el-input--mini div.el-input-group__append button.second-buton{
+    border: 1px solid var(--accent-color);
+    background-color: var(--light-color);
+    margin-left: 20px;
+}
+.card-footer.pointer .el-input--mini input{
+    width: 65%;
+    margin-top: 6px;
+    height: 30px;
+}
 html.sidebar-blue:not(.dark) .style-switcher,
 html.sidebar-blue:not(.dark) .style-switcher .style-switcher-open {
     background-color: #f6f6f6;
@@ -2051,8 +2086,9 @@ html.dark .second-buton{
 }
 html.dark .form-actions .second-buton:hover,
 html.dark .second-buton:hover{
-    background-color: var(--primary-color);
-    border-color: var(--primary-color);
+    background-color: var(--button-second);
+    border-color: var(--borders-dark);
+    opacity: 0.8;
 }
 html.dark .el-select .el-input.is-focus .el-input__inner {
     border-color: var(--borders-dark);
@@ -2651,5 +2687,11 @@ button.occupied,
 button.cleaning{
     height: 42px;
 }
-
+html.dark .card-footer.pointer .el-input--mini div.el-input-group__append button.second-buton{
+    border: 1px solid var(--borders-dark);
+    background-color: var(--button-second);
+}
+html.dark .card:hover .card-footer.configuration-options {
+    background: var(--contents-dark) !important;
+}
 /* end */

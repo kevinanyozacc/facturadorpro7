@@ -489,6 +489,7 @@
                             class="text-right"
                             v-if="columns.total_exportation.visible"
                         >
+                            {{row.currency_type_id === 'PEN' ? 'S/.' : '$'}}
                             {{ row.total_exportation }}
                         </td>
 
@@ -496,6 +497,7 @@
                             class="text-right"
                             v-if="columns.total_free.visible"
                         >
+                            {{row.currency_type_id === 'PEN' ? 'S/.' : '$'}}
                             {{ row.total_free }}
                         </td>
 
@@ -503,25 +505,34 @@
                             class="text-right"
                             v-if="columns.total_unaffected.visible"
                         >
+                            {{row.currency_type_id === 'PEN' ? 'S/.' : '$'}}
                             {{ row.total_unaffected }}
                         </td>
                         <td
                             class="text-right"
                             v-if="columns.total_exonerated.visible"
                         >
+                            {{row.currency_type_id === 'PEN' ? 'S/.' : '$'}}
                             {{ row.total_exonerated }}
                         </td>
                         <td
                             class="text-right"
                             v-if="columns.total_charge.visible"
                         >
+                            {{row.currency_type_id === 'PEN' ? 'S/.' : '$'}}
                             {{ row.total_charge }}
                         </td>
-                        <td class="text-right">{{ row.total_taxed }}</td>
-                        <td class="text-right">{{ row.total_igv }}</td>
+                        <td class="text-right">
+                            {{row.currency_type_id === 'PEN' ? 'S/.' : '$'}}
+                            {{ row.total_taxed }}</td>
+                        <td class="text-right">
+                            {{row.currency_type_id === 'PEN' ? 'S/.' : '$'}}
+                            {{ row.total_igv }}</td>
                         <td class="text-right" v-if="columns.total.visible">
+                            {{row.currency_type_id === 'PEN' ? 'S/.' : '$'}}
                             {{ row.total }}
                         </td>
+                        
                         <td
                             class="text-right"
                             v-if="columns.balance.visible"
@@ -530,6 +541,7 @@
                                 'text-success': row.balance == 0
                             }"
                         >
+                            {{row.currency_type_id === 'PEN' ? 'S/.' : '$'}}
                             {{ row.balance }}
                         </td>
                         <td v-if="columns.purchase_order.visible">

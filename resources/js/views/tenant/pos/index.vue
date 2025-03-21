@@ -391,6 +391,7 @@
                                                 slot="append"
                                                 icon="el-icon-close"
                                                 type="danger"
+                                                class="second-buton"
                                                 @click="
                                                     clickCancelUnitPriceItem(
                                                         index

@@ -24,7 +24,7 @@
                         <th class="text-center">Pagos</th>
                         <th class="text-center">Moneda</th>
                         <th class="text-right">Total</th>
-                        <th class="text-center">Dist. Gasto</th>
+                        <th class="text-right">Dist. Gasto</th>
                     </tr>
                     <tr slot-scope="{ index, row }" :class="{'text-danger': (row.state_type_id === '11'), 'text-warning': (row.state_type_id === '13'), 'border-light': (row.state_type_id === '01'), 'border-left border-info': (row.state_type_id === '03'), 'border-left border-success': (row.state_type_id === '05'), 'border-left border-secondary': (row.state_type_id === '07'), 'border-left border-dark': (row.state_type_id === '09'), 'border-left border-danger': (row.state_type_id === '11'), 'border-left border-warning': (row.state_type_id === '13')}">
                         <!-- <td>{{ index }}</td> -->
@@ -43,9 +43,9 @@
                             >Pagos</button>
                         </td>
                         <td class="text-center">{{ row.currency_type_id }}</td>
-                        <td class="text-right">{{ row.total }}</td>
+                        <td class="text-right">{{row.currency_type_id === 'PEN' ? 'S/.' : '$'}} {{ row.total }}</td>
 
-                        <td class="text-center">
+                        <td class="text-right">
 
                             <button type="button" style="min-width: 41px" class="btn waves-effect waves-light btn-xs btn-success m-1__2"
                                     @click.prevent="clickPrint(row.external_id)">
