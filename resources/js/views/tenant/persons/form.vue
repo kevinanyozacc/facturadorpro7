@@ -322,7 +322,8 @@
                                     <el-cascader v-model="form.location_id"
                                                  :clearable="true"
                                                  :options="locations"
-                                                 filterable></el-cascader>
+                                                 filterable
+                                                 :filter-method="customFilterMethod"></el-cascader>
                                     <small v-if="errors.location_id"
                                            class="form-control-feedback"
                                            v-text="errors.location_id[0]"></small>
@@ -803,6 +804,11 @@ export default {
         },
     },
     methods: {
+
+        customFilterMethod(node, keyword) {
+            return node.label.toLowerCase().includes(keyword.toLowerCase());
+        },
+
         ...mapActions([
             'loadConfiguration',
         ]),
@@ -1139,7 +1145,7 @@ export default {
         searchNumber(data) {
             //cambios apiperu
             this.form.name = data.name;
-            this.form.trade_name = data.trade_name;
+            if (data.trade_name) this.form.trade_name = data.trade_name;
             this.form.location_id = data.location_id;
             this.form.address = data.address;
             // this.form.department_id = data.department_id;
