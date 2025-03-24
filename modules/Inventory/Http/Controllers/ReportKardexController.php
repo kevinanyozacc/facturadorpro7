@@ -125,7 +125,7 @@ class ReportKardexController extends Controller
         
         TemporaryKardexRecord::truncate();
         foreach($data["records"] as $row){
-             $rowKardex = $row->getKardexReportCollection($balance);
+             $rowKardex = $row->getKardexReportCollection($balance, $request->warehouse_id);
              $rowKardex["inventory_kardex_id"] = ($rowKardex["id"])??0;
              TemporaryKardexRecord::create($rowKardex);
         }
@@ -258,7 +258,7 @@ class ReportKardexController extends Controller
         }
 
         $records = $query->orderBy('item_id')
-            ->orderBy('id')
+            ->orderBy('id' , 'desc')
             ->get();
 
         return [
