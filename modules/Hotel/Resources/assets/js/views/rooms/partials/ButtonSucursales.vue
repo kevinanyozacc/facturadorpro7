@@ -1,7 +1,7 @@
 <template>
-    <div class="col-md-12 pr-0 pl-0">
+    <div class="col-md-12 pr-0 pl-0 mt-1">
         <div class="form-group">
-            <label class="mt-0">Cambiar Sucursales</label>
+            <label class="mt-0">Cambiar Sucursal:</label>
 
             <!-- <button
             aria-expanded="false"

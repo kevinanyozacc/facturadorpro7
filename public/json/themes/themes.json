@@ -35,7 +35,7 @@
         "--contents-dark": "#1b262c",
         "--inputs-dark": "#1a2c37",
         "--borders-dark": "#2c3842",
-        "--button-second": "#1b262c",
+        "--button-second": "#2b3a42",
         "--font-family": "'Sora', sans-serif;"
     },
     "retro": {

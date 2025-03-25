@@ -3,6 +3,19 @@
         <Keypress :key-code="113"
                   key-event="keyup"
                   @success="handleFn113"/>
+        
+        <table-items
+              ref="table_items"
+              @clickAddItem="clickAddItem"
+              @clickWarehouseDetail="clickWarehouseDetail"
+              @clickHistorySales="clickHistorySales"
+              @clickHistoryPurchases="clickHistoryPurchases"
+              v-if="place == 'cat3'"
+              :records="items"
+              :typeUser="typeUser"
+              :visibleTagsCustomer="focusClienteSelect"
+              :searchFromBarcode="searchFromBarcode"
+        ></table-items>
 
         <div class="col-12">
             <div class="row">
@@ -29,22 +42,60 @@
                                @change="changeEnabledDiscount"></el-switch>
                 </div>
             </div>
+            <div class="row py-3 border-bottom m-0 p-0">
+                <div class="col-8 p-0">
+                    <el-select
+                        ref="select_person"
+                        v-model="form.customer_id"
+                        filterable
+                        placeholder="Cliente"
+                        @change="changeCustomer"
+                        @keyup.native="keyupCustomer"
+                        @keyup.enter.native="keyupEnterCustomer"
+                        @focus="focusClienteSelect = true"
+                        @blur="focusClienteSelect = false"
+                    >
+                        <el-option
+                            v-for="option in all_customers"
+                            :key="option.id"
+                            :label="option.description"
+                            :value="option.id"
+                        ></el-option>
+                    </el-select>
+                </div>
+                <div class="col-4">
+                    <div class="btn-group d-flex h-100" role="group">
+                        <a
+                            class="btn btn-sm btn-default w-100 d-flex align-items-center justify-content-center"
+                            @click.prevent="showDialogNewPerson = true"
+                        >
+                            <i class="fas fa-plus fa-wf"></i>
+                        </a>
+                        <a
+                            class="btn btn-sm btn-default w-100 d-flex align-items-center justify-content-center"
+                            @click="clickDeleteCustomer"
+                        >
+                            <i class="fas fa-trash fa-wf"></i>
+                        </a>                        
+                    </div>
+                </div>
+            </div>
             <div class="row d-flex align-items-end mb-1">
                 <div class="col-4">
-                    <div class="form-group">
-                        <label class="control-label mb-0">Ingrese monto</label>
+                    <span slot="prepend" style="px-1" class="currency-symbol-span">{{ currencyTypeActive.symbol }}</span>
+                    <div class="form-group amount-container">
+                        <label class="control-label mb-0">Ingrese monto</label>                        
                         <el-input ref="enter_amount"
                                   v-model="enter_amount"
                                   @input="enterAmount()"
                                   @keyup.enter.native="keyupEnterAmount()">
-                            <template slot="prepend" style="px-1">{{ currencyTypeActive.symbol }}</template>
                         </el-input>
                     </div>
                 </div>
                 <div class="col-3">
                     <div :class="{'has-danger': difference < 0}"
                          class="form-group">
-                        <label class="control-label mb-0"
+                        <label class="control-label mb-0 w-100 text-center"
                                v-text="(difference <0) ? 'Faltante' :'Vuelto'"></label>
                         <!-- <el-input v-model="difference" :disabled="true">
                             <template slot="prepend">{{currencyTypeActive.symbol}}</template>
@@ -59,7 +110,7 @@
                     </button>
                 </div>
             </div>
-            <div class="row">
+            <div class="row mt-3 pos-payment-line">
                 <template v-for="(pay,index) in form.payments">
                     <div :key="pay.id"
                          class="col-lg-1">
@@ -78,16 +129,16 @@
             </div>
             <div class="row" v-if="enabled_discount">
                 <div class="col-12">
-                    <div class="form-group">
+                    <span slot="prepend" style="px-1" class="currency-symbol-span">{{
+                        (discount_type === '01') ? currencyTypeActive.symbol : '%'
+                    }}
+                    </span>
+                    <div class="form-group amount-container">
                         <label class="control-label mb-0">Descuento
                             ({{ (discount_type === '01') ? 'Monto' : 'Porcentaje' }})</label>
                         <el-input v-model="discount_amount"
                                   :disabled="!enabled_discount"
-                                  @input="inputDiscountAmount()">
-                            <template slot="prepend">{{
-                                    (discount_type === '01') ? currencyTypeActive.symbol : '%'
-                                }}
-                            </template>
+                                  @input="inputDiscountAmount()">                            
                         </el-input>
                     </div>
                 </div>
@@ -159,16 +210,16 @@
                             </div>
                         </div>
                     </template>
-                    <div class="row m-0 p-0 h-25 d-flex align-items-center">
+                    <!-- <div class="row m-0 p-0 h-25 d-flex align-items-center">
                         <div class="col-sm-6 py-2">
                             <p class="font-weight-semibold mb-0">TOTAL</p>
                         </div>
                         <div class="col-sm-6 py-2 text-right">
                             <p class="font-weight-semibold mb-0">{{ currencyTypeActive.symbol }} {{ form.total }}</p>
                         </div>
-                    </div>
-                    <div class="row m-0 p-0 h-25 d-flex align-items-center">
-                        <div class="col-lg-6">
+                    </div> -->
+                    <div class="column m-0 p-0 h-25">
+                        <div class="col-lg-12 p-0">
                             <!-- <button :disabled="button_payment"
                                     class="btn btn-block btn-primary"
                                     @click="clickPayment">PAGAR
@@ -177,25 +228,32 @@
                             <el-button
                                 :disabled="button_payment"
                                 :loading="loading_submit"
-                                class="submit btn btn-block btn-primary"
+                                class="submit btn btn-block py-3 text-white"
+                                :class="{'btn-warning': form.total > 0, 'bg-dark': form.total <= 0}"
                                 @click="clickPayment"
-                            >
+                            >                                
                                 PAGAR
+                                <b class="font-weight-semibold mb-0">{{ currencyTypeActive.symbol }} {{ form.total }}</b>
+                                <i class="fas fa-wallet ml-2"></i>
                             </el-button>
 
                         </div>
-                        <div class="col-lg-6">
+                        <div class="col-lg-12 p-2">
                             <!-- <button class="btn btn-block btn-danger"
                                     @click="clickCancel">CANCELAR
                             </button> -->
 
-                            <el-button
+                            <!-- <el-button
                                 :loading="loading_submit_cancel"
                                 class="submit btn btn-block btn-danger"
                                 @click="clickCancel"
                             >
                                 CANCELAR
-                            </el-button>
+                            </el-button> -->
+                            <button class="btn btn-link text-danger btn-block"
+                                :loading="loading_submit_cancel"
+                                @click="clickCancel">Cancelar Compra
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -215,6 +273,12 @@
             @add="addRow"
             ref="componentMultiplePaymentGarage"
         ></multiple-payment-form>
+
+        <history-sales-form
+            :showDialog.sync="showDialogHistorySales"
+            :item_id="history_item_id"
+            :customer_id="form.customer_id"
+        ></history-sales-form>
 
         <!-- <sale-notes-options :showDialog.sync="showDialogSaleNote"
                           :recordId="saleNotesNewId"
@@ -326,6 +390,8 @@ export default {
             payment_method_types: [],
             payments: [],
             locked_submit: false,
+            all_customers: [],
+            focusClienteSelect: false,
             loading_submit_cancel: false,
         }
     },
@@ -384,6 +450,92 @@ export default {
         }
     },
     methods: {
+        clickDeleteCustomer() {
+            this.form.customer_id = null;
+            this.customer = null;
+            this.setLocalStorageIndex("customer", null);
+            this.setFormPosLocalStorage();
+        },
+        clickHistorySales(item_id) {
+            if (!this.form.customer_id)
+                return this.$message.error("Debe seleccionar el cliente");
+
+            this.history_item_id = item_id;
+            this.showDialogHistorySales = true;
+            // console.log(item)
+        },
+        changeCustomer() {
+            // console.log('clien 13')
+
+            let customer = _.find(this.all_customers, {
+                id: this.form.customer_id
+            });
+            this.customer = customer;
+
+            if (this.configuration.default_document_type_80) {
+                this.form.document_type_id = "80";
+            } else if (this.configuration.default_document_type_03) {
+                this.form.document_type_id = "03";
+            } else {
+                this.form.document_type_id =
+                    customer.identity_document_type_id == "6" ? "01" : "03";
+            }
+
+            // console.log(this.customer);
+
+            if (this.$refs.componentFastPaymentGarage)
+                this.$refs.componentFastPaymentGarage.filterSeries();
+
+            this.setLocalStorageIndex("customer", this.customer);
+            this.setFormPosLocalStorage();
+        },
+        selectDefaultCustomer() {
+            if (this.establishment.customer_id && !this.form.customer_id) {
+                this.form.customer_id = this.establishment.customer_id;
+                this.changeCustomer();
+            }
+        },
+        reloadDataCustomers(customer_id) {
+            this.$http
+                .get(`/${this.resource}/table/customers`)
+                .then(response => {
+                    this.all_customers = response.data;
+                    this.form.customer_id = customer_id;
+                    this.changeCustomer();
+                });
+        },
+        keyupCustomer(e) {
+            if (this.place == "cat3") {
+                return false;
+            }
+
+            if (e.key !== "Enter") {
+                this.input_person.number = this.$refs.select_person.$el.getElementsByTagName(
+                    "input"
+                )[0].value;
+                let exist_persons = this.all_customers.filter(customer => {
+                    let pos = customer.description.search(
+                        this.input_person.number
+                    );
+                    return pos > -1;
+                });
+
+                this.input_person.number =
+                    exist_persons.length == 0 ? this.input_person.number : null;
+            }
+        },
+        keyupEnterCustomer() {
+            if (this.place == "cat3") {
+                return false;
+            }
+
+            if (this.form.customer_id) {
+                this.clickPayment();
+                return;
+            }
+
+            this.openDialogNewPerson();
+        },
         handleFn113() {
             const code = this.form.document_type_id
             if (code == '01') {
@@ -775,6 +927,11 @@ export default {
             await this.$eventHub.$on("eventCheckPaymentGarage", () => {
                 this.checkPaymentGarage()
             })
+
+            await this.$eventHub.$on("reloadDataPersons", customer_id => {
+                this.reloadDataCustomers(customer_id);
+                this.setFormPosLocalStorage();
+            });
         },
         cleanLocalStoragePayment() {
 
@@ -1004,8 +1161,38 @@ export default {
                     this.payment_method_types = response.data.payment_method_types
                     this.cards_brand = response.data.cards_brand
                     this.filterSeries()
-                })
+                });
 
+            await this.$http.get(`/${this.resource}/tables`).then(response => {
+                //this.all_items = response.data.items;
+                this.affectation_igv_types =
+                    response.data.affectation_igv_types;
+                this.all_customers = response.data.customers;
+                this.establishment = response.data.establishment;
+                this.currency_types = response.data.currency_types;
+                this.user = response.data.user;
+                this.form.establishment_id = this.establishment.id;
+                this.form.currency_type_id =
+                    this.currency_types.length > 0
+                        ? this.currency_types[0].id
+                        : null;
+                this.renderCategories(response.data.categories);
+                // this.currency_type = _.find(this.currency_types, {'id': this.form.currency_type_id})
+                // this.changeCurrencyType();
+                //this.filterItems();
+                this.changeDateOfIssue();
+                this.changeExchangeRate();
+            });
+
+        },
+        initForm() {
+            this.form = {
+                customer_id: null
+            };
+
+            this.initFormItem();
+            this.changeDateOfIssue();
+            this.initInputPerson();
         },
         checkPaymentGarage() {
             this.inputDiscountAmount()

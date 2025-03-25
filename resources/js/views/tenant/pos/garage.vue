@@ -94,13 +94,24 @@
                 </h2>
             </div>
             <div class="col-md-4">
-                <div class="right-wrapper">
-                    <h2 class="text-sm pr-5" style="font-size: 14px;">
-                        T/C {{ form.exchange_rate_sale }}
-                    </h2>
-                    <h2 class="text-sm  pull-right" style="font-size: 14px;">
-                        {{ user.name }}
-                    </h2>
+                <div class="pull-right">
+                    <p class="pr-3 pt-2 mb-2 exchange-currency">
+                        T.C.
+                        <span>S/ {{ form.exchange_rate_sale }}</span> Cambiar
+                        Moneda
+                        <a
+                            class="btn btn-sm btn-default"
+                            @click="selectCurrencyType"
+                        >
+                            <template v-if="form.currency_type_id == 'PEN'">
+                                <strong>S/</strong>
+                            </template>
+                            <template v-else>
+                                <strong>$</strong>
+                            </template>
+                            <!-- <i class="fa fa-usd" aria-hidden="true"></i> -->
+                        </a>
+                    </p>
                 </div>
             </div>
         </div>
@@ -624,8 +635,8 @@
                 class="col-lg-5 col-md-6 bg-white m-0 p-0"
                 style="height: calc(100vh - 110px)"
             >
-                <div class="h-50 bg-light" style="overflow-y: auto">
-                    <div class="row py-3 border-bottom m-0 p-0">
+                <div class="h-50 m-1" style="overflow-y: auto">
+                    <!-- <div class="row py-3 border-bottom m-0 p-0">
                         <div class="col-8">
                             <el-select
                                 ref="select_person"
@@ -647,36 +658,22 @@
                             </el-select>
                         </div>
                         <div class="col-4">
-                            <div class="btn-group d-flex" role="group">
+                            <div class="btn-group d-flex h-100" role="group">
                                 <a
-                                    class="btn btn-sm btn-default w-100"
+                                    class="btn btn-sm btn-default w-100 d-flex align-items-center justify-content-center"
                                     @click.prevent="showDialogNewPerson = true"
                                 >
                                     <i class="fas fa-plus fa-wf"></i>
                                 </a>
                                 <a
-                                    class="btn btn-sm btn-default w-100"
+                                    class="btn btn-sm btn-default w-100 d-flex align-items-center justify-content-center"
                                     @click="clickDeleteCustomer"
                                 >
                                     <i class="fas fa-trash fa-wf"></i>
-                                </a>
-                                <a
-                                    class="btn btn-sm btn-default w-100"
-                                    @click="selectCurrencyType"
-                                >
-                                    <template
-                                        v-if="form.currency_type_id == 'PEN'"
-                                    >
-                                        <strong>S/</strong>
-                                    </template>
-                                    <template v-else>
-                                        <strong>$</strong>
-                                    </template>
-                                    <!-- <i class="fa fa-usd" aria-hidden="true"></i> -->
-                                </a>
+                                </a>                        
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="row py-1 border-bottom m-0 p-0">
                         <div class="col-12">
                             <table
@@ -688,7 +685,7 @@
                                             style="width: 10px; text-align: center; vertical-align: top"
                                             class="pos-list-label"
                                         >
-                                            {{ item.unit_type_id }}
+                                        {{ item.unit_type_id}}
                                         </td>
                                         <td
                                             style="width: 80px; vertical-align: top"
@@ -765,7 +762,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="h-50 bg-light" style="overflow-y: auto">
+                <div class="h-50 bg-light pt-2 payment-container-pos p-2" style="overflow-y: auto">
                     <div class="row m-0 p-0 d-flex align-items-center">
                         <template v-if="show_fast_payment_garage">
                             <fast-payment
@@ -2134,6 +2131,10 @@ export default {
                         this.percentage_igv
                     )
                 );
+                return {
+                    ...newRow,
+                    unit_type_id: row.unit_type_id,
+                };
             });
             this.form.items = items;
             this.calculateTotal();

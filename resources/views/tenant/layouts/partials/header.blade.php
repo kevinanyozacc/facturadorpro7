@@ -478,7 +478,10 @@
                             </svg>
                             Estilos y temas</a>
                     </li>
-                    <li class="multi-user-content pt-1 pl-4 pr-4">
+
+                    <li class="divider"></li>
+
+                    <li class="multi-user-content pl-4 pr-4 pb-1">
                         @if(config('configuration.multi_user_enabled'))
                             <tenant-multi-users-change-client
                             ></tenant-multi-users-change-client>
@@ -490,9 +493,6 @@
                                 :establishments="{{ isset($establishments) ? json_encode($establishments) : json_encode([]) }}"
                             ></reception-component>
                         </div> --}}
-                    </li>
-
-                    <li class="multi-user-content pt-1 pl-4 pr-4">
                         @php
                             $establishments = App\Models\Tenant\Establishment::select('id', 'description')->get();
                             $current =  auth()->user()->establishment_id;
@@ -503,7 +503,7 @@
                             :current_establishment={{ $current }}
                            ></tenant-hotel-sucursale>
                         @endif
-                    <li>
+                    </li>
 
                     {{-- <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"

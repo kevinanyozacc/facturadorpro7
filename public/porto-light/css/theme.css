@@ -7464,8 +7464,8 @@ html.sidebar-light:not(.dark) ul.nav-main li .nav-children li a:focus {
 }
 
 .btn-warning {
-    background-color: var(--warning);
-    border-color: var(--warning);
+    background-color: var(--warning) !important;
+    border-color: var(--warning) !important;
     color: #fff;
 }
 
@@ -21063,6 +21063,36 @@ html.dark ul.nav-main li.nav-description{
 }
 .card.hotel-rooms {
     margin: 0.75rem 0;
+}
+li.multi-user-content{
+    height: auto !important;
+    display: flex !important;
+    flex-direction: column;
+    justify-content: start !important;
+    align-items: center !important;
+}
+.currency-symbol-span {
+    position: absolute;
+    top: 31px;
+    left: 17px;
+    z-index: 2;
+    height: 30px;
+    width: 20px;
+    background-color: #F5F7FA;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-right: 1px solid #EAEEF7;
+}
+.amount-container .el-input--small input{
+    padding-left: 24px;
+}
+.pos-payment-line{
+    border-radius: 0.25rem;
+    box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1), 0 0px 0 1px rgba(10, 10, 10, 0.02);
+    max-width: 100%;
+    position: relative;
+    margin: auto;
 }
 @media (min-width: 716px) {
     .card-columns {

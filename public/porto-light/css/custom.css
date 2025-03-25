@@ -1172,15 +1172,6 @@ visibility: hidden !important;
 visibility: visible !important;
 opacity: 1 !important;
 }
-li.multi-user-content{
-height: auto !important;
-display: flex !important;
-flex-direction: column;
-justify-content: start !important;
-align-items: center !important;
-border-top: 1px solid #e5e5e5;
-margin-top: 7px;
-}
 .input-with-currency {
   display: flex;
   align-items: center;

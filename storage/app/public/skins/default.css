@@ -404,6 +404,7 @@ nav#menu {
 .el-input--small .el-input__inner, .el-input-group__prepend {
     background-color: var(--light-color) !important;
     border: 1px solid var(--accent-color);
+    transition: none;
 }
 .el-input--small .el-input__inner:focus, 
 .el-input-group__prepend:focus-within {
@@ -601,6 +602,8 @@ ul.nav-main li.nav-expanded > a {
     border: 1px solid var(--accent-color);
     color: var(--dark-color);
     background-color: var(--light-color);
+    transition: none;
+    border-radius: 8px;
 }
 .el-input__inner:hover,
 .el-textarea__inner:hover {
@@ -1385,6 +1388,48 @@ body .v-modal {
 }
 .btn-submit-container .el-input-group--append  .el-input-group__prepend{
     display: none !important;
+}
+.currency-symbol-span {
+    position: absolute;
+    top: 19px;
+    left: 6px;
+    z-index: 2;
+    height: 53px;
+    width: 20px;
+    background-color: var(--accent-color);
+    display: flex;
+    justify-content: center;
+    border-radius: 8px 0 0 8px;
+    padding-top: 13px;
+    border-right: none;
+}
+.amount-container .el-input--small input,
+.amount-container label.control-label{
+    padding-left: 24px !important;
+}
+.payment-container-pos {
+    scrollbar-width: thin;
+    scrollbar-color: var(--highlight-color) transparent;
+}
+.payment-container-pos::-webkit-scrollbar {
+    width: 8px;
+}
+
+.payment-container-pos::-webkit-scrollbar-thumb {
+    background: var(--highlight-color);
+    border-radius: 10px;
+}
+
+.payment-container-pos:hover::-webkit-scrollbar-thumb {
+    background: var(--highlight-color);
+    opacity: 0.5;
+}
+
+.payment-container-pos::-webkit-scrollbar-track {
+    background: transparent;
+}
+.pos-payment-line {
+    margin-left: 1px !important;
 }
 html.sidebar-light:not(.dark) .style-switcher {
     background: #ffffff;
@@ -2526,7 +2571,8 @@ html.dark .fa-times {
     color: var(--light-color);
 }
 html.dark .el-upload-list__item:hover,
-html.dark .total-rows span {
+html.dark .total-rows span,
+html.dark .currency-symbol-span{
     background-color: var(--button-second);
 }
 html.dark .transfer-data-table{

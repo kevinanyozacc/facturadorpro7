@@ -754,16 +754,16 @@
                                 ></el-option>
                             </el-select>
                         </div>
-                        <div class="col-3">
-                            <div class="btn-group d-flex" role="group">
+                        <div class="col-3" style="height: 42px;">
+                            <div class="btn-group d-flex h-100" role="group">
                                 <a
-                                    class="btn btn-sm btn-default w-100"
+                                    class="btn btn-sm btn-default w-100 d-flex align-items-center justify-content-center"
                                     @click.prevent="showDialogNewPerson = true"
                                 >
                                     <i class="fas fa-plus"></i>
                                 </a>
                                 <a
-                                    class="btn btn-sm btn-default w-100"
+                                    class="btn btn-sm btn-default w-100 d-flex align-items-center justify-content-center"
                                     @click="clickDeleteCustomer"
                                 >
                                     <i class="fas fa-trash"></i>
@@ -2545,6 +2545,10 @@ export default {
                         this.percentage_igv
                     )
                 );
+                return {
+                    ...newRow,
+                    unit_type_id: row.unit_type_id,
+                };
             });
             this.form.items = items;
             this.calculateTotal();

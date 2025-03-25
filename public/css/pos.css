@@ -247,12 +247,6 @@ html.dark .bg-white,
 html.dark .bg-light {
     background: #283046;
 }
-html.dark .pos-list-items tr:hover,
-html.dark .card:hover .card-footer.configuration-options,
-html.dark .pos .pos-payment .card-body.pos-client-info,
-html.dark .el-dialog {
-    background: #161d33;
-}
 html.dark .pos .border-bottom {
     border-bottom: 1px dashed #314267 !important;
 }
