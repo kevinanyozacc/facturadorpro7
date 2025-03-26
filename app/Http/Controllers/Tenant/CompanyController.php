@@ -65,7 +65,7 @@ class CompanyController extends Controller
 
             $file = $request->file('file');
             $ext = $file->getClientOriginalExtension();
-            $name = $type.'_'.$company->number.'.'.$ext;
+            $name = $type . '_' . $company->number . '.' . $ext;
 
 
             if (($type === 'logo')) {
@@ -76,32 +76,35 @@ class CompanyController extends Controller
                 $file->storeAs(($type === 'logo') ? 'public/uploads/logos' : 'certificates', $name);
             }
 
+            if (($type === 'logo_dark')) {
+                $v = request()->validate(['file' => 'required|mimes:jpeg,png,jpg,gif,svg|max:2048']);
+                UploadFileHelper::checkIfValidFile($name, $file->getPathName(), true);
+                $file->storeAs('public/uploads/logos', $name);
+            }
+
             // if (($type === 'logo_store')) {
             //     request()->validate(['file' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048']);
             //     $file->storeAs(($type === 'logo_store') ? 'public/uploads/logos' : 'certificates', $name);
             // }
 
-			if (($type === 'favicon'))
-            {
+            if (($type === 'favicon')) {
                 request()->validate(['file' => 'required|image|mimes:png|max:1024']);
                 $filename = time() . '.' . $ext;
                 $name = 'storage/uploads/favicons/' . $filename;
 
                 UploadFileHelper::checkIfValidFile($name, $file->getPathName(), true, 'png', ['image/png']);
 
-			    $file->storeAs('public/uploads/favicons', $filename);
+                $file->storeAs('public/uploads/favicons', $filename);
             }
 
-            if (($type === 'app_logo'))
-            {
+            if (($type === 'app_logo')) {
                 request()->validate(['file' => 'required|mimes:jpeg,png,jpg,gif,svg|max:2048']);
                 UploadFileHelper::checkIfValidFile($name, $file->getPathName(), true);
                 $file->storeAs('public/uploads/logos', $name);
             }
 
 
-            if(($type === 'img_firm'))
-            {
+            if (($type === 'img_firm')) {
                 request()->validate(['file' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048']);
                 UploadFileHelper::checkIfValidFile($name, $file->getPathName(), true);
                 $file->storeAs('public/uploads/firms', $name);
@@ -122,7 +125,7 @@ class CompanyController extends Controller
         }
         return [
             'success' => false,
-            'message' =>  __('app.actions.upload.error'),
+            'message' => __('app.actions.upload.error'),
         ];
     }
 

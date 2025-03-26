@@ -16,15 +16,9 @@
                     <div class="d-flex head-notes">
                         <div class="d-flex is-hidden-mobile">
                             <div class="text-center mt-3 mb-0">
-                                <logo
+                                <logo 
                                     url="/"
-                                    :path_logo="
-                                        company.logo != null
-                                            ? `/storage/uploads/logos/${
-                                                  company.logo
-                                              }`
-                                            : ''
-                                    "
+                                    :path_logo="getCurrentLogo"
                                 ></logo>
                             </div>
                             <div
@@ -1788,6 +1782,17 @@ export default {
     },
     mixins: [functions, exchangeRate, editableRowItems, fnItemSearchQuickSale],
     computed: {
+        getCurrentLogo() {
+            const isDarkMode = document.documentElement.classList.contains('dark');
+        
+            if (isDarkMode && this.company.logo_dark) {
+                return `/storage/uploads/logos/${this.company.logo_dark}`;
+            }
+            if (this.company.logo) {
+                return `/storage/uploads/logos/${this.company.logo}`;
+            }
+            return '';
+        },
         ...mapState(["config"]),
         sms_periodo: function() {
             let text = "";

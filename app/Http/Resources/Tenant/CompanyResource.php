@@ -36,10 +36,11 @@ class CompanyResource extends JsonResource
             'certificate' => $this->certificate,
             'certificate_due' => $this->certificate_due,
             'logo' => $this->logo,
+            'logo_dark' => $this->logo_dark,
             'detraction_account' => $this->detraction_account,
             'logo_store' => $this->logo_store,
             'operation_amazonia' => (bool) $this->operation_amazonia,
-            'config_system_env' => (bool)$configuration->config_system_env,
+            'config_system_env' => (bool) $configuration->config_system_env,
             'img_firm' => $this->img_firm,
             'favicon' => $this->favicon,
             'cod_digemid' => $this->cod_digemid,
@@ -56,9 +57,9 @@ class CompanyResource extends JsonResource
             'api_sunat_id' => $this->api_sunat_id,
             'api_sunat_secret' => $this->api_sunat_secret,
             'title_web' => $this->title_web,
-            'qr_api_enable_ws'=> $configuration->qr_api_enable,
-            'qr_api_url_ws'=> $configuration->qr_api_url,
-            'qr_api_key_ws'=> $configuration->qr_api_apiKey,
+            'qr_api_enable_ws' => $configuration->qr_api_enable,
+            'qr_api_url_ws' => $configuration->qr_api_url,
+            'qr_api_key_ws' => $configuration->qr_api_apiKey,
         ];
     }
 }

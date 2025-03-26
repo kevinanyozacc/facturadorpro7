@@ -32,6 +32,7 @@ class Company extends ModelTenant
         'private_certificate_qztray',
         'certificate_due',
         'logo',
+        'logo_dark',
         'detraction_account',
         'operation_amazonia',
         'img_firm',

@@ -14,15 +14,9 @@
                 <header class="clearfix clearfix-default p-2">
                     <div class="d-flex head-notes">
                         <div class="col-sm-2 text-center mt-3 mb-0">
-                            <logo
+                            <logo 
                                 url="/"
-                                :path_logo="
-                                    company.logo != null
-                                        ? `/storage/uploads/logos/${
-                                              company.logo
-                                          }`
-                                        : ''
-                                "
+                                :path_logo="getCurrentLogo"
                             ></logo>
                         </div>
                         <div class="text-left mt-3 mb-0">
@@ -1682,6 +1676,17 @@ export default {
                 picture`/storage/uploads/logos/${this.company.logo}`;
             }
             return picture;
+        },
+        getCurrentLogo() {
+            const isDarkMode = document.documentElement.classList.contains('dark');
+        
+            if (isDarkMode && this.company.logo_dark) {
+                return `/storage/uploads/logos/${this.company.logo_dark}`;
+            }
+            if (this.company.logo) {
+                return `/storage/uploads/logos/${this.company.logo}`;
+            }
+            return '';
         }
     }
 };

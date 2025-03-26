@@ -17,16 +17,9 @@
                         class="row card-header card-header-invoice no-gutters align-items-start m-0"
                     >
                         <div class="col-xl-2 col-md-2 col-12 is-hidden-mobile">
-                            <logo
-                                :path_logo="
-                                    company.logo != null
-                                        ? `/storage/uploads/logos/${
-                                              company.logo
-                                          }`
-                                        : ''
-                                "
-                                :position_class="'text-left'"
+                            <logo 
                                 url="/"
+                                :path_logo="getCurrentLogo"
                             ></logo>
                         </div>
                         <div
@@ -3911,6 +3904,17 @@ export default {
         };
     },
     computed: {
+        getCurrentLogo() {
+            const isDarkMode = document.documentElement.classList.contains('dark');
+        
+            if (isDarkMode && this.company.logo_dark) {
+                return `/storage/uploads/logos/${this.company.logo_dark}`;
+            }
+            if (this.company.logo) {
+                return `/storage/uploads/logos/${this.company.logo}`;
+            }
+            return '';
+        },
         isGeneratedFromExternal() {
             return (
                 this.table != undefined &&

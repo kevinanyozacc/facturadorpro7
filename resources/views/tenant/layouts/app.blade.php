@@ -117,6 +117,22 @@
         .center-el-checkbox .el-checkbox {
             margin-bottom: 0
         }
+
+        .logo-light {
+            display: block;
+        }
+
+        .logo-dark {
+            display: none;
+        }
+
+        html.dark .logo-light {
+            display: var(--show-light-logo, none);
+        }
+
+        html.dark .logo-dark {
+            display: var(--show-dark-logo, block);
+        }
     </style>
 
     @if ($vc_company->favicon)

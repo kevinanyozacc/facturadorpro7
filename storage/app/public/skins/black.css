@@ -946,7 +946,7 @@ html.sidebar-light:not(.dark) .page-header .breadcrumbs span {
 .card.card-reports .card-title {
     font-weight: bold;
     color: #1f1f1f;
-    /*background: #e8f1ff;*/
+    background: #d1d1d1;
     border-radius: 4px;
     padding: 8px 16px;
     margin-bottom: 20px;

@@ -40,9 +40,14 @@
         <div class="logo-container-mobile">
             <a href="{{route('tenant.dashboard.index')}}" class="logo pt-2 pt-md-0">
                 @if($vc_company->logo)
-                    <img src="{{ asset('storage/uploads/logos/' . $vc_company->logo) }}" alt="Logo" />
+                    <img src="{{ asset('storage/uploads/logos/' . $vc_company->logo) }}" alt="Logo" class="logo-light"
+                        style="{{ $vc_company->logo_dark ? '' : '--show-light-logo: block;' }}" />
                 @else
-                    <img src="{{asset('logo/tulogo.png')}}" alt="Logo" />
+                    <img src="{{ asset('logo/tulogo.png') }}" alt="Logo" />
+                @endif
+
+                @if($vc_company->logo_dark)
+                    <img src="{{ asset('storage/uploads/logos/' . $vc_company->logo_dark) }}" alt="Logo" class="logo-dark" />
                 @endif
             </a>
         </div>

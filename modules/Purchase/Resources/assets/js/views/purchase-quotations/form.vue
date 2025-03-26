@@ -8,7 +8,10 @@
                 <header class="clearfix clearfix-default p-2">
                     <div class="row">
                         <div class="col-sm-2 text-center mt-3 mb-0">
-                            <logo url="/" :path_logo="(company.logo != null) ? `/storage/uploads/logos/${company.logo}` : ''" ></logo>
+                            <logo 
+                                url="/"
+                                :path_logo="getCurrentLogo"
+                            ></logo>
                         </div>
                         <div class="col-sm-10 text-left mt-3 mb-0">
                             <address class="ib mr-2" >
@@ -154,6 +157,19 @@
     export default {
         props: ['id'],
         components: {QuotationFormItem, PersonForm, PurchaseQuotationOptions, Logo},
+        computed: {
+            getCurrentLogo() {
+                const isDarkMode = document.documentElement.classList.contains('dark');
+        
+                if (isDarkMode && this.company.logo_dark) {
+                    return `/storage/uploads/logos/${this.company.logo_dark}`;
+                }
+                if (this.company.logo) {
+                    return `/storage/uploads/logos/${this.company.logo}`;
+                }
+                return '';
+            }
+        },
         data() {
             return {
                 resource: 'purchase-quotations',
