@@ -459,7 +459,12 @@
                 </td>
                     <td class="text-center border-left align-top">{{ $row->item->unit_type_id }}</td>
                     <td class="text-center border-left align-top">{{ $row->item->internal_id }}</td>
-                    <td class="text-left border-left align-top">{{ $row->item->description }}{!!$row->name_product_pdf!!}
+                    <td class="text-left border-left align-top">
+                        @if($row->name_product_pdf)
+                            {!!$row->name_product_pdf!!}
+                        @else
+                            {!!$row->item->description!!}
+                        @endif
                         
                     @php 
                         $name_product_pdf_length = strlen($row->name_product_pdf); 
