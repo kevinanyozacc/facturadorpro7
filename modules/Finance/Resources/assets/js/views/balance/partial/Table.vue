@@ -150,8 +150,8 @@
                     <table class="table table-responsive-xl ">
                         <thead class="">
                         <tr>
-                            <!-- <th>#</th> -->
-                            <th>Descripción</th>
+                            <th style="width: 0.1%;"><!-- # --></th>
+                            <th class="text-left pl-0">Descripción</th>
                             <th v-if="resource !== 'finances/payment-method-types'"
                                 class="text-right">S. Inicial
                             </th>
@@ -171,8 +171,8 @@
                         </thead>
                         <tbody>
                         <tr v-for="(row, index) in records">
-                            <!-- <td class="">{{ index + 1 }}</td> -->
-                            <td class="">{{ row.description }}</td>
+                            <td class=""><!-- {{ index + 1 }} --></td>
+                            <td class="text-left pl-0">{{ row.description }}</td>
                             <td v-if="resource !== 'finances/payment-method-types'"
                                 class="text-right">
                                 {{ row.initial_balance | DecimalText }}
