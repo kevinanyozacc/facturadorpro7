@@ -450,7 +450,11 @@
             </td>
             <td class="text-center desc-9 align-top">{{ $row->item->unit_type_id }}</td>
             <td class="text-left desc-9 align-top font-bold">
-                {{ $row->item->description }}{!!$row->name_product_pdf!!}
+                @if($row->name_product_pdf)
+                    {!!$row->name_product_pdf!!}
+                @else
+                    {!!$row->item->description!!}
+                @endif
 
                 @if($row->total_isc > 0)
                     <br/>ISC : {{ $row->total_isc }} ({{ $row->percentage_isc }}%)

@@ -236,7 +236,9 @@ class CashController extends Controller
             if($cash_document->sale_note){
 
                 if(in_array($cash_document->sale_note->state_type_id, ['01','03','05','07','13'])){
-                    $final_balance += ($cash_document->sale_note->currency_type_id == 'PEN') ? $cash_document->sale_note->total : ($cash_document->sale_note->total * $cash_document->sale_note->exchange_rate_sale);
+                    $final_balance += ($cash_document->sale_note->currency_type_id == 'PEN') 
+                    ? $cash_document->sale_note->total 
+                    : ($cash_document->sale_note->total * $cash_document->sale_note->exchange_rate_sale);
                 }
 
                 // $final_balance += $cash_document->sale_note->total;
@@ -245,32 +247,43 @@ class CashController extends Controller
             else if($cash_document->document){
 
                 if(in_array($cash_document->document->state_type_id, ['01','03','05','07','13'])){
-                    $final_balance += ($cash_document->document->currency_type_id == 'PEN') ? $cash_document->document->total : ($cash_document->document->total * $cash_document->document->exchange_rate_sale);
+                    $final_balance += ($cash_document->document->currency_type_id == 'PEN') 
+                        ? $cash_document->document->total 
+                        : ($cash_document->document->total * $cash_document->document->exchange_rate_sale);
                 }
 
                 // $final_balance += $cash_document->document->total;
 
             }
             else if($cash_document->expense_payment){
-
-                if($cash_document->expense_payment->expense->state_type_id == '05'){
-                    $final_balance -= ($cash_document->expense_payment->expense->currency_type_id == 'PEN') ? $cash_document->expense_payment->payment:($cash_document->expense_payment->payment  * $cash_document->expense_payment->expense->exchange_rate_sale);
+                
+                $expense = $cash_document->expense_payment->expense;
+                if($expense->state_type_id == '05'){
+                    $expense->state_type_id = '11';
+                    $expense->save();
+    
+                    $final_balance -= ($expense->currency_type_id == 'PEN') 
+                        ? $cash_document->expense_payment->payment 
+                        : ($cash_document->expense_payment->payment * $expense->exchange_rate_sale);
                 }
 
                 // $final_balance -= $cash_document->expense_payment->payment;
-
             }
             else if($cash_document->purchase){
                 if(in_array($cash_document->purchase->state_type_id, ['01','03','05','07','13'])){
                     if($cash_document->purchase->total_canceled == 1) {
-                        $final_balance -= ($cash_document->purchase->currency_type_id == 'PEN') ? $cash_document->purchase->total : ($cash_document->purchase->total * $cash_document->purchase->exchange_rate_sale);
+                        $final_balance -= ($cash_document->purchase->currency_type_id == 'PEN') 
+                            ? $cash_document->purchase->total 
+                            : ($cash_document->purchase->total * $cash_document->purchase->exchange_rate_sale);
                     }
                 }
             }
             // cotizacion
             else if($cash_document->quotation)
             {
-                $final_balance += ($cash_document->quotation->applyQuotationToCash()) ? $cash_document->quotation->getTransformTotal() : 0;
+                $final_balance += ($cash_document->quotation->applyQuotationToCash()) 
+                    ? $cash_document->quotation->getTransformTotal() 
+                    : 0;
             }
 
             // else if($cash_document->purchase){

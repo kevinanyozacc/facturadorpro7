@@ -256,22 +256,7 @@
                             </div>
 
 
-                            <div class="col-md-6 mt-4">
-                                <label class="control-label">Mostrar el nombre del PDF
-
-                                    <el-tooltip class="item"
-                                        content="Muestra el nombre del producto que se ingresa en el pdf, en vez del nombre del producto. Disponible para CPE, Cotización, Compra y Nota de venta"
-                                        effect="dark" placement="top-start">
-                                        <i class="fa fa-info-circle"></i>
-                                    </el-tooltip>
-                                </label>
-                                <div :class="{ 'has-danger': errors.show_pdf_name }" class="form-group">
-                                    <el-switch v-model="form.show_pdf_name" active-text="Si" inactive-text="No"
-                                        @change="submit"></el-switch>
-                                    <small v-if="errors.show_pdf_name" class="form-control-feedback"
-                                        v-text="errors.show_pdf_name[0]"></small>
-                                </div>
-                            </div>
+                            
                             <div class="col-md-6 mt-4">
                                 <label class="control-label">Permitir Colocar direccion de llegada en guía
 
@@ -1457,6 +1442,23 @@
                                             <i class="ml-2 fa fa-info-circle"></i>
                                         </el-tooltip>
                                     </a>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mt-4">
+                                <label class="control-label">Mostrar el nombre del PDF
+
+                                    <el-tooltip class="item"
+                                        content="Muestra el nombre del producto que se ingresa en el pdf, en vez del nombre del producto. Disponible para CPE, Cotización, Guía de Remisión, Compra y Nota de venta"
+                                        effect="dark" placement="top-start">
+                                        <i class="fa fa-info-circle"></i>
+                                    </el-tooltip>
+                                </label>
+                                <div :class="{ 'has-danger': errors.show_pdf_name }" class="form-group">
+                                    <el-switch v-model="form.show_pdf_name" active-text="Si" inactive-text="No"
+                                        @change="submit"></el-switch>
+                                    <small v-if="errors.show_pdf_name" class="form-control-feedback"
+                                        v-text="errors.show_pdf_name[0]"></small>
                                 </div>
                             </div>
 
