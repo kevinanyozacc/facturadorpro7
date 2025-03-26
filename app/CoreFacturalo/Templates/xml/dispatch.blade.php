@@ -168,13 +168,13 @@
         </cac:ShipmentStage>
         <cac:Delivery>
             @if($document['transfer_reason_type_id'] != '02')
-            <!-- DIRECCION DEL PUNTO DE LLEGADA -->
+                <!-- DIRECCION DEL PUNTO DE LLEGADA -->
                 <cac:DeliveryAddress>
                     <!-- UBIGEO DE LLEGADA -->
                     <cbc:ID schemeAgencyName="PE:INEI"
                             schemeName="Ubigeos">{{ $document['delivery_location_id'] }}</cbc:ID>
                     <!-- CODIGO DE ESTABLECIMIENTO ANEXO DE LLEGADA -->
-                    @if($document['customer_identity_document_type_id'] === '6')
+                    @if($document['customer_identity_document_type_id'] === '6' && $document['transfer_reason_type_id']!='18')
                     <cbc:AddressTypeCode listAgencyName="PE:SUNAT"
                                         listName="Establecimientos anexos"
                                         listID="{{ $document['customer_number'] }}">{{ $document['delivery_code'] }}</cbc:AddressTypeCode>
@@ -183,6 +183,7 @@
                         <cbc:Line><![CDATA[{{ $document['delivery_address'] }}]]></cbc:Line>
                     </cac:AddressLine>
                 </cac:DeliveryAddress>
+
                 <cac:Despatch>
                     <!-- DIRECCION DEL PUNTO DE PARTIDA -->
                     <cac:DespatchAddress>
@@ -205,10 +206,12 @@
                     <!-- UBIGEO DE LLEGADA -->
                     <cbc:ID schemeAgencyName="PE:INEI"
                             schemeName="Ubigeos">{{ $document['origin_location_id'] }}</cbc:ID>
-                    <!-- CODIGO DE ESTABLECIMIENTO ANEXO DE LLEGADA -->
-                    <cbc:AddressTypeCode listAgencyName="PE:SUNAT"
-                                        listName="Establecimientos anexos"
-                                        listID="{{ $document['company_number'] }}">0000</cbc:AddressTypeCode>
+                    @if($document['transfer_reason_type_id']!='18')
+                        <!-- CODIGO DE ESTABLECIMIENTO ANEXO DE LLEGADA -->
+                        <cbc:AddressTypeCode listAgencyName="PE:SUNAT"
+                                            listName="Establecimientos anexos"
+                                            listID="{{ $document['company_number'] }}">0000</cbc:AddressTypeCode>
+                    @endif
                     <cac:AddressLine>
                         <cbc:Line><![CDATA[{{ $document['origin_address'] }}]]></cbc:Line>
                     </cac:AddressLine>
