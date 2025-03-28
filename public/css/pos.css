@@ -113,10 +113,6 @@ html.sidebar-light:not(.dark) .page-header h2 {
 .pos-client-info b{
     color: #314267;
 }
-
-.pos-list-items tr{
-    border-bottom: 1px dashed #e0e6f8 !important;
-}
 .exchange-currency span{
     border: 1px dashed #929eba;
     border-radius: 4px;
