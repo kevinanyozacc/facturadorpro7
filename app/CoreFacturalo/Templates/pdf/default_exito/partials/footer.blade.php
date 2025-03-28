@@ -20,7 +20,13 @@
         </td>
     </tr>
     <tr>
-        <td class="text-center desc" style="font-size:08px">Para consultar el comprobante ingresar a {!! url('/buscar') !!}</td>
+        <td class="text-center desc" style="font-size:08px">
+            {{-- Condición para omitir la línea de enlace si es Guía de Remisión --}}
+            @if(!in_array($document->document_type_id, ['09']))
+                Para consultar el comprobante ingresar a {!! url('/buscar') !!}
+                <br>
+            @endif
+        </td>
     </tr>
 </table>
 </body>

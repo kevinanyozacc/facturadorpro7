@@ -14,15 +14,9 @@
                 <header class="clearfix clearfix-default p-2">
                     <div class="row">
                         <div class="col-sm-2 text-center mt-3 mb-0">
-                            <logo
+                            <logo 
                                 url="/"
-                                :path_logo="
-                                    company.logo != null
-                                        ? `/storage/uploads/logos/${
-                                              company.logo
-                                          }`
-                                        : ''
-                                "
+                                :path_logo="getCurrentLogo"
                             ></logo>
                         </div>
                         <div class="col-sm-5 text-left mt-3 mb-0">
@@ -1671,6 +1665,17 @@ export default {
         await this.createQuotationFromSO();
     },
     computed: {
+        getCurrentLogo() {
+            const isDarkMode = document.documentElement.classList.contains('dark');
+        
+            if (isDarkMode && this.company.logo_dark) {
+                return `/storage/uploads/logos/${this.company.logo_dark}`;
+            }
+            if (this.company.logo) {
+                return `/storage/uploads/logos/${this.company.logo}`;
+            }
+            return '';
+        },
         ...mapState(["config"]),
         canAddDescriptionToDocumentItem() {
             if (this.configuration)

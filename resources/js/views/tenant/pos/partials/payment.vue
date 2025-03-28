@@ -836,7 +836,9 @@ export default {
             if (input_global_discount > 0 && !discount)
             {
                 const percentage_igv = this.percentageIgv * 100
-                let base = (this.isGlobalDiscountBase) ? parseFloat(ctx.total_taxed) : parseFloat(ctx.total)
+                let base = (this.isGlobalDiscountBase && ctx.total_taxed) 
+                    ? parseFloat(ctx.total_taxed) 
+                    : parseFloat(ctx.total || this.form.total)
                 let amount = 0
                 let factor = 0
 

@@ -10,13 +10,14 @@
         <div class="card">
             <div class="card-header bg-info">
                 <h3 class="my-0">Datos de la Empresa</h3>
+                <h4 class="d-flex m-0 align-items-center">RUC: {{ form.number }}</h4>
             </div>
             <div class="card-body">
                 <form autocomplete="off"
                       @submit.prevent="submit">
                     <div class="form-body">
                         <div class="row">
-                            <div class="col-md-6">
+                            <!-- <div class="col-md-6">
                                 <div :class="{'has-danger': errors.number}"
                                      class="form-group">
                                     <label class="control-label">Número</label>
@@ -27,7 +28,7 @@
                                            class="form-control-feedback"
                                            v-text="errors.number[0]"></small>
                                 </div>
-                            </div>
+                            </div> -->
                             <div class="col-md-6">
                                 <div :class="{'has-danger': errors.name}"
                                      class="form-group">
@@ -38,8 +39,6 @@
                                            v-text="errors.name[0]"></small>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
                             <div class="col-md-6">
                                 <div :class="{'has-danger': errors.trade_name}"
                                      class="form-group">
@@ -51,9 +50,11 @@
                                            v-text="errors.trade_name[0]"></small>
                                 </div>
                             </div>
+                        </div>
+                        <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="control-label">Logo</label>
+                                    <label class="control-label">Logo(modo claro)</label>
                                     <el-input v-model="form.logo"
                                               :readonly="true">
                                         <el-upload slot="append"
@@ -68,6 +69,27 @@
                                         </el-upload>
                                     </el-input>
                                     <div class="sub-title text-danger"><small>Se recomienda resoluciones 700x300</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">Logo (modo oscuro)</label>
+                                    <el-input v-model="form.logo_dark"
+                                              :readonly="true">
+                                        <el-upload slot="append"
+                                                   :data="{'type': 'logo_dark'}"
+                                                   :headers="headers"
+                                                   :on-success="successUpload"
+                                                   :on-error="errorUpload"
+                                                   :show-file-list="false"
+                                                   action="/companies/uploads">
+                                            <el-button icon="el-icon-upload"
+                                                       type="primary"></el-button>
+                                        </el-upload>
+                                    </el-input>
+                                    <div class="sub-title text-danger">
+                                        <small>Se recomienda resoluciones 700x300</small>
                                     </div>
                                 </div>
                             </div>
@@ -520,6 +542,7 @@ export default {
                 certificate: null,
                 certificate_due: null,
                 logo: null,
+                logo_dark: null,
                 logo_store: null,
                 detraction_account: null,
                 operation_amazonia: false,

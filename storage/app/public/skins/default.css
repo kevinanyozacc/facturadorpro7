@@ -797,6 +797,10 @@ html.fixed.sidebar-white:not(.dark) .sidebar-left a {
     .nav-main-mobile li a{
         color: var(--dark-color) !important;
     }
+    html.dark .nav-main-mobile li a{
+        color: var(--accent-color) !important;
+    }
+
     .page-header {
         margin: 0 -15px 20px !important;
     }
@@ -2739,5 +2743,10 @@ html.dark .card-footer.pointer .el-input--mini div.el-input-group__append button
 }
 html.dark .card:hover .card-footer.configuration-options {
     background: var(--contents-dark) !important;
+}
+html.dark .el-input.el-input--small.el-input-group.el-input-group--append .el-input-group__append button {
+    transform: translate(0px, 0px);
+    height: 42px;
+    border-radius: 0 8px 8px 0;
 }
 /* end */

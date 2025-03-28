@@ -12,8 +12,11 @@
             @if($configurationInPdf->legend_footer_sale)
                 {!! $configurationInPdf->legend_footer_sale !!}
             @endif
-            Para consultar el comprobante ingresar a {!! url('/buscar') !!}
-            <br>
+            {{-- Condición para omitir la línea de enlace si es Guía de Remisión --}}
+            @if(!in_array($document->document_type_id, ['09']))
+                Para consultar el comprobante ingresar a {!! url('/buscar') !!}
+                <br>
+            @endif
             @if($document && $document->document_type)
                 Representacion impresa de la <span style="text-transform: capitalize" class="text-capitalize">{{ $document->document_type->description }}</span>
             @endif
