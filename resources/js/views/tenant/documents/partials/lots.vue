@@ -95,6 +95,7 @@ export default {
         'saleNoteItemId',
         'warehouseId',
         'inputSearch',
+        'documentId',
     ],
     data() {
         return {
@@ -131,6 +132,7 @@ export default {
             this.search = {
                 input: null,
                 item_id: null,
+                document_id: null,
                 document_item_id: this.documentItemId,
                 sale_note_item_id: this.saleNoteItemId,
                 warehouse_id: this.warehouseId,
@@ -145,6 +147,7 @@ export default {
             this.search.item_id = this.itemId
             // se puede activar la busqueda pero faltan acciones
             // this.search.input = this.inputSearch
+            this.search.document_id = (this.documentId)?this.documentId:null
             this.records = [];
             this.loading = true
             await this.$http.post(`/${this.resource}/item_lots?${this.getQueryParameters()}`, this.search)
@@ -164,9 +167,9 @@ export default {
             await this.checkedLot();
         },
         recordToSelected() {
+
             if(this.search.input){
                 const isAlreadySelected = this.lotsSelected.some(lot => lot.series === this.search.input);
-
                 if (!isAlreadySelected) {
                     let lot = _.find(this.records, {series: this.search.input})
                     lot.has_sale = true

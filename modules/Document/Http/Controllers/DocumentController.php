@@ -338,12 +338,13 @@ class DocumentController extends Controller
             ->where('series', 'like', "%{$request->input('input')}%");
         $sale_note_item_id = $request->has('sale_note_item_id') ? $request->input('sale_note_item_id') : null;
         $document_item_id = $request->has('document_item_id') ? $request->input('document_item_id') : null;
+        $document_id = $request->has('document_id') ? $request->input('document_id') : null;
         $warehouse_id = $request->has('warehouse_id') ? $request->input('warehouse_id') : null;
 
-        if ($document_item_id) {
+        if ($document_id) {
             //proccess credit note
             $document_item = DocumentItem::query()
-                ->findOrFail($document_item_id);
+                ->where('document_id',$document_id)->first();
             /** @var array $lots */
             $lots = $document_item->item->lots;
             $query->whereIn('id', collect($lots)->pluck('id')->toArray())

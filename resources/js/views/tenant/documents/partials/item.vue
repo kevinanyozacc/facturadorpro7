@@ -976,6 +976,7 @@
             :quantity="form.quantity"
             @addRowSelectLot="addRowSelectLot"
             :inputSearch="input_search_by_serie"
+            :documentId="documentId"
         >
         </select-lots-form>
     </el-dialog>
@@ -1034,7 +1035,8 @@ export default {
         "isCreditNoteAndType03",
         "isUpdateDocument",
         "permissionEditItemPrices",
-        "selectedOptionPrice"
+        "selectedOptionPrice",
+        "documentId",
     ],
     components: {
         ItemForm,
@@ -1179,6 +1181,7 @@ export default {
             return false;
         },
         documentItem() {
+
             if (
                 this.recordItem !== undefined &&
                 this.recordItem !== null &&
