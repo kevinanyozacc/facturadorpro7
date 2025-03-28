@@ -762,7 +762,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="h-50 bg-light pt-2 payment-container-pos p-2" style="overflow-y: auto">
+                <div class="h-50 pt-2 payment-container-pos p-2" style="overflow-y: auto">
                     <div class="row m-0 p-0 d-flex align-items-center">
                         <template v-if="show_fast_payment_garage">
                             <fast-payment

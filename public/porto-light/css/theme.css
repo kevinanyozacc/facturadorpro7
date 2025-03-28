@@ -7546,8 +7546,8 @@ html.sidebar-light:not(.dark) ul.nav-main li .nav-children li a:focus {
 }
 
 .btn-info {
-    background-color: var(--info);
-    border-color: var(--info);
+    background-color: var(--info) !important;
+    border-color: var(--info) !important;
     color: #fff;
 }
 
@@ -20576,7 +20576,9 @@ html.dark .body-sign .line-thru:after {
     margin-top: -8px;
     z-index: 1;
 }
-
+.pos-list-items tr{
+    border-bottom: 1px dashed #e0e6f8 !important;
+}
 @media only screen and (max-width: 991px) {
     .timeline .tm-body:after {
         left: 20px;
@@ -20632,6 +20634,16 @@ html.dark .body-sign .line-thru:after {
 @media only screen and (max-width: 767px) {
     .timeline .tm-items > li .tm-box .tm-meta span {
         display: block;
+    }
+    .padding-top-mb{
+        padding-top: 10px;
+    }
+    .padding-x-mb{
+        padding-left: 9px;
+        padding-right: 0px;
+    }
+    .padding-top-mb .col-md-2{
+        padding-right: 0px !important;        
     }
 }
 
@@ -21093,6 +21105,9 @@ li.multi-user-content{
     max-width: 100%;
     position: relative;
     margin: auto;
+}
+.payment-container-pos {
+    border-top: 3px dashed #e0e6f8;
 }
 @media (min-width: 716px) {
     .card-columns {

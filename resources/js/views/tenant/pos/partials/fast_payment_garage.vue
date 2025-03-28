@@ -17,71 +17,67 @@
               :searchFromBarcode="searchFromBarcode"
         ></table-items>
 
-        <div class="col-12">
-            <div class="row">
-                <div class="col-6">
-                    <el-radio-group v-model="form.document_type_id" size="small" @change="filterSeries">
-                        <el-radio-button label="01">FACTURA</el-radio-button>
-                        <el-radio-button label="03">BOLETA</el-radio-button>
-                        <el-radio-button label="80">N. VENTA</el-radio-button>
-                    </el-radio-group>
+        <div class="col-12 p-0">
+            <div class="row border-bottom m-0 pt-2 pb-0">
+                <div class="col-md-4 d-flex px-0">
+                    <div class="col-md-6 pl-2 pr-0">
+                        <el-select v-model="form.document_type_id" size="small" @change="filterSeries" class="">
+                            <el-option label="FACTURA" value="01"></el-option>
+                            <el-option label="BOLETA" value="03"></el-option>
+                            <el-option label="N. VENTA" value="80"></el-option>
+                        </el-select>
+                    </div>
+                    <div class="col-md-6 pr-0">
+                        <el-select v-model="form.series_id" class="" style="height: 30px;">
+                            <el-option v-for="option in series"
+                                       :key="option.id"
+                                       :label="option.number"
+                                       :value="option.id">
+                            </el-option>
+                        </el-select>
+                    </div>
                 </div>
-                <div class="col-2 px-0">
-                    <el-select v-model="form.series_id" class="c-width" style="height: 30px;">
-                        <el-option v-for="option in series"
-                                   :key="option.id"
-                                   :label="option.number"
-                                   :value="option.id">
-                        </el-option>
-                    </el-select>
-                </div>
-                <div class="col-3" v-if="!disabledDiscountForSeller">
-                    <el-switch v-model="enabled_discount"
-                               active-text="Descuento"
-                               class="control-label mb-0 font-weight-semibold m-0 text-center m-b-0"
-                               @change="changeEnabledDiscount"></el-switch>
-                </div>
-            </div>
-            <div class="row py-3 border-bottom m-0 p-0">
-                <div class="col-8 p-0">
-                    <el-select
-                        ref="select_person"
-                        v-model="form.customer_id"
-                        filterable
-                        placeholder="Cliente"
-                        @change="changeCustomer"
-                        @keyup.native="keyupCustomer"
-                        @keyup.enter.native="keyupEnterCustomer"
-                        @focus="focusClienteSelect = true"
-                        @blur="focusClienteSelect = false"
-                    >
-                        <el-option
-                            v-for="option in all_customers"
-                            :key="option.id"
-                            :label="option.description"
-                            :value="option.id"
-                        ></el-option>
-                    </el-select>
-                </div>
-                <div class="col-4">
-                    <div class="btn-group d-flex h-100" role="group">
-                        <a
-                            class="btn btn-sm btn-default w-100 d-flex align-items-center justify-content-center"
-                            @click.prevent="showDialogNewPerson = true"
+                <div class="col-md-8 d-flex padding-top-mb padding-x-mb">
+                    <div class="col-md-10 p-0">
+                        <el-select
+                            ref="select_person"
+                            v-model="form.customer_id"
+                            filterable
+                            placeholder="Cliente"
+                            @change="changeCustomer"
+                            @keyup.native="keyupCustomer"
+                            @keyup.enter.native="keyupEnterCustomer"
+                            @focus="focusClienteSelect=true"
+                            @blur="focusClienteSelect=false"
                         >
-                            <i class="fas fa-plus fa-wf"></i>
-                        </a>
-                        <a
-                            class="btn btn-sm btn-default w-100 d-flex align-items-center justify-content-center"
-                            @click="clickDeleteCustomer"
-                        >
-                            <i class="fas fa-trash fa-wf"></i>
-                        </a>                        
+                            <el-option
+                                v-for="option in all_customers"
+                                :key="option.id"
+                                :label="option.description"
+                                :value="option.id"
+                            ></el-option>
+                        </el-select>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="btn-group d-flex h-100" role="group">
+                            <a
+                                class="btn btn-sm btn-default w-100 d-flex align-items-center justify-content-center"
+                                @click.prevent="showDialogNewPerson = true"
+                            >
+                                <i class="fas fa-plus fa-wf"></i>
+                            </a>
+                            <a
+                                class="btn btn-sm btn-default w-100 d-flex align-items-center justify-content-center"
+                                @click="clickDeleteCustomer"
+                            >
+                                <i class="fas fa-trash fa-wf"></i>
+                            </a>                        
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="row d-flex align-items-end mb-1">
-                <div class="col-4">
+            <div class="row d-flex align-items-end mb-1 px-2">
+                <div class="col-md-4">
                     <span slot="prepend" style="px-1" class="currency-symbol-span">{{ currencyTypeActive.symbol }}</span>
                     <div class="form-group amount-container">
                         <label class="control-label mb-0">Ingrese monto</label>                        
@@ -92,25 +88,61 @@
                         </el-input>
                     </div>
                 </div>
-                <div class="col-3">
+                <div class="col-md-4" v-if="enabled_discount">
+                    <span slot="prepend" style="px-1" class="currency-symbol-span">{{
+                        (discount_type === '01') ? currencyTypeActive.symbol : '%'
+                    }}
+                    </span>
+                    <div class="form-group amount-container">
+                        <label class="control-label mb-0">Descuento
+                            ({{ (discount_type === '01') ? 'Monto' : 'Porcentaje' }})</label>
+                        <el-input v-model="discount_amount"
+                                  @input="inputDiscountAmount()">                            
+                        </el-input>
+                    </div>
+                </div>
+                <div class="col-md-4 padding-top-mb">
                     <div :class="{'has-danger': difference < 0}"
                          class="form-group">
-                        <label class="control-label mb-0 w-100 text-center"
+                        <div class="turned-container-pos">
+                            <label class="control-label mb-0 w-100 text-center mt-1"
                                v-text="(difference <0) ? 'Faltante' :'Vuelto'"></label>
                         <!-- <el-input v-model="difference" :disabled="true">
                             <template slot="prepend">{{currencyTypeActive.symbol}}</template>
                         </el-input> -->
-                        <h4 class="control-label mb-0 font-weight-semibold m-0 text-center m-b-0">
-                            {{ currencyTypeActive.symbol }} {{ difference }}</h4>
+                            <h4 class="control-label mb-0 font-weight-semibold m-0 text-center m-b-0">
+                                {{ currencyTypeActive.symbol }} {{ difference }}
+                            </h4>
+                        </div>
                     </div>
                 </div>
-                <div class="col-5">
-                    <button class="btn btn-sm btn-block btn-primary" @click="clickAddPayment()">
-                        Agregar Pagos
-                    </button>
+            </div>
+            <div class="row px-2 pt-3">
+                <div class="col-md-8 d-flex px-0">
+                    <div class="col-md-6" v-if="!disabledDiscountForSeller">
+                        <el-button 
+                            class="btn-warning w-100" 
+                            @click="toggleDiscount">
+                            {{ enabled_discount ? 'Quitar Descuento' : 'Agregar Descuento' }}
+                        </el-button>
+                    </div>
+                    <div class="col-md-6">
+                        <el-button 
+                            class="btn-primary w-100" 
+                            @click="clickAddPayment()">
+                            Agregar Pagos
+                        </el-button>
+                    </div>
+                </div>
+                <div class="col-md-4 w-50 m-auto padding-top-mb" v-if="businessTurns.active">
+                    <el-button 
+                        class="btn-info w-100"
+                        @click="openPlateNumberDialog">
+                        Agregar Placa
+                    </el-button>
                 </div>
             </div>
-            <div class="row mt-3 pos-payment-line">
+            <!-- <div class="row mt-3 pos-payment-line">
                 <template v-for="(pay,index) in form.payments">
                     <div :key="pay.id"
                          class="col-lg-1">
@@ -126,39 +158,35 @@
                             {{ pay.payment }}</strong> </label>
                     </div>
                 </template>
-            </div>
-            <div class="row" v-if="enabled_discount">
-                <div class="col-12">
-                    <span slot="prepend" style="px-1" class="currency-symbol-span">{{
-                        (discount_type === '01') ? currencyTypeActive.symbol : '%'
-                    }}
+            </div> -->
+            <template>
+                <el-dialog
+                    title="Agregar Placa"
+                    :visible.sync="showDialogPlateNumber"
+                    width="30%"
+                    :close-on-click-modal="false">
+                    <div class="row">
+                        <div class="col-md-12 col-lg-12">
+                            <div class="form-group">
+                                <label class="control-label mb-0">Número de Placa</label>
+                                <el-input v-model="form.plate_number" type="text"></el-input>
+                            </div>
+                        </div>
+                    </div>
+                    <span slot="footer" class="dialog-footer">
+                        <el-button class="second-buton" @click="showDialogPlateNumber = false">Cancelar</el-button>
+                        <el-button type="primary" @click="closeDialogPlateNumber">Aceptar</el-button>
                     </span>
-                    <div class="form-group amount-container">
-                        <label class="control-label mb-0">Descuento
-                            ({{ (discount_type === '01') ? 'Monto' : 'Porcentaje' }})</label>
-                        <el-input v-model="discount_amount"
-                                  :disabled="!enabled_discount"
-                                  @input="inputDiscountAmount()">                            
-                        </el-input>
-                    </div>
-                </div>
-            </div>
-            <div class="row" v-if="businessTurns.active">
-                <div class="col-md-12 col-lg-12">
-                    <div class="form-group">
-                        <label class="control-label mb-0">Número de Placa</label>
-                        <el-input v-model="form.plate_number" type="text"></el-input>
-                    </div>
-                </div>
-            </div>
-            <div>
+                </el-dialog>
+            </template>
+            <div class="px-2">
                 <div>
                     <template v-if="form.total_plastic_bag_taxes > 0">
                         <div class="row m-0 p-0 h-17 d-flex align-items-center">
-                            <div class="col-sm-6 py-1">
+                            <div class="col-6 py-1">
                                 <p class="font-weight-semibold mb-0">SUBTOTAL</p>
                             </div>
-                            <div class="col-sm-6 py-1 text-right">
+                            <div class="col-6 py-1 text-right">
                                 <p class="font-weight-semibold mb-0">
                                     {{ currencyTypeActive.symbol }}
                                     {{ form.total_taxed }}
@@ -166,10 +194,10 @@
                             </div>
                         </div>
                         <div class="row m-0 p-0 h-17 d-flex align-items-center">
-                            <div class="col-sm-6 py-1">
+                            <div class="col-6 py-1">
                                 <p class="font-weight-semibold mb-0">IGV</p>
                             </div>
-                            <div class="col-sm-6 py-1 text-right">
+                            <div class="col-6 py-1 text-right">
                                 <p class="font-weight-semibold mb-0">
                                     {{ currencyTypeActive.symbol }}
                                     {{ form.total_igv }}
@@ -177,10 +205,10 @@
                             </div>
                         </div>
                         <div class="row m-0 p-0 h-17 d-flex align-items-center">
-                            <div class="col-sm-6 py-1">
+                            <div class="col-6 py-1">
                                 <p class="font-weight-semibold mb-0">ICBPER</p>
                             </div>
-                            <div class="col-sm-6 py-1 text-right">
+                            <div class="col-6 py-1 text-right">
                                 <p class="font-weight-semibold mb-0">
                                     {{ currencyTypeActive.symbol }}
                                     {{ form.total_plastic_bag_taxes }}
@@ -190,20 +218,20 @@
                     </template>
                     <template v-else>
                         <div class="row m-0 p-0 h-25 d-flex align-items-center">
-                            <div class="col-sm-6 py-1">
+                            <div class="col-6 py-1">
                                 <p class="font-weight-semibold mb-0">SUBTOTAL</p>
                             </div>
-                            <div class="col-sm-6 py-1 text-right">
+                            <div class="col-6 py-1 text-right">
                                 <p class="font-weight-semibold mb-0">
                                     {{ currencyTypeActive.symbol }} {{ form.total_taxed }}
                                 </p>
                             </div>
                         </div>
                         <div class="row m-0 p-0 h-25 d-flex align-items-center">
-                            <div class="col-sm-6 py-1">
+                            <div class="col-6 py-1">
                                 <p class="font-weight-semibold mb-0">IGV</p>
                             </div>
-                            <div class="col-sm-6 py-1 text-right">
+                            <div class="col-6 py-1 text-right">
                                 <p class="font-weight-semibold mb-0">
                                     {{ currencyTypeActive.symbol }}{{ form.total_igv }}
                                 </p>
@@ -259,6 +287,13 @@
                 </div>
             </div>
         </div>
+        <person-form
+                :showDialog.sync="showDialogNewPerson"
+                type="customers"
+                :input_person="input_person"
+                :external="true"
+                :document_type_id="form.document_type_id"
+        ></person-form>
         <options-form
             :recordId="documentNewId"
             :resource="resource_options"
@@ -341,9 +376,10 @@ import CardBrandsForm from '../../card_brands/form.vue'
 import SaleNotesOptions from '../../sale_notes/partials/options.vue'
 import OptionsForm from './options.vue'
 import MultiplePaymentForm from './multiple_payment_garage.vue'
+import PersonForm from '../../../tenant/persons/form.vue'
 
 export default {
-    components: {OptionsForm, CardBrandsForm, SaleNotesOptions, MultiplePaymentForm, Keypress},
+    components: {OptionsForm, CardBrandsForm, SaleNotesOptions, MultiplePaymentForm, Keypress, PersonForm},
 
     props: [
         'form',
@@ -360,6 +396,7 @@ export default {
     ],
     data() {
         return {
+            showDialogPlateNumber: false,
             enabled_discount: false,
             discount_amount: 0,
             discount_type: '01',
@@ -373,6 +410,7 @@ export default {
             resource_options: null,
             has_card: false,
             resource: 'pos',
+            showDialogNewPerson: false,
             resource_documents: 'documents',
             resource_payments: 'document_payments',
             amount: 0,
@@ -381,6 +419,7 @@ export default {
             button_payment: false,
             input_item: '',
             form_payment: {},
+            input_person: {},
             series: [],
             all_series: [],
             cards_brand: [],
@@ -393,6 +432,7 @@ export default {
             all_customers: [],
             focusClienteSelect: false,
             loading_submit_cancel: false,
+            show_discount: false,
         }
     },
     watch: {
@@ -450,6 +490,23 @@ export default {
         }
     },
     methods: {
+        openPlateNumberDialog() {
+            this.showDialogPlateNumber = true;
+            this.$nextTick(() => {
+                this.$refs.plateNumberInput.focus();
+            });
+        },
+        closeDialogPlateNumber() {
+            this.showDialogPlateNumber = false;
+            // Enfocar el campo de monto después de cerrar
+            this.$nextTick(() => {
+                this.$refs.enter_amount.$el.getElementsByTagName('input')[0].focus();
+            });
+        },
+        toggleDiscount() {
+            this.enabled_discount = !this.enabled_discount;
+            this.changeEnabledDiscount();
+        },
         clickDeleteCustomer() {
             this.form.customer_id = null;
             this.customer = null;
@@ -547,6 +604,30 @@ export default {
             }
 
             this.filterSeries()
+        },
+        handleFn115() {
+            this.openDialogNewPerson();
+        },
+        openDialogNewPerson() {
+            if (this.input_person.number) {
+                if (!isNaN(parseInt(this.input_person.number))) {
+                    switch (this.input_person.number.length) {
+                        case 8:
+                            this.input_person.identity_document_type_id = "1";
+                            this.showDialogNewPerson = true;
+                            break;
+
+                        case 11:
+                            this.input_person.identity_document_type_id = "6";
+                            this.showDialogNewPerson = true;
+                            break;
+                        default:
+                            this.input_person.identity_document_type_id = "6";
+                            this.showDialogNewPerson = true;
+                            break;
+                    }
+                }
+            }
         },
         keyupEnterAmount() {
 
@@ -790,6 +871,19 @@ export default {
             this.setAmount(acum_payment)
 
         },
+        setFormPosLocalStorage(form_param = null) {
+            if (form_param) {
+                localStorage.setItem(
+                    "form_pos_garage",
+                    JSON.stringify(form_param)
+                );
+            } else {
+                localStorage.setItem(
+                    "form_pos_garage",
+                    JSON.stringify(this.form)
+                );
+            }
+        },
         async enterAmount() {
 
             let r_item = await _.last(this.payments, {'payment_method_type_id': '01'})
@@ -924,14 +1018,18 @@ export default {
 
         },
         async events() {
-            await this.$eventHub.$on("eventCheckPaymentGarage", () => {
-                this.checkPaymentGarage()
-            })
+            await this.$eventHub.$on("initInputPerson", () => {
+                this.initInputPerson();
+            });
 
             await this.$eventHub.$on("reloadDataPersons", customer_id => {
                 this.reloadDataCustomers(customer_id);
                 this.setFormPosLocalStorage();
             });
+
+            await this.$eventHub.$on("eventCheckPaymentGarage", () => {
+                this.checkPaymentGarage()
+            })
         },
         cleanLocalStoragePayment() {
 
@@ -1193,6 +1291,12 @@ export default {
             this.initFormItem();
             this.changeDateOfIssue();
             this.initInputPerson();
+        },
+        initInputPerson() {
+            this.input_person = {
+                number: "",
+                identity_document_type_id: ""
+            };
         },
         checkPaymentGarage() {
             this.inputDiscountAmount()
