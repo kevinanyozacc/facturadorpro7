@@ -1,5 +1,5 @@
 <template>
-    <div :class="{ 'content-opacity': isVisible }" class="">
+    <div :class="{ 'content-opacity': isVisible }" class="" @click.self="toggleInformation">
         <Keypress key-event="keyup" @success="checkKey" />
         <Keypress
             key-event="keyup"
@@ -305,6 +305,12 @@
                                     <h3 class="text-center">
                                         Información Adicional
                                     </h3>
+
+                                    <div class="close-container">
+                                        <i class="el-icon el-icon-close"
+                                            @click="toggleInformation">
+                                        </i>
+                                    </div>
 
                                     <div class="">
                                         <div class="form-group form-seller">

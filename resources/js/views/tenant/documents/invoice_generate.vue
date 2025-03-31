@@ -1,5 +1,5 @@
 <template>
-    <div :class="{ 'content-opacity': isVisible }">
+    <div :class="{ 'content-opacity': isVisible }" @click.self="toggleInformation">
         <Keypress key-event="keyup" @success="checkKey" />
         <Keypress
             key-event="keyup"
@@ -460,6 +460,12 @@
                                 <h3 class="text-center">
                                     Información Adicional
                                 </h3>
+
+                                <div class="close-container">
+                                    <i class="el-icon el-icon-close"
+                                        @click="toggleInformation">
+                                    </i>
+                                </div>
                                 <div class="w-100">
                                     <div class="pl-5 pr-5 mt-5 w-100">
                                         <div class="col-12 px-0">
@@ -997,7 +1003,7 @@
                                     </div>
                                     <div
                                         v-if="isActiveBussinessTurn('hotel')"
-                                        class=""
+                                        class="px-5"
                                     >
                                         <el-tooltip
                                             class="item my-2"
@@ -1016,10 +1022,8 @@
                                         </el-tooltip>
                                     </div>
                                     <div
-                                        v-if="
-                                            isActiveBussinessTurn('transport')
-                                        "
-                                        class=""
+                                        v-if="isActiveBussinessTurn('transport')"
+                                        class="px-5"
                                     >
                                         <el-tooltip
                                             class="item my-2"

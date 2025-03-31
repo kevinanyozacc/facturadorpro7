@@ -20579,6 +20579,13 @@ html.dark .body-sign .line-thru:after {
 .pos-list-items tr{
     border-bottom: 1px dashed #e0e6f8 !important;
 }
+.close-container{
+    position: absolute;
+    top: 22px;
+    right: 18px;
+    font-size: 16px;
+    cursor: pointer;
+}
 @media only screen and (max-width: 991px) {
     .timeline .tm-body:after {
         left: 20px;

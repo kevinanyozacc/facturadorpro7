@@ -2,6 +2,7 @@
     <div
         class="card mb-0 pt-2 pt-md-0"
         :class="{ 'content-opacity': isVisible }"
+        @click.self="toggleInformation"
     >
         <!-- <div class="card-header bg-info">
             <h3 class="my-0">Nuevo Comprobante</h3>
@@ -300,6 +301,12 @@
                                 <h3 class="text-center">
                                     Información Adicional
                                 </h3>
+
+                                <div class="close-container">
+                                    <i class="el-icon el-icon-close"
+                                        @click="toggleInformation">
+                                    </i>
+                                </div>
 
                                 <div class="form-group">
                                     <label class="control-label"

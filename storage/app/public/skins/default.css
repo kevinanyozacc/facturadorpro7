@@ -514,7 +514,8 @@ ul.nav.list-config li:hover {
     background-color: #fff;
     border: 1px solid var(--accent-color) !important;
 }
-.el-dialog__headerbtn:focus .el-dialog__close, .el-dialog__headerbtn:hover .el-dialog__close {
+.el-dialog__headerbtn:focus .el-dialog__close, .el-dialog__headerbtn:hover .el-dialog__close,
+.close-container i:hover {
     color: var(--primary-color);
 }
 .btn-add-address,
