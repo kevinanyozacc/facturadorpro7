@@ -47,6 +47,7 @@ use GuzzleHttp\Exception\RequestException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 use Modules\Document\Traits\SearchTrait;
 use Modules\Finance\Traits\FinanceTrait;
 use Modules\Inventory\Models\Warehouse;
@@ -597,8 +598,9 @@ class SaleNoteController extends Controller
     public function record($id)
     {
         $record = new SaleNoteResource(SaleNote::findOrFail($id));
+        \Log::info("Datos enviados al frontend para record {$id}: " . json_encode($record));
 
-        return $record;
+        return $record; //record
     }
 
     public function record2($id)
@@ -938,6 +940,8 @@ class SaleNoteController extends Controller
     }
 
     public function toPrint($external_id, $format) {
+
+        \Log::info("Generando PDF para external_id: {$external_id}, formato: {$format}");
 
         $sale_note = SaleNote::where('external_id', $external_id)->first();
 

@@ -13,6 +13,23 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 container-tabs">
                     <el-tabs v-model="activeName">
                         <el-tab-pane label="A4" name="first">
+                            <iframe :src="`${form.print_a4}?cache_bust=${Date.now()}`" width="100%" height="400px"/>
+                        </el-tab-pane>
+                        <el-tab-pane label="Ticket 80mm" name="fourth" v-if="ShowTicket80">
+                            <iframe :src="`${form.print_ticket}?cache_bust=${Date.now()}`" type="application/pdf" width="100%" height="400px"/>
+                        </el-tab-pane>
+                        <el-tab-pane label="Ticket 58mm" name="third" v-if="ShowTicket58">
+                            <iframe :src="`${form.print_ticket_58}?cache_bust=${Date.now()}`" type="application/pdf" width="100%" height="400px"/>
+                        </el-tab-pane>
+                        <el-tab-pane label="Ticket 50mm" name="fifth" v-if="ShowTicket50">
+                            <iframe :src="`${form.print_ticket_50}?cache_bust=${Date.now()}`" type="application/pdf" width="100%" height="400px"/>
+                        </el-tab-pane>
+                        <el-tab-pane label="A5" name="second">
+                            <iframe :src="`${form.print_a5}?cache_bust=${Date.now()}`" type="application/pdf" width="100%" height="400px"/>
+                        </el-tab-pane>
+                    </el-tabs>
+                    <!--<el-tabs v-model="activeName">
+                        <el-tab-pane label="A4" name="first">
                             <iframe :src="form.print_a4" type="application/pdf" width="100%" height="400px"/>
                         </el-tab-pane>
                         <el-tab-pane label="Ticket 80mm" name="fourth" v-if="ShowTicket80">
@@ -27,7 +44,7 @@
                         <el-tab-pane label="A5" name="second">
                             <iframe :src="form.print_a5" type="application/pdf" width="100%" height="400px"/>
                         </el-tab-pane>
-                    </el-tabs>
+                    </el-tabs>-->
 
                 </div>
                 <div class="col-12 container-btns text-center">
@@ -155,6 +172,8 @@ export default {
     created() {
         this.initForm()
         this.loadConfiguration(this.$store)
+        this.configuration = this.$store.state.config;
+        console.log('this.configuration asignado:', this.configuration);
         this.$store.commit('setConfiguration', this.configuration)
 
     },
@@ -167,41 +186,20 @@ export default {
         ...mapState([
             'config',
         ]),
-        ShowTicket58: function () {
-            if (this.configuration === undefined) return false;
-            if (this.configuration == null) return false;
-            if (this.configuration.show_ticket_58 === undefined) return false;
-            if (this.configuration.show_ticket_58 == null) return false;
-            if (
-                this.configuration.show_ticket_58 !== undefined &&
-                this.configuration.show_ticket_58 !== null) {
-                return this.configuration.show_ticket_58;
-            }
-            return false;
+        ShowTicket58() {
+            const value = this.config && this.config.show_ticket_58 !== undefined && this.config.show_ticket_58 !== null ? this.config.show_ticket_58 : false;
+            console.log('ShowTicket58:', value);
+            return value;
         },
-        ShowTicket80: function () {
-            if (this.configuration === undefined) return false;
-            if (this.configuration == null) return false;
-            if (this.configuration.show_ticket_80 === undefined) return false;
-            if (this.configuration.show_ticket_80 == null) return false;
-            if (
-                this.configuration.show_ticket_80 !== undefined &&
-                this.configuration.show_ticket_80 !== null) {
-                return this.configuration.show_ticket_80;
-            }
-            return false;
+        ShowTicket80() {
+            const value = this.config && this.config.show_ticket_80 !== undefined && this.config.show_ticket_80 !== null ? this.config.show_ticket_80 : false;
+            console.log('ShowTicket80:', value);
+            return value;
         },
-        ShowTicket50: function () {
-            if (this.configuration === undefined) return false;
-            if (this.configuration == null) return false;
-            if (this.configuration.show_ticket_50 === undefined) return false;
-            if (this.configuration.show_ticket_50 == null) return false;
-            if (
-                this.configuration.show_ticket_50 !== undefined &&
-                this.configuration.show_ticket_50 !== null) {
-                return this.configuration.show_ticket_50;
-            }
-            return false;
+        ShowTicket50() {
+            const value = this.config && this.config.show_ticket_50 !== undefined && this.config.show_ticket_50 !== null ? this.config.show_ticket_50 : false;
+            console.log('ShowTicket50:', value);
+            return value;
         }
     },
     methods: {

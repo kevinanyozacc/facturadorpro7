@@ -65,6 +65,8 @@ use Mpdf\Mpdf;
 use setasign\Fpdi\Fpdi;
 use Modules\Inventory\Models\InventoryConfiguration;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Cache;
 
 
 class ItemController extends Controller
@@ -691,6 +693,11 @@ class ItemController extends Controller
             }
             */
         // }
+
+        if ($id) {
+            Cache::forget("item_{$id}");
+            Log::info('Caché eliminada para el ítem actualizado:', ['item_id' => $id]);
+        }
 
         return [
             'success' => true,
