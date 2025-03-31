@@ -16,7 +16,7 @@
                 class="col-6 col-md-4 form-group"
                 :class="{ 'has-danger': errors.duration }"
             >
-                <label for="duration">Cant. noches</label>
+                <label class="control-label" for="duration">Cant. noches</label>
                 <el-input-number
                     v-model="form.duration"
                     controls-position="right"
@@ -32,12 +32,13 @@
                 class="col-6 col-md-4 form-group"
                 :class="{ 'has-danger': errors.output_date }"
             >
-                <label>Fecha de salida</label>
+                <label class="control-label">Fecha de salida</label>
                 <el-date-picker
                     v-model="form.output_date"
                     type="date"
                     placeholder="Seleccione una fecha"
-                    value-format="yyyy-MM-dd"
+                    value-format="dd-MM-yyyy"
+                    format="dd-MM-yyyy"
                     readonly
                 ></el-date-picker>
                 <small
@@ -50,7 +51,7 @@
                 class="col-6 col-md-4 form-group"
                 :class="{ 'has-danger': errors.output_time }"
             >
-                <label>Hora de salida</label>
+                <label class="control-label">Hora de salida</label>
                 <el-input v-model="form.output_time" placeholder="HH:MM">
                 </el-input>
                 <small
@@ -61,19 +62,20 @@
             </div>
           </div>
 
-          <div class="row text-center">
+          <div class="row text-center ml-auto" style="width: 200px;">
+            <div class="col-6">
+              <el-button class="btn-block second-buton" @click="closeDialog" style="min-width: 78px;">Cancelar</el-button>
+            </div>
             <div class="col-6">
               <el-button
                 native-type="submit"
                 type="primary"
                 class="btn-block"
                 :disabled="loading"
+                style="min-width: 78px;"
                 >Guardar</el-button
               >
-            </div>
-            <div class="col-6">
-              <el-button class="btn-block" @click="closeDialog">Cancelar</el-button>
-            </div>
+            </div>            
           </div>
         </div>
       </form>

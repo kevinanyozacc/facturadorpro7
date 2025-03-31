@@ -241,7 +241,8 @@
                                     :clearable="false"
                                     readonly
                                     type="date"
-                                    value-format="yyyy-MM-dd"
+                                    value-format="dd-MM-yyyy"
+                                    format="dd-MM-yyyy"
                                     @change="changeDateOfIssue"
                                 ></el-date-picker>
                                 <small
@@ -261,7 +262,8 @@
                                     v-model="document.date_of_due"
                                     :clearable="false"
                                     type="date"
-                                    value-format="yyyy-MM-dd"
+                                    value-format="dd-MM-yyyy"
+                                    format="dd-MM-yyyy"
                                 ></el-date-picker>
                                 <small
                                     v-if="errors.date_of_due"

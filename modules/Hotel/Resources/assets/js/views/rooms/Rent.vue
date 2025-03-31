@@ -231,7 +231,8 @@
                                         v-model="form.input_date"
                                         type="date"
                                         placeholder="Seleccione una fecha"
-                                        value-format="yyyy-MM-dd"
+                                        value-format="dd-MM-yyyy"
+                                        format="dd-MM-yyyy"
                                     ></el-date-picker>
                                     <small
                                         class="form-control-feedback"
@@ -267,7 +268,8 @@
                                         v-model="form.output_date"
                                         type="date"
                                         placeholder="Seleccione una fecha"
-                                        value-format="yyyy-MM-dd"
+                                        value-format="dd-MM-yyyy"
+                                        format="dd-MM-yyyy"
                                     ></el-date-picker>
                                     <small
                                         class="form-control-feedback"
