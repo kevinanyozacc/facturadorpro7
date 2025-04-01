@@ -95,6 +95,9 @@ a:active {
     .content-body:not(.card-margin) > .row + .row {
         padding-top: 15px;
     }
+    .flex-column-mb{
+        flex-direction: column;
+    }
 }
 
 .content-body.card-margin {

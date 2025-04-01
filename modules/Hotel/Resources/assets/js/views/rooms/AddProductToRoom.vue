@@ -2,231 +2,237 @@
     <div>
         <div class="page-header pr-0">
             <h2>
-                <a href="/dashboard"><i class="fas fa-tachometer-alt"></i></a>
+                <a href="/hotels/reception">
+                    <svg  xmlns="http://www.w3.org/2000/svg" style="margin-top: -5px;" width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-building-skyscraper"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 21l18 0" /><path d="M5 21v-14l8 -4v18" /><path d="M19 21v-10l-6 -4" /><path d="M9 9l0 .01" /><path d="M9 12l0 .01" /><path d="M9 15l0 .01" /><path d="M9 18l0 .01" /></svg>
+                </a>
             </h2>
             <ol class="breadcrumbs">
-                <li class="active"><span>RECEPCIÓN</span></li>
+                <li class="active"><span>{{ title }}</span></li>
             </ol>
-            <div class="right-wrapper pull-right">
-                <div class="btn-group flex-wrap">
-                    <button
-                        class="btn btn-custom btn-sm mt-2 mr-2"
-                        type="button"
-                        @click="onGotoBack"
-                    >
-                        <i class="fa fa-arrow-left"></i> Atras
-                    </button>
-                </div>
+            <div class="pull-right right-wrapper">
+                <el-button type="primary"
+                           class="mt-2 mr-2"
+                           @click="onOpenModalProducts">
+                    <i class="fa fa-plus"></i>
+                    <span class="ml-2">Agregar Producto</span>
+                </el-button>
             </div>
         </div>
-        <div class="card mb-0">
-            <div class="card-header bg-info">
+        <div class="card mb-0 tab-content-default row-new">
+            <!-- <div class="card-header bg-info">
                 <h3 class="my-0">{{ title }}</h3>
-            </div>
+            </div> -->
             <div class="card-body">
-                <div class="row justify-content-between">
-                    <div class="col-12 col-md-3 form-group">
-                        <div :class="{ 'has-danger': errors.series_id }"
-                            class="form-group">
-                            <label class="control-label">Serie</label>
-                            <el-select v-model="document.series_id">
-                                <el-option
-                                    v-for="option in series"
-                                    :key="option.id"
-                                    :label="option.number"
-                                    :value="option.id"
-                                ></el-option>
-                            </el-select>
-                            <small
-                                v-if="errors.series_id"
-                                class="form-control-feedback"
-                                v-text="errors.series_id[0]"
-                            ></small>
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="text-right">
-                            <el-button type="primary"
-                                       @click="onOpenModalProducts">
-                                <i class="fa fa-plus"></i>
-                                <span class="ml-2">Agregar Producto</span>
-                            </el-button>
-                        </div>
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <th>Producto</th>
-                                <th class="text-center">Cant.</th>
-                                <th class="text-center">Precio</th>
-                                <th class="text-right">Importe</th>
-                                <th class="text-center">Comprobante</th>
-                                <th class="text-center">Estado del pago</th>
-                                <th class="text-center">M. Pago</th>
-                                <th class="text-center">Destino</th>
-
-                                <th class="text-right"></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr v-for="(p, index) in form.products"
-                                :key="index">
-                                <td>{{ p.item.description }}</td>
-                                <td class="text-center">{{ p.quantity | toDecimals }}</td>
-                                <td class="text-center">
-                                    {{ p.input_unit_price_value | toDecimals }}
-                                </td>
-                                <td class="text-right">{{ p.total | toDecimals }}</td>
-                                <td class="text-right">{{ p.document}}</td>
-                                <td class="text-center">
-                                    <div class="d-inline-block"
-                                         style="max-width: 150px">
-                                        <el-select
-                                            v-model="p.payment_status"
-                                            placeholder="Proceso de pago"
+                <div class="row justify-content-between">                    
+                    <div class="col-12">                        
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>Producto</th>
+                                    <th class="text-center">Cant.</th>
+                                    <th class="text-center">Precio</th>
+                                    <th class="text-right">Importe</th>
+                                    <th class="text-center">Comprobante</th>
+                                    <th class="text-center">Estado del pago</th>
+                                    <th class="text-center">M. Pago</th>
+                                    <th class="text-center">Destino</th>
+    
+                                    <th class="text-right"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr v-for="(p, index) in form.products"
+                                    :key="index">
+                                    <td>{{ p.item.description }}</td>
+                                    <td class="text-center">{{ p.quantity | toDecimals }}</td>
+                                    <td class="text-center">
+                                        {{ p.input_unit_price_value | toDecimals }}
+                                    </td>
+                                    <td class="text-right">{{ p.total | toDecimals }}</td>
+                                    <td class="text-right">{{ p.document}}</td>
+                                    <td class="text-center">
+                                        <div class="d-inline-block"
+                                             style="max-width: 150px">
+                                            <el-select
+                                                v-model="p.payment_status"
+                                                placeholder="Proceso de pago"
+                                                :disabled="p.is_registered"
+                                                @change="changePaymentStatus(index)"
+                                            >
+                                                <el-option label="Cancelado"
+                                                           value="PAID"></el-option>
+                                                <el-option
+                                                    label="Cargar a habitación"
+                                                    value="DEBT"
+                                                ></el-option>
+                                            </el-select>
+                                            <div
+                                                v-if="errors.payment_status"
+                                                class="form-control-feedback"
+                                            >
+                                                {{ errors.payment_status[0] }}
+                                            </div>
+                                        </div>
+                                    </td>
+    
+                                    <td style="max-width: 150px">
+                                        
+                                        <template v-if="isPaid(p)">
+                                            <div class="form-group mb-2 mr-2" :class="{ 'has-danger': errors[`products.${index}.rent_payment.payment_method_type_id`] }">
+                                                <el-select
+                                                    v-model="p.rent_payment.payment_method_type_id"
+                                                    filterable
+                                                    :disabled="p.is_registered"
+                                                >
+                                                    <el-option
+                                                        v-for="option in payment_method_types"
+                                                        :key="option.id"
+                                                        :value="option.id"
+                                                        :label="option.description"
+                                                    ></el-option>
+                                                </el-select>
+    
+                                                <small
+                                                    class="form-control-feedback"
+                                                    v-if="errors[`products.${index}.rent_payment.payment_method_type_id`]"
+                                                    v-text="errors[`products.${index}.rent_payment.payment_method_type_id`][0]"
+                                                ></small>
+                                            </div>
+                                        </template>
+    
+                                    </td>
+                                    <td style="max-width: 150px">
+                                        
+                                        <template v-if="isPaid(p)">
+                                            <div class="form-group mb-2 mr-2" :class="{ 'has-danger': errors[`products.${index}.rent_payment.payment_destination_id`] }">
+                                                <el-select
+                                                    v-model="p.rent_payment.payment_destination_id"
+                                                    filterable
+                                                    :disabled="p.is_registered"
+                                                >
+                                                    <el-option
+                                                        v-for="option in payment_destinations"
+                                                        :key="option.id"
+                                                        :value="option.id"
+                                                        :label="option.description"
+                                                    ></el-option>
+                                                </el-select>
+    
+                                                <small
+                                                    class="form-control-feedback"
+                                                    v-if="errors[`products.${index}.rent_payment.payment_destination_id`]"
+                                                    v-text="errors[`products.${index}.rent_payment.payment_destination_id`][0]"
+                                                ></small>
+                                            </div>
+                                        </template>
+                                    </td>
+    
+                                    <td>
+                                        <el-button type="danger"
                                             :disabled="p.is_registered"
-                                            @change="changePaymentStatus(index)"
-                                        >
-                                            <el-option label="Cancelado"
-                                                       value="PAID"></el-option>
-                                            <el-option
-                                                label="Cargar a habitación"
-                                                value="DEBT"
-                                            ></el-option>
-                                        </el-select>
-                                        <div
-                                            v-if="errors.payment_status"
-                                            class="form-control-feedback"
-                                        >
-                                            {{ errors.payment_status[0] }}
-                                        </div>
-                                    </div>
-                                </td>
+                                            @click="onDeleteProduct(index)">
+                                            <i class="fa fa-trash"></i>
+                                        </el-button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                                <tfoot v-if="form.products.length > 0">
+                                    <tr>
+                                        <td class="text-right">
+                                            <strong>SUBTOTAL</strong> 
+                                        </td>
+                                        <td class="text-right">
+                                           <strong>{{ this.form.subtotal | toDecimals }}</strong> 
+                                        </td>
+    
+                                        <!-- <td class="text-right">
+                                            <strong>IGV</strong>
+                                        </td>
+                                        <td class="text-right">
+                                            <strong>{{ this.form.igv | toDecimals }}</strong>
+                                        </td> -->
+    
+                                        <td class="text-right">
+                                            <strong>TOTAL</strong>
+                                        </td>
+                                        <td class="text-right">
+                                            <strong>{{ this.form.total | toDecimals }}</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <div class="d-flex align-items-center flex-column-mb" style="justify-content: space-between;">
+                            <div class="form-control-feedback">
+                                <p>El valor total es del último pedido que esta realizando</p>
+                            </div>
+                            <div v-if="errors.products"
+                                 class="form-control-feedback">
+                                {{ errors.products[0] }}
+                            </div>
+                        
+                            <div class="pull-right col-md-2 form-group">
+                                <div :class="{ 'has-danger': errors.series_id }"
+                                    class="form-group">
+                                    <label class="control-label">Serie</label>
+                                    <el-select v-model="document.series_id">
+                                        <el-option
+                                            v-for="option in series"
+                                            :key="option.id"
+                                            :label="option.number"
+                                            :value="option.id"
+                                        ></el-option>
+                                    </el-select>
+                                    <small
+                                        v-if="errors.series_id"
+                                        class="form-control-feedback"
+                                        v-text="errors.series_id[0]"
+                                    ></small>
+                                </div>
+                            </div>
+                        </div>
 
-                                <td style="max-width: 150px">
-                                    
-                                    <template v-if="isPaid(p)">
-                                        <div class="form-group mb-2 mr-2" :class="{ 'has-danger': errors[`products.${index}.rent_payment.payment_method_type_id`] }">
-                                            <el-select
-                                                v-model="p.rent_payment.payment_method_type_id"
-                                                filterable
-                                                :disabled="p.is_registered"
-                                            >
-                                                <el-option
-                                                    v-for="option in payment_method_types"
-                                                    :key="option.id"
-                                                    :value="option.id"
-                                                    :label="option.description"
-                                                ></el-option>
-                                            </el-select>
-
-                                            <small
-                                                class="form-control-feedback"
-                                                v-if="errors[`products.${index}.rent_payment.payment_method_type_id`]"
-                                                v-text="errors[`products.${index}.rent_payment.payment_method_type_id`][0]"
-                                            ></small>
-                                        </div>
-                                    </template>
-
-                                </td>
-                                <td style="max-width: 150px">
-                                    
-                                    <template v-if="isPaid(p)">
-                                        <div class="form-group mb-2 mr-2" :class="{ 'has-danger': errors[`products.${index}.rent_payment.payment_destination_id`] }">
-                                            <el-select
-                                                v-model="p.rent_payment.payment_destination_id"
-                                                filterable
-                                                :disabled="p.is_registered"
-                                            >
-                                                <el-option
-                                                    v-for="option in payment_destinations"
-                                                    :key="option.id"
-                                                    :value="option.id"
-                                                    :label="option.description"
-                                                ></el-option>
-                                            </el-select>
-
-                                            <small
-                                                class="form-control-feedback"
-                                                v-if="errors[`products.${index}.rent_payment.payment_destination_id`]"
-                                                v-text="errors[`products.${index}.rent_payment.payment_destination_id`][0]"
-                                            ></small>
-                                        </div>
-                                    </template>
-                                </td>
-
-                                <td>
-                                    <el-button type="danger"
-                                        :disabled="p.is_registered"
-                                        @click="onDeleteProduct(index)">
-                                        <i class="fa fa-trash"></i>
+                        <div class="form-actions text-right pt-2 mt-4">
+                            <el-button
+                                    class="second-buton btn btn-default mr-1"
+                                    style="min-width: 180px;"
+                                    @click="onGotoBack"
+                                >
+                                    Cancelar
+                            </el-button>
+                            <template v-if="canMakePayment">
+                                <el-button
+                                        :disabled="loading"
+                                        :loading="loading"
+                                        type="primary"
+                                        class="btn m-1"
+                                        style="min-width: 180px;"
+                                        @click="onSubmit"
+                                    >
+                                        <i class="fa fa-save"></i>
+                                        <span class="ml-2">Guardar</span>
+                                </el-button>
+                                <div v-if="this.products.length>0 && form.products.length  < 1"
+                                    class="pull-right">
+                                    <el-button
+                                        :disabled="loading"
+                                        :loading="loading"
+                                        type="primary"
+                                        class="btn m-1"
+                                        style="min-width: 180px;"
+                                        @click="onTotalDeleteProduct"
+                                    >
+                                        <i class="fa fa-save"></i>
+                                        <span class="ml-2">Guardar</span>
                                     </el-button>
-                                </td>
-                            </tr>
-                            </tbody>
-                            <tfoot v-if="form.products.length > 0">
-                                <tr>
-                                    <td class="text-right">
-                                        <strong>SUBTOTAL</strong> 
-                                    </td>
-                                    <td class="text-right">
-                                       <strong>{{ this.form.subtotal | toDecimals }}</strong> 
-                                    </td>
-
-                                    <!-- <td class="text-right">
-                                        <strong>IGV</strong>
-                                    </td>
-                                    <td class="text-right">
-                                        <strong>{{ this.form.igv | toDecimals }}</strong>
-                                    </td> -->
-
-                                    <td class="text-right">
-                                        <strong>TOTAL</strong>
-                                    </td>
-                                    <td class="text-right">
-                                        <strong>{{ this.form.total | toDecimals }}</strong>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                </tr>
-                            </tfoot>
-                        </table>
-                        <div class="form-control-feedback">
-                            <p>El valor total es del último pedido que esta realizando</p>
+                                </div>
+                            </template>                            
                         </div>
-                        <div v-if="errors.products"
-                             class="form-control-feedback">
-                            {{ errors.products[0] }}
-                        </div>
-                        <template v-if="canMakePayment">
-                            <div
-                                class="pull-right">
-                                <el-button
-                                    :disabled="loading"
-                                    :loading="loading"
-                                    class="btn-block"
-                                    type="primary"
-                                    @click="onSubmit"
-                                >
-                                    <i class="fa fa-save"></i>
-                                    <span class="ml-2">Guardar</span>
-                                </el-button>
-                            </div>
-                            <div v-if="this.products.length>0 && form.products.length  < 1"
-                                class="pull-right">
-                                <el-button
-                                    :disabled="loading"
-                                    :loading="loading"
-                                    class="btn-block"
-                                    type="primary"
-                                    @click="onTotalDeleteProduct"
-                                >
-                                    <i class="fa fa-save"></i>
-                                    <span class="ml-2">Guardar</span>
-                                </el-button>
-                            </div>
-                        </template>
-                        <template v-else>
+                        <!-- <template v-else>
                             <div
                              class="pull-right">
                             <el-button
@@ -238,7 +244,7 @@
                                 <span class="ml-2">Regresar</span>
                             </el-button>
                         </div>
-                        </template>
+                        </template> -->
                         
                         
 
