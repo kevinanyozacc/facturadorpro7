@@ -790,7 +790,7 @@ export default {
         await this.$http.get(`/${this.resource}/tables`)
             .then(response => {
                 let data = response.data
-                this.document_types = data.document_types_invoice
+                this.document_types = data.document_types_invoice.filter(item => item.id !== "14");
                 this.currency_types = data.currency_types
                 this.payment_conditions = data.payment_conditions
                 // this.establishment = data.establishment
