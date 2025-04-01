@@ -598,7 +598,6 @@ class SaleNoteController extends Controller
     public function record($id)
     {
         $record = new SaleNoteResource(SaleNote::findOrFail($id));
-        \Log::info("Datos enviados al frontend para record {$id}: " . json_encode($record));
 
         return $record; //record
     }
@@ -941,7 +940,6 @@ class SaleNoteController extends Controller
 
     public function toPrint($external_id, $format) {
 
-        \Log::info("Generando PDF para external_id: {$external_id}, formato: {$format}");
 
         $sale_note = SaleNote::where('external_id', $external_id)->first();
 
