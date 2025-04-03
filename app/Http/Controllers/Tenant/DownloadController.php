@@ -23,6 +23,9 @@ class DownloadController extends Controller
 
         if ($format != null) $this->reloadPDF($document, 'invoice', $format);
 
+        // Cambio para que se refleje el qr_url de ose o sunat  dentro del pdf de gre ("a4") para el listado
+        if($document->document_type->id == '09' && $document->qr_url) $this->reloadPDF($document, 'dispatch', 'a4');
+
         if(in_array($document->document_type_id, ['09', '31']) && $type === 'cdr') {
             if((new Facturalo)->hasPseSend()) {
                 $type = 'cdr';
