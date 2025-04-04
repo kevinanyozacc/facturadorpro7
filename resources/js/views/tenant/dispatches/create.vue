@@ -1076,7 +1076,7 @@ export default {
                 port_code: null,
                 unit_type_id: 'KGM',
                 total_weight: 1,
-                packages_number: 1,
+                packages_number: 0,
                 container_number: null,
                 dispatcher_id: null,
                 dispatcher: {},
@@ -1416,15 +1416,8 @@ export default {
             //this.generalSetDefaultSerieByDocumentType('09');
         },
         setDefaultSeries() {
-            let series_id = parseInt(this.config.user.serie);
-            if (isNaN(series_id)) series_id = null;
-            let searchSeries = _.find(this.series, {
-                'establishment_id': this.form.establishment_id,
-                'document_type_id': this.form.document_type_id,
-                'id': series_id
-            });
-            if (searchSeries !== undefined && searchSeries.length > 0) {
-                this.form.series = searchSeries.number;
+            if (this.series.length > 0) {
+                this.form.series = this.series[0].number;
             }
         },
         addItem(form) {

@@ -203,7 +203,7 @@
                                         'has-danger': errors.currency_type_id
                                     }"
                                 >
-                                    <label class="control-label">Moneda</label>
+                                    <label class="control-label">Moneda</label> 
                                     <el-select
                                         v-model="form.currency_type_id"
                                         @change="changeCurrencyType"
@@ -1636,10 +1636,10 @@ export default {
             this.discount_types = data.discount_types;
             this.charges_types = data.charges_types;
             this.company = data.company;
-            this.form.currency_type_id =
-                this.currency_types.length > 0
-                    ? this.currency_types[0].id
-                    : null;
+            
+            this.form.currency_type_id = this.config.currency_type_id || 
+                (this.currency_types.length > 0 ? this.currency_types[0].id : null);
+            
             this.form.establishment_id =
                 this.establishments.length > 0
                     ? this.establishments[0].id
@@ -2027,10 +2027,10 @@ export default {
         resetForm() {
             this.activePanel = 0;
             this.initForm();
-            this.form.currency_type_id =
-                this.currency_types.length > 0
-                    ? this.currency_types[0].id
-                    : null;
+
+            this.form.currency_type_id = this.config.currency_type_id || 
+                (this.currency_types.length > 0 ? this.currency_types[0].id : null);
+    
             this.form.establishment_id =
                 this.establishments.length > 0
                     ? this.establishments[0].id

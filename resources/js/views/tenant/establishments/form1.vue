@@ -365,9 +365,7 @@
                             }
                         });
                     } else {
-                        if (value) {
-                            data.append(key, value);
-                        }
+                        data.append(key, value === null ? '' : value);
                     }
                 }
                 if (this.file) {

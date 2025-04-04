@@ -32,7 +32,8 @@
                             <label class="control-label">Ubigeo</label>
                             <el-cascader v-model="form.location_id"
                                          :options="locations"
-                                         filterable></el-cascader>
+                                         filterable
+                                         :filter-method="filterLocation"></el-cascader>
                             <small v-if="errors.location_id"
                                    class="invalid-feedback"
                                    v-text="errors.location_id[0]"></small>
@@ -150,6 +151,11 @@ export default {
         },
         clickClose() {
             this.$emit('update:showDialog', false)
+        },
+        filterLocation(node, keyword) {
+        const label = node.label || '';
+        
+            return label.toUpperCase().indexOf(keyword.toUpperCase()) !== -1;
         },
     }
 }
