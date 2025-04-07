@@ -1091,9 +1091,15 @@
 
                             <div class="col-md-6 mt-4">
                                 <label class="control-label">Deshabilitar venta con retención para montos inferiores a 700</label>
-                                <div :class="{ 'has-danger': errors.disable_retention_below_700 }" class="form-group">
-                                    <el-switch v-model="form.disable_retention_below_700" active-text="Si" inactive-text="No" @change="submit"></el-switch>
-                                    <small v-if="errors.disable_retention_below_700" class="form-control-feedback" v-text="errors.disable_retention_below_700[0]"></small>
+                                <div :class="{ 'has-danger': errors.disable_retention_for_amount}" 
+                                        class="form-group">
+                                    <el-switch v-model="form.disable_retention_for_amount" 
+                                            active-text="Si" 
+                                            inactive-text="No" 
+                                            @change="submit"></el-switch>
+                                    <small v-if="errors.disable_retention_for_amount" 
+                                            class="form-control-feedback" 
+                                            v-text="errors.disable_retention_for_amount[0]"></small>
                                 </div>
                             </div>
 
@@ -2266,7 +2272,6 @@ export default {
                 finances: {},
                 visual: {},
                 dispatches_address_text: false,
-                disable_retention_below_700: false,
             },
             affectation_igv_types: [],
             global_discount_types: [],
@@ -2448,6 +2453,7 @@ export default {
                 condition_sale_purchase_price_to_item: false,
                 show_seller_in_pdf: true,
                 show_bank_accounts_in_pdf: true,
+                disable_retention_for_amount: false,
             };
         },
         UpdateFormPurchase(e) {
