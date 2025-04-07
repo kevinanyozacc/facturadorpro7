@@ -987,7 +987,12 @@ export default {
         } else {
             this.searchRemoteCustomers('')
             if (this.establishments.length > 0) {
-                this.form.establishment_id = _.head(this.establishments).id;
+    
+                if (this.config.establishment && this.config.establishment.id) {
+                    this.form.establishment_id = this.config.establishment.id;
+                } else {
+                    this.form.establishment_id = _.head(this.establishments).id;
+                }
             }
             await this.changeEstablishment()
             this.changeSeries();
@@ -1052,6 +1057,14 @@ export default {
             'loadItems',
             'loadConfiguration',
         ]),
+        generalDisabledSeries() {
+    
+            return (
+                this.configuration && 
+                this.configuration.restrict_series_selection_seller &&
+                this.config.typeUser !== "admin"
+            );
+        },
         initForm() {
             this.errors = {}
             let customer_id = parseInt(this.config.establishment.customer_id);
@@ -1404,6 +1417,24 @@ export default {
                     'establishment_id': this.form.establishment_id,
                     'document_type_id': this.form.document_type_id
                 });
+        
+                const serieExists = this.series.find(s => s.number === this.form.series);
+        
+                if (!serieExists) {
+                    this.form.series = null;
+            
+                    if (this.config.user && this.config.user.serie) {
+                        const defaultSeries = this.series.find(s => s.number === this.config.user.serie);
+                        if (defaultSeries) {
+                            this.form.series = defaultSeries.number;
+                        } else {
+                            this.setDefaultSeries();
+                        }
+                    } else {
+                        this.setDefaultSeries();
+                    }
+                }
+        
                 await this.getOriginAddresses(this.form.establishment_id)
                 if(this.form.transfer_reason_type_id==='04'){
                     await this.getAddressesOtherEstablishment(this.form.establishment_id)
@@ -1417,7 +1448,12 @@ export default {
         },
         setDefaultSeries() {
             if (this.series.length > 0) {
-                this.form.series = this.series[0].number;
+
+                const defaultSeries = this.series.find(s => s.is_default === true);
+        
+                this.form.series = defaultSeries ? defaultSeries.number : this.series[0].number;
+            } else {
+                this.form.series = null;
             }
         },
         addItem(form) {
@@ -1778,6 +1814,17 @@ export default {
             this.quantity = lots.length;
             this.calculateTotal(false)
         },
-    }
+    },
+    watch: {
+        'config.establishment.id': {
+            handler: function(newVal, oldVal) {
+                if (newVal && newVal !== oldVal) {
+                    this.form.establishment_id = newVal;
+                    this.changeEstablishment();
+                }
+            },
+            deep: true
+        }
+    },
 }
 </script>

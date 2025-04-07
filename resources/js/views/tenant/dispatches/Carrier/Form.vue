@@ -873,7 +873,11 @@ export default {
             await this.searchRemoteSenders('')
             await this.searchRemoteReceivers('')
             if (this.establishments.length > 0) {
-                this.form.establishment_id = _.head(this.establishments).id;
+                if (this.config.establishment && this.config.establishment.id) {
+                    this.form.establishment_id = this.config.establishment.id;
+                } else {
+                    this.form.establishment_id = _.head(this.establishments).id;
+                }
             }
             await this.changeEstablishment()
             this.setDefaults();
@@ -1130,8 +1134,20 @@ export default {
                     'establishment_id': this.form.establishment_id,
                     'document_type_id': this.form.document_type_id
                 });
-                if(this.series.length > 0) {
-                    this.form.series = this.series[0].number;
+                const serieExists = this.series.find(s => s.number === this.form.series);
+                if (!serieExists) {
+                    this.form.series = null;
+            
+                    if (this.config.user && this.config.user.serie) {
+                        const defaultSeries = this.series.find(s => s.number === this.config.user.serie);
+                        if (defaultSeries) {
+                            this.form.series = defaultSeries.number;
+                        } else {
+                            this.setDefaultSeries();
+                        }
+                    } else {
+                        this.setDefaultSeries();
+                    }
                 }
             }
         },
@@ -1523,6 +1539,27 @@ export default {
 
             this.loading_search = false
         },
-    }
+        setDefaultSeries() {
+            if (this.series.length > 0) {
+                const defaultSeries = this.series.find(s => s.is_default === true);
+        
+                this.form.series = defaultSeries ? defaultSeries.number : this.series[0].number;
+        
+            } else {
+                this.form.series = null;
+            }
+        },
+    },
+    watch: {
+        'config.establishment.id': {
+            handler: function(newVal, oldVal) {
+                if (newVal && newVal !== oldVal) {
+                    this.form.establishment_id = newVal;
+                    this.changeEstablishment();
+                }
+            },
+            deep: true
+        }
+    },
 }
 </script>

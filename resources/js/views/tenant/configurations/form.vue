@@ -1089,6 +1089,14 @@
                                 </div>
                             </div>
 
+                            <div class="col-md-6 mt-4">
+                                <label class="control-label">Deshabilitar venta con retención para montos inferiores a 700</label>
+                                <div :class="{ 'has-danger': errors.disable_retention_below_700 }" class="form-group">
+                                    <el-switch v-model="form.disable_retention_below_700" active-text="Si" inactive-text="No" @change="submit"></el-switch>
+                                    <small v-if="errors.disable_retention_below_700" class="form-control-feedback" v-text="errors.disable_retention_below_700[0]"></small>
+                                </div>
+                            </div>
+
                         </div>
                     </el-tab-pane>
                     <el-tab-pane class="mb-3" name="fourth">
@@ -2258,6 +2266,7 @@ export default {
                 finances: {},
                 visual: {},
                 dispatches_address_text: false,
+                disable_retention_below_700: false,
             },
             affectation_igv_types: [],
             global_discount_types: [],
