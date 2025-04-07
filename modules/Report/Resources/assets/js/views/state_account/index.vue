@@ -109,7 +109,7 @@
                             <td>{{ row.document_type_description }}</td>
                             <td>{{ row.number }}</td>
                             <td>{{ formatDate(row.date_of_issue) }}</td>
-                            <td>{{ FormatDate(row.date_of_due) }}</td>
+                            <td>{{ formatDate(row.date_of_due) }}</td>
                             <td
                                 v-if="columns.guides.visible"
                                 class="text-center"
