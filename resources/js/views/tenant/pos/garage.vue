@@ -1789,7 +1789,7 @@ export default {
                     exchangeRateSale,
                     this.percentage_igv
                 );
-                // console.log(this.row)
+                //console.log(this.row)
 
                 // this.row['unit_type_id'] = item.presentation ? item.presentation.unit_type_id : 'NIU';
 
@@ -1930,7 +1930,9 @@ export default {
             );
             this.form.subtotal = this.form.total;
 
-            this.checkPaymentGarage();
+            // Ya no esta funcionando el evento emit de checkPaymentGarage, 
+            // this.checkPaymentGarage();
+            this.$refs.componentFastPaymentGarage.checkPaymentGarage(this.form.total)
         },
         checkPaymentGarage() {
             this.$eventHub.$emit("eventCheckPaymentGarage");

@@ -1298,10 +1298,11 @@ export default {
                 identity_document_type_id: ""
             };
         },
-        checkPaymentGarage() {
+        checkPaymentGarage(total = null) {
+            let amount = total ? total: this.form.total
             this.inputDiscountAmount()
             if (this.form.payments.length == 0) {
-                this.$refs.componentMultiplePaymentGarage.clickAddPayment(this.form.total)
+                this.$refs.componentMultiplePaymentGarage.clickAddPayment(amount)
                 this.setAmount(this.form.total)
             } else if (this.form.payments.length == 1) {
 
