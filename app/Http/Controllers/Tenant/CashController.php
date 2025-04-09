@@ -259,8 +259,6 @@ class CashController extends Controller
                 
                 $expense = $cash_document->expense_payment->expense;
                 if($expense->state_type_id == '05'){
-                    $expense->state_type_id = '11';
-                    $expense->save();
     
                     $final_balance -= ($expense->currency_type_id == 'PEN') 
                         ? $cash_document->expense_payment->payment 

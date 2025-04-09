@@ -135,6 +135,16 @@ class ExpenseController extends Controller
 
     public function store(ExpenseRequest $request)
     {
+        if ($request->has('id') && $request->id) {
+            $expense = Expense::findOrFail($request->id);
+        
+            if ($this->isExpenseInClosedCashByDate($expense)) {
+                return [
+                    'success' => false,
+                    'message' => 'No se puede editar un gasto que pertenece a una caja cerrada',
+                ];
+            }
+        }
 
         $data = self::merge_inputs($request);
         // dd($data);
@@ -280,6 +290,12 @@ class ExpenseController extends Controller
     {
         try {
             $expense = Expense::findOrFail($record);
+            if ($this->isExpenseInClosedCashByDate($expense)) {
+                return [
+                    'success' => false,
+                    'message' => 'No se puede anular un gasto que pertenece a una caja cerrada',
+                ];
+            }
             $expense->state_type_id = 11;
             $expense->save();
             return [
@@ -317,6 +333,46 @@ class ExpenseController extends Controller
 
         return $balance->download('Expense_'.Carbon::now().'.xlsx');
 
+    }
+
+/**
+ * Verifica si un gasto está asociado a una caja cerrada por fechas
+ *
+ * @param Expense $expense
+ * @return bool
+ */
+    private function isExpenseInClosedCashByDate($expense)
+    {
+        $expense_date = $expense->date_of_issue;
+        $expense_time = $expense->time_of_issue ?? '00:00:00';
+    
+        $closed_cash = \App\Models\Tenant\Cash::where('state', false)
+            ->where(function($query) use ($expense_date, $expense_time) {
+                $query->where(function($q) use ($expense_date, $expense_time) {
+                    
+                    $q->where('date_opening', $expense_date)
+                    ->where('date_closed', $expense_date)
+                    ->where('time_opening', '<=', $expense_time)
+                    ->where('time_closed', '>=', $expense_time);
+                })->orWhere(function($q) use ($expense_date, $expense_time) {
+                    
+                    $q->where('date_opening', $expense_date)
+                    ->where('date_closed', '>', $expense_date)
+                    ->where('time_opening', '<=', $expense_time);
+                })->orWhere(function($q) use ($expense_date, $expense_time) {
+                    
+                    $q->where('date_opening', '<', $expense_date)
+                    ->where('date_closed', $expense_date)
+                    ->where('time_closed', '>=', $expense_time);
+                })->orWhere(function($q) use ($expense_date) {
+                    
+                    $q->where('date_opening', '<', $expense_date)
+                    ->where('date_closed', '>', $expense_date);
+                });
+            })
+            ->exists();
+    
+        return $closed_cash;
     }
 
 }
