@@ -8,6 +8,7 @@ use App\Models\Tenant\SalenotePayment;
 use App\Models\Tenant\DocumentPayment;
 use App\Models\Tenant\Document;
 use App\Models\Tenant\SaleNote;
+use App\Models\Tenant\Series;
 
 class StateAccountCollection extends ResourceCollection
 {
@@ -23,7 +24,10 @@ class StateAccountCollection extends ResourceCollection
             $payment_state='';
             $description='';
             $type_description='';
-            if(strpos($row->series, 'F001') !== false||strpos($row->series, 'B001') !== false){
+            $serie = $row->series;
+            $serie = Series::where('number', $serie)->first();
+            $document_type_id = $serie->document_type_id;
+            if($document_type_id == '01' || $document_type_id == '03'){
 
                 if(in_array($row->document_type_id, ['07', '08']) && $row->note) {
 
