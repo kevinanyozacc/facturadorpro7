@@ -7,7 +7,7 @@
                 @success="handleFn112"
             />
             <div
-                class="col-md-4 pl-2"
+                class="col-md-5 pl-2"
                 :class="{ 'pt-2 mt-1': !search_item_by_barcode }"
             >
                 <el-switch
@@ -17,22 +17,22 @@
                 >
                 </el-switch>
                 <div class="row" v-if="search_item_by_barcode">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <el-checkbox
                             class="mt-1 font-weight-bold"
                             v-model="search_item_by_barcode_presentation"
                             >Por presentación</el-checkbox
                         >
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <el-checkbox
                             class="mt-1 mb-1 font-weight-bold"
                             v-model="electronic_scale_barcode"
                         >
                             Balanza electrónica
-                        </el-checkbox>
+
                         <el-tooltip
-                            class="item"
+                            class="item ml-1"
                             effect="dark"
                             placement="top-start"
                         >
@@ -60,10 +60,18 @@
                             </div>
                             <i class="fa fa-info-circle"></i>
                         </el-tooltip>
+                        </el-checkbox>
+                    </div>
+                    <div class="col-md-4">
+                        <el-checkbox
+                            class="mt-1 font-weight-bold"
+                            v-model="barcode_stop_presentation"
+                            >Seleccionar listado de precio</el-checkbox
+                        >
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 text-right pr-3">
+            <div class="col-md-3 text-right pr-3">
                 <div class="row">
                     <div class="col-6" style="padding-top: 2.5px;">
                         <el-select
@@ -1138,6 +1146,7 @@ export default {
             focusClienteSelect: false,
             itemUnitTypes: [],
             searchFromBarcode: false,
+            barcode_stop_presentation: false,
             price_options: [
                 {
                     id: 1,
@@ -2430,12 +2439,28 @@ export default {
                     .get(`/${this.resource}/search_items?${parameters}`)
                     .then(response => {
                         // console.log("buah");
-                        this.items = response.data.items;
-                        this.enabledSearchItemsBarcode();
-                        this.loading = false;
-                        if (this.items.length == 0) {
-                            this.filterItems();
+                        if (response.data.items.length > 0) {
+                            
+                            let presentation = response.data.items[0].unit_type.length > 0 ? true: false
+                        
+                            if (presentation && this.barcode_stop_presentation) {
+                                this.items = response.data.items;
+                                this.loading = false;
+                                return    
+                            }
+
+                            this.items = response.data.items;
+                            this.enabledSearchItemsBarcode();
+                            this.loading = false;
+                            if (this.items.length == 0) {
+                                this.filterItems();
+                            }
+                            
+                        } else {
+                            this.$message.error('No se encontro el codigo de barra');
+                            this.loading = false;
                         }
+
                     });
             } else {
                 await this.filterItems();
