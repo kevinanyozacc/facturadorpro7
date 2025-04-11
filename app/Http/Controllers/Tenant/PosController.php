@@ -229,8 +229,8 @@ class PosController extends Controller
             if ($configuration->isShowServiceOnPos() !== true) {
                 $items->where('unit_type_id', '!=', 'ZZ');
             }
-            $items = $items->where('series_enabled', 0)
-                ->orderBy('description')
+            //$items = $items->where('series_enabled', 0)
+            $items = $items->orderBy('description')
                 ->take(100)
                 ->get()
                 ->transform(function (Item $row) use ($configuration) {
@@ -406,7 +406,7 @@ class PosController extends Controller
     {
         $items = Item::whereWarehouse()
             ->whereIsActive()
-            ->where('series_enabled', 0)
+            //->where('series_enabled', 0)
             ->orderBy('description');
         $config = Configuration::first();
         if ($config->isShowServiceOnPos() !== true) {
@@ -419,7 +419,9 @@ class PosController extends Controller
 
         self::FilterItem($items, $request);
 
-        return new PosCollection($items->paginate(50));
+        $items_collection = $items->paginate(50);
+
+        return new PosCollection($items_collection);
 
     }
 
@@ -468,9 +470,14 @@ class PosController extends Controller
      */
     public function search_items_cat(Request $request)
     {
-        $item = Item::whereWarehouse()
+        $item = Item::whereWarehouse();
             // ->whereIsActive()
-            ->where('series_enabled', 0);
+            //->where('series_enabled', 0);
+            
+        $config = Configuration::first();
+            if ($config->isShowServiceOnPos() !== true) {
+            $item->where('unit_type_id', '!=', 'ZZ');
+        }
 
         self::FilterItem($item, $request);
         return new PosCollection($item->paginate(50));

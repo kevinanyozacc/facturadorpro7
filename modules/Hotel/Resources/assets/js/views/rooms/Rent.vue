@@ -815,7 +815,8 @@ export default {
         },
         setDefaultDataPayments()
         {
-            this.form.rent_payment.payment_method_type_id = this.payment_method_types.length > 0 ? this.payment_method_types[0].id : null
+            this.form.rent_payment.payment_method_type_id = this.payment_method_types.length > 0 ? this.payment_method_types[0].id : null;
+            this.form.rent_payment.payment_destination_id = this.payment_destinations.length > 0 ? this.payment_destinations[0].id : null;
         },
         setAffectationIgvType() {
 

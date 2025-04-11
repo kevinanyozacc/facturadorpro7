@@ -979,6 +979,7 @@ export default {
 
         if (this.parentId) {
             this.form = Object.assign({}, this.form, this.document);
+            this.calculatePackagesFromItems();
             await this.reloadDataCustomers(this.form.customer_id);
             await this.getDeliveryAddresses(this.form.customer_id);
             if (this.delivery_addresses.length > 0) {
@@ -1019,6 +1020,7 @@ export default {
         this.initSupplierData()
         if (this.parentId) {
             this.form = Object.assign({}, this.form, this.document);
+            this.calculatePackagesFromItems();
             await this.form.customer_id && this.reloadDataCustomers(this.form.customer_id);
             await this.form.customer_id && this.getDeliveryAddresses(this.form.customer_id);
             await this.changeEstablishment()
@@ -1573,6 +1575,7 @@ export default {
         clickRemoveItem(index) {
             this.decrementValueAttr(this.form.items[index])
             this.form.items.splice(index, 1);
+            this.calculatePackagesFromItems();
         },
         async submit() {
             if (this.config.affect_all_documents) {
@@ -1817,6 +1820,17 @@ export default {
             this.lots = lots
             this.quantity = lots.length;
             this.calculateTotal(false)
+        },
+        calculatePackagesFromItems() {
+            if (!this.form.items || this.form.items.length === 0) {
+              return;
+            }
+            let totalPackages = 0;
+            this.form.items.forEach(item => {
+                const quantity = parseFloat(item.quantity || 0);
+                totalPackages += quantity;
+            });
+            this.form.packages_number = totalPackages;
         },
     },
     watch: {

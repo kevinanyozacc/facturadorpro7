@@ -773,6 +773,10 @@
                             </div>
                             <div class="col-md-6 mt-4">
                                 <label class="control-label">Impuesto incluido en registro de productos</label>
+                                <el-tooltip class="item" content="Se asignará automáticamente la opción 'Incluye IGV' al registrar un producto" effect="dark"
+                                        placement="top-start">
+                                        <i class="fa fa-info-circle"></i>
+                                    </el-tooltip>
                                 <div :class="{ 'has-danger': errors.include_igv }" class="form-group">
                                     <el-switch v-model="form.include_igv" active-text="Si" inactive-text="No"
                                         @change="submit"></el-switch>

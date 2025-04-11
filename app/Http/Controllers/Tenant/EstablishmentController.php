@@ -138,4 +138,13 @@ class EstablishmentController extends Controller
             'message' => 'Establecimiento eliminado con éxito'
         ];
     }
+
+    public function getEstablishmentActive()
+    {
+        $establishment = auth()->user()->establishment;
+        return [
+            'success' => true,
+            'establishment' => $establishment
+        ];
+    }
 }
