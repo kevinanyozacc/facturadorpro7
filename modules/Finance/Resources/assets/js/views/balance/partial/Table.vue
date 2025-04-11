@@ -192,25 +192,25 @@
                         </tbody>
                         <tfoot>
                         <tr>
-                            <td class="text-center"
+                            <td class="text-left pl-3"
                                 colspan="2">Totales
                             </td>
                             <td v-if="resource !== 'finances/payment-method-types'"
-                                class="text-center">{{curencySymbol}} {{
+                                class="text-right">{{curencySymbol}} {{
                                     totals.t_initial_balance | DecimalText
                                                     }}
                             </td>
-                            <td class="text-center">{{curencySymbol}} {{ totals.t_documents | DecimalText }}</td>
-                            <td class="text-center">{{curencySymbol}} {{ totals.t_sale_notes | DecimalText }}</td>
-                            <td class="text-center">{{curencySymbol}} {{ totals.t_quotations | DecimalText }}</td>
-                            <td class="text-center">{{curencySymbol}} {{ totals.t_contracts | DecimalText }}</td>
-                            <td class="text-center">{{curencySymbol}} {{ totals.t_technical_services | DecimalText }}</td>
-                            <td class="text-center">{{curencySymbol}} {{ totals.t_income | DecimalText }}</td>
-                            <td class="text-center">{{curencySymbol}} {{ totals.t_purchases | DecimalText }}</td>
-                            <td class="text-center">{{curencySymbol}} {{ totals.t_expenses | DecimalText }}</td>
-                            <td class="text-center">{{curencySymbol}} {{ totals.t_bank_loan | DecimalText }}</td>
-                            <td class="text-center">{{curencySymbol}} {{ totals.t_bank_loan_payment | DecimalText }}</td>
-                            <td class="text-center">{{curencySymbol}} {{ totals.t_balance | DecimalText }}</td>
+                            <td class="text-right">{{curencySymbol}} {{ totals.t_documents | DecimalText }}</td>
+                            <td class="text-right">{{curencySymbol}} {{ totals.t_sale_notes | DecimalText }}</td>
+                            <td class="text-right">{{curencySymbol}} {{ totals.t_quotations | DecimalText }}</td>
+                            <td class="text-right">{{curencySymbol}} {{ totals.t_contracts | DecimalText }}</td>
+                            <td class="text-right">{{curencySymbol}} {{ totals.t_technical_services | DecimalText }}</td>
+                            <td class="text-right">{{curencySymbol}} {{ totals.t_income | DecimalText }}</td>
+                            <td class="text-right">{{curencySymbol}} {{ totals.t_purchases | DecimalText }}</td>
+                            <td class="text-right">{{curencySymbol}} {{ totals.t_expenses | DecimalText }}</td>
+                            <td class="text-right">{{curencySymbol}} {{ totals.t_bank_loan | DecimalText }}</td>
+                            <td class="text-right">{{curencySymbol}} {{ totals.t_bank_loan_payment | DecimalText }}</td>
+                            <td class="text-right">{{curencySymbol}} {{ totals.t_balance | DecimalText }}</td>
                         </tr>
                         </tfoot>
                     </table>

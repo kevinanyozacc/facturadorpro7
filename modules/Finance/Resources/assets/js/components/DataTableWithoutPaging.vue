@@ -144,17 +144,17 @@
                         </tbody>
                         <tfoot>
                         <tr>
-                            <td class="text-center" colspan="2">Totales</td>
-                            <td class="text-center" v-if="resource !== 'finances/payment-method-types'">S/ {{ totals.t_initial_balance | DecimalText }}</td>
-                            <td class="text-center">S/ {{ totals.t_documents | DecimalText }}</td>
-                            <td class="text-center">S/ {{ totals.t_sale_notes | DecimalText}}</td>
-                            <td class="text-center">S/ {{ totals.t_quotations | DecimalText}}</td>
-                            <td class="text-center">S/ {{ totals.t_contracts | DecimalText}}</td>
-                            <td class="text-center">S/ {{ totals.t_technical_services | DecimalText}}</td>
-                            <td class="text-center">S/ {{ totals.t_income | DecimalText}}</td>
-                            <td class="text-center">S/ {{ totals.t_purchases | DecimalText}}</td>
-                            <td class="text-center">S/ {{ totals.t_expenses | DecimalText}}</td>
-                            <td class="text-center">S/ {{ totals.t_balance | DecimalText}}</td>
+                            <td class="text-left pl-3" colspan="2">Totales</td>
+                            <td class="text-right" v-if="resource !== 'finances/payment-method-types'">S/ {{ totals.t_initial_balance | DecimalText }}</td>
+                            <td class="text-right">S/ {{ totals.t_documents | DecimalText }}</td>
+                            <td class="text-right">S/ {{ totals.t_sale_notes | DecimalText}}</td>
+                            <td class="text-right">S/ {{ totals.t_quotations | DecimalText}}</td>
+                            <td class="text-right">S/ {{ totals.t_contracts | DecimalText}}</td>
+                            <td class="text-right">S/ {{ totals.t_technical_services | DecimalText}}</td>
+                            <td class="text-right">S/ {{ totals.t_income | DecimalText}}</td>
+                            <td class="text-right">S/ {{ totals.t_purchases | DecimalText}}</td>
+                            <td class="text-right">S/ {{ totals.t_expenses | DecimalText}}</td>
+                            <td class="text-right">S/ {{ totals.t_balance | DecimalText}}</td>
                         </tr>
                         </tfoot>
                     </table>

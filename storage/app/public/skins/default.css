@@ -1283,7 +1283,7 @@ a.ws-flotante {
     border-radius: 0 !important;
     transform: scale(0.85);
 }
-tbody tr:hover:not(:last-child) {
+tbody tr:hover,tfoot tr:hover {
     background: var(--light);
 }
 .card-header.bg-info {

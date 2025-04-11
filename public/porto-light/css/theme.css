@@ -21119,6 +21119,9 @@ li.multi-user-content{
 .payment-container-pos {
     border-top: 3px dashed #e0e6f8;
 }
+tbody tr:hover,tfoot tr:hover {
+    background: var(--light);
+}
 @media (min-width: 716px) {
     .card-columns {
     column-count: 2;
