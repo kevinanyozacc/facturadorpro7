@@ -3,13 +3,21 @@
 namespace App\Traits;
 
 use App\CoreFacturalo\Facturalo;
+use App\Http\Controllers\Tenant\VoidedController;
+use App\Models\Tenant\Configuration;
+use App\Models\Tenant\Document;
 use App\Models\Tenant\Summary;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use DB;
 
 trait SummaryTrait
 {
     public function save($request) {
+        $validate = $this->validateVoided($request);
+
+        if (!$validate['success']) return $validate;
+
         $fact = DB::connection('tenant')->transaction(function () use($request) {
             $facturalo = new Facturalo();
             $facturalo->save($request->all());
@@ -27,6 +35,42 @@ trait SummaryTrait
             'success' => true,
             'message' => "El resumen {$document->identifier} fue creado correctamente",
         ];
+    }
+    /**
+     * Validaciones previas
+     *
+     * @param VoidedRequest $request
+     * @return array
+     */
+    public function validateVoided($request)
+    {
+
+        $configuration = Configuration::select('restrict_voided_send', 'shipping_time_days_voided')->firstOrFail();
+        $voided_date_of_issue = Carbon::parse($request->date_of_issue);
+
+        if($configuration->restrict_voided_send)
+        {
+            foreach ($request->documents as $row)
+            {
+                $document = Document::whereFilterWithOutRelations()->select('date_of_issue')->findOrFail($row['document_id']);
+
+                $difference_days = $configuration->shipping_time_days_voided - $document->getDiffInDaysDateOfIssue($voided_date_of_issue);
+
+                if($difference_days < 0)
+                {
+                    return [
+                        'success' => false,
+                        'message' => "El documento excede los {$configuration->shipping_time_days_voided} días válidos para ser anulado."
+                    ];
+                }
+            }
+        }
+
+        return [
+            'success' => true,
+            'message' => null
+        ];
+
     }
 
     public function query($id) {
