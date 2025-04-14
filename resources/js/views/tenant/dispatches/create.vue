@@ -294,7 +294,7 @@
                             </div>
                         </div>
                         <hr>
-                        <h4>Datos modo de traslado</h4>
+                        <!--<h4>Datos modo de traslado</h4>
                         <div class="row" v-if="form.transport_mode_type_id === '01'">
                             <div class="col-lg-4">
                                 <div class="form-comtrol">
@@ -303,8 +303,26 @@
                                     </el-checkbox>
                                 </div>
                             </div>
+                        </div>-->
+                        <div class="row align-items-center">
+                            <div class="col-lg-3">
+                                <h4 class="mb-0" >Datos modo de traslado</h4>
+                            </div>
+                            <div class="col-lg-5">
+                                <div class="form-comtrol border-0 p-0">
+                                    <el-checkbox v-model="form.is_transport_m1l">
+                                    Traslados de vehículos de la categoría M1 o L
+                                    </el-checkbox>
+                                </div>
+                            </div>
+                            <div v-if="form.is_transport_m1l" class="col-lg-4">
+                                <div class="form-group mb-0">
+                                    <label class="control-label">Número de placa</label>
+                                    <el-input v-model="form.license_plate_m1l"></el-input>
+                                </div>
+                            </div>
                         </div>
-                        <div class="row">
+                        <div class="row" v-if="!form.is_transport_m1l">
                             <template v-if="form.transport_mode_type_id === '01'">
                                 <div class="col-lg-6">
                                     <div :class="{ 'has-danger': errors.dispatcher_id }" class="form-group">
@@ -1119,6 +1137,8 @@ export default {
                 reference_documents: [],
                 secondary_drivers: null,
                 has_transport_driver_01: false,
+                is_transport_m1l: false,
+                license_plate_m1l:null,
             }
         },
         setDescriptionOfItem(item) {

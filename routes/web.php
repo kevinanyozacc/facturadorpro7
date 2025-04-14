@@ -155,6 +155,7 @@ if ($hostname) {
             Route::get('establishments/records', 'Tenant\EstablishmentController@records');
             Route::delete('establishments/{establishment}', 'Tenant\EstablishmentController@destroy');
             Route::get('establishments/getEstablishmentActive', 'Tenant\EstablishmentController@getEstablishmentActive');
+            Route::get('establishments/codes', 'Tenant\EstablishmentController@getCodes');
 
             //Bank Accounts
             Route::get('bank_accounts', 'Tenant\BankAccountController@index')->name('tenant.bank_accounts.index');

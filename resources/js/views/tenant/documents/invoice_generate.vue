@@ -813,7 +813,7 @@
                                                 :disabled="typeUser == 'seller'"
                                             >
                                                 <el-option
-                                                    v-for="option in sellers"
+                                                    v-for="option in filteredSellers"
                                                     :key="option.id"
                                                     :label="option.name"
                                                     :value="option.id"
@@ -3975,6 +3975,13 @@ export default {
                 return this.configuration.add_description_to_document_item;
 
             return false;
+        },
+        filteredSellers() {
+            
+            if (!this.isUpdateDocument) {
+                return this.sellers.filter(seller => !seller.name.includes('(SUSPENDIDO)'));
+            }
+            return this.sellers;
         }
     },
     async created() {
@@ -4040,6 +4047,8 @@ export default {
             this.changeDestinationSale();
             this.setDefaultDocumentType();
             this.setConfigGlobalDiscountType();
+            this.startConnectionQzTray();
+            this.verifySelectedSeller();
         });
         await this.getPercentageIgv();
         this.loading_form = true;
@@ -7049,6 +7058,16 @@ export default {
             }
 
             return url;
+        },
+        verifySelectedSeller() {
+        
+            if (this.form.seller_id) {
+                const sellerExists = this.filteredSellers.some(s => s.id === this.form.seller_id);
+                if (!sellerExists) {
+                
+                    this.form.seller_id = this.idUser || null;
+                }
+            }
         }
     }
 };

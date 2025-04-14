@@ -92,6 +92,7 @@
                         <td>{{ row.expense }}</td> -->
                         <td>{{ row.state_description }}</td>
                         <td class="text-right">
+                            <template v-if="typeUser !== 'seller'">
                             <!-- <button type="button" class="btn waves-effect waves-light btn-xs btn-primary" @click.prevent="clickDownload(row.id)">Reporte</button> -->
 
                             <div class="btn-group flex-wrap">
@@ -333,6 +334,7 @@
                             >
                                 R. Ingreso
                             </button>
+                            </template>
 
                             <template v-if="row.state">
                                 <button

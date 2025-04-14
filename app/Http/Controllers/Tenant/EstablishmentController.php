@@ -147,4 +147,10 @@ class EstablishmentController extends Controller
             'establishment' => $establishment
         ];
     }
+
+    public function getCodes()
+    {
+        $establishments = Establishment::select('id', 'code')->get();
+        return response()->json($establishments);
+    }
 }

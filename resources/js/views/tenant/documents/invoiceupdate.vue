@@ -1092,7 +1092,7 @@
                                         <label class="control-label">Vendedor</label>
                                         <el-select v-model="form.seller_id"
                                                    :disabled="typeUser == 'seller'">
-                                            <el-option v-for="option in sellers"
+                                            <el-option v-for="option in filteredSellers"
                                                        :key="option.id"
                                                        :label="option.name"
                                                        :value="option.id"></el-option>
@@ -1618,6 +1618,13 @@ export default {
         detractionDecimalQuantity: function () {
             return (this.configuration.detraction_amount_rounded_int) ? 0 : 2
         },
+        filteredSellers() {
+            
+            if (!this.isUpdateDocument) {
+                return this.sellers.filter(seller => !seller.name.includes('(SUSPENDIDO)'));
+            }
+            return this.sellers;
+        }
     },
     async created() {
         this.loadConfiguration()
@@ -1668,6 +1675,7 @@ export default {
                 this.changeDestinationSale()
                 this.changeCurrencyType()
                 this.setDefaultDocumentType();
+                this.verifySelectedSeller();
             })
         this.loading_form = true
         this.$eventHub.$on('reloadDataPersons', (customer_id) => {
@@ -3760,6 +3768,15 @@ export default {
                 if (this.showDialogAddItem) this.showDialogAddItem = false
             }
 
+        },
+        verifySelectedSeller() {
+            
+            if (this.form.seller_id) {
+                const sellerExists = this.filteredSellers.some(s => s.id === this.form.seller_id);
+                if (!sellerExists) {
+                    this.form.seller_id = this.idUser || null;
+                }
+            }
         }
     }
 }
