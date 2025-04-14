@@ -112,9 +112,25 @@ export default {
         },
         getRecords() {
             this.loading_submit = true;
-            let resource = (this.promotionType=='banners')?this.resource:'promotions-list'
+            
+            // Determinar la ruta correcta según el tipo de promoción
+            let endpoint;
+            switch(this.promotionType) {
+                case 'banners':
+                    endpoint = 'promotions/records';
+                    break;
+                case 'promotions':
+                    endpoint = 'promotions-list/records';
+                    break;
+                case 'spots':
+                    endpoint = 'spot-list/records';
+                    break;
+                default:
+                    endpoint = 'promotions/records';
+            }
+            
             return this.$http
-                .get(`/${resource}/records?${this.getQueryParameters()}`)
+                .get(`/${endpoint}?${this.getQueryParameters()}`)
                 .then(response => {
                     this.records = response.data.data;
                     this.pagination = response.data.meta;
@@ -122,7 +138,9 @@ export default {
                         response.data.meta.per_page
                     );
                 })
-                .catch(error => {})
+                .catch(error => {
+                    console.error(error);
+                })
                 .then(() => {
                     this.loading_submit = false;
                 });

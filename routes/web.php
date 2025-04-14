@@ -710,6 +710,13 @@ if ($hostname) {
             Route::post('promotions-list', 'Tenant\PromotionController@storePromotionList');
             Route::get('promotions-list/records', 'Tenant\PromotionController@recordsPromotionList');
 
+            // Spot-list
+            Route::post('spot-list', 'Tenant\PromotionController@storeSpotList');
+            Route::put('spot-list/{id}', 'Tenant\PromotionController@storeSpotList');
+            Route::get('spot-list/records', 'Tenant\PromotionController@recordsSpotList');
+            Route::get('spot-list/record/{id}', 'Tenant\PromotionController@getSpotRecord');
+            Route::delete('spot-list/{id}', 'Tenant\PromotionController@destroySpot');
+
             Route::get('item-sets', 'Tenant\ItemSetController@index')->name('tenant.item_sets.index')->middleware('redirect.level');
             Route::get('item-sets/columns', 'Tenant\ItemSetController@columns');
             Route::get('item-sets/records', 'Tenant\ItemSetController@records');

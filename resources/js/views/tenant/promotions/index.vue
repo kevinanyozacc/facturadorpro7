@@ -137,16 +137,104 @@
       <promotions-list-form :showDialog.sync="showDialogPromotionList" :recordId="recordIdPromotion"></promotions-list-form>
     </div>
 
+    <div class="row">
+      <div class=" col-12 card-header">
+        <h3 class="">Listado de Anuncios publicitarios</h3>
+        <div class="right-wrapper pull-right">
+          <template>
+            <button
+              type="button"
+              class="btn btn-custom btn-sm mt-2 mr-2"
+              @click.prevent="clickCreateSpotList()"
+            >
+              <i class="fa fa-plus-circle"></i> Nuevo
+            </button>
+          </template>
+        </div>
+      </div>
+    </div>
+
+    <div class="card tab-content-default row-new mb-0">
+      <div class="card-body">
+        <data-table :apply-filter="false" :promotionType="'spots'" :resource="resource">
+          <tr slot="heading" width="100%">
+            <!-- <th>#</th> -->
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th class="text-center">Imagen</th>
+            <th class="text-right">Acciones</th>
+          </tr>
+          <tr></tr>
+          <tr slot-scope="{ index, row }">
+            <td>{{ row.name }}</td>
+            <td>{{ row.description }}</td>
+            <td class="text-center">
+              <img :src="row.image_url" alt width="170" height="130" />
+            </td>
+            <td class="text-right">
+              <template>
+                <button
+                  type="button"
+                  class="btn waves-effect waves-light btn-xs btn-info"
+                  @click.prevent="clickCreateSpotList(row.id)"
+                >Editar</button>
+                <button
+                  type="button"
+                  class="btn waves-effect waves-light btn-xs btn-danger"
+                  @click.prevent="clickDeleteSpotList(row.id)"
+                >Eliminar</button>
+              </template>
+            </td>
+          </tr>
+        </data-table>
+      </div>
+    
+      <spot-list-form :showDialog.sync="showDialogSpotList" :recordId="recordIdSpot"></spot-list-form>
+    </div>
+
   </div>
 </template>
 <style>
 .btn-show-filter{
   display: none;
 }
+.card-body .table {
+  width: 100%;
+  table-layout: fixed;
+}
+
+.card-body .table th:nth-child(1),
+.card-body .table td:nth-child(1) {
+  width: 20%;
+  word-wrap: break-word;
+}
+
+.card-body .table th:nth-child(2),
+.card-body .table td:nth-child(2) {
+  width: 30%;
+  word-wrap: break-word;
+}
+
+.card-body .table th:nth-child(3),
+.card-body .table td:nth-child(3) {
+  width: 30%;
+}
+
+.card-body .table th:nth-child(4),
+.card-body .table td:nth-child(4) {
+  width: 20%;
+}
+.card-body .table img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
 </style>
 <script>
 import PromotionsForm from "./form.vue";
 import PromotionsListForm from "./promotionListForm.vue";
+import SpotListForm from "./spotListForm.vue";
 // import ItemsImport from './import.vue'
 import DataTable from "../../../components/DataTablePromotionsEcommerce.vue";
 import { deletable } from "../../../mixins/deletable";
@@ -154,7 +242,7 @@ import { deletable } from "../../../mixins/deletable";
 export default {
   props: [], //'typeUser'
   mixins: [deletable],
-  components: { PromotionsForm, DataTable,PromotionsListForm }, //ItemsImport
+  components: { PromotionsForm, DataTable,PromotionsListForm, SpotListForm }, //ItemsImport
   data() {
     return {
       showDialog: false,
@@ -163,11 +251,17 @@ export default {
       showImageDetail: false,
       resource: "promotions",
       recordId: null,
-      recordIdPromotion: null
+      recordIdPromotion: null,
+      showDialogSpotList: false,
+      recordIdSpot: null
     };
   },
   created() {},
   methods: {
+    clickCreateSpotList(recordId = null) {
+      this.recordIdSpot = recordId;
+      this.showDialogSpotList = true;
+    },
     clickCreate(recordId = null) {
       this.recordId = recordId;
       this.showDialog = true;
@@ -186,6 +280,11 @@ export default {
     },
     clickDeletePromotionList(id) {
       this.destroy(`/${this.resource}/${id}`).then(() =>
+        this.$eventHub.$emit("reloadData")
+      );
+    },
+    clickDeleteSpotList(id) {
+      this.destroy(`/spot-list/${id}`).then(() =>
         this.$eventHub.$emit("reloadData")
       );
     },
