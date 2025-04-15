@@ -8,13 +8,15 @@ use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\WithColumnFormatting;
+use Maatwebsite\Excel\Concerns\WithColumnWidths;
 
 /**
  * Class ItemExport
  *
  * @package App\Exports
  */
-class ItemExport implements FromView, ShouldAutoSize
+class ItemExport implements FromView, ShouldAutoSize, WithColumnFormatting, WithColumnWidths
 {
     use Exportable;
 
@@ -50,5 +52,17 @@ class ItemExport implements FromView, ShouldAutoSize
         ]);
     }
 
+    public function columnFormats(): array
+    {
+        return [
+            'B' => "0",
+        ];
+    }
+    public function columnWidths(): array
+    {
+        return [
+            'B' => 23,            
+        ];
+    }
 
 }
