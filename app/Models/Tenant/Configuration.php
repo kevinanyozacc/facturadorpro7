@@ -116,6 +116,7 @@
      * @property bool|false  $show_terms_condition_pos
      * @property bool        $order_node_advanced
      * @property bool        $exact_discount
+     * @property bool        $available_detraction_for_amount_minor
      * @package App\Models\Tenant
      * @mixin ModelTenant
      * @method static Builder|Configuration newModelQuery()
@@ -322,7 +323,8 @@
             'show_bank_accounts_in_pdf',
             'enabled_price_items_dispatch',
             'legend_footer_sale',
-            'exact_discount'
+            'exact_discount',
+            'available_detraction_for_amount_minor'
         ];
 
         protected $casts = [
@@ -463,7 +465,8 @@
             'show_seller_in_pdf' => 'bool',
             'show_bank_accounts_in_pdf' => 'bool',
             'enabled_price_items_dispatch' => 'bool',
-            'exact_discount' => 'bool'
+            'exact_discount' => 'bool',
+            'available_detraction_for_amount_minor' => 'bool'
         ];
 
         protected $hidden = [
@@ -727,7 +730,8 @@
                 'show_seller_in_pdf' => $this->show_seller_in_pdf,
                 'show_bank_accounts_in_pdf' => $this->show_bank_accounts_in_pdf,
                 'enabled_price_items_dispatch' => $this->enabled_price_items_dispatch,
-                'exact_discount' => $this->exact_discount
+                'exact_discount' => $this->exact_discount,
+                'available_detraction_for_amount_minor' => $this->available_detraction_for_amount_minor
             ];
         }
 
