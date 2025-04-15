@@ -1094,16 +1094,16 @@
                             </div>
 
                             <div class="col-md-6 mt-4">
-                                <label class="control-label">Deshabilitar venta con retención para montos inferiores a 700</label>
-                                <div :class="{ 'has-danger': errors.disable_retention_for_amount}" 
+                                <label class="control-label">Habilitar venta con detracción para montos inferiores a 700</label>
+                                <div :class="{ 'has-danger': errors.available_detraction_for_amount_minor}" 
                                         class="form-group">
-                                    <el-switch v-model="form.disable_retention_for_amount" 
+                                    <el-switch v-model="form.available_detraction_for_amount_minor" 
                                             active-text="Si" 
                                             inactive-text="No" 
                                             @change="submit"></el-switch>
-                                    <small v-if="errors.disable_retention_for_amount" 
+                                    <small v-if="errors.available_detraction_for_amount_minor" 
                                             class="form-control-feedback" 
-                                            v-text="errors.disable_retention_for_amount[0]"></small>
+                                            v-text="errors.available_detraction_for_amount_minor[0]"></small>
                                 </div>
                             </div>
 
