@@ -182,14 +182,24 @@
                 </el-dropdown>
             </div>
             <div class="card-body">
-                <data-table :productType="type" :resource="resource">
-                    <tr slot="heading" width="100%">
+                <data-table :productType="type" :resource="resource" :sort-field="sortField" :sort-direction="sortDirection" @sort-change="handleSortChange">
+                    <tr slot="heading" width="100%" slot-scope="{ sort }">
                         <!-- <th>#</th> -->
                         <th class="text-right" style="max-width: 83px;">ID</th>
                         <th class="text-right">Cód. Interno</th>
                         <th>Unidad</th>
                         <th>Imagen</th>
-                        <th>Nombre</th>
+                        <th>
+                            <a href="#" @click.prevent="sort('description')" style="color: inherit; text-decoration: none;">
+                                Nombre 
+                                <i class="fas" :class="{
+                                    'fa-sort-up': sortField === 'description' && sortDirection === 'asc',
+                                    'fa-sort-down': sortField === 'description' && sortDirection === 'desc',
+                                    'fa-sort': sortField !== 'description' || 
+                                              (sortField === 'description' && sortDirection === 'default')
+                                }"></i>
+                            </a>
+                        </th>
                         <th v-if="columns.description.visible">Descripción</th>
                         <th v-if="columns.model.visible">Modelo</th>
                         <th v-if="columns.brand.visible">Marca</th>
@@ -682,7 +692,9 @@ export default {
             titleTopBar: "",
             title: "",
             showDialogHistory: false,
-            showDialogItemStock: false
+            showDialogItemStock: false,
+            sortField: localStorage.getItem('itemSortField') || 'id',
+            sortDirection: localStorage.getItem('itemSortDirection') || 'desc'
         };
     },
     created() {
@@ -732,6 +744,18 @@ export default {
         }
     },
     methods: {
+        handleSortChange(sort) {
+            if (this.sortField === sort.field && this.sortDirection === 'desc' && sort.field === 'description') {
+                this.sortField = 'id';
+                this.sortDirection = 'desc';
+            } else {
+                this.sortField = sort.field;
+                this.sortDirection = sort.direction;
+            }
+
+            localStorage.setItem('itemSortField', this.sortField);
+            localStorage.setItem('itemSortDirection', this.sortDirection);
+        },
         saveColumnVisibility() {
             localStorage.setItem(
                 "columnVisibilityItems",

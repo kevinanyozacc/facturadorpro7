@@ -48,13 +48,23 @@
         <h3 class="my-0">Listado de productos Tienda Virtual</h3>
       </div> -->
             <div class="card-body">
-                <data-table :resource="resource" :ecommerce="ecommerce">
-                    <tr slot="heading" width="100%">
+                <data-table :resource="resource" :ecommerce="ecommerce" :sort-field="sortField" :sort-direction="sortDirection" @sort-change="handleSortChange">
+                    <tr slot="heading" width="100%" slot-scope="{ sort }">
                         <!-- <th>#</th> -->
                         <th>Cód. Interno</th>
                         <th>Unidad</th>
                         <th class="text-center">Imagen</th>
-                        <th>Nombre</th>
+                        <th>
+                            <a href="#" @click.prevent="sort('description')" style="color: inherit; text-decoration: none;">
+                                Nombre 
+                                <i class="fas" :class="{
+                                    'fa-sort-up': sortField === 'description' && sortDirection === 'asc',
+                                    'fa-sort-down': sortField === 'description' && sortDirection === 'desc',
+                                    'fa-sort': sortField !== 'description' || 
+                                              (sortField === 'description' && sortDirection === 'default')
+                                }"></i>
+                            </a>
+                        </th>
                         <th class="text-right">P.Unitario (Venta)</th>
                         <th class="text-right">Stock General</th>
                         <th class="text-center">Tags</th>
@@ -228,11 +238,25 @@ export default {
                 image_url_medium: "",
                 image_url_small: ""
             },
-            ecommerce: true
+            ecommerce: true,
+            sortField: localStorage.getItem('itemSortField') || 'id',
+            sortDirection: localStorage.getItem('itemSortDirection') || 'desc'
         };
     },
     created() {},
     methods: {
+        handleSortChange(sort) {
+            if (this.sortField === sort.field && this.sortDirection === 'desc' && sort.field === 'description') {
+                this.sortField = 'id';
+                this.sortDirection = 'desc';
+            } else {
+                this.sortField = sort.field;
+                this.sortDirection = sort.direction;
+            }
+
+            localStorage.setItem('itemSortField', this.sortField);
+            localStorage.setItem('itemSortDirection', this.sortDirection);
+        },
         viewImages(row) {
             this.recordImages.image_url = row.image_url;
             this.recordImages.image_url_medium = row.image_url_medium;
