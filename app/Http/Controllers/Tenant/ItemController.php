@@ -127,6 +127,9 @@ class ItemController extends Controller
         // $records = Item::whereTypeUser()->whereNotIsSet();
         $records = $this->getInitialQueryRecords();
 
+        $sortField = $request->get('sort_field', 'id');
+        $sortDirection = $request->get('sort_direction', 'desc');
+
         switch ($request->column)
         {
 
@@ -207,7 +210,7 @@ class ItemController extends Controller
         }
 
 
-        return $records->orderBy('id', 'desc');
+        return $records->orderBy($sortField, $sortDirection);
 
     }
 

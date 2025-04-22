@@ -106,7 +106,7 @@
                 <div class="table-responsive table-responsive-new">
                     <table class="table">
                         <thead>
-                            <slot name="heading"></slot>
+                            <slot name="heading" :sort="handleSort"></slot>
                         </thead>
                         <tbody>
                             <slot
@@ -153,6 +153,14 @@ export default {
         pharmacy: Boolean,
         restaurant: Boolean,
         ecommerce: Boolean,
+        sortField: {
+            type: String,
+            default: 'id'
+        },
+        sortDirection: {
+            type: String,
+            default: 'desc'
+        }
     },
     data() {
         return {
@@ -174,6 +182,10 @@ export default {
                 visible:'Visibles',
                 hidden:'Ocultos'
             },
+            currentSort: {
+                field: this.sortField,
+                direction: this.sortDirection
+            }
         };
     },
     created() {
@@ -242,6 +254,8 @@ export default {
                 isPharmacy:this.fromPharmacy,
                 isRestaurant:this.fromRestaurant,
                 isEcommerce:this.fromEcommerce,
+                sort_field: this.currentSort.field,
+                sort_direction: this.currentSort.direction,
                 ...this.search
             });
         },
@@ -265,6 +279,32 @@ export default {
                 this.$message.error(response.data.message);
 
             }
+        },
+        handleSort(field) {
+            if (this.currentSort.field === field) {
+                if (this.currentSort.direction === 'asc') {
+                    this.currentSort.direction = 'desc';
+                } else if (this.currentSort.direction === 'desc' && field === 'description') {
+                    this.currentSort.field = 'id';
+                    this.currentSort.direction = 'desc';
+                } else {
+                    this.currentSort.direction = 'asc';
+                }
+            } else {
+                this.currentSort.field = field;
+                this.currentSort.direction = 'asc';
+            }
+
+            this.$emit('sort-change', this.currentSort);
+            this.getRecords();
+        }
+    },
+    watch: {
+        sortField(newVal) {
+            this.currentSort.field = newVal;
+        },
+        sortDirection(newVal) {
+            this.currentSort.direction = newVal;
         }
     }
 };

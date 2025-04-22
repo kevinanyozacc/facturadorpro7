@@ -2265,7 +2265,7 @@ html.dark .el-picker-panel {
     border: 1px solid var(--borders-dark);
     background: var(--contents-dark);
 }
-html.dark tbody tr:hover:not(:last-child) {
+html.dark tbody tr:hover, html.dark tfoot tr:hover {
     background: transparent;
 }
 html.dark .el-date-table th,
