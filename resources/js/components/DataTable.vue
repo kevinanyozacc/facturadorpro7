@@ -254,6 +254,8 @@ export default {
                 isPharmacy:this.fromPharmacy,
                 isRestaurant:this.fromRestaurant,
                 isEcommerce:this.fromEcommerce,
+                sort_field: this.currentSort.field,
+                sort_direction: this.currentSort.direction,
                 ...this.search
             });
         },
@@ -278,25 +280,6 @@ export default {
 
             }
         },
-        getQueryParameters() {
-            if (this.productType == 'ZZ') {
-                this.search.type = 'ZZ';
-            }
-            if (this.productType == 'PRODUCTS') {
-                this.search.type = this.productType;
-            }
-            return queryString.stringify({
-                page: this.pagination.current_page,
-                limit: this.limit,
-                isPharmacy: this.fromPharmacy,
-                isRestaurant: this.fromRestaurant,
-                isEcommerce: this.fromEcommerce,
-                sort_field: this.currentSort.field,
-                sort_direction: this.currentSort.direction,
-                ...this.search
-            });
-        },
-
         handleSort(field) {
             if (this.currentSort.field === field) {
                 if (this.currentSort.direction === 'asc') {
