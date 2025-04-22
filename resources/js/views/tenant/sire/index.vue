@@ -221,10 +221,13 @@ export default {
         const currentRow = row;
         const nextRow = this.documents[rowIndex + 1];
 
+        const total1 = parseFloat(currentRow.total).toFixed(2);
+        const total2 = parseFloat(nextRow.total).toFixed(2);
+
         if (
           currentRow.number == nextRow.number &&
           currentRow.serie == nextRow.serie &&
-          currentRow.total !== nextRow.total
+          total1 !== total2
         ) {
           return 'bg-danger';
         }
