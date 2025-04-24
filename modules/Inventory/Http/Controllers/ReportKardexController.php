@@ -258,7 +258,7 @@ class ReportKardexController extends Controller
         }
 
         $records = $query->orderBy('item_id')
-            ->orderBy('id' , 'desc')
+            ->orderBy('id')
             ->get();
 
         return [
