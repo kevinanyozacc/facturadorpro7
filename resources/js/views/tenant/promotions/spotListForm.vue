@@ -30,7 +30,7 @@
                 Imágen
                 <span class="text-danger"></span>
                 <div class="sub-title text-danger">
-                  <small>Se requiere resoluciones 1024x720</small>
+                  <small>Se requiere resoluciones 570x145</small>
                 </div>
               </label>
               <el-upload
