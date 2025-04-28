@@ -145,6 +145,9 @@ if ($hostname) {
             Route::get('certificates-qztray/record', 'Tenant\CertificateQzTrayController@record');
             Route::post('certificates-qztray/uploads', 'Tenant\CertificateQzTrayController@uploadFileQzTray');
             Route::delete('certificates-qztray', 'Tenant\CertificateQzTrayController@destroy');
+            Route::get('certificates-qztray/private', 'Tenant\CertificateQzTrayController@private');
+            Route::get('certificates-qztray/digital', 'Tenant\CertificateQzTrayController@digital');
+            Route::get('certificates-qztray/download', 'Tenant\CertificateQzTrayController@download');
 
             //Establishments
             Route::get('establishments', 'Tenant\EstablishmentController@index')->name('tenant.establishments.index');

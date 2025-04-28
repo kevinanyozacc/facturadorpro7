@@ -4,7 +4,11 @@
             <h3 class="my-0">Certificado Qz Tray</h3>
         </div>
         <div class="card-body">
-            <p>Se tiene que ingresar los dos archivos generados en los certificados de Qz Tray</p>
+            <p>Se tiene que ingresar los dos archivos generados en los certificados de Qz Tray
+                <strong>
+                    (Es importante que se coloque los dos certificados)
+                </strong>
+            </p>
             <div class="table-responsive" v-if="record">
                 <table class="table">
                     <thead>
@@ -62,10 +66,12 @@
                             </el-upload>
                         </el-input>
                     </div>
-                    <div class="row mt-4" v-if="showButtonDelete">
+                    <div class="row mt-4" v-if="showButtons">
                         <div class="col-md-12 text-right">
                                 <button type="button" class="btn waves-effect waves-light btn-xs btn-danger"
                                         @click.prevent="removeCertificateQzTray">Eliminar</button>
+                                <button type="button" class="btn waves-effect waves-light btn-xs btn-primary"
+                                        @click.prevent="clickDownload()">Descargar Zip</button>
                         </div>
                     </div>
                 </div>
@@ -81,7 +87,7 @@ export default {
     data() {
         return {
             headers: headers_token,
-            showButtonDelete : false,
+            showButtons : false,
             resources: 'certificates-qztray',
             form: {},
         }
@@ -96,7 +102,7 @@ export default {
             if (response.success) {
                 this.$message.success(response.message)
                 this.form[response.type] = response.name
-                this.showButtonDelete = true;
+                this.showButtons = true;
             } else {
                 this.$message({message: 'Error al subir el archivo', type: 'error'})
             }
@@ -116,19 +122,20 @@ export default {
                 .get(`/${this.resources}/record`)
                 .then(response => {
                     let certificates = response.data.record[0]
-                    
                         if (certificates.digital_certificate_qztray || certificates.private_certificate_qztray ) {
-                            this.showButtonDelete = true
+                            this.showButtons = true
                         }
                         this.form.digital_qztray = certificates.digital_certificate_qztray ? certificates.digital_certificate_qztray : null;
                         this.form.private_qztray = certificates.private_certificate_qztray ? certificates.private_certificate_qztray : null;
-                        
                 })
         },
         async removeCertificateQzTray() {
             await this.destroy(`/${this.resources}`)
-            this.showButtonDelete = false;
+            this.showButtons = false;
             this.getRecordCertificatesQzTray()
+        },
+        clickDownload(){
+            window.open("/certificates-qztray/download", "_blank");
         }
     }
 }

@@ -7010,9 +7010,12 @@ export default {
             await this.asignPlateNumberToItems();
 
             let val_detraction = await this.validateDetraction();
-            if (!val_detraction.success) {
-                this.$message.error(val_detraction.message);
-                return false;
+            
+            if (!this.configuration.available_detraction_for_amount_minor) {
+                if (!val_detraction.success) {
+                    this.$message.error(val_detraction.message);
+                    return false;
+                }
             }
 
             if (!this.enabled_payments) {

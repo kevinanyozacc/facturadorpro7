@@ -4,10 +4,10 @@
 //        $.ajax("assets/signing/digital-certificate.txt").then(resolve, reject);
 
       //Alternate method 1 - anonymous
+
 //        resolve();
 
-      //Alternate method 2 - direct
-      resolve("-----BEGIN CERTIFICATE-----\n" +
+        let digitalKey =  "-----BEGIN CERTIFICATE-----\n" +
             "MIID9DCCAtygAwIBAgIJAPdXYKD3oGt9MA0GCSqGSIb3DQEBCwUAMIGOMQswCQYD\n"+
             "VQQGEwJQRTEQMA4GA1UECAwHVUNBWUFMSTERMA8GA1UEBwwIUFVDQUxMUEExDDAK\n"+
             "BgNVBAoMA1RFTDEMMAoGA1UECwwDVEVMMRowGAYDVQQDDBF0b2RvLWVuLWxpbmVh\n"+
@@ -30,10 +30,22 @@
             "5E8KclUBOdega3CEI/VgHwc5iw8TvVXu6WO3B5WhkGBKNVc1mpwndM8GDBf0YwsB\n"+
             "SbMOGwAbAlyaS1F5X3+qlaDpQdH7XhisLxfCHs52Nz9dLG+sNAhacIDzBZlDB/sU\n"+
             "oW/Zf3zj9Ag=\n"+
-            "-----END CERTIFICATE-----\n");
+            "-----END CERTIFICATE-----\n";
+
+        fetch('/certificates-qztray/digital')
+        .then(response => response.text())
+        .then(digital => { 
+        let digitalResponse = digital
+        if (digitalResponse === '') {
+          resolve(digitalKey)
+        } else {
+          resolve(digital)
+        }
+        })
+      //Alternate method 2 - direct
   });
 
-  privateKey = "-----BEGIN PRIVATE KEY-----\n" +
+  let privateKey = "-----BEGIN PRIVATE KEY-----\n" +
             "MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDCZwdmAMTY9qR6\n"+
             "NGtexKWs/jfbZyfc0U3LcYqo29jeyxzRCD06b+MJkTX8m4SRCstL2qvueOHiZvXo\n"+
             "JSVpRINCKuTkKzcMWi9sijiBIuzcl2m1ovAhX5d61DIfhBrvIcLp5mvK5YR+ygye\n"+
@@ -65,15 +77,28 @@
 
     qz.security.setSignaturePromise(function(toSign) {
         return function(resolve, reject) {
-            try {
-                var pk = KEYUTIL.getKey(privateKey);
-                var sig = new KJUR.crypto.Signature({"alg": "SHA1withRSA"});
-                sig.init(pk);
-                sig.updateString(toSign);
-                var hex = sig.sign();
-                resolve(stob64(hextorstr(hex)));
+            fetch("/certificates-qztray/private")
+            .then(response => response.text())
+            .then(private => {
+                let key
+                let privateResponse = private 
+
+                if (privateResponse === '') {
+                    key = privateKey
+                } else {
+                    key = privateResponse
+                }
+                try {
+                    var pk = KEYUTIL.getKey(key);
+                    var sig = new KJUR.crypto.Signature({"alg": "SHA1withRSA"});
+                    sig.init(pk);
+                    sig.updateString(toSign);
+                    var hex = sig.sign();
+                    resolve(stob64(hextorstr(hex)));
             } catch (err) {
                 reject(err);
             }
+
+            })
         };
     });
