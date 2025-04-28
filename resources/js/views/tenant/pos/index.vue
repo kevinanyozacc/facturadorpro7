@@ -16,7 +16,7 @@
                     @change="changeSearchItemBarcode"
                 >
                 </el-switch>
-                <div class="row" v-if="search_item_by_barcode">
+                <div class="row bar-code-checkbox" v-if="search_item_by_barcode">
                     <div class="col-md-4">
                         <el-checkbox
                             class="mt-1 font-weight-bold"
@@ -71,11 +71,10 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3 text-right pr-3">
-                <div class="row">
-                    <div class="col-6" style="padding-top: 2.5px;">
-                        <el-select
-                            v-if="!configuration.enable_list_product"
+            <div class="col-md-3 text-right pr-0">
+                <div class="d-flex">
+                    <div v-if="!configuration.enable_list_product" class="col-6" style="padding-top: 2.5px;">
+                        <el-select                            
                             v-model="selected_option_price"
                             @change="ChangeSelectedPrice"
                             filterable
@@ -89,7 +88,7 @@
                         </el-select>
                     </div>
                     <div class="col-6">
-                        <el-button-group>
+                        <el-button-group class="d-flex">
                             <el-tooltip
                                 class="item"
                                 effect="dark"
@@ -179,6 +178,7 @@
         <div
             v-if="!is_payment"
             class="row col-lg-12 m-0 p-0 pos-container"
+            :class="{'margin-top-switch-active': search_item_by_barcode}"
             v-loading="loading"
         >
             <div class="col-lg-8 col-md-6 px-4 hyo">
@@ -195,7 +195,7 @@
                         @input="searchItems"
                         @keyup.native="keyupTabCustomer"
                         @keyup.enter.native="keyupEnterAddItem"
-                        class="m-bottom input-search-pos mt-3"
+                        class="m-bottom input-search-pos mt-0"
                         ref="ref_search_items"
                     >
                         <template v-if="validteCreateProduct">
@@ -203,7 +203,7 @@
                                 slot="append"
                                 @click.prevent="showDialogNewItem = true"
                                 class="btn-add-product-pos"
-                                >Nuevo Producto</el-button
+                                >Nuevo Productoss</el-button
                             >
                         </template>
                     </el-input>
@@ -222,7 +222,7 @@
                         @change="searchItemsBarcode"
                         @keyup.native="keyupTabCustomer"
                         ref="ref_search_items"
-                        class="m-bottom input-search-pos mt-3"
+                        class="m-bottom input-search-pos mt-0"
                         @focus="searchFromBarcode = true"
                         @blur="searchFromBarcode = false"
                     >
@@ -1054,9 +1054,81 @@
     grid-template-columns: repeat(auto-fit, minmax(135px, 1fr));
     gap: 0.25rem;
 }
+.el-checkbox__label {
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 150px;
+    vertical-align: middle;
+}
+@media only screen and (max-width: 1200px) {
+    .bar-code-checkbox{
+        display: flex;
+        flex-direction: column;
+    }
+    .pos-container.margin-top-switch-active {
+        margin-top: 60px !important;
+    }
+}
+@media only screen and (max-width: 895px) {
+    .bar-code-checkbox{
+        display: flex;
+        flex-direction: row;
+    }
+    .pos-container{
+        margin-top: 110px !important;
+    }
+    .pos-container.margin-top-switch-active {
+        margin-top: 182px !important;
+    }
+    .row.page-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 15px;
+    }
+    .row.page-header > div:first-child {
+        order: 1;
+        text-align: left;
+        padding-left: 0;
+    }
+    .row.page-header > div:nth-child(2) {
+        order: 2;
+        text-align: center;
+        padding-right: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .row.page-header > div:last-child {
+        order: 3;
+        text-align: right;
+    }
+    .row.page-header .col-md-5,
+    .row.page-header .col-md-3,
+    .row.page-header .col-md-4 {
+        width: 100%;
+        max-width: 100%;
+        flex: 0 0 100%;
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .row.page-header .el-button-group {
+        justify-content: center;
+    }
+    .exchange-currency {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        padding-right: 0;
+    }
+}
 @media only screen and (max-width: 767px) {
     #main-wrapper {
-        padding-top: 175px;
+        padding-top: 62px;
+    }
+    .pos-container, .pos-container.margin-top-switch-active{
+        margin-top: -20px !important;
     }
 }
 @media (max-width: 767px) {
