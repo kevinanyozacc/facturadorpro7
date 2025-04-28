@@ -191,7 +191,8 @@ class PosController extends Controller
             ->where([['establishment_id', auth()->user()->establishment_id], ['contingency', false]])
             ->get();
 
-        $payment_method_types = PaymentMethodType::all();
+        $payment_method_types = PaymentMethodType::NotCredit()->
+                where('id', '!=', '07')->get();
         $cards_brand = CardBrand::all();
         $payment_destinations = $this->getPaymentDestinations();
         $global_discount_types = ChargeDiscountType::whereIn('id', ['02', '03'])->whereActive()->get();
