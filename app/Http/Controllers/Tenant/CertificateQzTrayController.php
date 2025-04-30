@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Tenant;
 
 use App\Http\Controllers\Controller;
 use App\Models\Tenant\Company;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Modules\Store\Helpers\StorageHelper;
@@ -96,6 +97,35 @@ class CertificateQzTrayController extends Controller
     public function digital()
     {
         return (new StorageHelper())->contentCertificaQzDigital();
+    }
+
+    public function download()
+    {
+        $company = Company::active();
+        $zip = new \ZipArchive();        
+        $zipPath = storage_path('app'.DIRECTORY_SEPARATOR. 'certificates'. DIRECTORY_SEPARATOR. 'qztray');
+        $zipFilename = 'certificates-qztray.zip';
+
+        try {
+            if ($zip->open($zipPath . DIRECTORY_SEPARATOR . $zipFilename, \ZipArchive::CREATE) == true) {
+                if (Storage::disk('local')->exists('certificates\\qztray\\'.$company->private_certificate_qztray)) {
+                    $private_certificate = storage_path('app'.DIRECTORY_SEPARATOR. 'certificates'. DIRECTORY_SEPARATOR. 'qztray'. DIRECTORY_SEPARATOR. $company->private_certificate_qztray);
+                    $zip->addFile($private_certificate, $company->private_certificate_qztray);
+                }
+
+                if (Storage::disk('local')->exists('certificates\\qztray\\'.$company->digital_certificate_qztray)) {
+                    $digital_certificate = storage_path('app'.DIRECTORY_SEPARATOR. 'certificates'. DIRECTORY_SEPARATOR. 'qztray'. DIRECTORY_SEPARATOR . $company->private_certificate_qztray);
+                    $zip->addFile($digital_certificate, $company->digital_certificate_qztray);
+                }
+
+                $zip->close();
+                return response()->download($zipPath. DIRECTORY_SEPARATOR . $zipFilename);
+            }
+
+        } catch (\Throwable $th) {
+            return response()->json(['error' => $th->getMessage()], 500);
+        }
+
     }
 }
 

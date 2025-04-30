@@ -1318,9 +1318,15 @@ body .v-modal {
   width: 20px;
   height: 20px;
 }
+.el-switch__core {
+    border: 1px solid var(--highlight-color) !important;
+    background: var(--highlight-color) !important;
+    opacity: 0.5 !important;
+}
 .el-switch.is-checked .el-switch__core {
-  border-color: var(--primary-color);
-  background-color: var(--primary-color);
+  border-color: var(--primary-color) !important;
+  background-color: var(--primary-color) !important;
+  opacity: 1 !important;
 }
 .tab-content {
     border-radius: 0 0 20px 20px;
@@ -2340,8 +2346,9 @@ html.dark li.el-select-dropdown__item.item-result {
     border-bottom: 1px solid var(--borders-dark);
 }
 html.dark .el-switch__core {
-    border: 1px solid var(--borders-dark);
-    background: var(--inputs-dark);
+    border: 1px solid var(--borders-dark) !important;
+    background: var(--inputs-dark) !important;
+    opacity: 1 !important;
 }
 html.dark .el-button.is-disabled,
 html.dark .el-button.is-disabled:hover,
