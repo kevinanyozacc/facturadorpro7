@@ -11,6 +11,7 @@
     use App\Models\Tenant\PurchaseItem;
     use App\Models\Tenant\SaleNoteItem;
     use App\Models\Tenant\QuotationItem;
+    use App\Models\Tenant\Establishment;
     use Illuminate\Http\Request;
     use Illuminate\Routing\Controller;
     use Illuminate\Support\Facades\DB;
@@ -24,9 +25,12 @@
     use Picqer\Barcode\BarcodeGeneratorPNG;
     use Illuminate\Support\Carbon;
     use Modules\Item\Imports\{
-        ItemUpdatePriceImport
+        ItemUpdatePriceImport,
+        ItemUpdatePriceEstablishmentImport
     };
     use Modules\Purchase\Helpers\WeightedAverageCostHelper;
+    use Modules\Item\Exports\PricesEstablishmentFormatExport;
+    use App\Models\Tenant\Warehouse;
 
 
     class ItemController extends Controller
@@ -314,5 +318,40 @@
             return view('item::items.item-detail', compact('item_id'));
         }
 
+        public function importItemUpdatePricesEstablishment(Request $request)
+        {
+            if ($request->hasFile('file')) {
+                try {
+                    $import = new ItemUpdatePriceEstablishmentImport();
+                    $import->import($request->file('file'), null, Excel::XLSX);
+                    $data = $import->getData();
+                    return [
+                        'success' => true,
+                        'message' => __('app.actions.upload.success'),
+                        'data' => $data
+                    ];
+                } catch (Exception $e) {
+                    return [
+                        'success' => false,
+                        'message' => $e->getMessage()
+                    ];
+                }
+            }
+            return [
+                'success' => false,
+                'message' => __('app.actions.upload.error'),
+            ];
+        }
+
+        public function pricesEstablishmentExport(Request $request)
+        {
+
+            $records = Warehouse::all();
+
+            return (new PricesEstablishmentFormatExport)
+                    ->records($records)
+                    ->download('Items_update_prices_warehouses.xlsx');
+
+        }
 
     }
