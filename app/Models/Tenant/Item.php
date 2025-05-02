@@ -2523,20 +2523,6 @@ class Item extends ModelTenant
                          ->orderBy('description');
         }
 
-        $itemFound = (clone $query)
-                         ->where('barcode', $input)
-                         ->whereHasInternalId()
-                         ->whereWarehouse()
-                         ->orderBy('description')
-                         ->first();
-        if($itemFound){
-            return $query->where('barcode', $input)
-                    ->limit(1)
-                    ->whereHasInternalId()
-                    ->whereWarehouse()
-                    ->orderBy('description');
-        }
-
         $keywords = array_filter(explode(' ', $input));
         $query->where(function ($q) use ($keywords, $input) {
             foreach ($keywords as $word) {
@@ -2630,7 +2616,7 @@ class Item extends ModelTenant
 
         return $query->whereFilterWithOutRelations()
                     ->with(['category', 'brand', 'currency_type'])
-                    ->whereFilterRecordsApi($request->input, $request->search_by_barcode)
+                    ->whereFilterRecordsApi($request->input,$request->search_by_barcode)
                     ->filterByCategory($category_id)
                     ->filterFavorite($favorite)
                     ->whereIsActive();

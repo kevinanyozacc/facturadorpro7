@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Tenant\Api;
 
 use App\CoreFacturalo\Facturalo;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Tenant\DispatchCollection;
 use App\Models\Tenant\Dispatch;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -129,4 +130,19 @@ class DispatchController extends Controller
 
         return compact('establishments', 'origin_addresses' , 'transportModeTypes', 'transferReasonTypes', 'unitTypes', 'dispatchers','transports','drivers');
     }
+
+    public function records(Request $request)
+    {
+        $input = $request->input;
+        $records = Dispatch::query()
+            ->where('document_type_id', '09')
+            ->when($input, function ($query) use ($input) {
+                return $query
+                    ->where('series', 'like', '%' . $input . '%')
+                    ->orWhere('number', 'like', '%' . $input . '%');
+            })
+            ->latest();
+        return new DispatchCollection($records->paginate(config('tenant.items_per_page')));
+    }
+
 }

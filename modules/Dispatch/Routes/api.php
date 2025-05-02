@@ -25,6 +25,7 @@ if ($hostname) {
             Route::prefix('dispatch-carrier')
                 ->group(function () {
                 Route::post('/', 'Api\DispatchCarrierController@store');
+                Route::get('/records', 'Api\DispatchCarrierController@records');
             });
 
             Route::prefix('dispatch-addresses')->group(function () {

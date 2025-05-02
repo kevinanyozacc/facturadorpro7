@@ -78,7 +78,7 @@ class PromotionController extends Controller
         {
             $count = Promotion::where('apply_restaurant', 0)
                 ->where(function ($query) {
-                    $query->where('type','<>', 'promotions')
+                    $query->where('type','=', 'banners') // Verificar que tiene los banners
                     ->orWhereNull('type');
                 })
                 ->count();
