@@ -247,51 +247,72 @@ final class Service
 
     public function querySummary($filename)
     {
-        $company = $this->company();
-        $url = $company->soap_type_id == 02 ? Endpoints::QUERY : Endpoints::BETA_QUERY;
-        $token = $this->getToken();
+        try {
+            $company = $this->company();
+            $url = $company->soap_type_id == 02 ? Endpoints::QUERY : Endpoints::BETA_QUERY;
+            $token = $this->getToken();
 
-        $client = new Client();
-        $response = $client->request('GET', $url.'/'.$filename, [
-            'headers' => [
-                'Authorization' => 'Bearer ' . $token['token'],
-                'Content-Type' => 'application/json',
-            ],
-            'verify' => false,
-        ]);
+            $client = new Client();
+            $response = $client->request('GET', $url.'/'.$filename, [
+                'headers' => [
+                    'Authorization' => 'Bearer ' . $token['token'],
+                    'Content-Type' => 'application/json',
+                ],
+                'verify' => false,
+            ]);
 
-        $statusCode = $response->getStatusCode();
-        $data = json_decode($response->getBody(), true);
+            $statusCode = $response->getStatusCode();
+            $data = json_decode($response->getBody(), true);
 
-        if($statusCode !== 200) {
-            // dd($body);
-            // dd($response->object());
-            $error = Errors::getMessage($response->status());
-            $errors = $this->validateObject($data, 'errores');
-            return [
-                'success' => false,
-                'message' => $error . ' | Detalles: '.json_encode($errors),
-                'code' => $statusCode,
-            ];
-        }
-
-        if($statusCode == 200) {
-            if($data['estado'] == $statusCode) {
-                $mensaje = $this->validateObject($data, 'mensaje');
-                $rechazado = $this->validateObject($data, 'rechazado');
+            if($statusCode !== 200) {
+                // dd($body);
+                // dd($response->object());
+                $error = Errors::getMessage($response->status());
                 $errors = $this->validateObject($data, 'errores');
-                $observaciones = $this->validateObject($data, 'observaciones');
-                $cdr = $this->validateObject($data, 'cdr');
                 return [
-                    'success' => true,
-                    'code' => $data['estado'],
-                    'message' => $mensaje,
-                    'observations' => $observaciones,
-                    'cdr' => $cdr,
-                    'rejected' => $rechazado,
-                    'errors' => $errors,
+                    'success' => false,
+                    'message' => $error . ' | Detalles: '.json_encode($errors),
+                    'code' => $statusCode,
                 ];
             }
+
+            if($statusCode == 200) {
+                if($data['estado'] == $statusCode) {
+                    $mensaje = $this->validateObject($data, 'mensaje');
+                    $rechazado = $this->validateObject($data, 'rechazado');
+                    $errors = $this->validateObject($data, 'errores');
+                    $observaciones = $this->validateObject($data, 'observaciones');
+                    $cdr = $this->validateObject($data, 'cdr');
+                    return [
+                        'success' => true,
+                        'code' => $data['estado'],
+                        'message' => $mensaje,
+                        'observations' => $observaciones,
+                        'cdr' => $cdr,
+                        'rejected' => $rechazado,
+                        'errors' => $errors,
+                    ];
+                }
+            }
+
+        } catch (\GuzzleHttp\Exception\ClientException $e) {
+            
+            $response = $e->getResponse();
+            $data = json_decode($response->getBody(), true);
+            $rechazado = $this->validateObject($data, 'rechazado');
+            return [
+                'success' => true,
+                'message' => 'Error en consulta: ' . json_encode($data),
+                'code' => $response->getStatusCode(),
+                'rejected' => $rechazado,
+                'cdr' => null,
+            ];
+        } catch (\Exception $e) {
+            return [
+                'success' => false,
+                'message' => 'Excepción: ' . $e->getMessage(),
+                'code' => 500,
+            ];
         }
     }
 
