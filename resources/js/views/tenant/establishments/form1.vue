@@ -72,7 +72,10 @@
                             <div class="col-md-4">
                                 <div class="form-group" :class="{'has-danger': errors.telephone}">
                                     <label class="control-label">Teléfono</label>
-                                    <el-input v-model="form.telephone"></el-input>
+                                    <el-input 
+                                        v-model="form.telephone" 
+                                        @input="validateNumericInput('telephone')">
+                                    </el-input>
                                     <small class="form-control-feedback" v-if="errors.telephone" v-text="errors.telephone[0]"></small>
                                 </div>
                             </div>
@@ -371,6 +374,12 @@
                 this.codeExists = !!exists;
             },
             submit() {
+
+                if (this.form.telephone && !/^\d+$/.test(this.form.telephone)) {
+                    this.$message.error('El campo teléfono solo debe contener números');
+                    return;
+                }
+
                 this.validateCodeUniqueness();
                 
                 if (this.codeExists) {
@@ -460,6 +469,12 @@
             },
             clickRemoveAddress(index) {
                 this.form.addresses.splice(index, 1);
+            },
+            validateNumericInput(field) {
+                
+                if (this.form[field]) {
+                    this.form[field] = this.form[field].replace(/\D/g, '');
+                }
             },
 
         }

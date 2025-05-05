@@ -93,6 +93,7 @@
                                 <thead>
                                     <tr>
                                         <th >#</th>
+                                        <th>Código</th>
                                         <th >Producto</th>
                                         <th class="text-center">Fecha y hora transacción</th>
                                         <th class="text-center">Motivo de traslado</th>
@@ -105,7 +106,8 @@
                                 <tbody>
                                     <tr v-for="(row, index) in records" :key="index">
                                         <td> {{ customIndex(index) }} </td>
-                                        <td> {{ row.item_description }} </td>
+                                        <td> {{ getItemCode(row.item_description) }} </td>
+                                        <td> {{ getItemName(row.item_description) }} </td>
                                         <td class="text-center"> {{ row.date_time }} </td>
                                         <td class="text-center"> {{ row.description }} </td>
                                         <td class="text-center"> {{ row.system_stock }} </td>
@@ -279,6 +281,16 @@ export default {
         close() {
             this.$emit('update:showDialog', false)
             this.initForm()
+        },
+        getItemCode(itemDescription) {
+            if (!itemDescription) return '';
+            const parts = itemDescription.split(' - ');
+            return parts[0] || '';
+        },
+        getItemName(itemDescription) {
+            if (!itemDescription) return '';
+            const parts = itemDescription.split(' - ');
+            return parts.length > 1 ? parts[1] : itemDescription;
         },
     }
 }

@@ -520,8 +520,11 @@
     @foreach(array_reverse((array) $document->legends) as $row)
         <tr>
             @if ($row->code == "1000")
-                <td class="desc-ticket text-uppercase">Son: <span
-                        class="text-uppercase">{{ $row->value }} {{ $document->currency_type->description }}</span></td>
+                <td class="desc-ticket text-uppercase">
+                <div style="font-size: 9px;">
+                            Son: <span class="text-uppercase">{{ $row->value }} {{ $document->currency_type->description }}</span>
+                    </td>
+                </div>
         @if (count((array) $document->legends)>1)
             <tr>
                 <td class="desc-ticket"><span class="">Leyendas</span></td>
@@ -536,12 +539,14 @@
             @if(isset($configurationInPdf) && $configurationInPdf->show_seller_in_pdf)
             <tr>
                 <td class="desc-ticket text-uppercase">
-                    Vendedor:
-                    @if ($document->seller)
-                        <span>{{ $document->seller->name }}</span>
-                    @else
-                        <span>{{ $document->user->name }}</span>
-                    @endif
+                    <div style="font-size: 9px;">
+                        Vendedor:
+                        @if ($document->seller)
+                            <span>{{ $document->seller->name }}</span>
+                        @else
+                            <span>{{ $document->user->name }}</span>
+                        @endif
+                    </div>
                 </td>
             </tr>
             @endif
@@ -550,21 +555,28 @@
                 @if($document->payment_method_type_id)
                     <tr>
                         <td class="desc-ticket">
-                            PAGO: {{ $document->payment_method_type->description }}
+                            <div style="font-size: 9px;">
+                                PAGO: {{ $document->payment_method_type->description }}
+                            </div>
                         </td>
                     </tr>
                 @endif
                 @if($payments->count())
                     <tr>
                         <td class="desc-ticket">
-                            PAGOS:
+                            <div style="font-size: 9px;">
+                                PAGOS:
+                            </div>
                         </td>
                     </tr>
                     @foreach($payments as $row)
                         <tr>
-                            <td class="desc-ticket text-uppercase">&#8226; {{ $row->payment_method_type->description }}
-                                - {{ $row->reference ? $row->reference.' - ':'' }}
-                                {{ $document->currency_type->symbol }} {{ $row->payment + $row->change }}</td>
+                            <td class="desc-ticket text-uppercase">
+                                <div style="font-size: 9px;">
+                                    &#8226; {{ $row->payment_method_type->description }}
+                                    - {{ $row->reference ? $row->reference.' - ':'' }}
+                                    {{ $document->currency_type->symbol }} {{ $row->payment + $row->change }}
+                                </div>
                         </tr>
                     @endforeach
                 @endif
@@ -572,18 +584,23 @@
                 @php
                     $paymentMethod = \App\Models\Tenant\PaymentMethodType::where('id', '09')->first();
                 @endphp
-                <table class="full-width" style="font-family: helvetica">
+                <table class="full-width">
                     <tr>
                         <td class="desc-ticket">
-                            <span>PAGOS: {{ $paymentMethod->description }}</span>
+                            <div style="font-size: 10px;">
+                                <span>PAGOS: {{ $paymentMethod->description }}</span>
+                            </div>
                         </td>
                     </tr>
                     @foreach($document->fee as $key => $quote)
                         <tr>
                             <td class="desc-ticket text-uppercase">
-                                &#8226; {{ (empty($quote->getStringPaymentMethodType()) ? 'Cuota #'.( $key + 1) : $quote->getStringPaymentMethodType()) }}
-                                / Fecha: {{ $quote->date->format('d-m-Y') }} /
-                                Monto: {{ $quote->currency_type->symbol }}{{ $quote->amount }}</td>
+                                <div style="font-size: 10px;">
+                                    &#8226; {{ (empty($quote->getStringPaymentMethodType()) ? 'Cuota #'.( $key + 1) : $quote->getStringPaymentMethodType()) }}
+                                    / Fecha: {{ $quote->date->format('d-m-Y') }} /
+                                    Monto: {{ $quote->currency_type->symbol }}{{ $quote->amount }}
+                                </div>
+                            </td>
                         </tr>
                         @endforeach
                         </tr>
@@ -612,10 +629,12 @@
             @if ($document->terms_condition)
                 <tr>
                     <td class="desc-ticket text-uppercase">
-                        <br>
-                        Términos y condiciones del servicio
-                        <br>
-                        {!! $document->terms_condition !!}
+                        <div style="font-size: 9px;">
+                            Términos y condiciones del servicio
+                        </div>
+                        <div style="font-size: 9px;">
+                            {!! $document->terms_condition !!}
+                        </div>
                     </td>
                 </tr>
             @endif

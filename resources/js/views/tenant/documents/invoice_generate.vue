@@ -6524,9 +6524,9 @@ export default {
 
             let val_detraction = await this.validateDetraction();
             if (!this.configuration.available_detraction_for_amount_minor) {
-                if (!val_detraction.success)
+                if (!val_detraction.success){
                     return this.$message.error(val_detraction.message);
-                
+                }
             }
             if (!this.enabled_payments) {
                 this.form.payments = [];

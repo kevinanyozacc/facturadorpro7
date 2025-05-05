@@ -72,6 +72,25 @@
     @endif
     </tbody>
 </table>
+
+@if($document['reference_documents'])
+    <table class="full-width border-box mt-10 mb-10">
+        <thead>
+        <tr>
+            <th class="border-bottom text-left" colspan="2">DOCUMENTOS RELACIONADOS</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach($document['reference_documents'] as $row)
+            <tr>
+                <td>{{ $row['document_type']['description'] }}: {{ $row['number'] }}</td>
+                <td>RUC: {{ $row['customer'] }}</td>
+            </tr>
+        @endforeach
+        </tbody>
+    </table>
+@endif
+
 <table class="full-width border-box mt-10 mb-10">
     <thead>
     <tr>

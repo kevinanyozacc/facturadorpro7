@@ -59,6 +59,7 @@ class DispatchTransform
             'secondary_transports' => self::secondary_transports($inputs),
             'secondary_drivers' => self::secondary_drivers($inputs),
             'payer' => self::payer($inputs),
+            'reference_documents' => self::documentRelated($inputs),
         ];
         self::AffectedDocument($data, $inputs);
         return $data;
@@ -338,6 +339,35 @@ class DispatchTransform
             ];
         }
         return null;
+    }
+
+    private static function documentRelated($inputs)
+    {
+        if (key_exists('documento_relacionado', $inputs)) {
+            $documents = [];
+
+            foreach ($inputs['documento_relacionado'] as $row) {
+                $documents[] = [
+                    'number' => Functions::valueKeyInArray($row, 'numero'),
+                    'name' => Functions::valueKeyInArray($row, 'empresa'),
+                    'customer' => Functions::valueKeyInArray($row, 'ruc'),
+                    'document_type' => self::documentType($row['documento']),
+                ];
+            }
+
+            return $documents;
+        }
+        return null;
+    }
+
+    private static function documentType($row)
+    {
+        $document = [
+            'id' => Functions::valueKeyInArray($row,'id'),
+            'description' => Functions::valueKeyInArray($row,'descripcion')
+        ];
+
+        return $document;
     }
 
 }

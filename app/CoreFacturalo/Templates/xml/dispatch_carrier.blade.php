@@ -40,6 +40,23 @@
     @if($document['observations'])
         <cbc:Note><![CDATA[{{ $document['observations'] }}]]></cbc:Note>
     @endif
+
+    @if($document['reference_documents'])
+    <!--  DOCUMENTOS ADICIONALES (Catalogo D41) -->
+        @foreach($document['reference_documents'] as $row)
+        <cac:AdditionalDocumentReference>
+            <cbc:ID>{{ $row['number'] }}</cbc:ID>
+            <cbc:DocumentTypeCode listAgencyName="PE:SUNAT" listName="Documento relacionado al transporte" listURI="urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo61">{{ $row['document_type']['id'] }}</cbc:DocumentTypeCode>
+            <cbc:DocumentType>{{ $row['document_type']['description'] }}</cbc:DocumentType>
+            <cac:IssuerParty>
+                <cac:PartyIdentification>
+                    <cbc:ID schemeID="6" schemeAgencyName="PE:SUNAT" schemeURI="urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo06">{{ $row['customer'] }}</cbc:ID>
+                </cac:PartyIdentification>
+            </cac:IssuerParty>
+        </cac:AdditionalDocumentReference>
+        @endforeach
+    @endif
+
     <cac:Signature>
         <cbc:ID>{{ config('configuration.signature_uri') }}</cbc:ID>
         <cbc:Note>{{ config('configuration.signature_note') }}</cbc:Note>

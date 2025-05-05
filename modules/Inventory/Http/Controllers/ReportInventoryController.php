@@ -72,13 +72,23 @@ class ReportInventoryController extends Controller
                                 $query->with(['category', 'brand', 'currency_type']);
                                 $query->without(['item_type', 'unit_type', 'warehouses', 'item_unit_types', 'tags']);
                                }])
-                              ->whereHas('item', function ($q) {
+                              ->whereHas('item', function ($q) use ($request) {
                                   $q->where([
                                                 ['item_type_id', '01'],
                                                 ['unit_type_id', '!=', 'ZZ'],
-                                            ])
-                                    ->whereNotIsSet();
-                              });
+                                            ]);
+                                    if (!is_null($request->active)) {
+                                        $q->where('active', $request->active == '01' ? true : false);
+                                    }
+                                    if ($request->has('date_start') && !empty($request->date_start)) {
+                                        $q->where('date_of_due', '>=', $request->date_start);
+                                    }
+                                    
+                                    if ($request->has('date_end') && !empty($request->date_end)) {
+                                        $q->where('date_of_due', '<=', $request->date_end);
+                                    }
+                                    $q->whereNotIsSet();
+                                });
 
         if ($filter === '02') {
             //$add = ($stock < 0);

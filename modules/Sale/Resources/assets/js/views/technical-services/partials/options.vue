@@ -370,7 +370,7 @@ export default {
             this.loading = true;
 
             await this.$http.get(`/generate-document/record/technical-services/${this.recordId}`)
-                .then((response) => {
+                .then(async(response) => {
                     this.record = response.data.data;
                     this.form.establishment_id = this.establishment.id;
                     this.form.customer_id = this.record.customer_id;
@@ -381,7 +381,7 @@ export default {
                     //     'description': `Descripción: ${this.record.description+"\n"}Estado: ${this.record.state+"\n"}Razón: ${this.record.reason+"\n"}`,
                     //     'unit_price': this.record.cost
                     // });
-                    this.getPercentageIgv()
+                    await this.getPercentageIgv();
                     let total = _.round(parseFloat(this.record.cost), 2);
                     let unit_value = this.record.cost / (1 + this.percentage_igv);
                     let total_taxed = _.round(unit_value, 2);

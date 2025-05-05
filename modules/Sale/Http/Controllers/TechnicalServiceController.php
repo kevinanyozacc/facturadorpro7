@@ -99,6 +99,7 @@
                         'name' => $row->name,
                         'number' => $row->number,
                         'identity_document_type_id' => $row->identity_document_type_id,
+                        'telephone' => $row->telephone,
                     ];
                 });
 
@@ -206,7 +207,8 @@
                             'name' => $row->name,
                             'number' => $row->number,
                             'identity_document_type_id' => $row->identity_document_type_id,
-                            'identity_document_type_code' => $row->identity_document_type->code
+                            'identity_document_type_code' => $row->identity_document_type->code,
+                            'telephone' => $row->telephone
                         ];
                     });
                     return $customers;

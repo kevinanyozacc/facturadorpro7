@@ -85,6 +85,7 @@
                         <thead>
                             <tr>
                                 <th >#</th>
+                                <th>Código</th>
                                 <th >Producto</th>
                                 <th class="text-center">Stock Sistema</th>
                                 <th class="text-center">Stock Real</th>
@@ -93,10 +94,17 @@
                         </thead>
                         <tbody>
                             @foreach($records as $key => $value)
+                                @php
+                                    $parts = explode(' - ', $value['item_description'], 2);
+                                    $code = $parts[0] ?? '';
+                                    $name = count($parts) > 1 ? $parts[1] : $value['item_description'];
+                                @endphp
                                 <tr>
                                     <td class="celda">{{$loop->iteration}}</td>
-                                    <td class="celda"> {{ $value['item_description'] }} </td>
-                                    {{-- <td class="celda"> {{ $value['stock_system'] }} </td>
+                                    <td class="celda">{{ $code }}</td>
+                                    <td class="celda">{{ $name }}</td>
+                                    {{--<td class="celda"> {{ $value['item_description'] }} </td>
+                                    <td class="celda"> {{ $value['stock_system'] }} </td>
                                     <td class="celda"> {{ $value['stock_real'] }} </td> --}}
                                     <td class="celda"> {{ $value['system_stock'] }} </td>
                                     <td class="celda"> {{ $value['real_stock'] }} </td>

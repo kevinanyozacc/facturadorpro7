@@ -45,6 +45,7 @@ use Modules\Order\Mail\DispatchEmail;
 use Modules\Order\Models\OrderNote;
 use App\Models\Tenant\PaymentCondition;
 use App\Models\Tenant\Catalogs\RelatedDocumentType;
+use Modules\Purchase\Models\Purchase;
 
 
 /**
@@ -176,6 +177,7 @@ class DispatchController extends Controller
         $reference_sale_note_id = null;
         $reference_order_form_id = null;
         $reference_order_note_id = null;
+        $reference_purchase_id = null;
 
         if ($parentTable === 'document') {
             $reference_document_id = $parentId;
@@ -191,7 +193,11 @@ class DispatchController extends Controller
             $query = OrderNote::query();
         } elseif ($parentTable === 'dispatch') {
             $query = Dispatch::query();
+        } elseif ($parentTable === 'purchases') {
+            $query = Purchase::query();
+            $reference_purchase_id = $parentId;
         }
+
         $document = $query->find($parentId);
         $configuration = Configuration::query()->first();
         $items = [];
@@ -236,6 +242,14 @@ class DispatchController extends Controller
                 'origin_address_id' => $document->origin_address_id,
                 'delivery_address_id' => $document->delivery_address_id,
                 'date_delivery_to_transport' => $document->date_delivery_to_transport?$document->date_delivery_to_transport->format('Y-m-d'):null,
+                'reference_document_id' => $document->reference_document_id,
+                'reference_quotation_id' => $document->reference_quotation_id,
+                'reference_sale_note_id' => $document->reference_sale_note_id,
+                'reference_order_form_id' => $document->reference_order_form_id,
+                'reference_order_note_id' => $document->reference_order_note_id,
+                'reference_purchase_id' => $document->reference_purchase_id,
+                'document_data' => $document->reference_documents,
+                'reference_documents' => $document->reference_documents,
             ];
         } else {
             $data = [
@@ -247,6 +261,14 @@ class DispatchController extends Controller
                 'reference_sale_note_id' => $reference_sale_note_id,
                 'reference_order_form_id' => $reference_order_form_id,
                 'reference_order_note_id' => $reference_order_note_id,
+                'reference_purchase_id' => $reference_purchase_id,
+                'document_data' => [
+                    'document_type_id' => $document->document_type_id,
+                    'serie' => $document->series,
+                    'number' => $document->number,
+                    'customer' => $parentTable == 'purchases' ? $document->supplier->number : $document->customer->number,
+                    'name' => $parentTable == 'purchases' ? $document->supplier->name : $document->customer->name
+                ]
             ];
         }
 

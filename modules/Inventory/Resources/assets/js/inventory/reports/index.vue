@@ -446,6 +446,7 @@ export default {
                     'warehouse_id': this.form.warehouse_id,
                     brand_id: this.form.brand_id,
                     category_id: this.form.category_id,
+                    active: this.form.active,
                 },
             })
                 .then(response => {

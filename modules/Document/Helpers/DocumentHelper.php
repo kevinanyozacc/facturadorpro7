@@ -51,7 +51,7 @@ class DocumentHelper
         //cantidad limite de documentos permitidos para emitir (0 = ilimitado)
         $limit_documents = $configuration->limit_documents;
         */
-
+        /*
         //obtener limite desde el plan en bd admin
         $plan = $this->getClientPlan(['id', 'name', 'limit_documents', 'include_sale_notes_limit_documents']);
 
@@ -95,8 +95,66 @@ class DocumentHelper
         return [
             'success' => false,
             'message' => ''
-        ];
+        ];*/
+        // Obtener plan del cliente
+        $plan = $this->getClientPlan(['id', 'name', 'limit_documents', 'include_sale_notes_limit_documents']);
+        $limit_documents = $plan->limit_documents;
 
+        if($limit_documents !== 0)
+        {
+            if($type === 'document' || ($type === 'sale-note' && $plan->includeSaleNotesLimitDocuments()))
+            {
+                //fecha de inicio del ciclo de facturacion
+                $start_billing_cycle = self::getStartBillingCycleFromSystem();
+            
+                if($start_billing_cycle) {
+                    //obtener fecha inicio y fin del ciclo actual
+                    $start_end_date = self::getStartEndDateForFilterDocument($start_billing_cycle);
+                
+                    //cantidad de documentos emitidos en el rango de fechas del ciclo actual
+                    $quantity_documents = Document::whereBetween('date_of_issue', [ 
+                        $start_end_date['start_date'], 
+                        $start_end_date['end_date'] 
+                    ])->count();
+                
+                    if($plan->includeSaleNotesLimitDocuments())
+                    {
+                        $quantity_documents += $this->getQuantitySaleNotesByDates(
+                            $start_end_date['start_date']->format('Y-m-d'), 
+                            $start_end_date['end_date']->format('Y-m-d')
+                        );
+                    }
+                } else {
+                    // Si no hay ciclo configurado, usar el mes calendario actual
+                    $start_date = Carbon::now()->startOfMonth();
+                    $end_date = Carbon::now()->endOfMonth();
+                
+                    $quantity_documents = Document::whereBetween('date_of_issue', [$start_date, $end_date])->count();
+                
+                    if($plan->includeSaleNotesLimitDocuments())
+                    {
+                        $quantity_documents += $this->getQuantitySaleNotesByDates(
+                            $start_date->format('Y-m-d'), 
+                            $end_date->format('Y-m-d')
+                        );
+                    }
+                }
+            
+                // Verificación del límite de documentos
+                if($quantity_documents >= $limit_documents)
+                {
+                    return [
+                        'success' => true,
+                        'message' => "Ha alcanzado el límite de {$limit_documents} comprobantes permitidos en su plan para este ciclo"
+                    ];
+                }
+            }
+        }
+
+        return [
+            'success' => false,
+            'message' => ''
+        ];
     }
 
 

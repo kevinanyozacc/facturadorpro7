@@ -433,6 +433,7 @@ export default {
             focusClienteSelect: false,
             loading_submit_cancel: false,
             show_discount: false,
+            userSelectedDocType: false,
         }
     },
     watch: {
@@ -510,6 +511,7 @@ export default {
         clickDeleteCustomer() {
             this.form.customer_id = null;
             this.customer = null;
+            this.userSelectedDocType = false;
             this.setLocalStorageIndex("customer", null);
             this.setFormPosLocalStorage();
         },
@@ -529,19 +531,28 @@ export default {
             });
             this.customer = customer;
 
-            if (this.configuration.default_document_type_80) {
-                this.form.document_type_id = "80";
-            } else if (this.configuration.default_document_type_03) {
-                this.form.document_type_id = "03";
-            } else {
-                this.form.document_type_id =
-                    customer.identity_document_type_id == "6" ? "01" : "03";
+            // Solo cambia el tipo de documento si el usuario no ha seleccionado manualmente
+            if (!this.userSelectedDocType) {
+                if (this.configuration.default_document_type_80) {
+                    this.form.document_type_id = "80";
+                } else if (this.configuration.default_document_type_03) {
+                    this.form.document_type_id = "03";
+                } else {
+                    this.form.document_type_id =
+                        customer.identity_document_type_id == "6" ? "01" : "03";
+                }
             }
 
             // console.log(this.customer);
 
-            if (this.$refs.componentFastPaymentGarage)
-                this.$refs.componentFastPaymentGarage.filterSeries();
+            //if (this.$refs.componentFastPaymentGarage)
+            //    this.$refs.componentFastPaymentGarage.filterSeries();
+
+            this.filterSeries();
+
+            if (!this.form.customer_id) {
+                this.userSelectedDocType = false;
+            }
 
             this.setLocalStorageIndex("customer", this.customer);
             this.setFormPosLocalStorage();
@@ -817,7 +828,17 @@ export default {
 
         },
         clickAddPayment() {
-            this.showDialogMultiplePayment = true
+            
+            this.payments = [];
+    
+            this.showDialogMultiplePayment = true;
+    
+            this.$nextTick(() => {
+                if (this.$refs.componentMultiplePaymentGarage) {
+                    this.$refs.componentMultiplePaymentGarage.$data.form.payment = this.form.total;
+                    this.$refs.componentMultiplePaymentGarage.clickAddPayment(this.form.total);
+                }
+            });
         },
         reloadDataCardBrands(card_brand_id) {
             this.$http.get(`/${this.resource}/table/card_brands`).then((response) => {
@@ -999,6 +1020,8 @@ export default {
             }
         },
         filterSeries() {
+            this.userSelectedDocType = true;
+
             this.form.series_id = null
             this.series = _.filter(this.all_series, {'document_type_id': this.form.document_type_id});
             this.form.series_id = (this.series.length > 0) ? this.series[0].id : null

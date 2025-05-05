@@ -144,6 +144,9 @@ class Dispatch extends ModelTenant
         'secondary_transports',
         'secondary_drivers',
         'payer',
+        'is_transport_m1l',
+        'license_plate_m1l',
+        'reference_documents',
     ];
 
     protected $casts = [
@@ -160,6 +163,7 @@ class Dispatch extends ModelTenant
         'secondary_transports' => 'array',
         'secondary_drivers' => 'array',
         'payer' => 'array',
+        'reference_documents' => 'array',
     ];
 
     public function getAdditionalDataAttribute($value)

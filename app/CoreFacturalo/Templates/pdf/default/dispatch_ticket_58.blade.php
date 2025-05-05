@@ -129,25 +129,36 @@
     </tr>
     </thead>
     <tbody>
-    @if($document->transport_mode_type_id === '01')
+    @if($document->is_transport_m1l)
+    <tr>
+        @if($document->is_transport_m1l)
+            <td>Indicador de traslado en vehículos de categoría M1 o L: SI</td>
+        @endif
+        @if($document->license_plate_m1l)
+            <td>Placa de vehículo: {{ $document->license_plate_m1l}}</td>
+        @endif
+    </tr>
+    @endif   
+    @if($document->transport_mode_type_id === '01' && !$document->is_transport_m1l)
         @php
-            $document_type_dispatcher = App\Models\Tenant\Catalogs\IdentityDocumentType::findOrFail($document->dispatcher->identity_document_type_id);
+            $document_type_dispatcher = Modules\Catalog\Models\IdentityDocumentType::findOrFail($document->dispatcher->identity_document_type_id);
         @endphp
-        <tr>
-            <td>Nombre y/o razón social: {{ $document->dispatcher->name }}</td>
-            <td>{{ $document_type_dispatcher->description }}: {{ $document->dispatcher->number }}</td>
-        </tr>
-        @if($document->has_transport_driver_01)
+    <tr>
+        <td>Nombre y/o razón social: {{ $document->dispatcher->name }}</td>
+        <td>{{ $document_type_dispatcher->description }}: {{ $document->dispatcher->number }}</td>
+    </tr>
+    @else
+        @if(!$document->is_transport_m1l)
         <tr>
             @if($document->transport_data)
-            <td>Número de placa del vehículo Principal: {{ $document->transport_data['plate_number'] }}</td>
+                <td>Número de placa del vehículo Principal: {{ $document->transport_data['plate_number'] }}</td>
             @endif
-             @if($document->transport_data['tuc'])
+            @if(isset($document->transport_data['tuc']) && $document->transport_data['tuc'])
                 <td>Certificado de habilitación vehicular: {{ $document->transport_data['tuc'] }}</td>
             @endif
         </tr>
         <tr>
-             @if($document->driver->number)
+            @if($document->driver->number)
                 <td>Conductor Principal: {{$document->driver->name}}</td>
             @endif
             @if($document->driver->number)
@@ -155,42 +166,20 @@
             @endif
         </tr>
         <tr>
+            @if($document->secondary_license_plates)
+                @if($document->secondary_license_plates->semitrailer)
+                    <td>Número de placa semirremolque: {{ $document->secondary_license_plates->semitrailer }}</td>
+                @endif
+            @endif
             @if($document->driver->license)
-                <td>Licencia del conductor Principal: {{ $document->driver->license }}</td>
+                <td>Licencia del conductor: {{ $document->driver->license }}</td>
             @endif
         </tr>
         @endif
-    @else
-    <tr>
-        @if($document->transport_data)
-        <td>Número de placa del vehículo Principal: {{ $document->transport_data['plate_number'] }}</td>
-        @endif
-         @if($document->transport_data['tuc'])
-            <td>Certificado de habilitación vehicular: {{ $document->transport_data['tuc'] }}</td>
-        @endif
-    </tr>
-    <tr>
-         @if($document->driver->number)
-            <td>Conductor Principal: {{$document->driver->name}}</td>
-        @endif
-        @if($document->driver->number)
-            <td>Documento de conductor: {{ $document->driver->number }}</td>
-        @endif
-    </tr>
-    <tr>
-        @if($document->secondary_license_plates)
-            @if($document->secondary_license_plates->semitrailer)
-                <td>Número de placa semirremolque: {{ $document->secondary_license_plates->semitrailer }}</td>
-            @endif
-        @endif
-        @if($document->driver->license)
-            <td>Licencia del conductor Principal: {{ $document->driver->license }}</td>
-        @endif
-    </tr>
     @endif
     </tbody>
 </table>
-@if($document->secondary_transports)
+@if($document->secondary_transports && !$document->is_transport_m1l)
     <table class="full-width border-box mt-10 mb-10">
         <thead>
         <tr>
@@ -211,7 +200,7 @@
         </tbody>
     </table>
 @endif
-@if($document->secondary_drivers)
+@if($document->secondary_drivers && !$document->is_transport_m1l)
     <table class="full-width border-box mt-10 mb-10">
         <thead>
         <tr>

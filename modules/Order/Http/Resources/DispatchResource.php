@@ -66,6 +66,7 @@ class DispatchResource extends JsonResource
             'send_to_pse' => $this->send_to_pse,
             'response_signature_pse' => optional($this->response_signature_pse)->message,
             'response_send_cdr_pse' => optional($this->response_send_cdr_pse)->message,
+            'reference_documents' => $this->reference_documents,
 
         ];
     }

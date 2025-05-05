@@ -107,6 +107,9 @@ class DispatchInput
             'secondary_drivers' => self::secondary_drivers($inputs),
             'payer' => self::payer($inputs),
             'has_transport_driver_01' => Functions::valueKeyInArray($inputs, 'has_transport_driver_01'),
+            'is_transport_m1l' => Functions::valueKeyInArray($inputs, 'is_transport_m1l'),
+            'license_plate_m1l' => Functions::valueKeyInArray($inputs, 'license_plate_m1l'),
+            'reference_documents' => $inputs['reference_documents'],
         ];
 
         if (isset($inputs['data_affected_document'])) {
@@ -217,7 +220,9 @@ class DispatchInput
 
     private static function driver($inputs)
     {
-        if ((($inputs['document_type_id'] === '09') && ($inputs['transport_mode_type_id'] === '02'||$inputs['has_transport_driver_01']===true)) || $inputs['document_type_id'] === '31') {
+        $has_transport_driver = isset($inputs['has_transport_driver_01']) ? $inputs['has_transport_driver_01'] : false;
+        
+        if ((($inputs['document_type_id'] === '09') && ($inputs['transport_mode_type_id'] === '02'||$has_transport_driver===true)) || $inputs['document_type_id'] === '31') {
             if (array_key_exists('driver', $inputs) && isset($inputs['driver'])) {
                 $driver = $inputs['driver'];
                 $identity_document_type_id = $driver['identity_document_type_id'];
@@ -241,7 +246,9 @@ class DispatchInput
 
     private static function transport($inputs)
     {
-        if ((($inputs['document_type_id'] === '09') && ($inputs['transport_mode_type_id'] === '02'||$inputs['has_transport_driver_01']===true)) || $inputs['document_type_id'] === '31') {
+        $has_transport_driver = isset($inputs['has_transport_driver_01']) ? $inputs['has_transport_driver_01'] : false;
+
+        if ((($inputs['document_type_id'] === '09') && ($inputs['transport_mode_type_id'] === '02'||$has_transport_driver===true)) || $inputs['document_type_id'] === '31') {
             if (array_key_exists('transport', $inputs) && isset($inputs['transport'])) {
                 $transport = $inputs['transport'];
                 $plate_number = $transport['plate_number'];

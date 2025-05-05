@@ -32,6 +32,35 @@
     @if($document['observations'])
         <cbc:Note><![CDATA[{{ $document['observations'] }}]]></cbc:Note>
     @endif
+
+    @if($document['reference_documents'])
+        @foreach($document['reference_documents'] as $row)
+        <!--  DOCUMENTOS ADICIONALES (Catalogo D41) -->
+        <cac:AdditionalDocumentReference>
+            <cbc:ID>{{ $row['number'] }}</cbc:ID>
+            <cbc:DocumentTypeCode listAgencyName="PE:SUNAT" listName="Documento relacionado al transporte" listURI="urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo61">{{ $row['document_type']['id'] }}</cbc:DocumentTypeCode>
+            <cbc:DocumentType>{{ $row['document_type']['description'] }}</cbc:DocumentType>
+            <cac:IssuerParty>
+                <cac:PartyIdentification>
+                    <cbc:ID schemeID="6" schemeAgencyName="PE:SUNAT" schemeURI="urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo06">{{ $document['company_number'] }}</cbc:ID>
+                </cac:PartyIdentification>
+            </cac:IssuerParty>
+        </cac:AdditionalDocumentReference>
+        <!--  DATOS DEL PROVEEDOR  -->
+        <cac:SellerSupplierParty>
+            <cac:Party>
+                <cac:PartyIdentification>
+                    <cbc:ID schemeID="6" schemeName="Documento de Identidad" schemeAgencyName="PE:SUNAT" schemeURI="urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo06">{{ $row['customer'] }}</cbc:ID>
+                </cac:PartyIdentification>
+                <cac:PartyLegalEntity>
+                    <cbc:RegistrationName>{{ $row['name'] }}</cbc:RegistrationName>
+                </cac:PartyLegalEntity>
+            </cac:Party>
+        </cac:SellerSupplierParty>
+        @endforeach
+    @endif
+    <!-- Signature -->
+
     @if($document['transfer_reason_type_id']=='09' && $document['related_number'])
         <cac:AdditionalDocumentReference>
             <cbc:ID>{{ $document['related_number'] }}</cbc:ID>
@@ -97,6 +126,10 @@
             <cbc:SpecialInstructions>SUNAT_Envio_IndicadorVehiculoConductoresTransp</cbc:SpecialInstructions>
         @endif
 
+        @if($document['is_transport_m1l']==true)
+            <cbc:SpecialInstructions>SUNAT_Envio_IndicadorTrasladoVehiculoM1L</cbc:SpecialInstructions>
+        @endif
+
         @if($document['packages_number'] && $document['has_transport_driver_01'] ==false)
             <cbc:TotalTransportHandlingUnitQuantity>{{ $document['packages_number'] }}</cbc:TotalTransportHandlingUnitQuantity>
         @endif
@@ -112,7 +145,7 @@
             <cac:TransitPeriod>
                 <cbc:StartDate>{{ $document['date_of_shipping'] }}</cbc:StartDate>
             </cac:TransitPeriod>
-            @if($document['transport_mode_type_id'] === '01')
+            @if($document['transport_mode_type_id'] === '01' && !$document['is_transport_m1l'])
                 <cac:CarrierParty>
                     <cac:PartyIdentification>
                         <cbc:ID schemeURI="urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo06"
@@ -128,7 +161,7 @@
                     </cac:PartyLegalEntity>
                 </cac:CarrierParty>
             @endif
-            @if($document['transport_mode_type_id'] === '02'||($document['transport_mode_type_id'] === '01' && $document['has_transport_driver_01'] ==true))
+            @if($document['transport_mode_type_id'] === '02' && !$document['is_transport_m1l']||($document['transport_mode_type_id'] === '01' && $document['has_transport_driver_01'] ==true))
             <!-- CONDUCTOR PRINCIPAL -->
                 <cac:DriverPerson>
                     <!-- TIPO Y NUMERO DE DOCUMENTO DE IDENTIDAD -->
@@ -234,7 +267,7 @@
                 </cac:Despatch>
             @endif
         </cac:Delivery>
-        @if($document['transport_mode_type_id'] === '02' || ($document['transport_mode_type_id'] === '01' && $document['has_transport_driver_01'] ==true))
+        @if($document['transport_mode_type_id'] === '02' && !$document['is_transport_m1l']|| ($document['transport_mode_type_id'] === '01' && $document['has_transport_driver_01'] ==true))
                 <cac:TransportHandlingUnit>
                     <cac:TransportEquipment>
                         <!-- VEHICULO PRINCIPAL -->

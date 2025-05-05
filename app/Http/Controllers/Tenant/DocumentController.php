@@ -581,6 +581,14 @@ class DocumentController extends Controller
     {
         try
         {
+            // Validar restricciones de plan ANTES de crear el documento
+            $exceed_limit = (new DocumentHelper)->exceedLimitDocuments();
+            if($exceed_limit['success']) {
+                return [
+                    'success' => false,
+                    'message' => $exceed_limit['message']
+                ];
+            }
             $validate = $this->validateDocument($request);
             if (!$validate['success']) return $validate;
 

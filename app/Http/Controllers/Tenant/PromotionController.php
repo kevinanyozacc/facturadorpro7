@@ -16,9 +16,6 @@ use Modules\Finance\Helpers\UploadFileHelper;
 
 class PromotionController extends Controller
 {
-    const TYPE_BANNER = 'banners';
-    const TYPE_PROMOTION = 'promotions';
-    const TYPE_SPOT = 'spots';
     public function index()
     {
         return view('tenant.promotion.index');
@@ -44,7 +41,10 @@ class PromotionController extends Controller
     public function records(Request $request)
     {
         $records = Promotion::where('apply_restaurant', 0)
-            ->where('type', self::TYPE_BANNER) // Solo banners
+            ->where(function ($query) {
+                $query->where('type','<>', 'promotions')
+                ->orWhereNull('type');
+            })
             ->orderBy('description');
         
         return new PromotionCollection($records->paginate(config('tenant.items_per_page')));
@@ -167,67 +167,6 @@ class PromotionController extends Controller
             'id' => $item->id
         ];
     }
-
-    public function recordsSpotList(Request $request)
-    {
-        $records = Promotion::where('apply_restaurant', 0)
-            ->where('type', 'spots')
-            ->orderBy('description');
-        
-        return new PromotionCollection($records->paginate(config('tenant.items_per_page')));
-    }
-    
-    public function storeSpotList(PromotionRequest $request)
-    {
-        $id = $request->input('id');
-    
-        if(!$id)
-        {
-            $count = Promotion::where('apply_restaurant', 0)
-                ->where('type', 'spots')
-                ->count();
-            if($count > 3)
-            {
-                return [
-                    'success' => false,
-                    'message' => 'Solo se permiten 3 spots',
-                ];
-            }
-        }
-    
-        $item = Promotion::firstOrNew(['id' => $id]);
-        $item->fill($request->all());
-        $item->type = 'spots';
-        
-        $temp_path = $request->input('temp_path');
-        if($temp_path) {
-            UploadFileHelper::checkIfValidFile($request->input('image'), $temp_path, true);
-            $directory = 'public'.DIRECTORY_SEPARATOR.'uploads'.DIRECTORY_SEPARATOR.'promotions'.DIRECTORY_SEPARATOR;
-            $file_name_old = $request->input('image');
-            $file_name_old_array = explode('.', $file_name_old);
-            $file_content = file_get_contents($temp_path);
-            $datenow = date('YmdHis');
-            $file_name = Str::slug($item->description).'-'.$datenow.'.'.$file_name_old_array[1];
-            Storage::put($directory.$file_name, $file_content);
-            $item->image = $file_name;
-        } else if(!$request->input('image') && !$request->input('temp_path') && !$request->input('image_url')) {
-            $item->image = 'imagen-no-disponible.jpg';
-        }
-    
-        $item->save();
-    
-        return [
-            'success' => true,
-            'message' => ($id) ? 'Spot editado con éxito' : 'Spot registrado con éxito',
-            'id' => $item->id
-        ];
-    }
-
-    public function getSpotRecord($id)
-    {
-        $record = new PromotionResource(Promotion::where('type', self::TYPE_SPOT)->findOrFail($id));
-        return $record;
-    }
     
     public function destroy($id)
     {
@@ -240,29 +179,6 @@ class PromotionController extends Controller
             'success' => true,
             'message' => 'Promocion eliminada con éxito'
         ];
-    }
-
-    public function destroySpot($id)
-    {
-        try {
-            $spot = Promotion::where('type', self::TYPE_SPOT)
-                           ->where('id', $id)
-                           ->firstOrFail();
-
-            $spot->status = 0;
-            $spot->save();
-
-            return [
-                'success' => true,
-                'message' => 'Spot eliminado con éxito'
-            ];
-
-        } catch (\Exception $e) {
-            return [
-                'success' => false,
-                'message' => 'Error al eliminar el spot: '.$e->getMessage()
-            ];
-        }
     }
 
 
@@ -308,5 +224,14 @@ class PromotionController extends Controller
                 'temp_image' => 'data:' . $mime . ';base64,' . base64_encode($data)
             ]
         ];
-    }   
+    }
+
+
+  
+
+
+ 
+
+
+
 }

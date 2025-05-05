@@ -11,7 +11,7 @@
 |
 */
 
-Route::prefix('restaurant')->group(function() {
+Route::prefix('restaurant')->middleware(['auth'])->group(function() {
     // para configuracion de productos a mostrar
     Route::get('/list/items', 'RestaurantController@list_items')->name('tenant.restaurant.list_items')->middleware('redirect.module');
     Route::post('items/visible', 'RestaurantController@is_visible');

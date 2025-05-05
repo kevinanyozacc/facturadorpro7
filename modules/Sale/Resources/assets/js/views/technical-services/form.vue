@@ -35,6 +35,7 @@
                                 placeholder="Escriba el nombre o número de documento del cliente"
                                 popper-class="el-select-customers"
                                 remote
+                                @change="changeCustomer"
                             >
                                 <el-option
                                     v-for="option in customers"
@@ -572,6 +573,7 @@
 
         <tenant-documents-items-list
             :config="config"
+            :configuration="configuration"
             :currency-type-id-active="form.currency_type_id"
             :displayDiscount="false"
             :editNameProduct="config.edit_name_product"
@@ -607,7 +609,7 @@ import {
 } from "../../../../../../../resources/js/mixins/functions";
 
 export default {
-    props: ["showDialog", "recordId"],
+    props: ["showDialog", "recordId", "configuration"],
     computed: {
         ...mapState(["exchange_rate", "config", "currency_types"])
     },
@@ -930,14 +932,17 @@ export default {
         },
         calculateTotal() {
             /* Extraido de resources/js/views/tenant/documents/invoice.vue */
+            // Dos variables para tener el igv y el total_taxed del servicio, necesario para el xml
+            let base = this.form.cost > 0 ?  this.form.cost / (1 + this.percentage_igv) : 0 // Calcula la base del igv
+            let igv = this.form.cost > 0 ?  this.form.cost - base : 0 // Igv del servicio
             let total_discount = 0;
             let total_charge = 0;
             let total_exportation = 0;
-            let total_taxed = 0;
+            let total_taxed = base;
             let total_exonerated = 0;
             let total_unaffected = 0;
             let total_free = 0;
-            let total_igv = 0;
+            let total_igv = igv;
             let total_value = 0;
             let total = 0;
             let total_plastic_bag_taxes = 0;
@@ -1582,6 +1587,7 @@ export default {
                 );
             }
 
+            this.calculateTotal() // Hace un recalculo
             this.loading_submit = true;
             this.$http
                 .post(`/${this.resource}`, this.form)
@@ -2619,12 +2625,18 @@ export default {
             let customer = _.find(this.customers, {
                 id: this.form.customer_id
             });
-            this.customer_addresses = customer.addresses;
-            if (customer.address) {
-                this.customer_addresses.unshift({
-                    id: null,
-                    address: customer.address
-                });
+
+            if (customer) {
+                // Asignar el teléfono del cliente al campo cellphone del formulario
+                this.form.cellphone = customer.telephone || '';
+        
+                this.customer_addresses = customer.addresses;
+                if (customer.address) {
+                    this.customer_addresses.unshift({
+                        id: null,
+                        address: customer.address
+                    });
+                }
             }
 
             /*if(this.customer_addresses.length > 0) {

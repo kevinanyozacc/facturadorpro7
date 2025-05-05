@@ -150,6 +150,7 @@
 
             <technical-services-form
                 :showDialog.sync="showDialog"
+                :configuration="configuration"
                 :recordId="recordId"
             ></technical-services-form>
 
