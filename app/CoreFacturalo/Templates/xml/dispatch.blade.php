@@ -47,7 +47,7 @@
             </cac:IssuerParty>
         </cac:AdditionalDocumentReference>
         <!--  DATOS DEL PROVEEDOR  -->
-        <cac:SellerSupplierParty>
+        {{-- <cac:SellerSupplierParty>
             <cac:Party>
                 <cac:PartyIdentification>
                     <cbc:ID schemeID="6" schemeName="Documento de Identidad" schemeAgencyName="PE:SUNAT" schemeURI="urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo06">{{ $row['customer'] }}</cbc:ID>
@@ -56,7 +56,7 @@
                     <cbc:RegistrationName>{{ $row['name'] }}</cbc:RegistrationName>
                 </cac:PartyLegalEntity>
             </cac:Party>
-        </cac:SellerSupplierParty>
+        </cac:SellerSupplierParty> --}}
         @endforeach
     @endif
     <!-- Signature -->
