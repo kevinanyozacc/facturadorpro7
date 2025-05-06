@@ -486,6 +486,23 @@ class Facturalo
 
             $quotation_id = ($this->document->quotation_id) ? 15:0;
 
+            // Calcular el height sobre terminos y condiciones
+            $terms_condition = preg_replace('/<\/[a-zA-Z0-9]+>/', "\n", $this->document->terms_condition);
+            $terms_condition = preg_replace('/<[^\/][^>]*>/', '', $terms_condition);
+            $terms_condition = html_entity_decode($terms_condition);
+            $terms_condition = preg_replace("/[\r\n]+/", "\n", $terms_condition);
+            $terms_condition = trim($terms_condition);
+            $linesTerms = explode("\n", $terms_condition);
+            $totalLinesTerms = 0;
+
+            foreach ($linesTerms as $line) {
+                $line = trim($line);
+                if (strlen($line) > 0) {
+                    $wrapped = ceil(strlen($line) / 35);
+                    $totalLinesTerms += $wrapped;
+                }
+            }
+            $height_terms = $totalLinesTerms * 2;
             //ajustes para footer amazonia
 
             if($this->configuration->legend_footer
@@ -518,7 +535,8 @@ class Facturalo
                 'mode' => 'utf-8',
                 'format' => [
                     $width,
-                    100 +
+                    80 +
+                    $height_terms +
                     (($quantity_rows * 8) + $extra_by_item_description) +
                     ($document_payments * 8) +
                     ($discount_global * 8) +
@@ -1642,6 +1660,24 @@ class Facturalo
             $document_transport     = ($this->document->transport) ? 30 : 0;
             $document_retention     = ($this->document->retention) ? 10 : 0;
 
+            // Calcular el height sobre terminos y condiciones
+            $terms_condition = preg_replace('/<\/[a-zA-Z0-9]+>/', "\n", $this->document->terms_condition);
+            $terms_condition = preg_replace('/<[^\/][^>]*>/', '', $terms_condition);
+            $terms_condition = html_entity_decode($terms_condition);
+            $terms_condition = preg_replace("/[\r\n]+/", "\n", $terms_condition);
+            $terms_condition = trim($terms_condition);
+            $linesTerms = explode("\n", $terms_condition);
+            $totalLinesTerms = 0;
+
+            foreach ($linesTerms as $line) {
+                $line = trim($line);
+                if (strlen($line) > 0) {
+                    $wrapped = ceil(strlen($line) / 35);
+                    $totalLinesTerms += $wrapped;
+                }
+            }
+            $height_terms = $totalLinesTerms * 2;
+
             $extra_by_item_additional_information = 0;
             $extra_by_item_description = 0;
             $discount_global = 0;
@@ -1692,7 +1728,8 @@ class Facturalo
                 'mode' => 'utf-8',
                 'format' => [
                     $width,
-                    100 +
+                    80 +
+                    $height_terms +
                     (($quantity_rows * 8) + $extra_by_item_description) +
                     ($document_payments * 8) +
                     ($discount_global * 8) +
