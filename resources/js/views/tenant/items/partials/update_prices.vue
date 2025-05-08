@@ -40,7 +40,7 @@
             </el-tab-pane>
             <el-tab-pane class
                 name="second">
-                <span slot="label">Almacen</span>
+                <span slot="label">Almacén</span>
                 <form autocomplete="off">
                     <div class="form-body">
                         <div class="row">
