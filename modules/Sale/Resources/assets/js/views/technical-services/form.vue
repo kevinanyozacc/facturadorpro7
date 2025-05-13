@@ -1289,7 +1289,7 @@ export default {
                 });
             }
 
-            if (this.form.discounts.length) {
+            if (this.form.discounts && this.form.discounts.length) {
                 this.form.total_discount = _.round(amount, 2);
                 this.form.total_value = _.round(base - amount, 2);
                 this.form.total_igv = _.round(
