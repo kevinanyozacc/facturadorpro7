@@ -29,6 +29,7 @@ class SellnowController extends Controller
                 $query->where('warehouse_id', $warehouse_id);
             })
             ->orderBy('favorite','desc')
+            ->whereIsActive()
             ->get();
 
         $records = new ItemCollection($items);
