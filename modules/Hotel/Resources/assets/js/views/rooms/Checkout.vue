@@ -507,6 +507,7 @@ export default {
         this.loadConfiguration();
         this.$store.commit('setConfiguration', this.configuration);
         this.currentRent = this.rent
+
     },
     data() {
         return {
@@ -514,6 +515,7 @@ export default {
             currentRent: {},
             arrears: 0,
             total: 0,
+            debtRoom: 0,
             loading: false,
             totalPaid: 0,
             totalDebt: 0,
@@ -795,16 +797,15 @@ export default {
                 });
         },
         onUpdateItemsWithExtras() {
-            console.log('onUpdateItemsWithExtras');
             this.document.items = this.document.items.map((it) => {
                 if (it.item_id === this.room.item_id) {
-                    const name = `${this.room.item.item.description} x ${this.room.item.quantity} noche(s)`;
+                    let dayQuantity = it.quantity;
+                    const name = `${it.item.name} x ${dayQuantity} noche(s)`;
                     it.item.description = name;
                     it.item.full_description = name;
                     it.name_product_pdf = name;
                     it.quantity = 1;
-                    const newTotal =
-                        parseFloat(this.room.item.total) + parseFloat(this.arrears);
+                    const newTotal = parseFloat(it.total) + parseFloat(this.arrears);
                     console.log(newTotal);
                     it.input_unit_price_value = parseFloat(newTotal);
                     it.item.unit_price = parseFloat(newTotal);

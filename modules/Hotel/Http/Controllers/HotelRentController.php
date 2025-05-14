@@ -145,10 +145,22 @@ class HotelRentController extends Controller
   {
     $rent = HotelRent::findOrFail($rentId);
 
-    $item = $rent->items->where('type', 'HAB')->first();
+    $item = $rent->items->where('type', 'HAB')->where('payment_status', 'DEBT')->first();
 
-    $item->item = $request->item;
-    $item->save();
+	if($item){
+		$item->item = $request->item["item"];
+		$item->save();
+	}else{
+		$item = new HotelRentItem();
+		$item->type = 'HAB';
+		$item->hotel_rent_id = $rent->id;
+		$item->item_id = $request->item["item_id"];
+		$item->item = $request->item["item"];
+		$item->payment_status = 'DEBT';
+		$item->hotel_rent_order_id = $request->item["hotel_rent_order_id"];
+		$item->save();
+	}
+   
     $rent->duration = $request->duration;
     $rent->output_date = $request->output_date;
     $rent->output_time = $request->output_time;
@@ -250,7 +262,8 @@ class HotelRentController extends Controller
 
 	$items = HotelRentItem::select(
 			'hotel_rent_items.*', 
-			DB::raw("IFNULL(CONCAT(sale_notes.series, '-', sale_notes.number), '') as document")
+			DB::raw("IFNULL(CONCAT(sale_notes.series, '-', sale_notes.number), '') as document"),
+			DB::raw("IFNULL(sale_notes.total, 0) as sale_note_total")
 		)
 		->leftJoin('hotel_rent_orders', 'hotel_rent_items.hotel_rent_order_id', '=', 'hotel_rent_orders.id')
 		->leftJoin('sale_notes', 'hotel_rent_orders.sale_note_id', '=', 'sale_notes.id')

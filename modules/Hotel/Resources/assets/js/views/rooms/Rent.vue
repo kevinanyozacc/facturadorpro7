@@ -708,6 +708,7 @@ export default {
                     await this.onGoToInvoice();
                 }
 
+                this.form.product.quantity = this.form.duration;
                 const response_reception = await this.$http.post(`/hotels/reception/${this.room.id}/rent/store`, this.form);
                 if(response_reception){
                     this.$message({

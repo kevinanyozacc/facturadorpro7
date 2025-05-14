@@ -111,8 +111,17 @@ class HotelReceptionController extends Controller
     {
         $rent = HotelRent::findOrFail($id);
 
-        $item = $rent->items->where('type', 'HAB')->first();
-        return $item;
+        $item = $rent->items->where('type', 'HAB')->where('payment_status', 'PAID')->first();
+        $item_debt = $rent->items->where('type', 'HAB')->where('payment_status', 'DEBT')->first();
+
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'item' => $item,
+                'item_debt' => $item_debt
+            ],
+            'message'   => "Datos encontrados",
+        ], 200);
     }
 
     public function changeUserEstablishment(Request $request)
