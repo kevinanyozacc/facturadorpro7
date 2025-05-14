@@ -129,10 +129,17 @@ class PersonController extends Controller
 
         $person->save();
 
-        $person->addresses()->delete();
+        $addressesByPerson  = $person->addresses()->get();
         $addresses = $request->input('addresses');
-        foreach ($addresses as $row) {
-            $person->addresses()->updateOrCreate(['id' => $row['id']], $row);
+
+        if ($addressesByPerson->count() > count($addresses)) {
+            $addressesByPerson->each(function ($item) use($addresses) {
+                if (!collect($addresses)->contains('id', $item->id))  $item->delete();
+            });
+        } else {
+            foreach ($addresses as $row) {
+                $person->addresses()->updateOrCreate(['id' => $row['id']], $row);
+            }
         }
 
         $optional_email = $request->optional_email;
