@@ -345,8 +345,8 @@ class ExpenseController extends Controller
     {
         $expense_date = $expense->date_of_issue;
         $expense_time = $expense->time_of_issue ?? '00:00:00';
-    
-        $closed_cash = \App\Models\Tenant\Cash::where('state', false)
+        $cash = auth()->user()->cashes();
+        $closed_cash = $cash->where('state', false)
             ->where(function($query) use ($expense_date, $expense_time) {
                 $query->where(function($q) use ($expense_date, $expense_time) {
                     
