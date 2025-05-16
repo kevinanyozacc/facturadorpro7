@@ -63,6 +63,7 @@
                         <el-select v-model="form.customer_id"
                                    :loading="loading_search"
                                    :remote-method="searchRemoteCustomers"
+                                   @change="parserDocumentByCustomer"
                                    class="border-left rounded-left border-info"
                                    filterable
                                    placeholder="Escriba el nombre o número de documento del cliente"
@@ -440,6 +441,7 @@ export default {
                     this.titleDialog = `Servicio de soporte técnico`;
                 });
 
+            this.parserDocumentByCustomer()
             this.loading = false;
 
         },
@@ -583,6 +585,17 @@ export default {
         changeDateOfIssue() {
             this.document.date_of_due = this.document.date_of_issue;
         },
+        parserDocumentByCustomer(){
+            let customer = this.customers.filter(element => element.id === this.form.customer_id)[0]
+            if (customer.identity_document_type_id == '6' ) {
+                this.form.document_type_id = this.document_types.filter((element) => element.id === "01")[0].id
+            } else if ((customer.identity_document_type_id == '1' || customer.identity_document_type_id == '0' )) {
+                this.form.document_type_id = this.document_types.filter((element) => element.id === "03")[0].id
+            }
+
+            this.changeDocumentType()
+
+        },
         resetDocument() {
             this.generate = !!this.showGenerate;
             this.initDocument();
@@ -667,6 +680,7 @@ export default {
                         }
 
                         this.$eventHub.$emit("reloadData");
+                        this.clickClose()
                         //this.resetDocument();
                         //this.document.customer_id = this.form.quotation.customer_id;
                         //this.changeCustomer();
