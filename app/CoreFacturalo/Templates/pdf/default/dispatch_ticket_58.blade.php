@@ -141,7 +141,7 @@
     @endif   
     @if($document->transport_mode_type_id === '01' && !$document->is_transport_m1l)
         @php
-            $document_type_dispatcher = App\Models\Tenant\Catalogs\IdentityDocumentType::findOrFail($document->dispatcher->identity_document_type_id);
+            $document_type_dispatcher = Modules\Catalog\Models\IdentityDocumentType::findOrFail($document->dispatcher->identity_document_type_id);
         @endphp
     <tr>
         <td>Nombre y/o razón social: {{ $document->dispatcher->name }}</td>

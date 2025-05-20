@@ -49,12 +49,24 @@
         <td>Peso Bruto Total({{ $document->unit_type_id }}): {{ $document->total_weight }}</td>
     </tr>
     <tr>
-        <td>Punto de Partida: {{ $document->sender_address_data['location_id'] }}
-            - {{ $document->sender_address_data['address'] }}</td>
+        <td>
+            Punto de Partida: {{ $document->sender_address_data['location_id'] }}
+            - {{ $document->sender_address_data['address'] }},
+            @php
+                $district = App\Models\Tenant\Catalogs\District::find($document->sender_address_data['location_id']);
+            @endphp
+            {{ $district->description }}, {{ $district->province->description }}, {{ $district->province->department->description }}
+        </td>
     </tr>
     <tr>
-        <td>Punto de Llegada: {{ $document->receiver_address_data['location_id'] }}
-            - {{ $document->receiver_address_data['address'] }}</td>
+        <td>
+            Punto de Llegada: {{ $document->receiver_address_data['location_id'] }}
+            - {{ $document->receiver_address_data['address'] }},
+            @php
+                $district = App\Models\Tenant\Catalogs\District::find($document->receiver_address_data['location_id']);
+            @endphp
+            {{ $district->description }}, {{ $district->province->description }}, {{ $district->province->department->description }}
+        </td>
     </tr>
     <tr>
         <td>Datos del Remitente: {{ $document->sender_data['name'] }}

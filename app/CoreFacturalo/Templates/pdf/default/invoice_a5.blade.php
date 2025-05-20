@@ -46,6 +46,13 @@
             alt="anulado" class="" style="opacity: 0.6;">
     </div>
 @endif
+@if($document->state_type->id == '09')
+    <div style="position: absolute; width: 100%; text-align: center; top:30%; left: 0; right: 0; margin: auto;">
+        <img
+            src="data:{{mime_content_type(public_path("status_images".DIRECTORY_SEPARATOR."rechazado.png"))}};base64, {{base64_encode(file_get_contents(public_path("status_images".DIRECTORY_SEPARATOR."rechazado.png")))}}"
+            alt="rechazado" class="" style="opacity: 0.6; width: 50%;">
+    </div>
+@endif
 <table class="full-width">
     <tr>
         @if($company->logo)

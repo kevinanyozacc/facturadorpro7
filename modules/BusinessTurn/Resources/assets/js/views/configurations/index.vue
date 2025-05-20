@@ -14,12 +14,24 @@
                 <div class="row">
                     <div class="col-md-12">
                         
-                       <template  v-for="(option,ind) in records">
+                       <template  v-for="(option,ind) in filteredRecords">
                             <template v-if="option.id === 3">
-                                <el-checkbox class="plan_documents d-block" :disabled="true"  v-model="option.active"  :label="option.id"  :key="ind"  @change="submit(option.id)">{{option.name+' (Pronto)'}}</el-checkbox>
+                                <el-checkbox class="plan_documents d-block"  
+                                    v-model="option.active"  
+                                    :label="option.id"  
+                                    :key="ind"  
+                                    @change="submit(option.id)">
+                                    {{option.name}}
+                                </el-checkbox>
                             </template>
                             <template v-else>
-                                <el-checkbox class="plan_documents d-block"  v-model="option.active"  :label="option.id"  :key="ind"  @change="submit(option.id)">{{option.name}}</el-checkbox>
+                                <el-checkbox class="plan_documents d-block"  
+                                    v-model="option.active"  
+                                    :label="option.id"  
+                                    :key="ind"  
+                                    @change="submit(option.id)">
+                                    {{option.name}}
+                                </el-checkbox>
                             </template>
                        </template>
                     </div>
@@ -39,6 +51,11 @@
                 business_turns:[],
                 resource: 'bussiness_turns',
                 records: [],
+            }
+        },
+        computed: {
+            filteredRecords() {
+                return this.records.filter(record => record.id !== 2);
             }
         },
         async created() {

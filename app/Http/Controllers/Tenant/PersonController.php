@@ -110,6 +110,39 @@ class PersonController extends Controller
             }
         }
 
+        // restricción para dirección principal - Perú
+        if ($request->input('country_id') === 'PE') {
+            $location_id = $request->input('location_id');
+    
+            
+            if (empty($location_id) || !is_array($location_id) || count($location_id) !== 3 || 
+                !isset($location_id[0]) || !isset($location_id[1]) || !isset($location_id[2]) || 
+                empty($location_id[0]) || empty($location_id[1]) || empty($location_id[2])) {
+        
+                return [
+                    'success' => false,
+                    'message' => 'Falta registrar el ubigeo principal para Perú'
+                ];
+            }
+        }
+    
+        // restricción para direcciones secundarias - Perú
+        $addresses = $request->input('addresses') ?: [];
+        foreach ($addresses as $index => $row) {
+            if (isset($row['country_id']) && $row['country_id'] === 'PE') {
+                
+                if (empty($row['location_id']) || !is_array($row['location_id']) || count($row['location_id']) !== 3 || 
+                    !isset($row['location_id'][0]) || !isset($row['location_id'][1]) || !isset($row['location_id'][2]) || 
+                    empty($row['location_id'][0]) || empty($row['location_id'][1]) || empty($row['location_id'][2])) {
+            
+                    return [
+                        'success' => false,
+                        'message' => 'Falta registrar el ubigeo en la dirección secundaria #' . ($index)
+                    ];
+                }
+            }
+        }
+
         $id = $request->input('id');
         $person = Person::firstOrNew(['id' => $id]);
         $data = $request->all();
@@ -117,10 +150,14 @@ class PersonController extends Controller
         $person->fill($data);
 
         $location_id = $request->input('location_id');
-        if(is_array($location_id) && count($location_id) === 3) {
+        if($request->input('country_id') === 'PE' && is_array($location_id) && count($location_id) === 3) {
             $person->district_id = $location_id[2];
             $person->province_id = $location_id[1];
             $person->department_id = $location_id[0];
+        } else {
+            $person->district_id = null;
+            $person->province_id = null;
+            $person->department_id = null;
         }
 
         if($request->password && $request->email ){

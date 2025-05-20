@@ -566,6 +566,7 @@
                     :loading="loading_submit"
                     native-type="submit"
                     type="primary"
+                    @click.prevent="submit"
                     >Guardar
                 </el-button>
             </div>
@@ -1580,7 +1581,22 @@ export default {
                 this.load_record = false;
             }
         },
+        ensureFormArraysExist() {
+            const simpleArrays = ['items', 'discounts', 'charges', 'prepayments', 'guides'];
+            simpleArrays.forEach(key => {
+                if (!this.form[key]) this.form[key] = [];
+            });
+
+            if (!this.form.payments && this.form.payment_condition_id === '01') 
+                this.form.payments = [];
+  
+            if (!this.form.fee && ['02', '03'].includes(this.form.payment_condition_id)) 
+                this.form.fee = [];
+            },
         submit() {
+
+            this.ensureFormArraysExist();
+            
             if (parseFloat(this.form.prepayment) > parseFloat(this.form.cost)) {
                 return this.$message.error(
                     "Pago adelantado no puede ser mayor al costo"

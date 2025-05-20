@@ -83,7 +83,10 @@ class DashboardUtility
                                             })
                                             ->get();
 
-            $expenses = ($enabled_expense) ? Expense::where('establishment_id', $establishment_id)->whereBetween('date_of_issue', [$d_start, $d_end])->get():null;
+            $expenses = ($enabled_expense) ? Expense::where('establishment_id', $establishment_id)
+                                            ->whereBetween('date_of_issue', [$d_start, $d_end])
+                                            ->where('state_type_id', '!=', '11')  
+                                            ->get() : null;
 
 
         }else{
@@ -104,7 +107,9 @@ class DashboardUtility
                                             ->get();
 
 
-            $expenses = ($enabled_expense) ? Expense::where('establishment_id', $establishment_id)->get():null;
+            $expenses = ($enabled_expense) ? Expense::where('establishment_id', $establishment_id)
+                                            ->where('state_type_id', '!=', '11')  
+                                            ->get() : null;
 
         }
 

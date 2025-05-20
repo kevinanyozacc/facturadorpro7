@@ -1188,6 +1188,8 @@ export default {
                 this.payment_method_types = response.data.payment_method_types;
                 this.payment_destinations = response.data.payment_destinations;
 
+                this.$nextTick(() => this.updateEmptyPaymentDestinations());
+
                 this.changeEstablishment();
                 this.changeDateOfIssue();
                 this.changeCurrencyType();
@@ -1404,8 +1406,7 @@ export default {
             this.form.prepayments.splice(index, 1);
         },
         clickAddPayment() {
-            let payment =
-                this.form.prepayments.length == 0 ? this.form.total : 0;
+            let payment = this.form.total && this.form.total > 0 ? this.form.total : 0;
             const payment_method_type_id = "10";
 
             this.form.prepayments.push({
@@ -1563,6 +1564,12 @@ export default {
             this.form.subtotal = _.round(total, 2);
             this.form.total = _.round(total, 2);
 
+            if (this.form.prepayments.length > 0) {
+                this.form.prepayments.forEach(payment => {
+                    payment.payment = this.form.total / this.form.prepayments.length;
+                });
+            }
+
             // Activar tabla de pagos si hay productos
             this.showPayments = this.form.items.length > 0;
         },
@@ -1670,6 +1677,16 @@ export default {
                 number: null,
                 identity_document_type_id: null
             };
+        },
+        updateEmptyPaymentDestinations() {
+            if (this.payment_destinations && this.payment_destinations.length > 0) {
+                const defaultDestinationId = this.payment_destinations[0].id;
+                this.form.prepayments.forEach(payment => {
+                    if (!payment.payment_destination_id) {
+                        payment.payment_destination_id = defaultDestinationId;
+                    }
+                });
+            }
         }
     },
     computed: {
