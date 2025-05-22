@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\DB;
 use Modules\Finance\Traits\UnpaidTrait;
 use App\CoreFacturalo\Helpers\Functions\GeneralPdfHelper;
 
-
 class UnpaidCollection extends ResourceCollection
 {
 
@@ -82,7 +81,7 @@ class UnpaidCollection extends ResourceCollection
             }
             return [
                 'id' => $row->id,
-                'date_of_issue' => $row->date_of_issue,
+                'date_of_issue' => Carbon::parse($row->date_of_issue)->format('d-m-Y'),
                 'customer_name' => $row->customer_name,
                 'customer_id' => $row->customer_id,
                 'number_full' => $row->number_full,
