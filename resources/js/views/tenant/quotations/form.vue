@@ -259,6 +259,7 @@
                                 class="toggle-button toggle-button-quotations"
                                 :class="{ shift: isVisible }"
                                 @click="toggleInformation"
+                                :title="isVisible ? 'Cerrar Información Adicional' : 'Abrir Información Adicional'"
                             >
                                 <span class="toggle-button-text">
                                     {{

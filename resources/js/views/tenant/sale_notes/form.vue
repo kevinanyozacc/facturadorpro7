@@ -286,9 +286,10 @@
                             <div>
                                 <!-- Botón para mostrar/ocultar el componente -->
                                 <span
-                                    class="toggle-button toggle-button-invoice"
+                                    class="toggle-button toggle-button-orders"
                                     :class="{ shift: isVisible }"
                                     @click="toggleInformation"
+                                    :title="isVisible ? 'Cerrar Información Adicional' : 'Abrir Información Adicional'"
                                 >
                                     <span class="toggle-button-text">
                                         {{

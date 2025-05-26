@@ -56,36 +56,36 @@
                     </div>
                 </div> -->
 
-                <div class="mt-3">
+                <div class="mt-3 theme-color-selector">
                     <h5>Selecciona un color de tema:</h5>
                     <div class="color-selector">
                         <button
                             type="button"
                             class="btn-theme-white"
+                            :class="{ 'theme-selected': visuals.sidebar_theme === 'white' }"
                             @click="onChangeTheme('white')"
-                            style="background-color: #90dad9;"
                         ></button>
                         <button
                             type="button"
-                            class="btn-theme-acid"
+                            :class="{ 'theme-selected': visuals.sidebar_theme === 'acid' }"
                             @click="onChangeTheme('acid')"
                             style="background-color: #c1b1f1;"
                         ></button>
                         <button
                             type="button"
-                            class="btn-theme-cupcake"
+                            :class="{ 'theme-selected': visuals.sidebar_theme === 'cupcake' }"
                             @click="onChangeTheme('cupcake')"
                             style="background-color: #e7dad0;"
                         ></button>
                         <button
                             type="button"
-                            class="btn-theme-retro"
+                            :class="{ 'theme-selected': visuals.sidebar_theme === 'retro' }"
                             @click="onChangeTheme('retro')"
                             style="background-color: #ebddb7;"
                         ></button>
                         <button
                             type="button"
-                            class="btn-theme-lemonade"
+                            :class="{ 'theme-selected': visuals.sidebar_theme === 'lemonade' }"
                             @click="onChangeTheme('lemonade')"
                             style="background-color: #cddfae;"
                         ></button>
@@ -430,5 +430,10 @@ export default {
     border-radius: 6px;
     cursor: pointer;
     outline: none;
+    transition: border 0.2s ease;
+}
+
+.color-selector button.theme-selected {
+   box-shadow: 0 0 0 4px var(--highlight-color);
 }
 </style>

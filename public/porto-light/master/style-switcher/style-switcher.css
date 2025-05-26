@@ -156,7 +156,7 @@ html.boxed .style-switcher {
 }*/
 
 html.sidebar-light:not(.dark) .style-switcher {
-    background: #f6f6f6
+    background: #fff
 }
 
 html.sidebar-light:not(.dark) .style-switcher:before {

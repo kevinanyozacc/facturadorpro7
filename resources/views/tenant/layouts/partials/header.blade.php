@@ -288,7 +288,7 @@
             </ul>
 
             <ul class="log-out-container">
-                <li role="menuitem" href="{{ route('logout') }}"
+                <li class="btn-primary" role="menuitem" href="{{ route('logout') }}"
                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     {{--<a role="menuitem" href="#"><i class="fas fa-user"></i> Perfil</a>--}}
                     <a>

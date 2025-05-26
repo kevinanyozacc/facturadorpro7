@@ -291,7 +291,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-body border-top no-gutters">
+                    <div class="card-body no-gutters">
                         <div class="">
                             <div
                                 :class="{ 'has-danger': errors.customer_id }"
@@ -390,7 +390,7 @@
                             <!-- sistema por puntos -->
                         </div>
                     </div>
-                    <div class="card-body border-top no-gutters">
+                    <div class="card-body no-gutters">
                         <template v-if="showSearchItemsMainForm">
                             <div class="row">
                                 <div
@@ -440,9 +440,10 @@
                         <div>
                             <!-- Botón para mostrar/ocultar el componente -->
                             <span
-                                class="toggle-button toggle-button-invoice"
+                                class="toggle-button toggle-button-orders"
                                 :class="{ shift: isVisible }"
                                 @click="toggleInformation"
+                                :title="isVisible ? 'Cerrar Información Adicional' : 'Abrir Información Adicional'"
                             >
                                 <span class="toggle-button-text">
                                     {{
@@ -3386,7 +3387,7 @@
                             Vista Previa
                         </button>
                         <button
-                            class="btn btn-default"
+                            class="btn btn-default second-buton"
                             style="min-width: 180px"
                             @click.prevent="close()"
                         >
