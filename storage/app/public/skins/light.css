@@ -1274,6 +1274,11 @@ html.dark .el-collapse a,
 html.dark .list-config {
     background: var(--contents-dark);
 }
+html.dark .payment-container {
+    border: 1px solid var(--borders-dark) !important;
+    background: var(--inputs-dark) !important;
+    border-radius: 4px;
+}
 html.dark .list-config {
     border-color: var(--borders-dark);
 }
