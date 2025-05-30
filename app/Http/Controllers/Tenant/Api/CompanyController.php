@@ -31,7 +31,7 @@ class CompanyController extends Controller
                                ->whereType('customers')
                                ->whereIsEnabled()
                                ->orderBy('name')
-                               ->take(200)
+                               ->take(2000)
                                ->get()->transform(function ($row) {
                                     return [
                                         'id'                                     => $row->id,
