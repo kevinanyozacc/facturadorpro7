@@ -1097,10 +1097,6 @@ export default {
                } 
             }
 
-            if (this.form.country_id === 'PE' && (!this.form.location_id || this.form.location_id.length !== 3)) {
-                return this.$message.error('Falta registrar el ubigeo principal');
-            }
-
             let hasErrorInAdditionalAddresses = false;
             let addressWithError = null;
 

@@ -110,21 +110,6 @@ class PersonController extends Controller
             }
         }
 
-        // restricción para dirección principal - Perú
-        if ($request->input('country_id') === 'PE') {
-            $location_id = $request->input('location_id');
-    
-            
-            if (empty($location_id) || !is_array($location_id) || count($location_id) !== 3 || 
-                !isset($location_id[0]) || !isset($location_id[1]) || !isset($location_id[2]) || 
-                empty($location_id[0]) || empty($location_id[1]) || empty($location_id[2])) {
-        
-                return [
-                    'success' => false,
-                    'message' => 'Falta registrar el ubigeo principal para Perú'
-                ];
-            }
-        }
     
         // restricción para direcciones secundarias - Perú
         $addresses = $request->input('addresses') ?: [];
