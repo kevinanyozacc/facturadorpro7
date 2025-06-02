@@ -133,6 +133,26 @@
                                                 ></el-option>
                                             </el-select>
                                         </div>
+
+                                        <div class="col-md-3 form-modern">
+                                            <label class="control-label">Tipo de fecha</label>
+                                            <el-select
+                                                v-model="form.date_type"
+                                                @change="loadUnpaid"
+                                            >
+                                                <el-option
+                                                    key="emission"
+                                                    value="emission"
+                                                    label="Fecha de emisión"
+                                                    ></el-option>
+                                                    <el-option
+                                                    key="due"
+                                                    value="due"
+                                                    label="Fecha de vencimiento"
+                                                    ></el-option>
+                                                </el-select>
+                                        </div>
+
                                         <template
                                             v-if="
                                                 form.period === 'month' ||
@@ -1070,7 +1090,7 @@ export default {
     methods: {
         formatDate(date) {
             if (!date) return null;
-            const parsedDate = moment(date, 'DD/MM/YYYY');
+            const parsedDate = moment(date, ['YYYY/MM/DD', 'YYYY-MM-DD', 'DD/MM/YYYY']);
             return parsedDate.isValid()
                 ? parsedDate.format("DD-MM-YYYY")
                 : null;
@@ -1103,7 +1123,8 @@ export default {
                 month_end: moment().format("YYYY-MM"),
                 customer_id: null,
                 user_id: null,
-                payment_method_type_id: null
+                payment_method_type_id: null,
+                date_type: "emission",
             };
         },
         async filter() {

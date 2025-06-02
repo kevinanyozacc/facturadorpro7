@@ -81,7 +81,9 @@ export default {
                         type: "success",
                         message: response.data.message
                     });
-                    location.reload();
+
+                    this.$eventHub.$emit('establishmentChanged', this.establishment_id);
+                    //location.reload();
                 })
                 .finally(() => (this.loading = false));
         }

@@ -140,36 +140,103 @@
     </tr>
     </thead>
     <tbody>
-    @if($document->transport_mode_type_id === '01')
-        @php
-            $document_type_dispatcher = App\Models\Tenant\Catalogs\IdentityDocumentType::findOrFail($document->dispatcher->identity_document_type_id);
-        @endphp
+    @if($document->is_transport_m1l)
     <tr>
-        <td>Nombre y/o razón social: {{ $document->dispatcher->name }}</td>
-        <td>{{ $document_type_dispatcher->description }}: {{ $document->dispatcher->number }}</td>
-    </tr>
-    @else
-    <tr>
-        @if($document->transport_data)
-            <td>Número de placa del vehículo: {{ $document->transport_data['plate_number'] }}</td>
+        @if($document->is_transport_m1l)
+            <td>Indicador de traslado en vehículos de categoría M1 o L: SI</td>
         @endif
-        @if($document->driver->number)
-            <td>Conductor: {{ $document->driver->number }}</td>
-        @endif
-    </tr>
-    <tr>
-        @if($document->secondary_license_plates)
-            @if($document->secondary_license_plates->semitrailer)
-                <td>Número de placa semirremolque: {{ $document->secondary_license_plates->semitrailer }}</td>
-            @endif
-        @endif
-        @if($document->driver->license)
-            <td>Licencia del conductor: {{ $document->driver->license }}</td>
+        @if($document->license_plate_m1l)
+            <td>Placa de vehículo: {{ $document->license_plate_m1l}}</td>
         @endif
     </tr>
     @endif
+    @if($document->transport_mode_type_id === '01' && !$document->is_transport_m1l)
+        @php
+            $document_type_dispatcher = App\Models\Tenant\Catalogs\IdentityDocumentType::findOrFail($document->dispatcher->identity_document_type_id);
+        @endphp
+        <tr>
+            <td>Nombre y/o razón social: {{ $document->dispatcher->name }}</td>
+            <td>{{ $document_type_dispatcher->description }}: {{ $document->dispatcher->number }}</td>
+        </tr>
+    @else
+        @if(!$document->is_transport_m1l)
+        <tr>
+            @if($document->transport_data)
+                <td>Número de placa del vehículo Principal: {{ $document->transport_data['plate_number'] }}</td>
+            @endif
+            @if(isset($document->transport_data['tuc']) && $document->transport_data['tuc'])
+                <td>Certificado de habilitación vehicular: {{ $document->transport_data['tuc'] }}</td>
+            @endif
+        </tr>
+        <tr>
+            @if($document->driver->number)
+                <td>Conductor Principal: {{$document->driver->name}}</td>
+            @endif
+            @if($document->driver->number)
+                <td>Documento de conductor: {{ $document->driver->number }}</td>
+            @endif
+        </tr>
+        <tr>
+            @if($document->secondary_license_plates)
+                @if($document->secondary_license_plates->semitrailer)
+                    <td>Número de placa semirremolque: {{ $document->secondary_license_plates->semitrailer }}</td>
+                @endif
+            @endif
+            @if($document->driver->license)
+                <td>Licencia del conductor: {{ $document->driver->license }}</td>
+            @endif
+        </tr>
+        @endif
+    @endif
     </tbody>
 </table>
+
+@if($document->secondary_transports && !$document->is_transport_m1l)
+    <table class="full-width border-box mt-10 mb-10">
+        <thead>
+        <tr>
+            <th class="border-bottom text-left" colspan="2">Vehículos Secundarios</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach($document->secondary_transports as $row)
+        <tr>
+            @if($row["plate_number"])
+                <td>Número de placa del vehículo: {{ $row["plate_number"] }}</td>
+            @endif
+            @if($row['tuc'])
+                <td>Certificado de habilitación vehicular: {{ $row['tuc'] }}</td>
+            @endif
+        </tr>
+        @endforeach
+        </tbody>
+    </table>
+@endif
+@if($document->secondary_drivers && !$document->is_transport_m1l)
+    <table class="full-width border-box mt-10 mb-10">
+        <thead>
+        <tr>
+            <th class="border-bottom text-left" colspan="3">Conductores Secundarios</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach($document->secondary_drivers as $row)
+        <tr>
+            @if($row['name'])
+                <td>Conductor: {{$row['name']}}</td>
+            @endif
+            @if($row['number'])
+                <td>Documento: {{ $row['number'] }}</td>
+            @endif
+            @if($row['license'])
+                <td>Licencia: {{ $row['license'] }}</td>
+            @endif
+        </tr>
+        @endforeach
+        </tbody>
+    </table>
+@endif
+
 <table class="full-width border-box mt-10 mb-10">
     <thead class="">
     <tr>

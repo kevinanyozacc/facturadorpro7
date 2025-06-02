@@ -5778,7 +5778,9 @@ export default {
         async changeDateOfIssue() {
             this.validateDateOfIssue();
 
-            this.form.date_of_due = this.form.date_of_issue;
+            if (!this.form.quotation_id) {
+                this.form.date_of_due = this.form.date_of_issue;
+            }
             // if (! this.isUpdate) {
             await this.searchExchangeRateByDate(this.form.date_of_issue).then(
                 response => {

@@ -392,9 +392,22 @@ class DashboardView
             $sale_notes->where('customer_id', $customer_id);
             $documents->where('customer_id', $customer_id);
         }
-        if ($d_start && $d_end) {
+        /*if ($d_start && $d_end) {
             $sale_notes->whereBetween('sale_notes.date_of_issue', [$d_start, $d_end]);
             $documents->whereBetween('documents.date_of_issue', [$d_start, $d_end]);
+        }*/
+        if ($d_start && $d_end) {
+            $date_type = $request['date_type'] ?? 'emission';
+    
+            if ($date_type === 'due') {
+                $documents->leftJoin('invoices', 'documents.id', '=', 'invoices.document_id')
+                        ->whereBetween('invoices.date_of_due', [$d_start, $d_end]);
+        
+                $sale_notes->whereBetween('sale_notes.due_date', [$d_start, $d_end]);
+            } else {
+                $sale_notes->whereBetween('sale_notes.date_of_issue', [$d_start, $d_end]);
+                $documents->whereBetween('documents.date_of_issue', [$d_start, $d_end]);
+            }
         }
         // return $documents->union($sale_notes);
         if($purchase_order !== null){

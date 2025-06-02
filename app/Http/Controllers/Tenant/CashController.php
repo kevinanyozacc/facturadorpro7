@@ -50,18 +50,27 @@ class CashController extends Controller
     {
         return [
             'income' => 'Ingresos',
+            'user' => 'Vendedor',
         ];
     }
 
     public function records(Request $request)
     {
-        $records = Cash::withOut(['cash_documents'])
-                        ->where($request->column, 'like', "%{$request->value}%")
-                        ->whereTypeUser()
-                        ->orderBy('date_opening', 'DESC')
-                        ->orderBy('time_opening','desc');
+        $query = Cash::withOut(['cash_documents'])
+                ->whereTypeUser();
+                
+        if ($request->column == 'user') {   
+            $query->whereHas('user', function($q) use($request) {
+                $q->where('name', 'like', "%{$request->value}%");
+            });
+        } else {
+            $query->where($request->column, 'like', "%{$request->value}%");
+        }
+    
+        $query->orderBy('date_opening', 'DESC')
+                ->orderBy('time_opening','desc');
 
-        return new CashCollection($records->paginate(config('tenant.items_per_page')));
+        return new CashCollection($query->paginate(config('tenant.items_per_page')));
     }
 
     public function create()

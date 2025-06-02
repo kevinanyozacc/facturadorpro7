@@ -531,6 +531,8 @@
                                     <el-select v-model="row.country_id"
                                                filterable
                                                @change="handleCountryChange(row, index)">
+                                               filterable
+                                               @change="handleCountryChange(row, index)">
                                         <el-option v-for="option in countries"
                                                    :key="option.id"
                                                    :label="option.description"
