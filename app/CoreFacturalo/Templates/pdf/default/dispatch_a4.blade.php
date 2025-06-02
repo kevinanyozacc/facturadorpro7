@@ -295,7 +295,6 @@
                 <td>Número de placa del vehículo Principal: {{ $document->transport_data['plate_number'] }}</td>
             @endif
             @if(isset($document->transport_data['tuc']) && $document->transport_data['tuc'])
-            @if(isset($document->transport_data['tuc']) && $document->transport_data['tuc'])
                 <td>Certificado de habilitación vehicular: {{ $document->transport_data['tuc'] }}</td>
             @endif
         </tr>
@@ -357,7 +356,6 @@
         </tbody>
     </table>
 @endif
-@if($document->secondary_drivers && !$document->is_transport_m1l)
 @if($document->secondary_drivers && !$document->is_transport_m1l)
     <table class="full-width border-box mt-10 mb-10">
         <thead>
