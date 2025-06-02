@@ -267,17 +267,6 @@
     </tr>
     @endif
     @if($document->transport_mode_type_id === '01' && !$document->is_transport_m1l)
-    @if($document->is_transport_m1l)
-    <tr>
-        @if($document->is_transport_m1l)
-            <td>Indicador de traslado en vehículos de categoría M1 o L: SI</td>
-        @endif
-        @if($document->license_plate_m1l)
-            <td>Placa de vehículo: {{ $document->license_plate_m1l}}</td>
-        @endif
-    </tr>
-    @endif
-    @if($document->transport_mode_type_id === '01' && !$document->is_transport_m1l)
         @php
             $document_type_dispatcher = App\Models\Tenant\Catalogs\IdentityDocumentType::findOrFail($document->dispatcher->identity_document_type_id);
         @endphp
@@ -287,11 +276,8 @@
         </tr>
     @else
         @if(!$document->is_transport_m1l)
-    @else
-        @if(!$document->is_transport_m1l)
         <tr>
             @if($document->transport_data)
-                <td>Número de placa del vehículo Principal: {{ $document->transport_data['plate_number'] }}</td>
                 <td>Número de placa del vehículo Principal: {{ $document->transport_data['plate_number'] }}</td>
             @endif
             @if(isset($document->transport_data['tuc']) && $document->transport_data['tuc'])
@@ -302,21 +288,6 @@
             @if($document->driver->number)
                 <td>Conductor Principal: {{$document->driver->name}}</td>
             @endif
-            @if($document->driver->number)
-                <td>Documento de conductor: {{ $document->driver->number }}</td>
-            @endif
-        </tr>
-        <tr>
-            @if($document->secondary_license_plates)
-                @if($document->secondary_license_plates->semitrailer)
-                    <td>Número de placa semirremolque: {{ $document->secondary_license_plates->semitrailer }}</td>
-                @endif
-            @endif
-            @if($document->driver->license)
-                <td>Licencia del conductor: {{ $document->driver->license }}</td>
-            @endif
-        </tr>
-        @endif
             @if($document->driver->number)
                 <td>Documento de conductor: {{ $document->driver->number }}</td>
             @endif
@@ -380,7 +351,6 @@
         </tbody>
     </table>
 @endif
-
 <table class="full-width border-box mt-10 mb-10">
     <thead class="">
     @if($configuration["enabled_price_items_dispatch"])
