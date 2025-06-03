@@ -1126,7 +1126,7 @@ export default {
             //     }
             // }
 
-            if(this.form.addresses.length==0 && this.form.location_id.length===3 && this.form.address!=null ){
+            if( this.form.location_id.every(lid => lid !== null ) &&  this.form.addresses.length==0 && this.form.location_id.length===3 && this.form.address!=null ){
                 this.form.addresses.push({
                     'id': null,
                     'country_id': 'PE',
