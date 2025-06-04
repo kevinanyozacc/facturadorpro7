@@ -449,43 +449,35 @@
         </cac:PricingReference>
         @if($document->detraction && $invoice->operation_type_id == '1004')
         <cac:Delivery>
+            <cac:DeliveryLocation>
+                <cac:Address>
+                    <cbc:ID>{{ $document->detraction->delivery_location_id[2] }}</cbc:ID>
+                    <cac:AddressLine>
+                        <cbc:Line>{{$document->detraction->delivery_address}}</cbc:Line>
+                    </cac:AddressLine>
+                </cac:Address>
+            </cac:DeliveryLocation>
             <cac:Despatch>
                 <cbc:Instructions>{{$document->detraction->trip_detail}}</cbc:Instructions>
                 <cac:DespatchAddress>
-                <cbc:ID>{{ $document->detraction->origin_location_id[2] }}</cbc:ID>
-                <cac:AddressLine>
-                    <cbc:Line>{{$document->detraction->origin_address}}</cbc:Line>
-                </cac:AddressLine>
+                    <cbc:ID>{{ $document->detraction->origin_location_id[2] }}</cbc:ID>
+                    <cac:AddressLine>
+                        <cbc:Line>{{$document->detraction->origin_address}}</cbc:Line>
+                    </cac:AddressLine>
                 </cac:DespatchAddress>
             </cac:Despatch>
-        </cac:Delivery>
-        <cac:Delivery>
             <cac:DeliveryTerms>
                 <cbc:ID>01</cbc:ID>
                 <cbc:Amount currencyID="PEN">{{$document->detraction->reference_value_service}}</cbc:Amount>
             </cac:DeliveryTerms>
-        </cac:Delivery>
-        <cac:Delivery>
             <cac:DeliveryTerms>
                 <cbc:ID>02</cbc:ID>
                 <cbc:Amount currencyID="PEN">{{$document->detraction->reference_value_effective_load}}</cbc:Amount>
             </cac:DeliveryTerms>
-        </cac:Delivery>
-        <cac:Delivery>
             <cac:DeliveryTerms>
                 <cbc:ID>03</cbc:ID>
                 <cbc:Amount currencyID="PEN">{{$document->detraction->reference_value_payload}}</cbc:Amount>
             </cac:DeliveryTerms>
-        </cac:Delivery>
-        <cac:Delivery>
-            <cac:DeliveryLocation>
-                <cac:Address>
-                <cbc:ID>{{ $document->detraction->delivery_location_id[2] }}</cbc:ID>
-                <cac:AddressLine>
-                    <cbc:Line>{{$document->detraction->delivery_address}}</cbc:Line>
-                </cac:AddressLine>
-                </cac:Address>
-            </cac:DeliveryLocation>
         </cac:Delivery>
         @endif
         @if($row->charges)
