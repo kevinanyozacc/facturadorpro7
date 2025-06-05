@@ -4671,6 +4671,7 @@ export default {
             this.form.retention = data.retention;
 
             this.form.quotation_id = data.quotation_id;
+            this.total_global_discount = data.total_discount
 
             this.form.additional_information = this.onPrepareAdditionalInformation(
                 data.additional_information
@@ -4713,6 +4714,7 @@ export default {
 
             this.prepareDataCustomer();
 
+            this.regenerateItems();
             this.calculateTotal();
             // this.currency_type = _.find(this.currency_types, {'id': this.form.currency_type_id})
 
@@ -4722,6 +4724,20 @@ export default {
             if (this.table) {
                 this.filterSeries();
             }
+        },
+        regenerateItems(){
+            let items = [];
+            this.form.items.forEach(row => {
+                items.push(
+                    calculateRowItem(
+                        row,
+                        this.form.currency_type_id,
+                        this.form.exchange_rate_sale,
+                        this.percentage_igv
+                    )
+                );
+            });
+            this.form.items = items;
         },
         preparePaymentsFee(data) {
             if (this.isCreditPaymentCondition) {
@@ -6933,7 +6949,6 @@ export default {
             }
         },
         openDialogLots(item) {
-            console.log(item);
             this.recordItem = item;
             this.showDialogItemSeriesIndex = true;
         },
