@@ -294,7 +294,6 @@
                             </div>
                         </div>
                         <hr>
-                        <!--<h4>Datos modo de traslado</h4>
                         <div class="row" v-if="form.transport_mode_type_id === '01'">
                             <div class="col-lg-4">
                                 <div class="form-comtrol">
@@ -303,7 +302,7 @@
                                     </el-checkbox>
                                 </div>
                             </div>
-                        </div>-->
+                        </div>
                         <div class="row align-items-center">
                             <div class="col-lg-3">
                                 <h4 class="mb-0" >Datos modo de traslado</h4>
