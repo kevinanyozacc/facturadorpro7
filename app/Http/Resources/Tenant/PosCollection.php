@@ -30,6 +30,9 @@ class PosCollection extends ResourceCollection
                 Log::info("----ITEM-ARRAY-COLLECTION END----");
             }
 
+            $defaultImage = $configuration->product_default_image ?? 'imagen-no-disponible.jpg';
+            $defaultImagePath = asset('storage/defaults/' . $defaultImage);
+
             return [
                 'stock' => $row->getStockByWarehouse(),
                 'id' => $row->id,
@@ -55,7 +58,9 @@ class PosCollection extends ResourceCollection
                 'aux_quantity' => 1,
                 'edit_sale_unit_price' => $sale_unit_price,
                 'aux_sale_unit_price' => $sale_unit_price,
-                'image_url' => ($row->image !== 'imagen-no-disponible.jpg') ? asset('storage' . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR . 'items' . DIRECTORY_SEPARATOR . $row->image) : asset("/logo/{$row->image}"),
+                'image_url' => ($row->image && $row->image !== 'imagen-no-disponible.jpg') 
+                    ? asset('storage/uploads/items/' . $row->image)
+                    : $defaultImagePath,
                 'warehouses' => collect($row->warehouses)->transform(function ($row) {
                     return [
                         'warehouse_description' => $row->warehouse->description,

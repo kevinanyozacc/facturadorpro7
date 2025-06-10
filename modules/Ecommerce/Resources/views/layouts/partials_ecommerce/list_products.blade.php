@@ -2,8 +2,16 @@
     <div class="col-6 {{ \Route::currentRouteName() == 'tenant.ecommerce.index' ? 'col-md-3' : 'col-md-4' }}">
         <div class="product product-style {{ stock($item, $configuration) ? 'productdisabled' : '' }}">
             <figure class="product-image-container">
+                @php
+                    $configuration = \App\Models\Tenant\Configuration::first();
+                    $defaultImage = $configuration->product_default_image ?? 'imagen-no-disponible.jpg';
+                    $imagePath = $item->image == 'imagen-no-disponible.jpg' 
+                        ? asset('storage/defaults/' . $defaultImage)
+                        : asset('storage/uploads/items/'.$item->image);
+                @endphp
+                
                 <a href="/ecommerce/item/{{ $item->id }}" class="product-image product-image-list">
-                    <img src="{{ $item->image == 'imagen-no-disponible.jpg' ? asset('logo/imagen-no-disponible.jpg') : asset('storage/uploads/items/'.$item->image) }}" class="image" alt="{{$item->image}}">
+                    <img src="{{ $imagePath }}" class="image" alt="{{ $item->description }}">
                 </a>
                 <a href="{{route('item_partial', ['id' => $item->id])}}" class="btn-quickview">Vista Rápida</a>
                 {{-- <span class="product-label label-sale">-20%</span> --}}
