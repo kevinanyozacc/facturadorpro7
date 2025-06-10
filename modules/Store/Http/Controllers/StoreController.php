@@ -56,7 +56,7 @@ class StoreController extends Controller
         $rec['date_of_issue'] = now()->format('Y-m-d');
         $rec['fee'] = [];
         $rec['charges'] = [];
-        $rec['discounts'] = [];
+        $rec['discounts'] = $record->discounts;
         $rec['payments'] = [];
         $rec['guides'] = [];
         $rec['payment_condition_id'] = '01';

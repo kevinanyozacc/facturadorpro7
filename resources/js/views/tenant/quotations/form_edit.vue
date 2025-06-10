@@ -705,6 +705,7 @@ export default {
             enabled_discount_global: false,
             total_global_discount: 0,
             is_amount: true,
+            recordDiscountsGlobal: null
         }
     },
     async created() {
@@ -760,6 +761,11 @@ export default {
             return false
         },
         isGlobalDiscountBase: function() {
+
+            if (this.recordDiscountsGlobal) {
+                return this.recordDiscountsGlobal.discount_type_id === "02";
+            }
+
             return this.configuration.global_discount_type_id === "02";
         },
     },
@@ -773,8 +779,8 @@ export default {
         ]),
         setGlobalDiscount(factor, amount, base) {
             this.form.discounts.push({
-                discount_type_id: this.global_discount_type.id,
-                description: this.global_discount_type.description,
+                discount_type_id: this.recordDiscountsGlobal ? this.recordDiscountsGlobal.discount_type_id : this.global_discount_type.id,
+                description: this.recordDiscountsGlobal ? this.recordDiscountsGlobal.description : this.global_discount_type.description,
                 factor: factor,
                 amount: amount,
                 base: base,
@@ -917,7 +923,6 @@ export default {
             this.$http.get(`/${this.resource}/record/${this.resourceId}`)
                 .then(response => {
                     let dato = response.data.data.quotation
-                    //  console.log(dato)
                     this.form.id = dato.id
                     this.form.customer_id = dato.customer_id
                     this.form.currency_type_id = dato.currency_type_id
@@ -938,9 +943,12 @@ export default {
                     this.form.referential_information = dato.referential_information
                     this.changeCustomer()
                     this.form.customer_address_id = dato.customer.address_id
-                    this.total_global_discount = dato.total_discount
+
+                    this.recordDiscountsGlobal = dato.discounts[0];
+                    let discount_type_id = dato.discounts[0].discount_type_id
+                    this.total_global_discount = discount_type_id !== "02" ? dato.total_discount : 
+                    _.round(dato.total_discount * 1.18, 2);
                     this.calculateTotal()
-                    //console.log(response.data)
                 })
 
         },
@@ -1192,19 +1200,33 @@ export default {
                 this.form.discounts.splice(index, 1);
                 this.form.total_discount = 0;
             }
+            this.form.discounts = []
         },
         discountGlobal(ctx) {
             this.deleteDiscountGlobal();
 
             let amount_discount = this.total_global_discount;
-            if (this.is_amount) {
-                amount_discount =
-                    this.configuration.global_discount_type_id === "02" &&
-                    this.configuration.exact_discount
-                        ? this.total_global_discount / (1 + this.percentage_igv)
-                        : this.total_global_discount;
-            }
 
+        
+
+            if (this.is_amount) {
+
+                if (this.recordDiscountsGlobal) {
+                    if (this.recordDiscountsGlobal.discount_type_id === "02") {
+                        amount_discount =  this.total_global_discount / (1 + this.percentage_igv)
+                    } else {
+                        amount_discount = this.total_global_discount
+                    }
+                    
+                } else {
+                    amount_discount =
+                        (this.configuration.global_discount_type_id === "02" &&
+                        this.configuration.exact_discount) 
+                            ? this.total_global_discount / (1 + this.percentage_igv)
+                            : this.total_global_discount;
+
+                }
+            }
             let input_global_discount = parseFloat(amount_discount);
 
             if (input_global_discount > 0) {
