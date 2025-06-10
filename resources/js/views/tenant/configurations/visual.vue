@@ -162,6 +162,23 @@
                     </div>
                 </div>
                 <div class="pt-3 form-modern">
+                    <label class="control-label">Imagen predeterminada de productos</label>
+                    <el-input v-model="fileName" :readonly="true" placeholder="Ninguna imagen subida">
+                        <el-upload
+                            slot="append"
+                            :headers="headers"
+                            :on-success="successUploadDefaultImage"
+                            :on-error="errorUpload"
+                            :show-file-list="false"
+                            :action="`/api/configurations/default-image`"
+                            :with-credentials="true"
+                            name="image"
+                        >
+                            <el-button icon="el-icon-upload" type="primary"></el-button>
+                        </el-upload>
+                    </el-input>
+                </div>
+                <div class="pt-3 form-modern">
                     <label class="control-label">Cambiar tema</label>
                     <div :class="{ 'has-danger': errors.compact_sidebar }">
                         <el-select
@@ -218,7 +235,8 @@ export default {
             form: {},
             visuals: {},
             skins: {},
-            dialogSkinsVisible: false
+            dialogSkinsVisible: false,
+            fileName: '',
         };
     },
     async created() {
@@ -227,6 +245,18 @@ export default {
         await this.getRecords();
     },
     methods: {
+        successUploadDefaultImage(response, file) {
+            if (response.message) {
+                this.$message.success(response.message);
+                this.form.default_image = response.file;
+                this.fileName = response.file;
+            }   
+        },
+    
+        errorUpload(err) {
+          this.$message.error("Error al subir la imagen");
+          console.error("Error upload:", err);
+        },
         async loadThemes() {
             try {
                 const response = await fetch("/json/themes/themes.json");
@@ -298,6 +328,11 @@ export default {
                     this.visuals = response.data.data.visual;
                     this.form = response.data.data;
                     this.skins = response.data.data.skins;
+
+                    if (this.form.default_image) {
+                        this.fileName = this.form.default_image;
+                    }
+
                     if (this.visual.sidebar_theme) {
                         this.applyTheme(this.visual.sidebar_theme);
                     }

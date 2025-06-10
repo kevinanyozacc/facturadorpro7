@@ -1,11 +1,12 @@
 <?php
+use App\Http\Controllers\Tenant\ConfigurationImageController;
 
 Route::get('generate_token', 'Tenant\Api\MobileController@getSeries');
 
 $hostname = app(Hyn\Tenancy\Contracts\CurrentHostname::class);
 if ($hostname) {
     Route::domain($hostname->fqdn)->group(function () {
-
+        Route::post('configurations/default-image', [ConfigurationImageController::class, 'upload']);
         Route::post('login', 'Tenant\Api\MobileController@login');
 
         Route::middleware(['auth:api', 'locked.tenant'])->group(function () {

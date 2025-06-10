@@ -311,7 +311,12 @@ class ConfigurationController extends Controller
     public function record()
     {
         $configuration = Configuration::first();
-        return ['data'=>$configuration->getCollectionData()];
+        return [
+            'data' => array_merge(
+                $configuration->getCollectionData(),
+                ['default_image' => $configuration->product_default_image]
+            )
+        ];
         $record = new ConfigurationResource($configuration);
 
         return  $record;
