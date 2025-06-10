@@ -64,14 +64,13 @@ $style = " font-size: 8px; vertical-align: top;"; // . $border;
                     @if (empty($data['code']))
                         &nbsp;
                     @else
-                        <img style="width:150px; max-height: 15px;"
+                        <img style="width:60px; height:30px; max-height: 90px"
                              src="{{ $data['bar_code'] }}">
                     @endif
                 </p>
-                <p style="font-size: 5px">
-                    @if(empty($data['code']) ) &nbsp; @else {{ $data['code'] }}@endif
-
-                </p>
+                    <p style="font-size: 9px">
+                        @if(empty($data['code']) ) &nbsp; @else {{ $data['code'] }}@endif
+                    </p>
             </td>
         </tr>
         <tr>

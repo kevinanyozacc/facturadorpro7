@@ -1321,7 +1321,7 @@ class ItemController extends Controller
         }
         $extra_data = $extradata;
         $records = $records->get();
-        $height = 23;
+        $height = 30;
 
         $width = 48;
         $pdfj = new Fpdi();
