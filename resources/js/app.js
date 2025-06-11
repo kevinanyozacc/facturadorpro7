@@ -312,8 +312,7 @@ Vue.component('system-accounting-index', require('@viewsModuleAccount/system/acc
 
 
 Vue.component('system-multi-users-index', require('@viewsModuleMultiUser/system/multi-users/index.vue'));
-
-
+Vue.component('system-massive-invoice-index', require('./views/system/massive_invoice/index.vue'));
 
 // Hoteles :: Tarifas
 Vue.component('tenant-hotel-rates', require('@viewsModuleHotel/rates/List.vue'));

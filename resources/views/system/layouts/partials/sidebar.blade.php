@@ -39,6 +39,17 @@
                     </li>
                 </ul>
             </nav>
+
+            <nav id="menu" class="nav-main" role="navigation">
+                <ul class="nav nav-main">
+                    <li class="{{ ($path[0] === 'massive-invoice')?'nav-active':'' }}">
+                        <a class="nav-link" href="{{route('system.massive-invoice.index')}}">
+                            <i class="fas fa-copy fa-fw"></i><span>Facturación Masiva</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
             <nav id="menu" class="nav-main" role="navigation">
                 <ul class="nav nav-main">
                     <li class="{{ ($path[0] === 'accounting')?'nav-active':'' }}">

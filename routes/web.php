@@ -848,6 +848,15 @@ if ($hostname) {
             Route::post('plans', 'System\PlanController@store');
             Route::delete('plans/{plan}', 'System\PlanController@destroy');
 
+            //Massive Invoice
+            Route::get('massive-invoice', 'System\MassiveInvoiceController@index')->name('system.massive-invoice.index');
+            Route::get('massive-invoice/download-format', 'System\MassiveInvoiceController@downloadFormat')->name('system.massive-invoice.download');
+            Route::post('massive-invoice/upload', 'System\MassiveInvoiceController@upload')->name('system.massive-invoice.upload');
+            Route::post('massive-invoice/process', 'System\MassiveInvoiceController@process')->name('system.massive-invoice.process');
+            Route::get('massive-invoice/config', 'System\MassiveInvoiceController@config');
+            Route::get('massive-invoice/records', 'System\MassiveInvoiceController@records');
+            Route::get('massive-invoice/download/{id}/{type}', 'System\MassiveInvoiceController@downloadFile');
+
             //Users
             Route::get('users/create', 'System\UserController@create')->name('system.users.create');
             Route::get('users/record', 'System\UserController@record');
@@ -931,7 +940,6 @@ if ($hostname) {
                 }
             });
             */
-
 
 
         });
