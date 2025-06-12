@@ -156,9 +156,9 @@
                     </li>
                     @endif
                     @if($vc_company->soap_type_id != '03')
-                    <li>
+                    {{-- <li>
                         <a href="{{route('tenant.offline_configurations.index')}}">Modo offline</a>
-                    </li>
+                    </li> --}}
                     <li>
                         <a href="{{route('tenant.series_configurations.index')}}">Numeración de facturación</a>
                     </li>
