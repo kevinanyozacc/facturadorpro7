@@ -1569,9 +1569,9 @@
                             <div class="col-6 mt-4">
                                 <div class="form-group">
                                     <label>
-                                        Listar servicios al inicio de Pos
+                                        Activar servicios
                                         <el-tooltip class="item"
-                                            content="Normalmente, los servicios necesitan ser buscados, en este caso, se podran listar al inicio"
+                                            content="Muestra los servicios en el punto de venta. Si está desactivado, no se podrán vender."
                                             effect="dark" placement="top-start">
                                             <i class="fa fa-info-circle"></i>
                                         </el-tooltip>

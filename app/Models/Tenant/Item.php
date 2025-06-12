@@ -2617,15 +2617,21 @@ class Item extends ModelTenant
     public function scopeFilterRecordsSaleApi($query, $request)
     {
 
+        $configuration = Configuration::first();
         $category_id = $request->category_id ??  null;
         $favorite = $request->has('favorite') && (bool) $request->favorite;
-
-        return $query->whereFilterWithOutRelations()
+        $record =  $query->whereFilterWithOutRelations()
                     ->with(['category', 'brand', 'currency_type'])
                     ->whereFilterRecordsApi($request->input,$request->search_by_barcode)
                     ->filterByCategory($category_id)
                     ->filterFavorite($favorite)
                     ->whereIsActive();
+
+        if ($configuration->isShowServiceOnPos() !== true) {
+            $record->where('unit_type_id', '!=', 'ZZ');
+        }
+
+        return $record;
     }
 
 

@@ -84,6 +84,10 @@ class PosController extends Controller
             })
             ->whereWarehouse();
 
+        if ($configuration->isShowServiceOnPos() !== true) {
+            $items_query->where('unit_type_id', '!=', 'ZZ');
+        }
+
         if ($search_item_by_barcode_presentation) $items_query->orFilterItemUnitTypeBarcode($request->input_item);
 
         $items = $items_query->whereIsActive()->get()->transform(function ($row) use ($configuration, $search_item_by_barcode_presentation, $request) {
@@ -476,7 +480,7 @@ class PosController extends Controller
             //->where('series_enabled', 0);
             
         $config = Configuration::first();
-            if ($config->isShowServiceOnPos() !== true) {
+        if ($config->isShowServiceOnPos() !== true) {
             $item->where('unit_type_id', '!=', 'ZZ');
         }
 
