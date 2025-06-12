@@ -5,11 +5,15 @@
                 @php
                     $configuration = \App\Models\Tenant\Configuration::first();
                     $defaultImage = $configuration->product_default_image ?? 'imagen-no-disponible.jpg';
-                    $imagePath = $item->image == 'imagen-no-disponible.jpg' 
-                        ? asset('storage/defaults/' . $defaultImage)
-                        : asset('storage/uploads/items/'.$item->image);
+                    $defaultImagePath = $defaultImage === 'imagen-no-disponible.jpg'
+                        ? asset('logo/imagen-no-disponible.jpg')
+                        : asset('storage/defaults/' . $defaultImage);
+                            
+                    $imagePath = $item->image !== 'imagen-no-disponible.jpg'
+                        ? asset('storage/uploads/items/' . $item->image)
+                        : $defaultImagePath;
                 @endphp
-                
+                            
                 <a href="/ecommerce/item/{{ $item->id }}" class="product-image product-image-list">
                     <img src="{{ $imagePath }}" class="image" alt="{{ $item->description }}">
                 </a>

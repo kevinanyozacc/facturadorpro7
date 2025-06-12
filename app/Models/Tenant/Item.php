@@ -1150,7 +1150,9 @@ class Item extends ModelTenant
         $show_sale_unit_price = "{$currency->symbol} {$this->getFormatSaleUnitPrice()}";
 
         $defaultImage = $configuration->product_default_image ?? 'imagen-no-disponible.jpg';
-        $defaultImagePath = asset('storage/defaults/' . $defaultImage);
+        $defaultImagePath = $defaultImage === 'imagen-no-disponible.jpg'
+            ? asset('logo/imagen-no-disponible.jpg')
+            : asset('storage/defaults/' . $defaultImage); 
         return [
             'name_disa' => $name_disa,
             'laboratory' => $laboratory,

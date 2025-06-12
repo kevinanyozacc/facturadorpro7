@@ -31,7 +31,9 @@ class PosCollection extends ResourceCollection
             }
 
             $defaultImage = $configuration->product_default_image ?? 'imagen-no-disponible.jpg';
-            $defaultImagePath = asset('storage/defaults/' . $defaultImage);
+            $defaultImagePath = $defaultImage === 'imagen-no-disponible.jpg'
+                ? asset('logo/imagen-no-disponible.jpg')
+                : asset('storage/defaults/' . $defaultImage); 
 
             return [
                 'stock' => $row->getStockByWarehouse(),
