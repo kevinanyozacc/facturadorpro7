@@ -103,13 +103,13 @@
                             <td class="text-center">{{ row.name }}</td>
                             <td class="text-center">{{ row.quantity }}</td>
                             <td class="text-center">
-                                {{ row.purchase_unit_price }}
+                                {{ formatNumber(row.purchase_unit_price) }}
                             </td>
-                            <td class="text-center">{{ row.unit_price }}</td>
+                            <td class="text-center">{{ formatNumber(row.unit_price) }}</td>
 
-                            <td class="text-center">{{ row.unit_gain }}</td>
+                            <td class="text-center">{{ formatNumber(row.unit_gain) }}</td>
                             <td class="text-center">
-                                {{ row.overall_profit }}
+                                {{ formatNumber(row.overall_profit) }}
                             </td>
                         </tr>
                     </data-table>
@@ -138,6 +138,10 @@ export default {
             return parsedDate.isValid()
                 ? parsedDate.format("DD-MM-YYYY")
                 : null;
+        },
+        formatNumber(value) {
+            if (value === null || value === undefined) return '';
+            return Number(value).toFixed(2);
         }
     }
 };

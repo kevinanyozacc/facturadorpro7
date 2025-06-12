@@ -18,7 +18,7 @@
         ></table-items>
 
         <div class="col-12 p-0">
-            <div class="row border-bottom m-0 pt-2 pb-0">
+            <div class="row m-0 pt-2 pb-0">
                 <div class="col-md-4 d-flex px-0">
                     <div class="col-md-6 pl-2 pr-0">
                         <el-select v-model="form.document_type_id" size="small" @change="filterSeries" class="">
