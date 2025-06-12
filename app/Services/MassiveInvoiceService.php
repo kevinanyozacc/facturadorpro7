@@ -6,9 +6,17 @@ use Illuminate\Support\Collection;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Carbon\Carbon;
 use App\Models\System\Client;
+use App\Http\Controllers\System\ServiceController;
 
 class MassiveInvoiceService
 {
+    protected $serviceController;
+
+    public function __construct(ServiceController $serviceController)
+    {
+        $this->serviceController = $serviceController;
+    }
+
     public function processExcel($file)
     {
         $spreadsheet = IOFactory::load($file->getPathname());
@@ -25,58 +33,38 @@ class MassiveInvoiceService
         return collect($rows)->map(function($row) {
             if (empty($row[0])) return null;
 
-            // Obtenemos el token del cliente según el RUC emisor
-            $rucEmisor = $row[2] ?? null; // RUC_emisor
-            $client = \App\Models\System\Client::where('number', $rucEmisor)->first();
-            
-            if (!$client) {
-                throw new \Exception("No se encontró el cliente con RUC: {$rucEmisor}");
+            // Validaciones básicas
+            if (!$this->validateRow($row)) {
+                throw new \Exception("Fila con datos incompletos o inválidos");
             }
 
-            // Obtenemos el token del cliente
-            $token = $client->token;
-            if (empty($token)) {
-                throw new \Exception("El cliente con RUC {$rucEmisor} no tiene token configurado");
+            $rucEmisor = $row[2];
+            $client = Client::where('number', $rucEmisor)->first();
+            
+            if (!$client || empty($client->token)) {
+                throw new \Exception("Cliente no encontrado o sin token: {$rucEmisor}");
             }
 
-            // Determinar tipo de documento y serie
-            $tipoComprobante = $row[3] === 'Boleta' ? '03' : '01';
-            
-            // Determinar tipo de afectación y base imponible según el caso
+            // Procesamiento de datos
+            $tipoComprobante = strtolower($row[3]) === 'boleta' ? '03' : '01';
             $tipoAfectacion = $this->getTipoAfectacion($row[19] ?? '10');
-            
-            // Obtener valores directamente del Excel
-            $cantidad = floatval($row[17] ?? 1); 
+            $cantidad = floatval($row[17] ?? 1);
             $precio = floatval($row[20] ?? 0);
+            $incluyeIgv = strtolower($row[11] ?? '') === 'si';
             
-            // Calcular montos según tipo de afectación
-            if ($tipoAfectacion == '20' || $tipoAfectacion == '30') { // Exonerado o Inafecto
-                $igvPercentage = 0;
-                $valorUnitario = $precio; // El precio es el valor unitario sin IGV
-                $baseImponible = $valorUnitario * $cantidad;
-                $igv = 0;
-                $total = $baseImponible;
-            } else { // Gravado (10)
-                $igvPercentage = 18;
-                $valorUnitario = $precio / (1 + ($igvPercentage/100));
-                $baseImponible = $valorUnitario * $cantidad;
-                $igv = $baseImponible * ($igvPercentage/100);
-                $total = $baseImponible + $igv;
-            }
+            // Cálculos de montos según tipo de afectación e IGV incluido
+            $montos = $this->calcularMontos($precio, $cantidad, $tipoAfectacion, $incluyeIgv);
 
-            // Validar tipo de documento según receptor
-            if ($tipoComprobante === '01' && strlen($row[5]) !== 11) {
-                throw new \Exception("Para facturas el receptor debe tener RUC válido de 11 dígitos");
-            }
+            // Validar documento del receptor
+            $receptorDocNum = $row[5] ?? '';
+            $this->validateReceptorDocument($receptorDocNum, $tipoComprobante);
 
-            // Validar documento receptor según tipo
-            if ($tipoComprobante === '03' && strlen($row[5]) !== 8) {
-                throw new \Exception("Para boletas el receptor debe tener DNI válido de 8 dígitos"); 
-            }
+            // Consultar datos del receptor
+            $receptorData = $this->getReceptorData($receptorDocNum, $tipoComprobante);
 
             return [
                 'tenant_id' => $rucEmisor,
-                'token' => $token,
+                'token' => $client->token,
                 'data' => [
                     'serie_documento' => $row[4] ?? '',
                     'numero_documento' => '#',
@@ -88,53 +76,134 @@ class MassiveInvoiceService
                     'fecha_de_vencimiento' => Carbon::parse($row[1])->format('Y-m-d'),
                     'numero_orden_de_compra' => $row[10] ?? '',
                     
-                    'datos_del_cliente_o_receptor' => [
+                    'datos_del_cliente_o_receptor' => array_merge([
                         'codigo_tipo_documento_identidad' => $tipoComprobante === '03' ? '1' : '6',
-                        'numero_documento' => $row[5] ?? '',
-                        'apellidos_y_nombres_o_razon_social' => 'CLIENTE GENERAL',
+                        'numero_documento' => $receptorDocNum,
                         'codigo_pais' => 'PE',
-                        'ubigeo' => '150101',
-                        'direccion' => 'DIRECCION GENERAL',
                         'correo_electronico' => $row[6] ?? '',
                         'telefono' => ''
-                    ],
+                    ], $receptorData),
                     
                     'totales' => [
                         'total_exportacion' => 0,
-                        'total_operaciones_gravadas' => $tipoAfectacion == '10' ? $baseImponible : 0,
-                        'total_operaciones_inafectas' => $tipoAfectacion == '30' ? $baseImponible : 0,
-                        'total_operaciones_exoneradas' => $tipoAfectacion == '20' ? $baseImponible : 0,
+                        'total_operaciones_gravadas' => $montos['baseImponible'],
+                        'total_operaciones_inafectas' => $tipoAfectacion == '30' ? $montos['baseImponible'] : 0,
+                        'total_operaciones_exoneradas' => $tipoAfectacion == '20' ? $montos['baseImponible'] : 0,
                         'total_operaciones_gratuitas' => 0,
-                        'total_igv' => $igv,
-                        'total_impuestos' => $igv,
-                        'total_valor' => $baseImponible,
-                        'total_venta' => $total
+                        'total_igv' => $montos['igv'],
+                        'total_impuestos' => $montos['igv'],
+                        'total_valor' => $montos['baseImponible'],
+                        'total_venta' => $montos['total']
                     ],
                     
-                    'items' => [
-                        [
-                            'codigo_interno' => $row[15] ?? '',
-                            'descripcion' => $row[16] ?? '',
-                            'codigo_producto_sunat' => '51121703',
-                            'unidad_de_medida' => 'NIU',
-                            'cantidad' => $cantidad,
-                            'valor_unitario' => $valorUnitario,
-                            'codigo_tipo_precio' => '01',
-                            'precio_unitario' => $precio,
-                            'codigo_tipo_afectacion_igv' => $tipoAfectacion,
-                            'total_base_igv' => $baseImponible,
-                            'porcentaje_igv' => $igvPercentage,
-                            'total_igv' => $igv,
-                            'total_impuestos' => $igv,
-                            'total_valor_item' => $baseImponible,
-                            'total_item' => $total
-                        ]
-                    ],
+                    'items' => [[
+                        'codigo_interno' => $row[15] ?? '',
+                        'descripcion' => $row[16] ?? '',
+                        'codigo_producto_sunat' => '51121703',
+                        'unidad_de_medida' => $this->normalizeUnidadMedida($row[18] ?? 'NIU'),
+                        'cantidad' => $cantidad,
+                        'valor_unitario' => $montos['valorUnitario'],
+                        'codigo_tipo_precio' => '01',
+                        'precio_unitario' => $precio,
+                        'codigo_tipo_afectacion_igv' => $tipoAfectacion,
+                        'total_base_igv' => $montos['baseImponible'],
+                        'porcentaje_igv' => $montos['igvPercentage'],
+                        'total_igv' => $montos['igv'],
+                        'total_impuestos' => $montos['igv'],
+                        'total_valor_item' => $montos['baseImponible'],
+                        'total_item' => $montos['total']
+                    ]],
                     
-                    'informacion_adicional' => "Forma de pago:{$row[8]}|{$row[9]}"
+                    'informacion_adicional' => "Forma de pago:{$row[8]}|{$row[9]}",
                 ]
             ];
         })->filter()->values()->all();
+    }
+
+    private function calcularMontos($precio, $cantidad, $tipoAfectacion, $incluyeIgv)
+    {
+        $igvPercentage = ($tipoAfectacion == '20' || $tipoAfectacion == '30') ? 0 : 18;
+        
+        if ($incluyeIgv && $igvPercentage > 0) {
+            $valorUnitario = $precio / (1 + ($igvPercentage/100));
+        } else {
+            $valorUnitario = $precio;
+        }
+
+        $baseImponible = $valorUnitario * $cantidad;
+        $igv = $baseImponible * ($igvPercentage/100);
+        $total = $baseImponible + $igv;
+
+        return [
+            'valorUnitario' => round($valorUnitario, 2),
+            'baseImponible' => round($baseImponible, 2),
+            'igv' => round($igv, 2),
+            'total' => round($total, 2),
+            'igvPercentage' => $igvPercentage
+        ];
+    }
+
+    private function validateRow($row)
+    {
+        return !empty($row[0]) && // Fecha emisión
+               !empty($row[2]) && // RUC emisor
+               !empty($row[3]) && // Tipo comprobante
+               !empty($row[4]) && // Serie
+               !empty($row[5]);   // RUC/DNI receptor
+    }
+
+    private function normalizeUnidadMedida($unidad)
+    {
+        $unidades = [
+            'UNIDAD SERVICIOS' => 'ZZ',
+            'UNIDAD' => 'NIU',
+            'SERVICIO' => 'ZZ'
+        ];
+        
+        return $unidades[strtoupper($unidad)] ?? 'NIU';
+    }
+
+    private function getReceptorData($numero, $tipoComprobante) 
+    {
+        $data = [
+            'apellidos_y_nombres_o_razon_social' => 'CLIENTE GENERAL',
+            'direccion' => 'DIRECCION GENERAL',
+            'ubigeo' => '150101'
+        ];
+        
+        try {
+            $serviceData = new \Modules\ApiPeruDev\Data\ServiceData();
+            $response = $serviceData->service($tipoComprobante === '03' ? 'dni' : 'ruc', $numero);
+
+            if (isset($response['success']) && $response['success']) {
+                $data['apellidos_y_nombres_o_razon_social'] = $response['data']['name'];
+                $data['direccion'] = $response['data']['address'] ?? 'DIRECCION GENERAL';
+
+                // Solo para RUC y si location_id existe y es array
+                if ($tipoComprobante === '01' && 
+                    isset($response['data']['location_id']) && 
+                    is_array($response['data']['location_id']) && 
+                    count($response['data']['location_id']) === 3 &&
+                    !empty($response['data']['location_id'][2])) {
+                    
+                    $data['ubigeo'] = $response['data']['location_id'][2];
+
+                    \Log::debug("Ubigeo construido:", [
+                        'location_id' => $response['data']['location_id'],
+                        'ubigeo_final' => $data['ubigeo']
+                    ]);
+                }
+
+                \Log::debug("Datos del receptor procesados:", [
+                    'response' => $response,
+                    'data_final' => $data
+                ]);
+            }
+        } catch (\Exception $e) {
+            \Log::error('Error al consultar datos del receptor: ' . $e->getMessage());
+        }
+
+        return $data;
     }
 
     private function getTipoAfectacion($tipo) 
@@ -145,11 +214,23 @@ class MassiveInvoiceService
             'EXONERADO_OPERACION_ONEROSA' => '20'
         ];
 
-        // Si viene el código directo (10, 20, 30) lo retorna, sino busca la descripción
         if (in_array($tipo, ['10', '20', '30'])) {
             return $tipo;
         }
 
         return $tipos[$tipo] ?? '10';
+    }
+
+    private function validateReceptorDocument($numero, $tipoComprobante)
+    {
+        if ($tipoComprobante === '01' && strlen($numero) !== 11) {
+            throw new \Exception("Para facturas el receptor debe tener RUC válido de 11 dígitos");
+        }
+
+        if ($tipoComprobante === '03' && strlen($numero) !== 8) {
+            throw new \Exception("Para boletas el receptor debe tener DNI válido de 8 dígitos");
+        }
+
+        return true;
     }
 }
