@@ -2,6 +2,7 @@
 
 namespace Modules\Restaurant\Http\Resources;
 
+use App\Models\Tenant\Configuration;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class ItemCollection extends ResourceCollection
@@ -17,6 +18,13 @@ class ItemCollection extends ResourceCollection
 
         return $this->collection->transform(function($row, $key){
 
+            $configuration = Configuration::first();
+            $defaultImage = $configuration->product_default_image ?? 'imagen-no-disponible.jpg';
+            $defaultImagePath = $defaultImage === 'imagen-no-disponible.jpg'
+                ? asset('logo/imagen-no-disponible.jpg')
+                : asset('storage/defaults/' . $defaultImage); 
+
+            
             return [
                 'id' => $row->id,
                 'unit_type_id' => $row->unit_type_id,
@@ -44,9 +52,9 @@ class ItemCollection extends ResourceCollection
                 'updated_at' => ($row->created_at) ? $row->updated_at->format('Y-m-d H:i:s') : '',
                 'apply_store' => (bool)$row->apply_store,
                 'apply_restaurant' => (bool)$row->apply_restaurant,
-                'image_url' => ($row->image !== 'imagen-no-disponible.jpg') ? asset('storage'.DIRECTORY_SEPARATOR.'uploads'.DIRECTORY_SEPARATOR.'items'.DIRECTORY_SEPARATOR.$row->image) : asset("/logo/{$row->image}"),
-                'image_url_medium' => ($row->image_medium !== 'imagen-no-disponible.jpg') ? asset('storage'.DIRECTORY_SEPARATOR.'uploads'.DIRECTORY_SEPARATOR.'items'.DIRECTORY_SEPARATOR.$row->image_medium) : asset("/logo/{$row->image_medium}"),
-                'image_url_small' => ($row->image_small !== 'imagen-no-disponible.jpg') ? asset('storage'.DIRECTORY_SEPARATOR.'uploads'.DIRECTORY_SEPARATOR.'items'.DIRECTORY_SEPARATOR.$row->image_small) : asset("/logo/{$row->image_small}"),
+                'image_url' => $row->image && ($row->image === 'imagen-no-disponible.jpg') ? $defaultImagePath : asset('storage'.DIRECTORY_SEPARATOR.'uploads'.DIRECTORY_SEPARATOR.'items'.DIRECTORY_SEPARATOR.$row->image),
+                'image_url_medium' => $row->image && ($row->image_medium === 'imagen-no-disponible.jpg') ? $defaultImagePath : asset('storage'.DIRECTORY_SEPARATOR.'uploads'.DIRECTORY_SEPARATOR.'items'.DIRECTORY_SEPARATOR.$row->image_medium),
+                'image_url_small' => $row->image && ($row->image_small === 'imagen-no-disponible.jpg') ?  $defaultImagePath : asset('storage'.DIRECTORY_SEPARATOR.'uploads'.DIRECTORY_SEPARATOR.'items'.DIRECTORY_SEPARATOR.$row->image_small),
                 'favorite' => (bool)$row->favorite,
             ];
         });
