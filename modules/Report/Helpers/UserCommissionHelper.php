@@ -13,7 +13,6 @@ use App\Models\Tenant\Item;
 use Carbon\Carbon;
 use App\CoreFacturalo\Helpers\Functions\FunctionsHelper;
 
-
 class UserCommissionHelper
 {
 
@@ -118,6 +117,10 @@ class UserCommissionHelper
         $documents = Document::whereFilterCommission($date_start, $date_end, $establishment_id, $user_type, $user_seller_id, $row_user_id)->get();
         $sale_notes = SaleNote::whereFilterCommission($date_start, $date_end, $establishment_id, $user_type, $user_seller_id, $row_user_id)->get();
         
+        $sale_notes = $sale_notes->filter(function($sn) {
+            return !is_null($sn->document_id) ? false : true;
+        });
+        
         $total_commision = 0;
 
         $total_transactions_document = $documents->count();
@@ -162,7 +165,6 @@ class UserCommissionHelper
     public static function getTotalCommision($records){
 
         return $records->sum(function($record){
-
             return $record->items->sum(function($item) use($record){
 
                 $total_commision = 0;
