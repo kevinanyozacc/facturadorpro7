@@ -13,6 +13,9 @@
                     <button @click="showUploadModal = true" class="btn btn-primary mr-2 float-right">
                         <i class="fas fa-upload"></i> Subir Facturas
                     </button>
+                    <button @click="showFilterModal = true" class="btn btn-info mr-2 float-right">
+                        <i class="fas fa-filter"></i> Filtros
+                    </button>
                 </div>
             </div>
             <div class="card-body">
@@ -64,9 +67,86 @@
                             </tr>
                         </tbody>
                     </table>
+
+                    <!-- Paginación -->
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center">
+                                <el-select v-model="pagination.perPage" @change="onPerPageChange" size="small" class="pagination-select">
+                                    <el-option :value="10" label="10"></el-option>
+                                    <el-option :value="25" label="25"></el-option>
+                                    <el-option :value="50" label="50"></el-option>
+                                    <el-option :value="100" label="100"></el-option>
+                                </el-select>
+                                <span class="ml-3">
+                                    Mostrando {{ paginationInfo.from }} - {{ paginationInfo.to }} de {{ paginationInfo.total }} registros
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <el-pagination
+                                @current-change="onPageChange"
+                                :current-page.sync="pagination.currentPage"
+                                :page-size="pagination.perPage"
+                                :total="paginationInfo.total"
+                                layout="prev, pager, next">
+                            </el-pagination>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+
+        <!-- Modal de Filtros -->
+        <el-dialog
+            title="Filtros de Búsqueda"
+            :visible.sync="showFilterModal"
+            width="500px">
+            <div class="row">
+                <div class="col-md-12 mb-3">
+                    <label>Mes:</label>
+                    <el-date-picker
+                        v-model="filters.month"
+                        type="month"
+                        format="MM/yyyy"
+                        value-format="yyyy-MM"
+                        placeholder="Seleccione mes"
+                        class="w-100">
+                    </el-date-picker>
+                </div>
+                <div class="col-md-12 mb-3">
+                    <label>Fecha Específica:</label>
+                    <el-date-picker
+                        v-model="filters.date"
+                        type="date"
+                        format="dd/MM/yyyy"
+                        value-format="yyyy-MM-dd"
+                        placeholder="Seleccione fecha"
+                        class="w-100">
+                    </el-date-picker>
+                </div>
+                <div class="col-md-12 mb-3">
+                    <label>Número de Factura:</label>
+                    <el-input
+                        v-model="filters.serie_numero"
+                        placeholder="Ingrese número de factura"
+                        prefix-icon="el-icon-document">
+                    </el-input>
+                </div>
+                <div class="col-md-12">
+                    <label>RUC/DNI Receptor:</label>
+                    <el-input
+                        v-model="filters.receptor"
+                        placeholder="Ingrese RUC o DNI"
+                        prefix-icon="el-icon-user">
+                    </el-input>
+                </div>
+            </div>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="clearFilters">Limpiar</el-button>
+                <el-button type="primary" @click="applyFilters">Aplicar Filtros</el-button>
+            </span>
+        </el-dialog>
 
         <!-- Modal de carga masiva -->
         <el-dialog
@@ -122,12 +202,28 @@ export default {
             resource: 'massive-invoice',
             loading: false,
             showUploadModal: false,
+            showFilterModal: false,
             fileSelected: false,
             selectedFileName: '',
             processing: false,
             selectedFile: null,
             records: [],
-            progressPercentage: 0
+            progressPercentage: 0,
+            filters: {
+                month: '',
+                date: '',
+                serie_numero: '',
+                receptor: ''
+            },
+            pagination: {
+                currentPage: 1,
+                perPage: 10
+            },
+            paginationInfo: {
+                total: 0,
+                from: 0,
+                to: 0
+            }
         }
     },
     created() {
@@ -137,9 +233,24 @@ export default {
         async getRecords() {
             this.loading = true
             try {
-                const response = await this.$http.get(`/${this.resource}/records`)
+                const params = {
+                    page: this.pagination.currentPage,
+                    per_page: this.pagination.perPage,
+                    month: this.filters.month,
+                    date: this.filters.date,
+                    serie_numero: this.filters.serie_numero,
+                    receptor: this.filters.receptor
+                }
+
+                const response = await this.$http.get(`/${this.resource}/records`, { params })
+                
                 if (response.data.success) {
-                    this.records = response.data.data
+                    this.records = response.data.data.data
+                    this.paginationInfo = {
+                        total: response.data.data.total,
+                        from: response.data.data.from,
+                        to: response.data.data.to
+                    }
                 }
             } catch (error) {
                 console.error(error)
@@ -237,37 +348,47 @@ export default {
         },
         closeModal() {
             this.showUploadModal = false
+            this.showFilterModal = false
             this.fileSelected = false
             this.selectedFileName = ''
             this.selectedFile = null
             this.processing = false
             this.progressPercentage = 0
+        },
+        onFilterChange() {
+            this.pagination.currentPage = 1
+            this.getRecords()
+        },
+        onPageChange(page) {
+            this.pagination.currentPage = page
+            this.getRecords()
+        },
+        onPerPageChange() {
+            this.pagination.currentPage = 1
+            this.getRecords()
+        },
+        clearFilters() {
+            this.filters = {
+                month: '',
+                date: '',
+                serie_numero: '',
+                receptor: ''
+            }
+            this.onFilterChange()
+        },
+        applyFilters() {
+            this.showFilterModal = false
+            this.onFilterChange()
         }
     }
 }
 </script>
 
 <style scoped>
-.bg-teal {
-    background-color: #009688;
+.pagination-select {
+    width: 70px !important;
 }
-.badge {
-    padding: 0.5em 1em;
-    font-size: 0.85em;
-}
-.upload-area {
-    border-style: dashed !important;
-    cursor: pointer;
-    min-height: 100px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.table td {
-    vertical-align: middle !important;
-}
-.table small {
-    color: #6c757d;
-    font-size: 85%;
+.pagination-select :deep(.el-input__inner) {
+    padding-right: 25px !important;
 }
 </style>

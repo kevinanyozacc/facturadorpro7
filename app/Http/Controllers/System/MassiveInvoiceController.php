@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\System;
 
 use App\Http\Controllers\Controller;
+use App\Models\System\MassiveInvoice;
 use App\Services\MassiveInvoiceService;
 use Illuminate\Http\Request;
 use Exception;
@@ -226,31 +227,37 @@ class MassiveInvoiceController extends Controller
         }
     }
 
-    public function records()
+    public function records(Request $request)
     {
-        $records = \App\Models\System\MassiveInvoice::latest()
-            ->select([
-                'id',
-                'fecha_emision',
-                'tipo_comprobante',
-                'serie_comprobante',
-                'ruc',
-                'descripcion_producto',
-                'cantidad',
-                'precio',
-                'status',
-                'nota',
-                'estado_sunat',
-                'total_gravado',
-                'total_igv',
-                'total_venta'
-            ])
-            ->get();
+        $query = MassiveInvoice::query();
+        
+        // Filtrar por mes
+        if ($request->month) {
+            $query->whereRaw('DATE_FORMAT(fecha_emision, "%Y-%m") = ?', [$request->month]);
+        }
+        
+        // Filtrar por fecha específica
+        if ($request->date) {
+            $query->whereDate('fecha_emision', $request->date);
+        }
+        
+        // Filtrar por número de factura
+        if ($request->serie_numero) {
+            $query->where('serie_comprobante', 'like', "%{$request->serie_numero}%");
+        }
+        
+        // Filtrar por RUC/DNI receptor
+        if ($request->receptor) {
+            $query->where('ruc', 'like', "%{$request->receptor}%");
+        }
+        
+        $records = $query->orderBy('fecha_emision', 'desc')
+                        ->paginate($request->input('per_page', 10));
 
-        return response()->json([
+        return [
             'success' => true,
             'data' => $records
-        ]);
+        ];
     }
 
     public function downloadFile($id, $type)
