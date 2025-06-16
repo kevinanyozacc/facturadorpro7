@@ -947,7 +947,7 @@ export default {
                     this.recordDiscountsGlobal = dato.discounts[0];
                     let discount_type_id = dato.discounts[0].discount_type_id
                     this.total_global_discount = discount_type_id !== "02" ? dato.total_discount : 
-                    _.round(dato.total_discount * 1.18, 2);
+                    _.round(Number(dato.total_discount * 1.18).toFixed(3), 2);
                     this.calculateTotal()
                 })
 
