@@ -65,6 +65,7 @@ class MassiveInvoiceService
             return [
                 'tenant_id' => $rucEmisor,
                 'token' => $client->token,
+                'ruc_emisor' => $rucEmisor,
                 'data' => [
                     'serie_documento' => $row[4] ?? '',
                     'numero_documento' => '#',

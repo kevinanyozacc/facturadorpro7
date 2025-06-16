@@ -159,6 +159,7 @@ class MassiveInvoiceController extends Controller
                     $invoice = \App\Models\System\MassiveInvoice::create([
                         'fecha_emision' => $document['data']['fecha_de_emision'],
                         'fecha_vencimiento' => $document['data']['fecha_de_vencimiento'],
+                        'ruc_emisor' => $document['ruc_emisor'] ?? null,
                         'tipo_comprobante' => $document['data']['codigo_tipo_documento'],
                         'serie_comprobante' => $numeroCompleto,
                         'ruc' => $document['data']['datos_del_cliente_o_receptor']['numero_documento'],

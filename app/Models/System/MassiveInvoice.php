@@ -9,6 +9,7 @@ class MassiveInvoice extends Model
     protected $fillable = [
         'fecha_emision',
         'fecha_vencimiento',
+        'ruc_emisor',
         'tipo_comprobante',
         'serie_comprobante',
         'ruc',

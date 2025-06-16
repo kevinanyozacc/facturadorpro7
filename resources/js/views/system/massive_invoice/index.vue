@@ -24,6 +24,7 @@
                         <thead>
                             <tr>
                                 <th>Emisión</th>
+                                <th>Emisor</th>
                                 <th>Cliente</th>
                                 <th>Número</th> 
                                 <th>Estado</th>
@@ -36,6 +37,9 @@
                         <tbody>
                             <tr v-for="record in records" :key="record.id">
                                 <td>{{ formatDate(record.fecha_emision) }}</td>
+                                <td>
+                                    <small>{{ record.ruc_emisor }}</small>
+                                </td>
                                 <td>
                                     <p class="mb-0">CLIENTE GENERAL</p>
                                     <small>{{ record.ruc }}</small>
