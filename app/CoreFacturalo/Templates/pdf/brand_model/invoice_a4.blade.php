@@ -420,11 +420,11 @@
             <td width="8px">:</td>
             <td>{{ $document->quotation->identifier }}</td>
 
-            @isset($document->quotation->delivery_date)
+            {{-- @isset($document->quotation->delivery_date)
                 <td width="120px">F. ENTREGA</td>
                 <td width="8px">:</td>
                 <td>{{ $document->date_of_issue->addDays($document->quotation->delivery_date)->format('d-m-Y') }}</td>
-            @endisset
+            @endisset --}}
         </tr>
 
     @endif

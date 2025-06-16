@@ -4676,10 +4676,12 @@ export default {
 
             this.form.quotation_id = data.quotation_id;
 
-            this.recordDiscountsGlobal = data.discounts[0]
-            let discount_type_id = data.discounts[0].discount_type_id
-            this.total_global_discount = discount_type_id !== "02" ? data.total_discount : 
+            if (data.discounts[0]) {
+                this.recordDiscountsGlobal = data.discounts[0]
+                let discount_type_id = data.discounts[0].discount_type_id
+                this.total_global_discount = discount_type_id !== "02" ? data.total_discount : 
                     _.round(Number(data.total_discount * 1.18).toFixed(3), 2);
+            }
             
 
             this.form.additional_information = this.onPrepareAdditionalInformation(
