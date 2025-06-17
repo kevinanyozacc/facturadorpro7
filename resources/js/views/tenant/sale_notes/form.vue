@@ -2384,11 +2384,12 @@ export default {
             });
             this.form.items = items;
             
+            /*
             if (this.form.currency_type_id === 'PEN') {
                 this.total_global_discount = _.round(this.total_global_discount * this.form.exchange_rate_sale, 2)
             } else {
                 this.total_global_discount = _.round(this.total_global_discount / this.form.exchange_rate_sale, 2)
-            }
+            }*/
             
             this.calculateTotal();
         },
