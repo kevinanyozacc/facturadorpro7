@@ -989,12 +989,6 @@ html.sidebar-white .el-button--primary:hover, .btn-custom:hover, .btn-primary:ho
     border-color: var(--primary-color);
     opacity: 0.8;
 }
-.table-responsive.payment {
-    border: 1px solid #eaeef7;
-    padding: 5px 0;
-    background: #f3f4fc;
-    border-radius: 6px;
-}
 .dropdown-menu-desktop {
     & ul li {
         & a {
@@ -1007,6 +1001,11 @@ html.sidebar-white .el-button--primary:hover, .btn-custom:hover, .btn-primary:ho
 }
 
 /* modo oscuro */
+html.dark .table-responsive.payment {
+    border: 1px solid var(--inputs-dark);
+    background: var(--borders-dark);
+    border-radius: 6px;
+}
 html.dark .el-tabs--border-card > .el-tabs__header {
     background-color: var(--contents-dark);
     border-bottom: 1px solid var(--borders-dark);
@@ -1192,6 +1191,9 @@ html.dark .footer-second-buton, html.dark .row-new {
     background-color: var(--contents-dark);
     border-radius: 4px;
     border: 1px solid var(--borders-dark );
+}
+ html.dark .row-new{
+    border: transparent;
 }
 html.dark .table-titles-default th {
     background-color: var(--inputs-dark) !important;

@@ -6,6 +6,7 @@
         show-word-limit>
         <template v-if="buttonText">
             <el-button type="primary"
+                       class="btn-sunat-reniec"
                        slot="append"
                        :loading="loading"
                        icon="el-icon-search"
@@ -14,6 +15,17 @@
         </template>
     </el-input>
 </template>
+<style>
+.btn-sunat-reniec{
+    position: absolute;
+    top: -3px;
+    right: 20px;
+    height: 44px;
+    border-radius: 0px 6px 6px 0;
+    z-index: 1;
+    color: #fff !important;
+}
+</style>
 <script type="text/javascript">
     export default {
         name: 'ApiPeruDevInputService',
