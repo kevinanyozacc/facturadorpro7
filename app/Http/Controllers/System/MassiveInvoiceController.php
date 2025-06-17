@@ -159,10 +159,11 @@ class MassiveInvoiceController extends Controller
                     $invoice = \App\Models\System\MassiveInvoice::create([
                         'fecha_emision' => $document['data']['fecha_de_emision'],
                         'fecha_vencimiento' => $document['data']['fecha_de_vencimiento'],
-                        'ruc_emisor' => $document['ruc_emisor'] ?? null,
+                        'ruc_emisor' => $tenant->number . ' - ' . $tenant->name,
                         'tipo_comprobante' => $document['data']['codigo_tipo_documento'],
                         'serie_comprobante' => $numeroCompleto,
-                        'ruc' => $document['data']['datos_del_cliente_o_receptor']['numero_documento'],
+                        'ruc' => $document['data']['datos_del_cliente_o_receptor']['numero_documento'] . ' - ' . 
+                               $document['data']['datos_del_cliente_o_receptor']['apellidos_y_nombres_o_razon_social'],
                         'correo' => $document['data']['datos_del_cliente_o_receptor']['correo_electronico'],
                         'moneda' => $document['data']['codigo_tipo_moneda'],
                         'forma_pago' => explode('|', $document['data']['informacion_adicional'])[0] ?? '',
@@ -250,6 +251,12 @@ class MassiveInvoiceController extends Controller
         // Filtrar por RUC/DNI receptor
         if ($request->receptor) {
             $query->where('ruc', 'like', "%{$request->receptor}%");
+        }
+
+        // Filtrar por emisor - Mejorado para búsqueda más precisa
+        if ($request->emisor) {
+            $searchTerm = '%' . str_replace(' ', '%', trim($request->emisor)) . '%';
+            $query->where('ruc_emisor', 'like', $searchTerm);
         }
         
         $records = $query->orderBy('fecha_emision', 'desc')

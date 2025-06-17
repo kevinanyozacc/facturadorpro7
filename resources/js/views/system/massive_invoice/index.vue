@@ -41,7 +41,6 @@
                                     <small>{{ record.ruc_emisor }}</small>
                                 </td>
                                 <td>
-                                    <p class="mb-0">CLIENTE GENERAL</p>
                                     <small>{{ record.ruc }}</small>
                                 </td>
                                 <td>
@@ -128,6 +127,14 @@
                         placeholder="Seleccione fecha"
                         class="w-100">
                     </el-date-picker>
+                </div>
+                <div class="col-md-12 mb-3">
+                    <label>Emisor:</label>
+                    <el-input
+                        v-model="filters.emisor"
+                        placeholder="Ingrese RUC o nombre del emisor"
+                        prefix-icon="el-icon-office-building">
+                    </el-input>
                 </div>
                 <div class="col-md-12 mb-3">
                     <label>Número de Factura:</label>
@@ -217,7 +224,8 @@ export default {
                 month: '',
                 date: '',
                 serie_numero: '',
-                receptor: ''
+                receptor: '',
+                emisor: ''
             },
             pagination: {
                 currentPage: 1,
@@ -243,7 +251,8 @@ export default {
                     month: this.filters.month,
                     date: this.filters.date,
                     serie_numero: this.filters.serie_numero,
-                    receptor: this.filters.receptor
+                    receptor: this.filters.receptor,
+                    emisor: this.filters.emisor
                 }
 
                 const response = await this.$http.get(`/${this.resource}/records`, { params })
@@ -376,7 +385,8 @@ export default {
                 month: '',
                 date: '',
                 serie_numero: '',
-                receptor: ''
+                receptor: '',
+                emisor: ''
             }
             this.onFilterChange()
         },
