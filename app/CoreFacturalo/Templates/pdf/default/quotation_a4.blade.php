@@ -211,12 +211,14 @@
                 }
             }
         
+            /*
             foreach ($document->items as $row) {
                 if ($row->getSaleLotGroupCodeDescription()) {
                     $showLoteColumn = true;
                     break;
                 }
             }
+            */
         @endphp        
         <th class="border-top-bottom text-left py-2">@if($showSerieColumn) SERIE @endif</th>        
         <th class="border-top-bottom text-center py-2" width="8%">@if($showLoteColumn) LOTE @endif</th>        

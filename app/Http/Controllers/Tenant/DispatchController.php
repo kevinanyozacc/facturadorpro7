@@ -225,7 +225,7 @@ class DispatchController extends Controller
                 'number' => $document->number,
                 'establishment_id' => $document->establishment_id,
                 'customer_id' => $document->customer_id,
-                'items' => $items,
+                'items' => $items ?? [],
                 'date_of_issue' => $document->date_of_issue->format('Y-m-d'),
                 'date_of_shipping' => $document->date_of_shipping->format('Y-m-d'),
                 'packages_number' => $document->packages_number,
@@ -248,8 +248,8 @@ class DispatchController extends Controller
                 'reference_order_form_id' => $document->reference_order_form_id,
                 'reference_order_note_id' => $document->reference_order_note_id,
                 'reference_purchase_id' => $document->reference_purchase_id,
-                'document_data' => $document->reference_documents,
-                'reference_documents' => $document->reference_documents,
+                'document_data' => $document->reference_documents?? [],
+                'reference_documents' => $document->reference_documents?? [],
             ];
         } else {
             $data = [
