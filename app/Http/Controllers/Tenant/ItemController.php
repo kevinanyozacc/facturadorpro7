@@ -124,8 +124,9 @@ class ItemController extends Controller
     public function getRecords(Request $request)
     {
 
+        $isEcommerce = filter_var($request->query('isEcommerce'), FILTER_VALIDATE_BOOLEAN);
         // $records = Item::whereTypeUser()->whereNotIsSet();
-        $records = $this->getInitialQueryRecords();
+        $records = $this->getInitialQueryRecords($isEcommerce);
 
         $sortField = $request->get('sort_field', 'id');
         $sortDirection = $request->get('sort_direction', 'desc');
@@ -221,10 +222,10 @@ class ItemController extends Controller
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function getInitialQueryRecords()
+    public function getInitialQueryRecords($isEcommerce)
     {
 
-        if(Configuration::getRecordIndividualColumn('list_items_by_warehouse'))
+        if(Configuration::getRecordIndividualColumn('list_items_by_warehouse') && !$isEcommerce)
         {
             $records = Item::whereWarehouse()->whereNotIsSet();
         }
