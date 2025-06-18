@@ -50,7 +50,7 @@ class MassiveInvoiceService
             $tipoAfectacion = $this->getTipoAfectacion($row[19] ?? '10');
             $cantidad = floatval($row[17] ?? 1);
             $precio = floatval($row[20] ?? 0);
-            $incluyeIgv = strtolower($row[11] ?? '') === 'si';
+            $incluyeIgv = strtolower(trim($row[11] ?? '')) === 'si';
             
             // Cálculos de montos según tipo de afectación e IGV incluido
             $montos = $this->calcularMontos($precio, $cantidad, $tipoAfectacion, $incluyeIgv);
@@ -124,22 +124,34 @@ class MassiveInvoiceService
     private function calcularMontos($precio, $cantidad, $tipoAfectacion, $incluyeIgv)
     {
         $igvPercentage = ($tipoAfectacion == '20' || $tipoAfectacion == '30') ? 0 : 18;
-        
-        if ($incluyeIgv && $igvPercentage > 0) {
-            $valorUnitario = $precio / (1 + ($igvPercentage/100));
-        } else {
+
+        if ($igvPercentage == 0) {
+            // Exonerado o inafecto, no hay IGV
             $valorUnitario = $precio;
+            $baseImponible = $valorUnitario * $cantidad;
+            $igv = 0;
+            $total = $baseImponible;
+        } else {
+            if ($incluyeIgv) {
+                // El precio incluye IGV
+                $valorUnitario = round($precio / (1 + ($igvPercentage/100)), 2);
+                $baseImponible = round($valorUnitario * $cantidad, 2);
+                $igv = round($baseImponible * ($igvPercentage/100), 2);
+                $total = round($precio * $cantidad, 2);
+            } else {
+                // El precio es el total final (ya incluye IGV, no sumar más)
+                $total = round($precio * $cantidad, 2);
+                $valorUnitario = round($total / (1 + ($igvPercentage/100)), 2);
+                $baseImponible = $valorUnitario;
+                $igv = round($total - $baseImponible, 2);
+            }
         }
 
-        $baseImponible = $valorUnitario * $cantidad;
-        $igv = $baseImponible * ($igvPercentage/100);
-        $total = $baseImponible + $igv;
-
         return [
-            'valorUnitario' => round($valorUnitario, 2),
-            'baseImponible' => round($baseImponible, 2),
-            'igv' => round($igv, 2),
-            'total' => round($total, 2),
+            'valorUnitario' => $valorUnitario,
+            'baseImponible' => $baseImponible,
+            'igv' => $igv,
+            'total' => $total,
             'igvPercentage' => $igvPercentage
         ];
     }

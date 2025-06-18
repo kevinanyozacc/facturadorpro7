@@ -30,7 +30,7 @@
                                 <th>Estado</th>
                                 <th>T.Gravado</th>
                                 <th>T.IGV</th>
-                                <th>Saldo</th>
+                                <th>Total</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
