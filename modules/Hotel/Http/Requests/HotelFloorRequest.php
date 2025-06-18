@@ -14,8 +14,10 @@ class HotelFloorRequest extends FormRequest
 
 	public function rules()
 	{
-		$rules = [
-            'description' => [
+        $exist_description = $this->description ? true : false;
+
+        $rules_description = $exist_description ? 
+         [
                 'required', 
                 'max:50', 
                 Rule::unique('tenant.hotel_floors', 'description')
@@ -23,7 +25,12 @@ class HotelFloorRequest extends FormRequest
                         $query->where('establishment_id', $this->establishment_id);
                     })
                     ->ignore($this->id),
-            ],
+        ] : [
+            'nullable'
+        ];
+
+		$rules = [
+            'description' => $rules_description,
             'active' => 'required|boolean',
             'establishment_id' => 'required|exists:tenant.establishments,id'
         ];
