@@ -259,8 +259,8 @@ class MassiveInvoiceController extends Controller
             $query->where('ruc_emisor', 'like', $searchTerm);
         }
         
-        $records = $query->orderBy('fecha_emision', 'desc')
-                        ->paginate($request->input('per_page', 10));
+        $records = $query->orderBy('id', 'desc')
+                ->paginate($request->input('per_page', 10));
 
         return [
             'success' => true,
