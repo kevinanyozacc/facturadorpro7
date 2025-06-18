@@ -38,17 +38,23 @@
                             <tr v-for="record in records" :key="record.id">
                                 <td>{{ formatDate(record.fecha_emision) }}</td>
                                 <td>
-                                    <small>{{ record.ruc_emisor }}</small>
+                                    <div class="nombre-ruc">
+                                        <span>{{ extractName(record.ruc_emisor) }}</span>
+                                        <small>{{ extractRuc(record.ruc_emisor) }}</small>
+                                    </div>
                                 </td>
                                 <td>
-                                    <small>{{ record.ruc }}</small>
+                                    <div class="nombre-ruc">
+                                        <span>{{ extractName(record.ruc) }}</span>
+                                        <small>{{ extractRuc(record.ruc) }}</small>
+                                    </div>
                                 </td>
                                 <td>
                                     <p class="mb-0">{{ record.serie_comprobante }}</p>
                                     <small>{{ getTipoDoc(record.tipo_comprobante) }}</small>
                                 </td>
                                 <td>
-                                    <span :class="getStatusClass(record.status)">
+                                    <span :class="getStatusClass(record.estado_sunat || record.status)">
                                         {{ record.estado_sunat || record.status }}
                                     </span>
                                 </td>
@@ -289,10 +295,13 @@ export default {
             return tipos[tipo] || tipo;
         },
         getStatusClass(status) {
+            const statusLower = status.toLowerCase();
             return {
-                'badge badge-success': ['Registrado', 'Aceptado', 'PROCESADO'].includes(status),
-                'badge badge-danger': ['Rechazado', 'ERROR'].includes(status),
-                'badge badge-warning': ['Pendiente', 'Enviado'].includes(status)
+                'badge': true,
+                'badge-success': ['aceptado', 'procesado'].includes(statusLower),
+                'badge-dark': ['rechazado', 'error'].includes(statusLower),
+                'badge-secondary': ['registrado', 'pendiente'].includes(statusLower),
+                'badge-infos': ['enviado'].includes(statusLower)
             }
         },
         downloadFormat() {
@@ -393,16 +402,74 @@ export default {
         applyFilters() {
             this.showFilterModal = false
             this.onFilterChange()
-        }
+        },
+        extractName(text) {
+            if (!text) return '';
+            const parts = text.split(' - ');
+            return parts.length > 1 ? parts[1] : text;
+        },
+        extractRuc(text) {
+            if (!text) return '';
+            const parts = text.split(' - ');
+            return parts[0] || '';
+        },
     }
 }
 </script>
 
-<style scoped>
+<style>
 .pagination-select {
     width: 70px !important;
 }
 .pagination-select :deep(.el-input__inner) {
     padding-right: 25px !important;
+}
+
+/* Status badge styles */
+.badge {
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.badge-success {
+    background-color: #67C23A;
+    color: white;
+}
+
+.badge-dark {
+    background-color: #303133;
+    color: white;
+}
+
+.badge-secondary {
+    background-color: #909399;
+    color: white;
+}
+
+.badge-warning {
+    background-color: #E6A23C;
+    color: white;
+}
+
+.badge-infos {
+    background-color: #7bdcfa;
+    color: white;
+}
+
+.nombre-ruc {
+    display: flex;
+    flex-direction: column;
+}
+
+.nombre-ruc span {
+    font-weight: 500;
+    margin-bottom: 2px;
+}
+
+.nombre-ruc small {
+    color: #666;
 }
 </style>
