@@ -139,11 +139,11 @@ class MassiveInvoiceService
                 $igv = round($baseImponible * ($igvPercentage/100), 2);
                 $total = round($precio * $cantidad, 2);
             } else {
-                // El precio es el total final (ya incluye IGV, no sumar más)
-                $total = round($precio * $cantidad, 2);
-                $valorUnitario = round($total / (1 + ($igvPercentage/100)), 2);
-                $baseImponible = $valorUnitario;
-                $igv = round($total - $baseImponible, 2);
+                // El precio es base, hay que sumarle IGV
+                $valorUnitario = $precio;
+                $baseImponible = round($valorUnitario * $cantidad, 2);
+                $igv = round($baseImponible * ($igvPercentage/100), 2);
+                $total = round($baseImponible + $igv, 2);
             }
         }
 
