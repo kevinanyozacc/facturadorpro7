@@ -59,48 +59,68 @@
             <td width="20%">
                 <div class="company_logo_box">
                     <img
-                        src="data:{{mime_content_type(public_path("{$logo}"))}};base64, {{base64_encode(file_get_contents(public_path("{$logo}")))}}"
-                        alt="{{$company->name}}" class="company_logo" style="max-width: 150px;">
+                        src="data:{{ mime_content_type(public_path($logo)) }};base64, {{ base64_encode(file_get_contents(public_path($logo))) }}"
+                        alt="{{ $company->name }}" class="company_logo" style="max-width: 150px;">
                 </div>
             </td>
+            <td width="50%" class="pl-3 text-center">
+                <div>
+                    <h4>{{ $company->name }}</h4>
+                    <h5>{{ 'RUCs '.$company->number }}</h5>
+                    <h6 style="text-transform: uppercase;">
+                        {{ ($establishment->address !== '-') ? $establishment->address : '' }}
+                        {{ ($establishment->district_id !== '-') ? ', '.$establishment->district->description : '' }}
+                        {{ ($establishment->province_id !== '-') ? ', '.$establishment->province->description : '' }}
+                        {{ ($establishment->department_id !== '-') ? '- '.$establishment->department->description : '' }}
+                    </h6>
+                    @isset($establishment->trade_address)
+                        <h6>{{ $establishment->trade_address !== '-' ? 'D. Comercial: '.$establishment->trade_address : '' }}</h6>
+                    @endisset
+                    <h6>{{ $establishment->telephone !== '-' ? 'Central telefónica: '.$establishment->telephone : '' }}</h6>
+                    <h6>{{ $establishment->email !== '-' ? 'Email: '.$establishment->email : '' }}</h6>
+                    @isset($establishment->web_address)
+                        <h6>{{ $establishment->web_address !== '-' ? 'Web: '.$establishment->web_address : '' }}</h6>
+                    @endisset
+                    @isset($establishment->aditional_information)
+                        <h6>{{ $establishment->aditional_information !== '-' ? $establishment->aditional_information : '' }}</h6>
+                    @endisset
+                </div>
+            </td>
+            <td width="30%" class="border-box py-4 px-2 text-center">
+                <h3 class="font-bold">{{ 'R.U.C. '.$company->number }}</h3>
+                <h5>{{ $document->document_type->description }}</h5>
+                <h3>{{ $document_number }}</h3>
+            </td>
         @else
-            <td width="20%">
-                {{--<img src="{{ asset('logo/logo.jpg') }}" class="company_logo" style="max-width: 150px">--}}
+            <td colspan="2" width="70%" class="pl-1 text-left">
+                <div>
+                    <h4>{{ $company->name }}</h4>
+                    <h5>{{ 'RUCs '.$company->number }}</h5>
+                    <h6 style="text-transform: uppercase;">
+                        {{ ($establishment->address !== '-') ? $establishment->address : '' }}
+                        {{ ($establishment->district_id !== '-') ? ', '.$establishment->district->description : '' }}
+                        {{ ($establishment->province_id !== '-') ? ', '.$establishment->province->description : '' }}
+                        {{ ($establishment->department_id !== '-') ? '- '.$establishment->department->description : '' }}
+                    </h6>
+                    @isset($establishment->trade_address)
+                        <h6>{{ $establishment->trade_address !== '-' ? 'D. Comercial: '.$establishment->trade_address : '' }}</h6>
+                    @endisset
+                    <h6>{{ $establishment->telephone !== '-' ? 'Central telefónica: '.$establishment->telephone : '' }}</h6>
+                    <h6>{{ $establishment->email !== '-' ? 'Email: '.$establishment->email : '' }}</h6>
+                    @isset($establishment->web_address)
+                        <h6>{{ $establishment->web_address !== '-' ? 'Web: '.$establishment->web_address : '' }}</h6>
+                    @endisset
+                    @isset($establishment->aditional_information)
+                        <h6>{{ $establishment->aditional_information !== '-' ? $establishment->aditional_information : '' }}</h6>
+                    @endisset
+                </div>
+            </td>
+            <td width="30%" class="border-box py-4 px-2 text-center">
+                <h3 class="font-bold">{{ 'R.U.C. '.$company->number }}</h3>
+                <h5>{{ $document->document_type->description }}</h5>
+                <h3>{{ $document_number }}</h3>
             </td>
         @endif
-        <td width="50%" class="pl-3">
-            <div class="text-left">
-                <h4 class="">{{ $company->name }}</h4>
-                <h5>{{ 'RUC '.$company->number }}</h5>
-                <h6 style="text-transform: uppercase;">
-                    {{ ($establishment->address !== '-')? $establishment->address : '' }}
-                    {{ ($establishment->district_id !== '-')? ', '.$establishment->district->description : '' }}
-                    {{ ($establishment->province_id !== '-')? ', '.$establishment->province->description : '' }}
-                    {{ ($establishment->department_id !== '-')? '- '.$establishment->department->description : '' }}
-                </h6>
-
-                @isset($establishment->trade_address)
-                    <h6>{{ ($establishment->trade_address !== '-')? 'D. Comercial: '.$establishment->trade_address : '' }}</h6>
-                @endisset
-
-                <h6>{{ ($establishment->telephone !== '-')? 'Central telefónica: '.$establishment->telephone : '' }}</h6>
-
-                <h6>{{ ($establishment->email !== '-')? 'Email: '.$establishment->email : '' }}</h6>
-
-                @isset($establishment->web_address)
-                    <h6>{{ ($establishment->web_address !== '-')? 'Web: '.$establishment->web_address : '' }}</h6>
-                @endisset
-
-                @isset($establishment->aditional_information)
-                    <h6>{{ ($establishment->aditional_information !== '-')? $establishment->aditional_information : '' }}</h6>
-                @endisset
-            </div>
-        </td>
-        <td width="30%" class="border-box py-4 px-2 text-center">
-            <h3 class="font-bold">{{ 'R.U.C. '.$company->number }}</h3>
-            <h5 class="text-center">{{ $document->document_type->description }}</h5>
-            <h3 class="text-center">{{ $document_number }}</h3>
-        </td>
     </tr>
 </table>
 <table class="full-width mt-2">
@@ -119,7 +139,7 @@
     <tr>
         <td>{{ $customer->identity_document_type->description }}:</td>
         <td>{{$customer->number}}</td>
-        <td>FECHA DE VENCIMIENTO:</td>
+        <td>FECHA VENC.:</td>
         <td>
             @if($invoice)
                 {{$invoice->date_of_due->format('Y-m-d')}}
@@ -137,6 +157,16 @@
             @endif
         </td>
     </tr>
+    <tr>
+        <td class="align-top">MONEDA:</td>
+        <td>
+            @if($document->currency_type_id == 'PEN')
+            Soles
+            @elseif($document->currency_type_id == 'USD')
+            Dolares
+            @endif
+        </td>
+    </tr>    
     @if ($document->detraction)
         <tr>
             @inject('detractionType', 'App\Services\DetractionTypeService')
@@ -302,6 +332,7 @@
         <th class="border-top-bottom text-center py-2" width="12%">
             @if($showLoteColumn) LOTE @endif
         </th>
+        <th class="border-top-bottom text-center py-2" width="13%">@if($showLoteColumn) F. VENC. @endif</th>
         <th class="border-top-bottom text-right py-2" width="12%">P.UNIT</th>
         <th class="border-top-bottom text-right py-2" width="8%">DTO.</th>
         <th class="border-top-bottom text-right py-2" width="12%">TOTAL</th>
@@ -389,6 +420,15 @@
             <td class="text-center align-top">
                 {{ $lot }}
             </td>
+            <td class="text-center align-top">
+                @if($showLoteColumn)
+                    @if($date_due != '')
+                        {{ $date_due }}
+                    @elseif($row->relation_item->date_of_due)
+                        {{ $row->relation_item->date_of_due->format('Y-m-d')  }}
+                    @endif
+                @endif
+            </td>
             @if ($configuration_decimal_quantity->change_decimal_quantity_unit_price_pdf)
                 <td class="text-right align-top">{{ $row->generalApplyNumberFormat($row->unit_price, $configuration_decimal_quantity->decimal_quantity_unit_price_pdf) }}</td>
             @else
@@ -411,7 +451,7 @@
             <td class="text-right align-top">{{ number_format($row->total, 2) }}</td>
         </tr>
         <tr>
-            <td colspan="9" class="border-bottom"></td>
+            <td colspan="10" class="border-bottom"></td>
         </tr>
     @endforeach
 
@@ -436,25 +476,25 @@
 
     @if($document->total_exportation > 0)
         <tr>
-            <td colspan="8" class="text-right font-bold">OP. EXPORTACIÓN: {{ $document->currency_type->symbol }}</td>
+            <td colspan="9" class="text-right font-bold">OP. EXPORTACIÓN: {{ $document->currency_type->symbol }}</td>
             <td class="text-right font-bold">{{ number_format($document->total_exportation, 2) }}</td>
         </tr>
     @endif
     @if($document->total_free > 0)
         <tr>
-            <td colspan="8" class="text-right font-bold">OP. GRATUITAS: {{ $document->currency_type->symbol }}</td>
+            <td colspan="9" class="text-right font-bold">OP. GRATUITAS: {{ $document->currency_type->symbol }}</td>
             <td class="text-right font-bold">{{ number_format($document->total_free, 2) }}</td>
         </tr>
     @endif
     @if($document->total_unaffected > 0)
         <tr>
-            <td colspan="8" class="text-right font-bold">OP. INAFECTAS: {{ $document->currency_type->symbol }}</td>
+            <td colspan="9" class="text-right font-bold">OP. INAFECTAS: {{ $document->currency_type->symbol }}</td>
             <td class="text-right font-bold">{{ number_format($document->total_unaffected, 2) }}</td>
         </tr>
     @endif
     @if($document->total_exonerated > 0)
         <tr>
-            <td colspan="8" class="text-right font-bold">OP. EXONERADAS: {{ $document->currency_type->symbol }}</td>
+            <td colspan="9" class="text-right font-bold">OP. EXONERADAS: {{ $document->currency_type->symbol }}</td>
             <td class="text-right font-bold">{{ number_format($document->total_exonerated, 2) }}</td>
         </tr>
     @endif
@@ -462,45 +502,45 @@
     @if ($document->document_type_id === '07')
         @if($document->total_taxed >= 0)
             <tr>
-                <td colspan="8" class="text-right font-bold">OP. GRAVADAS: {{ $document->currency_type->symbol }}</td>
+                <td colspan="9" class="text-right font-bold">OP. GRAVADAS: {{ $document->currency_type->symbol }}</td>
                 <td class="text-right font-bold">{{ number_format($document->total_taxed, 2) }}</td>
             </tr>
         @endif
     @elseif($document->total_taxed > 0)
         <tr>
-            <td colspan="8" class="text-right font-bold">OP. GRAVADAS: {{ $document->currency_type->symbol }}</td>
+            <td colspan="9" class="text-right font-bold">OP. GRAVADAS: {{ $document->currency_type->symbol }}</td>
             <td class="text-right font-bold">{{ number_format($document->total_taxed, 2) }}</td>
         </tr>
     @endif
 
     @if($document->total_plastic_bag_taxes > 0)
         <tr>
-            <td colspan="8" class="text-right font-bold">ICBPER: {{ $document->currency_type->symbol }}</td>
+            <td colspan="9" class="text-right font-bold">ICBPER: {{ $document->currency_type->symbol }}</td>
             <td class="text-right font-bold">{{ number_format($document->total_plastic_bag_taxes, 2) }}</td>
         </tr>
     @endif
     <tr>
-        <td colspan="8" class="text-right font-bold">IGV: {{ $document->currency_type->symbol }}</td>
+        <td colspan="9" class="text-right font-bold">IGV: {{ $document->currency_type->symbol }}</td>
         <td class="text-right font-bold">{{ number_format($document->total_igv, 2) }}</td>
     </tr>
 
     @if($document->total_isc > 0)
         <tr>
-            <td colspan="8" class="text-right font-bold">ISC: {{ $document->currency_type->symbol }}</td>
+            <td colspan="9" class="text-right font-bold">ISC: {{ $document->currency_type->symbol }}</td>
             <td class="text-right font-bold">{{ number_format($document->total_isc, 2) }}</td>
         </tr>
     @endif
 
     @if($document->total_discount > 0 && $document->subtotal > 0)
         <tr>
-            <td colspan="8" class="text-right font-bold">SUBTOTAL: {{ $document->currency_type->symbol }}</td>
+            <td colspan="9" class="text-right font-bold">SUBTOTAL: {{ $document->currency_type->symbol }}</td>
             <td class="text-right font-bold">{{ number_format($document->subtotal, 2) }}</td>
         </tr>
     @endif
 
     @if($document->total_discount > 0)
         <tr>
-            <td colspan="8"
+            <td colspan="9"
                 class="text-right font-bold">{{(($document->total_prepayment > 0) ? 'ANTICIPO':'DESCUENTO TOTAL')}}
                 : {{ $document->currency_type->symbol }}</td>
             <td class="text-right font-bold">{{ number_format($document->total_discount, 2) }}</td>
@@ -516,33 +556,33 @@
                 }
             @endphp
             <tr>
-                <td colspan="8" class="text-right font-bold">CARGOS ({{$total_factor}}
+                <td colspan="9" class="text-right font-bold">CARGOS ({{$total_factor}}
                     %): {{ $document->currency_type->symbol }}</td>
                 <td class="text-right font-bold">{{ number_format($document->total_charge, 2) }}</td>
             </tr>
         @else
             <tr>
-                <td colspan="8" class="text-right font-bold">CARGOS: {{ $document->currency_type->symbol }}</td>
+                <td colspan="9" class="text-right font-bold">CARGOS: {{ $document->currency_type->symbol }}</td>
                 <td class="text-right font-bold">{{ number_format($document->total_charge, 2) }}</td>
             </tr>
         @endif
     @endif
 
     <tr>
-        <td colspan="8" class="text-right font-bold">TOTAL A PAGAR: {{ $document->currency_type->symbol }}</td>
+        <td colspan="9" class="text-right font-bold">TOTAL A PAGAR: {{ $document->currency_type->symbol }}</td>
         <td class="text-right font-bold">{{ number_format($document->total, 2) }}</td>
     </tr>
 
     @if(($document->retention || $document->detraction) && $document->total_pending_payment > 0)
         <tr>
-            <td colspan="8" class="text-right font-bold">M. PENDIENTE: {{ $document->currency_type->symbol }}</td>
+            <td colspan="9" class="text-right font-bold">M. PENDIENTE: {{ $document->currency_type->symbol }}</td>
             <td class="text-right font-bold">{{ number_format($document->total_pending_payment, 2) }}</td>
         </tr>
     @endif
 
     @if($balance < 0)
         <tr>
-            <td colspan="8" class="text-right font-bold">VUELTO: {{ $document->currency_type->symbol }}</td>
+            <td colspan="9" class="text-right font-bold">VUELTO: {{ $document->currency_type->symbol }}</td>
             <td class="text-right font-bold">{{ number_format(abs($balance),2, ".", "") }}</td>
         </tr>
     @endif

@@ -162,7 +162,12 @@
                     </div>
                 </div>
                 <div class="pt-3 form-modern">
-                    <label class="control-label">Imagen predeterminada de productos</label>
+                    <label class="control-label">Imagen predeterminada de productos
+                        <el-tooltip class="item" content="Para un mejor resultado visual, sube una imagen cuadrada (ej. 215x215 px). Formatos permitidos: PNG o JPG."
+                            effect="dark" placement="top-start">
+                            <i class="fas fa-info-circle"></i>
+                        </el-tooltip>
+                    </label>
                     <el-input v-model="fileName" :readonly="true" placeholder="Ninguna imagen subida">
                         <el-upload
                             slot="append"
