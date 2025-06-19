@@ -105,14 +105,14 @@ class MassiveInvoiceService
                         'cantidad' => $cantidad,
                         'valor_unitario' => $montos['valorUnitario'],
                         'codigo_tipo_precio' => '01',
-                        'precio_unitario' => $precio,
+                        'precio_unitario' => $incluyeIgv ? $precio : round($precio * 1.18, 2),
                         'codigo_tipo_afectacion_igv' => $tipoAfectacion,
                         'total_base_igv' => $montos['baseImponible'],
                         'porcentaje_igv' => $montos['igvPercentage'],
                         'total_igv' => $montos['igv'],
                         'total_impuestos' => $montos['igv'],
                         'total_valor_item' => $montos['baseImponible'],
-                        'total_item' => $montos['total']
+                        'total_item' => $incluyeIgv ? round($precio * $cantidad, 2) : round(($precio * 1.18) * $cantidad, 2)
                     ]],
                     
                     'informacion_adicional' => "Forma de pago:{$row[8]}|{$row[9]}",
