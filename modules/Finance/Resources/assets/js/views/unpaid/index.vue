@@ -1090,7 +1090,7 @@ export default {
     methods: {
         formatDate(date) {
             if (!date) return null;
-            const parsedDate = moment(date, ['YYYY/MM/DD', 'YYYY-MM-DD', 'DD/MM/YYYY']);
+            const parsedDate = moment(date, ['YYYY/MM/DD', 'YYYY-MM-DD', 'DD/MM/YYYY', 'DD-MM-YYYY']);
             return parsedDate.isValid()
                 ? parsedDate.format("DD-MM-YYYY")
                 : null;
