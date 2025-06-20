@@ -15,7 +15,7 @@
                 <div class="row filter-content" v-if="applyFilter && isVisible">
                     <div class="col-lg-6 col-md-6 col-sm-12 pb-2">
                         <div class="d-flex">
-                            <div style="width:100px">
+                            <div class="d-flex align-items-center" style="width:100px">
                                 Filtrar por:
                             </div>
                             <el-select

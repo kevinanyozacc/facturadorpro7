@@ -15,7 +15,7 @@
         <div class="row" v-if="isVisible">
           <div class="col-lg-4 col-md-4 col-sm-12 pb-2">
             <div class="d-flex">
-              <div style="width:100px">Filtrar por:</div>
+              <div class="d-flex align-items-center" style="width:100px">Filtrar por:</div>
               <el-select v-model="search.column" placeholder="Select" @change="changeClearInput">
                 <el-option v-for="(label, key) in columns" :key="key" :value="key" :label="label"></el-option>
               </el-select>

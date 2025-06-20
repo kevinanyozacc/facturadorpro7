@@ -15342,7 +15342,7 @@ html.dark .table > thead > tr > td,
 html.dark .table > tbody > tr > td,
 html.dark .table > tfoot > tr > td,
 html.dark .table-bordered {
-    border-color: #262b33;
+    border-color: transparent;
 }
 
 html.dark .table-striped > tbody > tr:nth-child(2n + 1) > td,
@@ -21121,6 +21121,22 @@ li.multi-user-content{
 }
 tbody tr:hover,tfoot tr:hover {
     background: var(--light);
+}
+.btn-massive-actions{
+    position: absolute;
+    right: 15px;
+    z-index: 1;
+}
+html.dark .el-message--warning {
+    background-color: #E6A23C;
+    border-color: #E6A23C;
+    color: #fdf6ec;
+}
+html.dark .el-message--warning .el-message__content {
+    color: #fdf6ec;
+}
+html.dark .el-message .el-icon-warning{
+    color: #fdf6ec;
 }
 @media (min-width: 716px) {
     .card-columns {

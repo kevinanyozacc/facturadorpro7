@@ -584,12 +584,18 @@ a.ws-flotante {
     border-radius: 0 !important;
     transform: scale(0.85);
 }
+.el-dropdown-menu__item:not(.is-disabled):hover, .el-dropdown-menu__item:focus{
+    color: var(--primary-color);
+}
 html.fixed.sidebar-white:not(.dark) .sidebar-left a{
     color: var(--dark-color) !important;
 }
 .row.top .col .card-body {
     color: var(--dark-color);
 }
+.btn-massive-actions span button:hover{
+    color: #ffffff !important;
+} 
 /************************************ tema morado ************************************/
 /* header */
 html.sidebar-blue .userbox.show .dropdown-menu a:hover {
@@ -1325,6 +1331,12 @@ html.dark .row.top .col .card-body {
 }
 html.dark .separator-title:before {
     border-bottom: solid 1px var(--borders-dark);
+}
+html.dark .table > thead > tr > th, html.dark .table > tbody > tr > th, html.dark .table > tfoot > tr > th, html.dark .table > thead > tr > td, html.dark .table > tbody > tr > td, html.dark .table > tfoot > tr > td, html.dark .table-bordered{
+    border-color: var(--contents-dark) !important;
+}
+html.dark .table-hover > tbody > tr:hover > td, html.dark .table-hover > tbody > tr:hover > th{
+    background-color: var(--contents-dark) !important;
 }
 @media only screen and (min-width: 391px){
     .card-body-invoice div .row .filter-invoice{

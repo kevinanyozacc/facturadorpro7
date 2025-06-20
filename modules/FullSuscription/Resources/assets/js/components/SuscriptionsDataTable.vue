@@ -16,7 +16,7 @@
                      class="row">
                     <div class="col-lg-4 col-md-4 col-sm-12 pb-2">
                         <div class="d-flex">
-                            <div style="width:100px">
+                            <div class="d-flex align-items-center" style="width:100px">
                                 Filtrar por:
                             </div>
                             <el-select
