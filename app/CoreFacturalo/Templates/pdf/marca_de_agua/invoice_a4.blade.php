@@ -380,6 +380,9 @@
         <tr>
             @if(isset($configurationInPdf) && $configurationInPdf->show_seller_in_pdf)
                 <td class="p-1 text-left align-top desc cell-solid" colspan="3"><strong> VENDEDOR:</strong> {{ $document->user->name }}</td>
+            
+            @else
+                <td class="p-1 text-left align-top desc cell-solid" colspan="3"></td>
             @endif
             <td class="p-1 text-left align-top desc cell-solid font-bold">
                 SON:
