@@ -157,6 +157,23 @@
                 <h3 class="my-0">{{ title }}</h3>
             </div> -->
             <div class="data-table-visible-columns">
+                <el-dropdown v-if="selected.length > 0">
+                    <span class="el-dropdown-link">
+                        <el-button aria-expanded="false"
+                            class="btn btn-custom btn-sm dropdown-toggle"
+                            data-toggle="dropdown"
+                            type="button">
+                            Acciones masivas
+                        </el-button>
+                    </span>
+                    <el-dropdown-menu slot="dropdown">
+                        <el-dropdown-item @click.native="clickDeleteSelected">Eliminar</el-dropdown-item>                        
+                        <el-dropdown-item @click.native="duplicateSelected">Duplicar</el-dropdown-item>
+                        <el-dropdown-item v-if="selected.length > 0 && selected.length <= 1" @click.native="clickEditSelected">Editar</el-dropdown-item>
+                        <el-dropdown-item @click.native="clickDisableSelected">Inhabilitar</el-dropdown-item>
+                        <el-dropdown-item @click.native="clickEnableSelected">Habilitar</el-dropdown-item>
+                    </el-dropdown-menu>                  
+                </el-dropdown>
                 <el-dropdown :hide-on-click="false">
                     <el-button type="primary">
                         Mostrar/Ocultar columnas<i
@@ -184,7 +201,7 @@
             <div class="card-body">
                 <data-table :productType="type" :resource="resource" :sort-field="sortField" :sort-direction="sortDirection" @sort-change="handleSortChange">
                     <tr slot="heading" width="100%" slot-scope="{ sort }">
-                        <!-- <th>#</th> -->
+                        <th></th>
                         <th class="text-right" style="max-width: 83px;">ID</th>
                         <th class="text-right">Cód. Interno</th>
                         <th>Unidad</th>
@@ -267,7 +284,12 @@
                         slot-scope="{ index, row }"
                         :class="{ disable_color: !row.active }"
                     >
-                        <!-- <td>{{ index }}</td> -->
+                        <td>
+                          <el-checkbox
+                            :value="selected.includes(row.id)"
+                            @change="handleSelectionChange(row.id)"
+                          ></el-checkbox>
+                        </td>
                         <td class="text-right">{{ row.id }}</td>
                         <td class="text-right">{{ row.internal_id }}</td>
                         <td>{{ row.unit_type_id }}</td>
@@ -454,40 +476,6 @@
                                     <template v-if="typeUser === 'admin'">
                                         <button
                                             class="dropdown-item"
-                                            @click.prevent="clickCreate(row.id)"
-                                        >
-                                            Editar
-                                        </button>
-                                        <button
-                                            class="dropdown-item"
-                                            @click.prevent="clickDelete(row.id)"
-                                        >
-                                            Eliminar
-                                        </button>
-                                        <button
-                                            class="dropdown-item"
-                                            @click.prevent="duplicate(row.id)"
-                                        >
-                                            Duplicar
-                                        </button>
-                                        <button
-                                            v-if="row.active"
-                                            class="dropdown-item"
-                                            @click.prevent="
-                                                clickDisable(row.id)
-                                            "
-                                        >
-                                            Inhabilitar
-                                        </button>
-                                        <button
-                                            v-else
-                                            class="dropdown-item"
-                                            @click.prevent="clickEnable(row.id)"
-                                        >
-                                            Habilitar
-                                        </button>
-                                        <button
-                                            class="dropdown-item"
                                             @click.prevent="clickBarcode(row)"
                                         >
                                             Cod. Barras
@@ -629,6 +617,7 @@ export default {
     },
     data() {
         return {
+            selected: [],
             can_add_new_product: false,
             showDialog: false,
             showImportDialog: false,
@@ -744,6 +733,21 @@ export default {
         }
     },
     methods: {
+        clickDeleteSelected() {
+            this.selected.forEach(id => this.clickDelete(id));
+        },
+        clickDisableSelected() {
+            this.selected.forEach(id => this.clickDisable(id));
+        },
+        duplicateSelected() {
+            this.selected.forEach(id => this.duplicate(id));
+        },
+        clickEditSelected() {
+            this.selected.forEach(id => this.clickCreate(id));
+        },
+        clickEnableSelected() {
+            this.selected.forEach(id => this.clickEnable(id));
+        },
         handleSortChange(sort) {
             if (this.sortField === sort.field && this.sortDirection === 'desc' && sort.field === 'description') {
                 this.sortField = 'id';
@@ -921,6 +925,14 @@ export default {
                     );
                 }
             });
+        },
+        handleSelectionChange(id) {
+          const index = this.selected.indexOf(id);
+          if (index > -1) {
+            this.selected.splice(index, 1);
+          } else {
+            this.selected.push(id);
+          }
         }
     }
 };
