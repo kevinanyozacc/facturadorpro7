@@ -22,9 +22,12 @@
     @endif
     , informamos que su comprobante electrónico ha sido emitido exitosamente.</p>
 <p>Los datos de su comprobante electrónico son:</p>
+@php
+    $establishment = App\Models\Tenant\Establishment::find($document->establishment_id);
+@endphp
 <ul>
     <li>Razon social: {{ $company->name }}</li>
-    <li>Teléfono: {{ $document->establishment->telephone }}</li>
+    <li>Teléfono: {{ $establishment->telephone }}</li>
 {{--    <li>Tipo de comprobante: {{ $document->document_type->description }}</li>--}}
     <li>Fecha de emisión: {{ $document->date_of_issue->format('d/m/Y') }}</li>
     <li>Nro. de comprobante: {{ $document->series.'-'.$document->number }}</li>
