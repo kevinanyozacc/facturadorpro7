@@ -81,6 +81,7 @@ class ServiceDispatchController extends Controller
 
                     if ($res['success']) {
                         $data = $res['data'];
+                        Log::info("Dispatch { $dispatch->filename } send response: ", $data);
                         if (key_exists('numTicket', $data)) {
                             $ticket = $data['numTicket'];
                             $reception_date = $data['fecRecepcion'];
@@ -98,6 +99,7 @@ class ServiceDispatchController extends Controller
                             'message' => 'Se obtuvo el nro. de ticket correctamente',
                         ];
                     } else {
+                        Log::error('No se obtuvo ticket', $res);
                         return $res;
                     }
                 }
