@@ -16,14 +16,9 @@ class DispatchSendCommand extends Command
         if (Configuration::firstOrFail()->cron) {
             $configuration = Configuration::firstOrFail();
 
-            if (!$configuration->auto_send_dispatchs_to_sunat) {
-                $this->info('Auto send dispatches is disabled');
-                return;
-            }
-
-            // Buscar dispatches pendientes (series T y no enviados)
+            // Buscar guias sin data en ticket y que esten en el entorno actual de la empresa
             $dispatches = Dispatch::query()
-                ->where('state_type_id', Company::firstOrFail()->active()->soap_type_id)
+                ->where('soap_type_id', Company::firstOrFail()->active()->soap_type_id)
                 ->whereNull('ticket')
                 ->get();
 
