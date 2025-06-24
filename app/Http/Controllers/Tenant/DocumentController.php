@@ -147,20 +147,20 @@ class DocumentController extends Controller
         return [
             [
                 'name' => $FT_t->description,
-                'total' => "S/. " . ReportHelper::setNumber($FT),
+                'total' => "S/ " . ReportHelper::setNumber($FT),
             ],
             [
                 'name' => $BV_t->description,
-                'total' => "S/. " . ReportHelper::setNumber($BV),
+                'total' => "S/ " . ReportHelper::setNumber($BV),
 
             ],
             [
                 'name' => $NC_t->description,
-                'total' => "S/. " . ReportHelper::setNumber($NC),
+                'total' => "S/ " . ReportHelper::setNumber($NC),
             ],
             [
                 'name' => $ND_t->description,
-                'total' => "S/. " . ReportHelper::setNumber($ND),
+                'total' => "S/ " . ReportHelper::setNumber($ND),
             ],
         ];
     }

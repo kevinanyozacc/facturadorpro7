@@ -58,9 +58,9 @@
                                         {{ record.estado_sunat || record.status }}
                                     </span>
                                 </td>
-                                <td>S/. {{ record.total_gravado }}</td>
-                                <td>S/. {{ record.total_igv }}</td>
-                                <td>S/. {{ record.total_venta }}</td>
+                                <td>S/ {{ record.total_gravado }}</td>
+                                <td>S/ {{ record.total_igv }}</td>
+                                <td>S/ {{ record.total_venta }}</td>
                                 <td>
                                     <button @click="downloadFile(record.id, 'pdf')" 
                                         class="btn btn-sm btn-info mr-1" 

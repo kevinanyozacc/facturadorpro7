@@ -135,7 +135,7 @@
                     <div class="card card-default">
                         <div class="card-body text-center">
                                 <p class="my-0"><small>Monto a cobrar</small></p>
-                                <h1 class="mb-2 mt-0">S/. 454.00</h1>
+                                <h1 class="mb-2 mt-0">S/ 454.00</h1>
                         </div>
                     </div>
                 </div>

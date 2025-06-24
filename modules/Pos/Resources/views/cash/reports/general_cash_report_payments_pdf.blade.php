@@ -152,7 +152,7 @@
                     <strong>
                         Total Ingresos:
                     </strong>
-                    S/. {{ GeneralPdfHelper::setNumberFormat($data['total_income']) }}
+                    S/ {{ GeneralPdfHelper::setNumberFormat($data['total_income']) }}
                 </p>
             </td>
             <td class="td-custom">
@@ -160,7 +160,7 @@
                     <strong>
                         Total Egresos:
                     </strong>
-                    S/. {{ GeneralPdfHelper::setNumberFormat($data['total_egress']) }}
+                    S/ {{ GeneralPdfHelper::setNumberFormat($data['total_egress']) }}
                 </p>
             </td>
         </tr>
@@ -170,7 +170,7 @@
                     <strong>
                         Saldo inicial:
                     </strong>
-                    S/. {{ GeneralPdfHelper::setNumberFormat($data['cash_beginning_balance']) }}
+                    S/ {{ GeneralPdfHelper::setNumberFormat($data['cash_beginning_balance']) }}
                 </p>
             </td>
             <td class="td-custom">
@@ -178,7 +178,7 @@
                     <strong>
                         Saldo final:
                     </strong>
-                    S/. {{ GeneralPdfHelper::setNumberFormat($data['total_balance']) }}
+                    S/ {{ GeneralPdfHelper::setNumberFormat($data['total_balance']) }}
                 </p>
             </td>
         </tr>
