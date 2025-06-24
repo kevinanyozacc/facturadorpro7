@@ -209,7 +209,7 @@
     @foreach($document->items as $row)
         <tr>
             @php
-                $internal_id = optional($row->item)->internal_id
+                $internal_id = optional($row->item)->internal_id;
             @endphp
             <td class="text-center align-top">{{ $internal_id }}</td>
             <td class="text-center align-top">

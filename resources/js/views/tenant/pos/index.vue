@@ -2642,10 +2642,6 @@ export default {
                         this.percentage_igv
                     )
                 );
-                return {
-                    ...newRow,
-                    unit_type_id: row.unit_type_id,
-                };
             });
             this.form.items = items;
             this.calculateTotal();
