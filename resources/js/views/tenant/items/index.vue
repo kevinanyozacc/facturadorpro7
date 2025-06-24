@@ -157,6 +157,9 @@
                 <h3 class="my-0">{{ title }}</h3>
             </div> -->
             <div class="data-table-visible-columns">
+                <el-checkbox v-if="type !== 'ZZ'" v-model="showDisabled" @change="onChangeShowDisabled">
+                  Mostrar productos inhabilitados
+                </el-checkbox>
                 <el-dropdown v-if="selected.length > 0">
                     <span class="el-dropdown-link">
                         <el-button aria-expanded="false"
@@ -199,7 +202,7 @@
                 </el-dropdown>
             </div>
             <div class="card-body">
-                <data-table :productType="type" :resource="resource" :sort-field="sortField" :sort-direction="sortDirection" @sort-change="handleSortChange">
+                <data-table ref="DataTable" :productType="type" :resource="resource" :sort-field="sortField" :sort-direction="sortDirection" :show-disabled="showDisabled" @sort-change="handleSortChange">
                     <tr slot="heading" width="100%" slot-scope="{ sort }">
                         <th></th>
                         <th class="text-right" style="max-width: 83px;">ID</th>
@@ -683,7 +686,10 @@ export default {
             showDialogHistory: false,
             showDialogItemStock: false,
             sortField: localStorage.getItem('itemSortField') || 'id',
-            sortDirection: localStorage.getItem('itemSortDirection') || 'desc'
+            sortDirection: localStorage.getItem('itemSortDirection') || 'desc',
+            showDisabled: localStorage.getItem('showDisabled') === null
+                ? (localStorage.setItem('showDisabled', 'true'), true)
+                : localStorage.getItem('showDisabled') === 'true'
         };
     },
     created() {
@@ -732,7 +738,23 @@ export default {
             return this.type === "ZZ" ? "/services" : "/items";
         }
     },
+    mounted() {
+        if (localStorage.getItem('showDisabled') === null) {
+            localStorage.setItem('showDisabled', 'true');
+            this.showDisabled = true;
+
+            this.$nextTick(() => {
+                if (this.$refs.DataTable && typeof this.$refs.DataTable.getRecords === 'function') {
+                    this.$refs.DataTable.getRecords();
+                }
+            });
+        }
+    },
     methods: {
+        onChangeShowDisabled() {
+          localStorage.setItem('showDisabled', this.showDisabled);
+          location.reload();
+        },
         clickDeleteSelected() {
             this.selected.forEach(id => this.clickDelete(id));
         },

@@ -127,6 +127,12 @@ class ItemController extends Controller
         $isEcommerce = filter_var($request->query('isEcommerce'), FILTER_VALIDATE_BOOLEAN);
         // $records = Item::whereTypeUser()->whereNotIsSet();
         $records = $this->getInitialQueryRecords($isEcommerce);
+        
+        $show_disabled = filter_var($request->get('show_disabled'), FILTER_VALIDATE_BOOLEAN);
+
+        if (!$show_disabled) {
+            $records->where('active', 1);
+        }
 
         $sortField = $request->get('sort_field', 'id');
         $sortDirection = $request->get('sort_direction', 'desc');
