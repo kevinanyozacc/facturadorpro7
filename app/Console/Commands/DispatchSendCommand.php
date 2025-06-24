@@ -15,12 +15,18 @@ class DispatchSendCommand extends Command
     {
         if (Configuration::firstOrFail()->cron) {
             $configuration = Configuration::firstOrFail();
+            $company = Company::firstOrFail();
 
             // Buscar guias sin data en ticket y que esten en el entorno actual de la empresa
             $dispatches = Dispatch::query()
-                ->where('soap_type_id', Company::firstOrFail()->active()->soap_type_id)
+                ->where('soap_type_id', $company->soap_type_id)
                 ->whereNull('ticket')
                 ->get();
+
+            if ($dispatches->isEmpty()) {
+                $this->info('No dispatches pending to send');
+                return;
+            }
 
             $serviceController = new ServiceDispatchController();
 
