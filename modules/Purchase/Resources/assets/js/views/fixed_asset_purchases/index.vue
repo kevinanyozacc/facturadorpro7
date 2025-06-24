@@ -70,13 +70,13 @@
                         </td>
 
                         <td class="text-center">{{ row.currency_type_id }}</td>
-                        <td v-if="columns.total_free.visible" class="text-right">{{row.currency_type_id === 'PEN' ? 'S/.' : '$'}} {{ row.total_free }}</td>
-                        <td v-if="columns.total_unaffected.visible" class="text-right">{{row.currency_type_id === 'PEN' ? 'S/.' : '$'}} {{ row.total_unaffected }}</td>
-                        <td v-if="columns.total_exonerated.visible" class="text-right">{{row.currency_type_id === 'PEN' ? 'S/.' : '$'}} {{ row.total_exonerated }}</td>
-                        <td v-if="columns.total_taxed.visible" class="text-right">{{row.currency_type_id === 'PEN' ? 'S/.' : '$'}} {{ row.total_taxed }}</td>
-                        <td v-if="columns.total_igv.visible" class="text-right">{{row.currency_type_id === 'PEN' ? 'S/.' : '$'}} {{ row.total_igv }}</td>
+                        <td v-if="columns.total_free.visible" class="text-right">{{row.currency_type_id === 'PEN' ? 'S/' : '$'}} {{ row.total_free }}</td>
+                        <td v-if="columns.total_unaffected.visible" class="text-right">{{row.currency_type_id === 'PEN' ? 'S/' : '$'}} {{ row.total_unaffected }}</td>
+                        <td v-if="columns.total_exonerated.visible" class="text-right">{{row.currency_type_id === 'PEN' ? 'S/' : '$'}} {{ row.total_exonerated }}</td>
+                        <td v-if="columns.total_taxed.visible" class="text-right">{{row.currency_type_id === 'PEN' ? 'S/' : '$'}} {{ row.total_taxed }}</td>
+                        <td v-if="columns.total_igv.visible" class="text-right">{{row.currency_type_id === 'PEN' ? 'S/' : '$'}} {{ row.total_igv }}</td>
                         <!-- <td v-if="columns.total_perception.visible" class="text-right">{{ row.total_perception ? row.total_perception : 0 }}</td> -->
-                        <td class="text-right">{{row.currency_type_id === 'PEN' ? 'S/.' : '$'}} {{ row.total   }}</td>
+                        <td class="text-right">{{row.currency_type_id === 'PEN' ? 'S/' : '$'}} {{ row.total   }}</td>
                         <td class="text-right">
 
                             <a v-if="row.state_type_id != '11'" :href="`/${resource}/create/${row.id}`" type="button" class="btn waves-effect waves-light btn-xs btn-info">Editar</a>

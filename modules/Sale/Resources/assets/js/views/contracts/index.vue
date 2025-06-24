@@ -64,13 +64,13 @@
                         <td>{{ row.number_full }} </td>
                         <td>{{ row.quotation_number_full }}</td>
                         <td class="text-center">{{ row.currency_type_id }}</td>
-                        <td class="text-right"  v-if="columns.total_exportation.visible" >{{row.currency_type_id === 'PEN' ? 'S/.' : '$'}} {{ row.total_exportation }}</td>
-                        <td class="text-right" v-if="columns.total_free.visible">{{row.currency_type_id === 'PEN' ? 'S/.' : '$'}} {{ row.total_free }}</td>
-                        <td class="text-right" v-if="columns.total_unaffected.visible">{{row.currency_type_id === 'PEN' ? 'S/.' : '$'}} {{ row.total_unaffected }}</td>
-                        <td class="text-right" v-if="columns.total_exonerated.visible">{{row.currency_type_id === 'PEN' ? 'S/.' : '$'}} {{ row.total_exonerated }}</td>
-                        <td class="text-right">{{row.currency_type_id === 'PEN' ? 'S/.' : '$'}} {{ row.total_taxed }}</td>
-                        <td class="text-right">{{row.currency_type_id === 'PEN' ? 'S/.' : '$'}} {{ row.total_igv }}</td>
-                        <td class="text-right">{{row.currency_type_id === 'PEN' ? 'S/.' : '$'}} {{ row.total }}</td>
+                        <td class="text-right"  v-if="columns.total_exportation.visible" >{{row.currency_type_id === 'PEN' ? 'S/' : '$'}} {{ row.total_exportation }}</td>
+                        <td class="text-right" v-if="columns.total_free.visible">{{row.currency_type_id === 'PEN' ? 'S/' : '$'}} {{ row.total_free }}</td>
+                        <td class="text-right" v-if="columns.total_unaffected.visible">{{row.currency_type_id === 'PEN' ? 'S/' : '$'}} {{ row.total_unaffected }}</td>
+                        <td class="text-right" v-if="columns.total_exonerated.visible">{{row.currency_type_id === 'PEN' ? 'S/' : '$'}} {{ row.total_exonerated }}</td>
+                        <td class="text-right">{{row.currency_type_id === 'PEN' ? 'S/' : '$'}} {{ row.total_taxed }}</td>
+                        <td class="text-right">{{row.currency_type_id === 'PEN' ? 'S/' : '$'}} {{ row.total_igv }}</td>
+                        <td class="text-right">{{row.currency_type_id === 'PEN' ? 'S/' : '$'}} {{ row.total }}</td>
                         <!-- <td class="text-right">
 
                             <button type="button" class="btn waves-effect waves-light btn-xs btn-info"

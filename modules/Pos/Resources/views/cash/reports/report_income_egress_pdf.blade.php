@@ -148,7 +148,7 @@
                     <strong>
                         Total Ingresos:
                     </strong>
-                    S/. {{$data['total_income']}}
+                    S/ {{$data['total_income']}}
                 </p>
             </td>
             <td class="td-custom">
@@ -156,7 +156,7 @@
                     <strong>
                         Total Egresos:
                     </strong>
-                    S/. {{ $data['total_egress'] }}
+                    S/ {{ $data['total_egress'] }}
                 </p>
             </td>
         </tr>
@@ -166,7 +166,7 @@
                     <strong>
                         Saldo final:
                     </strong>
-                    S/. {{$data['total_balance']}}
+                    S/ {{$data['total_balance']}}
                 </p>
             </td>
         </tr>

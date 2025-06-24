@@ -236,28 +236,28 @@
                             class="text-right"
                             v-if="columns.total_exportation.visible"
                         >
-                            {{row.currency_type_id === 'PEN' ? 'S/.' : '$'}}
+                            {{row.currency_type_id === 'PEN' ? 'S/' : '$'}}
                             {{ row.total_exportation }}
                         </td>
                         <td
                             class="text-right"
                             v-if="columns.total_free.visible"
                         >
-                            {{row.currency_type_id === 'PEN' ? 'S/.' : '$'}}
+                            {{row.currency_type_id === 'PEN' ? 'S/' : '$'}}
                             {{ row.total_free }}
                         </td>
                         <td
                             class="text-right"
                             v-if="columns.total_unaffected.visible"
                         >
-                            {{row.currency_type_id === 'PEN' ? 'S/.' : '$'}}
+                            {{row.currency_type_id === 'PEN' ? 'S/' : '$'}}
                             {{ row.total_unaffected }}
                         </td>
                         <td
                             class="text-right"
                             v-if="columns.total_exonerated.visible"
                         >
-                            {{row.currency_type_id === 'PEN' ? 'S/.' : '$'}}
+                            {{row.currency_type_id === 'PEN' ? 'S/' : '$'}}
                             {{ row.total_exonerated }}
                         </td>
 
@@ -265,27 +265,27 @@
                             class="text-right"
                             v-if="columns.total_taxed.visible"
                         >
-                            {{row.currency_type_id === 'PEN' ? 'S/.' : '$'}}
+                            {{row.currency_type_id === 'PEN' ? 'S/' : '$'}}
                             {{ row.total_taxed }}
                         </td>
                         <td class="text-right" v-if="columns.total_igv.visible">
-                            {{row.currency_type_id === 'PEN' ? 'S/.' : '$'}}
+                            {{row.currency_type_id === 'PEN' ? 'S/' : '$'}}
                             {{ row.total_igv }}
                         </td>
-                        <td class="text-right">{{row.currency_type_id === 'PEN' ? 'S/.' : '$'}} {{ row.total }}</td>
+                        <td class="text-right">{{row.currency_type_id === 'PEN' ? 'S/' : '$'}} {{ row.total }}</td>
 
                         <td
                             class="text-center"
                             v-if="columns.total_paid.visible"
                         >
-                            {{row.currency_type_id === 'PEN' ? 'S/.' : '$'}}
+                            {{row.currency_type_id === 'PEN' ? 'S/' : '$'}}
                             {{ row.total_paid }}
                         </td>
                         <td
                             class="text-center"
                             v-if="columns.total_pending_paid.visible"
                         >
-                            {{row.currency_type_id === 'PEN' ? 'S/.' : '$'}}
+                            {{row.currency_type_id === 'PEN' ? 'S/' : '$'}}
                             {{ row.total_pending_paid }}
                         </td>
                         <td>

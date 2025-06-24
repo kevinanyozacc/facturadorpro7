@@ -200,10 +200,10 @@ $cash_final_balance = $final_balance + $cash->beginning_balance;
             <p><strong>Estado de caja: </strong>{{($cash->state) ? 'Aperturada':'Cerrada'}}</p>
             <p><strong>Fecha y hora cierre: </strong>{{$cash->date_closed}} {{$cash->time_closed}}</p>
             <p><strong>Montos de operación </strong></p>
-            <p><strong>Saldo inicial: </strong>S/. {{number_format($cash->beginning_balance, 2, ".", "")}}</p>
-            <p><strong>Ingreso: </strong>S/. {{number_format($cash_income, 2, ".", "")}} </p>
-            <p><strong>Saldo final: </strong>S/. {{number_format($cash_final_balance, 2, ".", "")}} </p>
-            <p><strong>Egreso: </strong>S/. {{number_format($cash_egress, 2, ".", "")}} </p>
+            <p><strong>Saldo inicial: </strong>S/ {{number_format($cash->beginning_balance, 2, ".", "")}}</p>
+            <p><strong>Ingreso: </strong>S/ {{number_format($cash_income, 2, ".", "")}} </p>
+            <p><strong>Saldo final: </strong>S/ {{number_format($cash_final_balance, 2, ".", "")}} </p>
+            <p><strong>Egreso: </strong>S/ {{number_format($cash_egress, 2, ".", "")}} </p>
 
         </div>
 

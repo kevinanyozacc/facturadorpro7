@@ -98,9 +98,9 @@
                     </table>
 
                     <div class="row mb-5">
-                        <div class="col-md-4 text-center">Total recibo de pagos en soles S/. {{ totals.total_pen }}</div>
-                        <div class="col-md-4 text-center">Total pagado en soles S/. {{ totals.total_paid_pen }}</div>
-                        <div class="col-md-4 text-center">Total por cobrar en soles S/.
+                        <div class="col-md-4 text-center">Total recibo de pagos en soles S/ {{ totals.total_pen }}</div>
+                        <div class="col-md-4 text-center">Total pagado en soles S/ {{ totals.total_paid_pen }}</div>
+                        <div class="col-md-4 text-center">Total por cobrar en soles S/
                                                           {{ totals.total_pending_paid_pen }}
                         </div>
                     </div>
