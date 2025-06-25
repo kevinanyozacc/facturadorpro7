@@ -183,6 +183,10 @@ class ValidateDocumentController extends Controller
                             ]);
 
                         }else{
+                            //cpe no existe, entonces el documento se cambia de estado a rechazado (09)
+                            $document->update([
+                                'state_type_id' => '09'
+                            ]);
 
                             $results [] = $this->getResult($document, 'No existe en Sunat', false, $sunat_state_type_id);
                         }
