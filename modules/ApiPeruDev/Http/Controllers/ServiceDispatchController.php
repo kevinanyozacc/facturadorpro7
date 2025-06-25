@@ -139,6 +139,23 @@ class ServiceDispatchController extends Controller
             if($hasPseSend){
                 $giorService = new GiorService();
                 $response = $giorService->querySummary($dispatch->filename);
+                Log::info("Dispatch {$dispatch->series}-{$dispatch->number} status query response: ", $response);
+
+                if ($response['code'] != 200) {
+                    $message = array_key_exists('message', $response) ? $response['message'] : '';
+                    $errors = array_key_exists('errores', $response) ? $response['errores'] : '';
+                    return [
+                        'success' => false,
+                        'data' => [
+                            'number' => $dispatch->number_full,
+                            'filename' => $dispatch->filename,
+                            'external_id' => $dispatch->external_id,
+                            'state_type_id' => $dispatch->state_type_id,
+                        ],
+                        'message' => "PSE. TICKET - Code: {$response['code']}; Errores: {$message} - {$errors}",
+                    ];
+                }
+
                 if(!$response['success']) {
                     throw new Exception("PSE. TICKET - Code: {$response['code']}; Description: {$response['message']}");
                 } else {
