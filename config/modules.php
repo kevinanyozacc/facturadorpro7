@@ -161,10 +161,11 @@ return [
     |--------------------------------------------------------------------------
     |
     | Here is the config for setting up caching feature.
+    | Execute php artisan optimize:clear
     |
     */
     'cache' => [
-        'enabled' => false,
+        'enabled' => true,
         'key' => 'laravel-modules',
         'lifetime' => 60,
     ],

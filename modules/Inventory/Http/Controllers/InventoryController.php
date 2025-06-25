@@ -15,6 +15,7 @@ use Modules\Inventory\Models\InventoryTransfer;
 use Modules\Item\Models\ItemLot;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Imports\StockEstablishmentsImport;
 use Modules\Item\Models\ItemLotsGroup;
 use Modules\Inventory\Models\Inventory;
 use Modules\Inventory\Models\Warehouse;
@@ -27,7 +28,9 @@ use Modules\Inventory\Http\Requests\InventoryRequest;
 use Modules\Inventory\Http\Resources\InventoryResource;
 use Modules\Inventory\Http\Resources\InventoryCollection;
 use App\Imports\StockImport;
+use App\Models\Tenant\Establishment;
 use Maatwebsite\Excel\Excel;
+use Modules\Inventory\Exports\InventoryStockEstablishments;
 use Modules\Inventory\Http\Requests\RemoveRequest;
 
 
@@ -642,6 +645,41 @@ class InventoryController extends Controller
             'success' => false,
             'message' => __('app.actions.upload.error'),
         ];
+    }
+
+    public function stockEstablishmentImport(Request $request)
+    {
+        if ($request->hasFile('file')) {
+            try {
+                $import = new StockEstablishmentsImport();
+                $import->import($request->file('file'), null, Excel::XLSX);
+                $data = $import->getData();
+                return [
+                    'success' => true,
+                    'message' => __('app.actions.upload.success'),
+                    'data' => $data
+                ];
+            } catch (Exception $e) {
+                return [
+                    'success' => false,
+                    'message' => $e->getMessage()
+                ];
+            }
+        }
+
+        return [
+            'success' => false,
+            'message' => __('app.actions.upload.error'),
+        ];
+    }
+
+    public function stockEstablishmentExport()
+    {
+        $records = Establishment::all();
+        return (new InventoryStockEstablishments)
+            ->records($records)
+            ->download('stock_massive_establishemtns.xlsx');
+
     }
 
     public function move(Request $request)
