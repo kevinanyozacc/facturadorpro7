@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 use App\Models\Tenant\{Configuration, Dispatch};
 use Modules\ApiPeruDev\Http\Controllers\ServiceDispatchController;
 
@@ -27,11 +28,14 @@ class DispatchQueryCommand extends Command
                 return;
             }
 
+            $this->info('Cantidad de guias para consultar: ' . $dispatches->count());
+
             $serviceController = new ServiceDispatchController();
 
             foreach ($dispatches as $dispatch) {
                 try {
-                    $result = $serviceController->statusTicket($dispatch->external_id);
+                    $result = $serviceController->statusTicket($dispatch->external_id, true);
+                    Log::info("aqui Dispatch {$dispatch->series}-{$dispatch->number} status query response: ", $result);
 
                     if ($result['success']) {
                         $status = $result['data']['state_type_id'];
@@ -42,6 +46,7 @@ class DispatchQueryCommand extends Command
                         $this->error("Failed to query dispatch {$dispatch->series}-{$dispatch->number}: {$result['message']}");
                     }
                 } catch (\Exception $e) {
+                    Log::error("Error querying dispatch {$dispatch->series}-{$dispatch->number}: " . $e->getMessage());
                     $this->error("Error querying dispatch {$dispatch->series}-{$dispatch->number}: " . $e->getMessage());
                 }
                 sleep(1);
