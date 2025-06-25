@@ -162,11 +162,11 @@
                              class="row">
                             <div class="col-md-12">
                                 <div class="table-responsive">
-                                    <table class="table table-striped table-responsive-xl table-bordered table-hover"
+                                    <table class="table table-striped table-responsive-xl table-hover"
                                     >
                                         <thead class="">
                                         <tr>
-                                            <th>#</th>
+                                            <!-- <th>#</th> -->
                                             <th>Nombre</th>
                                             <th v-if="filters.description.visible">Descripción</th>
                                             <th v-if="filters.model.visible">Modelo</th>
@@ -204,7 +204,7 @@
                                         <tbody>
                                         <tr v-for="(row, index) in records"
                                             :key="index">
-                                            <td>{{ index + 1 }}</td>
+                                            <!-- <td>{{ index + 1 }}</td> -->
                                             <td>{{ row.name }}</td>
                                             <td v-if="filters.description.visible">{{ row.description }}</td>
                                             <td v-if="filters.model.visible">{{ row.model }}</td>

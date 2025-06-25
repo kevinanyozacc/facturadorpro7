@@ -191,7 +191,10 @@
                 <div id="scroll1" style="overflow-x:auto;">
                     <div style="height: 20px;"></div>
                 </div>
-                <div class="table-responsive" id="scroll2" style="overflow-x:auto;">
+                <div class="scroll-shadow shadow-left" v-show="showLeftShadow"></div>
+                <div class="scroll-shadow shadow-right" v-show="showRightShadow"></div>
+
+                <div class="table-responsive" id="scroll2" style="overflow-x:auto;" ref="scrollContainer">
                     <table class="table">
                         <thead>
                         <slot name="heading"></slot>
@@ -260,6 +263,8 @@ export default {
                         return this.search.d_start > time
                     }
                 },
+                showLeftShadow: false,
+                showRightShadow: false,
             }
         },
         computed: {
@@ -292,6 +297,14 @@ export default {
             await this.filterItems()
 
             await this.cargalo()
+
+            this.$nextTick(() => {
+                const el = this.$refs.scrollContainer;
+                if (el) {
+                    el.addEventListener('scroll', this.checkScrollShadows);
+                    this.checkScrollShadows();
+                }
+            });
         },
         methods: {
             ...mapActions(['loadConfiguration']),
@@ -317,6 +330,16 @@ export default {
                     this.filterItems()
                 }
 
+            },
+            checkScrollShadows() {
+                const el = this.$refs.scrollContainer;
+                if (!el) return;
+                
+                const scrollLeft = el.scrollLeft;
+                const scrollRight = el.scrollWidth - el.clientWidth - scrollLeft;
+                
+                this.showLeftShadow = scrollLeft > 1;
+                this.showRightShadow = scrollRight > 1;
             },
             filterItems() {
                 this.items = this.all_items

@@ -62,7 +62,10 @@
                         </form>
                     </div>
                 </div>
-                <div class="table-responsive">
+                <div class="col-md-12">
+                <div class="scroll-shadow shadow-left" v-show="showLeftShadow"></div>
+                <div class="scroll-shadow shadow-right" v-show="showRightShadow"></div>
+                <div class="table-responsive" ref="scrollContainer">
                     <table class="table">
                         <thead>
                         <tr>
@@ -124,6 +127,7 @@
                         </tbody>
                     </table>
                 </div>
+                </div>
             </div>
         </div>
         <ModalAddEdit
@@ -169,7 +173,9 @@ export default {
             filter: {
                 name: "",
             },
-            basePath: '/documentary-procedure/offices'
+            basePath: '/documentary-procedure/offices',
+            showLeftShadow: false,
+            showRightShadow: false,
         };
     },
     created() {
@@ -183,6 +189,13 @@ export default {
         this.items = this.offices
     },
     mounted() {
+        this.$nextTick(() => {
+            const el = this.$refs.scrollContainer;
+            if (el) {
+                el.addEventListener('scroll', this.checkScrollShadows);
+                this.checkScrollShadows();
+            }
+        });
     },
     methods: {
         ...mapActions([
@@ -190,6 +203,16 @@ export default {
             'loadConfiguration',
             'loadOffices'
         ]),
+        checkScrollShadows() {
+            const el = this.$refs.scrollContainer;
+            if (!el) return;
+            
+            const scrollLeft = el.scrollLeft;
+            const scrollRight = el.scrollWidth - el.clientWidth - scrollLeft;
+            
+            this.showLeftShadow = scrollLeft > 1;
+            this.showRightShadow = scrollRight > 1;
+        },
         WorkAssociated(item) {
             if (item === undefined || item === null) return '';
             if (item.user === undefined || item.user === null) return '';
