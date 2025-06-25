@@ -179,8 +179,10 @@
                                         </el-badge>
                                     </div>
                                 </div>
-    
-                                <div class="table-responsive">
+                                <div class="col-md-12">
+                                <div class="scroll-shadow shadow-left" v-show="showLeftShadow"></div>
+                                <div class="scroll-shadow shadow-right" v-show="showRightShadow"></div>
+                                <div class="table-responsive" ref="scrollContainer">
                                 <table class="table">
                                     <thead>
                                     <tr>
@@ -263,6 +265,7 @@
                                     </tbody>
                                 </table>
                                 </div>
+                                </div>
                             </div>
                             </section>
                         </div>
@@ -318,7 +321,9 @@
                     }
                 },
                 showDialogPurchasePayments: false,
-                showDialogExpensePayments: false
+                showDialogExpensePayments: false,
+                showLeftShadow: false,
+                showRightShadow: false,
             }
         },
         async created() {
@@ -428,8 +433,28 @@
                 }).toFixed(2)
             }
         },
-
+        async mounted() {
+            this.$nextTick(() => {
+                const el = this.$refs.scrollContainer;
+                if (el) {
+                    el.addEventListener('scroll', this.checkScrollShadows);
+                    this.checkScrollShadows();
+                }
+            });
+        },
         methods: {
+            checkScrollShadows() {
+                const el = this.$refs.scrollContainer;
+                if (!el) return;
+
+                const scrollLeft = el.scrollLeft;
+                const scrollRight = el.scrollWidth - el.clientWidth - scrollLeft;
+
+                const threshold = 2;
+
+                this.showLeftShadow = scrollLeft > threshold;
+                this.showRightShadow = scrollRight > threshold;
+            },
             toggleInformation(){
                 this.isVisible = !this.isVisible;
             },

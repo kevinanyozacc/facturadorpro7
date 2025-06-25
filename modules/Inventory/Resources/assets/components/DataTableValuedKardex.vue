@@ -102,7 +102,10 @@
 
 
             <div class="col-md-12">
-                <div class="table-responsive">
+                <div class="scroll-shadow shadow-left" v-show="showLeftShadow"></div>
+                <div class="scroll-shadow shadow-right" v-show="showRightShadow"></div>
+
+                <div class="table-responsive" ref="scrollContainer">
                     <table class="table">
                         <thead>
                         <slot name="heading"></slot>
@@ -164,6 +167,8 @@ export default {
                     return this.form.month_start > time
                 }
             },
+            showLeftShadow: false,
+            showRightShadow: false,
         }
     },
     computed: {},
@@ -172,15 +177,30 @@ export default {
         this.events()
     },
     async mounted() {
+        this.$nextTick(() => {
+            const el = this.$refs.scrollContainer;
+            if (el) {
+                el.addEventListener('scroll', this.checkScrollShadows);
+                this.checkScrollShadows();
+            }
+        });
 
         await this.$http.get(`/${this.resource}/filter`)
             .then(response => {
                 this.establishments = response.data.establishments;
             });
-
-
     },
     methods: {
+        checkScrollShadows() {
+            const el = this.$refs.scrollContainer;
+            if (!el) return;
+            
+            const scrollLeft = el.scrollLeft;
+            const scrollRight = el.scrollWidth - el.clientWidth - scrollLeft;
+            
+            this.showLeftShadow = scrollLeft > 1;
+            this.showRightShadow = scrollRight > 1;
+        },
         exportFormatSunat(item_id){
             
             let data = this.form

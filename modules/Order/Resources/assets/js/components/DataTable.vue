@@ -66,7 +66,10 @@
 
 
             <div class="col-md-12">
-                <div class="table-responsive">
+                <div class="scroll-shadow shadow-left" v-show="showLeftShadow"></div>
+                <div class="scroll-shadow shadow-right" v-show="showRightShadow"></div>
+
+                <div class="table-responsive" ref="scrollContainer">
                     <table class="table">
                         <thead>
                         <slot name="heading"></slot>
@@ -135,7 +138,9 @@
                     {id:'', description: 'Todos'},
                     {id:'0', description: 'Pendiente'},
                     {id:'1', description: 'Completado'}
-                ]
+                ],
+                showLeftShadow: false,
+                showRightShadow: false,
             }
         },
         computed:{
@@ -151,6 +156,7 @@
             this.loadConfiguration()
         },
         async mounted () {
+
             let column_resource = _.split(this.resource, '/')
            // console.log(column_resource)
             await this.$http.get(`/${_.head(column_resource)}/columns`).then((response) => {
@@ -158,8 +164,28 @@
                 this.search.column = _.head(Object.keys(this.columns))
             });
             await this.getRecords()
+
+            this.$nextTick(() => {
+                const el = this.$refs.scrollContainer;
+                if (el) {
+                    el.addEventListener('scroll', this.checkScrollShadows);
+                    this.checkScrollShadows();
+                }
+            });
         },
         methods: {
+            checkScrollShadows() {
+                const el = this.$refs.scrollContainer;
+                if (!el) return;
+
+                const scrollLeft = el.scrollLeft;
+                const scrollRight = el.scrollWidth - el.clientWidth - scrollLeft;
+
+                const threshold = 2;
+
+                this.showLeftShadow = scrollLeft > threshold;
+                this.showRightShadow = scrollRight > threshold;
+            },
             toggleInformation() {
                 this.isVisible = !this.isVisible;
             },

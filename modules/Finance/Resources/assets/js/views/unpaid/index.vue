@@ -474,8 +474,12 @@
                                                 >
                                             </el-badge>
                                         </div>
+                                        
+                                        <div class="col-md-12">
+                                        <div class="scroll-shadow shadow-left" v-show="showLeftShadow"></div>
+                                        <div class="scroll-shadow shadow-right" v-show="showRightShadow"></div>
 
-                                        <div class="col-md-12 table-responsive">
+                                        <div class="table-responsive" ref="scrollContainer">
                                             <table class="table">
                                                 <thead>
                                                     <tr>
@@ -887,6 +891,7 @@
                                                 </el-pagination>
                                             </div>
                                         </div>
+                                        </div>
                                     </div>
                                 </div>
                             </section>
@@ -962,7 +967,9 @@ export default {
                     title: "Monto Retención",
                     visible: true
                 }
-            }
+            },
+            showLeftShadow: false,
+            showRightShadow: false,
         };
     },
     async created() {
@@ -1086,8 +1093,26 @@ export default {
             }).toFixed(2);
         }
     },
-
+    async mounted() {
+        this.$nextTick(() => {
+            const el = this.$refs.scrollContainer;
+            if (el) {
+                el.addEventListener('scroll', this.checkScrollShadows);
+                this.checkScrollShadows();
+            }
+        });
+    },
     methods: {
+        checkScrollShadows() {
+            const el = this.$refs.scrollContainer;
+            if (!el) return;
+            
+            const scrollLeft = el.scrollLeft;
+            const scrollRight = el.scrollWidth - el.clientWidth - scrollLeft;
+            
+            this.showLeftShadow = scrollLeft > 1;
+            this.showRightShadow = scrollRight > 1;
+        },
         formatDate(date) {
             if (!date) return null;
             const parsedDate = moment(date, ['YYYY/MM/DD', 'YYYY-MM-DD', 'DD/MM/YYYY', 'DD-MM-YYYY']);

@@ -24,7 +24,10 @@
                         <button type="button" class="btn btn-custom btn-sm  mt-2 mr-2" @click.prevent="clickCreate()"><i class="fa fa-plus-circle"></i> Nuevo</button>
                     </div>
                 </div>
-                <div class="table-responsive">
+                <div class="col-md-12">
+                <div class="scroll-shadow shadow-left" v-show="showLeftShadow"></div>
+                <div class="scroll-shadow shadow-right" v-show="showRightShadow"></div>
+                <div class="table-responsive" ref="scrollContainer">
                     <table class="table">
                         <thead>
                         <tr>
@@ -52,7 +55,8 @@
                         </tr>
                         </tbody>
                     </table>
-                </div> 
+                </div>
+                </div>                 
             </div>
             <series-configurations-form :showDialog.sync="showDialog"
                              :recordId="recordId"></series-configurations-form>
@@ -74,6 +78,8 @@
                 resource: 'series-configurations',
                 recordId: null,
                 records: [],
+                showLeftShadow: false,
+                showRightShadow: false,
             }
         },
         created() {
@@ -82,7 +88,26 @@
             })
             this.getData()
         },
+        mounted() {
+            this.$nextTick(() => {
+                const el = this.$refs.scrollContainer;
+                if (el) {
+                    el.addEventListener('scroll', this.checkScrollShadows);
+                    this.checkScrollShadows();
+                }
+            });  
+        },
         methods: {
+            checkScrollShadows() {
+                const el = this.$refs.scrollContainer;
+                if (!el) return;
+                
+                const scrollLeft = el.scrollLeft;
+                const scrollRight = el.scrollWidth - el.clientWidth - scrollLeft;
+                
+                this.showLeftShadow = scrollLeft > 1;
+                this.showRightShadow = scrollRight > 1;
+            },
             getData() {
                 this.$http.get(`/${this.resource}/records`)
                     .then(response => {
