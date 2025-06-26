@@ -380,12 +380,15 @@ class Facturalo
         $format_pdf = ($format != null) ? $format : $format_pdf;
         $this->type = ($type != null) ? $type : $this->type;
 
+        $heightQr = 95;
         if(in_array($this->document->document_type_id, ['09', '31'])) {
             if($this->document->qr_url) {
                 $qrCode = new QrCodeGenerate();
                 $this->document->qr = $qrCode->displayPNGBase64($this->document->qr_url);
+                $heightQr = $qrCode->getHeightQr();
             }
         }
+
 
         $base_pdf_template = Establishment::find($this->document->establishment_id)->template_pdf;
         if (($format_pdf === 'ticket') OR
@@ -530,6 +533,8 @@ class Facturalo
                 $append_height = 15;
                 $this->appendHeightFromDispatch($append_height, $format, $this->document);
             }
+            $heightQr = ($heightQr - 95);
+            if ($format_pdf === 'ticket_58') $heightQr += 10; // evita una pagina en blanco cuando esta el qr
 
             $pdf = new Mpdf([
                 'mode' => 'utf-8',
@@ -537,6 +542,7 @@ class Facturalo
                     $width,
                     80 +
                     $height_terms +
+                     $heightQr +
                     (($quantity_rows * 8) + $extra_by_item_description) +
                     ($document_payments * 8) +
                     ($discount_global * 8) +
