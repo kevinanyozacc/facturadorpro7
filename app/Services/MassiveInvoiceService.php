@@ -87,12 +87,12 @@ class MassiveInvoiceService
                     
                     'totales' => [
                         'total_exportacion' => 0,
-                        'total_operaciones_gravadas' => $montos['baseImponible'],
+                        'total_operaciones_gravadas' => $tipoAfectacion == '10' ? $montos['baseImponible'] : 0,
                         'total_operaciones_inafectas' => $tipoAfectacion == '30' ? $montos['baseImponible'] : 0,
                         'total_operaciones_exoneradas' => $tipoAfectacion == '20' ? $montos['baseImponible'] : 0,
                         'total_operaciones_gratuitas' => 0,
-                        'total_igv' => $montos['igv'],
-                        'total_impuestos' => $montos['igv'],
+                        'total_igv' => $tipoAfectacion == '10' ? $montos['igv'] : 0,
+                        'total_impuestos' => $tipoAfectacion == '10' ? $montos['igv'] : 0,
                         'total_valor' => $montos['baseImponible'],
                         'total_venta' => $montos['total']
                     ],
@@ -105,14 +105,20 @@ class MassiveInvoiceService
                         'cantidad' => $cantidad,
                         'valor_unitario' => $montos['valorUnitario'],
                         'codigo_tipo_precio' => '01',
-                        'precio_unitario' => $incluyeIgv ? $precio : round($precio * 1.18, 2),
+                        'precio_unitario' => ($tipoAfectacion == '20' || $tipoAfectacion == '30')
+                            ? $precio
+                            : ($incluyeIgv ? $precio : round($precio * 1.18, 2)),
                         'codigo_tipo_afectacion_igv' => $tipoAfectacion,
-                        'total_base_igv' => $montos['baseImponible'],
-                        'porcentaje_igv' => $montos['igvPercentage'],
-                        'total_igv' => $montos['igv'],
-                        'total_impuestos' => $montos['igv'],
+                        'total_base_igv' => $tipoAfectacion == '10' ? $montos['baseImponible'] : (
+                            $tipoAfectacion == '20' ? $montos['baseImponible'] : (
+                                $tipoAfectacion == '30' ? $montos['baseImponible'] : 0
+                            )
+                        ),
+                        'porcentaje_igv' => 18,
+                        'total_igv' => $tipoAfectacion == '10' ? $montos['igv'] : 0,
+                        'total_impuestos' => $tipoAfectacion == '10' ? $montos['igv'] : 0,
                         'total_valor_item' => $montos['baseImponible'],
-                        'total_item' => $incluyeIgv ? round($precio * $cantidad, 2) : round(($precio * 1.18) * $cantidad, 2)
+                        'total_item' => $montos['total']
                     ]],
                     
                     'informacion_adicional' => "Forma de pago:{$row[8]}|{$row[9]}",
@@ -238,10 +244,6 @@ class MassiveInvoiceService
     {
         if ($tipoComprobante === '01' && strlen($numero) !== 11) {
             throw new \Exception("Para facturas el receptor debe tener RUC válido de 11 dígitos");
-        }
-
-        if ($tipoComprobante === '03' && strlen($numero) !== 8) {
-            throw new \Exception("Para boletas el receptor debe tener DNI válido de 8 dígitos");
         }
 
         return true;
