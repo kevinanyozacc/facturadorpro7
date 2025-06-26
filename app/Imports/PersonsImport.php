@@ -8,6 +8,7 @@
     use Illuminate\Support\Collection;
     use Maatwebsite\Excel\Concerns\Importable;
     use Maatwebsite\Excel\Concerns\ToCollection;
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
     class PersonsImport implements ToCollection
     {
@@ -21,6 +22,10 @@
             $registered = 0;
             unset($rows[0]);
             foreach ($rows as $row) {
+                $isNullAll = $row->every(function($el){
+                    return is_null($el);
+                });
+                if ($isNullAll) continue; // Si hay rows donde todo son nulos, entonces lo continua
                 $type = request()->input('type');
                 $identity_document_type_id = $row[0];
                 $number = $row[2];
