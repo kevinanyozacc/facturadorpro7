@@ -13,7 +13,7 @@ class ConfigurationImageController extends Controller
     public function upload(Request $request)
     {
         $request->validate([
-            'image' => 'required|file|mimetypes:image/*|max:2048',
+            'image' => 'required|file|mimetypes:image/*|max:3072',
         ]);
 
         $extension = $request->file('image')->getClientOriginalExtension();

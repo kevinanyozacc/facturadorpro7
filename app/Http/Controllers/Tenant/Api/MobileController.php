@@ -187,6 +187,8 @@ class MobileController extends Controller
                             'calculate_quantity' => (bool) $row->calculate_quantity,
                             'has_igv' => (bool) $row->has_igv,
                             'is_set' => (bool) $row->is_set,
+                            'lots' => $row->lots,
+                            'IdLoteSelected' => optional($row->item)->IdLoteSelected,
                             'aux_quantity' => 1,
                             'brand' => $row->brand->name,
                             'category' => $row->brand->name,

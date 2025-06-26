@@ -43,7 +43,7 @@
                             >Pagos</button>
                         </td>
                         <td class="text-center">{{ row.currency_type_id }}</td>
-                        <td class="text-right">{{row.currency_type_id === 'PEN' ? 'S/.' : '$'}} {{ row.total }}</td>
+                        <td class="text-right">{{row.currency_type_id === 'PEN' ? 'S/' : '$'}} {{ row.total }}</td>
 
                         <td class="text-right">
 

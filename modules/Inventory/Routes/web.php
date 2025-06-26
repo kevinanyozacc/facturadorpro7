@@ -152,6 +152,8 @@ if ($hostname) {
                 Route::post('stock', 'InventoryController@stock');
                 Route::post('stock-multilple', 'InventoryController@stockMultiples');
                 Route::post('import', 'InventoryController@import');
+                Route::get('stock-establishments-format/export', 'InventoryController@stockEstablishmentExport');
+                Route::post('import/stock-establishments','InventoryController@stockEstablishmentImport' );
                 /**
                  * inventory/moves
                  * inventory/remove

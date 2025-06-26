@@ -2781,4 +2781,7 @@ html.dark .el-input.el-input--small.el-input-group.el-input-group--append .el-in
     height: 42px;
     border-radius: 0 8px 8px 0;
 }
+html.dark .table-hover > tbody > tr:hover > td, html.dark .table-hover > tbody > tr:hover > th{
+    background-color: var(--contents-dark);
+}
 /* end */

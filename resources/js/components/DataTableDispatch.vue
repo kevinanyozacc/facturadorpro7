@@ -97,7 +97,10 @@
                 <div id="scroll1" style="overflow-x:auto;">
                     <div style="height: 20px;"></div>
                 </div>
-                <div class="table-responsive" id="scroll2" style="overflow-x:auto;">
+                <div class="scroll-shadow shadow-left" v-show="showLeftShadow"></div>
+                <div class="scroll-shadow shadow-right" v-show="showRightShadow"></div>
+
+                <div class="table-responsive" id="scroll2" style="overflow-x:auto;" ref="scrollContainer">
                     <table class="table">
                         <thead>
                         <slot name="heading"></slot>
@@ -156,6 +159,8 @@
                         return this.search.d_start > time
                     }
                 },
+                showLeftShadow: false,
+                showRightShadow: false,
             }
         },
         computed: {
@@ -176,8 +181,26 @@
             await this.getRecords()
             await this.filterCustomers()
             await this.loadScroll()
+
+            this.$nextTick(() => {
+                const el = this.$refs.scrollContainer;
+                if (el) {
+                    el.addEventListener('scroll', this.checkScrollShadows);
+                    this.checkScrollShadows();
+                }
+            });
         },
         methods: {
+            checkScrollShadows() {
+                const el = this.$refs.scrollContainer;
+                if (!el) return;
+                
+                const scrollLeft = el.scrollLeft;
+                const scrollRight = el.scrollWidth - el.clientWidth - scrollLeft;
+                
+                this.showLeftShadow = scrollLeft > 1;
+                this.showRightShadow = scrollRight > 1;
+            },
             searchRemoteCustomers(input) {
 
                 if (input.length > 0) {

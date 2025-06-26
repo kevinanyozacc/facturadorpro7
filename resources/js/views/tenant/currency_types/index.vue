@@ -11,7 +11,10 @@
                 <h3 class="my-0">Listado de monedas</h3>
             </div> -->
             <div class="card-body">
-                <div class="table-responsive">
+                <div class="col-md-12">
+                <div class="scroll-shadow shadow-left" v-show="showLeftShadow"></div>
+                <div class="scroll-shadow shadow-right" v-show="showRightShadow"></div>
+                <div class="table-responsive" ref="scrollContainer">
                     <table class="table">
                         <thead>
                         <tr>
@@ -37,6 +40,7 @@
                         </tr>
                         </tbody>
                     </table>
+                </div>
                 </div>
                 <!--<div class="row">-->
                     <!--<div class="col">-->
@@ -65,6 +69,8 @@
                 resource: 'currency_types',
                 recordId: null,
                 records: [],
+                showLeftShadow: false,
+                showRightShadow: false,
             }
         },
         created() {
@@ -73,7 +79,26 @@
             })
             this.getData()
         },
+        mounted() {
+            this.$nextTick(() => {
+                const el = this.$refs.scrollContainer;
+                if (el) {
+                    el.addEventListener('scroll', this.checkScrollShadows);
+                    this.checkScrollShadows();
+                }
+            });
+        },
         methods: {
+            checkScrollShadows() {
+                const el = this.$refs.scrollContainer;
+                if (!el) return;
+                
+                const scrollLeft = el.scrollLeft;
+                const scrollRight = el.scrollWidth - el.clientWidth - scrollLeft;
+                
+                this.showLeftShadow = scrollLeft > 1;
+                this.showRightShadow = scrollRight > 1;
+            },
             getData() {
                 this.$http.get(`/${this.resource}/records`)
                     .then(response => {

@@ -376,7 +376,9 @@
 
 
             <div class="col-md-12">
-                <div class="table-responsive">
+                <div class="scroll-shadow shadow-left" v-show="showLeftShadow"></div>
+                <div class="scroll-shadow shadow-right" v-show="showRightShadow"></div>
+                <div class="table-responsive" ref="scrollContainer">
                     <table class="table">
                         <thead>
                         <slot name="heading"></slot>
@@ -547,6 +549,8 @@ export default {
             all_items: [],
             loading_search_items: false,
             showEmailOptions:false,
+            showLeftShadow: false,
+            showRightShadow: false,
         }
     },
     computed: {
@@ -584,8 +588,26 @@ export default {
         // await this.getTotals()
         this.form.type_person = this.resource === 'reports/sales' ? 'customers' : 'suppliers'
 
+        this.$nextTick(() => {
+            const el = this.$refs.scrollContainer;
+            if (el) {
+                el.addEventListener('scroll', this.checkScrollShadows);
+                this.checkScrollShadows();
+            }
+        });
+
     },
     methods: {
+        checkScrollShadows() {
+            const el = this.$refs.scrollContainer;
+            if (!el) return;
+            
+            const scrollLeft = el.scrollLeft;
+            const scrollRight = el.scrollWidth - el.clientWidth - scrollLeft;
+            
+            this.showLeftShadow = scrollLeft > 1;
+            this.showRightShadow = scrollRight > 1;
+        },
         toggleInformation(){
             this.isVisible = !this.isVisible;
         },

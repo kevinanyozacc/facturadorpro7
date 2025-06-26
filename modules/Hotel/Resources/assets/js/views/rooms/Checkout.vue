@@ -241,8 +241,7 @@
                                     :clearable="false"
                                     readonly
                                     type="date"
-                                    value-format="dd-MM-yyyy"
-                                    format="dd-MM-yyyy"
+                                    value-format="yyyy-MM-dd"
                                     @change="changeDateOfIssue"
                                 ></el-date-picker>
                                 <small
@@ -254,7 +253,7 @@
                         </div>
                         <div class="col-lg-3">
                             <div
-                                :class="{ 'has-danger': errors.date_of_issue }"
+                                :class="{ 'has-danger': errors.date_of_due }"
                                 class="form-group"
                             >
                                 <label class="control-label">Fecha de vencimiento</label>
@@ -262,8 +261,7 @@
                                     v-model="document.date_of_due"
                                     :clearable="false"
                                     type="date"
-                                    value-format="dd-MM-yyyy"
-                                    format="dd-MM-yyyy"
+                                    value-format="yyyy-MM-dd"
                                 ></el-date-picker>
                                 <small
                                     v-if="errors.date_of_due"
@@ -507,7 +505,8 @@ export default {
         this.loadConfiguration();
         this.$store.commit('setConfiguration', this.configuration);
         this.currentRent = this.rent
-
+        this.currentRent.input_date =  moment(this.currentRent.input_date).toDate()
+        this.currentRent.output_date =  moment(this.currentRent.output_date).toDate()
     },
     data() {
         return {
@@ -586,7 +585,6 @@ export default {
     },
     watch: {
         arrears(value) {
-            console.log('arrears');
             if (isNaN(value)) {
                 return;
             }
@@ -806,7 +804,6 @@ export default {
                     it.name_product_pdf = name;
                     it.quantity = 1;
                     const newTotal = parseFloat(it.total) + parseFloat(this.arrears);
-                    console.log(newTotal);
                     it.input_unit_price_value = parseFloat(newTotal);
                     it.item.unit_price = parseFloat(newTotal);
                     it.unit_value = parseFloat(newTotal);

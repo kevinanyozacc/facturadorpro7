@@ -859,7 +859,7 @@ class DispatchController extends Controller
                 'address' => $establishment->address,
             ];
         }
-        
+
         $origin_addresses = OriginAddress::query()
             ->where('is_active', true)
             ->where('establishment_id', '!=', $id)

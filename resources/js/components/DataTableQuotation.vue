@@ -16,7 +16,7 @@
                 <div class="row" v-if="applyFilter && isVisible">
                     <div class="col-lg-4 col-md-4 col-sm-12 pb-2 ml-1">
                         <div class="d-flex">
-                            <div style="width:100px">
+                            <div class="d-flex align-items-center" style="width:100px">
                                 Filtrar por:
                             </div>
                             <el-select v-model="search.column"  placeholder="Select" @change="changeClearInput">
@@ -105,8 +105,10 @@
             </div>
 
 
-            <div class="col-md-12">
-                <div class="table-responsive">
+            <div class="col-md-12 position-relative">
+                <div class="scroll-shadow shadow-left" v-show="showLeftShadow"></div>
+                <div class="scroll-shadow shadow-right" v-show="showRightShadow"></div>
+                <div class="table-responsive" ref="scrollContainer">
                     <table class="table">
                         <thead>
                         <slot name="heading"></slot>
@@ -175,6 +177,8 @@
                     }
                 },
                 loading: false,
+                showLeftShadow: false,
+                showRightShadow: false,
             }
         },
         computed: {
@@ -194,8 +198,28 @@
             });
             await this.getRecords()
 
+            this.$nextTick(() => {
+                const el = this.$refs.scrollContainer;
+                if (el) {
+                    el.addEventListener('scroll', this.checkScrollShadows);
+                    this.checkScrollShadows();
+                }
+            });
+
         },
         methods: {
+            checkScrollShadows() {
+                const el = this.$refs.scrollContainer;
+                if (!el) return;
+
+                const scrollLeft = el.scrollLeft;
+                const scrollRight = el.scrollWidth - el.clientWidth - scrollLeft;
+
+                const threshold = 2;
+
+                this.showLeftShadow = scrollLeft > threshold;
+                this.showRightShadow = scrollRight > threshold;
+            },
             toggleInformation(){
                 this.isVisible = !this.isVisible;
             },

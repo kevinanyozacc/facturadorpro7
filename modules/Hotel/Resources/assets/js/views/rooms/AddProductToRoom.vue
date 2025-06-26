@@ -550,14 +550,16 @@ export default {
                 },
                 is_registered:false,
                 document: "",
+                is_various_item: product.various_item
             };
 
             const repeteads = this.form.products.filter(
-                (p) => (p.item_id === newProduct.item_id && p.is_registered == false)
+                (p) => ( (product.various_item &&p.item_id === newProduct.item_id )? false :  (p.item_id === newProduct.item_id && p.is_registered == false))
             );
+            
             if (repeteads.length > 0) {
                 this.form.products = this.form.products.map((p) => {
-                    if (p.item_id === newProduct.item_id && p.is_registered == false) {
+                    if ( !p.is_various_item &&  p.item_id === newProduct.item_id && p.is_registered == false) {
                         return newProduct;
                     }
                     return p;

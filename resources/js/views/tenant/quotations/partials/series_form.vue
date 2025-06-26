@@ -32,7 +32,7 @@
                                                 </button>
                                             </template>
 
-                                            <button  type="button" class="btn waves-effect waves-light btn-xs btn-success" @click.prevent="openDialogLots(row.item.lots, row.item_id)">
+                                            <button  type="button" class="btn waves-effect waves-light btn-xs btn-success" @click.prevent="openDialogLots(row.item.lots, row)">
                                                     <i class="el-icon-check"></i> Series
                                             </button>
                                             <button  type="button" class="btn waves-effect waves-light btn-xs btn-info" @click.prevent="openSelectWarehouses(row, index)">
@@ -51,6 +51,7 @@
 
             <select-lots-form
                 :showDialog.sync="showDialogLots"
+                :quantity="lots_quantity"
                 :lots="lots"
                 :itemId="item_id"
                 @addRowSelectLot="addRowSelectLot">
@@ -63,7 +64,7 @@
             </select-warehouses>
 
             <select-lots-group
-                :lots_group="lots_group"
+                :lots-group="lots_group"
                 :quantity="lots_group_quantity"
                 :showDialog.sync="showDialogLotsGroup"
                 @addRowLotGroup="addRowLotGroup">
@@ -94,6 +95,7 @@
                 item_id: null,
                 item_index: -1,
                 showDialogLotsGroup:false,
+                lots_quantity: 0,
                 lots_group_quantity:0,
                 lots_group: [],
                 current_index_item: -1,
@@ -123,7 +125,7 @@
                 this.showDialogLotsGroup = true
 
             },
-            regularizeCompromiseQuantity(row){
+            async regularizeCompromiseQuantity(row){
 
                 if(row.IdLoteSelected)
                 {
@@ -183,9 +185,10 @@
                 this.showSelectWarehouses = true
 
             }, 
-            openDialogLots(lt, item_id)
+            openDialogLots(lt, row)
             {
-                this.item_id = item_id
+                this.item_id = row.item_id
+                this.lots_quantity = row.quantity
                 this.showDialogLots = true
                 this.lots = lt
             },

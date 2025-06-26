@@ -157,7 +157,7 @@
                     <strong>
                         Saldo inicial:
                     </strong>
-                    S/. {{$data['cash_beginning_balance']}}
+                    S/ {{$data['cash_beginning_balance']}}
                 </p>
             </td>
             <td class="td-custom">
@@ -165,7 +165,7 @@
                     <strong>
                         Ingreso:
                     </strong>
-                    S/. {{$data['cash_income']}}
+                    S/ {{$data['cash_income']}}
                 </p>
             </td>
         </tr>
@@ -175,7 +175,7 @@
                     <strong>
                         Saldo final:
                     </strong>
-                    S/. {{$data['cash_final_balance']}}
+                    S/ {{$data['cash_final_balance']}}
                 </p>
             </td>
             <td class="td-custom">
@@ -183,7 +183,7 @@
                     <strong>
                         Egreso:
                     </strong>
-                    S/. {{ $data['cash_egress'] }}
+                    S/ {{ $data['cash_egress'] }}
                 </p>
             </td>
         </tr>
@@ -199,7 +199,7 @@
                     <strong>
                         Ingreso caja:
                     </strong>
-                    S/. {{$data['total_cash_income_pmt_01']}}
+                    S/ {{$data['total_cash_income_pmt_01']}}
                     {{-- total de ingresos en efectivo y destino caja --}}
                 </p>
             </td>
@@ -208,7 +208,7 @@
                     <strong>
                         Egreso caja:
                     </strong>
-                    S/. {{$data['total_cash_egress_pmt_01']}}
+                    S/ {{$data['total_cash_egress_pmt_01']}}
                     {{-- total de egresos (compras + gastos) en efectivo y destino caja --}}
                 </p>
             </td>
@@ -219,7 +219,7 @@
                     <strong>
                         Total caja:
                     </strong>
-                    S/. {{$data['total_cash_payment_method_type_01']}}
+                    S/ {{$data['total_cash_payment_method_type_01']}}
                     {{-- (Saldo inicial + ingreso caja - egreso caja) --}}
                 </p>
             </td>
@@ -238,7 +238,7 @@
                     <strong>
                         Notas de Débito:
                     </strong>
-                    S/. {{$data['nota_debito']}}
+                    S/ {{$data['nota_debito']}}
                 </p>
             </td>
             <td class="td-custom">
@@ -246,7 +246,7 @@
                     <strong>
                         Notas de Crédito:
                     </strong>
-                    S/. {{ $data['nota_credito'] }}
+                    S/ {{ $data['nota_credito'] }}
                 </p>
             </td>
         </tr>
@@ -257,7 +257,7 @@
                     <strong>
                         Por cobrar:
                     </strong>
-                    S/. {{ $data['credit'] }}
+                    S/ {{ $data['credit'] }}
                 </p>
             </td>
 
@@ -266,7 +266,7 @@
                     <strong>
                         Total propinas:
                     </strong>
-                    S/. {{$data['total_tips'] ?? 0}}
+                    S/ {{$data['total_tips'] ?? 0}}
                 </p>
             </td>
         </tr>
@@ -277,7 +277,7 @@
                     <strong>
                         Total efectivo CPE:
                     </strong>
-                    S/. {{$data['total_payment_cash_01_document'] ?? 0}}
+                    S/ {{$data['total_payment_cash_01_document'] ?? 0}}
                 </p>
             </td>
             <td class="td-custom">
@@ -285,7 +285,7 @@
                     <strong>
                         Total efectivo NOTA DE VENTA:
                     </strong>
-                    S/. {{$data['total_payment_cash_01_sale_note'] ?? 0}}
+                    S/ {{$data['total_payment_cash_01_sale_note'] ?? 0}}
                 </p>
             </td>
         </tr>

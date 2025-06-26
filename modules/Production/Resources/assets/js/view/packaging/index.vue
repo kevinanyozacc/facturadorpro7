@@ -72,7 +72,10 @@
                             Excel</el-button
                         >
                     </div>
-                    <div class="col-12 p-t-20 table-responsive">
+                    <div class="col-lg-12">
+                    <div class="scroll-shadow shadow-left" v-show="showLeftShadow"></div>
+                    <div class="scroll-shadow shadow-right" v-show="showRightShadow"></div>
+                    <div class="col-12 p-t-20 table-responsive" ref="scrollContainer">
                         <table class="table">
                             <thead>
                                 <tr>
@@ -132,6 +135,7 @@
                             </tbody>
                         </table>
                     </div>
+                    </div>                    
                 </div>
             </div>
         </div>
@@ -201,7 +205,9 @@ export default {
                  */
             },
             pagination: {},
-            records: []
+            records: [],
+            showLeftShadow: false,
+            showRightShadow: false,
         };
     },
     created() {
@@ -228,7 +234,26 @@ export default {
 
         //this.canCreateProduct();
     },
+    mounted() {
+        this.$nextTick(() => {
+            const el = this.$refs.scrollContainer;
+            if (el) {
+                el.addEventListener('scroll', this.checkScrollShadows);
+                this.checkScrollShadows();
+            }
+        });
+    },
     methods: {
+        checkScrollShadows() {
+            const el = this.$refs.scrollContainer;
+            if (!el) return;
+            
+            const scrollLeft = el.scrollLeft;
+            const scrollRight = el.scrollWidth - el.clientWidth - scrollLeft;
+            
+            this.showLeftShadow = scrollLeft > 1;
+            this.showRightShadow = scrollRight > 1;
+        },
         formatDateTime(dateTime) {
             if (!dateTime) return null;
             const parsedDate = moment(dateTime, "YYYY-MM-DD HH:mm:ss");

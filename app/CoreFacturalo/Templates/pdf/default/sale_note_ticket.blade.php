@@ -201,7 +201,34 @@
                     <br>
                     <small>*** Canjeado por {{$row->item->used_points_for_exchange}}  puntos ***</small>
                 @endif
-
+                <br>
+                @inject('itemLotGroup', 'App\Services\ItemLotsGroupService')
+                @php
+                    $lot = $itemLotGroup->getLote($row->item->IdLoteSelected);
+                    $date_due = $itemLotGroup->getLotDateOfDue($row->item->IdLoteSelected);
+                @endphp
+                @if($lot)
+                    <small style="display:block; font-weight: normal; font-size: 7px;">
+                        Lote: {{ ltrim($lot, '/') }}  
+                        <br>
+                        FV: 
+                        @if($date_due != '')
+                            {{ ltrim($date_due, '/') }}
+                        @elseif($row->relation_item->date_of_due)
+                            {{ $row->relation_item->date_of_due->format('y-m-d') }}
+                        @endif 
+                    </small>
+                @endif
+                <br>
+                <small style="display:block; font-weight: normal; font-size: 7px;">
+                    @isset($row->item->lots)
+                        @foreach($row->item->lots as $lot)
+                            @if( isset($lot->has_sale) && $lot->has_sale)
+                                <span> Serie: {{ $lot->series }}</span><br>
+                            @endif
+                        @endforeach
+                    @endisset
+                </small>
             </td>
             <td class="text-right desc-9 align-top">{{ number_format($row->unit_price, 2) }}</td>
             <td class="text-right desc-9 align-top">{{ number_format($row->total, 2) }}</td>

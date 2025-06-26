@@ -19,32 +19,36 @@
                 <h3 class="my-0">Listado de establecimientos</h3>
             </div> -->
             <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <!-- <th>#</th> -->
-                            <th>Descripción</th>
-                            <th class="text-left">Código</th>
-                            <th class="text-center">Series</th>
-                            <th class="text-right">Acciones</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr v-for="(row, index) in records" :key="index">
-                            <!-- <td>{{ index + 1 }}</td> -->
-                            <td>{{ row.description }}</td>
-                            <td class="text-left">{{ row.code }}</td>
-                            <td class="text-center"><button type="button" class="btn waves-effect waves-light btn-xs btn-warning"
-                                @click.prevent="clickSeries(row.id)">Series</button></td>
-                            <td class="text-right">
-                                <button type="button" class="btn waves-effect waves-light btn-xs btn-info" @click.prevent="clickCreate(row.id)">Editar</button>
-                                <button type="button" class="btn waves-effect waves-light btn-xs btn-danger" v-if="typeUser != 'integrator'" @click.prevent="clickDelete(row.id)">Eliminar</button>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
+                <div class="col-lg-12">
+                    <div class="scroll-shadow shadow-left" v-show="showLeftShadow"></div>
+                    <div class="scroll-shadow shadow-right" v-show="showRightShadow"></div>
+                    <div class="table-responsive" ref="scrollContainer">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <!-- <th>#</th> -->
+                                <th>Descripción</th>
+                                <th class="text-left">Código</th>
+                                <th class="text-center">Series</th>
+                                <th class="text-right">Acciones</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr v-for="(row, index) in records" :key="index">
+                                <!-- <td>{{ index + 1 }}</td> -->
+                                <td>{{ row.description }}</td>
+                                <td class="text-left">{{ row.code }}</td>
+                                <td class="text-center"><button type="button" class="btn waves-effect waves-light btn-xs btn-warning"
+                                    @click.prevent="clickSeries(row.id)">Series</button></td>
+                                <td class="text-right">
+                                    <button type="button" class="btn waves-effect waves-light btn-xs btn-info" @click.prevent="clickCreate(row.id)">Editar</button>
+                                    <button type="button" class="btn waves-effect waves-light btn-xs btn-danger" v-if="typeUser != 'integrator'" @click.prevent="clickDelete(row.id)">Eliminar</button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>                
                 <!-- <div class="row">
                     <div class="col">
                         <button type="button" class="btn btn-custom btn-sm  mt-2 mr-2" v-if="typeUser != 'integrator'" @click.prevent="clickCreate()"><i class="fa fa-plus-circle"></i> Nuevo</button>
@@ -77,6 +81,8 @@
                 records: [],
                 showDialogSeries: false,
                 establishment: null,
+                showLeftShadow: false,
+                showRightShadow: false,
             }
         },
         created() {
@@ -85,7 +91,26 @@
             })
             this.getData()
         },
+        mounted() {
+            this.$nextTick(() => {
+                const el = this.$refs.scrollContainer;
+                if (el) {
+                    el.addEventListener('scroll', this.checkScrollShadows);
+                    this.checkScrollShadows();
+                }
+            });
+        },
         methods: {
+            checkScrollShadows() {
+                const el = this.$refs.scrollContainer;
+                if (!el) return;
+                
+                const scrollLeft = el.scrollLeft;
+                const scrollRight = el.scrollWidth - el.clientWidth - scrollLeft;
+                
+                this.showLeftShadow = scrollLeft > 1;
+                this.showRightShadow = scrollRight > 1;
+            },
             getData() {
                 this.$http.get(`/${this.resource}/records`)
                     .then(response => {

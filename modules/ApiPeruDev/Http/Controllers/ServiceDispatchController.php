@@ -21,7 +21,7 @@ class ServiceDispatchController extends Controller
 {
     use StorageDocument;
 
-    private function getServiceInitial()
+    public function getServiceInitial()
     {
         $cp = Company::query()
             ->select('number', 'soap_type_id', 'soap_sunat_username', 'soap_sunat_password', 'api_sunat_id', 'api_sunat_secret')
@@ -44,6 +44,7 @@ class ServiceDispatchController extends Controller
     {
         DB::connection('tenant')->beginTransaction();
         try {
+
             $dispatch = Dispatch::query()
                 ->select('id', 'document_type_id', 'series', 'number', 'filename', 'ticket')
                 ->where('external_id', $external_id)->first();
@@ -81,23 +82,31 @@ class ServiceDispatchController extends Controller
 
                     if ($res['success']) {
                         $data = $res['data'];
-                        if (key_exists('numTicket', $data)) {
+                        Log::info("Dispatch { $dispatch->filename } send response: ", $data);
+                        if (is_array($data) && array_key_exists('numTicket', $data)) {
                             $ticket = $data['numTicket'];
                             $reception_date = $data['fecRecepcion'];
-                            Dispatch::query()
-                                ->where('id', $dispatch->id)
+                            $updated = Dispatch::where('id', $dispatch->id)
                                 ->update([
                                     'ticket' => $ticket,
                                     'reception_date' => $reception_date,
                                     'state_type_id' => '03'
                                 ]);
+                            Log::info("Dispatch update result: " . $updated);
                             DB::connection('tenant')->commit();
+                            return [
+                                'success' => true,
+                                'message' => "Se obtuvo el nro. de ticket correctamente. Ticket: {$ticket}, Fecha de recepción: {$reception_date}, ID guia: {$dispatch->id}",
+                            ];
+                        } else {
+                            Log::error('No se obtuvo ticket', $res);
+                            return [
+                                'success' => false,
+                                'message' => 'No se obtuvo el ticket correctamente',
+                            ];
                         }
-                        return [
-                            'success' => true,
-                            'message' => 'Se obtuvo el nro. de ticket correctamente',
-                        ];
                     } else {
+                        Log::error('No se obtuvo ticket', $res);
                         return $res;
                     }
                 }
@@ -116,7 +125,7 @@ class ServiceDispatchController extends Controller
         }
     }
 
-    public function statusTicket($external_id)
+    public function statusTicket($external_id, $simple_result = false)
     {
         $dispatch = Dispatch::query()
             ->select('id', 'series', 'number', 'state_type_id', 'ticket', 'filename', 'external_id')
@@ -130,6 +139,23 @@ class ServiceDispatchController extends Controller
             if($hasPseSend){
                 $giorService = new GiorService();
                 $response = $giorService->querySummary($dispatch->filename);
+                Log::info("Dispatch {$dispatch->series}-{$dispatch->number} status query response: ", $response);
+
+                if ($response['code'] != 200) {
+                    $message = array_key_exists('message', $response) ? $response['message'] : '';
+                    $errors = array_key_exists('errores', $response) ? $response['errores'] : '';
+                    return [
+                        'success' => false,
+                        'data' => [
+                            'number' => $dispatch->number_full,
+                            'filename' => $dispatch->filename,
+                            'external_id' => $dispatch->external_id,
+                            'state_type_id' => $dispatch->state_type_id,
+                        ],
+                        'message' => "PSE. TICKET - Code: {$response['code']}; Errores: {$message} - {$errors}",
+                    ];
+                }
+
                 if(!$response['success']) {
                     throw new Exception("PSE. TICKET - Code: {$response['code']}; Description: {$response['message']}");
                 } else {
@@ -179,6 +205,7 @@ class ServiceDispatchController extends Controller
                 }
             } else {
                 $res = $this->getServiceInitial()->ticket($dispatch->ticket);
+                Log::info("Dispatch {$dispatch->series}-{$dispatch->number} status query response: ", $res);
 
                 if (key_exists('codRespuesta', $res)) {
                     $has_cdr = false;
@@ -228,6 +255,19 @@ class ServiceDispatchController extends Controller
                     if ($has_cdr) {
                         $download_external_cdr = $record->download_external_cdr;
                         $message = $res['cdr_data']['message'];
+                    }
+
+                    if($simple_result) {
+                        return [
+                        'success' => $success,
+                        'data' => [
+                            'number' => $record->number_full,
+                            'filename' => $record->filename,
+                            'external_id' => $record->external_id,
+                            'state_type_id' => $record->state_type_id,
+                        ],
+                        'message' => $message,
+                    ];
                     }
 
                     return [

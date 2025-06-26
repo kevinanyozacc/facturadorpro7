@@ -15342,7 +15342,7 @@ html.dark .table > thead > tr > td,
 html.dark .table > tbody > tr > td,
 html.dark .table > tfoot > tr > td,
 html.dark .table-bordered {
-    border-color: #262b33;
+    border-color: transparent;
 }
 
 html.dark .table-striped > tbody > tr:nth-child(2n + 1) > td,
@@ -21121,6 +21121,44 @@ li.multi-user-content{
 }
 tbody tr:hover,tfoot tr:hover {
     background: var(--light);
+}
+.btn-massive-actions{
+    position: absolute;
+    right: 15px;
+    z-index: 1;
+}
+.scroll-shadow {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 12px;
+    z-index: 2;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    opacity: 0.4;
+}
+
+.shadow-left {
+    left: 0;
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.133), transparent);
+    border-radius: 6px 0 0 6px;
+}
+
+.shadow-right {
+    right: 0;
+    background: linear-gradient(to left, rgba(0, 0, 0, 0.133), transparent);
+    border-radius: 0 6px 6px 0;
+}
+html.dark .el-message--warning {
+    background-color: #E6A23C;
+    border-color: #E6A23C;
+    color: #fdf6ec;
+}
+html.dark .el-message--warning .el-message__content {
+    color: #fdf6ec;
+}
+html.dark .el-message .el-icon-warning{
+    color: #fdf6ec;
 }
 @media (min-width: 716px) {
     .card-columns {

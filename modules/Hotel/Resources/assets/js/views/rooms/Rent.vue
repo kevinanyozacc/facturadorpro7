@@ -230,9 +230,8 @@
                                         :disabled="true"
                                         v-model="form.input_date"
                                         type="date"
+                                        value-format="yyyy-MM-dd"
                                         placeholder="Seleccione una fecha"
-                                        value-format="dd-MM-yyyy"
-                                        format="dd-MM-yyyy"
                                     ></el-date-picker>
                                     <small
                                         class="form-control-feedback"
@@ -268,8 +267,7 @@
                                         v-model="form.output_date"
                                         type="date"
                                         placeholder="Seleccione una fecha"
-                                        value-format="dd-MM-yyyy"
-                                        format="dd-MM-yyyy"
+                                        value-format="yyyy-MM-dd"
                                     ></el-date-picker>
                                     <small
                                         class="form-control-feedback"
@@ -588,14 +586,14 @@ export default {
                 duration: 1,
                 total_to_pay: 0,
                 input_time: "12:00",
-                input_date: moment().format("YYYY-MM-DD"),
+                input_date: moment().format('YYYY-MM-DD'),
                 output_time: "12:00",
                 output_date: null,
                 payment_status: 'PAID',
                 quantity_persons: 1,
                 data_persons:[],
                 affectation_igv_type_id: null,
-                date_of_issue: moment().format("YYYY-MM-DD"),
+                date_of_issue: moment().format('YYYY-MM-DD'),
                 establishment_id: null,
                 sale_note_id: null,
                 rent_payment: {
@@ -747,7 +745,7 @@ export default {
         },
         onUpdateOutputDate() {
             const newDate = moment().add(this.form.duration, "days");
-            this.form.output_date = newDate.format("YYYY-MM-DD");
+            this.form.output_date = newDate.format('YYYY-MM-DD');
         },
         onSelectedRate() {
             const rate = this.room.rates

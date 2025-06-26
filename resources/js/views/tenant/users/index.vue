@@ -25,7 +25,10 @@
                 <h3 class="my-0">Listado de usuarios</h3>
             </div> -->
             <div class="card-body">
-                <div class="table-responsive">
+                <div class="col-md-12">
+                <div class="scroll-shadow shadow-left" v-show="showLeftShadow"></div>
+                <div class="scroll-shadow shadow-right" v-show="showRightShadow"></div>
+                <div class="table-responsive" ref="scrollContainer">
                     <table class="table">
                         <thead>
                         <tr>
@@ -80,6 +83,7 @@
                         </tbody>
                     </table>
                 </div>
+                </div>                
             </div>
             <users-form :showDialog.sync="showDialog"
                         :typeUser="typeUser"
@@ -107,6 +111,8 @@
                 resource: 'users',
                 recordId: null,
                 records: [],
+                showLeftShadow: false,
+                showRightShadow: false,
             }
         },
         created() {
@@ -126,7 +132,26 @@
                 return this.typeUser === 'admin'
             }
         },
+        mounted() {
+            this.$nextTick(() => {
+                const el = this.$refs.scrollContainer;
+                if (el) {
+                    el.addEventListener('scroll', this.checkScrollShadows);
+                    this.checkScrollShadows();
+                }
+            });
+        },
         methods: {
+            checkScrollShadows() {
+                const el = this.$refs.scrollContainer;
+                if (!el) return;
+                
+                const scrollLeft = el.scrollLeft;
+                const scrollRight = el.scrollWidth - el.clientWidth - scrollLeft;
+                
+                this.showLeftShadow = scrollLeft > 1;
+                this.showRightShadow = scrollRight > 1;
+            },
             isMainUser(user_id)
             {
                 return user_id === 1

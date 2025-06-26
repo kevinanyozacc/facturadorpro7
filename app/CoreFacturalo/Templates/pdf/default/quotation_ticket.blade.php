@@ -232,7 +232,10 @@
     <tbody>
     @foreach($document->items as $row)
         <tr>
-            <td class="text-center desc-9 align-top font-bold">{{ $row->item->internal_id }}</td>
+            @php
+                $internal_id = optional($row->item)->internal_id;
+            @endphp
+            <td class="text-center desc-9 align-top font-bold">{{ $internal_id }}</td>
             <td class="text-center desc-9 align-top">
                 @if(((int)$row->quantity != $row->quantity))
                     {{ $row->quantity }}

@@ -33,7 +33,7 @@
                             <div class="row" v-if="isVisible">
                                 <div class="col-lg-4 col-md-4 col-sm-12 pb-2">
                                     <div class="d-flex">
-                                        <div style="width:100px">
+                                        <div class="d-flex align-items-center" style="width:100px">
                                             Filtrar por:
                                         </div>
                                         <el-select v-model="search.column"  placeholder="Select" @change="changeClearInput">
@@ -65,7 +65,10 @@
                         </div>
 
                         <div class="col-md-12">
-                            <div class="table-responsive">
+                            <div class="scroll-shadow shadow-left" v-show="showLeftShadow"></div>
+                            <div class="scroll-shadow shadow-right" v-show="showRightShadow"></div>
+
+                            <div class="table-responsive" ref="scrollContainer">
                                 <table class="table">
                                     <thead>
                                         <tr>
@@ -148,7 +151,9 @@
                 records: [],
                 pagination: {},
                 isVisible: false,
-                loading_submit: false
+                loading_submit: false,
+                showLeftShadow: false,
+                showRightShadow: false,
             }
         },
         async mounted () {
@@ -158,6 +163,14 @@
                 this.search.column = _.head(Object.keys(this.columns))
             });
             await this.getRecords()
+
+            this.$nextTick(() => {
+                const el = this.$refs.scrollContainer;
+                if (el) {
+                    el.addEventListener('scroll', this.checkScrollShadows);
+                    this.checkScrollShadows();
+                }
+            });
 
         },
         created() {
@@ -170,6 +183,16 @@
 
         },
         methods: { 
+            checkScrollShadows() {
+                const el = this.$refs.scrollContainer;
+                if (!el) return;
+                
+                const scrollLeft = el.scrollLeft;
+                const scrollRight = el.scrollWidth - el.clientWidth - scrollLeft;
+                
+                this.showLeftShadow = scrollLeft > 1;
+                this.showRightShadow = scrollRight > 1;
+            },
             toggleInformation() {
                 this.isVisible = !this.isVisible;
             },

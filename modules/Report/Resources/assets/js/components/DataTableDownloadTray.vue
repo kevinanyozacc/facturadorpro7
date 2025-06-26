@@ -11,7 +11,9 @@
             </div>
 
             <div class="col-md-12">
-                <div class="table-responsive">
+                <div class="scroll-shadow shadow-left" v-show="showLeftShadow"></div>
+                <div class="scroll-shadow shadow-right" v-show="showRightShadow"></div>
+                <div class="table-responsive" ref="scrollContainer">
                     <table class="table">
                         <thead>
                             <slot name="heading"></slot>
@@ -69,6 +71,8 @@ export default {
             pagination: {},
             loading_submit: false,
             fromPharmacy: false,
+            showLeftShadow: false,
+            showRightShadow: false,
         };
     },
     created() {
@@ -82,8 +86,26 @@ export default {
     },
     async mounted() {
         await this.getRecords();
+
+        this.$nextTick(() => {
+            const el = this.$refs.scrollContainer;
+            if (el) {
+                el.addEventListener('scroll', this.checkScrollShadows);
+                this.checkScrollShadows();
+            }
+        });
     },
     methods: {
+        checkScrollShadows() {
+            const el = this.$refs.scrollContainer;
+            if (!el) return;
+            
+            const scrollLeft = el.scrollLeft;
+            const scrollRight = el.scrollWidth - el.clientWidth - scrollLeft;
+            
+            this.showLeftShadow = scrollLeft > 1;
+            this.showRightShadow = scrollRight > 1;
+        },
         customIndex(index) {
             return (
                 this.pagination.per_page * (this.pagination.current_page - 1) +

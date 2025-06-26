@@ -35,9 +35,8 @@ class StockImport implements ToCollection
                 $internal_id = ($row[0])?:null;
                 $quantity_real = ($row[1]) ? : null;
 
-                $item = Item::where('internal_id', $internal_id)
+                $item = Item::where('internal_id', str_replace("\t", "", $internal_id))
                                     ->first();
-
                 $quantity=ItemWarehouse::where('item_id',$item->id)
                 ->where('warehouse_id',$warehouse_id_de)
                 ->select('stock')->get();

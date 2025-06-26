@@ -15,7 +15,7 @@
                 <div class="row filter-content" v-if="applyFilter && isVisible">
                     <div class="col-lg-6 col-md-6 col-sm-12 pb-2">
                         <div class="d-flex">
-                            <div style="width:100px">
+                            <div class="d-flex align-items-center" style="width:100px">
                                 Filtrar por:
                             </div>
                             <el-select
@@ -67,11 +67,12 @@
             <div class="col-md-4 col-lg-4 col-xl-4 ">
                 <div class="row" v-if="fromRestaurant||fromEcommerce">
                     <div class="col-lg-12 col-md-12 col-sm-12 pb-2">
-                        <div class="d-flex">
-                            <div style="width:150px">
+                        <div class="d-flex" style="justify-content: flex-end;">
+                            <div class="d-flex align-items-center" style="width:100px">
                                 Listar productos
                             </div>
                             <el-select
+                                class="col-lg-6"
                                 v-model="search.list_value"
                                 placeholder="Select"
                                 @change="getRecords"
@@ -102,8 +103,11 @@
                 </div>
             </div>
 
-            <div class="col-md-12">
-                <div class="table-responsive table-responsive-new">
+            <div class="col-md-12 position-relative">
+                <div class="scroll-shadow shadow-left" v-show="showLeftShadow"></div>
+                <div class="scroll-shadow shadow-right" v-show="showRightShadow"></div>
+
+                <div class="table-responsive table-responsive-new" ref="scrollContainer">
                     <table class="table">
                         <thead>
                             <slot name="heading" :sort="handleSort"></slot>
@@ -160,6 +164,10 @@ export default {
         sortDirection: {
             type: String,
             default: 'desc'
+        },
+        showDisabled: {
+          type: Boolean,
+          default: false
         }
     },
     data() {
@@ -185,7 +193,10 @@ export default {
             currentSort: {
                 field: this.sortField,
                 direction: this.sortDirection
-            }
+            },
+            internalShowDisabled: this.showDisabled,
+            showLeftShadow: false,
+            showRightShadow: false,
         };
     },
     created() {
@@ -212,8 +223,26 @@ export default {
                 this.search.column = _.head(Object.keys(this.columns));
             });
         await this.getRecords();
+
+        this.$nextTick(() => {
+            const el = this.$refs.scrollContainer;
+            if (el) {
+                el.addEventListener('scroll', this.checkScrollShadows);
+                this.checkScrollShadows();
+            }
+        });
     },
     methods: {
+        checkScrollShadows() {
+            const el = this.$refs.scrollContainer;
+            if (!el) return;
+
+            const scrollLeft = el.scrollLeft;
+            const scrollRight = el.scrollWidth - el.clientWidth - scrollLeft;
+
+            this.showLeftShadow = scrollLeft > 1;
+            this.showRightShadow = scrollRight > 1;
+        },
         toggleInformation() {
             this.isVisible = !this.isVisible;
         },
@@ -249,6 +278,7 @@ export default {
                 this.search.type = this.productType;
             }
             return queryString.stringify({
+                show_disabled: this.showDisabled ? 1 : 0,
                 page: this.pagination.current_page,
                 limit: this.limit,
                 isPharmacy:this.fromPharmacy,
@@ -300,6 +330,10 @@ export default {
         }
     },
     watch: {
+        showDisabled(newVal) {
+          this.internalShowDisabled = newVal;
+          this.getRecords();
+        },
         sortField(newVal) {
             this.currentSort.field = newVal;
         },

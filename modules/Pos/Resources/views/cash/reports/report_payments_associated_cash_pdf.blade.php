@@ -116,7 +116,7 @@
                     <strong>
                         Total Ingresos:
                     </strong>
-                    S/. {{$data['total_income']}}
+                    S/ {{$data['total_income']}}
                 </p>
             </td>
         </tr>
