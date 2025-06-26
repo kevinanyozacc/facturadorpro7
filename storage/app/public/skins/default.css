@@ -721,11 +721,11 @@ html.sidebar-left-collapsed .sidebar-left .nav-main > li > a {
     color: var(--light-color) !important;
 }
 .toggle-button-invoice.shift {
-    right: 400px !important;
     background-color: var(--primary-color) !important;
     color: var(--light-color) !important;
 }
 .toggle-button.shift{
+    right: 400px !important;
     background-color: var(--primary-color) !important;
     color: var(--light-color) !important;
     z-index: 1023 !important;

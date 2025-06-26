@@ -1106,7 +1106,9 @@ html.dark tbody tr:hover, html.dark tfoot tr:hover {
 }
 html.dark .el-checkbox,
 html.dark .el-select-dropdown__item, html.dark .userbox .role, html.dark .el-pagination__total,
-html.dark .el-table thead {
+html.dark .el-table thead,
+html.dark .el-dropdown-menu__item,
+html.dark p {
     color: var(--accent-color);
 }
 html.dark .page-header, html.header-dark .page-header {
@@ -1256,7 +1258,8 @@ html.dark a, html.dark a:hover, html.dark a:focus {
     color: var(--light-color);
 }
 html.dark .page-header .breadcrumbs a, html.dark .page-header .breadcrumbs span,
-html.dark .separator-title {
+html.dark .separator-title,
+html.dark .el-message-box__title {
     color: var(--light-color);
 }
 html.dark .el-dropdown-menu {

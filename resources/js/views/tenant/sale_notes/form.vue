@@ -286,7 +286,7 @@
                             <div>
                                 <!-- Botón para mostrar/ocultar el componente -->
                                 <span
-                                    class="toggle-button toggle-button-orders"
+                                    class="toggle-button toggle-button-sales"
                                     :class="{ shift: isVisible }"
                                     @click="toggleInformation"
                                     :title="isVisible ? 'Cerrar Información Adicional' : 'Abrir Información Adicional'"
@@ -1663,7 +1663,7 @@ header .head-notes > div {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 .toggle-button.shift {
-    right: 388px;
+    right: 400px;
     background-color: rgba(0, 123, 255, 0.8);
     z-index: 1023;
 }
