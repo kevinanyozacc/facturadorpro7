@@ -47,7 +47,7 @@
                 </template>
             </div>
         </div>
-        <div class="card tab-content-default row-new mb-0">
+        <div class="card tab-content-default row-new mb-0 mx-0">
             <!-- <div class="card-header bg-info">
         <h3 class="my-0">Listado de productos Restaurante</h3>
       </div> -->

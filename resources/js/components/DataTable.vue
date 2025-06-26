@@ -1,7 +1,7 @@
 <template>
     <div v-loading="loading_submit">
         <div class="row ">
-            <div class="col-md-8 col-lg-8 col-xl-8 filter-container">
+            <div class="col-md-6 col-lg-6 col-xl-6 filter-container">
                 <div class="btn-filter-content">
                     <el-button
                         type="primary"
@@ -32,7 +32,7 @@
                             </el-select>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-4 col-sm-12 pb-2">
+                    <div class="col-lg-5 col-md-5 col-sm-12 pb-2">
                         <template
                             v-if="
                                 search.column === 'date_of_issue' ||
@@ -64,15 +64,32 @@
                     </div>
                 </div>
             </div>            
-            <div class="col-md-4 col-lg-4 col-xl-4 ">
+            <div class="col-md-6 col-lg-6 col-xl-6">
                 <div class="row" v-if="fromRestaurant||fromEcommerce">
-                    <div class="col-lg-12 col-md-12 col-sm-12 pb-2">
-                        <div class="d-flex" style="justify-content: flex-end;">
-                            <div class="d-flex align-items-center" style="width:100px">
+                    <div class="col-lg-12 col-md-12 col-sm-12 pb-2 d-flex">
+
+                        <div class="d-flex col-5 pl-0">                            
+                            <div class="my-auto w-100">
+                                <el-button  @click="methodVisibleAllProduct" type="primary" size="mini" icon="el-icon-check" class="w-100 button-truncate pl-2 pr-4" title="Mostrar todos los productos">
+                                    Mostrar todos los productos
+                                    <el-tooltip
+                                        class="item"
+                                        content="Solo se mostrarán productos con código interno registrado. Esta opción aplica para el canal actual."
+                                        effect="dark"
+                                        placement="top-start"
+                                    >
+                                        <i class="fa fa-info-circle"></i>
+                                    </el-tooltip>                                
+                                </el-button>                                
+                            </div>
+                        </div>
+
+                        <div class="d-flex col-7 px-0">
+                            <div class="col-5 list-products-container py-1">
                                 Listar productos
                             </div>
                             <el-select
-                                class="col-lg-6"
+                                class="col-7 pr-0"
                                 v-model="search.list_value"
                                 placeholder="Select"
                                 @change="getRecords"
@@ -88,21 +105,6 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 col-lg-4 col-xl-4" v-if="fromRestaurant||fromEcommerce">
-                <div class="d-flex">
-                    <div style="width:160px">
-                        Hacer visible todos los productos
-                        <el-tooltip class="item" content="Unicamente se hará visiblie si tiene codigo interno"
-                            effect="dark" placement="top-start">
-                            <i class="fa fa-info-circle"></i>
-                        </el-tooltip>
-                    </div>
-                    <div style="width: 30px; height: 30px" class="my-auto">
-                        <el-button  @click="methodVisibleAllProduct" type="primary" size="mini" icon="el-icon-check"></el-button>
-                    </div>
-                </div>
-            </div>
-
             <div class="col-md-12 position-relative">
                 <div class="scroll-shadow shadow-left" v-show="showLeftShadow"></div>
                 <div class="scroll-shadow shadow-right" v-show="showRightShadow"></div>
@@ -136,7 +138,20 @@
     </div>
 </template>
 <style>
-
+.button-truncate, .list-products-container {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  display: inline-block;
+  width: 100%;
+  text-align: left;
+}
+.el-tooltip.fa-info-circle{
+    position: absolute;
+    right: 24px;
+    top: 10px;
+    color: #FFF;
+}
 </style>
 <script>
 import queryString from "query-string";
