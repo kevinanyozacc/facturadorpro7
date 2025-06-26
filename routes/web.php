@@ -207,6 +207,7 @@ if ($hostname) {
             Route::get('items/tables', 'Tenant\ItemController@tables');
             Route::get('items/record/{item}', 'Tenant\ItemController@record');
             Route::post('items', 'Tenant\ItemController@store');
+            Route::post('items/destroyMassive', 'Tenant\ItemController@destroyMassive');
             Route::delete('items/{item}', 'Tenant\ItemController@destroy');
             Route::delete('items/item-unit-type/{item}', 'Tenant\ItemController@destroyItemUnitType');
             Route::post('items/import', 'Tenant\ItemController@import');
@@ -217,7 +218,9 @@ if ($hostname) {
             Route::post('items/visible_store', 'Tenant\ItemController@visibleStore');
             Route::post('items/duplicate', 'Tenant\ItemController@duplicate');
             Route::get('items/disable/{item}', 'Tenant\ItemController@disable');
+            Route::post('items/disableMassive', 'Tenant\ItemController@disableMassive');
             Route::get('items/enable/{item}', 'Tenant\ItemController@enable');
+            Route::post('items/enableMassive', 'Tenant\ItemController@enableMassive');
             Route::get('items/images/{item}', 'Tenant\ItemController@images');
             Route::get('items/images/delete/{id}', 'Tenant\ItemController@delete_images');
             Route::get('items/export', 'Tenant\ItemController@export')->name('tenant.items.export');

@@ -756,19 +756,110 @@ export default {
           location.reload();
         },
         clickDeleteSelected() {
-            this.selected.forEach(id => this.clickDelete(id));
+            return new Promise((resolve) => {
+                this.$confirm('¿Desea eliminar los registro seleccionado?', 'Eliminar', {
+                    confirmButtonText: 'Eliminar',
+                    cancelButtonText: 'Cancelar',
+                    type: 'warning'
+                }).then(() => {
+                    this.$http.post(`${this.resource}/destroyMassive`, {
+                        selected: this.selected
+                    })
+                        .then(res => {
+                            if(res.data.success) {
+                                this.$message.success(res.data.message)
+                                this.selected = []
+                                this.$eventHub.$emit("reloadData")
+                                resolve()
+                            }else{
+                                this.$message.error(res.data.message)
+                                resolve()
+                            }
+                        })
+                        .catch(error => {
+                            if (error.response.status === 500) {
+                                this.$message.error('Error al intentar eliminar');
+                            } else {
+                                console.log(error.response.data.message)
+                            }
+                        })
+                }).catch(error => {
+                    console.log(error)
+                });
+            })
         },
         clickDisableSelected() {
-            this.selected.forEach(id => this.clickDisable(id));
+            return new Promise((resolve) => {
+                this.$confirm('¿Desea inhabilitar los registros seleccionados?', 'Inhabilitar', {
+                    confirmButtonText: 'Inhabilitar',
+                    cancelButtonText: 'Cancelar',
+                    type: 'warning'
+                }).then(() => {
+                    this.$http.post(`${this.resource}/disableMassive`, {
+                        selected: this.selected
+                    })
+                        .then(res => {
+                            if(res.data.success) {
+                                this.$message.success(res.data.message)
+                                this.selected = []
+                                this.$eventHub.$emit("reloadData")
+                                resolve()
+                            }else{
+                                this.$message.error(res.data.message)
+                                resolve()
+                            }
+                        })
+                        .catch(error => {
+                            if (error.response.status === 500) {
+                                this.$message.error('Error al intentar inhabilitar');
+                            } else {
+                                console.log(error.response.data.message)
+                            }
+                        })
+                }).catch(error => {
+                    console.log(error)
+                });
+            })
         },
         duplicateSelected() {
             this.selected.forEach(id => this.duplicate(id));
+            this.selected = []
         },
         clickEditSelected() {
             this.selected.forEach(id => this.clickCreate(id));
         },
         clickEnableSelected() {
-            this.selected.forEach(id => this.clickEnable(id));
+            return new Promise((resolve) => {
+                this.$confirm('¿Desea habilitar los registros seleccionados?', 'Habilitar', {
+                    confirmButtonText: 'Habilitar',
+                    cancelButtonText: 'Cancelar',
+                    type: 'warning'
+                }).then(() => {
+                    this.$http.post(`${this.resource}/enableMassive`, {
+                        selected: this.selected
+                    })
+                        .then(res => {
+                            if(res.data.success) {
+                                this.$message.success(res.data.message)
+                                this.selected = []
+                                this.$eventHub.$emit("reloadData")
+                                resolve()
+                            }else{
+                                this.$message.error(res.data.message)
+                                resolve()
+                            }
+                        })
+                        .catch(error => {
+                            if (error.response.status === 500) {
+                                this.$message.error('Error al intentar habilitar');
+                            } else {
+                                console.log(error.response.data.message)
+                            }
+                        })
+                }).catch(error => {
+                    console.log(error)
+                });
+            })
         },
         handleSortChange(sort) {
             if (this.sortField === sort.field && this.sortDirection === 'desc' && sort.field === 'description') {
@@ -955,6 +1046,8 @@ export default {
           } else {
             this.selected.push(id);
           }
+          console.log(this.selected);
+          
         }
     }
 };

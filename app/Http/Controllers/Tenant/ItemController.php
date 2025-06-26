@@ -816,6 +816,32 @@ class ItemController extends Controller
 
     }
 
+    public function destroyMassive(Request $request)
+    {
+        $selected = collect($request->selected);
+        $itemDeleted = 0;
+        $count = $selected->count();
+
+
+        if ($count == 0 ) {
+            return [
+                'success'  => false,
+                'message' => 'Tiene que seleccionar los items'
+            ];
+        }
+
+        $selected->each(function($id) use (&$itemDeleted){
+            $response = $this->destroy($id);
+            if ($response['success']) $itemDeleted += 1;
+        });
+
+        return [
+            'success' => true,
+            'message' => "Se eliminaron {$itemDeleted} productos de {$count} productos seleccionados"
+        ];
+
+    }
+
 
 
     public function destroyItemUnitType($id)
@@ -1048,6 +1074,32 @@ class ItemController extends Controller
         }
     }
 
+    public function disableMassive(Request $request)
+    {
+        $selected = collect($request->selected);
+        $itemDisabled = 0;
+        $count = $selected->count();
+
+
+        if ($count == 0 ) {
+            return [
+                'success'  => false,
+                'message' => 'Tiene que seleccionar los items'
+            ];
+        }
+
+        $selected->each(function($id) use (&$itemDisabled){
+            $response = $this->disable($id);
+            if ($response['success']) $itemDisabled += 1;
+        });
+
+        return [
+            'success' => true,
+            'message' => "Se inhabilitaron {$itemDisabled} productos de {$count} productos seleccionados"
+        ];
+
+    }
+
     public function images($item)
     {
         $records = ItemImage::where('item_id', $item)->get()->transform(function($row){
@@ -1095,6 +1147,31 @@ class ItemController extends Controller
             return  ['success' => false, 'message' => 'Error inesperado, no se pudo habilitar el producto'];
 
         }
+    }
+
+    public function enableMassive(Request $request)
+    {
+        $selected = collect($request->selected);
+        $itemEnable = 0;
+        $count = $selected->count();
+
+        if ($count == 0 ) {
+            return [
+                'success'  => false,
+                'message' => 'Tiene que seleccionar los items'
+            ];
+        }
+
+        $selected->each(function($id) use (&$itemEnable){
+            $response = $this->enable($id);
+            if ($response['success']) $itemEnable += 1;
+        });
+
+        return [
+            'success' => true,
+            'message' => "Se habilitaron {$itemEnable} productos de {$count} productos seleccionados"
+        ];
+
     }
 
     /**
