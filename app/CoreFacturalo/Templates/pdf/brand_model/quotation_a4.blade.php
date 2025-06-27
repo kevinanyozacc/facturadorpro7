@@ -110,6 +110,18 @@
         @endif
     </tr>
     @endif
+    <tr>
+        <td class="align-top">MONEDA: 
+        </td>
+        <td>
+            @if($document->currency_type_id == 'PEN')
+                Soles
+            @elseif($document->currency_type_id == 'USD')
+                Dolares
+            @endif
+        </td>
+    </tr>
+
     @if ($document->account_number)
     <tr>
         <td class="align-top">N° Cuenta:</td>
