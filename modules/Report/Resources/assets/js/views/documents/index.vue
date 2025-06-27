@@ -42,16 +42,17 @@
                             ></i>
                         </el-button>
                         <el-dropdown-menu slot="dropdown">
-                            <el-dropdown-item
-                                v-for="(column, index) in columns"
-                                :key="index"
+                          <el-dropdown-item
+                            v-for="(column, key) in filteredColumns"
+                            :key="key"
+                          >
+                            <el-checkbox
+                              v-model="columns[key].visible"
+                              @change="getColumnsToShow(1)"
                             >
-                                <el-checkbox
-                                    @change="getColumnsToShow(1)"
-                                    v-model="column.visible"
-                                    >{{ column.title }}</el-checkbox
-                                >
-                            </el-dropdown-item>
+                              {{ column.title }}
+                            </el-checkbox>
+                          </el-dropdown-item>
                         </el-dropdown-menu>
                     </el-dropdown>
                 </div>
@@ -183,10 +184,10 @@
                             <th v-if="columns.total.visible" class="">Total</th>
 
                             <template v-if="configuration.enabled_sales_agents">
-                                <th>Agente</th>
-                                <th>Datos de referencia</th>
+                                <th v-if="columns.agent.visible">Agente</th>
+                                <th v-if="columns.reference_data.visible">Datos de referencia</th>
                             </template>
-                            <th>Placa</th>
+                            <th v-if="columns.plate.visible">Placa</th>
                         </tr>
                         <tr slot-scope="{ index, row }">
                             <td>{{ index }}</td>
@@ -407,11 +408,11 @@
                             </td>
 
                             <template v-if="configuration.enabled_sales_agents">
-                                <td>{{ row.agent_name }}</td>
-                                <td>{{ row.reference_data }}</td>
+                                <td v-if="columns.agent.visible">{{ row.agent_name }}</td>
+                                <td v-if="columns.reference_data.visible">{{ row.reference_data }}</td>
                             </template>
 
-                            <td>{{ row.plate_number }}</td>
+                            <td v-if="columns.plate.visible">{{ row.plate_number }}</td>
 
                             <!-- <td>{{ (row.document_type_id == '07') ? -row.total_unaffected : ((row.document_type_id!='07' && (row.state_type_id =='11'||row.state_type_id =='09')) ? '0.00':row.total_unaffected) }}</td>
                                 <td>{{ (row.document_type_id == '07') ? -row.total_free : ((row.document_type_id!='07' && (row.state_type_id =='11'||row.state_type_id =='09')) ? '0.00':row.total_free) }}</td>
@@ -570,7 +571,20 @@ export default {
                 currency_type_id: {
                     title: "Moneda",
                     visible: true
+                },
+                plate: {
+                    title: "Placa",
+                    visible: false
+                },
+                agent: {
+                    title: "Agente",
+                    visible: false
+                },
+                reference_data: {
+                    title: "Datos de referencia",
+                    visible: false
                 }
+
             },
             showDialogProducts: false,
             recordsItems: [],
@@ -579,6 +593,18 @@ export default {
     },
     created() {
         this.getColumnsToShow();
+    },
+    computed: {
+      filteredColumns() {
+        return Object.fromEntries(
+          Object.entries(this.columns).filter(([key, column]) => {
+            if ((key === 'agent' || key === 'reference_data') && !this.configuration.enabled_sales_agents) {
+              return false;
+            }
+            return true;
+          })
+        );
+      }
     },
     methods: {
         formatDate(date) {
