@@ -172,7 +172,6 @@
                     <el-dropdown-menu slot="dropdown">
                         <el-dropdown-item @click.native="clickDeleteSelected">Eliminar</el-dropdown-item>                        
                         <el-dropdown-item @click.native="duplicateSelected">Duplicar</el-dropdown-item>
-                        <el-dropdown-item v-if="selected.length > 0 && selected.length <= 1" @click.native="clickEditSelected">Editar</el-dropdown-item>
                         <el-dropdown-item @click.native="clickDisableSelected">Inhabilitar</el-dropdown-item>
                         <el-dropdown-item @click.native="clickEnableSelected">Habilitar</el-dropdown-item>
                     </el-dropdown-menu>                  
@@ -477,6 +476,12 @@
                                     class="dropdown-menu"
                                 >
                                     <template v-if="typeUser === 'admin'">
+                                        <button
+                                            class="dropdown-item"
+                                            @click.prevent="clickCreate(row.id)"
+                                        >
+                                            Editar
+                                        </button>
                                         <button
                                             class="dropdown-item"
                                             @click.prevent="clickBarcode(row)"
@@ -824,9 +829,6 @@ export default {
         duplicateSelected() {
             this.selected.forEach(id => this.duplicate(id));
             this.selected = []
-        },
-        clickEditSelected() {
-            this.selected.forEach(id => this.clickCreate(id));
         },
         clickEnableSelected() {
             return new Promise((resolve) => {
