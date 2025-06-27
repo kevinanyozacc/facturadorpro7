@@ -5,6 +5,7 @@
         append-to-body
         @close="close"
         @open="create"
+        :close-on-click-modal="false"
     >
         <form autocomplete="off" @submit.prevent="submit">
             <div class="form-body">
