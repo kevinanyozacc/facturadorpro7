@@ -778,7 +778,7 @@
                                                 </el-input>
                                             </div>
                                         </div>
-                                        <div class="col-12">
+                                        <div class="col-12" v-if="showPlateNumberField">
                                             <div
                                                 :class="{
                                                     'has-danger':
@@ -3910,6 +3910,10 @@ export default {
         };
     },
     computed: {
+        showPlateNumberField() {
+            return Array.isArray(this.business_turns) &&
+                this.business_turns.some(bt => bt.value === 'tap' && bt.active);
+        },
         getCurrentLogo() {
             const isDarkMode = document.documentElement.classList.contains('dark');
         
