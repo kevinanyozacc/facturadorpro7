@@ -127,12 +127,6 @@ class ItemController extends Controller
         $isEcommerce = filter_var($request->query('isEcommerce'), FILTER_VALIDATE_BOOLEAN);
         // $records = Item::whereTypeUser()->whereNotIsSet();
         $records = $this->getInitialQueryRecords($isEcommerce);
-        
-        $show_disabled = filter_var($request->get('show_disabled'), FILTER_VALIDATE_BOOLEAN);
-
-        if (!$show_disabled) {
-            $records->where('active', 1);
-        }
 
         $sortField = $request->get('sort_field', 'id');
         $sortDirection = $request->get('sort_direction', 'desc');
@@ -174,6 +168,17 @@ class ItemController extends Controller
                 break;
         }
 
+        if ($request->has('show_disabled')) {
+            switch ($request->show_disabled) {
+                case 'enabled':
+                    $records->where('active', 1);
+                    break;
+                case 'disabled':
+                    $records->where('active', 0);
+                    break;
+                // no hacer nada si es 'all'
+            }
+        }
         if ($request->type) {
             if($request->type ==='PRODUCTS') {
                 // listar solo productos en la lista de productos

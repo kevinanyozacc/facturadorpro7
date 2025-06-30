@@ -767,6 +767,14 @@ html.fixed.sidebar-white:not(.dark) .sidebar-left a {
     cursor: not-allowed;
     border-color: transparent !important;
 }
+.button-truncate .el-tooltip.fa-info-circle{
+    right: 14px !important;
+    top: 14px !important;
+}
+.list-products-container{
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+}
 @media only screen and (min-width: 768px) {
     html.sidebar-left-collapsed .sidebar-left,
     html.fixed .sidebar-left {

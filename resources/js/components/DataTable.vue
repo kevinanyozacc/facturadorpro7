@@ -1,7 +1,11 @@
 <template>
     <div v-loading="loading_submit">
         <div class="row ">
-            <div class="col-md-6 col-lg-6 col-xl-6 filter-container">
+            <div class="filter-container"
+            :class="{
+              'col-md-12 col-lg-12 col-xl-12': !fromEcommerce && !fromRestaurant,
+              'col-md-6 col-lg-6 col-xl-6': fromEcommerce || fromRestaurant
+            }">
                 <div class="btn-filter-content">
                     <el-button
                         type="primary"
@@ -13,7 +17,11 @@
                     </el-button>
                 </div>
                 <div class="row filter-content" v-if="applyFilter && isVisible">
-                    <div class="col-lg-6 col-md-6 col-sm-12 pb-2">
+                    <div class="col-sm-12 pb-2"
+                    :class="{
+                      'col-lg-4 col-md-4': !fromEcommerce && !fromRestaurant,
+                      'col-md-6 col-lg-6': fromEcommerce || fromRestaurant
+                    }">
                         <div class="d-flex">
                             <div class="d-flex align-items-center" style="width:100px">
                                 Filtrar por:
@@ -32,7 +40,11 @@
                             </el-select>
                         </div>
                     </div>
-                    <div class="col-lg-5 col-md-5 col-sm-12 pb-2">
+                    <div class="col-sm-12 pb-2"
+                    :class="{
+                      'col-lg-3 col-md-3': !fromEcommerce && !fromRestaurant,
+                      'col-md-5 col-lg-5': fromEcommerce || fromRestaurant
+                    }">
                         <template
                             v-if="
                                 search.column === 'date_of_issue' ||
@@ -62,13 +74,28 @@
                             </el-input>
                         </template>
                     </div>
+                    <div class="col-lg-5 col-md-5 col-sm-12 pb-2 d-flex" v-if="!fromEcommerce && !fromRestaurant">
+                        <div class="d-flex align-items-center col-4 justify-content-end">
+                            Listar productos
+                        </div>
+                        <el-select 
+                          class="col-8"
+                          v-model="showDisabledValue" 
+                          placeholder="Filtrar productos" 
+                          size="small" 
+                          @change="handleShowDisabledChange"
+                        >
+                          <el-option label="Todos" value="all"></el-option>
+                          <el-option label="Habilitados" value="enabled"></el-option>
+                          <el-option label="Inhabilitados" value="disabled"></el-option>
+                        </el-select>
+                    </div>
                 </div>
             </div>            
             <div class="col-md-6 col-lg-6 col-xl-6">
                 <div class="row" v-if="fromRestaurant||fromEcommerce">
                     <div class="col-lg-12 col-md-12 col-sm-12 pb-2 d-flex">
-
-                        <div class="d-flex col-5 pl-0">                            
+                        <div class="d-flex col-5 pl-0" v-if="fromRestaurant||fromEcommerce">                            
                             <div class="my-auto w-100">
                                 <el-button  @click="methodVisibleAllProduct" type="primary" size="mini" icon="el-icon-check" class="w-100 button-truncate pl-2 pr-4" title="Mostrar todos los productos">
                                     Mostrar todos los productos
@@ -179,10 +206,6 @@ export default {
         sortDirection: {
             type: String,
             default: 'desc'
-        },
-        showDisabled: {
-          type: Boolean,
-          default: false
         }
     },
     data() {
@@ -209,9 +232,9 @@ export default {
                 field: this.sortField,
                 direction: this.sortDirection
             },
-            internalShowDisabled: this.showDisabled,
             showLeftShadow: false,
             showRightShadow: false,
+            showDisabledValue: localStorage.getItem('filterDisabled') || 'all',
         };
     },
     created() {
@@ -248,6 +271,10 @@ export default {
         });
     },
     methods: {
+        handleShowDisabledChange() {
+          localStorage.setItem('filterDisabled', this.showDisabledValue)
+          this.getRecords();
+        },
         checkScrollShadows() {
             const el = this.$refs.scrollContainer;
             if (!el) return;
@@ -293,7 +320,6 @@ export default {
                 this.search.type = this.productType;
             }
             return queryString.stringify({
-                show_disabled: this.showDisabled ? 1 : 0,
                 page: this.pagination.current_page,
                 limit: this.limit,
                 isPharmacy:this.fromPharmacy,
@@ -301,6 +327,7 @@ export default {
                 isEcommerce:this.fromEcommerce,
                 sort_field: this.currentSort.field,
                 sort_direction: this.currentSort.direction,
+                show_disabled: this.showDisabledValue,
                 ...this.search
             });
         },
@@ -346,8 +373,9 @@ export default {
     },
     watch: {
         showDisabled(newVal) {
-          this.internalShowDisabled = newVal;
-          this.getRecords();
+            if (newVal) {
+              this.getRecords();
+            }
         },
         sortField(newVal) {
             this.currentSort.field = newVal;
