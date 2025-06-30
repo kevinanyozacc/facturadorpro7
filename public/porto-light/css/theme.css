@@ -21149,6 +21149,10 @@ tbody tr:hover,tfoot tr:hover {
     background: linear-gradient(to left, rgba(0, 0, 0, 0.133), transparent);
     border-radius: 0 6px 6px 0;
 }
+.dropdown-menu.show {
+    max-height: 185px;
+    overflow-y: auto;
+}
 html.dark .el-message--warning {
     background-color: #E6A23C;
     border-color: #E6A23C;

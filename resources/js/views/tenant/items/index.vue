@@ -584,6 +584,11 @@
         </div>
     </div>
 </template>
+<style>
+.dropdown-menu.show {
+    max-height: 130px;
+}
+</style>
 <script>
 import ItemsForm from "./form.vue";
 import WarehousesDetail from "./partials/warehouses.vue";

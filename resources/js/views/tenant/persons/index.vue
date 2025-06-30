@@ -362,7 +362,11 @@
         </div>
     </div>
 </template>
-
+<style>
+.dropdown-menu.show{
+    max-height: 125px;
+}
+</style>
 <script>
 import PersonsForm from "./form.vue";
 import PersonsImport from "./import.vue";

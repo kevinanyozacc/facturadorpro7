@@ -894,7 +894,13 @@
         </div>
     </div>
 </template>
-
+<style>
+.dropdown-menu.show {
+    display: block;
+    max-height: 140px;
+    overflow-y: auto;
+}
+</style>
 <script>
 import DocumentsVoided from "./partials/voided.vue";
 import DocumentOptions from "./partials/options.vue";
