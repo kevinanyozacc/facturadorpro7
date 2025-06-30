@@ -323,7 +323,7 @@
                             :currency-type-id-active="form.currency_type_id"
                             :exchange-rate-sale="form.exchange_rate_sale"
                             :percentage-igv="percentage_igv"
-                            :recordItem="recordItem"
+                            :recordItem.sync="recordItem"
                             @add="addRow"></purchase-form-item>
 
         <person-form :showDialog.sync="showDialogNewPerson"

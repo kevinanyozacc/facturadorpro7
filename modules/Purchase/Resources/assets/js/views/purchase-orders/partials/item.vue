@@ -644,6 +644,7 @@ export default {
         close() {
             this.initForm()
             this.$emit('update:showDialog', false)
+            this.$emit('update:recordItem', null)
         },
         selectedPrice(row) {
 
@@ -677,7 +678,6 @@ export default {
                 unit_price = (this.form.purchase_has_igv) ? this.form.unit_price : this.form.unit_price * (1 + this.percentageIgv);
 
             }
-
             this.form.item.unit_price = unit_price
             this.form.item.presentation = this.item_unit_type;
             this.form.affectation_igv_type = _.find(this.affectation_igv_types, {'id': this.form.affectation_igv_type_id})
@@ -723,10 +723,19 @@ export default {
                 })
             } else {
                 this.$http.get(`/${this.resource}/search/item/${item_id}`).then((response) => {
-                    this.items = response.data
+                    
+                    let item = response.data.items
                     this.form.item_id = item_id
-                    this.form.item = _.find(this.items.items, {'id': this.form.item_id})
 
+                    if (!this.recordItem && item && item.length > 0) {
+                        item = item[0]
+                        this.items.push(item)
+                        this.form.item = _.find(this.items, {'id': this.form.item_id})
+                        this.form.affectation_igv_type = item.affectation_igv_type 
+                        this.form.affectation_igv_type_id = item.purchase_affectation_igv_type_id 
+                        this.form.unit_price = item.purchase_unit_price
+                        
+                    }
 
                     if(this.recordItem) {
                         this.form.unit_price = this.recordItem.unit_value

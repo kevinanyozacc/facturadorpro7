@@ -1846,7 +1846,6 @@ this.activeName =  'first'
 
             await this.$http.post(`/${this.resource}`, this.form)
                 .then(response => {
-                    console.log(response.data)
                     if (response.data.success) {
                         this.$message.success(response.data.message)
                         if (this.external) {
