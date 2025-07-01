@@ -2017,16 +2017,25 @@
                                                                 <el-option
                                                                     label="Crédito con cuotas"
                                                                     value="03"
+                                                                    :disabled="customer_has_expired"
                                                                 ></el-option>
                                                                 <el-option
                                                                     label="Crédito"
                                                                     value="02"
+                                                                    :disabled="customer_has_expired"
                                                                 ></el-option>
                                                                 <el-option
                                                                     label="Contado"
                                                                     value="01"
                                                                 ></el-option>
                                                             </el-select>
+                                                        </td>
+                                                    </tr>
+                                                    <tr v-if="form.total > 0 && customer_has_expired">
+                                                        <td colspan="2">
+                                                            <div class="alert alert-danger mt-2 mb-0 text-center">
+                                                                El cliente excede los {{ config.finances.max_expired_days }} días de vencimiento de crédito. Solo puede emitir comprobantes al contado.
+                                                            </div>
                                                         </td>
                                                     </tr>
 
@@ -2826,16 +2835,25 @@
                                                 <el-option
                                                     label="Crédito con cuotas"
                                                     value="03"
+                                                    :disabled="customer_has_expired"
                                                 ></el-option>
                                                 <el-option
                                                     label="Crédito"
                                                     value="02"
+                                                    :disabled="customer_has_expired"
                                                 ></el-option>
                                                 <el-option
                                                     label="Contado"
                                                     value="01"
                                                 ></el-option>
                                             </el-select>
+                                        </td>
+                                    </tr>
+                                    <tr v-if="form.total > 0 && customer_has_expired">
+                                        <td colspan="2">
+                                            <div class="alert alert-danger mt-2 mb-0 text-center">
+                                                El cliente excede los {{ config.finances.max_expired_days }} días de vencimiento de crédito. Solo puede emitir comprobantes al contado.
+                                            </div>
                                         </td>
                                     </tr>
 
@@ -3906,7 +3924,10 @@ export default {
             showDialogPreview: false,
             value_taxed_without_rounded: 0,
             total_without_rounded: 0,
-            recordDiscountsGlobal: null
+            recordDiscountsGlobal: null,
+
+            customer_expired_days: 0,
+            customer_has_expired: false,
         };
     },
     computed: {
@@ -4194,6 +4215,10 @@ export default {
         // }
 
         this.startConnectionQzTray();
+    },
+    watch: {
+        'form.customer_id': 'checkCustomerExpiredDebt',
+        'form.payment_condition_id': 'checkCustomerExpiredDebt',
     },
     methods: {
         toggleInformation() {
@@ -6744,6 +6769,7 @@ export default {
                 });
         },
         changeCustomer() {
+            this.checkCustomerExpiredDebt();
             this.customer_addresses = [];
             this.form.customer_address_id = null;
 
@@ -6771,6 +6797,7 @@ export default {
             }
 
             // retencion para clientes con ruc
+            
             this.validateCustomerRetention(customer.identity_document_type_id);
 
             /*if(this.customer_addresses.length > 0) {
@@ -7114,7 +7141,33 @@ export default {
                     this.form.seller_id = this.idUser || null;
                 }
             }
-        }
-    }
+        },
+
+        async checkCustomerExpiredDebt() {
+            this.customer_expired_days = 0;
+            this.customer_has_expired = false;
+
+            if (
+                this.config.finances &&
+                this.config.finances.restriction_expired_debt &&
+                this.form.customer_id
+            ) {
+                try {
+                    const response = await this.$http.get(`/finances/unpaid/customer-expired-days/${this.form.customer_id}`);
+                    this.customer_expired_days = response.data.max_expired_days || 0;
+
+                    this.customer_has_expired =
+                        this.customer_expired_days > Number(this.config.finances.max_expired_days);
+
+                    if (this.customer_has_expired) {
+                        this.form.payment_condition_id = "01";
+                    }
+                } catch (e) {
+                    this.customer_expired_days = 0;
+                    this.customer_has_expired = false;
+                }
+            }
+        },
+    }        
 };
 </script>

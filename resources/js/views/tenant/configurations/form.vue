@@ -1501,6 +1501,22 @@
                                     </el-input>
                                 </div>
                             </div>
+                            <div class="col-12 mt-4">
+                                <div class="form-group" style="display: flex; flex-direction: column;">
+                                    <label>Restricción para deuda vencida</label>
+                                    <el-switch v-model="form.finances.restriction_expired_debt" active-text="Si" inactive-text="No"
+                                        @change="submit"></el-switch>
+                                </div>
+                                <div v-if="form.finances.restriction_expired_debt" class="form-group" style="max-width: 300px;">
+                                    <label>Días máximos de deuda vencida</label>
+                                    <el-input v-model="form.finances.max_expired_days" class="input-with-select"
+                                        placeholder="Ingrese días">
+                                        <el-button slot="append" @click="submit">
+                                            <i class="fa fa-save"></i>
+                                        </el-button>
+                                    </el-input>
+                                </div>
+                            </div>
                         </div>
                     </el-tab-pane>
                     <el-tab-pane class="mb-3" name="six">

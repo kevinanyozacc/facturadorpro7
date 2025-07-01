@@ -414,6 +414,21 @@ class DashboardView
             $documents->where('purchase_order',$purchase_order);
             $sale_notes->where('purchase_order',$purchase_order);
         }
+        if (!empty($request['estado'])) {
+            if ($request['estado'] === 'vigente') {
+                // Documentos
+                $documents->leftJoin('invoices as invoices_estado', 'documents.id', '=', 'invoices_estado.document_id');
+                $documents->whereDate('invoices_estado.date_of_due', '>=', now()->toDateString());
+
+                // Sale Notes
+                $sale_notes->whereDate('sale_notes.due_date', '>=', now()->toDateString());
+            } elseif ($request['estado'] === 'vencido') {
+                $documents->leftJoin('invoices as invoices_estado', 'documents.id', '=', 'invoices_estado.document_id');
+                $documents->whereDate('invoices_estado.date_of_due', '<', now()->toDateString());
+
+                $sale_notes->whereDate('sale_notes.due_date', '<', now()->toDateString());
+            }
+        }
         if($web_platform_id != 0){
             $web_platform_table_name = (new WebPlatform())->getTable();
             $item_table_name = (new Item())->getTable();

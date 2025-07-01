@@ -297,5 +297,51 @@ class UnpaidController extends Controller
     {
         $this->uploadStorage($filename, $file_content, $file_type);
     }
+    public function customerExpiredDays($customer_id)
+    {
+        try {
+            // Pagos realizados por documento
+            $document_payments = \DB::connection('tenant')
+                ->table('document_payments')
+                ->select('document_id', \DB::raw('SUM(payment) as total_payment'))
+                ->groupBy('document_id');
+
+            // Comprobantes con saldo pendiente, uniendo con invoices para obtener date_of_due
+            $comprobantes = \DB::connection('tenant')
+                ->table('documents')
+                ->join('invoices', 'documents.id', '=', 'invoices.document_id')
+                ->leftJoinSub($document_payments, 'payments', function ($join) {
+                    $join->on('documents.id', '=', 'payments.document_id');
+                })
+                ->where('documents.customer_id', $customer_id)
+                ->whereIn('documents.state_type_id', ['01','03','05','07','13'])
+                ->whereIn('documents.document_type_id', ['01','03','08'])
+                ->select(
+                    'documents.id',
+                    'documents.total',
+                    'invoices.date_of_due',
+                    \DB::raw('IFNULL(payments.total_payment, 0) as total_payment')
+                )
+                ->whereRaw('documents.total - IFNULL(payments.total_payment, 0) > 0')
+                ->get();
+
+            // Calcular el mayor número de días vencidos
+            $max_days = 0;
+            foreach ($comprobantes as $comprobante) {
+                if ($comprobante->date_of_due && $comprobante->date_of_due < now()) {
+                    $dias_vencidos = now()->diffInDays(\Carbon\Carbon::parse($comprobante->date_of_due));
+                    if ($dias_vencidos > $max_days) {
+                        $max_days = $dias_vencidos;
+                    }
+                }
+            }
+
+            return response()->json([
+                'max_expired_days' => (int)$max_days
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
 
 }
