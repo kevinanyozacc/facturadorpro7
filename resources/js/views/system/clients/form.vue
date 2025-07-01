@@ -45,7 +45,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-6 url-container">
                         <div v-if="form.is_update"
                              :class="{'has-danger': (errors.subdomain || errors.uuid)}"
                              class="form-group">
@@ -605,7 +605,24 @@
         </form>
     </el-dialog>
 </template>
-
+<style>
+.url-container .form-group .el-input--small.el-input-group .el-input-group__append{
+    z-index: 1;
+    position: absolute;
+    top: -9px;
+    background: transparent;
+    right: 1px;
+    width: 93px;
+    height: 40px;
+    display: flex;
+    align-items: end;
+    padding-bottom: 7px;
+    border: none;
+}
+.url-container .form-group .el-input--small.el-input-group input.el-input__inner{
+    border-radius: 8px;
+}
+</style>
 <script>
 import {serviceNumber} from '../../../mixins/functions'
 

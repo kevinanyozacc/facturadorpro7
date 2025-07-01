@@ -235,7 +235,10 @@
                         </el-input>
                     </div>
                 </div>
-                <div class="table-responsive">
+                <div class="col-md-12">
+                <div class="scroll-shadow shadow-left" v-show="showLeftShadow"></div>
+                <div class="scroll-shadow shadow-right" v-show="showRightShadow"></div>
+                <div class="table-responsive" :style="{minHeight: filteredRecords.length > 0 ? '200px' : 'auto'}" ref="scrollContainer">
                     <table class="table">
                         <thead>
                         <tr>
@@ -582,6 +585,7 @@
                         </tbody>
                     </table>
                 </div>
+                </div>                
             </div>
         </div>
 
@@ -616,8 +620,36 @@ td.sticky-column {
     background-color: #fff;
     z-index: 1;
 }
+th.sticky-column.scroll-active::after,
+td.sticky-column.scroll-active::after {
+  opacity: 1;
+  transition: opacity 0.2s ease;
+}
+th.sticky-column::after,
+td.sticky-column::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: -6px;
+    width: 6px;
+    height: 100%;
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0));
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
 th.sticky-column {
     z-index: 2;
+}
+.dropdown-menu.show{
+    max-height: 177px;
+}
+.shadow-right {
+    right: 15px;
+}
+.shadow-left {
+    left: 15px;
+    z-index: 3;
 }
 </style>
 <script>
@@ -682,6 +714,8 @@ export default {
             showDialogDelete: false,
             record: {},
             showDemoConfiguration:false,
+            showLeftShadow: false,
+            showRightShadow: false,
         };
     },
     async mounted() {
@@ -695,6 +729,14 @@ export default {
             // this.records = response.data.data
         });
         this.loaded = true;
+        this.initScrollShadow();
+        this.$nextTick(() => {
+            const el = this.$refs.scrollContainer;
+            if (el) {
+                el.addEventListener('scroll', this.checkScrollShadows);
+                this.checkScrollShadows();
+            }
+        });
     },
     created() {
         this.$eventHub.$on("reloadData", () => {
@@ -724,6 +766,41 @@ export default {
         },
     },
     methods: {
+        checkScrollShadows() {
+            const el = this.$refs.scrollContainer;
+            if (!el) return;
+
+            const scrollLeft = el.scrollLeft;
+            const scrollRight = el.scrollWidth - el.clientWidth - scrollLeft;
+
+            this.showLeftShadow = scrollLeft > 1;
+            this.showRightShadow = scrollRight > 1;
+        },
+        initScrollShadow() {
+          this.$nextTick(() => {
+            const container = this.$refs.scrollContainer;
+            if (!container) return;
+        
+            container.addEventListener('scroll', () => {
+              const isScrolled = container.scrollLeft > 0;
+            
+              const thSticky = container.querySelector('th.sticky-column');
+              const tdStickies = container.querySelectorAll('tbody td.sticky-column');
+            
+              if (thSticky) {
+                if (isScrolled) thSticky.classList.add('scroll-active');
+                else thSticky.classList.remove('scroll-active');
+              }
+          
+              tdStickies.forEach(td => {
+                if (isScrolled) td.classList.add('scroll-active');
+                else td.classList.remove('scroll-active');
+              });
+            });
+        
+            container.dispatchEvent(new Event('scroll'));
+          });
+        },
         changeLockedTenant(row) {
             this.$http
                 .post(`${this.resource}/locked_tenant`, row)

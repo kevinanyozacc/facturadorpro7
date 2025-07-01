@@ -717,7 +717,7 @@ class Facturalo
             ){
                 $html_footer_legend = $template->pdfFooterLegend($base_pdf_template, $document);
             }
-
+        
             $pdf->SetHTMLFooter($html_footer.$html_footer_legend);
         }
 //            $html_footer = $template->pdfFooter();

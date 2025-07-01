@@ -38,6 +38,7 @@
                             <th>Perfil</th>
                             <th>Api Token</th>
                             <th>Sucursal</th>
+                            <th></th>
                         </tr>
                         </thead>
                         <tbody>

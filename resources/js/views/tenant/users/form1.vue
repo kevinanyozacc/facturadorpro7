@@ -4,6 +4,7 @@
         :visible="showDialog"
         @close="close"
         @open="create"
+        :close-on-click-modal="false"
     >
         <form autocomplete="off" @submit.prevent="submit" v-loading="loading">
             <div class="form-body">
