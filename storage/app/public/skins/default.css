@@ -775,6 +775,13 @@ html.fixed.sidebar-white:not(.dark) .sidebar-left a {
     padding-top: 10px !important;
     padding-bottom: 10px !important;
 }
+.shadow-left {
+    left: 4px !important;
+}
+
+.shadow-right {
+    right: 4px !important;
+}
 @media only screen and (min-width: 768px) {
     html.sidebar-left-collapsed .sidebar-left,
     html.fixed .sidebar-left {

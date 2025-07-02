@@ -315,9 +315,10 @@
                                 </div>
                             </div>
                             <div v-if="form.is_transport_m1l" class="col-lg-4">
-                                <div class="form-group mb-0">
-                                    <label class="control-label">Número de placa</label>
+                                <div :class="{ 'has-danger': errors.license_plate_m1l }" class="form-group mb-0">
+                                    <label class="control-label">Número de placa<span class="text-danger"> *</span></label>
                                     <el-input v-model="form.license_plate_m1l"></el-input>
+                                    <small v-if="errors.license_plate_m1l" class="form-control-feedback" v-text="errors.license_plate_m1l[0]"></small>
                                 </div>
                             </div>
                         </div>
@@ -1566,6 +1567,10 @@ export default {
             this.calculatePackagesFromItems();
         },
         async submit() {
+            if (this.form.is_transport_m1l && (!this.form.license_plate_m1l || this.form.license_plate_m1l.trim() === '')) {
+                this.errors = {license_plate_m1l: ['El número de placa es obligatorio']};
+                return this.$message.error('El número de placa es obligatorio');
+            }
             if (this.config.affect_all_documents) {
                 this.form.terms_condition = this.config.terms_condition_sale;
             }
