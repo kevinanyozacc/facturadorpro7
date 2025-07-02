@@ -385,6 +385,33 @@
                     <br>
                     *** Pago Anticipado ***
                 @endif
+                @inject('itemLotGroup', 'App\Services\ItemLotsGroupService')
+                @php
+                    $lot = $itemLotGroup->getLote($row->item->IdLoteSelected);
+                    $date_due = $itemLotGroup->getLotDateOfDue($row->item->IdLoteSelected);
+                @endphp
+                @if($lot)
+                    <small style="display:block; font-weight: normal; font-size: 7px;">
+                        Lote: {{ ltrim($lot, '/') }}  
+                        <br>
+                        FV: 
+                        @if($date_due != '')
+                            {{ ltrim($date_due, '/') }}
+                        @elseif($row->relation_item->date_of_due)
+                            {{ $row->relation_item->date_of_due->format('y-m-d') }}
+                        @endif 
+                        <br>
+                    </small>
+                @endif
+                <small style="display:block; font-weight: normal; font-size: 7px;">
+                    @isset($row->item->lots)
+                        @foreach($row->item->lots as $lot)
+                            @if( isset($lot->has_sale) && $lot->has_sale)
+                                <span> Serie: {{ $lot->series }}</span><br>
+                            @endif
+                        @endforeach
+                    @endisset
+                </small>
             </td>
             <td class="text-right desc align-top"
                 style="padding-right:5px;">{{ number_format($row->unit_price, 2) }}</td>

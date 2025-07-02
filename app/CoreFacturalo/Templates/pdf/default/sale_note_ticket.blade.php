@@ -217,9 +217,9 @@
                         @elseif($row->relation_item->date_of_due)
                             {{ $row->relation_item->date_of_due->format('y-m-d') }}
                         @endif 
+                        <br>
                     </small>
                 @endif
-                <br>
                 <small style="display:block; font-weight: normal; font-size: 7px;">
                     @isset($row->item->lots)
                         @foreach($row->item->lots as $lot)

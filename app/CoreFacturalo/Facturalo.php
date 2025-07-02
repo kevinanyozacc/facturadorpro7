@@ -707,6 +707,29 @@ class Facturalo
             if (($format_pdf != 'ticket') AND ($format_pdf != 'ticket_58') AND ($format_pdf != 'ticket_50')) {
                 $html_footer = $template->pdfFooter($base_pdf_template, $this->document);
                 $html_footer_legend = "";
+
+                if(isset($this->configuration->pdf_footer_images)) {
+                    $footer_images = is_string($this->configuration->pdf_footer_images) 
+                        ? json_decode($this->configuration->pdf_footer_images, true) 
+                        : $this->configuration->pdf_footer_images;
+                    
+                    if(is_object($footer_images)) {
+                        $footer_images = json_decode(json_encode($footer_images), true);
+                    }
+                    
+                    if(!empty($footer_images)) {
+                        $images_html = '<div style="text-align: center; margin-top: 10px;">';
+                        foreach((array)$footer_images as $image) {
+                            $filename = is_array($image) ? ($image['filename'] ?? null) : ($image->filename ?? null);
+                            if($filename) {
+                                $image_path = asset('storage/uploads/pdf_footer_images/'.$filename);
+                                $images_html .= '<img src="'.$image_path.'" style="max-height: 50px; margin: 0 5px;">';
+                            }
+                        }
+                        $images_html .= '</div>';
+                        $html_footer .= $images_html;
+                    }
+                }
             }
             // dd($this->configuration->legend_footer && in_array($this->document->document_type_id, ['01', '03']));
             // se quiere visuzalizar ahora la legenda amazona en todos los formatos
