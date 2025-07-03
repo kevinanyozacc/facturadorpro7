@@ -1455,7 +1455,7 @@
                                         @click.prevent="showDialogPdfFooterImages = true">
                                         [+ Agregar imágenes al pdf]
                                         <el-tooltip class="item"
-                                            content="Agrega las imágenes en el footer del pdf - Disponible para Cotización en formato A4, usando la plantilla pdf Default/Default3"
+                                            content="Agrega las imágenes en el footer del pdf - Disponible para Cotización en formato A4, usando la plantilla pdf Default"
                                             effect="dark" placement="top-start">
                                             <i class="ml-2 fa fa-info-circle"></i>
                                         </el-tooltip>

@@ -6,6 +6,33 @@ table {
     border-spacing: 0;
     border-collapse: collapse;
 }
+.footer-image-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+.footer-image-single {
+    width: 100%;
+    height: auto;
+    max-height: 200px;
+}
+.footer-image-multiple {
+    width: calc(96% / var(--image-count));
+    height: 140px;
+    display: inline-block;
+    margin-right: calc(4% / (var(--image-count) - 1));
+    margin-bottom: 1%;
+}
+.footer-image-multiple:last-child {
+    margin-right: 0;
+}
+.footer-images-wrapper {
+    font-size: 0;
+    width: 100%;
+}
 .font-md {
     font-size: 12px;
 }
