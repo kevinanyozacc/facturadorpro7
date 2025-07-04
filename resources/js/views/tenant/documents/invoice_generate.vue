@@ -3046,26 +3046,14 @@
                                                         >
                                                             <td>
                                                                 <el-select
-                                                                    v-model="
-                                                                        row.payment_method_type_id
-                                                                    "
-                                                                    @change="
-                                                                        changePaymentMethodType(
-                                                                            index
-                                                                        )
-                                                                    "
+                                                                    v-model="row.payment_method_type_id"
+                                                                    @change="changePaymentMethodType(index)"
                                                                 >
                                                                     <el-option
                                                                         v-for="option in credit_payment_metod"
-                                                                        :key="
-                                                                            option.id
-                                                                        "
-                                                                        :label="
-                                                                            option.id
-                                                                        "
-                                                                        :value="
-                                                                            option.id
-                                                                        "
+                                                                        :key="option.id"
+                                                                        :label="option.description"
+                                                                        :value="option.id"
                                                                     ></el-option>
                                                                 </el-select>
                                                             </td>
