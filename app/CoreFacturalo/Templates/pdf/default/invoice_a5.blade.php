@@ -66,7 +66,7 @@
             <td width="50%" class="pl-3 text-center">
                 <div>
                     <h4>{{ $company->name }}</h4>
-                    <h5>{{ 'RUCs '.$company->number }}</h5>
+                    <h5>{{ 'RUC '.$company->number }}</h5>
                     <h6 style="text-transform: uppercase;">
                         {{ ($establishment->address !== '-') ? $establishment->address : '' }}
                         {{ ($establishment->district_id !== '-') ? ', '.$establishment->district->description : '' }}
@@ -304,12 +304,29 @@
     @endif
 </table>
 
+@php
+$showBrandColumn = false;
+$showModelColumn = false;
+
+foreach ($document->items as $row) {
+    if (!empty($row->item->model)) {
+        $showModelColumn = true;
+    }
+
+    if (!empty($row->m_item->brand->name ?? null)) {
+        $showBrandColumn = true;
+    }
+
+    if ($showModelColumn && $showBrandColumn) break;
+}
+@endphp
+
 <table class="full-width mt-10 mb-10">
     <thead class="">
     <tr class="bg-grey">
-        <th class="border-top-bottom text-center py-2" width="8%">COD.</th>
-        <th class="border-top-bottom text-center py-2" width="8%">CANT.</th>
-        <th class="border-top-bottom text-center py-2" width="8%">UNIDAD</th>
+        <th class="border-top-bottom text-center py-2" width="6%">COD.</th>
+        <th class="border-top-bottom text-center py-2" width="6%">CANT.</th>
+        <th class="border-top-bottom text-center py-2" width="7%">UNIDAD</th>
         <th class="border-top-bottom text-left py-2">DESCRIPCIÓN</th>
         @php
             $showSerieColumn = false;
@@ -329,13 +346,19 @@
             }
         @endphp
         @empty($showSerieColumn) @else <th class="border-top-bottom text-left py-2"> SERIE </th> @endempty
+        @if($showModelColumn)
+            <th class="border-top-bottom text-left py-2">MODELO</th>
+        @endif
+        @if($showBrandColumn)
+            <th class="border-top-bottom text-center py-2">MARCA</th>
+        @endif
         @if($showLoteColumn) <th class="border-top-bottom text-center py-2" width="12%">
              LOTE 
         </th> @endif
-        @if($showLoteColumn) <th class="border-top-bottom text-center py-2" width="13%"> F. VENC. </th> @endif
-        <th class="border-top-bottom text-right py-2" width="12%">P.UNIT</th>
-        <th class="border-top-bottom text-right py-2" width="8%">DTO.</th>
-        <th class="border-top-bottom text-right py-2" width="12%">TOTAL</th>
+        @if($showLoteColumn) <th class="border-top-bottom text-center py-2" width="9%"> F. VENC. </th> @endif
+        <th class="border-top-bottom text-right py-2" width="7%">P.UNIT</th>
+        <th class="border-top-bottom text-right py-2" width="7%">DTO.</th>
+        <th class="border-top-bottom text-right py-2" width="7%">TOTAL</th>
     </tr>
     </thead>
     <tbody>
@@ -344,6 +367,8 @@
             $colspan_total = $colspan_base;
 
             if($showSerieColumn) $colspan_total++;
+            if($showModelColumn) $colspan_total++;
+            if($showBrandColumn) $colspan_total++;
             if($showLoteColumn) {
                 $colspan_total++;
                 $colspan_total++;
@@ -422,6 +447,15 @@
                     @endforeach
                 @endisset
             </td> @endempty
+            @if($showModelColumn)
+                <td class="text-left align-top">{{ $row->item->model ?? '' }}</td>
+            @endif
+
+            @if($showBrandColumn)
+                <td class="text-left align-top">
+                    {{ $row->m_item->brand->name ?? '' }}
+                </td>
+            @endif
             @inject('itemLotGroup', 'App\Services\ItemLotsGroupService')
             @php
                 $lot = $itemLotGroup->getLote($row->item->IdLoteSelected);

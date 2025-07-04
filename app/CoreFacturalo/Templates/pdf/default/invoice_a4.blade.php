@@ -82,7 +82,7 @@ $type = App\CoreFacturalo\Helpers\Template\TemplateHelper::getTypeSoap();
                 <td width="50%" class="pl-3 text-center">
                     <div>
                         <h4>{{ $company->name }}</h4>
-                        <h5>{{ 'RUCs '.$company->number }}</h5>
+                        <h5>{{ 'RUC '.$company->number }}</h5>
                         <h6 style="text-transform: uppercase;">
                             {{ ($establishment->address !== '-') ? $establishment->address : '' }}
                             {{ ($establishment->district_id !== '-') ? ', '.$establishment->district->description : '' }}
@@ -534,6 +534,22 @@ $type = App\CoreFacturalo\Helpers\Template\TemplateHelper::getTypeSoap();
     {{--<td class="text-left" colspan="3">{{ $document_base->note_description }}</td>--}}
     {{--</tr>--}}
     {{--</table>--}}
+    @php
+    $showBrandColumn = false;
+    $showModelColumn = false;
+
+    foreach ($document->items as $row) {
+        if (!empty($row->item->model)) {
+            $showModelColumn = true;
+        }
+
+        if (!empty($row->m_item->brand->name ?? null)) {
+            $showBrandColumn = true;
+        }
+
+        if ($showModelColumn && $showBrandColumn) break;
+    }
+    @endphp
 
     <table class="full-width mt-10 mb-10">
         <thead class="">
@@ -541,7 +557,7 @@ $type = App\CoreFacturalo\Helpers\Template\TemplateHelper::getTypeSoap();
                 <th class="border-top-bottom text-center py-2" width="8%">COD.</th>
                 <th class="border-top-bottom text-center py-2" width="8%">CANT.</th>
                 <th class="border-top-bottom text-center py-2" width="8%">UNIDAD</th>
-                <th class="border-top-bottom text-left py-2">DESCRIPCIÓN</th>
+                <th class="border-top-bottom text-left py-2 px-1">DESCRIPCIÓN</th>
                 @php
                     $showSerieColumn = false;
                     $showLoteColumn = false;
@@ -559,14 +575,20 @@ $type = App\CoreFacturalo\Helpers\Template\TemplateHelper::getTypeSoap();
                         }
                     }
                 @endphp
-                @empty($showSerieColumn) @else <th class="border-top-bottom text-left py-2">SERIE</th> @endempty
-                @if($showLoteColumn) <th class="border-top-bottom text-center py-2" width="12%">
+                @empty($showSerieColumn) @else <th class="border-top-bottom text-left py-2 px-1">SERIE</th> @endempty
+                @if($showModelColumn)
+                    <th class="border-top-bottom text-left py-2 px-1">MODELO</th>
+                @endif
+                @if($showBrandColumn)
+                    <th class="border-top-bottom text-center py-2 px-1">MARCA</th>
+                @endif
+                @if($showLoteColumn) <th class="border-top-bottom text-center py-2 px-1">
                     LOTE
                 </th> @endif
-                @if($showLoteColumn) <th class="border-top-bottom text-center py-2" width="13%"> F. VENC. </th> @endif
-                <th class="border-top-bottom text-right py-2" width="12%">P.UNIT</th>
+                @if($showLoteColumn) <th class="border-top-bottom text-center py-2 px-1"> F. VENC. </th> @endif
+                <th class="border-top-bottom text-right py-2" width="8%">P.UNIT</th>
                 <th class="border-top-bottom text-right py-2" width="8%">DTO.</th>
-                <th class="border-top-bottom text-right py-2" width="12%">TOTAL</th>
+                <th class="border-top-bottom text-right py-2" width="8%">TOTAL</th>
             </tr>
         </thead>
         <tbody>
@@ -575,6 +597,8 @@ $type = App\CoreFacturalo\Helpers\Template\TemplateHelper::getTypeSoap();
                 $colspan_total = $colspan_base;
 
                 if($showSerieColumn) $colspan_total++;
+                if($showModelColumn) $colspan_total++;
+                if($showBrandColumn) $colspan_total++;
                 if($showLoteColumn) {
                     $colspan_total++;
                     $colspan_total++;
@@ -656,7 +680,15 @@ $type = App\CoreFacturalo\Helpers\Template\TemplateHelper::getTypeSoap();
                     @endisset
                 </td>
                 @endempty
+                @if($showModelColumn)
+                    <td class="text-left align-top">{{ $row->item->model ?? '' }}</td>
+                @endif
 
+                @if($showBrandColumn)
+                    <td class="text-left align-top">
+                        {{ $row->m_item->brand->name ?? '' }}
+                    </td>
+                @endif
                 @inject('itemLotGroup', 'App\Services\ItemLotsGroupService')
                 @php
                     $lot = $itemLotGroup->getLote($row->item->IdLoteSelected);

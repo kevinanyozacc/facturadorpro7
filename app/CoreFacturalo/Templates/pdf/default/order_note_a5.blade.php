@@ -185,6 +185,21 @@
 </table>
 @endif
 
+@php
+$showModelColumn = false;
+$showBrandColumn = false;
+
+foreach ($document->items as $row) {
+    if (!empty($row->relation_item->model)) {
+        $showModelColumn = true;
+    }
+    if (!empty($row->relation_item->brand->name ?? null)) {
+        $showBrandColumn = true;
+    }
+    if ($showModelColumn && $showBrandColumn) break;
+}
+@endphp
+
 <table class="full-width mt-10 mb-10">
     <thead class="">
     <tr class="bg-grey">
@@ -209,7 +224,13 @@
                 }
             }
         @endphp        
-        @if($showSerieColumn) <th class="border-top-bottom text-left py-2"> SERIE </th> @endif        
+        @if($showSerieColumn) <th class="border-top-bottom text-left py-2"> SERIE </th> @endif    
+         @if($showModelColumn)
+            <th class="border-top-bottom text-left py-2 px-1">MODELO</th>
+        @endif
+        @if($showBrandColumn)
+            <th class="border-top-bottom text-center py-2 px-1">MARCA</th>
+        @endif     
         @if($showLoteColumn) <th class="border-top-bottom text-center py-2" width="8%"> LOTE </th> @endif
         @if($showLoteColumn) <th class="border-top-bottom text-center py-2" width="8%"> F. VENC. </th> @endif   
         <th class="border-top-bottom text-right py-2" width="12%">P.UNIT</th>
@@ -223,6 +244,8 @@
 
             if($showSerieColumn) $colspan_total++;
             if($showLoteColumn) $colspan_total += 2;
+            if($showModelColumn) $colspan_total++;
+            if($showBrandColumn) $colspan_total++;
         @endphp
         @foreach($document->items as $row)
         <tr>
@@ -256,6 +279,15 @@
                     @endforeach
                 @endisset
             </td> @endif
+            @if($showModelColumn)
+                <td class="text-left">{{ $row->relation_item->model ?? '' }}</td>
+            @endif
+
+            @if($showBrandColumn)
+                <td class="text-left align-top">
+                    {{ $row->relation_item->brand->name ?? '' }}
+                </td>
+            @endif
             @if($showLoteColumn) <td class="text-center align-top">
                 {{ $row->getSaleLotGroupCodeDescription() }}
             </td> @endif
