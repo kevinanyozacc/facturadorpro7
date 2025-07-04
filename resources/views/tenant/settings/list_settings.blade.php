@@ -225,6 +225,9 @@
                     <li>
                         <a href="{{route('tenant.incentives.index')}}">Productos</a>
                     </li>
+                    <li>
+                        <a href="{{ route('tenant.pending_account_commissions.index') }}">Cuentas pendientes</a>
+                    </li>
                 </ul>
             </div>
         </div>

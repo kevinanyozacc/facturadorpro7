@@ -203,6 +203,8 @@ Vue.component('tenant-report-fixed-asset-purchases-index', require('../../module
 Vue.component('tenant-report-massive-downloads-index', require('../../modules/Report/Resources/assets/js/views/massive-downloads/index.vue'));
 Vue.component('tenant-documents-regularize-shipping', require('../../modules/Document/Resources/assets/js/views/documents/regularize_shipping.vue'));
 Vue.component('tenant-report-commissions-detail-index', require('../../modules/Report/Resources/assets/js/views/commissions_detail/index.vue'));
+Vue.component('tenant-report-pending-account-commissions-index', require('../../modules/Report/Resources/assets/js/views/pending-account-commissions/index.vue'));
+
 
 Vue.component('tenant-report-tips-index', require('../../modules/Report/Resources/assets/js/views/tips/index.vue'));
 
@@ -274,6 +276,9 @@ Vue.component('tenant-item-detail-index', require('@viewsModuleItem/items/item-d
 //technical Services
 Vue.component('tenant-technical-services-index', require('@viewsModuleSale/technical-services/index.vue'));
 Vue.component('tenant-user-commissions-index', require('@viewsModuleSale/user-commissions/index.vue'));
+
+//Pending accounts
+Vue.component('tenant-pending-account-commissions-index', require('@viewsModuleSale/pending-accounts/index.vue'));
 
 //Purchase
 

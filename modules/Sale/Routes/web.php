@@ -9,6 +9,15 @@ if($current_hostname) {
     Route::domain($current_hostname->fqdn)->group(function () {
         Route::middleware(['auth', 'locked.tenant'])->group(function () {
 
+            Route::prefix('pending-account-commissions')->group(function () {
+                Route::get('', 'PendingAccountCommissionController@index')->name('tenant.pending_account_commissions.index');
+                Route::get('/columns', 'PendingAccountCommissionController@columns');
+                Route::get('/records', 'PendingAccountCommissionController@records');
+                Route::get('/tables', 'PendingAccountCommissionController@tables');
+                Route::get('/record/{id}', 'PendingAccountCommissionController@record');
+                Route::post('', 'PendingAccountCommissionController@store');
+                Route::delete('/{id}', 'PendingAccountCommissionController@destroy');
+            });
             /**
              sale-opportunities
              sale-opportunities/columns

@@ -1503,7 +1503,13 @@
                             </div>
                             <div class="col-12 mt-4">
                                 <div class="form-group" style="display: flex; flex-direction: column;">
-                                    <label>Restricción para deuda vencida</label>
+                                    <label>Restricción para deuda vencida
+                                        <el-tooltip class="item"
+                                            effect="dark"
+                                            content="Clientes con deuda vencida mayor a los días establecidos, no podrán realizar compras a crédito.">
+                                            <i class="fa fa-info-circle"></i>
+                                        </el-tooltip>
+                                    </label>
                                     <el-switch v-model="form.finances.restriction_expired_debt" active-text="Si" inactive-text="No"
                                         @change="submit"></el-switch>
                                 </div>

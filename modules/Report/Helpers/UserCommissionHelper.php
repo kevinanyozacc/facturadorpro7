@@ -12,6 +12,7 @@ use App\Models\Tenant\Purchase;
 use App\Models\Tenant\Item;
 use Carbon\Carbon;
 use App\CoreFacturalo\Helpers\Functions\FunctionsHelper;
+use Modules\Sale\Models\PendingAccountCommission;
 
 class UserCommissionHelper
 {
@@ -185,4 +186,87 @@ class UserCommissionHelper
     }
 
 
+    /**
+     * Devuelve los datos formateados para el reporte de cuentas pendientes por vendedor.
+     * Incluye id, nombre, monto cobrado y comisión.
+     *
+     * @param $user
+     * @param $request
+     * @param int $days_expired
+     * @return array
+     */
+    public static function getDataForPendingAccountCommissionReport($user, $request, $days_expired = 0)
+    {
+        $requestInner = $request->all();
+        $date_start = $requestInner['date_start'];
+        $date_end = $requestInner['date_end'];
+        $establishment_id = $requestInner['establishment_id'] ?? null;
+        $user_type = $requestInner['user_type'] ?? null;
+        $user_seller_id = $requestInner['user_seller_id'] ?? null;
+
+        $row_user_id = $user->id;
+
+        FunctionsHelper::setDateInPeriod($requestInner, $date_start, $date_end);
+
+        $documents = Document::whereHas('payments', function($q) use ($date_start, $date_end) {
+            $q->whereBetween('date_of_payment', [$date_start, $date_end]);
+        });
+
+        // Si necesitas filtrar por sucursal, usuario, vendedor, etc., hazlo aquí, pero NO por fechas de emisión/vencimiento:
+        if ($establishment_id) {
+            $documents = $documents->where('establishment_id', $establishment_id);
+        }
+        if ($user_type && $user_seller_id) {
+            $documents = $documents->where($user_type, $user_seller_id);
+        }
+        $documents = $documents->get();
+
+        $total_collected = 0;
+        $total_commission = 0;
+
+        $pending_commission = PendingAccountCommission::where('seller_id', $user->id)->first();
+        $commission_type = $pending_commission->commission_type ?? 'amount';
+        $commission_value = $pending_commission->amount ?? 0;
+
+        foreach ($documents as $document) {
+            
+            $date_of_due = $document->invoice->date_of_due ?? null;
+
+            if ($date_of_due && $date_of_due < now()) {
+                $dias_vencidos = now()->diffInDays(Carbon::parse($date_of_due));
+                if ($dias_vencidos >= $days_expired) {
+                    // Filtrar pagos realizados después del vencimiento, por el vendedor (si aplica) y dentro del rango de fechas filtrado
+                    $pagos_vencidos = $document->payments
+                        ->where('date_of_payment', '>', $date_of_due)
+                        ->where('date_of_payment', '>=', $date_start)
+                        ->where('date_of_payment', '<=', $date_end);
+
+                    // Si los pagos tienen user_id, filtra por el vendedor/cobrador
+                    if (isset($document->payments->first()->user_id)) {
+                        $pagos_vencidos = $pagos_vencidos->where('user_id', $user->id);
+                    }
+
+                    $monto_cobrado = $pagos_vencidos->sum('payment');
+                    $total_collected += $monto_cobrado;
+
+                    foreach ($pagos_vencidos as $payment) {
+                        $comision_sumada = 0;
+                        if ($commission_type === 'monto' || $commission_type === 'amount') {
+                            $comision_sumada = $commission_value;
+                            $total_commission += $commission_value;
+                        } elseif ($commission_type === 'porcentaje' || $commission_type === 'percent') {
+                            $comision_sumada = $payment->payment * ($commission_value / 100);
+                            $total_commission += $comision_sumada;
+                        }
+                    }
+                }
+            }
+        }
+        return [
+            'id' => $user->id,
+            'user_name' => $user->name,
+            'total_collected' => number_format($total_collected, 2, ".", ""),
+            'commission' => number_format($total_commission, 2, ".", ""),
+        ];
+    }
 }

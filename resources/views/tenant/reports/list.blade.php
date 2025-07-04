@@ -199,6 +199,9 @@
                         <li>
                             <a href="{{route('tenant.reports.commissions_detail.index')}}">Utilidad detallado</a>
                         </li>
+                        <li>
+                            <a href="{{ route('tenant.reports.pending_account_commissions.index') }}">Cuentas pendientes</a>
+                        </li>
                     </ul>
                 </div>
             </div>

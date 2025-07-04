@@ -17,6 +17,21 @@
 
                Route::prefix('reports')->group(function () {
 
+                    Route::prefix('pending-account-commissions')->group(function () {
+                         Route::get('', 'ReportPendingAccountCommissionController@index')
+                              ->name('tenant.reports.pending_account_commissions.index');
+                         Route::get('/pdf', 'ReportPendingAccountCommissionController@pdf')
+                              ->name('tenant.reports.pending_account_commissions.pdf');
+                         Route::get('/excel', 'ReportPendingAccountCommissionController@excel')
+                              ->name('tenant.reports.pending_account_commissions.excel');
+                         Route::get('/filter', 'ReportPendingAccountCommissionController@filter')
+                              ->name('tenant.reports.pending_account_commissions.filter');
+                         Route::get('/records', 'ReportPendingAccountCommissionController@records')
+                              ->name('tenant.reports.pending_account_commissions.records');
+                    });
+
+                    
+
                     Route::get('data-table/persons/{type}', 'ReportController@dataTablePerson');
                     Route::get('data-table/items', 'ReportController@dataTableItem');
 
