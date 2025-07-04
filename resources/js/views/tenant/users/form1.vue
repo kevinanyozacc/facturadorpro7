@@ -502,7 +502,7 @@
                                                 <td>
                                                     <div class="form-group mb-2 mr-2">
                                                         <el-select v-model="row.document_type_id" @change="changeDefaultDocumentType(index)">
-                                                            <el-option v-for="option in document_types" :key="option.id" :value="option.id" :label="option.description"></el-option>
+                                                            <el-option v-for="option in documents" :key="option.id" :value="option.id" :label="option.description.toUpperCase()"></el-option>
                                                         </el-select>
                                                         
                                                         <template v-if="errors[`default_document_types.${index}.document_type_id`]">
@@ -550,7 +550,7 @@
                                             <el-option
                                                 v-for="option in documents"
                                                 :key="option.id"
-                                                :label="option.description"
+                                                :label="option.description.toUpperCase()"
                                                 :value="option.id"
                                             ></el-option>
                                         </el-select>
