@@ -3068,10 +3068,6 @@
                                                                     format="dd/MM/yyyy"
                                                                     type="date"
                                                                     value-format="yyyy-MM-dd"
-                                                                    :readonly="
-                                                                        row.payment_method_type_id !==
-                                                                            '09'
-                                                                    "
                                                                 >
                                                                 </el-date-picker>
                                                             </td>
@@ -4207,6 +4203,14 @@ export default {
     watch: {
         'form.customer_id': 'checkCustomerExpiredDebt',
         'form.payment_condition_id': 'checkCustomerExpiredDebt',
+        'form.fee' : {
+            handler(newValue, oldValue) {
+                if (this.form.payment_condition_id === '02' ) {
+                    this.form.date_of_due = newValue[0].date
+                }
+            },
+            deep: true
+        } 
     },
     methods: {
         toggleInformation() {
