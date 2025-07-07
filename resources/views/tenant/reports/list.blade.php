@@ -180,6 +180,10 @@
                             <a href="{{route('tenant.reports.state_account.index')}}">Estado de cuenta</a>
                         </li>
                         
+                        <li>
+                            <a href="{{route('tenant.reports.sales_by_brand.index')}}">Ventas por marca</a>
+                        </li>
+                        
                     </ul>
                 </div>
             </div>

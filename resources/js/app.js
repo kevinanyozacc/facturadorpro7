@@ -204,6 +204,7 @@ Vue.component('tenant-report-massive-downloads-index', require('../../modules/Re
 Vue.component('tenant-documents-regularize-shipping', require('../../modules/Document/Resources/assets/js/views/documents/regularize_shipping.vue'));
 Vue.component('tenant-report-commissions-detail-index', require('../../modules/Report/Resources/assets/js/views/commissions_detail/index.vue'));
 Vue.component('tenant-report-pending-account-commissions-index', require('../../modules/Report/Resources/assets/js/views/pending-account-commissions/index.vue'));
+Vue.component('tenant-report-sales-by-brand-index', require('../../modules/Report/Resources/assets/js/views/sales_by_brand/index.vue'));
 
 
 Vue.component('tenant-report-tips-index', require('../../modules/Report/Resources/assets/js/views/tips/index.vue'));

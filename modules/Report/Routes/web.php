@@ -30,6 +30,13 @@
                               ->name('tenant.reports.pending_account_commissions.records');
                     });
 
+                    Route::prefix('sales-by-brand')->group(function () {
+                         Route::get('/', 'ReportSalesByBrandController@index')->name('tenant.reports.sales_by_brand.index');
+                         Route::get('/records', 'ReportSalesByBrandController@records');
+                         Route::get('/excel', 'ReportSalesByBrandController@excel');
+                         Route::get('/pdf', 'ReportSalesByBrandController@pdf');
+                         Route::get('/filter', 'ReportSalesByBrandController@filter');
+                    });
                     
 
                     Route::get('data-table/persons/{type}', 'ReportController@dataTablePerson');
