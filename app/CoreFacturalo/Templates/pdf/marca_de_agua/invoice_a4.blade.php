@@ -285,7 +285,31 @@
                         </td>
                     </tr>
                 @endif
-
+                @if ($document->dispatch)
+                <tr>
+                    <td class="font-sm" width="100px">
+                        <strong>Guías de remisión</strong>
+                    </td>
+                    <td class="font-sm" width="8px">:</td>
+                    <td class="font-sm" colspan="4">
+                        {{ $document->dispatch->number_full }}
+                    </td>
+                </tr>
+                @elseif ($document->reference_guides)
+                    @if (count($document->reference_guides) > 0)
+                        <tr>
+                            <td class="font-sm" width="100px">
+                                <strong>Guías de remisión</strong>
+                            </td>
+                            <td class="font-sm" width="8px">:</td>
+                            <td class="font-sm" colspan="4">
+                                @foreach($document->reference_guides as $guide)
+                                    {{ $guide->series }} - {{ $guide->number }}<br>
+                                @endforeach
+                            </td>
+                        </tr>
+                    @endif
+                @endif
             </table>
         </td>
         {{-- <td width="5%" class="p-0 m-0">
