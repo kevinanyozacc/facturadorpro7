@@ -400,6 +400,10 @@ export default {
                 }
             });
 
+            let inputSum = sums[6].split(" ").length > 1 ? parseFloat(sums[6].split(" ")[1].replace(',', '.')) : 0
+            let outputSum = sums[7].split(" ").length > 1 ? parseFloat(sums[7].split(" ")[1].replace(',', '.')) : 0
+            sums[8] = 'S/ ' + (inputSum - outputSum).toLocaleString('es')
+
             return sums;
         },
         DetailFormater: (row, col, value, index) => {

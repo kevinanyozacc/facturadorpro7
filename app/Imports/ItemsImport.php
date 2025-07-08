@@ -32,6 +32,10 @@ class ItemsImport implements ToCollection
             $registered = 0;
             unset($rows[0]);
             foreach ($rows as $row) {
+                $isNullAll = $row->every(function($el){
+                    return is_null($el);
+                });
+                if ($isNullAll) continue;
                 $description = $row[0];
                 $item_type_id = '01';
                 $internal_id = ($row[1])?:null;

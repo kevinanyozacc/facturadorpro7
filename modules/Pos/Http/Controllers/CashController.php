@@ -725,6 +725,7 @@ class CashController extends Controller
                                     $record_total = $pays->where('payment_method_type_id', $record->id)->sum('payment');
                                     $record->sum = ($record->sum + $record_total);
                                 }
+                                $data['total_cash_income_pmt_01'] += $this->getIncomeEgressCashDestination($income->payments);
                             }
 
                             $temp = [
