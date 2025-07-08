@@ -77,13 +77,9 @@ class UnpaidController extends Controller
 
         $establishments = DashboardView::getEstablishments();
 
-        $users = [];
+        $users = User::query()->whereIn('type', ['admin', 'seller'])->get();
 
-        if(auth()->user()->type == 'admin')
-        {
-            $users = User::where('id', '!=', auth()->user()->id)->whereIn('type', ['admin', 'seller'])->get();
-        }
-
+        
         $payment_method_types = PaymentMethodType::whereIn('id', ['05', '08', '09'])->get();
         $web_platforms = WebPlatform::all();
 
