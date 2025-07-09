@@ -9,15 +9,19 @@ class SaleOpportunityFileService
 
     public function getFile($filename)
     {
-        $file =  Storage::disk('tenant')->get('sale_opportunity_files'.DIRECTORY_SEPARATOR.$filename);
+        $path = 'sale_opportunity_files' . DIRECTORY_SEPARATOR . $filename;
+    
+        if (!Storage::disk('tenant')->exists($path)) {
+            return null;
+        }
+    
+        $file = Storage::disk('tenant')->get($path);
         $temp = tempnam(sys_get_temp_dir(), 'tmp_sale_opportunity_files');
         file_put_contents($temp, $file);
         $mime = mime_content_type($temp);
         $data = file_get_contents($temp);
-
-        $image = 'data:' . $mime . ';base64,' . base64_encode($data);
-        
-        return $image;
+    
+        return 'data:' . $mime . ';base64,' . base64_encode($data);
     }
     
 
