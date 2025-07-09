@@ -5,7 +5,7 @@
                :title="titleDialog"
                :visible="showDialog"
                append-to-body
-               width="30%"
+               width="40%"
                @open="create">
         <!--
         <Keypress
@@ -52,37 +52,37 @@
 
             </div>
 
-            <div class="row">
+            <div class="row print-buttons-container">
 
                 <div class="col text-center font-weight-bold mt-3">
-                    <button class="btn btn-lg btn-info waves-effect waves-light"
+                    <button class="btn btn-lg btn-info waves-effect waves-light w-100"
                             type="button"
                             @click="clickPrint('a4')">
+                        A4
                         <i class="fa fa-file-alt"></i>
                     </button>
-                    <p>A4</p>
                 </div>
 
                 <div v-if="ShowTicket80"
                      class="col text-center font-weight-bold mt-3">
 
-                    <button class="btn btn-lg btn-info waves-effect waves-light"
+                    <button class="btn btn-lg btn-info waves-effect waves-light w-100"
                             type="button"
                             @click="clickPrint('ticket')">
+                        80MM
                         <i class="fa fa-receipt"></i>
                     </button>
-                    <p>80MM</p>
                 </div>
 
                 <div v-if="ShowTicket58"
                      class="col text-center font-weight-bold mt-3">
 
-                    <button class="btn btn-lg btn-info waves-effect waves-light"
+                    <button class="btn btn-lg btn-info waves-effect waves-light w-100"
                             type="button"
                             @click="clickPrint('ticket_58')">
+                        58MM
                         <i class="fa fa-receipt"></i>
                     </button>
-                    <p>58MM</p>
                 </div>
 
                 <div v-if="ShowTicket50"
@@ -95,23 +95,23 @@
                         trigger="hover"
                         content="Presiona ALT + P">
                         <el-button slot="reference"
-                                   class="btn btn-lg btn-info waves-effect waves-light"
+                                   class="btn btn-lg btn-info waves-effect waves-light w-100"
                                    type="button"
                                    @click="clickPrint('ticket_50')">
-                            <i class="fa fa-receipt"></i>
+                            50MM
+                            <i class="fa fa-receipt"></i>                        
                         </el-button>
                     </el-popover>
-                    <p>50MM</p>
                 </div>
 
                 <div class="col text-center font-weight-bold mt-3">
 
-                    <button class="btn btn-lg btn-info waves-effect waves-light"
+                    <button class="btn btn-lg btn-info waves-effect waves-light w-100"
                             type="button"
                             @click="clickPrint('a5')">
+                        A5
                         <i class="fa fa-file-alt"></i>
                     </button>
-                    <p>A5</p>
                 </div>
             </div>
             <div class="row">

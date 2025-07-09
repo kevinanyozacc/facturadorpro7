@@ -10,13 +10,13 @@
       :show-close="false"
     >
       <div class="row" >
-        <div class="col-lg-12 col-md-12 col-sm-12 text-center font-weight-bold">
-          <p>Imprimir A4</p>
+        <div class="col-lg-12 col-md-12 col-sm-12 text-center font-weight-bold">          
           <button
             type="button"
-            class="btn btn-lg btn-info waves-effect waves-light"
+            class="btn btn-lg btn-info waves-effect waves-light w-100"
             @click="clickToPrint('a4')"
           >
+            Imprimir A4
             <i class="fa fa-file-alt"></i>
           </button>
         </div>  

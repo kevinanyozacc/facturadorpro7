@@ -21153,6 +21153,10 @@ tbody tr:hover,tfoot tr:hover {
     max-height: 185px;
     overflow-y: auto;
 }
+.print-buttons-container {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 80px), 1fr));
+}
 html.dark .el-message--warning {
     background-color: #E6A23C;
     border-color: #E6A23C;

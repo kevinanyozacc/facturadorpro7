@@ -1,37 +1,36 @@
 <template>
 <div>
-    <el-dialog :title="titleDialog" :visible="showDialog" @open="create" width="60%" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false">
+    <el-dialog :title="titleDialog" :visible="showDialog" @open="create" width="30%" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false">
         <div class="dialog-close-btn" style="position: absolute; top: 10px; right: 10px;">
             <el-button @click="clickClose" class="close-btn" type="text" icon="el-icon-close"></el-button>
         </div>
-        <div class="row" v-show="!showGenerate">
+        <div class="row print-buttons-container" v-show="!showGenerate">
             <div class="col text-center font-weight-bold">
-                <p>Imprimir A4</p>
-                <button type="button" class="btn btn-lg btn-info waves-effect waves-light" @click="clickToPrint('a4')">
+                <button type="button" class="btn btn-lg btn-info waves-effect waves-light w-100" @click="clickToPrint('a4')">
+                    A4
                     <i class="fa fa-file-alt"></i>
                 </button>
             </div>
             <div class="col text-center font-weight-bold">
-                <p>Imprimir A5</p>
-                <button type="button" class="btn btn-lg btn-info waves-effect waves-light" @click="clickToPrint('a5')">
+                <button type="button" class="btn btn-lg btn-info waves-effect waves-light w-100" @click="clickToPrint('a5')">
+                    A5
                     <i class="fa fa-file-alt"></i>
                 </button>
             </div>
             <div class="col text-center font-weight-bold">
-                <p>Imprimir Ticket</p>
-                <button type="button" class="btn btn-lg btn-info waves-effect waves-light" @click="clickToPrint('ticket')">
+                <button type="button" class="btn btn-lg btn-info waves-effect waves-light w-100" @click="clickToPrint('ticket')">
+                    Ticket
                     <i class="fa fa-receipt"></i>
                 </button>
             </div>
             <template v-if="configuration">
                 <div class="col text-center font-weight-bold" v-if="configuration.ticket_58">
-                    <p>Imprimir Ticket 58MM</p>
-                    <button type="button" class="btn btn-lg btn-info waves-effect waves-light" @click="clickToPrint('ticket_58')">
+                    <button type="button" class="btn btn-lg btn-info waves-effect waves-light w-100" @click="clickToPrint('ticket_58')">
+                        Tk 58MM
                         <i class="fa fa-receipt"></i>
                     </button>
                 </div>
             </template>
-
         </div>
         <br />
         <div class="row" v-show="!showGenerate">

@@ -1,17 +1,17 @@
 <template>
     <div>
-        <el-dialog :title="titleDialog" :visible="showDialog" @open="create" width="30%"
+        <el-dialog :title="titleDialog" :visible="showDialog" @open="create" @close="clickClose" :close-on-click-modal="false" width="40%"
                 > 
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6 text-center font-weight-bold">
-                    <p>Imprimir A4</p>
-                    <button type="button" class="btn btn-lg btn-info waves-effect waves-light" @click="clickToPrint('a4')">
+                    <button type="button" class="btn btn-lg btn-info waves-effect waves-light w-100" @click="clickToPrint('a4')">
+                        Imprimir A4
                         <i class="fa fa-print"></i>
                     </button>
                 </div>  
                 <div class="col-lg-6 col-md-6 col-sm-6 text-center font-weight-bold">
-                    <p>Descargar A4</p>
-                    <button type="button" class="btn btn-lg btn-info waves-effect waves-light" @click="clickDownload('a4')">
+                    <button type="button" class="btn btn-lg btn-info waves-effect waves-light w-100" @click="clickDownload('a4')">
+                        Descargar A4
                         <i class="fa fa-download"></i>
                     </button>
                 </div>  

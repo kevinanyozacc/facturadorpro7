@@ -262,18 +262,20 @@
                                         <span slot="prepend" class="currency-symbol-span" v-if="is_discount_amount">{{ currencyTypeActive.symbol }}</span>
                                         <span slot="append" class="currency-symbol-span" v-else>%</span>
                                         <div class="form-group amount-container">
-                                            <label class="control-label text-left w-100">
-    
-                                                <template>{{ (is_discount_amount) ? 'Monto' : 'Porcentaje'}} descuento</template>
-    
-                                                <el-tooltip class="item"
-                                                            v-if="global_discount_type && global_discount_type.description"
-                                                            :content="global_discount_type.description"
-                                                            effect="dark"
-                                                            placement="top">
-                                                    <i class="fa fa-info-circle"></i>
+                                            <label class="control-label text-left w-100 d-flex align-items-center gap-1">
+                                                <span class="text-truncate" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                    {{ is_discount_amount ? 'Monto' : 'Porcentaje' }} descuento
+                                                </span>
+
+                                                <el-tooltip
+                                                    class="item"
+                                                    v-if="global_discount_type && global_discount_type.description"
+                                                    :content="global_discount_type.description"
+                                                    effect="dark"
+                                                    placement="top"
+                                                >
+                                                    <i class="fa fa-info-circle ml-1"></i>
                                                 </el-tooltip>
-    
                                             </label>
                                             <el-input v-model="discount_amount"
                                                       :disabled="!enabled_discount"

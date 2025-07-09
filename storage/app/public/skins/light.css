@@ -1340,11 +1340,11 @@ html.dark .row.top .col .card-body {
 html.dark .separator-title:before {
     border-bottom: solid 1px var(--borders-dark);
 }
-html.dark .table > thead > tr > th, html.dark .table > tbody > tr > th, html.dark .table > tfoot > tr > th, html.dark .table > thead > tr > td, html.dark .table > tbody > tr > td, html.dark .table > tfoot > tr > td, html.dark .table-bordered{
-    border-color: var(--contents-dark) !important;
-}
 html.dark .table-hover > tbody > tr:hover > td, html.dark .table-hover > tbody > tr:hover > th{
     background-color: var(--contents-dark) !important;
+}
+html.dark tbody tr:hover, html.dark tfoot tr:hover{
+    background: transparent !important;
 }
 @media only screen and (min-width: 391px){
     .card-body-invoice div .row .filter-invoice{

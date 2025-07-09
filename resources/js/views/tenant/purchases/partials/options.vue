@@ -7,10 +7,10 @@
         <div class="row">
 
             <div class="col-lg-12 col-md-12 col-sm-12 text-center font-weight-bold mt-3">
-                <button type="button" class="btn btn-lg btn-info waves-effect waves-light" @click="clickPrint('a4')">
+                <button type="button" class="btn btn-lg btn-info waves-effect waves-light w-100" @click="clickPrint('a4')">
+                    Imprimir A4
                     <i class="fa fa-file-alt"></i>
                 </button>
-                <p>Imprimir A4</p>
             </div>
 
         </div>

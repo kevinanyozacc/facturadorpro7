@@ -6,7 +6,7 @@
             :show-close="false"
             :title="titleDialog"
             :visible="showDialog"
-            width="30%"
+            width="40%"
             @open="create"
         >
 
@@ -15,32 +15,32 @@
         </div>
             <div v-show="!showGenerate" class="row">
                 <div class="col-lg-4 col-md-4 col-sm-4 text-center font-weight-bold">
-                    <p>A4</p>
                     <button
-                        class="btn btn-lg btn-info waves-effect waves-light"
+                        class="btn btn-lg btn-info waves-effect waves-light w-100"
                         type="button"
                         @click="clickToPrint('a4')"
                     >
+                        A4
                         <i class="fa fa-file-alt"></i>
                     </button>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-4 text-center font-weight-bold">
-                    <p>A5</p>
                     <button
-                        class="btn btn-lg btn-info waves-effect waves-light"
+                        class="btn btn-lg btn-info waves-effect waves-light w-100"
                         type="button"
                         @click="clickToPrint('a5')"
                     >
+                        A5
                         <i class="fa fa-file-alt"></i>
                     </button>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-4 text-center font-weight-bold">
-                    <p>Ticket 80mm</p>
                     <button
-                        class="btn btn-lg btn-info waves-effect waves-light"
+                        class="btn btn-lg btn-info waves-effect waves-light w-100"
                         type="button"
                         @click="clickToPrint('ticket')"
                     >
+                        Tk 80mm
                         <i class="fa fa-receipt"></i>
                     </button>
                 </div>
