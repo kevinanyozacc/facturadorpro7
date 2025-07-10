@@ -1,15 +1,32 @@
 <template>
   <div>
     <el-dialog
-      :title="titleDialog"
       :visible="showDialog"
       @open="create"
       width="30%"
       :close-on-click-modal="false"
       :close-on-press-escape="false"
-      :show-close="false"
+      show-close
+      @close="clickClose" 
     >
-      <div class="row" >
+      <span slot="title">
+          <div class="widget-summary widget-summary-xs d-flex align-items-center">
+              <div class="">
+                  <div class="summary-icon bg-success succes-check-container m-0">
+                      <i class="fas fa-check"></i>
+                  </div>
+              </div>
+              <div class="widget-summary-col">
+                  <div>
+                      <div>
+                          <span class="ml-2 el-dialog__title">{{ titleDialog }}</span>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </span>
+      <span>Formatos disponibles para la descarga de la venta:</span>
+      <div class="row mt-2" >
         <div class="col-lg-12 col-md-12 col-sm-12 text-center font-weight-bold">          
           <button
             type="button"
@@ -17,7 +34,6 @@
             @click="clickToPrint('a4')"
           >
             Imprimir A4
-            <i class="fa fa-file-alt"></i>
           </button>
         </div>  
       </div>

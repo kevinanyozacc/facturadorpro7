@@ -84,7 +84,7 @@
                             </div> -->
 
 
-                            <div class="col-lg-4">
+                            <div class="col-lg-3">
                                 <div class="form-group" :class="{'has-danger': errors.supplier_id}">
                                     <label class="control-label">
                                         Proveedor
@@ -149,7 +149,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-lg-2" style="margin-top:24px;">
+                            <div class="col-lg-3" style="margin-top:24px;">
                                 <div class="form-group" :class="{'has-danger': errors.file}">
                                     <el-upload
                                         class="upload-demo-default"

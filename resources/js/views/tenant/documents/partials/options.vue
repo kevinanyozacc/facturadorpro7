@@ -2,10 +2,9 @@
     <el-dialog :close-on-click-modal="false"
                :close-on-press-escape="false"
                :show-close="false"
-               :title="titleDialog"
                :visible="showDialog"
                append-to-body
-               width="40%"
+               width="30%"
                @open="create">
         <!--
         <Keypress
@@ -13,6 +12,22 @@
             @success="checkKey"
         />
         -->
+        <span slot="title">
+            <div class="widget-summary widget-summary-xs d-flex align-items-center">
+                <div class="">
+                    <div class="summary-icon bg-success succes-check-container m-0">
+                        <i class="fas fa-check"></i>
+                    </div>
+                </div>
+                <div class="widget-summary-col">
+                    <div>
+                        <div>
+                            <span class="ml-2 el-dialog__title">{{ titleDialog }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </span>
         <div class="dialog-close-btn" style="position: absolute; top: 10px; right: 10px;">
             <el-button @click="clickClose" class="close-btn" type="text" icon="el-icon-close"></el-button>
         </div>
@@ -52,6 +67,7 @@
 
             </div>
 
+            <span>Formatos disponibles para la descarga del comprobante:</span>
             <div class="row print-buttons-container">
 
                 <div class="col text-center font-weight-bold mt-3">
@@ -59,7 +75,6 @@
                             type="button"
                             @click="clickPrint('a4')">
                         A4
-                        <i class="fa fa-file-alt"></i>
                     </button>
                 </div>
 
@@ -70,7 +85,6 @@
                             type="button"
                             @click="clickPrint('ticket')">
                         80MM
-                        <i class="fa fa-receipt"></i>
                     </button>
                 </div>
 
@@ -81,7 +95,6 @@
                             type="button"
                             @click="clickPrint('ticket_58')">
                         58MM
-                        <i class="fa fa-receipt"></i>
                     </button>
                 </div>
 
@@ -98,8 +111,7 @@
                                    class="btn btn-lg btn-info waves-effect waves-light w-100"
                                    type="button"
                                    @click="clickPrint('ticket_50')">
-                            50MM
-                            <i class="fa fa-receipt"></i>                        
+                            50MM                     
                         </el-button>
                     </el-popover>
                 </div>
@@ -110,7 +122,6 @@
                             type="button"
                             @click="clickPrint('a5')">
                         A5
-                        <i class="fa fa-file-alt"></i>
                     </button>
                 </div>
             </div>
@@ -359,7 +370,7 @@ export default {
             this.loading = true;
             await this.$http.get(`/${this.resource}/record/${this.recordId}`).then(response => {
                 this.form = response.data.data;
-                this.titleDialog = 'Comprobante: ' + this.form.number;
+                this.titleDialog = 'Comprobante Generado: ' + this.form.number;
                 if (this.generatDispatch) window.open(`/dispatches/create/${this.form.id}/i/${this.dispatchId}`)
             }).finally(() => {
                 this.loading = false

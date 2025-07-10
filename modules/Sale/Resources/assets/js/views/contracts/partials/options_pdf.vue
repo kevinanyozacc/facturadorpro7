@@ -1,18 +1,32 @@
 <template>
     <div>
-        <el-dialog :title="titleDialog" :visible="showDialog" @open="create" @close="clickClose" :close-on-click-modal="false" width="40%"
-                > 
-            <div class="row">
-                <div class="col-lg-6 col-md-6 col-sm-6 text-center font-weight-bold">
+        <el-dialog :visible="showDialog" @open="create" @close="clickClose" :close-on-click-modal="false" width="30%"> 
+            <span slot="title">
+                <div class="widget-summary widget-summary-xs d-flex align-items-center">
+                    <div class="">
+                        <div class="summary-icon bg-success succes-check-container m-0">
+                            <i class="fas fa-check"></i>
+                        </div>
+                    </div>
+                    <div class="widget-summary-col">
+                        <div>
+                            <div>
+                                <span class="ml-2 el-dialog__title">{{ titleDialog }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </span>
+            <span>Formatos disponibles para la descarga del contrato:</span>
+            <div class="row print-buttons-container mt-2">
+                <div class="col text-center font-weight-bold">
                     <button type="button" class="btn btn-lg btn-info waves-effect waves-light w-100" @click="clickToPrint('a4')">
                         Imprimir A4
-                        <i class="fa fa-print"></i>
                     </button>
                 </div>  
-                <div class="col-lg-6 col-md-6 col-sm-6 text-center font-weight-bold">
+                <div class="col text-center font-weight-bold">
                     <button type="button" class="btn btn-lg btn-info waves-effect waves-light w-100" @click="clickDownload('a4')">
                         Descargar A4
-                        <i class="fa fa-download"></i>
                     </button>
                 </div>  
             </div> 

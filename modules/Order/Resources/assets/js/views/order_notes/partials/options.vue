@@ -1,33 +1,46 @@
 <template>
 <div>
-    <el-dialog :title="titleDialog" :visible="showDialog" @open="create" width="30%" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false">
+    <el-dialog :visible="showDialog" @open="create" width="30%" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false">
+        <span slot="title">
+            <div class="widget-summary widget-summary-xs d-flex align-items-center">
+                <div class="">
+                    <div class="summary-icon bg-success succes-check-container m-0">
+                        <i class="fas fa-check"></i>
+                    </div>
+                </div>
+                <div class="widget-summary-col">
+                    <div>
+                        <div>
+                            <span class="ml-2 el-dialog__title">{{ titleDialog }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </span>
         <div class="dialog-close-btn" style="position: absolute; top: 10px; right: 10px;">
             <el-button @click="clickClose" class="close-btn" type="text" icon="el-icon-close"></el-button>
         </div>
-        <div class="row print-buttons-container" v-show="!showGenerate">
+        <span>Formatos disponibles para la descarga del pedido:</span>
+        <div class="row print-buttons-container mt-2" v-show="!showGenerate">
             <div class="col text-center font-weight-bold">
                 <button type="button" class="btn btn-lg btn-info waves-effect waves-light w-100" @click="clickToPrint('a4')">
                     A4
-                    <i class="fa fa-file-alt"></i>
                 </button>
             </div>
             <div class="col text-center font-weight-bold">
                 <button type="button" class="btn btn-lg btn-info waves-effect waves-light w-100" @click="clickToPrint('a5')">
                     A5
-                    <i class="fa fa-file-alt"></i>
                 </button>
             </div>
             <div class="col text-center font-weight-bold">
                 <button type="button" class="btn btn-lg btn-info waves-effect waves-light w-100" @click="clickToPrint('ticket')">
                     Ticket
-                    <i class="fa fa-receipt"></i>
                 </button>
             </div>
             <template v-if="configuration">
                 <div class="col text-center font-weight-bold" v-if="configuration.ticket_58">
                     <button type="button" class="btn btn-lg btn-info waves-effect waves-light w-100" @click="clickToPrint('ticket_58')">
                         Tk 58MM
-                        <i class="fa fa-receipt"></i>
                     </button>
                 </div>
             </template>

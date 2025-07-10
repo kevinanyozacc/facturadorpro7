@@ -1,8 +1,25 @@
 <template>
-    <el-dialog :title="titleDialog" :visible="showDialog" @open="create" width="30%"
+    <el-dialog :visible="showDialog" @open="create" width="30%"
                :close-on-click-modal="false"
                :close-on-press-escape="false"
                :show-close="false">
+
+        <span slot="title">
+            <div class="widget-summary widget-summary-xs d-flex align-items-center">
+                <div class="">
+                    <div class="summary-icon bg-success succes-check-container m-0">
+                        <i class="fas fa-check"></i>
+                    </div>
+                </div>
+                <div class="widget-summary-col">
+                    <div>
+                        <div>
+                            <span class="ml-2 el-dialog__title">{{ titleDialog }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </span>
     
         <span slot="footer" class="dialog-footer">
             <template v-if="showClose">

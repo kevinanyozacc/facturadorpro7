@@ -21153,9 +21153,26 @@ tbody tr:hover,tfoot tr:hover {
     max-height: 185px;
     overflow-y: auto;
 }
+.print-buttons-container div.col{
+    padding-left: 5px;
+    padding-right: 5px;
+}
 .print-buttons-container {
   display: grid !important;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 80px), 1fr));
+  padding: 0 10px 0 10px;
+}
+.succes-check-container{
+    width: 30px !important;
+    height: 30px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem !important;
+}
+html.dark .dialog-close-btn button{
+    background: transparent;
+    border: none;
 }
 html.dark .el-message--warning {
     background-color: #E6A23C;

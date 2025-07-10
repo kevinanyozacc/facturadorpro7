@@ -4,44 +4,56 @@
             :close-on-click-modal="false"
             :close-on-press-escape="false"
             :show-close="false"
-            :title="titleDialog"
             :visible="showDialog"
-            width="40%"
+            width="30%"
             @open="create"
         >
-
+        <span slot="title">
+            <div class="widget-summary widget-summary-xs d-flex align-items-center">
+                <div class="">
+                    <div class="summary-icon bg-success succes-check-container m-0">
+                        <i class="fas fa-check"></i>
+                    </div>
+                </div>
+                <div class="widget-summary-col">
+                    <div>
+                        <div>
+                            <span class="ml-2 el-dialog__title">{{ titleDialog }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </span>
         <div class="dialog-close-btn" style="position: absolute; top: 10px; right: 10px;">
             <el-button @click="clickClose" class="close-btn" type="text" icon="el-icon-close"></el-button>
         </div>
-            <div v-show="!showGenerate" class="row">
-                <div class="col-lg-4 col-md-4 col-sm-4 text-center font-weight-bold">
+        <span>Formatos disponibles para la descarga de la cotización:</span>
+            <div v-show="!showGenerate" class="row print-buttons-container mt-2">
+                <div class="col text-center font-weight-bold">
                     <button
                         class="btn btn-lg btn-info waves-effect waves-light w-100"
                         type="button"
                         @click="clickToPrint('a4')"
                     >
                         A4
-                        <i class="fa fa-file-alt"></i>
                     </button>
                 </div>
-                <div class="col-lg-4 col-md-4 col-sm-4 text-center font-weight-bold">
+                <div class="col text-center font-weight-bold">
                     <button
                         class="btn btn-lg btn-info waves-effect waves-light w-100"
                         type="button"
                         @click="clickToPrint('a5')"
                     >
                         A5
-                        <i class="fa fa-file-alt"></i>
                     </button>
                 </div>
-                <div class="col-lg-4 col-md-4 col-sm-4 text-center font-weight-bold">
+                <div class="col text-center font-weight-bold">
                     <button
                         class="btn btn-lg btn-info waves-effect waves-light w-100"
                         type="button"
                         @click="clickToPrint('ticket')"
                     >
                         Tk 80mm
-                        <i class="fa fa-receipt"></i>
                     </button>
                 </div>
             </div>
