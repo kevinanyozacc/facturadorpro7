@@ -227,41 +227,57 @@ class UserCommissionHelper
         $pending_commission = PendingAccountCommission::where('seller_id', $user->id)->first();
         $commission_type = $pending_commission->commission_type ?? 'amount';
         $commission_value = $pending_commission->amount ?? 0;
+        
+        //$logData = [];
 
         foreach ($documents as $document) {
-            
             $date_of_due = $document->invoice->date_of_due ?? null;
+            //$pagos_detalles = [];
+            $monto_cobrado = 0;
+            $comision_sumada = 0;
+            //$aplica_comision = false;
 
-            if ($date_of_due && $date_of_due < now()) {
-                $dias_vencidos = now()->diffInDays(Carbon::parse($date_of_due));
-                if ($dias_vencidos >= $days_expired) {
-                    // Filtrar pagos realizados después del vencimiento, por el vendedor (si aplica) y dentro del rango de fechas filtrado
-                    $pagos_vencidos = $document->payments
-                        ->where('date_of_payment', '>', $date_of_due)
-                        ->where('date_of_payment', '>=', $date_start)
-                        ->where('date_of_payment', '<=', $date_end);
-
-                    // Si los pagos tienen user_id, filtra por el vendedor/cobrador
-                    if (isset($document->payments->first()->user_id)) {
-                        $pagos_vencidos = $pagos_vencidos->where('user_id', $user->id);
-                    }
-
-                    $monto_cobrado = $pagos_vencidos->sum('payment');
-                    $total_collected += $monto_cobrado;
-
-                    foreach ($pagos_vencidos as $payment) {
-                        $comision_sumada = 0;
+            if ($date_of_due && $document->user_id == $user->id) {
+                foreach ($document->payments as $payment) {
+                    
+                    $dias_vencidos = Carbon::parse($date_of_due)->diffInDays(Carbon::parse($payment->date_of_payment));
+                    $aplica = false;
+                    // Solo suma comisión y monto si corresponde
+                    if ($payment->date_of_payment > $date_of_due && $dias_vencidos <= $days_expired) {
+                        //$aplica = true;
+                        //$aplica_comision = true;
+                        $monto_cobrado += $payment->payment;
                         if ($commission_type === 'monto' || $commission_type === 'amount') {
-                            $comision_sumada = $commission_value;
+                            $comision_sumada += $commission_value;
                             $total_commission += $commission_value;
                         } elseif ($commission_type === 'porcentaje' || $commission_type === 'percent') {
-                            $comision_sumada = $payment->payment * ($commission_value / 100);
-                            $total_commission += $comision_sumada;
+                            $comision = $payment->payment * ($commission_value / 100);
+                            $comision_sumada += $comision;
+                            $total_commission += $comision;
                         }
                     }
+                    // SIEMPRE agrega el pago al log, aunque no aplique comisión
+                    /*$pagos_detalles[] = [
+                        'id' => $payment->id,
+                        'date_of_payment' => $payment->date_of_payment,
+                        'amount' => $payment->payment,
+                        'user_id' => $payment->user_id,
+                        'dias_vencidos' => $dias_vencidos,
+                        'aplica_comision' => $aplica,
+                    ];*/
                 }
+                $total_collected += $monto_cobrado;
             }
+            /*$logData[] = [
+                'document_id'      => $document->id,
+                'date_of_due'      => $date_of_due,
+                'aplica_comision'  => $aplica_comision,
+                'monto_cobrado'    => $monto_cobrado,
+                'comision_sumada'  => $comision_sumada,
+                'pagos'            => $pagos_detalles, // Aquí estarán TODOS los pagos
+            ];*/
         }
+        //\Log::info('[PENDING ACCOUNTS] Reporte completo:', $logData);
         return [
             'id' => $user->id,
             'user_name' => $user->name,

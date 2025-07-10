@@ -22,8 +22,9 @@ class ReportPendingAccountCommissionController extends Controller
                 'name' => $row->description
             ];
         });
+        $sellers = $this->getSellers();
 
-        return compact('establishments');
+        return compact('establishments', 'sellers');
     }
 
     public function index()

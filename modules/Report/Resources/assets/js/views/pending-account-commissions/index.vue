@@ -10,7 +10,7 @@
                 <li class="active">
                     <span>
                         Cuentas pendientes
-                        <el-tooltip class="item" effect="dark" content="Solo se calcularan los pagos realizados después del vencimiento y que superan los días maximos de deuda vencida" placement="top-end">
+                        <el-tooltip class="item" effect="dark" content="Solo se calcularan los pagos realizados después del vencimiento y antes que superen los días maximos de deuda vencida" placement="top-end">
                             <i class="fa fa-info-circle"></i>
                         </el-tooltip>
                     </span>
