@@ -218,6 +218,24 @@
     @endif
 </table>
 
+@php
+    $show_brand = $document->items->contains(function ($row) {
+        return !empty($row->item->brand);
+    });
+
+    $show_model = $document->items->contains(function ($row) {
+        return !empty($row->item->model);
+    });
+
+    $show_lot = $document->items->contains(function ($row) {
+        return !empty($row->getSaleLotGroupCodeDescription());
+    });
+
+    $show_due = $document->items->contains(function ($row) {
+        return !empty(optional($row->relation_item)->date_of_due);
+    });
+@endphp
+
 <table class="full-width mt-10 mb-10 ticket">
     <thead class="">
     <tr>
@@ -270,6 +288,20 @@
                 @endif
                   @if($row->item !== null && property_exists($row->item,'extra_attr_value') && $row->item->extra_attr_value != '')
                     <br/><span style="font-size: 9px">{{$row->item->extra_attr_name}}: {{ $row->item->extra_attr_value }}</span>
+                @endif
+
+                @if($show_lot)
+                <small style="display:block; font-weight: normal; font-size: 7px;">
+                    Lote: {{ $row->getSaleLotGroupCodeDescription() }}
+                    <br>
+                    FV: 
+                    @if(isset($row->relation_item->date_of_due))
+                        {{ $row->relation_item->date_of_due->format('Y-m-d') }}
+                    @else
+                        -
+                    @endif
+                    <br>
+                </small>
                 @endif
             </td>
             <td class="text-right desc-9 align-top">{{ number_format($row->unit_price, 2) }}</td>

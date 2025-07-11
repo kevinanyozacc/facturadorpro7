@@ -24,41 +24,68 @@
                     <img src="data:{{mime_content_type(public_path("storage/uploads/logos/{$company->logo}"))}};base64, {{base64_encode(file_get_contents(public_path("storage/uploads/logos/{$company->logo}")))}}" alt="{{$company->name}}" class="company_logo" style="max-width: 150px;">
                 </div>
             </td>
+            <td width="50%" class="text-center">
+                <div class="text-left">
+                    <h4 class="">{{ $company->name }}</h4>
+                    <h5>{{ 'RUC '.$company->number }}</h5>
+                    <h6 style="text-transform: uppercase;">
+                        {{ ($establishment->address !== '-')? $establishment->address : '' }}
+                        {{ ($establishment->district_id !== '-')? ', '.$establishment->district->description : '' }}
+                        {{ ($establishment->province_id !== '-')? ', '.$establishment->province->description : '' }}
+                        {{ ($establishment->department_id !== '-')? '- '.$establishment->department->description : '' }}
+                    </h6>
+                    @isset($establishment->trade_address)
+                        <h6>{{ ($establishment->trade_address !== '-')? 'D. Comercial: '.$establishment->trade_address : '' }}</h6>
+                    @endisset
+                    <h6>{{ ($establishment->telephone !== '-')? 'Central telefónica: '.$establishment->telephone : '' }}</h6>
+
+                    <h6>{{ ($establishment->email !== '-')? 'Email: '.$establishment->email : '' }}</h6>
+
+                    @isset($establishment->web_address)
+                        <h6>{{ ($establishment->web_address !== '-')? 'Web: '.$establishment->web_address : '' }}</h6>
+                    @endisset
+
+                    @isset($establishment->aditional_information)
+                        <h6>{{ ($establishment->aditional_information !== '-')? $establishment->aditional_information : '' }}</h6>
+                    @endisset
+                </div>
+            </td>
+            <td width="30%" class="border-box py-4 px-2 text-center">
+                <h5 class="text-center">COTIZACIÓN</h5>
+                <h3 class="text-center">{{ $tittle }}</h3>
+            </td>
         @else
-            <td width="20%">
-                {{--<img src="{{ asset('logo/logo.jpg') }}" class="company_logo" style="max-width: 150px">--}}
+            <td width="70%" class="pl-1">
+                <div class="text-left">
+                    <h4 class="">{{ $company->name }}</h4>
+                    <h5>{{ 'RUC '.$company->number }}</h5>
+                    <h6 style="text-transform: uppercase;">
+                        {{ ($establishment->address !== '-')? $establishment->address : '' }}
+                        {{ ($establishment->district_id !== '-')? ', '.$establishment->district->description : '' }}
+                        {{ ($establishment->province_id !== '-')? ', '.$establishment->province->description : '' }}
+                        {{ ($establishment->department_id !== '-')? '- '.$establishment->department->description : '' }}
+                    </h6>
+                    @isset($establishment->trade_address)
+                        <h6>{{ ($establishment->trade_address !== '-')? 'D. Comercial: '.$establishment->trade_address : '' }}</h6>
+                    @endisset
+                    <h6>{{ ($establishment->telephone !== '-')? 'Central telefónica: '.$establishment->telephone : '' }}</h6>
+
+                    <h6>{{ ($establishment->email !== '-')? 'Email: '.$establishment->email : '' }}</h6>
+
+                    @isset($establishment->web_address)
+                        <h6>{{ ($establishment->web_address !== '-')? 'Web: '.$establishment->web_address : '' }}</h6>
+                    @endisset
+
+                    @isset($establishment->aditional_information)
+                        <h6>{{ ($establishment->aditional_information !== '-')? $establishment->aditional_information : '' }}</h6>
+                    @endisset
+                </div>
+            </td>
+            <td width="30%" class="border-box py-4 px-2 text-center">
+                <h5 class="text-center">COTIZACIÓN</h5>
+                <h3 class="text-center">{{ $tittle }}</h3>
             </td>
         @endif
-        <td width="50%" class="pl-3">
-            <div class="text-left">
-                <h4 class="">{{ $company->name }}</h4>
-                <h5>{{ 'RUC '.$company->number }}</h5>
-                <h6 style="text-transform: uppercase;">
-                    {{ ($establishment->address !== '-')? $establishment->address : '' }}
-                    {{ ($establishment->district_id !== '-')? ', '.$establishment->district->description : '' }}
-                    {{ ($establishment->province_id !== '-')? ', '.$establishment->province->description : '' }}
-                    {{ ($establishment->department_id !== '-')? '- '.$establishment->department->description : '' }}
-                </h6>
-                @isset($establishment->trade_address)
-                    <h6>{{ ($establishment->trade_address !== '-')? 'D. Comercial: '.$establishment->trade_address : '' }}</h6>
-                @endisset
-                <h6>{{ ($establishment->telephone !== '-')? 'Central telefónica: '.$establishment->telephone : '' }}</h6>
-
-                <h6>{{ ($establishment->email !== '-')? 'Email: '.$establishment->email : '' }}</h6>
-
-                @isset($establishment->web_address)
-                    <h6>{{ ($establishment->web_address !== '-')? 'Web: '.$establishment->web_address : '' }}</h6>
-                @endisset
-
-                @isset($establishment->aditional_information)
-                    <h6>{{ ($establishment->aditional_information !== '-')? $establishment->aditional_information : '' }}</h6>
-                @endisset
-            </div>
-        </td>
-        <td width="30%" class="border-box py-4 px-2 text-center">
-            <h5 class="text-center">COTIZACIÓN</h5>
-            <h3 class="text-center">{{ $tittle }}</h3>
-        </td>
     </tr>
 </table>
 <table class="full-width mt-5">
@@ -198,20 +225,60 @@
 </table>
 @endif
 
+@php
+    $show_brand = $document->items->contains(function ($row) {
+        return !empty($row->item->brand);
+    });
+
+    $show_model = $document->items->contains(function ($row) {
+        return !empty($row->item->model);
+    });
+
+    $show_lot = $document->items->contains(function ($row) {
+        return !empty($row->getSaleLotGroupCodeDescription());
+    });
+
+    $show_due = $document->items->contains(function ($row) {
+        return !empty(optional($row->relation_item)->date_of_due);
+    });
+@endphp
+
 <table class="full-width mt-10 mb-10">
     <thead class="">
     <tr class="bg-grey">
         <th class="border-top-bottom text-center py-2" width="8%">CANT.</th>
         <th class="border-top-bottom text-center py-2" width="8%">UNIDAD</th>
         <th class="border-top-bottom text-left py-2">DESCRIPCIÓN</th>
-        <th class="border-top-bottom text-left py-2">MARCA</th>
-        <th class="border-top-bottom text-left py-2">MODELO</th>
-        <th class="border-top-bottom text-right py-2" width="12%">P.UNIT</th>
+        @if($show_model)
+            <th class="border-top-bottom text-left py-2 px-1">MODELO</th>
+        @endif
+
+        @if($show_brand)
+            <th class="border-top-bottom text-left py-2 px-1">MARCA</th>
+        @endif
+
+        @if($show_lot)
+            <th class="border-top-bottom text-center py-2 px-1">LOTE</th>
+        @endif
+
+        @if($show_due)
+            <th class="border-top-bottom text-center py-2 px-1">F. VENC.</th>
+        @endif 
+        <th class="border-top-bottom text-right py-2" width="8%">P.UNIT</th>
         <th class="border-top-bottom text-right py-2" width="8%">DTO.</th>
-        <th class="border-top-bottom text-right py-2" width="12%">TOTAL</th>
+        <th class="border-top-bottom text-right py-2" width="8%">TOTAL</th>
     </tr>
     </thead>
     <tbody>
+    @php
+        $colspan_total = 5;
+
+        if($show_model) $colspan_total++;
+        if($show_brand) $colspan_total++;
+        if($show_lot) $colspan_total++;
+        if($show_due) $colspan_total++;
+    @endphp
+
     @foreach($document->items as $row)
         @php
             $brand =  \App\CoreFacturalo\Helpers\Template\TemplateHelper::getBrandFormItem($row);;
@@ -254,8 +321,27 @@
                     <br/><span style="font-size: 9px">{{$row->item->extra_attr_name}}: {{ $row->item->extra_attr_value }}</span>
                 @endif
             </td>
-            <td class="text-left">{{ $brand }}</td>
-            <td class="text-left">{{ $row->item->model ?? '' }}</td>
+            @if($show_model)
+                <td class="text-left">{{ $row->item->model ?? '' }}</td>
+            @endif
+
+            @if($show_brand)
+                <td class="text-left align-top">{{ $row->item->brand ?? '' }}</td>
+            @endif
+
+            @if($show_lot)
+                <td class="text-center align-top">{{ $row->getSaleLotGroupCodeDescription() }}</td>
+            @endif
+
+            @if($show_due)
+                <td class="text-center align-top">
+                    @if(isset($row->relation_item->date_of_due))
+                        {{ $row->relation_item->date_of_due->format('Y-m-d') }}
+                    @else
+                        -
+                    @endif
+                </td>
+            @endif 
             <td class="text-right align-top">{{ number_format($row->unit_price, 2) }}</td>
             <td class="text-right align-top">
                 @if($row->discounts)
@@ -273,51 +359,51 @@
             <td class="text-right align-top">{{ number_format($row->total, 2) }}</td>
         </tr>
         <tr>
-            <td colspan="8" class="border-bottom"></td>
+            <td colspan="{{ $colspan_total+1 }}" class="border-bottom"></td>
         </tr>
     @endforeach
         @if($document->total_exportation > 0)
             <tr>
-                <td colspan="7" class="text-right font-bold">OP. EXPORTACIÓN: {{ $document->currency_type->symbol }}</td>
+                <td colspan="{{ $colspan_total }}" class="text-right font-bold">OP. EXPORTACIÓN: {{ $document->currency_type->symbol }}</td>
                 <td class="text-right font-bold">{{ number_format($document->total_exportation, 2) }}</td>
             </tr>
         @endif
         @if($document->total_free > 0)
             <tr>
-                <td colspan="7" class="text-right font-bold">OP. GRATUITAS: {{ $document->currency_type->symbol }}</td>
+                <td colspan="{{ $colspan_total }}" class="text-right font-bold">OP. GRATUITAS: {{ $document->currency_type->symbol }}</td>
                 <td class="text-right font-bold">{{ number_format($document->total_free, 2) }}</td>
             </tr>
         @endif
         @if($document->total_unaffected > 0)
             <tr>
-                <td colspan="7" class="text-right font-bold">OP. INAFECTAS: {{ $document->currency_type->symbol }}</td>
+                <td colspan="{{ $colspan_total }}" class="text-right font-bold">OP. INAFECTAS: {{ $document->currency_type->symbol }}</td>
                 <td class="text-right font-bold">{{ number_format($document->total_unaffected, 2) }}</td>
             </tr>
         @endif
         @if($document->total_exonerated > 0)
             <tr>
-                <td colspan="7" class="text-right font-bold">OP. EXONERADAS: {{ $document->currency_type->symbol }}</td>
+                <td colspan="{{ $colspan_total }}" class="text-right font-bold">OP. EXONERADAS: {{ $document->currency_type->symbol }}</td>
                 <td class="text-right font-bold">{{ number_format($document->total_exonerated, 2) }}</td>
             </tr>
         @endif
         @if($document->total_taxed > 0)
             <tr>
-                <td colspan="7" class="text-right font-bold">OP. GRAVADAS: {{ $document->currency_type->symbol }}</td>
+                <td colspan="{{ $colspan_total }}" class="text-right font-bold">OP. GRAVADAS: {{ $document->currency_type->symbol }}</td>
                 <td class="text-right font-bold">{{ number_format($document->total_taxed, 2) }}</td>
             </tr>
         @endif
         @if($document->total_discount > 0)
             <tr>
-                <td colspan="7" class="text-right font-bold">{{(($document->total_prepayment > 0) ? 'ANTICIPO':'DESCUENTO TOTAL')}}: {{ $document->currency_type->symbol }}</td>
+                <td colspan="{{ $colspan_total }}" class="text-right font-bold">{{(($document->total_prepayment > 0) ? 'ANTICIPO':'DESCUENTO TOTAL')}}: {{ $document->currency_type->symbol }}</td>
                 <td class="text-right font-bold">{{ number_format($document->total_discount, 2) }}</td>
             </tr>
         @endif
         <tr>
-            <td colspan="7" class="text-right font-bold">IGV: {{ $document->currency_type->symbol }}</td>
+            <td colspan="{{ $colspan_total }}" class="text-right font-bold">IGV: {{ $document->currency_type->symbol }}</td>
             <td class="text-right font-bold">{{ number_format($document->total_igv, 2) }}</td>
         </tr>
         <tr>
-            <td colspan="7" class="text-right font-bold">TOTAL A PAGAR: {{ $document->currency_type->symbol }}</td>
+            <td colspan="{{ $colspan_total }}" class="text-right font-bold">TOTAL A PAGAR: {{ $document->currency_type->symbol }}</td>
             <td class="text-right font-bold">{{ number_format($document->total, 2) }}</td>
         </tr>
     </tbody>
