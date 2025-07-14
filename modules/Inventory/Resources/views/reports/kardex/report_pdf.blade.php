@@ -62,7 +62,7 @@
                 <p><strong>Empresa: </strong>{{$company->name}}</p>
             </td>
             <td>
-                <p><strong>Fecha: </strong>{{date('Y-m-d')}}</p>
+                <p><strong>Fecha: </strong>{{date('d-m-Y')}}</p>
             </td>
         </tr>
         <tr>
@@ -136,7 +136,8 @@
                         @if(!$item_id)
                             <td class="celda">{{$itemKardex['item_name']}}</td>
                         @endif
-                        <td class="celda">{{$itemKardex['date_time']}}
+                        <td class="celda">
+                            {{ \Carbon\Carbon::parse($itemKardex['date_time'])->format('d-m-Y g:i a') }}
                         </td>
                         <td class="celda">{{$itemKardex['type_transaction']}}</td>
                         <td class="celda">{{$itemKardex['number']}}</td>
@@ -151,7 +152,7 @@
                         </td>
 
                         <td class="celda">
-                            {{$itemKardex['date_of_issue']}}
+                            {{ \Carbon\Carbon::parse($itemKardex['date_of_issue'])->format('d-m-Y') }}
                         </td>
                         <td class="celda">
                             {{$itemKardex['input']}}
