@@ -28,43 +28,72 @@
                     <img src="data:{{mime_content_type(public_path("storage/uploads/logos/{$company->logo}"))}};base64, {{base64_encode(file_get_contents(public_path("storage/uploads/logos/{$company->logo}")))}}" alt="{{$company->name}}" class="company_logo" style="max-width: 150px;">
                 </div>
             </td>
-        @else
-            <td width="20%">
-                {{--<img src="{{ asset('logo/logo.jpg') }}" class="company_logo" style="max-width: 150px">--}}
+            <td width="50%" class="text-center">
+                <div class="text-left">
+                    <h4 class="">{{ $company->name }}</h4>
+                    <h5>{{ 'RUC '.$company->number }}</h5>
+                    <h6 style="text-transform: uppercase;">
+                        {{ ($establishment->address !== '-')? $establishment->address : '' }}
+                        {{ ($establishment->district_id !== '-')? ', '.$establishment->district->description : '' }}
+                        {{ ($establishment->province_id !== '-')? ', '.$establishment->province->description : '' }}
+                        {{ ($establishment->department_id !== '-')? '- '.$establishment->department->description : '' }}
+                    </h6>
+
+                    @isset($establishment->trade_address)
+                        <h6>{{ ($establishment->trade_address !== '-')? 'D. Comercial: '.$establishment->trade_address : '' }}</h6>
+                    @endisset
+
+                    <h6>{{ ($establishment->telephone !== '-')? 'Central telefónica: '.$establishment->telephone : '' }}</h6>
+
+                    <h6>{{ ($establishment->email !== '-')? 'Email: '.$establishment->email : '' }}</h6>
+
+                    @isset($establishment->web_address)
+                        <h6>{{ ($establishment->web_address !== '-')? 'Web: '.$establishment->web_address : '' }}</h6>
+                    @endisset
+
+                    @isset($establishment->aditional_information)
+                        <h6>{{ ($establishment->aditional_information !== '-')? $establishment->aditional_information : '' }}</h6>
+                    @endisset
+                </div>
             </td>
-        @endif
-        <td width="50%" class="pl-3">
-            <div class="text-left">
-                <h4 class="">{{ $company->name }}</h4>
-                <h5>{{ 'RUC '.$company->number }}</h5>
-                <h6 style="text-transform: uppercase;">
-                    {{ ($establishment->address !== '-')? $establishment->address : '' }}
-                    {{ ($establishment->district_id !== '-')? ', '.$establishment->district->description : '' }}
-                    {{ ($establishment->province_id !== '-')? ', '.$establishment->province->description : '' }}
-                    {{ ($establishment->department_id !== '-')? '- '.$establishment->department->description : '' }}
-                </h6>
+            <td width="30%" class="border-box py-4 px-2 text-center">
+                <h5 class="text-center">{{ 'DEVOLUCIÓN' }}</h5>
+                <h3 class="text-center">{{ $document_number }}</h3>
+            </td>
+        @else
+            <td width="70%" class="pl-1">
+                <div class="text-left">
+                    <h4 class="">{{ $company->name }}</h4>
+                    <h5>{{ 'RUC '.$company->number }}</h5>
+                    <h6 style="text-transform: uppercase;">
+                        {{ ($establishment->address !== '-')? $establishment->address : '' }}
+                        {{ ($establishment->district_id !== '-')? ', '.$establishment->district->description : '' }}
+                        {{ ($establishment->province_id !== '-')? ', '.$establishment->province->description : '' }}
+                        {{ ($establishment->department_id !== '-')? '- '.$establishment->department->description : '' }}
+                    </h6>
 
-                @isset($establishment->trade_address)
-                    <h6>{{ ($establishment->trade_address !== '-')? 'D. Comercial: '.$establishment->trade_address : '' }}</h6>
-                @endisset
+                    @isset($establishment->trade_address)
+                        <h6>{{ ($establishment->trade_address !== '-')? 'D. Comercial: '.$establishment->trade_address : '' }}</h6>
+                    @endisset
 
-                <h6>{{ ($establishment->telephone !== '-')? 'Central telefónica: '.$establishment->telephone : '' }}</h6>
+                    <h6>{{ ($establishment->telephone !== '-')? 'Central telefónica: '.$establishment->telephone : '' }}</h6>
 
-                <h6>{{ ($establishment->email !== '-')? 'Email: '.$establishment->email : '' }}</h6>
+                    <h6>{{ ($establishment->email !== '-')? 'Email: '.$establishment->email : '' }}</h6>
 
-                @isset($establishment->web_address)
-                    <h6>{{ ($establishment->web_address !== '-')? 'Web: '.$establishment->web_address : '' }}</h6>
-                @endisset
+                    @isset($establishment->web_address)
+                        <h6>{{ ($establishment->web_address !== '-')? 'Web: '.$establishment->web_address : '' }}</h6>
+                    @endisset
 
-                @isset($establishment->aditional_information)
-                    <h6>{{ ($establishment->aditional_information !== '-')? $establishment->aditional_information : '' }}</h6>
-                @endisset
-            </div>
-        </td>
-        <td width="30%" class="border-box py-4 px-2 text-center">
-            <h5 class="text-center">{{ 'DEVOLUCIÓN' }}</h5>
-            <h3 class="text-center">{{ $document_number }}</h3>
-        </td>
+                    @isset($establishment->aditional_information)
+                        <h6>{{ ($establishment->aditional_information !== '-')? $establishment->aditional_information : '' }}</h6>
+                    @endisset
+                </div>
+            </td>
+            <td width="30%" class="border-box py-4 px-2 text-center">
+                <h5 class="text-center">{{ 'DEVOLUCIÓN' }}</h5>
+                <h3 class="text-center">{{ $document_number }}</h3>
+            </td>
+        @endif        
     </tr>
 </table>
 <table class="full-width mt-5">
@@ -86,6 +115,17 @@
 
 </table>
 
+@php
+    $show_lot = $document->items->contains(function ($row) {
+        return isset($row->item->lots_group_selected) && count($row->item->lots_group_selected) > 0;
+    });
+
+    $show_series = $document->items->contains(function ($row) {
+        return isset($row->item->lots_selected) && collect($row->item->lots_selected)->where('has_sale', true)->count() > 0;
+    });
+
+    $colspan = 3 + ($show_lot ? 1 : 0) + ($show_series ? 1 : 0);
+@endphp
 
 <table class="full-width mt-10 mb-10">
     <thead class="">
@@ -93,8 +133,13 @@
         <th class="border-top-bottom text-center py-2" width="8%">CANT.</th>
         <th class="border-top-bottom text-center py-2" width="8%">UNIDAD</th>
         <th class="border-top-bottom text-left py-2">DESCRIPCIÓN</th>
-        <th class="border-top-bottom text-center py-2" width="8%">LOTE</th>
-        <th class="border-top-bottom text-center py-2" width="8%">SERIE</th>
+        @if($show_lot)
+            <th class="border-top-bottom text-center py-2" width="8%">LOTE</th>
+        @endif
+
+        @if($show_series)
+            <th class="border-top-bottom text-center py-2" width="8%">SERIE</th>
+        @endif
     </tr>
     </thead>
     <tbody>
@@ -112,25 +157,30 @@
             <td class="text-left align-top">
                 {!!$row->item->description!!}
             </td>
-            <td class="text-center align-top">
-                @if(isset($row->item->lots_group_selected))
-                    @foreach($row->item->lots_group_selected as $item)
-                        {{ $item->code }}
-                    @endforeach
-                @endif
-            </td>
-            <td class="text-center align-top">
-                @if(isset($row->item->lots_selected))
-                    @foreach($row->item->lots_selected as $lot)
-                        @if( isset($lot->has_sale) && $lot->has_sale)
-                            {{ $lot->series }}<br>
-                        @endif
-                    @endforeach
-                @endif
-            </td>
+            @if($show_lot)
+                <td class="text-center align-top">
+                    @if(isset($row->item->lots_group_selected))
+                        @foreach($row->item->lots_group_selected as $item)
+                            {{ $item->code }}
+                        @endforeach
+                    @endif
+                </td>
+            @endif
+            
+            @if($show_series)
+                <td class="text-center align-top">
+                    @if(isset($row->item->lots_selected))
+                        @foreach($row->item->lots_selected as $lot)
+                            @if( isset($lot->has_sale) && $lot->has_sale)
+                                {{ $lot->series }}<br>
+                            @endif
+                        @endforeach
+                    @endif
+                </td>
+            @endif
         </tr>
         <tr>
-            <td colspan="5" class="border-bottom"></td>
+            <td colspan="{{ $colspan }}" class="border-bottom"></td>
         </tr>
     @endforeach
 

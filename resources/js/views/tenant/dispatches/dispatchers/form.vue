@@ -18,7 +18,7 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="form-group" :class="{'has-danger': errors.number}">
+                        <div class="form-group btn-sun-ren-container" :class="{'has-danger': errors.number}">
                             <label class="control-label">Número <span class="text-danger">*</span></label>
 
                             <!-- <el-input v-model="form.number" :maxlength="maxLength" dusk="number">

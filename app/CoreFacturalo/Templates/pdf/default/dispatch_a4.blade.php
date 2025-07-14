@@ -416,8 +416,8 @@ foreach($document->items as $row) {
     <thead class="">
     @if($configuration["enabled_price_items_dispatch"])
     <tr>
-        <th class="border-top-bottom text-center">Item</th>
-        <th class="border-top-bottom text-center">Código</th>
+        <th class="border-top-bottom text-center" width="8%">Item</th>
+        <th class="border-top-bottom text-center" width="8%">Código</th>
         <th class="border-top-bottom text-left">Descripción</th>
         @if($showSerie)
             <th class="border-top-bottom text-left">Serie</th>
@@ -434,10 +434,10 @@ foreach($document->items as $row) {
         @if($showDateDue)
             <th class="border-top-bottom text-center">F. Venc.</th>
         @endif
-        <th class="border-top-bottom text-center">Unidad</th>
-        <th class="border-top-bottom text-center">Cantidad</th>
-        <th class="border-top-bottom text-center">Precio</th>
-        <th class="border-top-bottom text-right">Total</th>
+        <th class="border-top-bottom text-center" width="8%">Unidad</th>
+        <th class="border-top-bottom text-center" width="9%">Cantidad</th>
+        <th class="border-top-bottom text-center"width="8%">Precio</th>
+        <th class="border-top-bottom text-right"width="8%">Total</th>
     </tr>
     @else
     <tr>

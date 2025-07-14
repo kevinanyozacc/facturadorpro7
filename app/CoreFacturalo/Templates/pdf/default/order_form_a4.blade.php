@@ -18,29 +18,45 @@
             <td width="10%">
                 <img src="data:{{mime_content_type(public_path("storage/uploads/logos/{$company->logo}"))}};base64, {{base64_encode(file_get_contents(public_path("storage/uploads/logos/{$company->logo}")))}}" alt="{{$company->name}}" alt="{{ $company->name }}"  class="company_logo" style="max-width: 300px">
             </td>
+            <td width="50%" class="text-center">
+                <div class="text-left">
+                    <h3 class="">{{ $company->name }}</h3>
+                    <h4>{{ 'RUC '.$company->number }}</h4>
+                    <h5 style="text-transform: uppercase;">
+                        {{ ($establishment->address !== '-')? $establishment->address : '' }}
+                        {{ ($establishment->district_id !== '-')? ', '.$establishment->district->description : '' }}
+                        {{ ($establishment->province_id !== '-')? ', '.$establishment->province->description : '' }}
+                        {{ ($establishment->department_id !== '-')? '- '.$establishment->department->description : '' }}
+                    </h5>
+                    <h5>{{ ($establishment->email !== '-')? $establishment->email : '' }}</h5>
+                    <h5>{{ ($establishment->telephone !== '-')? $establishment->telephone : '' }}</h5>
+                </div>
+            </td>
+            <td width="40%" class="border-box p-4 text-center">
+                <h4 class="text-center " style="color:red"><b>ORDEN DE PEDIDO</b></h4>
+                <h3 class="text-center" style="color:red"><b>{{ $document_number }}</b></h3>
+            </td>
         @else
-            <td width="10%">
-                {{--<img src="{{ asset('logo/logo.jpg') }}" class="company_logo" style="max-width: 150px">--}}
+            <td width="50%" class="pl-1">
+                <div class="text-left">
+                    <h3 class="">{{ $company->name }}</h3>
+                    <h4>{{ 'RUC '.$company->number }}</h4>
+                    <h5 style="text-transform: uppercase;">
+                        {{ ($establishment->address !== '-')? $establishment->address : '' }}
+                        {{ ($establishment->district_id !== '-')? ', '.$establishment->district->description : '' }}
+                        {{ ($establishment->province_id !== '-')? ', '.$establishment->province->description : '' }}
+                        {{ ($establishment->department_id !== '-')? '- '.$establishment->department->description : '' }}
+                    </h5>
+                    <h5>{{ ($establishment->email !== '-')? $establishment->email : '' }}</h5>
+                    <h5>{{ ($establishment->telephone !== '-')? $establishment->telephone : '' }}</h5>
+                </div>
+            </td>
+            <td width="40%" class="border-box p-4 text-center">
+                <h4 class="text-center " style="color:red"><b>ORDEN DE PEDIDO</b></h4>
+                <h3 class="text-center" style="color:red"><b>{{ $document_number }}</b></h3>
             </td>
         @endif
-        <td width="50%" class="pl-3">
-            <div class="text-left">
-                <h3 class="">{{ $company->name }}</h3>
-                <h4>{{ 'RUC '.$company->number }}</h4>
-                <h5 style="text-transform: uppercase;">
-                    {{ ($establishment->address !== '-')? $establishment->address : '' }}
-                    {{ ($establishment->district_id !== '-')? ', '.$establishment->district->description : '' }}
-                    {{ ($establishment->province_id !== '-')? ', '.$establishment->province->description : '' }}
-                    {{ ($establishment->department_id !== '-')? '- '.$establishment->department->description : '' }}
-                </h5>
-                <h5>{{ ($establishment->email !== '-')? $establishment->email : '' }}</h5>
-                <h5>{{ ($establishment->telephone !== '-')? $establishment->telephone : '' }}</h5>
-            </div>
-        </td>
-        <td width="40%" class="border-box p-4 text-center">
-            <h4 class="text-center " style="color:red"><b>ORDEN DE PEDIDO</b></h4>
-            <h3 class="text-center" style="color:red"><b>{{ $document_number }}</b></h3>
-        </td>
+        
     </tr>
 </table>
 <table class="full-width border-box mt-10 mb-10">

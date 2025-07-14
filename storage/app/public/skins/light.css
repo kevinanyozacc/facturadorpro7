@@ -601,6 +601,10 @@ html.fixed.sidebar-white:not(.dark) .sidebar-left a{
     margin-left: -18px;
     margin-top: -18px;
 }
+.btn-sun-ren-container div div.el-input-group div.el-input-group__append button.btn-sunat-reniec {
+    top: 10px;
+    height: 31px;
+}
 /************************************ tema morado ************************************/
 /* header */
 html.sidebar-blue .userbox.show .dropdown-menu a:hover {
@@ -1108,7 +1112,9 @@ html.dark .el-checkbox,
 html.dark .el-select-dropdown__item, html.dark .userbox .role, html.dark .el-pagination__total,
 html.dark .el-table thead,
 html.dark .el-dropdown-menu__item,
-html.dark p {
+html.dark p,
+html.dark .el-cascader-menu,
+html.dark .el-tabs__item{
     color: var(--accent-color);
 }
 html.dark .page-header, html.header-dark .page-header {
@@ -1151,11 +1157,13 @@ html.dark .card.card-dashboard .card-title, html.dark .card.card-dashboard small
 html.dark label.control-label, html.dark .userbox .name, html.dark .el-select-dropdown__item.selected {
     color: var(--light-color) !important;
 }
-html.dark .el-select-dropdown, html.dark .el-message-box {
+html.dark .el-select-dropdown, html.dark .el-message-box,
+html.dark .el-cascader__dropdown{
     border: solid 1px var(--borders-dark);
     background-color: var(--contents-dark);
 }
-html.dark .el-select-dropdown__item.hover, html.dark .el-select-dropdown__item:hover {
+html.dark .el-select-dropdown__item.hover, html.dark .el-select-dropdown__item:hover,
+html.dark .el-cascader-node:not(.is-disabled):focus, html.dark .el-cascader-node:not(.is-disabled):hover {
     background-color: var(--button-second) !important;
     color: var(--light-color);
 }

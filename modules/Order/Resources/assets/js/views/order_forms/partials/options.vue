@@ -1,13 +1,28 @@
 <template>
     <el-dialog :title="titleDialog" :visible="showDialog" @open="create" width="30%" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" append-to-body>
-     
+        <span slot="title">
+            <div class="widget-summary widget-summary-xs d-flex align-items-center">
+                <div class="">
+                    <div class="summary-icon bg-success succes-check-container m-0">
+                        <i class="fas fa-check"></i>
+                    </div>
+                </div>
+                <div class="widget-summary-col">
+                    <div>
+                        <div>
+                            <span class="ml-2 el-dialog__title">{{ titleDialog }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </span>
+        <span>Formatos disponibles para la descarga del O. Pedido:</span>
         <div class="row">
 
-            <div class="col-lg-12 col-md-12 col-sm-12 text-center font-weight-bold mt-3">
-                <button type="button" class="btn btn-lg btn-info waves-effect waves-light" @click="clickPrint('a4')">
-                    <i class="fa fa-file-alt"></i>
-                </button>
-                <p>Imprimir A4</p>
+            <div class="col-lg-12 col-md-12 col-sm-12 text-center font-weight-bold mt-2">
+                <button type="button" class="btn btn-lg btn-info waves-effect waves-light w-100" @click="clickPrint('a4')">
+                    Imprimir A4
+                </button>                
             </div>
 
         </div>

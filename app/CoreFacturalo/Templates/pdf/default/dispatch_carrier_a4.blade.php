@@ -12,29 +12,44 @@
             <td width="10%">
                 <img src="data:{{mime_content_type(public_path("storage/uploads/logos/{$company->logo}"))}};base64, {{base64_encode(file_get_contents(public_path("storage/uploads/logos/{$company->logo}")))}}" alt="{{ $company->name }}" class="company_logo" style="max-width: 300px">
             </td>
-        @else
-            <td width="10%">
-                {{--<img src="{{ asset('logo/logo.jpg') }}" class="company_logo" style="max-width: 150px">--}}
+            <td width="50%" class="text-center">
+                <div class="text-left">
+                    <h3 class="">{{ $company->name }}</h3>
+                    <h4>{{ 'RUC '.$company->number }}</h4>
+                    <h5 style="text-transform: uppercase;">
+                        {{ ($establishment->address !== '-')? $establishment->address : '' }}
+                        {{ ($establishment->district_id !== '-')? ', '.$establishment->district->description : '' }}
+                        {{ ($establishment->province_id !== '-')? ', '.$establishment->province->description : '' }}
+                        {{ ($establishment->department_id !== '-')? '- '.$establishment->department->description : '' }}
+                    </h5>
+                    <h5>{{ ($establishment->email !== '-')? $establishment->email : '' }}</h5>
+                    <h5>{{ ($establishment->telephone !== '-')? $establishment->telephone : '' }}</h5>
+                </div>
             </td>
-        @endif
-        <td width="50%" class="pl-3">
-            <div class="text-left">
-                <h3 class="">{{ $company->name }}</h3>
-                <h4>{{ 'RUC '.$company->number }}</h4>
-                <h5 style="text-transform: uppercase;">
-                    {{ ($establishment->address !== '-')? $establishment->address : '' }}
-                    {{ ($establishment->district_id !== '-')? ', '.$establishment->district->description : '' }}
-                    {{ ($establishment->province_id !== '-')? ', '.$establishment->province->description : '' }}
-                    {{ ($establishment->department_id !== '-')? '- '.$establishment->department->description : '' }}
-                </h5>
-                <h5>{{ ($establishment->email !== '-')? $establishment->email : '' }}</h5>
-                <h5>{{ ($establishment->telephone !== '-')? $establishment->telephone : '' }}</h5>
-            </div>
-        </td>
-        <td width="40%" class="border-box p-4 text-center">
-            <h4 class="text-center">{{ $document->document_type->description }}</h4>
-            <h3 class="text-center">{{ $document_number }}</h3>
-        </td>
+            <td width="40%" class="border-box p-4 text-center">
+                <h4 class="text-center">{{ $document->document_type->description }}</h4>
+                <h3 class="text-center">{{ $document_number }}</h3>
+            </td>
+        @else
+            <td width="60%" class="pl-1">
+                <div class="text-left">
+                    <h3 class="">{{ $company->name }}</h3>
+                    <h4>{{ 'RUC '.$company->number }}</h4>
+                    <h5 style="text-transform: uppercase;">
+                        {{ ($establishment->address !== '-')? $establishment->address : '' }}
+                        {{ ($establishment->district_id !== '-')? ', '.$establishment->district->description : '' }}
+                        {{ ($establishment->province_id !== '-')? ', '.$establishment->province->description : '' }}
+                        {{ ($establishment->department_id !== '-')? '- '.$establishment->department->description : '' }}
+                    </h5>
+                    <h5>{{ ($establishment->email !== '-')? $establishment->email : '' }}</h5>
+                    <h5>{{ ($establishment->telephone !== '-')? $establishment->telephone : '' }}</h5>
+                </div>
+            </td>
+            <td width="40%" class="border-box p-4 text-center">
+                <h4 class="text-center">{{ $document->document_type->description }}</h4>
+                <h3 class="text-center">{{ $document_number }}</h3>
+            </td>
+        @endif        
     </tr>
 </table>
 <table class="full-width border-box mt-10 mb-10">
@@ -207,15 +222,73 @@
     </table>
 @endif
 
+@php
+$showSerie = false;
+$showModel = false;
+$showBrand = false;
+$showLot = false;
+$showDateDue = false;
+
+$itemLotGroup = app('App\Services\ItemLotsGroupService');
+
+foreach($document->items as $row) {
+    if (!empty($row->item->lots)) {
+        foreach ($row->item->lots as $lot) {
+            if (!empty($lot->series)) {
+                $showSerie = true;
+                break;
+            }
+        }
+    }
+
+    if (!empty($row->item->model)) {
+        $showModel = true;
+    }
+
+    if (!empty($row->relation_item->brand->name ?? null)) {
+        $showBrand = true;
+    }
+
+    $lot = $itemLotGroup->getLote($row->item->IdLoteSelected);
+    $date_due = $itemLotGroup->getLotDateOfDue($row->item->IdLoteSelected);
+
+    if (!empty($lot)) {
+        $showLot = true;
+    }
+
+    if (!empty($date_due) || !empty($row->relation_item->date_of_due)) {
+        $showDateDue = true;
+    }
+
+    if ($showSerie && $showModel && $showBrand && $showLot && $showDateDue) {
+        break;
+    }
+}
+@endphp
+
 <table class="full-width border-box mt-10 mb-10">
     <thead class="">
     <tr>
-        <th class="border-top-bottom text-center">Item</th>
-        <th class="border-top-bottom text-center">Código</th>
+        <th class="border-top-bottom text-center" width="8%">Item</th>
+        <th class="border-top-bottom text-center" width="8%">Código</th>
         <th class="border-top-bottom text-left">Descripción</th>
-        <th class="border-top-bottom text-left">Modelo</th>
-        <th class="border-top-bottom text-center">Unidad</th>
-        <th class="border-top-bottom text-right">Cantidad</th>
+        @if($showSerie)
+            <th class="border-top-bottom text-left">Serie</th>
+        @endif
+        @if($showModel)
+            <th class="border-top-bottom text-left">Modelo</th>
+        @endif
+        @if($showBrand)
+            <th class="border-top-bottom text-center">Marca</th>
+        @endif
+        @if($showLot)
+            <th class="border-top-bottom text-center">Lote</th>
+        @endif
+        @if($showDateDue)
+            <th class="border-top-bottom text-center">F. Venc.</th>
+        @endif
+        <th class="border-top-bottom text-center" width="8%">Unidad</th>
+        <th class="border-top-bottom text-right" width="9%">Cantidad</th>
     </tr>
     </thead>
     <tbody>
@@ -255,7 +328,42 @@
                     *** Pago Anticipado ***
                 @endif
             </td>
+            @if($showSerie)
+            <td class="text-left align-top">
+                @isset($row->item->lots)
+                    @foreach($row->item->lots as $lot)
+                        @if( isset($lot->has_sale) && $lot->has_sale)
+                            <span style="font-size: 9px">{{ $lot->series }}</span><br>
+                        @endif
+                    @endforeach
+                @endisset
+            </td>
+            @endif
+            @if($showModel)
             <td class="text-left">{{ $row->item->model ?? '' }}</td>
+            @endif
+            @if($showBrand)
+            <td class="text-left align-top">{{ $row->relation_item->brand->name ?? '' }}</td>
+            @endif
+            @inject('itemLotGroup', 'App\Services\ItemLotsGroupService')
+            @php
+                $lot = $itemLotGroup->getLote($row->item->IdLoteSelected);
+                $date_due = $itemLotGroup->getLotDateOfDue($row->item->IdLoteSelected);
+            @endphp
+            @if($showLot)
+            <td class="text-center align-top">
+                {{ $lot }}
+            </td>
+            @endif
+            @if($showDateDue)
+            <td class="text-center align-top">
+                @if($date_due != '')
+                    {{ $date_due }}
+                @elseif($row->relation_item->date_of_due)
+                    {{ $row->relation_item->date_of_due->format('Y-m-d')  }}
+                @endif
+            </td>
+            @endif
             <td class="text-center">{{ $row->item->unit_type_id }}</td>
             <td class="text-right">
                 @if(((int)$row->quantity != $row->quantity))

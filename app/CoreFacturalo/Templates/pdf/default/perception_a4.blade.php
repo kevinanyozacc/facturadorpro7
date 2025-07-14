@@ -17,20 +17,34 @@
             <td width="10%">
                 <img src="data:{{mime_content_type(public_path("storage/uploads/logos/{$company->logo}"))}};base64, {{base64_encode(file_get_contents(public_path("storage/uploads/logos/{$company->logo}")))}}" alt="{{$company->name}}" alt="{{ $company->name }}" class="company_logo" style="max-width: 200px">
             </td>
-        @endif
-        <td width="50%" class="pl-3">
-            <div class="text-left">
-                <h3 class="">{{ $company->name }}</h3>
-                <h4>{{ 'RUC '.$company->number }}</h4>
-                <h5>{{ ($establishment->address !== '-')? $establishment->address : '' }}</h5>
-                <h5>{{ ($establishment->email !== '-')? $establishment->email : '' }}</h5>
-                <h5>{{ ($establishment->telephone !== '-')? $establishment->telephone : '' }}</h5>
-            </div>
-        </td>
-        <td width="40%" class="border-box p-3 text-center">
-            <h4 class="text-center">{{ $document->document_type->description }}</h4>
-            <h3 class="text-center">{{ $document_number }}</h3>
-        </td>
+            <td width="50%" class="text-center">
+                <div class="text-left">
+                    <h3 class="">{{ $company->name }}</h3>
+                    <h4>{{ 'RUC '.$company->number }}</h4>
+                    <h5>{{ ($establishment->address !== '-')? $establishment->address : '' }}</h5>
+                    <h5>{{ ($establishment->email !== '-')? $establishment->email : '' }}</h5>
+                    <h5>{{ ($establishment->telephone !== '-')? $establishment->telephone : '' }}</h5>
+                </div>
+            </td>
+            <td width="40%" class="border-box p-3 text-center">
+                <h4 class="text-center">{{ $document->document_type->description }}</h4>
+                <h3 class="text-center">{{ $document_number }}</h3>
+            </td>
+        @else
+            <td width="50%" class="pl-1">
+                <div class="text-left">
+                    <h3 class="">{{ $company->name }}</h3>
+                    <h4>{{ 'RUC '.$company->number }}</h4>
+                    <h5>{{ ($establishment->address !== '-')? $establishment->address : '' }}</h5>
+                    <h5>{{ ($establishment->email !== '-')? $establishment->email : '' }}</h5>
+                    <h5>{{ ($establishment->telephone !== '-')? $establishment->telephone : '' }}</h5>
+                </div>
+            </td>
+            <td width="40%" class="border-box p-3 text-center">
+                <h4 class="text-center">{{ $document->document_type->description }}</h4>
+                <h3 class="text-center">{{ $document_number }}</h3>
+            </td>
+        @endif        
     </tr>
 </table>
 <table class="full-width mt-5">
