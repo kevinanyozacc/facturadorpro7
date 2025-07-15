@@ -1341,6 +1341,9 @@ html.dark button.btn-primary-pos {
     border-color: var(--borders-dark) !important;
     color: var(--accent-color);
 }
+html.dark ul.nav.list-config li:hover {
+    background: var(--button-second) !important;
+}
 html.dark button.btn-primary-pos:hover,
 html.dark .row.top .col .card-body {
     color: var(--light-color);

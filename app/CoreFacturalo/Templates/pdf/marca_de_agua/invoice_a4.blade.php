@@ -429,16 +429,19 @@
                 @php
                     $total_packages = $document->items()->sum('quantity');
                 @endphp
-                <strong> Total bultos:</strong>
+                 @if($total_packages > 0)
+                    <strong>Total bultos:</strong>
                     @if(((int)$total_packages != $total_packages))
                         {{ $total_packages }}
                     @else
                         {{ number_format($total_packages, 0) }}
                     @endif
-                <br>
-                <strong> Total Peso:</strong>
-                    {{$total_weight}} KG
-                <br>
+                    <br>
+                @endif
+                @if($total_weight > 0)
+                    <strong>Total Peso:</strong> {{ $total_weight }} KG
+                    <br>
+                @endif
                 @foreach($document->additional_information as $information)
                     @if ($information)
                         @if($loop->first)
