@@ -262,6 +262,7 @@
                         >
                             <label class="control-label">Cantidad</label>
                             <el-input-number
+                                ref="inputQuantity"
                                 v-model="form.quantity"
                                 @change="calculateTotal"
                                 :disabled="form.item.calculate_quantity"
@@ -1575,6 +1576,9 @@ export default {
         //     this.form.affectation_igv_type_id = this.affectation_igv_types[0].id
         // },
         async create() {
+            
+            // const inputEl = this.$refs.inputQuantity.$el.querySelector('input');
+            // console.log('Input interno:', inputEl);
             this.extra_temp = undefined;
 
             this.titleDialog = this.recordItem
@@ -1674,11 +1678,20 @@ export default {
             this.$refs.selectSearchNormal.$el
                 .getElementsByTagName("input")[0]
                 .focus();
+            this.$refs.inputQuantity.$el.querySelector('input')
+                .addEventListener('input', this.calculateQuantityTotal)
         },
         setPresentationEditItem() {
             if (!_.isEmpty(this.recordItem.item.presentation)) {
                 this.selectedPrice(this.recordItem.item.presentation);
                 this.getSelectedClass(this.recordItem.item.presentation);
+            }
+        },
+        calculateQuantityTotal(event) {
+            let value = parseFloat(event.target.value)
+            if (!isNaN(value)) {
+               this.form.quantity = value 
+               this.calculateTotal()
             }
         },
         async regularizeLots() {
