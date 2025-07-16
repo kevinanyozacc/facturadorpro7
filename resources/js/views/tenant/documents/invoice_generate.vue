@@ -6392,7 +6392,7 @@ export default {
         discountGlobal(ctx) {
             this.deleteDiscountGlobal();
 
-            let amount_discount = this.tota_global_discount;
+            let amount_discount = this.total_global_discount;
             if (this.is_amount) {
                 if (this.recordDiscountsGlobal) {
                     if (this.recordDiscountsGlobal.discount_type_id === "02") {
@@ -6410,7 +6410,6 @@ export default {
             }
 
             let input_global_discount = parseFloat(amount_discount);
-
             if (input_global_discount > 0) {
                 const percentage_igv = this.percentage_igv * 100;
                 let base = this.isGlobalDiscountBase
