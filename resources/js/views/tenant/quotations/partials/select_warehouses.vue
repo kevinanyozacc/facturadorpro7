@@ -3,7 +3,7 @@
         <form autocomplete="off" @submit.prevent="submit">
             <div class="form-body">
                 <div class="row">
-                    <div class="col-md-12" v-if="warehouses">
+                    <div class="col-md-12">
                         <table class="table">
                             <thead>
                                 <tr>
@@ -17,13 +17,22 @@
                                 </tr>
                             </thead>
                             <tbody>    
+                                <template v-if="isExistWwarehouses">
                                 <tr v-for="(row,index) in warehouses" :key="index">
-                                    <th align="center">
-                                        <el-checkbox   v-model="row.checked" @change="changeWarehouse(index)"></el-checkbox>
-                                    </th>
-                                    <th>{{ row.warehouse_description }}</th>
-                                    <th class="text-right">{{ row.stock }}</th>
+                                        <th align="center">
+                                            <el-checkbox   v-model="row.checked" @change="changeWarehouse(index)"></el-checkbox>
+                                        </th>
+                                        <th>{{ row.warehouse_description }}</th>
+                                        <th class="text-right">{{ row.stock }}</th>
                                 </tr>
+                                </template>
+                                    <template v-else>
+                                        <tr  class="text-center">
+                                            <th colspan="3">
+                                                No hay almacenes disponibles.
+                                            </th>
+                                        </tr>
+                                    </template>
                             </tbody>
                         </table>
                     </div>
@@ -55,6 +64,12 @@
         created() {
             // console.log(this.typeUser)
         },
+        computed: { 
+            isExistWwarehouses()
+            {
+                return this.warehouses && this.warehouses.length > 0;
+            }
+        },
         methods: {
             async create(){
 
@@ -85,7 +100,7 @@
 
                 await this.selectWarehouseId()
 
-                if(!this.warehouse_id)
+                if(this.isExistWwarehouses && !this.warehouse_id)
                     return this.$message.error('Debe seleccionar un almacén');
 
                 await this.$eventHub.$emit('selectWarehouseId', {warehouse_id : this.warehouse_id, index : this.item_index}) 
