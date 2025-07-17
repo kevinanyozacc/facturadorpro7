@@ -69,7 +69,7 @@ export default {
             this.form = {
                 id: null,
                 seller_id: null,
-                commission_type: 'Monto',
+                commission_type: 'monto',
                 amount: null
             }
         },

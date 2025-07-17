@@ -195,7 +195,7 @@ class UserCommissionHelper
      * @param int $days_expired
      * @return array
      */
-    public static function getDataForPendingAccountCommissionReport($user, $request, $days_expired = 0)
+    public static function getDataForPendingAccountCommissionReport($user, $request, $finances = [])
     {
         $requestInner = $request->all();
         $date_start = $requestInner['date_start'];
@@ -203,8 +203,10 @@ class UserCommissionHelper
         $establishment_id = $requestInner['establishment_id'] ?? null;
         $user_type = $requestInner['user_type'] ?? null;
         $user_seller_id = $requestInner['user_seller_id'] ?? null;
-
+        $estados_validos_comision = ['01', '03', '05', '07'];
         $row_user_id = $user->id;
+        $restriction_enabled = $finances->restriction_expired_debt ?? false;
+        $days_expired = $finances->max_expired_days ?? 0;
 
         FunctionsHelper::setDateInPeriod($requestInner, $date_start, $date_end);
 
@@ -228,56 +230,88 @@ class UserCommissionHelper
         $commission_type = $pending_commission->commission_type ?? 'amount';
         $commission_value = $pending_commission->amount ?? 0;
         
-        //$logData = [];
+        // $logData = [];
 
         foreach ($documents as $document) {
-            $date_of_due = $document->invoice->date_of_due ?? null;
-            //$pagos_detalles = [];
+            $date_of_due = optional($document->invoice)->date_of_due;
+            // $pagos_detalles = [];
             $monto_cobrado = 0;
             $comision_sumada = 0;
-            //$aplica_comision = false;
 
-            if ($date_of_due && $document->user_id == $user->id) {
+            $estado_valido = in_array($document->state_type_id, $estados_validos_comision);
+
+            if ($date_of_due && $document->user_id == $user->id && $estado_valido) {
                 foreach ($document->payments as $payment) {
-                    
-                    $dias_vencidos = Carbon::parse($date_of_due)->diffInDays(Carbon::parse($payment->date_of_payment));
-                    $aplica = false;
-                    // Solo suma comisión y monto si corresponde
-                    if ($payment->date_of_payment > $date_of_due && $dias_vencidos <= $days_expired) {
-                        //$aplica = true;
-                        //$aplica_comision = true;
+                    $fecha_pago = Carbon::parse($payment->date_of_payment);
+                    $fecha_venc = Carbon::parse($date_of_due);
+
+                    // Reglas de comisión
+                    $pago_al_contado = $document->payment_condition_id === '01';
+                    $antes_del_vencimiento = $fecha_pago < $fecha_venc;
+                    $dias_despues_vencimiento = $fecha_pago->diffInDays($fecha_venc, false);
+                    $dentro_rango_maximo = $restriction_enabled
+                    ? ($dias_despues_vencimiento >= 0 && $dias_despues_vencimiento <= $days_expired)
+                    : false;
+
+                    $aplica_comision = $pago_al_contado || $antes_del_vencimiento || $dentro_rango_maximo;
+
+                    $comision = 0;
+                    if ($aplica_comision) {
                         $monto_cobrado += $payment->payment;
+
                         if ($commission_type === 'monto' || $commission_type === 'amount') {
-                            $comision_sumada += $commission_value;
-                            $total_commission += $commission_value;
+                            $comision = $commission_value;
                         } elseif ($commission_type === 'porcentaje' || $commission_type === 'percent') {
                             $comision = $payment->payment * ($commission_value / 100);
-                            $comision_sumada += $comision;
-                            $total_commission += $comision;
                         }
+
+                        $comision_sumada += $comision;
+                        $total_commission += $comision;
                     }
-                    // SIEMPRE agrega el pago al log, aunque no aplique comisión
-                    /*$pagos_detalles[] = [
-                        'id' => $payment->id,
-                        'date_of_payment' => $payment->date_of_payment,
-                        'amount' => $payment->payment,
-                        'user_id' => $payment->user_id,
-                        'dias_vencidos' => $dias_vencidos,
-                        'aplica_comision' => $aplica,
-                    ];*/
+
+                    // $pagos_detalles[] = [
+                    //     'fecha_pago'      => $fecha_pago->toDateString(),
+                    //     'fecha_venc'      => $fecha_venc->toDateString(),
+                    //     'pago'            => $payment->payment,
+                    //     'comision'        => $comision,
+                    //     'tipo_comision'   => $commission_type,
+                    //     'condicion_pago'  => $document->payment_condition_id,
+                    //     'estado_doc'      => $document->state_type_id,
+                    //     'estado_valido'   => $estado_valido,
+                    //     'aplica_comision' => $aplica_comision,
+                    //     'motivo_comision' => $aplica_comision ? (
+                    //         $pago_al_contado ? 'al_contado' :
+                    //         ($antes_del_vencimiento ? 'antes_de_vencimiento' : 'dentro_de_plazo_post_vencimiento')
+                    //     ) : 'no_aplica',
+                    // ];
                 }
+
                 $total_collected += $monto_cobrado;
             }
-            /*$logData[] = [
-                'document_id'      => $document->id,
-                'date_of_due'      => $date_of_due,
-                'aplica_comision'  => $aplica_comision,
-                'monto_cobrado'    => $monto_cobrado,
-                'comision_sumada'  => $comision_sumada,
-                'pagos'            => $pagos_detalles, // Aquí estarán TODOS los pagos
-            ];*/
+
+            // $logData[] = [
+            //     'document_id'       => $document->id,
+            //     'user_id'           => $user->id,
+            //     'total_doc'         => $document->total,
+            //     'date_of_due'       => $date_of_due,
+            //     'payment_condition' => $document->payment_condition_id,
+            //     'state_type_id'     => $document->state_type_id,
+            //     'estado_valido'     => $estado_valido,
+            //     'pagos'             => $pagos_detalles,
+            //     'monto_cobrado'     => $monto_cobrado,
+            //     'comision_sumada'   => $comision_sumada,
+            // ];
         }
-        //\Log::info('[PENDING ACCOUNTS] Reporte completo:', $logData);
+
+        // \Log::info('[COMISIONES] Usuario: '.$user->id, [
+        //     'user_name'        => $user->name,
+        //     'total_collected'  => $total_collected,
+        //     'total_commission' => $total_commission,
+        //     'dias_maximos'     => $days_expired, // ✅ NUEVO
+        //     'restriccion_activada' => $restriction_enabled, // ✅ NUEVO
+        //     'detalle'          => $logData,
+        // ]);
+
         return [
             'id' => $user->id,
             'user_name' => $user->name,

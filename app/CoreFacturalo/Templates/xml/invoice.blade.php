@@ -2,7 +2,17 @@
     $invoice = $document->invoice;
     $establishment = $document->establishment;
     $customer = $document->customer;
+    $is_itinerant = filter_var($document->is_itinerant, FILTER_VALIDATE_BOOLEAN);
+    $direccion_itinerante = null;
+    if ($is_itinerant) {
+        // Construcción de dirección completa
+        $direccion_itinerante = $establishment->address ?? '';
+        $direccion_itinerante .= isset($establishment->district->description) ? ', ' . $establishment->district->description : '';
+        $direccion_itinerante .= isset($establishment->province->description) ? ', ' . $establishment->province->description : '';
+        $direccion_itinerante .= isset($establishment->department->description) ? ', ' . $establishment->department->description : '';
 
+        \Log::info('📍 Dirección itinerante generada: ' . $direccion_itinerante);
+    }
     $document_xml_service = new Modules\Document\Services\DocumentXmlService;
 
     // Cargos globales que no afectan la base imponible del IGV/IVAP
@@ -164,6 +174,30 @@
             @endif
         </cac:Party>
     </cac:AccountingCustomerParty>
+    @if($is_itinerant && $direccion_itinerante)
+    <cac:Delivery>
+        <cac:DeliveryLocation>
+            <cac:Address>
+                <cbc:ID schemeAgencyName="PE:INEI" schemeName="Ubigeos">{{ $establishment->district_id }}</cbc:ID>
+                @if($establishment->urbanization && $establishment->urbanization !== '-')
+                    <cbc:CitySubdivisionName>{{ $establishment->urbanization }}</cbc:CitySubdivisionName>
+                @endif
+                <cbc:CityName>{{ $establishment->province->description }}</cbc:CityName>
+                <cbc:CountrySubentity>{{ $establishment->department->description }}</cbc:CountrySubentity>
+                <cbc:District>{{ $establishment->district->description }}</cbc:District>
+                <cac:AddressLine>
+                    <cbc:Line><![CDATA[{{ $direccion_itinerante }}]]></cbc:Line>
+                </cac:AddressLine>
+                <cac:Country>
+                    <cbc:IdentificationCode 
+                        listID="ISO 3166-1"
+                        listAgencyName="United Nations Economic Commission for Europe"
+                        listName="Country">{{ $establishment->country_id ?? 'PE' }}</cbc:IdentificationCode>
+                </cac:Country>
+            </cac:Address>
+        </cac:DeliveryLocation>
+    </cac:Delivery>
+    @endif
     @if($document->detraction)
         @php($detraction = $document->detraction)
         <cac:PaymentMeans>

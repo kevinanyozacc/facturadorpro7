@@ -689,35 +689,58 @@ class DocumentController extends Controller
      * @return array
      * @throws \Throwable
      */
-    public function storeWithData($data)
-    {
-        self::setChildrenToData($data);
-        $fact = DB::connection('tenant')->transaction(function () use ($data) {
-            $facturalo = new Facturalo();
-            $facturalo->save($data);
-            $facturalo->createXmlUnsigned();
-            $service_pse_xml = $facturalo->servicePseSendXml();
-            $facturalo->signXmlUnsigned($service_pse_xml['xml_signed']);
-            $facturalo->updateHash($service_pse_xml['hash']);
-            $facturalo->updateQr();
-            $facturalo->createPdf();
-            $facturalo->senderXmlSignedBill($service_pse_xml['code']);
+        public function storeWithData($data)
+        {
+            $is_itinerant = (int) ($data['is_itinerant'] ?? 0);
+            if (
+                isset($data['invoice']['operation_type_id']) &&
+                $data['invoice']['operation_type_id'] === '0101' &&
+                $is_itinerant === 1
+            ) {
+                // Sobrescribe todos los campos de ubicación
+                $data['establishment']['address'] = $data['customer']['address'];
+                $data['establishment']['department_id'] = $data['customer']['department_id'];
+                $data['establishment']['province_id'] = $data['customer']['province_id'];
+                $data['establishment']['district_id'] = $data['customer']['district_id'];
 
-            return $facturalo;
-        });
+                $data['establishment']['department'] = $data['customer']['department'];
+                $data['establishment']['province'] = $data['customer']['province'];
+                $data['establishment']['district'] = $data['customer']['district'];
 
-        $document = $fact->getDocument();
-        $response = $fact->getResponse();
+                // También los campos planos fuera del objeto
+                $data['establishment_address'] = $data['customer']['address'];
+                $data['establishment_department_id'] = $data['customer']['department_id'];
+                $data['establishment_province_id'] = $data['customer']['province_id'];
+                $data['establishment_district_id'] = $data['customer']['district_id'];
+            }
+            $data['is_itinerant'] = $is_itinerant === 1;
+            self::setChildrenToData($data);
+            $fact = DB::connection('tenant')->transaction(function () use ($data) {
+                $facturalo = new Facturalo();                
+                $facturalo->save($data);
+                $facturalo->createXmlUnsigned();
+                $service_pse_xml = $facturalo->servicePseSendXml();
+                $facturalo->signXmlUnsigned($service_pse_xml['xml_signed']);
+                $facturalo->updateHash($service_pse_xml['hash']);
+                $facturalo->updateQr();
+                $facturalo->createPdf();
+                $facturalo->senderXmlSignedBill($service_pse_xml['code']);
 
-        return [
-            'success' => true,
-            'data' => [
-                'id' => $document->id,
-                'number_full' => $document->number_full,
-                'response' => $response
-            ]
-        ];
-    }
+                return $facturalo;
+            });
+
+            $document = $fact->getDocument();
+            $response = $fact->getResponse();
+            return [
+                'success' => true,
+                'data' => [
+                    'id' => $document->id,
+                    'number_full' => $document->number_full,
+                    'response' => $response,
+                    'is_itinerant' => $document->is_itinerant,
+                ]
+            ];
+        }
 
     private function associateSaleNoteToDocument(Request $request, int $documentId)
     {
@@ -1597,6 +1620,17 @@ class DocumentController extends Controller
 
         $facturalo = new Facturalo();
         $inputs = $request->all();
+        if (!empty($inputs['is_itinerant']) && $inputs['is_itinerant'] === true) {
+            if (isset($inputs['customer']['address'])) {
+                $inputs['establishment']['address'] = $inputs['customer']['address'];
+                $inputs['establishment']['province_id'] = $inputs['customer']['province_id'];
+                $inputs['establishment']['province'] = $inputs['customer']['province'];
+                $inputs['establishment']['district_id'] = $inputs['customer']['district_id'];
+                $inputs['establishment']['district'] = $inputs['customer']['district'];
+                $inputs['establishment']['department_id'] = $inputs['customer']['department_id'];
+                $inputs['establishment']['department'] = $inputs['customer']['department'];
+            }
+        }
         $facturalo->setActions(array_key_exists('actions', $inputs) ? $inputs['actions'] : []);
         
         $document = new Document($inputs);

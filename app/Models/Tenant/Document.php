@@ -123,6 +123,7 @@ use Modules\Sale\Models\Agent;
  * @property Collection|Note[] $notes
  * @property Collection|Summary[] $summaries
  * @property Collection|Voided[] $voideds
+ * @property bool $is_itinerant
  * @method static EloquentBuilder|Document newModelQuery()
  * @method static EloquentBuilder|Document newQuery()
  * @method static EloquentBuilder|Document query()
@@ -272,6 +273,7 @@ class Document extends ModelTenant
         'hotel_data_persons',
         'source_module',
         'hotel_rent_id',
+        'is_itinerant',
     ];
 
     protected $casts = [
@@ -286,6 +288,7 @@ class Document extends ModelTenant
         'point_system' => 'bool',
         'force_send_by_summary' => 'bool',
         'dispatch_ticket_pdf' => 'bool',
+        'is_itinerant' => 'boolean',
     ];
 
     public static function boot()
@@ -1915,4 +1918,8 @@ class Document extends ModelTenant
         return null;
     }
 
+    public function isItinerant(): bool
+    {
+        return $this->is_itinerant;
+    }
 }

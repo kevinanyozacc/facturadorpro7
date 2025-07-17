@@ -37,12 +37,13 @@ class ReportPendingAccountCommissionController extends Controller
         $records = $this->getRecords($request->all(), User::class);
 
         // Obtén el valor de días máximos de deuda vencida
-        $days_expired = \App\Models\Tenant\Configuration::first()->finances->max_expired_days ?? 0;
+        $config = \App\Models\Tenant\Configuration::first();
+        $finances = $config->finances ?? [];
 
         // Pásalo a la colección
         return new ReportPendingAccountCommissionCollection(
             $records->paginate(config('tenant.items_per_page')),
-            $days_expired
+            $finances
         );
     }
 

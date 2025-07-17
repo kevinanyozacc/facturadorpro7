@@ -337,6 +337,11 @@
                                     v-text="errors.customer_id[0]"
                                 ></small>
                             </div>
+                            <!-- <div v-if="form.operation_type_id === '0101'">
+                                <el-checkbox v-model="form.is_itinerant">
+                                    ¿Venta itinerante?
+                                </el-checkbox>
+                            </div> -->
                             <div
                                 v-if="customer_addresses.length > 0"
                                 class="form-group col-sm-6 mb-0"
@@ -4264,6 +4269,7 @@ export default {
                 series_id: null,
                 seller_id: this.idUser,
                 number: "#",
+                is_itinerant: false,
                 date_of_issue: moment().format("YYYY-MM-DD"),
                 time_of_issue: moment().format("HH:mm:ss"),
                 customer_id: null,
@@ -5577,6 +5583,9 @@ export default {
         async changeOperationType() {
             await this.filterCustomers();
             await this.setDataDetraction();
+            // if(this.form.operation_type_id !== "0101") {
+            //     this.form.is_itinerant = false;
+            // }
         },
         // async filterDetractionTypes(){
         //     this.detraction_types =  await _.filter(this.all_detraction_types, {'operation_type_id':this.form.operation_type_id})
@@ -6541,6 +6550,21 @@ export default {
                     return false;
                 }
             });
+            // if(this.form.operation_type_id === '0101' && this.form.is_itinerant) {
+            //     this.form.is_itinerant = true;
+            //     const cliente = this.customers.find(c => c.id === this.form.customer_id);
+            //     if (cliente) {
+            //         this.form.establishment_address = cliente.address;
+            //         this.form.establishment_department_id = cliente.department_id;
+            //         this.form.establishment_province_id = cliente.province_id;
+            //         this.form.establishment_district_id = cliente.district_id;
+            //         this.form.establishment_urbanization = cliente.urbanization || null;
+            //         console.log("Dirección establecimiento actualizada:", this.form.establishment_address);
+            //         console.log("Departamento:", this.form.establishment_department_id);
+            //         console.log("Provincia:", this.form.establishment_province_id);
+            //         console.log("Distrito:", this.form.establishment_district_id);
+            //     }
+            // }
             if (errorSeries) {
                 this.$message.error("No se han seleccionado todas las series");
                 return false;
@@ -6620,7 +6644,7 @@ export default {
             // Condicion de pago Credito con cuota pasa a credito
             if (this.form.payment_condition_id === "03")
                 this.form.payment_condition_id = "02";
-
+            // console.log(this.form);
             this.$http
                 .post(path, this.form)
                 .then(response => {

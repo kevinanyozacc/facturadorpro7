@@ -8,12 +8,12 @@ use App\Models\Tenant\Configuration;
 
 class ReportPendingAccountCommissionCollection extends ResourceCollection
 {
-    protected $days_expired;
+    protected $finances;
 
-    public function __construct($resource, $days_expired = 0)
+    public function __construct($resource, $finances = [])
     {
         parent::__construct($resource);
-        $this->days_expired = $days_expired;
+        $this->finances = $finances;
     }
 
     /**
@@ -28,7 +28,7 @@ class ReportPendingAccountCommissionCollection extends ResourceCollection
         return $this->collection->transform(function($row) use ($request) {
         // $row es el usuario/vendedor
 
-            return UserCommissionHelper::getDataForPendingAccountCommissionReport($row, $request, $this->days_expired);
+            return UserCommissionHelper::getDataForPendingAccountCommissionReport($row, $request, $this->finances);
         });
     }
 }

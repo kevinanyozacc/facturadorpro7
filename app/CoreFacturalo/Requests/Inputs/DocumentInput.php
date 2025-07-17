@@ -164,6 +164,13 @@ class DocumentInput
             'hotel_data_persons' => Functions::valueKeyInArray($inputs, 'hotel_data_persons'),
             'source_module' => Functions::valueKeyInArray($inputs, 'source_module'),
             'hotel_rent_id' => Functions::valueKeyInArray($inputs, 'hotel_rent_id'),
+            
+            'is_itinerant' => Functions::valueKeyInArray($inputs, 'is_itinerant'),
+            'establishment_address' => Functions::valueKeyInArray($inputs, 'establishment_address'),
+            'establishment_department_id' => Functions::valueKeyInArray($inputs, 'establishment_department_id'),
+            'establishment_province_id' => Functions::valueKeyInArray($inputs, 'establishment_province_id'),
+            'establishment_district_id' => Functions::valueKeyInArray($inputs, 'establishment_district_id'),
+            'establishment_urbanization' => Functions::valueKeyInArray($inputs, 'establishment_urbanization'),
         ];
     }
 
