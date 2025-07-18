@@ -354,19 +354,75 @@
     </tr>
 </table>
 
+@php
+    $showBrandColumn = false;
+    $showModelColumn = false;
 
+    foreach ($document->items as $row) {
+        if (!empty($row->item->model)) {
+            $showModelColumn = true;
+        }
+
+        if (!empty($row->m_item->brand->name ?? null)) {
+            $showBrandColumn = true;
+        }
+
+        if ($showModelColumn && $showBrandColumn) break;
+    }
+@endphp
+    
 <table class="full-width mt-0 mb-0" >
     <thead >
         <tr class="">
-            <th class="border-top-bottom text-center py-1 desc" class="cell-solid"  width="12%">CÓDIGO</th>
-            <th class="border-top-bottom text-center py-1 desc" class="cell-solid"  width="8%">CANT.</th>
-            <th class="border-top-bottom text-center py-1 desc" class="cell-solid"  width="8%">U.M.</th>
-            <th class="border-top-bottom text-center py-1 desc" class="cell-solid"  width="40%">DESCRIPCIÓN</th>
-            <th class="border-top-bottom text-right py-1 desc" class="cell-solid"  width="12%">P.UNIT</th>
+            <th class="border-top-bottom text-center py-1 desc" class="cell-solid"  width="8%">CÓDIGO</th>
+            <th class="border-top-bottom text-center py-1 desc" class="cell-solid"  width="6%">CANT.</th>
+            <th class="border-top-bottom text-center py-1 desc" class="cell-solid"  width="6%">U.M.</th>
+            <th class="border-top-bottom text-center py-1 desc" class="cell-solid">DESCRIPCIÓN</th>
+            @php
+                $showSerieColumn = false;
+                $showLoteColumn = false;
+                foreach ($document->items as $row) {
+                    if ($row->item->lots) {
+                        $showSerieColumn = true;
+                        break;
+                    }
+                }
+
+                foreach ($document->items as $row) {
+                    if (isset($row->item->IdLoteSelected)) {
+                        $showLoteColumn = true;
+                        break;
+                    }
+                }
+            @endphp
+            @empty($showSerieColumn) @else <th class="border-top-bottom text-center py-1 desc" class="cell-solid">SERIE</th> @endempty
+            @if($showModelColumn)
+                <th class="border-top-bottom text-center py-1 desc" class="cell-solid">MODELO</th>
+            @endif
+            @if($showBrandColumn)
+                <th class="border-top-bottom text-center py-1 desc" class="cell-solid">MARCA</th>
+            @endif
+            @if($showLoteColumn) <th class="border-top-bottom text-center py-1 desc" class="cell-solid">
+                LOTE
+            </th> @endif
+            @if($showLoteColumn) <th class="border-top-bottom text-center py-1 desc" class="cell-solid"> F. VENC. </th> @endif
+            <th class="border-top-bottom text-center py-1 desc" class="cell-solid"  width="8%">P.UNIT</th>
             <th class="border-top-bottom text-center py-1 desc" class="cell-solid"  width="8%">SIN IGV</th>
-            <th class="border-top-bottom text-center py-1 desc" class="cell-solid"  width="12%">TOTAL</th>
+            <th class="border-top-bottom text-center py-1 desc" class="cell-solid"  width="8%">TOTAL</th>
         </tr>
     </thead>
+    @php
+        $colspan_base = 2;
+        $colspan_total = $colspan_base;
+
+        if($showSerieColumn) $colspan_total++;
+        if($showModelColumn) $colspan_total++;
+        if($showBrandColumn) $colspan_total++;
+        if($showLoteColumn) {
+            $colspan_total++;
+            $colspan_total++;
+        }
+    @endphp
     <tbody class="">
         @foreach($document->items as $row)
             <tr>
@@ -410,9 +466,46 @@
                         {{join( "-", $itemSet->getItemsSet($row->item_id) )}}
                     @endif
                 </td>
-                <td class="p-1 text-right align-top desc cell-solid-rl">{{ number_format($row->unit_price, 2) }}</td>
-                <td class="p-1 text-right align-top desc cell-solid-rl">{{ number_format($row->unit_value, 2) }}</td>
-                <td class="p-1 text-right align-top desc cell-solid-rl">{{ number_format($row->total, 2) }}</td>
+                @empty($showSerieColumn) @else
+                <td class="text-center align-top desc cell-solid-rl p-1">
+                    @isset($row->item->lots)
+                        @foreach($row->item->lots as $lot)
+                            @if( isset($lot->has_sale) && $lot->has_sale)
+                                <span style="font-size: 9px">{{ $lot->series }}</span><br>
+                            @endif
+                        @endforeach
+                    @endisset
+                </td>
+                @endempty
+                @if($showModelColumn)
+                    <td class="text-center align-top desc cell-solid-rl p-1">{{ $row->item->model ?? '' }}</td>
+                @endif
+
+                @if($showBrandColumn)
+                    <td class="text-center align-top desc cell-solid-rl p-1">
+                        {{ $row->m_item->brand->name ?? '' }}
+                    </td>
+                @endif
+                @inject('itemLotGroup', 'App\Services\ItemLotsGroupService')
+                @php
+                    $lot = $itemLotGroup->getLote($row->item->IdLoteSelected);
+                    $date_due = $itemLotGroup->getLotDateOfDue($row->item->IdLoteSelected);
+                @endphp
+                @if($showLoteColumn) <td class="text-center align-top desc cell-solid-rl p-1">
+                    {{ $lot }}
+                </td> @endif
+                @if($showLoteColumn) <td class="text-center align-top desc cell-solid-rl p-1">
+                    @if($showLoteColumn)
+                        @if($date_due != '')
+                            {{ $date_due }}
+                        @elseif($row->relation_item->date_of_due)
+                            {{ $row->relation_item->date_of_due->format('Y-m-d')  }}
+                        @endif
+                    @endif
+                </td> @endif
+                <td class="p-1 text-center align-top desc cell-solid-rl">{{ number_format($row->unit_price, 2) }}</td>
+                <td class="p-1 text-center align-top desc cell-solid-rl">{{ number_format($row->unit_value, 2) }}</td>
+                <td class="p-1 text-center align-top desc cell-solid-rl">{{ number_format($row->total, 2) }}</td>
             </tr>
 
         @endforeach
@@ -429,6 +522,19 @@
             <td class="p-1 text-right align-top desc cell-solid-rl">
             </td>
             <td class="p-1 text-right align-top desc cell-solid-rl"></td>
+            
+            @empty($showSerieColumn) @else
+            <td class="p-1 text-right align-top desc cell-solid-rl"></td>
+            @endempty
+            @if($showModelColumn)
+            <td class="p-1 text-right align-top desc cell-solid-rl"></td>
+            @endif
+            @if($showBrandColumn)
+            <td class="p-1 text-right align-top desc cell-solid-rl"></td>
+            @endif
+            @if($showLoteColumn) <td class="p-1 text-right align-top desc cell-solid-rl"></td> @endif
+            @if($showLoteColumn) <td class="p-1 text-right align-top desc cell-solid-rl"></td> @endif
+
         </tr>
         @endfor
 
@@ -449,7 +555,7 @@
                     @endif
                 @endforeach
             </td>
-            <td class="p-1 text-right align-top desc cell-solid font-bold" colspan="2">
+            <td class="p-1 text-right align-top desc cell-solid font-bold" colspan="{{ $colspan_total }}">
                 OP. GRAVADA {{$document->currency_type->symbol}}
             </td>
             <td class="p-1 text-right align-top desc cell-solid font-bold">{{ number_format($document->total_taxed, 2) }}</td>
@@ -511,38 +617,38 @@
                 <img src="data:image/png;base64, {{ $document->qr }}" class="p-0 m-0" style="width: 120px;" /><br>
                 Código Hash: {{ $document->hash }}
             </td>
-            <td class="p-1 text-right align-top desc cell-solid font-bold" colspan="2">
+            <td class="p-1 text-right align-top desc cell-solid font-bold" colspan="{{ $colspan_total }}">
                 OP. INAFECTAS {{$document->currency_type->symbol}}
             </td>
             <td class="p-1 text-right align-top desc cell-solid font-bold">{{ number_format($document->total_unaffected, 2) }}</td>
         </tr>
         <tr>
-            <td class="p-1 text-right align-top desc cell-solid font-bold" colspan="2">
+            <td class="p-1 text-right align-top desc cell-solid font-bold" colspan="{{ $colspan_total }}">
                 OP. EXONERADAS {{$document->currency_type->symbol}}
             </td>
             <td class="p-1 text-right align-top desc cell-solid font-bold">{{ number_format($document->total_exonerated, 2) }}</td>
         </tr>
         <tr>
-            <td class="p-1 text-right align-top desc cell-solid font-bold" colspan="2">
+            <td class="p-1 text-right align-top desc cell-solid font-bold" colspan="{{ $colspan_total }}">
                 OP. GRATUITAS {{$document->currency_type->symbol}}
             </td>
             <td class="p-1 text-right align-top desc cell-solid font-bold">{{ number_format($document->total_free, 2) }}</td>
         </tr>
         <tr>
-            <td class="p-1 text-right align-top desc cell-solid font-bold" colspan="2">
+            <td class="p-1 text-right align-top desc cell-solid font-bold" colspan="{{ $colspan_total }}">
                 TOTAL DCTOS. {{$document->currency_type->symbol}}
             </td>
             <td class="p-1 text-right align-top desc cell-solid font-bold">{{ number_format($document->total_discount, 2) }}</td>
         </tr>
         <tr>
 
-            <td class="p-1 text-right align-top desc cell-solid font-bold" colspan="2">
+            <td class="p-1 text-right align-top desc cell-solid font-bold" colspan="{{ $colspan_total }}">
                 IGV. {{$document->currency_type->symbol}}
             </td>
             <td class="p-1 text-right align-top desc cell-solid font-bold">{{ number_format($document->total_igv, 2) }}</td>
         </tr>
         <tr>
-            <td class="p-1 text-right align-top desc cell-solid font-bold" colspan="2">
+            <td class="p-1 text-right align-top desc cell-solid font-bold" colspan="{{ $colspan_total }}">
                 TOTAL A PAGAR. {{$document->currency_type->symbol}}
             </td>
             <td class="p-1 text-right align-top desc cell-solid font-bold">{{ number_format($document->total, 2) }}</td>
