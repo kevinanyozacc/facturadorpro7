@@ -682,6 +682,37 @@ class DocumentController extends Controller
             }
         }
     }
+    private function aplicarItineranciaSiCorresponde(array &$data)
+    {
+        $is_itinerant = (int) ($data['is_itinerant'] ?? 0);
+
+        if (
+            ($data['invoice']['operation_type_id'] ?? null) === '0101' &&
+            $is_itinerant === 1
+        ) {
+            $data['legends'][] = [
+                'code' => '2005',
+                'value' => 'Venta realizada por emisor itinerante',
+            ];
+
+            // Campos a copiar del cliente al establecimiento
+            $fields = ['address', 'department_id', 'province_id', 'district_id', 'department', 'province', 'district'];
+
+            foreach ($fields as $field) {
+                if (isset($data['customer'][$field])) {
+                    $data['establishment'][$field] = $data['customer'][$field];
+                }
+            }
+
+            // Establecer claves directas
+            $data['establishment_address'] = $data['customer']['address'];
+            $data['establishment_department_id'] = $data['customer']['department_id'];
+            $data['establishment_province_id'] = $data['customer']['province_id'];
+            $data['establishment_district_id'] = $data['customer']['district_id'];
+        }
+
+        $data['is_itinerant'] = $is_itinerant === 1;
+    }
 
     /**
      * @param array $data
@@ -691,29 +722,7 @@ class DocumentController extends Controller
      */
         public function storeWithData($data)
         {
-            $is_itinerant = (int) ($data['is_itinerant'] ?? 0);
-            if (
-                isset($data['invoice']['operation_type_id']) &&
-                $data['invoice']['operation_type_id'] === '0101' &&
-                $is_itinerant === 1
-            ) {
-                // Sobrescribe todos los campos de ubicación
-                $data['establishment']['address'] = $data['customer']['address'];
-                $data['establishment']['department_id'] = $data['customer']['department_id'];
-                $data['establishment']['province_id'] = $data['customer']['province_id'];
-                $data['establishment']['district_id'] = $data['customer']['district_id'];
-
-                $data['establishment']['department'] = $data['customer']['department'];
-                $data['establishment']['province'] = $data['customer']['province'];
-                $data['establishment']['district'] = $data['customer']['district'];
-
-                // También los campos planos fuera del objeto
-                $data['establishment_address'] = $data['customer']['address'];
-                $data['establishment_department_id'] = $data['customer']['department_id'];
-                $data['establishment_province_id'] = $data['customer']['province_id'];
-                $data['establishment_district_id'] = $data['customer']['district_id'];
-            }
-            $data['is_itinerant'] = $is_itinerant === 1;
+            $this->aplicarItineranciaSiCorresponde($data);
             self::setChildrenToData($data);
             $fact = DB::connection('tenant')->transaction(function () use ($data) {
                 $facturalo = new Facturalo();                
