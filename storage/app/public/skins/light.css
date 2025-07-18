@@ -1074,7 +1074,8 @@ html.dark .header, html.header-dark .header {
     border-bottom-color: var(--borders-dark);
     border-top-color: var(--contents-dark);
 }
-html.fixed.sidebar-white .sidebar-left, html.fixed.sidebar-white .sidebar-header, html.fixed.sidebar-white .sidebar-left .nano {
+html.fixed.sidebar-white .sidebar-left, html.fixed.sidebar-white .sidebar-header, html.fixed.sidebar-white .sidebar-left .nano,
+html.dark .el-select-dropdown.is-multiple .el-select-dropdown__item.selected {
     background-color: var(--contents-dark) !important;
 }
 html.fixed.sidebar-white .sidebar-left a {
@@ -1105,7 +1106,7 @@ html.dark .table > thead > tr > th, html.dark .table > tbody > tr > th, html.dar
     color: var(--accent-color);
     background-color: transparent;
 }
-html.dark tbody tr:hover, html.dark tfoot tr:hover {
+html.dark tbody tr:hover, html.dark tfoot tr:hover{
     background: var(--contents-dark);
 }
 html.dark .el-checkbox,

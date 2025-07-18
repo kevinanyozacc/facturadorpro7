@@ -840,14 +840,7 @@
         </tr>
     @endif
     </tr>
-    <tr>
-        <td class="text-center desc pt-5">
-            Para consultar el comprobante ingresar a {!! url('/buscar') !!}
-            <br>
-            Representacion impresa de la <span style="text-transform: capitalize" class="text-capitalize">{{ $document->document_type->description }}</span>
-        </td>
-    </tr>
 </table>
-
+{!! view()->file(app_path('CoreFacturalo/Templates/pdf/default/partials/footer.blade.php'), ['document' => $document])->render() !!}
 </body>
 </html>

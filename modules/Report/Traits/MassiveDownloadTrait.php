@@ -359,6 +359,23 @@
             $template = new Template();
              // $base_pdf_template = $configuration->formats;
             $base_pdf_template = \Auth::user()->establishment->template_pdf;
+            if (($format_pdf === 'ticket') or ($format_pdf === 'ticket_58')) {
+                // Buscar el primer documento para obtener el establecimiento
+                $first_document = null;
+                if (!empty($data['documents_01']) && count($data['documents_01']) > 0) {
+                    $first_document = $data['documents_01'][0];
+                } elseif (!empty($data['documents_03']) && count($data['documents_03']) > 0) {
+                    $first_document = $data['documents_03'][0];
+                } elseif (!empty($data['sale_notes']) && count($data['sale_notes']) > 0) {
+                    $first_document = $data['sale_notes'][0];
+                }
+                if ($first_document) {
+                    $establishment = Establishment::find($first_document->establishment_id);
+                    $base_pdf_template = $establishment ? $establishment->template_ticket_pdf : 'default';
+                } else {
+                    $base_pdf_template = 'default';
+                }
+            }
             $pdf_margin_top = 15;
             $pdf_margin_right = 15;
             $pdf_margin_bottom = 15;
@@ -379,7 +396,7 @@
 
 
             if (($format_pdf === 'ticket') or ($format_pdf === 'ticket_58')) {
-                $base_pdf_template = $configuration->formats;
+                // $base_pdf_template = $configuration->formats;
                 $width = ($format_pdf === 'ticket_58') ? 56 : 78;
 
                 if (config('tenant.enabled_template_ticket_80')) $width = 76;
@@ -684,14 +701,20 @@
                 + $total_exonerated
                 + $total_taxed;
 
-            if($format_pdf=='a5'){
-                $diferencia = 148 - (float)$height;
+            $min_height = 220;
 
+            if ($format_pdf == 'a5') {
+                $diff = 148 - (float)$height;
                 $format['format'] = [
                     $width,
-                    $diferencia + $height,
+                    $diff + $height,
                 ];
-            }else{
+            } elseif ($format_pdf == 'ticket' || $format_pdf == 'ticket_58' || $format_pdf == 80) {
+                $format['format'] = [
+                    $width,
+                    max($height, $min_height),
+                ];
+            } else {
                 $format['format'] = [
                     $width,
                     $height,
@@ -710,11 +733,11 @@
             if (config('tenant.pdf_template_footer')) {
                 switch ($type) {
                     case 'invoice':
-                        $html_footer = $template->pdfFooter($base_pdf_template, $document);
+                        /*$html_footer = $template->pdfFooter($base_pdf_template, $document);
                         if ($configuration->legend_footer) {
                             $html_footer_legend = $template->pdfFooterLegend($base_pdf_template, $document);
                         }
-                        $pdf->SetHTMLFooter($html_footer . $html_footer_legend);
+                        $pdf->SetHTMLFooter($html_footer . $html_footer_legend);*/
                         break;
 
                     case 'dispatch':
@@ -751,11 +774,11 @@
                     switch ($type) {
 
                         case 'invoice':
-                            $html_footer = $template->pdfFooter($base_pdf_template, $document);
+                            /*$html_footer = $template->pdfFooter($base_pdf_template, $document);
                             if ($configuration->legend_footer) {
                                 $html_footer_legend = $template->pdfFooterLegend($base_pdf_template, $document);
                             }
-                            $pdf->SetHTMLFooter($html_footer . $html_footer_legend);
+                            $pdf->SetHTMLFooter($html_footer . $html_footer_legend);*/
                             break;
 
                         case 'dispatch':
