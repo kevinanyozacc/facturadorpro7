@@ -212,14 +212,15 @@ class UserCommissionHelper
 
         $documents = Document::whereHas('payments', function($q) use ($date_start, $date_end) {
             $q->whereBetween('date_of_payment', [$date_start, $date_end]);
-        });
+        })
+        ->where('payment_condition_id', '02');
 
         // Si necesitas filtrar por sucursal, usuario, vendedor, etc., hazlo aquí, pero NO por fechas de emisión/vencimiento:
         if ($establishment_id) {
             $documents = $documents->where('establishment_id', $establishment_id);
         }
-        if ($user_type && $user_seller_id) {
-            $documents = $documents->where($user_type, $user_seller_id);
+        if ($user_seller_id) {
+            $documents = $documents->where('seller_id', $user_seller_id);
         }
         $documents = $documents->get();
 
@@ -230,32 +231,40 @@ class UserCommissionHelper
         $commission_type = $pending_commission->commission_type ?? 'amount';
         $commission_value = $pending_commission->amount ?? 0;
         
-        // $logData = [];
+        $logData = [];
 
         foreach ($documents as $document) {
             $date_of_due = optional($document->invoice)->date_of_due;
-            // $pagos_detalles = [];
+            $pagos_detalles = [];
             $monto_cobrado = 0;
             $comision_sumada = 0;
 
             $estado_valido = in_array($document->state_type_id, $estados_validos_comision);
 
-            if ($date_of_due && $document->user_id == $user->id && $estado_valido) {
+            if ($document->seller_id == $user->id && $estado_valido) {
                 foreach ($document->payments as $payment) {
-                    $fecha_pago = Carbon::parse($payment->date_of_payment);
-                    $fecha_venc = Carbon::parse($date_of_due);
-
-                    // Reglas de comisión
-                    $pago_al_contado = $document->payment_condition_id === '01';
-                    $antes_del_vencimiento = $fecha_pago < $fecha_venc;
-                    $dias_despues_vencimiento = $fecha_pago->diffInDays($fecha_venc, false);
-                    $dentro_rango_maximo = $restriction_enabled
-                    ? ($dias_despues_vencimiento >= 0 && $dias_despues_vencimiento <= $days_expired)
-                    : false;
-
-                    $aplica_comision = $pago_al_contado || $antes_del_vencimiento || $dentro_rango_maximo;
-
                     $comision = 0;
+                    $aplica_comision = false;
+                    $motivo_comision = '';
+                    if ($date_of_due){
+                        $fecha_pago = Carbon::parse($payment->date_of_payment);
+                        $fecha_venc = Carbon::parse($date_of_due);
+                        // Reglas de comisión
+                        // $pago_al_contado = $document->payment_condition_id === '01';
+                        $antes_del_vencimiento = $fecha_pago->lte($fecha_venc);
+                        $dias_despues_vencimiento = $fecha_venc->diffInDays($fecha_pago, false);
+                        $dentro_rango_maximo = $restriction_enabled
+                            ? ($dias_despues_vencimiento >= 0 && $dias_despues_vencimiento <= $days_expired)
+                            : false;
+
+                        $aplica_comision =$antes_del_vencimiento || $dentro_rango_maximo;
+                        $motivo_comision = $aplica_comision
+                        ? ($antes_del_vencimiento ? 'antes_de_vencimiento' : 'dentro_de_plazo_post_vencimiento')
+                        : 'no_aplica';
+                    } else {
+                        $aplica_comision = true;
+                        $motivo_comision = 'sin_fecha_vencimiento';
+                    }
                     if ($aplica_comision) {
                         $monto_cobrado += $payment->payment;
 
@@ -269,49 +278,56 @@ class UserCommissionHelper
                         $total_commission += $comision;
                     }
 
-                    // $pagos_detalles[] = [
-                    //     'fecha_pago'      => $fecha_pago->toDateString(),
-                    //     'fecha_venc'      => $fecha_venc->toDateString(),
-                    //     'pago'            => $payment->payment,
-                    //     'comision'        => $comision,
-                    //     'tipo_comision'   => $commission_type,
-                    //     'condicion_pago'  => $document->payment_condition_id,
-                    //     'estado_doc'      => $document->state_type_id,
-                    //     'estado_valido'   => $estado_valido,
-                    //     'aplica_comision' => $aplica_comision,
-                    //     'motivo_comision' => $aplica_comision ? (
-                    //         $pago_al_contado ? 'al_contado' :
-                    //         ($antes_del_vencimiento ? 'antes_de_vencimiento' : 'dentro_de_plazo_post_vencimiento')
-                    //     ) : 'no_aplica',
-                    // ];
+                    $pagos_detalles[] = [
+                        'fecha_pago'      => $fecha_pago->toDateString(),
+                        'fecha_venc'      => $fecha_venc->toDateString(),
+                        'pago'            => $payment->payment,
+                        'comision'        => $comision,
+                        'tipo_comision'   => $commission_type,
+                        'condicion_pago'  => $document->payment_condition_id,
+                        'estado_doc'      => $document->state_type_id,
+                        'estado_valido'   => $estado_valido,
+                        'aplica_comision' => $aplica_comision,
+                        'motivo_comision' => $motivo_comision,
+                    ];
                 }
 
                 $total_collected += $monto_cobrado;
             }
 
-            // $logData[] = [
-            //     'document_id'       => $document->id,
-            //     'user_id'           => $user->id,
-            //     'total_doc'         => $document->total,
-            //     'date_of_due'       => $date_of_due,
-            //     'payment_condition' => $document->payment_condition_id,
-            //     'state_type_id'     => $document->state_type_id,
-            //     'estado_valido'     => $estado_valido,
-            //     'pagos'             => $pagos_detalles,
-            //     'monto_cobrado'     => $monto_cobrado,
-            //     'comision_sumada'   => $comision_sumada,
-            // ];
+            $logData[] = [
+                'document_id'       => $document->id,
+                'user_id'           => $user->id,
+                'establishment_id'  => $document->establishment_id,
+                'total_doc'         => $document->total,
+                'date_of_due'       => $date_of_due,
+                'payment_condition' => $document->payment_condition_id,
+                'state_type_id'     => $document->state_type_id,
+                'estado_valido'     => $estado_valido,
+                'pagos'             => $pagos_detalles,
+                'monto_cobrado'     => $monto_cobrado,
+                'comision_sumada'   => $comision_sumada,
+            ];
         }
 
-        // \Log::info('[COMISIONES] Usuario: '.$user->id, [
-        //     'user_name'        => $user->name,
-        //     'total_collected'  => $total_collected,
-        //     'total_commission' => $total_commission,
-        //     'dias_maximos'     => $days_expired, // ✅ NUEVO
-        //     'restriccion_activada' => $restriction_enabled, // ✅ NUEVO
-        //     'detalle'          => $logData,
-        // ]);
+        \Log::info('[COMISIONES] Usuario: '.$user->id, [
+            'user_name'        => $user->name,
+            'total_collected'  => $total_collected,
+            'total_commission' => $total_commission,
+            'dias_maximos'     => $days_expired,
+            'restriccion_activada' => $restriction_enabled,
+            'detalle'          => $logData,
+        ]);
 
+        \Log::info('[COMISIONES] Días máximos permitidos para comisión: ' . $days_expired);
+        if (!$restriction_enabled) {
+            return [
+                'id' => $user->id,
+                'user_name' => $user->name,
+                'total_collected' => number_format($total_collected, 2, ".", ""),
+                'commission' => number_format(0, 2, ".", ""),
+            ];
+        }
         return [
             'id' => $user->id,
             'user_name' => $user->name,

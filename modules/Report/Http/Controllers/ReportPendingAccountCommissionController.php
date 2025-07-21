@@ -90,9 +90,9 @@ class ReportPendingAccountCommissionController extends Controller
     {
         $data = $model::query();
 
-        if ($establishment_id) {
-            $data = $data->where('establishment_id', $establishment_id);
-        }
+        // if ($establishment_id) {
+        //     $data = $data->where('establishment_id', $establishment_id);
+        // }
 
         if ($user_seller_id) {
             $data = $data->where('id', $user_seller_id);
@@ -108,11 +108,11 @@ class ReportPendingAccountCommissionController extends Controller
         $establishment = ($request->establishment_id) ? Establishment::findOrFail($request->establishment_id) : auth()->user()->establishment;
         $users = $this->getRecords($request->all(), User::class)->get();
 
-        $days_expired = \App\Models\Tenant\Configuration::first()->finances->max_expired_days ?? 0;
-
+        $configuration = \App\Models\Tenant\Configuration::first();
+        $finances = $configuration->finances ?? [];
         // Calcula los datos finales para cada usuario
-        $records = $users->map(function($user) use ($request, $days_expired) {
-            return \Modules\Report\Helpers\UserCommissionHelper::getDataForPendingAccountCommissionReport($user, $request, $days_expired);
+        $records = $users->map(function($user) use ($request, $finances) {
+            return \Modules\Report\Helpers\UserCommissionHelper::getDataForPendingAccountCommissionReport($user, $request, $finances);
         });
 
         $pdf = PDF::loadView('report::pending-account-commissions.report_pdf', compact("records", "company", "establishment", "request"));
@@ -128,14 +128,14 @@ class ReportPendingAccountCommissionController extends Controller
         $establishment = ($request->establishment_id) ? Establishment::findOrFail($request->establishment_id) : auth()->user()->establishment;
         $users = $this->getRecords($request->all(), User::class)->get();
 
-        $days_expired = \App\Models\Tenant\Configuration::first()->finances->max_expired_days ?? 0;
+        $configuration = \App\Models\Tenant\Configuration::first();
+        $finances = $configuration->finances ?? [];
 
-        // Calcula los datos finales para cada usuario
-        $records = $users->map(function($user) use ($request, $days_expired) {
-            return \Modules\Report\Helpers\UserCommissionHelper::getDataForPendingAccountCommissionReport($user, $request, $days_expired);
+        $records = $users->map(function($user) use ($request, $finances) {
+            return \Modules\Report\Helpers\UserCommissionHelper::getDataForPendingAccountCommissionReport($user, $request, $finances);
         });
 
-        return (new \Modules\Report\Exports\PendingAccountCommissionExport)
+        return (new PendingAccountCommissionExport)
             ->records($records)
             ->company($company)
             ->establishment($establishment)
