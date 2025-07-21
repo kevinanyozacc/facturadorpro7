@@ -461,18 +461,29 @@ foreach ($document->items as $row) {
                 $lot = $itemLotGroup->getLote($row->item->IdLoteSelected);
                 $date_due = $itemLotGroup->getLotDateOfDue($row->item->IdLoteSelected);
             @endphp
-            @if($showLoteColumn) <td class="text-center align-top">
-                {{ $lot }}
-            </td> @endif
-            @if($showLoteColumn) <td class="text-center align-top">
-                @if($showLoteColumn)
-                    @if($date_due != '')
-                        {{ $date_due }}
-                    @elseif($row->relation_item->date_of_due)
-                        {{ $row->relation_item->date_of_due->format('Y-m-d')  }}
+
+            @if($showLoteColumn)
+                <td class="text-center align-top">
+                    @if($lot)
+                        @foreach(explode('/', $lot) as $code)
+                            @if(trim($code) !== '')
+                                {{ trim($code) }}<br>
+                            @endif
+                        @endforeach
                     @endif
-                @endif
-            </td> @endif
+                </td>
+            @endif
+            @if($showLoteColumn)
+                <td class="text-center align-top">
+                    @php
+                        $cleanedDate = $date_due != ''
+                            ? ltrim($date_due, '/')
+                            : ($row->relation_item->date_of_due ? $row->relation_item->date_of_due->format('Y-m-d') : '');
+                    @endphp
+            
+                    {{ $cleanedDate }}
+                </td>
+            @endif
             @if ($configuration_decimal_quantity->change_decimal_quantity_unit_price_pdf)
                 <td class="text-right align-top">{{ $row->generalApplyNumberFormat($row->unit_price, $configuration_decimal_quantity->decimal_quantity_unit_price_pdf) }}</td>
             @else

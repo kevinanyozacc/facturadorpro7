@@ -457,9 +457,9 @@ foreach ($document->items as $row) {
              LOTE
         </th> @endif
         @if($showLoteColumn) <th class="border-top-bottom text-center py-1 desc cell-solid" width="9%"> F. VENC. </th> @endif
-        <th class="border-top-bottom text-center py-1 desc cell-solid" width="7%">P.UNIT</th>
+        <th class="border-top-bottom text-center py-1 desc cell-solid col-total">P.UNIT</th>
         <th class="border-top-bottom text-center py-1 desc cell-solid" width="7%">DTO.</th>
-        <th class="border-top-bottom text-center py-1 desc cell-solid" width="7%">TOTAL</th>
+        <th class="border-top-bottom text-center py-1 desc cell-solid col-total">TOTAL</th>
     </tr>
     </thead>
     @php
@@ -562,18 +562,29 @@ foreach ($document->items as $row) {
                 $lot = $itemLotGroup->getLote($row->item->IdLoteSelected);
                 $date_due = $itemLotGroup->getLotDateOfDue($row->item->IdLoteSelected);
             @endphp
-            @if($showLoteColumn) <td class="text-center align-top desc cell-solid-rl p-1">
-                {{ $lot }}
-            </td> @endif
-            @if($showLoteColumn) <td class="text-center align-top desc cell-solid-rl p-1">
-                @if($showLoteColumn)
-                    @if($date_due != '')
-                        {{ $date_due }}
-                    @elseif($row->relation_item->date_of_due)
-                        {{ $row->relation_item->date_of_due->format('Y-m-d')  }}
+
+            @if($showLoteColumn)
+                <td class="text-center align-top desc cell-solid-rl p-1">
+                    @if($lot)
+                        @foreach(explode('/', $lot) as $code)
+                            @if(trim($code) !== '')
+                                {{ trim($code) }}<br>
+                            @endif
+                        @endforeach
                     @endif
-                @endif
-            </td> @endif
+                </td>
+            @endif
+            @if($showLoteColumn)
+                <td class="text-center align-top desc cell-solid-rl p-1">
+                    @php
+                        $cleanedDate = $date_due != ''
+                            ? ltrim($date_due, '/')
+                            : ($row->relation_item->date_of_due ? $row->relation_item->date_of_due->format('Y-m-d') : '');
+                    @endphp
+            
+                    {{ $cleanedDate }}
+                </td>
+            @endif
             @if ($configuration_decimal_quantity->change_decimal_quantity_unit_price_pdf)
                 <td class="text-center align-top desc cell-solid-rl p-1">{{ $row->generalApplyNumberFormat($row->unit_price, $configuration_decimal_quantity->decimal_quantity_unit_price_pdf) }}</td>
             @else

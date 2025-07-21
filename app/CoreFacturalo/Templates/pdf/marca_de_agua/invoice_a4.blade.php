@@ -414,9 +414,9 @@
                 LOTE
             </th> @endif
             @if($showLoteColumn) <th class="border-top-bottom text-center py-1 desc" class="cell-solid"> F. VENC. </th> @endif
-            <th class="border-top-bottom text-center py-1 desc" class="cell-solid"  width="8%">P.UNIT</th>
+            <th class="border-top-bottom text-center py-1 desc col-total" class="cell-solid">P.UNIT</th>
             <th class="border-top-bottom text-center py-1 desc" class="cell-solid"  width="8%">SIN IGV</th>
-            <th class="border-top-bottom text-center py-1 desc" class="cell-solid"  width="8%">TOTAL</th>
+            <th class="border-top-bottom text-center py-1 desc col-total" class="cell-solid">TOTAL</th>
         </tr>
     </thead>
     @php
@@ -499,18 +499,29 @@
                     $lot = $itemLotGroup->getLote($row->item->IdLoteSelected);
                     $date_due = $itemLotGroup->getLotDateOfDue($row->item->IdLoteSelected);
                 @endphp
-                @if($showLoteColumn) <td class="text-center align-top desc cell-solid-rl p-1">
-                    {{ $lot }}
-                </td> @endif
-                @if($showLoteColumn) <td class="text-center align-top desc cell-solid-rl p-1">
-                    @if($showLoteColumn)
-                        @if($date_due != '')
-                            {{ $date_due }}
-                        @elseif($row->relation_item->date_of_due)
-                            {{ $row->relation_item->date_of_due->format('Y-m-d')  }}
+
+                @if($showLoteColumn)
+                    <td class="text-center align-top desc cell-solid-rl p-1">
+                        @if($lot)
+                            @foreach(explode('/', $lot) as $code)
+                                @if(trim($code) !== '')
+                                    {{ trim($code) }}<br>
+                                @endif
+                            @endforeach
                         @endif
-                    @endif
-                </td> @endif
+                    </td>
+                @endif
+                @if($showLoteColumn)
+                    <td class="text-center align-top desc cell-solid-rl p-1">
+                        @php
+                            $cleanedDate = $date_due != ''
+                                ? ltrim($date_due, '/')
+                                : ($row->relation_item->date_of_due ? $row->relation_item->date_of_due->format('Y-m-d') : '');
+                        @endphp
+                
+                        {{ $cleanedDate }}
+                    </td>
+                @endif
                 <td class="p-1 text-center align-top desc cell-solid-rl">{{ number_format($row->unit_price, 2) }}</td>
                 <td class="p-1 text-center align-top desc cell-solid-rl">{{ number_format($row->unit_value, 2) }}</td>
                 <td class="p-1 text-center align-top desc cell-solid-rl">{{ number_format($row->total, 2) }}</td>

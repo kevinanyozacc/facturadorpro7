@@ -292,10 +292,10 @@
                         </div>
                     </div>
                     <div class="card-body no-gutters">
-                        <div class="">
+                        <div class="row inputs-container">
                             <div
                                 :class="{ 'has-danger': errors.customer_id }"
-                                class="form-group form-client-default ml-1 w-50 mb-0 p-0"
+                                class="form-group col-md-4"
                             >
                                 <label
                                     class="control-label font-weight-bold text-info"
@@ -336,15 +336,15 @@
                                     class="form-control-feedback"
                                     v-text="errors.customer_id[0]"
                                 ></small>
-                            </div>
                             <div v-if="form.operation_type_id === '0101'">
                                 <el-checkbox v-model="form.is_itinerant">
                                     ¿Venta itinerante?
                                 </el-checkbox>
                             </div>
+                            </div>
                             <div
                                 v-if="customer_addresses.length > 0"
-                                class="form-group col-sm-6 mb-0"
+                                class="form-group col-sm-4 mb-0"
                             >
                                 <label
                                     class="control-label font-weight-bold text-info"
@@ -362,11 +362,8 @@
 
                             <!-- sistema por puntos -->
                             <div
-                                v-if="
-                                    config.enabled_point_system &&
-                                        form.customer_id
-                                "
-                                class="form-group col-sm-6 mb-0 mt-3"
+                                v-if="config.enabled_point_system && form.customer_id"
+                                class="form-group col-sm-3 mb-0"
                             >
                                 <p class="fs-point-system">
                                     <label class="font-weight-bold text-info"

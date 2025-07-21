@@ -343,26 +343,35 @@ foreach($document->items as $row) {
             <td class="text-left">{{ $row->item->model ?? '' }}</td>
             @endif
             @if($showBrand)
-            <td class="text-left align-top">{{ $row->relation_item->brand->name ?? '' }}</td>
+            <td class="text-center align-top">{{ $row->relation_item->brand->name ?? '' }}</td>
             @endif
             @inject('itemLotGroup', 'App\Services\ItemLotsGroupService')
             @php
                 $lot = $itemLotGroup->getLote($row->item->IdLoteSelected);
                 $date_due = $itemLotGroup->getLotDateOfDue($row->item->IdLoteSelected);
             @endphp
+
             @if($showLot)
-            <td class="text-center align-top">
-                {{ $lot }}
-            </td>
+                <td class="text-center align-top">
+                    @if($lot)
+                        @foreach(explode('/', $lot) as $code)
+                            @if(trim($code) !== '')
+                                {{ trim($code) }}<br>
+                            @endif
+                        @endforeach
+                    @endif
+                </td>
             @endif
             @if($showDateDue)
-            <td class="text-center align-top">
-                @if($date_due != '')
-                    {{ $date_due }}
-                @elseif($row->relation_item->date_of_due)
-                    {{ $row->relation_item->date_of_due->format('Y-m-d')  }}
-                @endif
-            </td>
+                <td class="text-center align-top">
+                    @php
+                        $cleanedDate = $date_due != ''
+                            ? ltrim($date_due, '/')
+                            : ($row->relation_item->date_of_due ? $row->relation_item->date_of_due->format('Y-m-d') : '');
+                    @endphp
+            
+                    {{ $cleanedDate }}
+                </td>
             @endif
             <td class="text-center">{{ $row->item->unit_type_id }}</td>
             <td class="text-right">

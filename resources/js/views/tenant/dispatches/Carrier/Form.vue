@@ -477,7 +477,7 @@
                                     <tr v-for="(row, index) in form.items">
                                         <td>{{ index + 1 }}</td>
                                         <td>{{ row.unit_type_id }}</td>
-                                        <td v-html="setDescriptionOfItem(row)" class="text-dark"></td>
+                                        <td v-html="setDescriptionOfItem(row)"></td>
                                         <td class="text-right">{{ getFormatQuantity(row.quantity) }}
                                             <a v-if="row.IdLoteSelected!=''" class="text-center font-weight-bold text-info"
                                                 href="#" @click.prevent="listLotGroupSelected(row.IdLoteSelected)">

@@ -382,18 +382,29 @@ foreach ($document->items as $row) {
                 $lot = $itemLotGroup->getLote($row->item->IdLoteSelected);
                 $date_due = $itemLotGroup->getLotDateOfDue($row->item->IdLoteSelected);
             @endphp
-            @if($showLoteColumn) <td class="text-center align-top cell-solid-rl">
-                {{ $lot }}
-            </td> @endif
-            @if($showLoteColumn) <td class="text-center align-top cell-solid-rl">
-                @if($showLoteColumn)
-                    @if($date_due != '')
-                        {{ $date_due }}
-                    @elseif($row->relation_item->date_of_due)
-                        {{ $row->relation_item->date_of_due->format('Y-m-d')  }}
+
+            @if($showLoteColumn)
+                <td class="text-center align-top desc cell-solid-rl p-1">
+                    @if($lot)
+                        @foreach(explode('/', $lot) as $code)
+                            @if(trim($code) !== '')
+                                {{ trim($code) }}<br>
+                            @endif
+                        @endforeach
                     @endif
-                @endif
-            </td> @endif
+                </td>
+            @endif
+            @if($showLoteColumn)
+                <td class="text-center align-top desc cell-solid-rl p-1">
+                    @php
+                        $cleanedDate = $date_due != ''
+                            ? ltrim($date_due, '/')
+                            : ($row->relation_item->date_of_due ? $row->relation_item->date_of_due->format('Y-m-d') : '');
+                    @endphp
+            
+                    {{ $cleanedDate }}
+                </td>
+            @endif
             <td class="text-center align-top cell-solid-rl">{{ number_format($row->unit_price, 2) }}</td>
             <td class="text-center align-top cell-solid-rl">
                 @if($row->discounts)
