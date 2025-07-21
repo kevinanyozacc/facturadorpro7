@@ -54,6 +54,7 @@ class DocumentTransform
             'total_pending_payment' => Functions::valueKeyInArray($totals, 'total_pendiente_pago'),
             // 'pending_amount_detraction' => Functions::valueKeyInArray($totals, 'total_pendiente_detraccion'),
             'has_prepayment' => Functions::valueKeyInArray($inputs, 'pago_anticipado',0),
+            'is_itinerant' => Functions::valueKeyInArray($inputs, 'es_itinerante', false),
             'items' => self::items($inputs),
             'charges' => self::charges($inputs),
             'discounts' => self::discounts($inputs),
