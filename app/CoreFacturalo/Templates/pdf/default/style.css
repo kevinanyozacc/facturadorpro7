@@ -653,3 +653,8 @@ p {
 .mx-auto {
   margin-left: auto !important;
 }
+.col-total {
+    width: auto;
+    max-width: 12%;
+    min-width: 8%;
+}

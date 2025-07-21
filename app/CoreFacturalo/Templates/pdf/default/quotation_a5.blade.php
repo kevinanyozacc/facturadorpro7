@@ -266,7 +266,7 @@
         @endif 
         <th class="border-top-bottom text-right py-2" width="8%">P.UNIT</th>
         <th class="border-top-bottom text-right py-2" width="8%">DTO.</th>
-        <th class="border-top-bottom text-right py-2" width="8%">TOTAL</th>
+        <th class="border-top-bottom text-right py-2 col-total">TOTAL</th>
     </tr>
     </thead>
     <tbody>

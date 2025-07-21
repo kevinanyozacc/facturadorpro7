@@ -236,7 +236,7 @@ foreach ($document->items as $row) {
         @if($showLoteColumn) <th class="border-top-bottom text-center py-2 px-1"> F. VENC. </th> @endif      
         <th class="border-top-bottom text-right py-2 px-1" width="8%">P.UNIT</th>
         <th class="border-top-bottom text-right py-2 px-1" width="8%">DTO.</th>
-        <th class="border-top-bottom text-right py-2 px-1" width="8%">TOTAL</th>
+        <th class="border-top-bottom text-right py-2 px-1 col-total">TOTAL</th>
     </tr>
     </thead>
     <tbody>
