@@ -272,7 +272,7 @@
         @if($show_due)
             <th class="border-top-bottom text-center py-2 px-1">F. VENC.</th>
         @endif 
-        <th class="border-top-bottom text-right py-2" width="9%">P.UNIT</th>
+        <th class="border-top-bottom text-right py-2 col-total">P.UNIT</th>
         <th class="border-top-bottom text-right py-2" width="8%">DTO.</th>
         <th class="border-top-bottom text-right py-2 col-total">TOTAL</th>
     </tr>

@@ -81,13 +81,21 @@
 <body>
 
 @if($document->state_type->id == '11')
-    <div class="company_logo_box" style="position: absolute; text-align: center; top:30%;">
-        <img src="data:{{mime_content_type(public_path("status_images".DIRECTORY_SEPARATOR."anulado.png"))}};base64, {{base64_encode(file_get_contents(public_path("status_images".DIRECTORY_SEPARATOR."anulado.png")))}}" alt="anulado" class="" style="opacity: 0.6;">
+    <div class="company_logo_box" style="position: absolute; text-align: center; top: 30%; left: 0; right: 0;">
+        <img 
+            src="data:{{ mime_content_type(public_path('status_images/anulado.png')) }};base64,{{ base64_encode(file_get_contents(public_path('status_images/anulado.png'))) }}" 
+            alt="anulado" 
+            style="opacity: 0.6; max-width: 300px; width: auto; height: auto;"
+        >
     </div>
 @else
-<div class="item_watermark" style="position: absolute; text-align: center; top:42%;">
-    <img style="width: 100%" height="200px" src="data:{{mime_content_type(public_path("{$logo}"))}};base64, {{base64_encode(file_get_contents(public_path("{$logo}")))}}" alt="{{$company->name}}" alt="anulado" class="" style="opacity: 0.1;width: 95%">
-</div>
+    <div class="item_watermark" style="position: absolute; text-align: center; top: 42%; left: 0; right: 0;">
+        <img 
+            src="data:{{ mime_content_type(public_path("{$logo}")) }};base64,{{ base64_encode(file_get_contents(public_path("{$logo}"))) }}" 
+            alt="{{ $company->name }}" 
+            style="opacity: 0.1; max-width: 100%; width: auto; height: auto; max-height: 250px;"
+        >
+    </div>
 @endif
 @if($document->state_type->id == '09')
     <div style="position: absolute; width: 100%; text-align: center; top:30%; left: 0; right: 0; margin: auto;">

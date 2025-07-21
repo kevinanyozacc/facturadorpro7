@@ -31,8 +31,8 @@
 @endphp
 
 @if($logo)
-    <div class="item_watermark" style="position: absolute; text-align: center; top:42%;">
-        <img style="width: 95%; opacity: 0.1;" height="200px"
+    <div class="item_watermark" style="position: absolute; text-align: center; top: 42%; left: 0; right: 0;">
+        <img style="opacity: 0.1; max-width: 100%; width: auto; height: auto; max-height: 250px;"
              src="data:{{ mime_content_type(public_path($logo)) }};base64,{{ base64_encode(file_get_contents(public_path($logo))) }}"
              alt="{{ $company->name }}">
     </div>

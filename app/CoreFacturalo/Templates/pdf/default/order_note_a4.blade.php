@@ -233,8 +233,8 @@ foreach ($document->items as $row) {
             <th class="border-top-bottom text-center py-2 px-1">MARCA</th>
         @endif    
         @if($showLoteColumn) <th class="border-top-bottom text-center py-2 px-1"> LOTE </th> @endif
-        @if($showLoteColumn) <th class="border-top-bottom text-center py-2 px-1"> F. VENC. </th> @endif      
-        <th class="border-top-bottom text-right py-2 px-1" width="8%">P.UNIT</th>
+        @if($showLoteColumn) <th class="border-top-bottom text-center py-2 px-1"> F. VENC. </th> @endif
+        <th class="border-top-bottom text-right py-2 px-1 col-total">P.UNIT</th>
         <th class="border-top-bottom text-right py-2 px-1" width="8%">DTO.</th>
         <th class="border-top-bottom text-right py-2 px-1 col-total">TOTAL</th>
     </tr>
