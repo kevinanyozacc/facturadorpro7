@@ -3,6 +3,7 @@
 namespace Modules\Document\Http\Controllers;
 
 use App\Http\Controllers\SearchItemController;
+use App\Http\Controllers\OptimizedSearchItemController;
 use App\Models\Tenant\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -285,11 +286,16 @@ class DocumentController extends Controller
 
     public function searchItems(Request $request)
     {
-
-        $items = SearchItemController::getItemsToDocuments($request);
+        // Usar controlador optimizado para mejorar rendimiento
+        $use_optimized = env('USE_OPTIMIZED_SEARCH', true);
+        
+        if ($use_optimized) {
+            $items = OptimizedSearchItemController::getOptimizedItemsToDocuments($request);
+        } else {
+            $items = SearchItemController::getItemsToDocuments($request);
+        }
 
         return compact('items');
-
     }
 
 
