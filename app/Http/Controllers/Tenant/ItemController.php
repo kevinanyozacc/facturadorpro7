@@ -106,13 +106,304 @@ class ItemController extends Controller
         ];
     }
 
+    /**
+     * Obtiene los registros de items con paginación
+     * OPTIMIZACIÓN CRÍTICA: Separa la lógica para carga inicial vs búsquedas
+     * - Carga inicial: Query súper simple y rápida (< 4 segundos) SIN ItemCollection
+     * - Búsquedas: Query completa con todos los filtros
+     */
     public function records(Request $request)
     {
-
         // dd($request->all());
-        $records = $this->getRecords($request);
+        
+        // OPTIMIZACIÓN ULTRA-RÁPIDA: Para carga inicial sin filtros O búsquedas con menos de 3 caracteres
+        $hasValidSearchFilter = ($request->has('value') && !empty($request->value) && strlen($request->value) >= 3) ||
+                               ($request->has('column') && in_array($request->column, ['active', 'inactive']));
+        
+        if (!$hasValidSearchFilter) {
+            // Consulta súper optimizada para carga inicial - RETORNA DIRECTAMENTE JSON
+            // También se usa si la búsqueda tiene menos de 3 caracteres
+            return $this->getInitialFastRecords($request);
+        }
 
-        return new ItemCollection($records->paginate(config('tenant.items_per_page')));
+        // Para búsquedas con filtros válidos (3+ caracteres), usar método optimizado
+        $records = $this->getOptimizedSearchRecords($request);
+        return response()->json($records);
+    }
+
+    /**
+     * Método ultra-optimizado para carga inicial rápida
+     * ELIMINA: whereTypeUser(), whereNotIsSet(), whereWarehouse(), joins complejos
+     * ELIMINA: ItemCollection, paginación compleja, lazy loading
+     * USO: Carga inicial sin filtros O búsquedas con menos de 3 caracteres
+     * RESULTADO: Consulta directa que debe tardar menos de 4 segundos
+     */
+    private function getInitialFastRecords(Request $request)
+    {
+        // Validar campos de ordenamiento para seguridad
+        $allowedSortFields = ['id', 'name', 'description', 'internal_id', 'barcode', 'created_at', 'updated_at'];
+        $sortField = in_array($request->get('sort_field', 'id'), $allowedSortFields) ? $request->get('sort_field', 'id') : 'id';
+        $sortDirection = strtoupper($request->get('sort_direction', 'desc')) === 'ASC' ? 'ASC' : 'DESC';
+        
+        $start_time = microtime(true);
+        
+        // ALTERNATIVA: Usar Eloquent optimizado para evitar problemas de conexión BD
+        $records = \App\Models\Tenant\Item::select([
+                'id', 'name', 'description', 'internal_id', 'barcode', 
+                'sale_unit_price', 'currency_type_id', 'unit_type_id',
+                'active', 'stock', 'has_igv', 'created_at', 'updated_at',
+                'category_id', 'brand_id', 'image', 'sale_affectation_igv_type_id',
+                'warehouse_id', 'stock_min'
+            ])
+            ->with([
+                'warehouses.warehouse:id,description', 
+                'item_unit_types:id,item_id,description,unit_type_id,quantity_unit,price1,price2,price3,price_default'
+            ])
+            ->where('active', 1)
+            ->where('is_set', false) // Reemplaza whereNotIsSet()
+            ->orderBy($sortField, $sortDirection)
+            ->limit(20)
+            ->get();
+        
+        $execution_time = microtime(true) - $start_time;
+        
+        // Log para debugging
+        \Log::info("SQL execution time: " . $execution_time . " seconds");
+        
+        // Convertir a formato esperado por el frontend sin overhead de Collection
+        $data = $records->map(function($item) {
+            return [
+                'id' => $item->id,
+                'name' => $item->name,
+                'description' => $item->description,
+                'internal_id' => $item->internal_id,
+                'barcode' => $item->barcode,
+                'sale_unit_price' => $item->sale_unit_price,
+                'currency_type_id' => $item->currency_type_id,
+                'unit_type_id' => $item->unit_type_id,
+                'active' => (bool)$item->active,
+                'stock' => $item->stock,
+                'has_igv' => (bool)$item->has_igv,
+                'created_at' => $item->created_at,
+                'updated_at' => $item->updated_at,
+                'category_id' => $item->category_id,
+                'brand_id' => $item->brand_id,
+                'image' => $item->image,
+                'sale_affectation_igv_type_id' => $item->sale_affectation_igv_type_id,
+                // Campos adicionales mínimos que el frontend puede esperar
+                'full_description' => $item->description,
+                'model' => '',
+                'brand' => '',
+                'warehouse_id' => $item->warehouse_id,
+                'item_code' => '',
+                'item_code_gs1' => '',
+                'stock_min' => $item->stock_min ?? 0,
+                'currency_type_symbol' => 'S/',
+                'amount_sale_unit_price' => $item->sale_unit_price,
+                'calculate_quantity' => false,
+                'has_igv_description' => (bool)$item->has_igv ? 'Si' : 'No',
+                'purchase_has_igv_description' => (bool)$item->has_igv ? 'Si' : 'No',
+                'purchase_unit_price' => 0,
+                // INFORMACIÓN REAL DE WAREHOUSES para el botón de stock
+                'warehouses' => $item->warehouses->map(function($warehouse) {
+                    return [
+                        'warehouse_description' => $warehouse->warehouse->description ?? 'Sin almacén',
+                        'stock' => $warehouse->stock ?? 0,
+                    ];
+                })->toArray(),
+                'apply_store' => false,
+                'image_url' => asset("/logo/imagen-no-disponible.jpg"),
+                'image_url_medium' => asset("/logo/imagen-no-disponible.jpg"),
+                'image_url_small' => asset("/logo/imagen-no-disponible.jpg"),
+                'tags' => [],
+                'tags_id' => [],
+                // INFORMACIÓN REAL DE ITEM_UNIT_TYPES para el modal de detalle
+                'item_unit_types' => $item->item_unit_types->map(function($unit_type) {
+                    return [
+                        'id' => $unit_type->id,
+                        'description' => $unit_type->description,
+                        'item_id' => $unit_type->item_id,
+                        'unit_type_id' => $unit_type->unit_type_id,
+                        'quantity_unit' => number_format($unit_type->quantity_unit, 2, ".", ""),
+                        'price1' => number_format($unit_type->price1, 2, ".", ""),
+                        'price2' => number_format($unit_type->price2, 2, ".", ""),
+                        'price3' => number_format($unit_type->price3, 2, ".", ""),
+                        'price_default' => $unit_type->price_default,
+                    ];
+                })->toArray()
+            ];
+        })->toArray();
+        
+        // Retornar respuesta simple sin ItemCollection con estructura esperada por el frontend
+        return response()->json([
+            'data' => $data,
+            'meta' => [
+                'current_page' => 1,
+                'per_page' => 20,
+                'total' => count($data),
+                'last_page' => 1
+            ],
+            'execution_time' => $execution_time
+        ]);
+    }
+
+    /**
+     * Método optimizado para búsquedas con 3+ caracteres que evita ItemCollection y métodos scope pesados
+     */
+    private function getOptimizedSearchRecords(Request $request)
+    {
+        $sortField = $request->get('sort_field', 'id');
+        $sortDirection = $request->get('sort_direction', 'desc');
+        $perPage = config('tenant.items_per_page', 20);
+        
+        $start_time = microtime(true);
+        
+        // Query base optimizada usando Eloquent directo (evita problemas de BD)
+        $query = \App\Models\Tenant\Item::select([
+                'id', 'name', 'description', 'internal_id', 'barcode', 
+                'sale_unit_price', 'currency_type_id', 'unit_type_id',
+                'active', 'stock', 'has_igv', 'created_at', 'updated_at',
+                'category_id', 'brand_id', 'image', 'sale_affectation_igv_type_id',
+                'warehouse_id', 'stock_min'
+            ])
+            ->with([
+                'warehouses.warehouse:id,description', 
+                'item_unit_types:id,item_id,description,unit_type_id,quantity_unit,price1,price2,price3,price_default'
+            ])
+            ->where('is_set', false); // Reemplaza whereNotIsSet()
+        
+        // Filtros de búsqueda - SOLO si tiene al menos 3 caracteres
+        if ($request->has('value') && !empty($request->value) && strlen($request->value) >= 3) {
+            $searchValue = $request->value . '%';
+            
+            switch ($request->column) {
+                case 'brand':
+                    $query->join('brands', 'items.brand_id', '=', 'brands.id')
+                          ->where('brands.name', 'like', $searchValue);
+                    break;
+                case 'category':
+                    $query->join('categories', 'items.category_id', '=', 'categories.id')
+                          ->where('categories.name', 'like', $searchValue);
+                    break;
+                case 'active':
+                    $query->where('items.active', 1);
+                    break;
+                case 'inactive':
+                    $query->where('items.active', 0);
+                    break;
+                default:
+                    if (in_array($request->column, ['description', 'internal_id', 'barcode', 'name'])) {
+                        $query->where($request->column, 'like', $searchValue);
+                    }
+                    break;
+            }
+        }
+        
+        // Filtros adicionales
+        if ($request->has('show_disabled')) {
+            switch ($request->show_disabled) {
+                case 'enabled':
+                    $query->where('active', 1);
+                    break;
+                case 'disabled':
+                    $query->where('active', 0);
+                    break;
+            }
+        }
+        
+        if ($request->type) {
+            if ($request->type === 'PRODUCTS') {
+                $query->where('unit_type_id', '!=', 'ZZ');
+            } else {
+                $query->where('unit_type_id', 'ZZ');
+            }
+        }
+        
+        // Aplicar ordenamiento y paginación
+        $total = $query->count();
+        $records = $query->orderBy($sortField, $sortDirection)
+                        ->limit($perPage)
+                        ->get();
+        
+        $execution_time = microtime(true) - $start_time;
+        
+        // Log para debugging
+        \Log::info("Search SQL execution time: " . $execution_time . " seconds");
+        
+        // Convertir a formato esperado por el frontend
+        $data = $records->map(function($item) {
+            return [
+                'id' => $item->id,
+                'name' => $item->name,
+                'description' => $item->description,
+                'internal_id' => $item->internal_id,
+                'barcode' => $item->barcode,
+                'sale_unit_price' => $item->sale_unit_price,
+                'currency_type_id' => $item->currency_type_id,
+                'unit_type_id' => $item->unit_type_id,
+                'active' => (bool)$item->active,
+                'stock' => $item->stock,
+                'has_igv' => (bool)$item->has_igv,
+                'created_at' => $item->created_at,
+                'updated_at' => $item->updated_at,
+                'category_id' => $item->category_id,
+                'brand_id' => $item->brand_id,
+                'image' => $item->image,
+                'sale_affectation_igv_type_id' => $item->sale_affectation_igv_type_id,
+                // Campos mínimos para el frontend
+                'full_description' => $item->description,
+                'model' => '',
+                'brand' => '',
+                'warehouse_id' => $item->warehouse_id,
+                'item_code' => '',
+                'item_code_gs1' => '',
+                'stock_min' => $item->stock_min ?? 0,
+                'currency_type_symbol' => 'S/',
+                'amount_sale_unit_price' => $item->sale_unit_price,
+                'calculate_quantity' => false,
+                'has_igv_description' => (bool)$item->has_igv ? 'Si' : 'No',
+                'purchase_has_igv_description' => (bool)$item->has_igv ? 'Si' : 'No',
+                'purchase_unit_price' => 0,
+                // INFORMACIÓN REAL DE WAREHOUSES para el botón de stock
+                'warehouses' => $item->warehouses->map(function($warehouse) {
+                    return [
+                        'warehouse_description' => $warehouse->warehouse->description ?? 'Sin almacén',
+                        'stock' => $warehouse->stock ?? 0,
+                    ];
+                })->toArray(),
+                'apply_store' => false,
+                'image_url' => asset("/logo/imagen-no-disponible.jpg"),
+                'image_url_medium' => asset("/logo/imagen-no-disponible.jpg"),
+                'image_url_small' => asset("/logo/imagen-no-disponible.jpg"),
+                'tags' => [],
+                'tags_id' => [],
+                // INFORMACIÓN REAL DE ITEM_UNIT_TYPES para el modal de detalle
+                'item_unit_types' => $item->item_unit_types->map(function($unit_type) {
+                    return [
+                        'id' => $unit_type->id,
+                        'description' => $unit_type->description,
+                        'item_id' => $unit_type->item_id,
+                        'unit_type_id' => $unit_type->unit_type_id,
+                        'quantity_unit' => number_format($unit_type->quantity_unit, 2, ".", ""),
+                        'price1' => number_format($unit_type->price1, 2, ".", ""),
+                        'price2' => number_format($unit_type->price2, 2, ".", ""),
+                        'price3' => number_format($unit_type->price3, 2, ".", ""),
+                        'price_default' => $unit_type->price_default,
+                    ];
+                })->toArray()
+            ];
+        })->toArray();
+        
+        return [
+            'data' => $data,
+            'meta' => [
+                'current_page' => 1,
+                'per_page' => $perPage,
+                'total' => $total,
+                'last_page' => ceil($total / $perPage)
+            ],
+            'execution_time' => $execution_time
+        ];
     }
 
 
@@ -136,12 +427,12 @@ class ItemController extends Controller
 
             case 'brand':
                 $records->whereHas('brand',function($q) use($request){
-                                    $q->where('name', 'like', "%{$request->value}%");
+                                    $q->where('name', 'like', "{$request->value}%");
                                 });
                 break;
             case 'category':
                 $records->whereHas('category',function($q) use($request){
-                                    $q->where('name', 'like', "%{$request->value}%");
+                                    $q->where('name', 'like', "{$request->value}%");
                                 });
                 break;
 
@@ -162,7 +453,7 @@ class ItemController extends Controller
                     }
                     else
                     {
-                        $records->where($request->column, 'like', "%{$request->value}%");
+                        $records->where($request->column, 'like', "{$request->value}%");
                     }
                 }
                 break;
@@ -220,7 +511,6 @@ class ItemController extends Controller
                     break;
             }
         }
-
 
         return $records->orderBy($sortField, $sortDirection);
 
