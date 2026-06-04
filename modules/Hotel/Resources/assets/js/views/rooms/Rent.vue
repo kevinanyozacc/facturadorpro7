@@ -75,7 +75,7 @@
                                                     ></path>
                                                 </g>
                                             </svg>
-                                            Entrada
+                                            Entrada ok
                                         </div>
                                         <div class="col-4">
                                             <span class="text-muted"
@@ -319,7 +319,7 @@
                                                 >S/
                                                 {{
                                                     Number(
-                                                        rate_unit_value,
+                                                        rate_unit_value
                                                     ).toFixed(2)
                                                 }}</b
                                             >
@@ -822,19 +822,30 @@
 
                                 <!-- mostrar campos adicionales para pago, si tiene estado pagado -->
                                 <template v-if="isPaid">
+                                    <!-- Tipo comprobante -->
+                                    <div class="col-12 col-md-3 form-group">
+                                        <label class="control-label mt-0">Tipo comprobante</label>
+                                        <el-select
+                                            v-model="document.document_type_id"
+                                            class="border-left rounded-left border-info"
+                                            @change="changeDocumentType"
+                                        >
+                                            <el-option
+                                                v-for="option in document_types"
+                                                :key="option.id"
+                                                :label="option.description"
+                                                :value="option.id"
+                                            ></el-option>
+                                        </el-select>
+                                    </div>
+                                    <!-- Serie -->
                                     <div class="col-12 col-md-2 form-group">
                                         <div
-                                            :class="{
-                                                'has-danger': errors.series_id,
-                                            }"
+                                            :class="{ 'has-danger': errors.series_id }"
                                             class="form-group"
                                         >
-                                            <label class="control-label mt-0"
-                                                >Serie</label
-                                            >
-                                            <el-select
-                                                v-model="document.series_id"
-                                            >
+                                            <label class="control-label mt-0">Serie</label>
+                                            <el-select v-model="document.series_id">
                                                 <el-option
                                                     v-for="option in series"
                                                     :key="option.id"
@@ -849,108 +860,78 @@
                                             ></small>
                                         </div>
                                     </div>
-
-                                    <div
-                                        class="col-12 col-md-2 form-group"
-                                        :class="{
-                                            'has-danger':
-                                                errors[
-                                                    'rent_payment.payment_method_type_id'
-                                                ],
-                                        }"
-                                    >
-                                        <label
-                                            class="control-label mt-0"
-                                            for="rate"
-                                            >Método de pago</label
-                                        >
-
-                                        <el-select
-                                            v-model="
-                                                form.rent_payment
-                                                    .payment_method_type_id
-                                            "
-                                            filterable
-                                        >
-                                            <el-option
-                                                v-for="option in payment_method_types"
-                                                :key="option.id"
-                                                :value="option.id"
-                                                :label="option.description"
-                                            ></el-option>
-                                        </el-select>
-
-                                        <small
-                                            class="form-control-feedback"
-                                            v-if="
-                                                errors[
-                                                    'rent_payment.payment_method_type_id'
-                                                ]
-                                            "
-                                            v-text="
-                                                errors[
-                                                    'rent_payment.payment_method_type_id'
-                                                ][0]
-                                            "
-                                        ></small>
-                                    </div>
-
-                                    <div
-                                        class="col-12 col-md-3 form-group"
-                                        :class="{
-                                            'has-danger':
-                                                errors[
-                                                    'rent_payment.payment_destination_id'
-                                                ],
-                                        }"
-                                    >
-                                        <label
-                                            class="control-label mt-0"
-                                            for="rate"
-                                            >Destino</label
-                                        >
-
-                                        <el-select
-                                            v-model="
-                                                form.rent_payment
-                                                    .payment_destination_id
-                                            "
-                                            filterable
-                                        >
-                                            <el-option
-                                                v-for="option in payment_destinations"
-                                                :key="option.id"
-                                                :value="option.id"
-                                                :label="option.description"
-                                            ></el-option>
-                                        </el-select>
-
-                                        <small
-                                            class="form-control-feedback"
-                                            v-if="
-                                                errors[
-                                                    'rent_payment.payment_destination_id'
-                                                ]
-                                            "
-                                            v-text="
-                                                errors[
-                                                    'rent_payment.payment_destination_id'
-                                                ][0]
-                                            "
-                                        ></small>
-                                    </div>
-
-                                    <div class="col-12 col-md-2 form-group">
-                                        <label
-                                            class="control-label mt-0"
-                                            for="rate"
-                                            >Referencia</label
-                                        >
-                                        <el-input
-                                            v-model="
-                                                form.rent_payment.reference
-                                            "
-                                        ></el-input>
+                                    <!-- Tabla de pagos múltiples -->
+                                    <div class="col-12 mt-2">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th v-if="document.payments.length > 0">M. Pago</th>
+                                                    <th v-if="document.payments.length > 0">Destino</th>
+                                                    <th v-if="document.payments.length > 0">Referencia</th>
+                                                    <th v-if="document.payments.length > 0">Monto</th>
+                                                    <th width="15%">
+                                                        <a
+                                                            class="text-center font-weight-bold text-info"
+                                                            href="#"
+                                                            @click.prevent="clickAddPayment"
+                                                        >[+ Agregar pago]</a>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr
+                                                    v-for="(row, index) in document.payments"
+                                                    :key="index"
+                                                >
+                                                    <td>
+                                                        <div class="form-group mb-2">
+                                                            <el-select v-model="row.payment_method_type_id">
+                                                                <el-option
+                                                                    v-for="option in payment_method_types"
+                                                                    :key="option.id"
+                                                                    :label="option.description"
+                                                                    :value="option.id"
+                                                                ></el-option>
+                                                            </el-select>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="form-group mb-2">
+                                                            <el-select
+                                                                v-model="row.payment_destination_id"
+                                                                filterable
+                                                            >
+                                                                <el-option
+                                                                    v-for="option in payment_destinations"
+                                                                    :key="option.id"
+                                                                    :label="option.description"
+                                                                    :value="option.id"
+                                                                ></el-option>
+                                                            </el-select>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="form-group mb-2">
+                                                            <el-input v-model="row.reference"></el-input>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="form-group mb-2">
+                                                            <el-input v-model="row.payment" type="number"></el-input>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <button
+                                                            class="btn waves-effect waves-light btn-xs btn-danger"
+                                                            type="button"
+                                                            @click.prevent="clickCancelPayment(index)"
+                                                        >
+                                                            <i class="fa fa-trash"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </template>
                             </div>
@@ -1088,6 +1069,13 @@
             :showDialog.sync="showDialogSaleNoteOptions"
         >
         </sale-note-options>
+
+        <document-options
+            :isContingency="false"
+            :recordId="documentNewId"
+            :showClose="true"
+            :showDialog.sync="showDialogDocumentOptions"
+        ></document-options>
     </div>
 </template>
 
@@ -1099,6 +1087,7 @@ import { functions } from "../../../../../../../resources/js/mixins/functions";
 import { mapState } from "vuex/dist/vuex.mjs";
 import QuantityPersons from "./partials/QuantityPersons.vue";
 import SaleNoteOptions from "@views/sale_notes/partials/options.vue";
+import DocumentOptions from "@views/documents/partials/options.vue";
 import { conformsTo } from "lodash";
 
 export default {
@@ -1106,6 +1095,7 @@ export default {
         PersonForm,
         QuantityPersons,
         SaleNoteOptions,
+        DocumentOptions,
     },
     mixins: [functions],
     props: {
@@ -1173,8 +1163,12 @@ export default {
                 items: [],
             },
             series: [],
+            document_types: [],
+            all_document_types: [],
             form_cash_document: {},
             showDialogSaleNoteOptions: false,
+            showDialogDocumentOptions: false,
+            documentNewId: null,
         };
     },
     async mounted() {
@@ -1223,7 +1217,7 @@ export default {
                 this.loading = true;
 
                 const response = await this.$http.get(
-                    `/documents/search/item/${this.room.item_id}`,
+                    `/documents/search/item/${this.room.item_id}`
                 );
                 const payload = {};
                 const item = response.data.items[0];
@@ -1243,7 +1237,7 @@ export default {
                     this.affectationIgvTypes,
                     {
                         id: payload.affectation_igv_type_id,
-                    },
+                    }
                 );
 
                 payload.quantity = this.form.duration;
@@ -1261,7 +1255,7 @@ export default {
                     payload,
                     currencyTypeIdActive,
                     exchangeRateSale,
-                    this.percentage_igv,
+                    this.percentage_igv
                 );
 
                 this.form.product = product;
@@ -1275,7 +1269,7 @@ export default {
                 this.form.product.quantity = this.form.duration;
                 const response_reception = await this.$http.post(
                     `/hotels/reception/${this.room.id}/rent/store`,
-                    this.form,
+                    this.form
                 );
                 if (response_reception) {
                     this.$message({
@@ -1299,15 +1293,18 @@ export default {
         onChangeStatusPayment() {
             if (this.form.payment_status === "DEBT") {
                 this.form.payment_type = "CASH";
+                this.document.payments = [];
+            }
+            if (this.isPaid && this.document.payments.length === 0) {
+                this.clickAddPayment();
             }
         },
         onUpdateTotalToPay() {
             this.form.total_to_pay = this.form.rate_price * this.form.duration;
             this.onUpdateOutputDate();
-            this.setTotalPayment();
-        },
-        setTotalPayment() {
-            this.form.rent_payment.payment = this.form.total_to_pay;
+            if (this.document.payments.length > 0) {
+                this.document.payments[0].payment = this.form.total_to_pay;
+            }
         },
         onUpdateOutputDate() {
             const newDate = moment().add(this.form.duration, "days");
@@ -1368,17 +1365,21 @@ export default {
                         response.data.payment_method_types;
                     this.payment_destinations =
                         response.data.payment_destinations;
-                    this.setDefaultDataPayments();
 
+                    this.all_document_types = response.data.document_types_invoice || [];
+                    this.document_types = this.all_document_types;
+
+                    this.setDefaultDataPayments();
                     this.setAffectationIgvType();
+
+                    if (this.isPaid) {
+                        this.clickAddPayment();
+                    }
                 })
                 .finally(() => {
                     this.loading = false;
                 });
             this.form.establishment_id = this.room.establishment_id;
-            this.series = _.filter(this.allSeries, {
-                document_type_id: "80",
-            });
 
             await this.getPercentageIgv();
         },
@@ -1395,7 +1396,7 @@ export default {
         setAffectationIgvType() {
             let affectation_igv_type = _.find(
                 this.getAllowedAffectationIgvTypes,
-                { id: this.configuration.affectation_igv_type_id },
+                { id: this.configuration.affectation_igv_type_id }
             );
             this.form.affectation_igv_type_id = affectation_igv_type
                 ? affectation_igv_type.id
@@ -1438,6 +1439,7 @@ export default {
                 number: this.form.customer.number,
                 name: this.form.customer.name,
             });
+            this.validateIdentityDocumentType();
         },
         onGetStatus(status) {
             if (status === "DISPONIBLE") {
@@ -1461,12 +1463,18 @@ export default {
             this.form.data_persons = persons;
         },
         initDocument() {
+            const defaultDocTypeId = this.document_types.length > 0 ? this.document_types[0].id : '80';
+            this.series = _.filter(this.allSeries, { document_type_id: defaultDocTypeId });
+            const defaultSeriesId = this.series.length > 0 ? this.series[0].id : null;
+            const defaultPrefix = defaultDocTypeId === '80' ? 'NV' : null;
+            this.resource_documents = defaultDocTypeId === '80' ? 'sale-notes' : 'documents';
+
             this.document = {
                 customer_id: null,
                 customer: null,
-                document_type_id: "80",
-                series_id: this.series.length > 0 ? this.series[0].id : null,
-                prefix: "NV",
+                document_type_id: defaultDocTypeId,
+                series_id: defaultSeriesId,
+                prefix: defaultPrefix,
                 establishment_id: this.room.establishment_id,
                 number: "#",
                 date_of_issue: moment().format("YYYY-MM-DD"),
@@ -1515,15 +1523,18 @@ export default {
         },
         async onGoToInvoice() {
             try {
+                if (this.document.payments.length === 0) {
+                    return this.$message.error("Debe agregar al menos un método de pago");
+                }
+
                 await this.onUpdateItemsWithExtras();
                 await this.onCalculateTotals();
-                await this.setDataPayments();
 
                 let validate_payment_destination =
                     this.validatePaymentDestination();
                 if (validate_payment_destination.error_by_item > 0) {
                     return this.$message.error(
-                        "El destino del pago es obligatorio",
+                        "El destino del pago es obligatorio"
                     );
                 }
 
@@ -1534,10 +1545,11 @@ export default {
 
                 const response = await this.$http.post(
                     `/${this.resource_documents}`,
-                    this.document,
+                    this.document
                 );
 
                 if (response.data.success) {
+                    this.documentNewId = response.data.data.id;
                     this.form.sale_note_id = response.data.data.id;
                     this.successGoToInvoice();
                     this.$emit("update:showDialog", false);
@@ -1551,7 +1563,7 @@ export default {
                     this.errors = error.response.data;
                 } else {
                     this.$message.error(
-                        error.response.data.message || "Error inesperado",
+                        error.response.data.message || "Error inesperado"
                     );
                 }
             } finally {
@@ -1565,14 +1577,14 @@ export default {
                     !Array.isArray(this.document.items)
                 ) {
                     throw new Error(
-                        "document.items no está definido o no es un array",
+                        "document.items no está definido o no es un array"
                     );
                 }
 
                 this.document.items = this.document.items.map((it) => {
                     if (!it.item) {
                         throw new Error(
-                            "Elemento en items no tiene la propiedad 'item'",
+                            "Elemento en items no tiene la propiedad 'item'"
                         );
                     }
 
@@ -1592,7 +1604,7 @@ export default {
                         it,
                         "PEN",
                         3,
-                        this.percentage_igv,
+                        this.percentage_igv
                     );
                     return newItem;
                 });
@@ -1639,7 +1651,7 @@ export default {
 
                 if (
                     ["10", "20", "30", "40"].indexOf(
-                        row.affectation_igv_type_id,
+                        row.affectation_igv_type_id
                     ) < 0
                 ) {
                     total_free += parseFloat(row.total_value);
@@ -1647,7 +1659,7 @@ export default {
 
                 if (
                     ["10", "20", "30", "40"].indexOf(
-                        row.affectation_igv_type_id,
+                        row.affectation_igv_type_id
                     ) > -1
                 ) {
                     total_igv += parseFloat(row.total_igv);
@@ -1656,7 +1668,7 @@ export default {
 
                 total_value += parseFloat(row.total_value);
                 total_plastic_bag_taxes += parseFloat(
-                    row.total_plastic_bag_taxes,
+                    row.total_plastic_bag_taxes
                 );
 
                 if (["13", "14", "15"].includes(row.affectation_igv_type_id)) {
@@ -1682,11 +1694,11 @@ export default {
             this.document.total_taxes = _.round(total_igv, 2);
             this.document.total_plastic_bag_taxes = _.round(
                 total_plastic_bag_taxes,
-                2,
+                2
             );
             this.document.total = _.round(
                 total + this.document.total_plastic_bag_taxes,
-                2,
+                2
             );
             this.document.subtotal = _.round(this.document.total, 2);
         },
@@ -1702,8 +1714,48 @@ export default {
         },
         successGoToInvoice() {
             this.initFormCashDocument();
-            this.form_cash_document.sale_note_id = this.form.sale_note_id;
-            this.showDialogSaleNoteOptions = true;
+            if (this.document.document_type_id === '80') {
+                this.form_cash_document.sale_note_id = this.documentNewId;
+                this.showDialogSaleNoteOptions = true;
+            } else {
+                this.form_cash_document.document_id = this.documentNewId;
+                this.showDialogDocumentOptions = true;
+            }
+        },
+        changeDocumentType() {
+            this.series = _.filter(this.allSeries, {
+                document_type_id: this.document.document_type_id,
+            });
+            this.document.series_id = this.series.length > 0 ? this.series[0].id : null;
+            this.resource_documents = this.document.document_type_id === '80' ? 'sale-notes' : 'documents';
+            this.document.prefix = this.document.document_type_id === '80' ? 'NV' : null;
+        },
+        validateIdentityDocumentType() {
+            if (!this.form.customer || !this.form.customer.identity_document_type_id) return;
+            const identityDocTypes = ['0', '1'];
+            if (identityDocTypes.includes(this.form.customer.identity_document_type_id)) {
+                this.document_types = this.all_document_types.filter((row) => ['03', '80'].includes(row.id));
+            } else {
+                this.document_types = this.all_document_types;
+            }
+            this.document.document_type_id = this.document_types.length > 0 ? this.document_types[0].id : null;
+            this.changeDocumentType();
+        },
+        clickAddPayment() {
+            let payment = this.document.payments.length === 0 ? this.form.total_to_pay : 0;
+            let cash = _.find(this.payment_destinations, { id: 'cash' });
+            this.document.payments.push({
+                id: null,
+                document_id: null,
+                date_of_payment: moment().format('YYYY-MM-DD'),
+                payment_method_type_id: this.payment_method_types.length > 0 ? this.payment_method_types[0].id : '01',
+                payment_destination_id: cash ? cash.id : (this.payment_destinations.length > 0 ? this.payment_destinations[0].id : null),
+                reference: null,
+                payment: payment,
+            });
+        },
+        clickCancelPayment(index) {
+            this.document.payments.splice(index, 1);
         },
         initFormCashDocument() {
             this.form_cash_document = {
@@ -1712,17 +1764,7 @@ export default {
             };
         },
         async setDataPayments() {
-            this.document.payments.push({
-                id: null,
-                document_id: null,
-                date_of_payment: this.form.date_of_issue,
-                payment_method_type_id:
-                    this.form.rent_payment.payment_method_type_id,
-                payment_destination_id:
-                    this.form.rent_payment.payment_destination_id,
-                reference: this.form.rent_payment.reference,
-                payment: this.document.total,
-            });
+            // Los pagos ahora son gestionados directamente por el usuario en la tabla de pagos múltiples
         },
     },
 };

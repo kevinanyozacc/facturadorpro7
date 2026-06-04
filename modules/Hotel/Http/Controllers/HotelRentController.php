@@ -373,12 +373,14 @@ class HotelRentController extends Controller
 
         $payment_method_types = PaymentMethodType::getTableCashPaymentMethodTypes();
         $payment_destinations = $this->getPaymentDestinations();
+        $document_types_invoice = DocumentType::whereIn('id', ['01', '03', '80'])->get();
 
 		return response()->json([
 			'customers' => $customers,
 			'configuration' => $configuration,
 			'payment_method_types' => $payment_method_types,
-			'payment_destinations' => $payment_destinations
+			'payment_destinations' => $payment_destinations,
+			'document_types_invoice' => $document_types_invoice,
 		], 200);
 	}
 
