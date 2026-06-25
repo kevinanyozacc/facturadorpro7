@@ -824,7 +824,9 @@
                                 <template v-if="isPaid">
                                     <!-- Tipo comprobante -->
                                     <div class="col-12 col-md-3 form-group">
-                                        <label class="control-label mt-0">Tipo comprobante</label>
+                                        <label class="control-label mt-0"
+                                            >Tipo comprobante</label
+                                        >
                                         <el-select
                                             v-model="document.document_type_id"
                                             class="border-left rounded-left border-info"
@@ -841,11 +843,17 @@
                                     <!-- Serie -->
                                     <div class="col-12 col-md-2 form-group">
                                         <div
-                                            :class="{ 'has-danger': errors.series_id }"
+                                            :class="{
+                                                'has-danger': errors.series_id,
+                                            }"
                                             class="form-group"
                                         >
-                                            <label class="control-label mt-0">Serie</label>
-                                            <el-select v-model="document.series_id">
+                                            <label class="control-label mt-0"
+                                                >Serie</label
+                                            >
+                                            <el-select
+                                                v-model="document.series_id"
+                                            >
                                                 <el-option
                                                     v-for="option in series"
                                                     :key="option.id"
@@ -865,68 +873,142 @@
                                         <table class="table">
                                             <thead>
                                                 <tr>
-                                                    <th v-if="document.payments.length > 0">M. Pago</th>
-                                                    <th v-if="document.payments.length > 0">Destino</th>
-                                                    <th v-if="document.payments.length > 0">Referencia</th>
-                                                    <th v-if="document.payments.length > 0">Monto</th>
+                                                    <th
+                                                        v-if="
+                                                            document.payments
+                                                                .length > 0
+                                                        "
+                                                    >
+                                                        M. Pago
+                                                    </th>
+                                                    <th
+                                                        v-if="
+                                                            document.payments
+                                                                .length > 0
+                                                        "
+                                                    >
+                                                        Destino
+                                                    </th>
+                                                    <th
+                                                        v-if="
+                                                            document.payments
+                                                                .length > 0
+                                                        "
+                                                    >
+                                                        Referencia
+                                                    </th>
+                                                    <th
+                                                        v-if="
+                                                            document.payments
+                                                                .length > 0
+                                                        "
+                                                    >
+                                                        Monto
+                                                    </th>
                                                     <th width="15%">
                                                         <a
                                                             class="text-center font-weight-bold text-info"
                                                             href="#"
-                                                            @click.prevent="clickAddPayment"
-                                                        >[+ Agregar pago]</a>
+                                                            @click.prevent="
+                                                                clickAddPayment
+                                                            "
+                                                            >[+ Agregar pago]</a
+                                                        >
                                                     </th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr
-                                                    v-for="(row, index) in document.payments"
+                                                    v-for="(
+                                                        row, index
+                                                    ) in document.payments"
                                                     :key="index"
                                                 >
                                                     <td>
-                                                        <div class="form-group mb-2">
-                                                            <el-select v-model="row.payment_method_type_id">
+                                                        <div
+                                                            class="form-group mb-2"
+                                                        >
+                                                            <el-select
+                                                                v-model="
+                                                                    row.payment_method_type_id
+                                                                "
+                                                            >
                                                                 <el-option
                                                                     v-for="option in payment_method_types"
-                                                                    :key="option.id"
-                                                                    :label="option.description"
-                                                                    :value="option.id"
+                                                                    :key="
+                                                                        option.id
+                                                                    "
+                                                                    :label="
+                                                                        option.description
+                                                                    "
+                                                                    :value="
+                                                                        option.id
+                                                                    "
                                                                 ></el-option>
                                                             </el-select>
                                                         </div>
                                                     </td>
                                                     <td>
-                                                        <div class="form-group mb-2">
+                                                        <div
+                                                            class="form-group mb-2"
+                                                        >
                                                             <el-select
-                                                                v-model="row.payment_destination_id"
+                                                                v-model="
+                                                                    row.payment_destination_id
+                                                                "
                                                                 filterable
                                                             >
                                                                 <el-option
                                                                     v-for="option in payment_destinations"
-                                                                    :key="option.id"
-                                                                    :label="option.description"
-                                                                    :value="option.id"
+                                                                    :key="
+                                                                        option.id
+                                                                    "
+                                                                    :label="
+                                                                        option.description
+                                                                    "
+                                                                    :value="
+                                                                        option.id
+                                                                    "
                                                                 ></el-option>
                                                             </el-select>
                                                         </div>
                                                     </td>
                                                     <td>
-                                                        <div class="form-group mb-2">
-                                                            <el-input v-model="row.reference"></el-input>
+                                                        <div
+                                                            class="form-group mb-2"
+                                                        >
+                                                            <el-input
+                                                                v-model="
+                                                                    row.reference
+                                                                "
+                                                            ></el-input>
                                                         </div>
                                                     </td>
                                                     <td>
-                                                        <div class="form-group mb-2">
-                                                            <el-input v-model="row.payment" type="number"></el-input>
+                                                        <div
+                                                            class="form-group mb-2"
+                                                        >
+                                                            <el-input
+                                                                v-model="
+                                                                    row.payment
+                                                                "
+                                                                type="number"
+                                                            ></el-input>
                                                         </div>
                                                     </td>
                                                     <td class="text-center">
                                                         <button
                                                             class="btn waves-effect waves-light btn-xs btn-danger"
                                                             type="button"
-                                                            @click.prevent="clickCancelPayment(index)"
+                                                            @click.prevent="
+                                                                clickCancelPayment(
+                                                                    index
+                                                                )
+                                                            "
                                                         >
-                                                            <i class="fa fa-trash"></i>
+                                                            <i
+                                                                class="fa fa-trash"
+                                                            ></i>
                                                         </button>
                                                     </td>
                                                 </tr>
@@ -1175,6 +1257,9 @@ export default {
         await this.onFetchTables();
         this.onUpdateOutputDate();
         await this.initDocument();
+        if (this.isPaid) {
+            this.clickAddPayment();
+        }
     },
     async created() {
         await this.$eventHub.$on("reloadDataPersons", (customerId) => {
@@ -1261,15 +1346,32 @@ export default {
                 this.form.product = product;
 
                 if (this.isPaid) {
+                    this.document.items = [];
                     this.document.items.push(product);
-                    console.log("PAYMENTS");
                     await this.onGoToInvoice();
                 }
 
                 this.form.product.quantity = this.form.duration;
+
+                // Enviar los pagos múltiples al backend para registrar en hotel_rent_item_payments
+                const rentPayload = {
+                    ...this.form,
+                    payments: this.isPaid
+                        ? this.document.payments.map((p) => ({
+                              date_of_payment:
+                                  p.date_of_payment ||
+                                  moment().format("YYYY-MM-DD"),
+                              payment_method_type_id: p.payment_method_type_id,
+                              payment_destination_id: p.payment_destination_id,
+                              reference: p.reference,
+                              payment: p.payment,
+                          }))
+                        : [],
+                };
+
                 const response_reception = await this.$http.post(
                     `/hotels/reception/${this.room.id}/rent/store`,
-                    this.form
+                    rentPayload
                 );
                 if (response_reception) {
                     this.$message({
@@ -1277,12 +1379,21 @@ export default {
                         type: "success",
                     });
 
-                    if (!this.isPaid) {
-                        this.onToBackPage();
-                    }
+                    this.onToBackPage();
                 }
             } catch (error) {
-                this.axiosError(error);
+                // Errores de validación frontend (no_payments, no_payment_destination, api_failure)
+                // ya muestran su propio mensaje - solo loguear
+                if (
+                    !error.message ||
+                    ![
+                        "no_payments",
+                        "no_payment_destination",
+                        "api_failure",
+                    ].includes(error.message)
+                ) {
+                    this.axiosError(error);
+                }
             } finally {
                 this.loading = false;
             }
@@ -1303,7 +1414,22 @@ export default {
             this.form.total_to_pay = this.form.rate_price * this.form.duration;
             this.onUpdateOutputDate();
             if (this.document.payments.length > 0) {
-                this.document.payments[0].payment = this.form.total_to_pay;
+                // Distribuir el total entre todos los pagos
+                const totalPayments = this.document.payments.length;
+                const baseAmount =
+                    Math.floor((this.form.total_to_pay / totalPayments) * 100) /
+                    100;
+                let remainder = this.form.total_to_pay;
+                this.document.payments.forEach((p, index) => {
+                    if (index === totalPayments - 1) {
+                        p.payment = parseFloat(remainder.toFixed(2));
+                    } else {
+                        p.payment = baseAmount;
+                        remainder = parseFloat(
+                            (remainder - baseAmount).toFixed(2)
+                        );
+                    }
+                });
             }
         },
         onUpdateOutputDate() {
@@ -1366,15 +1492,12 @@ export default {
                     this.payment_destinations =
                         response.data.payment_destinations;
 
-                    this.all_document_types = response.data.document_types_invoice || [];
+                    this.all_document_types =
+                        response.data.document_types_invoice || [];
                     this.document_types = this.all_document_types;
 
                     this.setDefaultDataPayments();
                     this.setAffectationIgvType();
-
-                    if (this.isPaid) {
-                        this.clickAddPayment();
-                    }
                 })
                 .finally(() => {
                     this.loading = false;
@@ -1463,11 +1586,18 @@ export default {
             this.form.data_persons = persons;
         },
         initDocument() {
-            const defaultDocTypeId = this.document_types.length > 0 ? this.document_types[0].id : '80';
-            this.series = _.filter(this.allSeries, { document_type_id: defaultDocTypeId });
-            const defaultSeriesId = this.series.length > 0 ? this.series[0].id : null;
-            const defaultPrefix = defaultDocTypeId === '80' ? 'NV' : null;
-            this.resource_documents = defaultDocTypeId === '80' ? 'sale-notes' : 'documents';
+            const defaultDocTypeId =
+                this.document_types.length > 0
+                    ? this.document_types[0].id
+                    : "80";
+            this.series = _.filter(this.allSeries, {
+                document_type_id: defaultDocTypeId,
+            });
+            const defaultSeriesId =
+                this.series.length > 0 ? this.series[0].id : null;
+            const defaultPrefix = defaultDocTypeId === "80" ? "NV" : null;
+            this.resource_documents =
+                defaultDocTypeId === "80" ? "sale-notes" : "documents";
 
             this.document = {
                 customer_id: null,
@@ -1522,27 +1652,33 @@ export default {
             };
         },
         async onGoToInvoice() {
+            if (this.document.payments.length === 0) {
+                this.$message.error("Debe agregar al menos un método de pago");
+                throw new Error("no_payments");
+            }
+
+            let validate_payment_destination =
+                this.validatePaymentDestination();
+            if (validate_payment_destination.error_by_item > 0) {
+                this.$message.error("El destino del pago es obligatorio");
+                throw new Error("no_payment_destination");
+            }
+
+            await this.onUpdateItemsWithExtras();
+            await this.onCalculateTotals();
+
+            this.document.customer_id = this.form.customer_id;
+            this.document.customer = this.form.customer;
+            this.document.hotel_data_persons = this.form.data_persons;
+
+            const date = moment().format("YYYY-MM-DD");
+            await this.searchExchangeRateByDate(date).then((res) => {
+                this.document.exchange_rate_sale = res > 0 ? res : 1;
+            });
+
+            this.loading = true;
+
             try {
-                if (this.document.payments.length === 0) {
-                    return this.$message.error("Debe agregar al menos un método de pago");
-                }
-
-                await this.onUpdateItemsWithExtras();
-                await this.onCalculateTotals();
-
-                let validate_payment_destination =
-                    this.validatePaymentDestination();
-                if (validate_payment_destination.error_by_item > 0) {
-                    return this.$message.error(
-                        "El destino del pago es obligatorio"
-                    );
-                }
-
-                this.document.customer_id = this.form.customer_id;
-                this.document.customer = this.form.customer;
-                this.document.hotel_data_persons = this.form.data_persons;
-                this.loading = true;
-
                 const response = await this.$http.post(
                     `/${this.resource_documents}`,
                     this.document
@@ -1552,20 +1688,20 @@ export default {
                     this.documentNewId = response.data.data.id;
                     this.form.sale_note_id = response.data.data.id;
                     this.successGoToInvoice();
-                    this.$emit("update:showDialog", false);
                     this.saveCashDocument();
                 } else {
                     this.$message.error(response.data.message);
+                    throw new Error("api_failure");
                 }
             } catch (error) {
+                if (error.message === "api_failure") throw error;
                 console.error("Error en onGoToInvoice:", error);
-                if (error.response) {
-                    this.errors = error.response.data;
-                } else {
-                    this.$message.error(
-                        error.response.data.message || "Error inesperado"
-                    );
-                }
+                const msg =
+                    error.response?.data?.message ||
+                    error.response?.data?.error ||
+                    "Error al registrar el comprobante. Intente nuevamente.";
+                this.$message.error(msg);
+                throw error;
             } finally {
                 this.loading = false;
             }
@@ -1714,7 +1850,7 @@ export default {
         },
         successGoToInvoice() {
             this.initFormCashDocument();
-            if (this.document.document_type_id === '80') {
+            if (this.document.document_type_id === "80") {
                 this.form_cash_document.sale_note_id = this.documentNewId;
                 this.showDialogSaleNoteOptions = true;
             } else {
@@ -1726,30 +1862,58 @@ export default {
             this.series = _.filter(this.allSeries, {
                 document_type_id: this.document.document_type_id,
             });
-            this.document.series_id = this.series.length > 0 ? this.series[0].id : null;
-            this.resource_documents = this.document.document_type_id === '80' ? 'sale-notes' : 'documents';
-            this.document.prefix = this.document.document_type_id === '80' ? 'NV' : null;
+            this.document.series_id =
+                this.series.length > 0 ? this.series[0].id : null;
+            this.resource_documents =
+                this.document.document_type_id === "80"
+                    ? "sale-notes"
+                    : "documents";
+            this.document.prefix =
+                this.document.document_type_id === "80" ? "NV" : null;
         },
         validateIdentityDocumentType() {
-            if (!this.form.customer || !this.form.customer.identity_document_type_id) return;
-            const identityDocTypes = ['0', '1'];
-            if (identityDocTypes.includes(this.form.customer.identity_document_type_id)) {
-                this.document_types = this.all_document_types.filter((row) => ['03', '80'].includes(row.id));
+            if (
+                !this.form.customer ||
+                !this.form.customer.identity_document_type_id
+            )
+                return;
+            const identityDocTypes = ["0", "1"];
+            if (
+                identityDocTypes.includes(
+                    this.form.customer.identity_document_type_id
+                )
+            ) {
+                this.document_types = this.all_document_types.filter((row) =>
+                    ["03", "80"].includes(row.id)
+                );
             } else {
                 this.document_types = this.all_document_types;
             }
-            this.document.document_type_id = this.document_types.length > 0 ? this.document_types[0].id : null;
+            this.document.document_type_id =
+                this.document_types.length > 0
+                    ? this.document_types[0].id
+                    : null;
             this.changeDocumentType();
         },
         clickAddPayment() {
-            let payment = this.document.payments.length === 0 ? this.form.total_to_pay : 0;
-            let cash = _.find(this.payment_destinations, { id: 'cash' });
+            let payment =
+                this.document.payments.length === 0
+                    ? this.form.total_to_pay
+                    : 0;
+            let cash = _.find(this.payment_destinations, { id: "cash" });
             this.document.payments.push({
                 id: null,
                 document_id: null,
-                date_of_payment: moment().format('YYYY-MM-DD'),
-                payment_method_type_id: this.payment_method_types.length > 0 ? this.payment_method_types[0].id : '01',
-                payment_destination_id: cash ? cash.id : (this.payment_destinations.length > 0 ? this.payment_destinations[0].id : null),
+                date_of_payment: moment().format("YYYY-MM-DD"),
+                payment_method_type_id:
+                    this.payment_method_types.length > 0
+                        ? this.payment_method_types[0].id
+                        : "01",
+                payment_destination_id: cash
+                    ? cash.id
+                    : this.payment_destinations.length > 0
+                    ? this.payment_destinations[0].id
+                    : null,
                 reference: null,
                 payment: payment,
             });

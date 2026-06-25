@@ -29,7 +29,7 @@ class HotelRentItem extends ModelTenant
 
     public function payments()
     {
-        return $this->hasOne(HotelRentItemPayment::class, 'hotel_rent_item_id');
+        return $this->hasMany(HotelRentItemPayment::class, 'hotel_rent_item_id');
     }
 
 	public function hotel_rent()

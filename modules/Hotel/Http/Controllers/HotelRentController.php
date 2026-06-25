@@ -80,10 +80,25 @@ class HotelRentController extends Controller
 			$item->hotel_rent_order_id = $order->id;
 			$item->save();
 
-			//registrar pago
-			$this->saveHotelRentItemPayment($request->rent_payment, $item);
+		//registrar pago(s) - soporta multiples pagos
+		if ($item->isPaid()) {
+			$payments = $request->payments ?? [];
+			if (empty($payments)) {
+				// compatibilidad hacia atras: usar rent_payment si no hay payments
+				$this->saveHotelRentItemPayment($request->rent_payment, $item);
+			} else {
+				foreach ($payments as $payment) {
+					$item->payments()->create([
+						'date_of_payment' => $payment['date_of_payment'] ?? date('Y-m-d'),
+						'payment_method_type_id' => $payment['payment_method_type_id'],
+						'reference' => $payment['reference'] ?? null,
+						'payment' => $payment['payment'],
+					]);
+				}
+			}
+		}
 
-			DB::connection('tenant')->commit();
+		DB::connection('tenant')->commit();
 
 			return response()->json([
 				'success' => true,
@@ -135,9 +150,9 @@ class HotelRentController extends Controller
 	 */
 	public function deleteHotelRentItemPayment(HotelRentItem $item)
 	{
-		if(!is_null($item->payments))
+		if($item->payments()->count() > 0)
 		{
-			$item->payments->delete();
+			$item->payments()->delete();
 		}
 	}
 
