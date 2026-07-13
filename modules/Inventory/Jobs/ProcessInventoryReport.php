@@ -370,5 +370,19 @@
         public function failed(Exception $exception)
         {
             Log::error($exception->getMessage());
+            try 
+            {
+                $download_tray = DownloadTray::find($this->tray_id);
+                if($download_tray) 
+                {
+                    $download_tray->status = 'FAILED';
+                    $download_tray->date_end = date('Y-m-d H:i:s');
+                    $download_tray->save();
+                }
+            }
+            catch(Exception $e)
+            {
+                Log::error('Error al actualizar DownloadTray en failed: '. $e->getMessage());
+            }
         }
     }
