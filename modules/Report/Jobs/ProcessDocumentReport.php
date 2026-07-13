@@ -178,6 +178,13 @@
             catch(Exception $e) 
             {
                 $this->showLogInfo('ProcessDocumentReport Error transaction: '. $e->getMessage());
+                $download_tray = $this->findDownloadTray($this->tray_id);
+                if($download_tray) 
+                {
+                    $download_tray->status = 'FAILED';
+                    $download_tray->date_end = date('Y-m-d H:i:s');
+                    $download_tray->save();
+                }
             }
 
             $this->showLogInfo('ProcessDocumentReport Finish transaction');
@@ -194,5 +201,19 @@
         public function failed(Exception $exception)
         {
             Log::error($exception->getMessage());
+            try 
+            {
+                $download_tray = $this->findDownloadTray($this->tray_id);
+                if($download_tray) 
+                {
+                    $download_tray->status = 'FAILED';
+                    $download_tray->date_end = date('Y-m-d H:i:s');
+                    $download_tray->save();
+                }
+            }
+            catch(Exception $e)
+            {
+                Log::error('Error al actualizar DownloadTray en failed: '. $e->getMessage());
+            }
         }
     }
